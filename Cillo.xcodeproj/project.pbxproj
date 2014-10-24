@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95468AEF19F99B4D00F158DE /* FrontPageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* FrontPageTableViewController.swift */; };
+		95468AF119F99B8A00F158DE /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF019F99B8A00F158DE /* PostCell.swift */; };
+		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
 		95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2A919F8D2B400086BAF /* AppDelegate.swift */; };
-		95EFD2AC19F8D2B400086BAF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2AB19F8D2B400086BAF /* ViewController.swift */; };
 		95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2AD19F8D2B400086BAF /* Main.storyboard */; };
 		95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B019F8D2B400086BAF /* Images.xcassets */; };
 		95EFD2B419F8D2B400086BAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */; };
@@ -26,10 +28,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95468AEE19F99B4D00F158DE /* FrontPageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontPageTableViewController.swift; sourceTree = "<group>"; };
+		95468AF019F99B8A00F158DE /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		95EFD2AB19F8D2B400086BAF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		95EFD2AE19F8D2B400086BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		95EFD2B019F8D2B400086BAF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		95EFD2B319F8D2B400086BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -78,8 +82,10 @@
 			isa = PBXGroup;
 			children = (
 				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
-				95EFD2AB19F8D2B400086BAF /* ViewController.swift */,
 				95EFD2AD19F8D2B400086BAF /* Main.storyboard */,
+				95468AEE19F99B4D00F158DE /* FrontPageTableViewController.swift */,
+				95468AF219F99D7A00F158DE /* Post.swift */,
+				95468AF019F99B8A00F158DE /* PostCell.swift */,
 				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
 				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
 				95EFD2A719F8D2B400086BAF /* Supporting Files */,
@@ -212,8 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95EFD2AC19F8D2B400086BAF /* ViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
+				95468AEF19F99B4D00F158DE /* FrontPageTableViewController.swift in Sources */,
+				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,
+				95468AF319F99D7A00F158DE /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +415,7 @@
 				95EFD2C519F8D2B400086BAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		95EFD2C619F8D2B400086BAF /* Build configuration list for PBXNativeTarget "CilloTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +424,7 @@
 				95EFD2C819F8D2B400086BAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
