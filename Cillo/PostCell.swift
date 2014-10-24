@@ -10,10 +10,6 @@ import UIKit
 
 class PostCell: UITableViewCell {
 
-    required init(coder aDecoder: NSCoder) {
-        post = Post(post: "", comNum: 0, user: "", karma: 0, date: "", group: "")
-        super.init(coder: aDecoder)
-    }
 
     @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var repLabel: UILabel!
@@ -22,11 +18,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var seeMoreButton: UIButton!
     class var textViewFont:UIFont {return UIFont.systemFontOfSize(13.0)}
     class var additionalVertSpaceNeeded:CGFloat {return 64}
-    var post : Post
     
-    @IBAction func seeMorePressed(sender: UIButton) {
-        post.seeMore = !post.seeMore
-    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

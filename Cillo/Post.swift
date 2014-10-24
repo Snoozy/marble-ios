@@ -9,19 +9,19 @@
 import UIKit
 
 class Post: NSObject {
-    let post : String
+    let postText : String
     var comNum : Int
     let user : String
-    var karma : Int
+    var rep : Int
     let date : String
     let group : String
     var seeMore : Bool = false
     
-    init(post: String, comNum: Int, user: String, karma: Int, date: String, group: String) {
-        self.post = post
+    init(postText: String, comNum: Int, user: String, rep: Int, date: String, group: String) {
+        self.postText = postText
         self.comNum = comNum
         self.user = user
-        self.karma = karma
+        self.rep = rep
         self.date = date
         self.group = group
     }

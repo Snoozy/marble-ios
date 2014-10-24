@@ -25,13 +25,22 @@ class FrontPageTableViewController: UITableViewController {
 
     var data : [Post]
     
+    var maxHeight:CGFloat {
+        return tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded
+    }
+    
+    var prototypeTextViewWidth:CGFloat {
+        return tableView.frame.width - 16
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //random posts
-        data.append(Post(post: "Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", karma: 4120, date: "12/1/1995", group: "Ukraine"))
-        data.append(Post(post: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", karma: 4120, date: "12/1/1995", group: "Ukraine"))
-        data.append(Post(post: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", karma: 4120, date: "12/1/1995", group: "Ukraine"))
+        data.append(Post(postText: "Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121",rep: 4120, date: "12/1/1995", group: "Ukraine"))
+       
+        data.append(Post(postText: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", rep: 4120, date: "12/1/1995", group: "Ukraine"))
+        data.append(Post(postText: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", rep: 4120, date: "12/1/1995", group: "Ukraine"))
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -41,26 +50,23 @@ class FrontPageTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
     @IBAction func seeMorePressed(sender: UIButton) {
+        var post = data[sender.tag]
+        //Cannot Figure out why this is not working
+        if post.seeMore {
+            sender.titleLabel!.text = "▼"
+        } else {
+            sender.titleLabel!.text = "▲"
+        }
+        post.seeMore = !post.seeMore
         tableView.reloadData()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         return data.count
     }
 
@@ -68,46 +74,29 @@ class FrontPageTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
         let post = data[indexPath.row]
-        cell.post = post
-        if !post.seeMore {
-            cell.seeMoreButton.titleLabel!.text = "▼"
-        } else {
-            cell.seeMoreButton.titleLabel!.text = "▲"
-        }
-        cell.postTextView.text = post.post
-        cell.postTextView.frame = CGRectMake(cell.postTextView.frame.origin.x, cell.postTextView.frame.origin.y, tableView.frame.width - 16, heightForText(post.post, width: tableView.frame.width - 16, font: PostCell.textViewFont, seeMore: post.seeMore))
-        if cell.postTextView.frame.height < tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded {
+        cell.seeMoreButton.tag = indexPath.row
+        cell.postTextView.text = post.postText
+        cell.postTextView.frame = CGRectMake(cell.postTextView.frame.origin.x, cell.postTextView.frame.origin.y, prototypeTextViewWidth, heightForTextOfRow(indexPath.row))
+        if cell.postTextView.frame.height < maxHeight {
             cell.seeMoreButton.hidden = true
         }
-        if post.comNum < 100000 { //not sure if I like the k yet
-            cell.commentLabel.text = String(post.comNum)
-        }
-        else {
-            cell.commentLabel.text = convertToThousands(post.comNum)
-        }
-        if post.karma < 100000 {//not sure if I like the k yet
-            cell.repLabel.text = String(post.karma)
-        } else {
-            cell.repLabel.text = convertToThousands(post.karma)
-        }
+        cell.commentLabel.text = String(post.comNum)
+        cell.repLabel.text = String(post.rep)
         cell.authorLabel.text = "Written on \(post.date) by \(post.user) in \(post.group)"
-        
-
         return cell
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let post = data[indexPath.row]
-        return heightForText(post.post, width: tableView.frame.width - 16, font: PostCell.textViewFont, seeMore: post.seeMore) + PostCell.additionalVertSpaceNeeded
+        return heightForTextOfRow(indexPath.row) + PostCell.additionalVertSpaceNeeded
     }
     
-    func heightForText(text: String, width: CGFloat, font: UIFont, seeMore: Bool) -> CGFloat {
-        let maxHeight = tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded
-        var textView = UITextView(frame: CGRectMake(0, 0, width, maxHeight))
-        textView.text = text
-        textView.font = font
+    func heightForTextOfRow(row: Int) -> CGFloat {
+        var textView = UITextView(frame: CGRectMake(0, 0, prototypeTextViewWidth, CGFloat(MAXFLOAT)))
+        let post = data[row]
+        textView.text = post.postText
+        textView.font = PostCell.textViewFont
         textView.sizeToFit()
-        if textView.frame.height > maxHeight && !seeMore {
+        if textView.frame.height > maxHeight && !post.seeMore {
             return maxHeight
         } else {
             return textView.frame.height
