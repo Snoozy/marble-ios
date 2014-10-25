@@ -9,7 +9,6 @@
 
 /********************
 Known Bugs:
-when see more button is pressed, arrow is changing directions and then chaning back for some reason
 when view is expanded, it expands way too much
 To Do: 
 clean up code (a lot of the code may be redundent because I was trying to make things work)
@@ -20,6 +19,11 @@ class FrontPageTableViewController: UITableViewController {
     
     required init(coder aDecoder: NSCoder) {
         self.data = []
+        data.append(Post(postText: "Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "user",rep: 4120, date: "12/1/1995", group: "group"))
+               data.append(Post(postText: "MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST MUCH SMALLER POST ", comNum: 25, user: "user",rep: 4120, date: "12/1/1995", group: "group"))
+        //        data.append(Post(postText: "IANDJLE.AAAnJkbuibasudibsabdiupbsaubdisabdipsbauidbsaibdispbadpibsaiudbisapbdisbadpibsapibdsipabdipsbaidbspabduipsabdpisbadpibsaupidbisabdibsapidbspiabdpsbadisbapidbsipabdipsbadipbsaipdbsipabdispabdiubsaidbsipabdisabdiupsbapdibsaibdpisabidpbsapidbspabdspiabdiuspabdiubsaidbsipabdpisabdipsbadiapbdisapbdipsabdipsbaipdbsaipdbsaibdsipabdipsabdiusabdibsaipdbsaiubdpisabiudsabidpsbaidbusapbdpsiabdpisabdpisabdipsuabdiusbaiudpbsaidbsipabduisabdiubsaipdbaiIANDJLE.AAAnJkbuibasudibsabdiupbsaubdisabdipsbauidbsaibdispbadpibsaiudbisapbdisbadpibsapibdsipabdipsbaidbspabduipsabdpisbadpibsaupidbisabdibsapidbspiabdpsbadisbapidbsipabdipsbadipbsaipdbsipabdispabdiubsaidbsipabdisabdiupsbapdibsaibdpisabidpbsapidbspabdspiabdiuspabdiubsaidbsipabdpisabdipsbadiapbdisapbdipsabdipsbaipdbsaipdbsaibdsipabdipsabdiusabdibsaipdbsaiubdpisabiudsabidpsbaidbusapbdpsiabdpisabdpisabdipsuabdiusbaiudpbsaidbsipabduisabdiubsaipdbaiIANDJLE.AAAnJkbuibasudibsabdiupbsaubdisabdipsbauidbsaibdispbadpibsaiudbisapbdisbadpibsapibdsipabdipsbaidbspabduipsabdpisbadpibsaupidbisabdibsapidbspiabdpsbadisbapidbsipabdipsbadipbsaipdbsipabdispabdiubsaidbsipabdisabdiupsbapdibsaibdpisabidpbsapidbspabdspiabdiuspabdiubsaidbsipabdpisabdipsbadiapbdisapbdipsabdipsbaipdbsaipdbsaibdsipabdipsabdiusabdibsaipdbsaiubdpisabiudsabidpsbaidbusapbdpsiabdpisabdpisabdipsuabdiusbaiudpbsaidbsipabduisabdiubsaipdbaiIANDJLE.AAAnJkbuibasudibsabdiupbsaubdisabdipsbauidbsaibdispbadpibsaiudbisapbdisbadpibsapibdsipabdipsbaidbspabduipsabdpisbadpibsaupidbisabdibsapidbspiabdpsbadisbapidbsipabdipsbadipbsaipdbsipabdispabdiubsaidbsipabdisabdiupsbapdibsaibdpisabidpbsapidbspabdspiabdiuspabdiubsaidbsipabdpisabdipsbadiapbdisapbdipsabdipsbaipdbsaipdbsaibdsipabdipsabdiusabdibsaipdbsaiubdpisabiudsabidpsbaidbusapbdpsiabdpisabdpisabdipsuabdiusbaiudpbsaidbsipabduisabdiubsaipdbaiIANDJLE.AAAnJkbuibasudibsabdiupbsaubdisabdipsbauidbsaibdispbadpibsaiudbisapbdisbadpibsapibdsipabdipsbaidbspabduipsabdpisbadpibsaupidbisabdibsapidbspiabdpsbadisbapidbsipabdipsbadipbsaipdbsipabdispabdiubsaidbsipabdisabdiupsbapdibsaibdpisabidpbsapidbspabdspiabdiuspabdiubsaidbsipabdpisabdipsbadiapbdisapbdipsabdipsbaipdbsaipdbsaibdsipabdipsabdiusabdibsaipdbsaiubdpisabiudsabidpsbaidbusapbdpsiabdpisabdpisabdipsuabdiusbaiudpbsaidbsipabduisabdiubsaipdbai", comNum: 25, user: "ADaley121",rep: 4120, date: "12/1/1995", group: "Ukraine"))
+        //        data.append(Post(postText: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", rep: 4120, date: "12/1/1995", group: "Ukraine"))
+        //        data.append(Post(postText: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", rep: 4120, date: "12/1/1995", group: "Ukraine"))
         super.init(coder: aDecoder)
     }
 
@@ -35,13 +39,6 @@ class FrontPageTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //random posts
-        data.append(Post(postText: "Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.Iryna Yakovlevna Kyrylina (Ukrainian: Ірина Яківна Кириліна; born 23 March 1955) is a Ukrainian composer. She was born in Dresden, Germany, and studied with R.I. Vereschagin at the Kiev Musical College, and with M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121",rep: 4120, date: "12/1/1995", group: "Ukraine"))
-       
-        data.append(Post(postText: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", rep: 4120, date: "12/1/1995", group: "Ukraine"))
-        data.append(Post(postText: "h M.V. Dremlyuga at the Kiev Conservatory, graduating in 1977. After completing her studies, she taught at a Kiev Music School and directed children’s choirs. Since 1982 she has worked as a full-time composer.", comNum: 25, user: "ADaley121", rep: 4120, date: "12/1/1995", group: "Ukraine"))
-        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -52,11 +49,15 @@ class FrontPageTableViewController: UITableViewController {
 
     @IBAction func seeMorePressed(sender: UIButton) {
         var post = data[sender.tag]
-        //Cannot Figure out why this is not working
+//        println("Called")
         if post.seeMore {
+            //fixes flashing arrow change bug
             sender.titleLabel!.text = "▼"
+            //fixes permanent arrow look bug
+            sender.setTitle("▼", forState:UIControlState.Normal)
         } else {
             sender.titleLabel!.text = "▲"
+            sender.setTitle("▲", forState: UIControlState.Normal)
         }
         post.seeMore = !post.seeMore
         tableView.reloadData()
@@ -76,9 +77,18 @@ class FrontPageTableViewController: UITableViewController {
         let post = data[indexPath.row]
         cell.seeMoreButton.tag = indexPath.row
         cell.postTextView.text = post.postText
-        cell.postTextView.frame = CGRectMake(cell.postTextView.frame.origin.x, cell.postTextView.frame.origin.y, prototypeTextViewWidth, heightForTextOfRow(indexPath.row))
-        if cell.postTextView.frame.height < maxHeight {
+        cell.postTextView.textContainer.lineFragmentPadding = 0
+        cell.postTextView.textContainerInset = UIEdgeInsetsZero
+//        println("Protoype Width: \(prototypeTextViewWidth)")
+//        println("TextView Width: \(cell.postTextView.frame.size.width)")
+//        println("Protoype Height: \(heightForTextOfRow(indexPath.row))")
+//        println("TextView Height: \(cell.postTextView.frame.size.height)")
+//        println("Max Height: \(maxHeight)")
+        //short posts don't need to be expanded
+        if heightForTextOfRow(indexPath.row) < maxHeight {
             cell.seeMoreButton.hidden = true
+        } else {
+            cell.seeMoreButton.hidden = false
         }
         cell.commentLabel.text = String(post.comNum)
         cell.repLabel.text = String(post.rep)
@@ -91,19 +101,23 @@ class FrontPageTableViewController: UITableViewController {
     }
     
     func heightForTextOfRow(row: Int) -> CGFloat {
-        var textView = UITextView(frame: CGRectMake(0, 0, prototypeTextViewWidth, CGFloat(MAXFLOAT)))
+        var textView = UITextView(frame: CGRectMake(0, 0, prototypeTextViewWidth, CGFloat.max))
         let post = data[row]
-        textView.text = post.postText
+        
+        textView.text = (post.postText as NSString).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = UIEdgeInsetsZero
         textView.font = PostCell.textViewFont
-        textView.sizeToFit()
-        if textView.frame.height > maxHeight && !post.seeMore {
+        textView.frame.size = textView.sizeThatFits(CGSizeMake(prototypeTextViewWidth, CGFloat.max))
+        if textView.frame.size.height > maxHeight && !post.seeMore {
             return maxHeight
         } else {
-            return textView.frame.height
+            return textView.frame.size.height
         }
-        
+    
     }
 
+    //not using right now.... i disliked the look
     func convertToThousands(number: Int) -> String {
         var thousands : Double = Double(number % 1000)
         thousands += 0.001 * (Double(number) - thousands * 1000)
