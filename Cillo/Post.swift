@@ -9,21 +9,24 @@
 import UIKit
 
 class Post: NSObject {
-    let postText : String
-    var comNum : Int
+    let text : String
+    var numComments : Int
     let user : String
     var rep : Int
-    let date : String
+    let time : String
     let group : String
-    var seeMore : Bool = false
+    let title : String?
+    let picture : UIImage
     
-    init(postText: String, comNum: Int, user: String, rep: Int, date: String, group: String) {
-        self.postText = postText
-        self.comNum = comNum
+    init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage) {
+        self.text = text
+        self.numComments = numComments
         self.user = user
         self.rep = rep
-        self.date = date
+        self.time = time
         self.group = group
+        self.title = title
+        self.picture = picture
     }
     
 }

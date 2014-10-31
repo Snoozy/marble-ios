@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		95468AEF19F99B4D00F158DE /* FrontPageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* FrontPageTableViewController.swift */; };
+		95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */; };
 		95468AF119F99B8A00F158DE /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF019F99B8A00F158DE /* PostCell.swift */; };
 		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
+		954E48061A035AB600598B6D /* HomeNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* HomeNavigationViewController.swift */; };
 		95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2A919F8D2B400086BAF /* AppDelegate.swift */; };
 		95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2AD19F8D2B400086BAF /* Main.storyboard */; };
 		95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B019F8D2B400086BAF /* Images.xcassets */; };
@@ -28,9 +29,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		95468AEE19F99B4D00F158DE /* FrontPageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontPageTableViewController.swift; sourceTree = "<group>"; };
+		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		95468AF019F99B8A00F158DE /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		954E48051A035AB600598B6D /* HomeNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeNavigationViewController.swift; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,7 +85,8 @@
 			children = (
 				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
 				95EFD2AD19F8D2B400086BAF /* Main.storyboard */,
-				95468AEE19F99B4D00F158DE /* FrontPageTableViewController.swift */,
+				954E48051A035AB600598B6D /* HomeNavigationViewController.swift */,
+				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
 				95468AF219F99D7A00F158DE /* Post.swift */,
 				95468AF019F99B8A00F158DE /* PostCell.swift */,
 				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
@@ -219,7 +222,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
-				95468AEF19F99B4D00F158DE /* FrontPageTableViewController.swift in Sources */,
+				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
+				954E48061A035AB600598B6D /* HomeNavigationViewController.swift in Sources */,
 				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,
 			);

@@ -14,10 +14,16 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var repLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var seeMoreButton: UIButton!
-    class var textViewFont:UIFont {return UIFont.systemFontOfSize(13.0)}
-    class var additionalVertSpaceNeeded:CGFloat {return 64}
+    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet weak var groupLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var profilePicView: UIImageView!
+    
+    
+    class var textViewFont:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var additionalVertSpaceNeeded:CGFloat {return 138}
+    class var titleHeight:CGFloat {return 26}
     
     override func awakeFromNib() {
         super.awakeFromNib()
