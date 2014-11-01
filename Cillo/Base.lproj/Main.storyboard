@@ -334,7 +334,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTs-5W-2wV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="565" y="1210"/>
+            <point key="canvasLocation" x="553" y="1210"/>
         </scene>
         <!--Home Table-->
         <scene sceneID="YjA-Hm-HTL">
@@ -428,6 +428,9 @@
                                                     <exclude reference="5Aq-VP-8JP"/>
                                                 </mask>
                                             </variation>
+                                            <connections>
+                                                <segue destination="cWZ-ps-xcO" kind="show" identifier="HomeToPost" id="5pP-Ev-dg6"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTP-bw-ldZ">
                                             <rect key="frame" x="560" y="146" width="32" height="32"/>
@@ -489,6 +492,7 @@
                                             </variation>
                                         </button>
                                     </subviews>
+                                    <gestureRecognizers/>
                                     <constraints>
                                         <constraint firstItem="eVz-lE-HEo" firstAttribute="trailing" secondItem="93U-dC-QMg" secondAttribute="trailingMargin" id="0g8-Ct-9L7"/>
                                         <constraint firstItem="FTP-bw-ldZ" firstAttribute="leading" secondItem="4xL-Pa-mXM" secondAttribute="trailing" constant="8" id="2WH-Br-p1g"/>
@@ -548,6 +552,9 @@
                                             <exclude reference="dqp-sv-U93"/>
                                         </mask>
                                     </variation>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="e5a-gZ-smm" appends="YES" id="3zC-Qa-zBy"/>
+                                    </connections>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="commentLabel" destination="DLL-MQ-M1x" id="eJ0-IU-XA0"/>
@@ -571,8 +578,40 @@
                     <navigationItem key="navigationItem" title="Front Page" id="nEu-ir-OVD"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Kt-wv-dmX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="e5a-gZ-smm">
+                    <connections>
+                        <action selector="tapPost:" destination="uF0-C9-9Mx" id="KYu-Py-TC8"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-296" y="1209"/>
+        </scene>
+        <!--Post-->
+        <scene sceneID="5I7-z0-2Ts">
+            <objects>
+                <tableViewController id="cWZ-ps-xcO" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" id="2gs-D9-AmR">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2gs-D9-AmR" id="nNl-zX-PAX">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="cWZ-ps-xcO" id="HZ4-wL-j6n"/>
+                            <outlet property="delegate" destination="cWZ-ps-xcO" id="D9o-zN-v3i"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Post" id="P1h-w2-pWg"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ep-ER-jvk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-296" y="1961"/>
         </scene>
         <!--Home-->
         <scene sceneID="UB8-tP-VA6">

@@ -8,34 +8,35 @@
 
 import UIKit
 
+///Cell that corresponds to reuse identifier "Post". Used in HomeTableViewController to format Posts in TableView.
 class PostCell: UITableViewCell {
 
-
-    @IBOutlet weak var postTextView: UITextView!
-    @IBOutlet weak var repLabel: UILabel!
-    @IBOutlet weak var commentLabel: UILabel!
+    //********** Outlets **********
+    
+    ///All IBOutlets correspond to properties of Post. See Post for definitions of properties
     @IBOutlet weak var userLabel: UILabel!
-    @IBOutlet weak var groupLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var profilePicView: UIImageView!
+    @IBOutlet weak var groupLabel: UILabel!
+    @IBOutlet weak var postTextView: UITextView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var repLabel: UILabel!
     @IBOutlet weak var seeFullButton: UIButton!
+    
+    ///Constraint will be set to 0 if there is no title for Post
     @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
     
     
-    class var textViewFont:UIFont {return UIFont.systemFontOfSize(15.0)}
-    class var additionalVertSpaceNeeded:CGFloat {return 139}
-    class var titleHeight:CGFloat {return 26.5}
+    //********** Constants **********
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    ///Font of postTextView in Storyboard
+    class var textViewFont:UIFont {return UIFont.systemFontOfSize(15.0)}
+    
+    ///Height needed for all components of PostCell except postTextView in Storyboard
+    class var additionalVertSpaceNeeded:CGFloat {return 139}
+    
+    ///Height of titleLabel in StoryBoard
+    class var titleHeight:CGFloat {return 26.5}
 
 }

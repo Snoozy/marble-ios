@@ -8,17 +8,42 @@
 
 import UIKit
 
+///Defines all properties of a Post on Cillo
 class Post: NSObject {
-    let text : String
-    var numComments : Int
+    
+    //********** Properties **********
+    
+    ///Username that posted Post
     let user : String
-    var rep : Int
-    let time : String
-    let group : String
-    let title : String?
+    
+    ///Profile picture of user
     let picture : UIImage
+    
+    ///Group that Post was posted in
+    let group : String
+    
+    ///Content of Post
+    let text : String
+    
+    ///Title of Post. Posts can have no title
+    let title : String?
+    
+    ///Time since Post was posted. Formatted as #h for # hours
+    let time : String
+    
+    ///Number of comments attached to Post
+    var numComments : Int
+    
+    ///(Upvotes - Downvotes) for Post
+    var rep : Int
+    
+    ///Expansion status of Post. nil -> unexpandable, false -> shortened, true -> full size
     var seeFull : Bool?
     
+    
+    //********** Initializers **********
+    
+    ///Creates post based on input parameters
     init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage) {
         self.text = text
         self.numComments = numComments

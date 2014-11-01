@@ -8,20 +8,18 @@
 
 import UIKit
 
+///Handles all navigation segues in Home tab of application
 class HomeNavigationViewController: UINavigationController {
     
+    ///Changes title of navigationBar to white color
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationBar.tintColor = UIColor.whiteColor()
+    }
+    
+    ///Changes top battery bar to white color
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
