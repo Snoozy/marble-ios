@@ -17,6 +17,7 @@ class Post: NSObject {
     let group : String
     let title : String?
     let picture : UIImage
+    var seeFull : Bool?
     
     init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage) {
         self.text = text

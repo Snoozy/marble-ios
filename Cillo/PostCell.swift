@@ -19,11 +19,13 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var profilePicView: UIImageView!
+    @IBOutlet weak var seeFullButton: UIButton!
+    @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
     
     
     class var textViewFont:UIFont {return UIFont.systemFontOfSize(15.0)}
-    class var additionalVertSpaceNeeded:CGFloat {return 138}
-    class var titleHeight:CGFloat {return 26}
+    class var additionalVertSpaceNeeded:CGFloat {return 139}
+    class var titleHeight:CGFloat {return 26.5}
     
     override func awakeFromNib() {
         super.awakeFromNib()

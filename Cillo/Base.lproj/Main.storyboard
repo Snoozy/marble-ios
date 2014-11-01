@@ -352,7 +352,7 @@
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26z-RC-hUd">
                                             <rect key="frame" x="8" y="90" width="584" height="48"/>
-                                            <color key="backgroundColor" red="1" green="0.92792296630000004" blue="0.30606231719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
@@ -450,10 +450,28 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ker-uR-kHF">
                                             <rect key="frame" x="8" y="62" width="584" height="26.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="26.5" id="n7y-he-d13"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" alpha="0.90000000000000024" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVz-lE-HEo">
+                                            <rect key="frame" x="8" y="90" width="584" height="48"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="48" id="8Dc-ok-mK8"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <state key="normal" title="More">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="seeFullPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="xgz-1S-69Z"/>
+                                            </connections>
+                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKS-gR-T7c">
                                             <rect key="frame" x="85" y="146" width="32" height="32"/>
                                             <constraints>
@@ -472,6 +490,7 @@
                                         </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="eVz-lE-HEo" firstAttribute="trailing" secondItem="93U-dC-QMg" secondAttribute="trailingMargin" id="0g8-Ct-9L7"/>
                                         <constraint firstItem="FTP-bw-ldZ" firstAttribute="leading" secondItem="4xL-Pa-mXM" secondAttribute="trailing" constant="8" id="2WH-Br-p1g"/>
                                         <constraint firstItem="DLL-MQ-M1x" firstAttribute="top" secondItem="26z-RC-hUd" secondAttribute="bottom" constant="12" id="36b-vV-XaN"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="4xL-Pa-mXM" secondAttribute="bottom" constant="-1.5" id="466-UT-Soo"/>
@@ -484,6 +503,7 @@
                                         <constraint firstItem="26z-RC-hUd" firstAttribute="leading" secondItem="93U-dC-QMg" secondAttribute="leadingMargin" id="Phl-e4-CQH"/>
                                         <constraint firstItem="FTP-bw-ldZ" firstAttribute="leading" secondItem="DLL-MQ-M1x" secondAttribute="trailing" constant="11" id="RV1-g0-5mZ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="FTP-bw-ldZ" secondAttribute="bottom" id="Rrn-Tt-g4E"/>
+                                        <constraint firstItem="SKS-gR-T7c" firstAttribute="top" secondItem="eVz-lE-HEo" secondAttribute="bottom" constant="8" id="S0U-AK-43C"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="FTP-bw-ldZ" secondAttribute="trailing" id="SB3-vm-SLq"/>
                                         <constraint firstItem="hvH-LG-ily" firstAttribute="leading" secondItem="Zkr-Mo-Mmv" secondAttribute="trailing" constant="8" id="UBB-Rd-NjN"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="E84-Bc-RzA" secondAttribute="trailing" id="UxE-Oc-jXq"/>
@@ -496,6 +516,7 @@
                                         <constraint firstItem="D7x-r9-O2b" firstAttribute="top" secondItem="93U-dC-QMg" secondAttribute="topMargin" id="d1F-Zn-07e"/>
                                         <constraint firstItem="D7x-r9-O2b" firstAttribute="leading" secondItem="93U-dC-QMg" secondAttribute="leadingMargin" id="dGd-oC-q2j"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="FTP-bw-ldZ" secondAttribute="bottom" constant="-1.5" id="dqp-sv-U93"/>
+                                        <constraint firstItem="eVz-lE-HEo" firstAttribute="leading" secondItem="93U-dC-QMg" secondAttribute="leadingMargin" id="e4d-0P-2OF"/>
                                         <constraint firstItem="hvH-LG-ily" firstAttribute="top" secondItem="26z-RC-hUd" secondAttribute="bottom" constant="8" id="g6X-Rw-7Tm"/>
                                         <constraint firstItem="26z-RC-hUd" firstAttribute="top" secondItem="ker-uR-kHF" secondAttribute="bottom" constant="2" id="gNp-CV-uNL"/>
                                         <constraint firstItem="26z-RC-hUd" firstAttribute="trailing" secondItem="93U-dC-QMg" secondAttribute="trailingMargin" id="hZJ-An-6is"/>
@@ -534,7 +555,9 @@
                                     <outlet property="postTextView" destination="26z-RC-hUd" id="v2L-xp-aKw"/>
                                     <outlet property="profilePicView" destination="D7x-r9-O2b" id="yMt-5e-5I1"/>
                                     <outlet property="repLabel" destination="Zkr-Mo-Mmv" id="BP6-Ma-ebJ"/>
+                                    <outlet property="seeFullButton" destination="eVz-lE-HEo" id="8gz-L0-O2U"/>
                                     <outlet property="timeLabel" destination="E84-Bc-RzA" id="0Te-3f-bRq"/>
+                                    <outlet property="titleHeightConstraint" destination="n7y-he-d13" id="dLH-dp-gfT"/>
                                     <outlet property="titleLabel" destination="ker-uR-kHF" id="sx4-fE-lyT"/>
                                     <outlet property="userLabel" destination="o70-Wc-SL7" id="Uq1-Gd-EnK"/>
                                 </connections>
