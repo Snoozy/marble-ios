@@ -11,7 +11,7 @@ import UIKit
 ///Defines all properties of a Post on Cillo
 class Post: NSObject {
     
-    //********** Properties **********
+    // MARK: - Properties
     
     ///Username that posted Post
     let user : String
@@ -37,14 +37,17 @@ class Post: NSObject {
     ///(Upvotes - Downvotes) for Post
     var rep : Int
     
+    ///Comments replying to this Post
+    let comments : [Comment]
+    
     ///Expansion status of Post. nil -> unexpandable, false -> shortened, true -> full size
     var seeFull : Bool?
     
     
-    //********** Initializers **********
+    // MARK: - Initializers
     
     ///Creates post based on input parameters
-    init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage) {
+    init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage, comments: [Comment]) {
         self.text = text
         self.numComments = numComments
         self.user = user
@@ -53,6 +56,22 @@ class Post: NSObject {
         self.group = group
         self.title = title
         self.picture = picture
+        self.comments = comments
+        super.init()
+    }
+    
+    override init() {
+        user = ""
+        picture = UIImage(named: "Me")!
+        group = ""
+        text = ""
+        title = nil
+        time = ""
+        numComments = 0
+        rep = 0
+        seeFull = nil
+        self.comments = []
+        super.init()
     }
     
 }
