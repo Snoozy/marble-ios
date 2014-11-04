@@ -149,8 +149,14 @@ class PostTableViewController: UITableViewController {
             
             //makes separator indented
             //UIEdgeInsetsMake(top, left, bottom, right)
-            if cell.indentationLevel != 0 {
-                cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
+            if indexPath.row != tree.count {
+                if indexPath.row + 1 == selectedPath?.row {
+                    cell.separatorInset = UIEdgeInsetsZero
+                } else if cell.indentationLevel < tree[indexPath.row].predictedIndentLevel() {
+                    cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
+                } else {
+                    cell.separatorInset = UIEdgeInsetsMake(0, tree[indexPath.row].predictedIndentSize(), 0, 0)
+                }
             }
             
             //gets rid of small gap in divider
