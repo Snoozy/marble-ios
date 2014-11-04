@@ -11,6 +11,10 @@ import UIKit
 ///Cell that corresponds to reuse identifier "Comment". Used in PostTableViewController to format Comments in TableView.
 class CommentCell: UITableViewCell {
 
+    //MARK: - Properties
+    
+    var lines: [UIView] = []
+    
     //MARK: - IBOutlets
     
     ///All IBOutlets correspond to properties of Comment. See Comment for definitions of properties

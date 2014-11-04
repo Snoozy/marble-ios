@@ -776,6 +776,7 @@
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="commentLabel" destination="d7L-Fg-pxN" id="Yc9-3S-wz2"/>
                                     <outlet property="groupLabel" destination="QUZ-Kv-t7O" id="cvw-Lt-zT6"/>
@@ -862,6 +863,7 @@
                                         <constraint firstItem="uTG-AP-K3d" firstAttribute="leading" secondItem="ck2-XJ-21u" secondAttribute="trailing" constant="8" id="zJ6-Zt-iBW"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="commentTextView" destination="zW8-mG-GU3" id="xOw-45-EC5"/>
                                     <outlet property="downvoteHeightConstraint" destination="0jZ-0s-iNr" id="yLA-r6-VOu"/>

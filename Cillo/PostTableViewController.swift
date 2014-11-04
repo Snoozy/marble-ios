@@ -98,6 +98,11 @@ class PostTableViewController: UITableViewController {
                 cell.titleLabel.text = ""
                 cell.titleHeightConstraint.constant = 0.0
             }
+            
+            //gets rid of small gap in divider
+            cell.layoutMargins = UIEdgeInsetsZero
+            cell.preservesSuperviewLayoutMargins = false
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("Comment", forIndexPath: indexPath) as CommentCell
@@ -128,16 +133,38 @@ class PostTableViewController: UITableViewController {
                 cell.upvoteHeightConstraint.constant = CommentCell.buttonHeight
                 cell.downvoteHeightConstraint.constant = CommentCell.buttonHeight
                 cell.repAndTimeLabel.text = "\(repText) · \(comment.time)"
+                for line in cell.lines {
+                    line.removeFromSuperview()
+                }
+                cell.lines.removeAll()
             } else {
                 cell.upvoteHeightConstraint.constant = 0.0
                 cell.downvoteHeightConstraint.constant = 0.0
                 cell.repAndTimeLabel.text = repText
             }
+            
+            //indents cell
             cell.imageIndentConstraint.constant = cell.getIndentationSize()
             cell.textIndentConstraint.constant = cell.getIndentationSize() + CommentCell.textViewDistanceToIndent
+            
             //makes separator indented
             //UIEdgeInsetsMake(top, left, bottom, right)
-            cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
+            if cell.indentationLevel != 0 {
+                cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
+            }
+            
+            //gets rid of small gap in divider
+            cell.layoutMargins = UIEdgeInsetsZero
+            cell.preservesSuperviewLayoutMargins = false
+            
+            //adds the vertical lines to the cells
+            for var i=1; i<=cell.indentationLevel; i++ {
+                var line = UIView(frame: CGRectMake(CGFloat(i)*CommentCell.indentSize, 0, 1, cell.frame.size.height))
+                line.backgroundColor = UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
+                cell.lines.append(line)
+                cell.contentView.addSubview(line)
+            }
+            
             return cell
         }
         
