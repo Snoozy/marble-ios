@@ -810,7 +810,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zW8-mG-GU3">
-                                            <rect key="frame" x="8" y="40" width="584" height="53"/>
+                                            <rect key="frame" x="40" y="40" width="552" height="53"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -856,7 +856,7 @@
                                         <constraint firstItem="8pQ-tU-Dl9" firstAttribute="trailing" secondItem="nNl-zX-PAX" secondAttribute="trailingMargin" id="eCc-M1-8CC"/>
                                         <constraint firstItem="8pQ-tU-Dl9" firstAttribute="bottom" secondItem="nNl-zX-PAX" secondAttribute="bottomMargin" id="g9J-0h-rGb"/>
                                         <constraint firstItem="ck2-XJ-21u" firstAttribute="top" secondItem="nNl-zX-PAX" secondAttribute="topMargin" id="k36-GD-1kS"/>
-                                        <constraint firstItem="zW8-mG-GU3" firstAttribute="leading" secondItem="nNl-zX-PAX" secondAttribute="leadingMargin" id="o6T-Uq-0vp"/>
+                                        <constraint firstItem="zW8-mG-GU3" firstAttribute="leading" secondItem="nNl-zX-PAX" secondAttribute="leadingMargin" constant="32" id="o6T-Uq-0vp"/>
                                         <constraint firstItem="zW8-mG-GU3" firstAttribute="top" secondItem="uTG-AP-K3d" secondAttribute="bottom" constant="8" id="xpl-tj-gBx"/>
                                         <constraint firstItem="8pQ-tU-Dl9" firstAttribute="leading" secondItem="XTC-1x-g9s" secondAttribute="trailing" constant="8" id="ykc-Nc-mo0"/>
                                         <constraint firstItem="uTG-AP-K3d" firstAttribute="leading" secondItem="ck2-XJ-21u" secondAttribute="trailing" constant="8" id="zJ6-Zt-iBW"/>
@@ -865,8 +865,10 @@
                                 <connections>
                                     <outlet property="commentTextView" destination="zW8-mG-GU3" id="xOw-45-EC5"/>
                                     <outlet property="downvoteHeightConstraint" destination="0jZ-0s-iNr" id="yLA-r6-VOu"/>
+                                    <outlet property="imageIndentConstraint" destination="Xbp-En-iAA" id="S0b-xi-tLe"/>
                                     <outlet property="profilePicView" destination="ck2-XJ-21u" id="57N-hr-Z27"/>
                                     <outlet property="repAndTimeLabel" destination="Jub-eH-fEQ" id="pLo-TK-hkh"/>
+                                    <outlet property="textIndentConstraint" destination="o6T-Uq-0vp" id="fVw-pM-HhY"/>
                                     <outlet property="upvoteHeightConstraint" destination="QrS-tn-akc" id="Ju4-N5-zsh"/>
                                     <outlet property="userLabel" destination="uTG-AP-K3d" id="4gC-1G-E9J"/>
                                 </connections>

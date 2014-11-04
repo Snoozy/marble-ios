@@ -10,21 +10,36 @@ import UIKit
 
 class PostTableViewController: UITableViewController {
 
+    // MARK: - Properties
+    
+    ///Post that is expanded in ViewController
+    var post : Post
+    
+    ///Array that represents Comment tree in order
+    var tree : [Comment] = []
+    
+    ///IndexPath of selected Comment
+    var selectedPath : NSIndexPath?
+    
+    
+    // MARK: - Initializers
+    
+    ///Mandatory initializer
     required init(coder aDecoder: NSCoder) {
         post = Post()
         super.init(coder: aDecoder)
     }
-
-    var post : Post
-    var tree : [Comment] = []
-    var selectedPath : NSIndexPath?
     
-    override func viewDidLoad() {
+    
+    // MARK: - UIViewController
+    
+    ///When View appears make the Post Comments into an array
+    override func viewWillAppear(animated: Bool) {
         for comment in post.comments {
             makeCommentTreeIntoArray(comment)
         }
-        
     }
+    
     
     // MARK: - Constants
     
@@ -34,21 +49,20 @@ class PostTableViewController: UITableViewController {
         return tableView.frame.width - 16
     }
     
-    var indentSize:CGFloat {
-        return 50
-    }
-    
 
-    // MARK: - Table view data source
+    // MARK: - UITableViewDataSource
 
+    ///Only needs 1 section in tableView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
+    ///Returns number of rows in tableView. This number is number of comments + 1 (the post)
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tree.count + 1
     }
     
+    ///Creates PostCell with appropriate properties for Post at first row and CommentCell for each Comment in tree
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
@@ -72,7 +86,7 @@ class PostTableViewController: UITableViewController {
             } else {
                 cell.commentLabel.text = String(post.numComments)
             }
-            if post.rep >= 1000 {
+            if post.rep >= 1000 || post.rep <= -1000 {
                 cell.repLabel.text = convertToThousands(post.rep)
             } else {
                 cell.repLabel.text = String(post.rep)
@@ -90,35 +104,49 @@ class PostTableViewController: UITableViewController {
             
             let comment = tree[indexPath.row - 1]
             cell.userLabel.text = comment.user
+            if comment.lengthToPost > Comment.longestLengthToPost {
+                let difference = comment.lengthToPost - Comment.longestLengthToPost
+                for var i=0; i<difference; i++ {
+                    cell.userLabel.text = "· \(cell.userLabel.text!)"
+                }
+            }
             cell.profilePicView.image = comment.picture
             cell.commentTextView.text = comment.text
             cell.commentTextView.font = CommentCell.textViewFont
             cell.commentTextView.textContainer.lineFragmentPadding = 0
             cell.commentTextView.textContainerInset = UIEdgeInsetsZero
             var repText = ""
-            if comment.rep >= 1000 {
+            if comment.rep >= 1000 || comment.rep <= -1000 {
                 repText = convertToThousands(comment.rep)
             } else {
                 repText = String(comment.rep)
             }
+            if comment.rep > 0 {
+                repText = "+\(repText)"
+            }
             if selectedPath == indexPath {
                 cell.upvoteHeightConstraint.constant = CommentCell.buttonHeight
                 cell.downvoteHeightConstraint.constant = CommentCell.buttonHeight
-                cell.repAndTimeLabel.text = "\(repText) o \(comment.time)"
+                cell.repAndTimeLabel.text = "\(repText) · \(comment.time)"
             } else {
                 cell.upvoteHeightConstraint.constant = 0.0
                 cell.downvoteHeightConstraint.constant = 0.0
                 cell.repAndTimeLabel.text = repText
             }
-            cell.indentationWidth = indentSize
+            cell.imageIndentConstraint.constant = cell.getIndentationSize()
+            cell.textIndentConstraint.constant = cell.getIndentationSize() + CommentCell.textViewDistanceToIndent
+            //makes separator indented
+            //UIEdgeInsetsMake(top, left, bottom, right)
+            cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
             return cell
         }
         
     }
     
     
-    //MARK - Table View Delegate
+    //MARK: - UITableViewDelegate
     
+    ///Make height of cell appropriate size for settings
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return heightForTextOfRow(indexPath.row) + PostCell.additionalVertSpaceNeeded
@@ -130,14 +158,16 @@ class PostTableViewController: UITableViewController {
         }
     }
     
+    ///Returns the indentationLevel for the indexPath. Cannot exceed 5 to keep cells from getting too small
     override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
-        if indexPath.row == 0 {
+        if indexPath.row == 0 || indexPath == selectedPath {
             return 0
         } else {
-            return tree[indexPath.row - 1].lengthToPost - 1
+            return tree[indexPath.row - 1].predictedIndentLevel()
         }
     }
     
+    ///If a cell is selcted, update the selectedPath to update TableView properties (expand CommentCell to show menu)
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if selectedPath !== indexPath {
             selectedPath = indexPath
@@ -148,12 +178,13 @@ class PostTableViewController: UITableViewController {
     }
     
     
-    //MARK - Helper Functions
+    //MARK: - Helper Functions
 
+    ///Makes Comment tree into an array in pre-order
     func makeCommentTreeIntoArray(c: Comment) {
         tree.append(c)
         for child in c.comments {
-            return makeCommentTreeIntoArray(child)
+            makeCommentTreeIntoArray(child)
         }
     }
     
@@ -172,7 +203,7 @@ class PostTableViewController: UITableViewController {
         } else {
             let comment = tree[row - 1]
             let indent = CGFloat(comment.lengthToPost - 1)
-            let width = prototypeTextViewWidth - indentSize * indent
+            let width = prototypeTextViewWidth - comment.predictedIndentSize() - CommentCell.textViewDistanceToIndent
             var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
             textView.text = comment.text
             textView.textContainer.lineFragmentPadding = 0
@@ -187,7 +218,11 @@ class PostTableViewController: UITableViewController {
     ///Converts Int to formatted #.#k String
     func convertToThousands(number: Int) -> String {
         var thousands : Double = Double(number / 1000)
-        thousands += Double(number % 1000 / 100) * 0.1
+        if thousands < 0 {
+            thousands -= Double(number % 1000 / 100) * 0.1
+        } else {
+            thousands += Double(number % 1000 / 100) * 0.1
+        }
         return "\(thousands)k"
     }
 }

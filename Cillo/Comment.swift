@@ -37,6 +37,11 @@ class Comment: NSObject {
     let comments: [Comment]
     
     
+    //MARK: - Constants
+    
+    class var longestLengthToPost:Int {return 5}
+    
+    
     //MARK: - Initializers
     
     init(user: String, picture: UIImage, text: String, time: String, numComments: Int, rep: Int, lengthToPost: Int, comments: [Comment]) {
@@ -48,6 +53,20 @@ class Comment: NSObject {
         self.rep = rep
         self.lengthToPost = lengthToPost
         self.comments = comments
+    }
+    
+    //MARK: - Helper Methods
+    
+    func predictedIndentLevel() -> Int {
+        if lengthToPost > Comment.longestLengthToPost {
+            return 4
+        } else {
+            return lengthToPost - 1
+        }
+    }
+    
+    func predictedIndentSize() -> CGFloat {
+        return CGFloat(predictedIndentLevel()) * CommentCell.indentSize
     }
     
 }
