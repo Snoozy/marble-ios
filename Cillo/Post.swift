@@ -60,6 +60,7 @@ class Post: NSObject {
         super.init()
     }
     
+    //Creates an empty Post
     override init() {
         user = ""
         picture = UIImage(named: "Me")!

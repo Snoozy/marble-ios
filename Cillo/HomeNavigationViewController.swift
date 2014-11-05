@@ -11,13 +11,15 @@ import UIKit
 ///Handles all navigation segues in Home tab of application
 class HomeNavigationViewController: UINavigationController {
     
-    ///Changes title of navigationBar to white color
+    //MARK: - UIViewController
+    
+    //Changes title of navigationBar to white color
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.tintColor = UIColor.whiteColor()
     }
     
-    ///Changes top battery bar to white color
+    //Changes top battery bar to white color
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }

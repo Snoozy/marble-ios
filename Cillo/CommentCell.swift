@@ -13,6 +13,7 @@ class CommentCell: UITableViewCell {
 
     //MARK: - Properties
     
+    ///An array that stores vertical lines for formating indents. This array should be empty is there is no indent for CommentCell
     var lines: [UIView] = []
     
     //MARK: - IBOutlets
@@ -38,8 +39,10 @@ class CommentCell: UITableViewCell {
     ///Height needed for all components of PostCell except postTextView in Storyboard
     class var additionalVertSpaceNeeded:CGFloat {return 88}
     
+    ///Height of buttons in expanded menu when CommentCell is selected
     class var buttonHeight:CGFloat{return 32}
     
+    ///Distance of commentTextView to right boundary of contentView. Used to align textView with userLabel when cell is indented
     class var textViewDistanceToIndent: CGFloat{return 32}
     
     ///Width of indent of indented Comments
@@ -50,6 +53,7 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Helper Methods
     
+    ///Returns true indent size for cell with current indentationLevel
     func getIndentationSize() -> CGFloat {
         return CGFloat(indentationLevel) * CommentCell.indentSize
     }

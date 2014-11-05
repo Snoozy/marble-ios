@@ -39,11 +39,13 @@ class Comment: NSObject {
     
     //MARK: - Constants
     
+    ///Longest possible lengthToPost before indent is constant in CommentCell
     class var longestLengthToPost:Int {return 5}
     
     
     //MARK: - Initializers
     
+    ///Creates Comment based on input parameters
     init(user: String, picture: UIImage, text: String, time: String, numComments: Int, rep: Int, lengthToPost: Int, comments: [Comment]) {
         self.user = user
         self.picture = picture
@@ -57,6 +59,7 @@ class Comment: NSObject {
     
     //MARK: - Helper Methods
     
+    ///Predicted indentLevel property for CommentCell. Does not account for if CommentCell is selected
     func predictedIndentLevel() -> Int {
         if lengthToPost > Comment.longestLengthToPost {
             return 4
@@ -65,6 +68,7 @@ class Comment: NSObject {
         }
     }
     
+    ///Predicted indent size for CommentCell. Does not account for if CommentCell is selected.
     func predictedIndentSize() -> CGFloat {
         return CGFloat(predictedIndentLevel()) * CommentCell.indentSize
     }
