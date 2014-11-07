@@ -13,7 +13,7 @@ class PostTableViewController: UITableViewController {
     // MARK: - Properties
     
     ///Post that is expanded in ViewController
-    var post : Post
+    var post : Post = Post()
     
     ///Array that represents Comment tree in pre-order listing
     var tree : [Comment] = []
@@ -25,18 +25,9 @@ class PostTableViewController: UITableViewController {
     // MARK: - Constants
     
     ///Width of postTextView in PostCell
-    var prototypeTextViewWidth:CGFloat {
+    var PROTOTYPE_TEXT_VIEW_WIDTH:CGFloat {
         //margins are 16
         return tableView.frame.width - 16
-    }
-    
-    
-    // MARK: - Initializers
-    
-    //Mandatory initializer
-    required init(coder aDecoder: NSCoder) {
-        post = Post()
-        super.init(coder: aDecoder)
     }
     
     
@@ -67,38 +58,7 @@ class PostTableViewController: UITableViewController {
         if indexPath.row == 0 { //Make a Post Cell for only first row
             let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
             
-            cell.userLabel.text = post.user
-            cell.profilePicView.image = post.picture
-            cell.groupLabel.text = post.group
-            cell.timeLabel.text = post.time
-            
-            cell.postTextView.text = post.text
-            cell.postTextView.font = PostCell.textViewFont
-            cell.postTextView.textContainer.lineFragmentPadding = 0
-            cell.postTextView.textContainerInset = UIEdgeInsetsZero
-            
-            //Formats numbers on screen to say #.#k if necessary
-            if post.numComments >= 1000 {
-                cell.commentLabel.text = convertToThousands(post.numComments)
-            } else {
-                cell.commentLabel.text = String(post.numComments)
-            }
-            if post.rep >= 1000 || post.rep <= -1000 {
-                cell.repLabel.text = convertToThousands(post.rep)
-            } else {
-                cell.repLabel.text = String(post.rep)
-            }
-            
-            if let t = post.title {
-                cell.titleLabel.text = t
-            } else { //post has no title
-                cell.titleLabel.text = ""
-                cell.titleHeightConstraint.constant = 0.0
-            }
-            
-            //gets rid of small gap in divider
-            cell.layoutMargins = UIEdgeInsetsZero
-            cell.preservesSuperviewLayoutMargins = false
+            cell.makeExpandedPostCellFromPost(post, forIndexPath: indexPath)
             
             return cell
         } else { //Make a CommentCell for all rows past the first row
@@ -106,50 +66,7 @@ class PostTableViewController: UITableViewController {
             
             let comment = tree[indexPath.row - 1] //indexPath.row - 1 b/c Post is not included in tree
             
-            cell.userLabel.text = comment.user
-            //add dots if CommentCell has reached max indent and cannot be indented more
-            if comment.lengthToPost > Comment.longestLengthToPost {
-                let difference = comment.lengthToPost - Comment.longestLengthToPost
-                for var i=0; i<difference; i++ {
-                    cell.userLabel.text = "· \(cell.userLabel.text!)"
-                }
-            }
-            
-            cell.profilePicView.image = comment.picture
-            cell.commentTextView.text = comment.text
-            cell.commentTextView.font = CommentCell.textViewFont
-            cell.commentTextView.textContainer.lineFragmentPadding = 0
-            cell.commentTextView.textContainerInset = UIEdgeInsetsZero
-            var repText = ""
-            if comment.rep >= 1000 || comment.rep <= -1000 {
-                repText = convertToThousands(comment.rep)
-            } else {
-                repText = String(comment.rep)
-            }
-            if comment.rep > 0 {
-                repText = "+\(repText)"
-            }
-            if selectedPath == indexPath {
-                //Show button bar when selected
-                cell.upvoteHeightConstraint.constant = CommentCell.buttonHeight
-                cell.downvoteHeightConstraint.constant = CommentCell.buttonHeight
-                //Selected CommentCells show time next to rep
-                cell.repAndTimeLabel.text = "\(repText) · \(comment.time)"
-                //Selected CommentCells need to clear vertical lines from the cell in order to expand cell
-                for line in cell.lines {
-                    line.removeFromSuperview()
-                }
-                cell.lines.removeAll()
-            } else {
-                //hide button bar when not selected
-                cell.upvoteHeightConstraint.constant = 0.0
-                cell.downvoteHeightConstraint.constant = 0.0
-                cell.repAndTimeLabel.text = repText
-            }
-            
-            //indents cell
-            cell.imageIndentConstraint.constant = cell.getIndentationSize()
-            cell.textIndentConstraint.constant = cell.getIndentationSize() + CommentCell.textViewDistanceToIndent
+            cell.makeStandardCommentCellFromComment(comment, forIndexPath: indexPath, withSelected: selectedPath == indexPath)
             
             //makes separator indented
             //UIEdgeInsetsMake(top, left, bottom, right)
@@ -163,18 +80,6 @@ class PostTableViewController: UITableViewController {
                 }
             }
             
-            //gets rid of small gap in divider
-            cell.layoutMargins = UIEdgeInsetsZero
-            cell.preservesSuperviewLayoutMargins = false
-            
-            //adds the vertical lines to the cells
-            for var i=1; i<=cell.indentationLevel; i++ {
-                var line = UIView(frame: CGRectMake(CGFloat(i)*CommentCell.indentSize, 0, 1, cell.frame.size.height))
-                line.backgroundColor = UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
-                cell.lines.append(line)
-                cell.contentView.addSubview(line)
-            }
-            
             return cell
         }
         
@@ -186,13 +91,11 @@ class PostTableViewController: UITableViewController {
     //Make height of cell appropriate size for settings
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 { //PostCell
-            return heightForTextOfRow(indexPath.row) + PostCell.additionalVertSpaceNeeded
+            return post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: nil) + PostCell.ADDITIONAL_VERT_SPACE_NEEDED
         }
-        if selectedPath == indexPath { //Selected CommentCell
-            return heightForTextOfRow(indexPath.row) + CommentCell.additionalVertSpaceNeeded
-        } else { //Unselected CommentCell
-            return heightForTextOfRow(indexPath.row) + CommentCell.additionalVertSpaceNeeded - CommentCell.buttonHeight
-        }
+        //is a CommentCell
+        let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED
+        return selectedPath == indexPath ? height : height - CommentCell.BUTTON_HEIGHT
     }
     
     //Returns the indentationLevel for the indexPath. Cannot exceed 5 to keep cells from getting too small
@@ -225,41 +128,4 @@ class PostTableViewController: UITableViewController {
         }
     }
     
-    ///Calculates height of textView according to length of Post or Comment's text.
-    func heightForTextOfRow(row: Int) -> CGFloat {
-        if row == 0 {
-            //creates a mock textView to calculate height with sizeToFit() function
-            var textView = UITextView(frame: CGRectMake(0, 0, prototypeTextViewWidth, CGFloat.max))
-            textView.text = post.text
-            textView.textContainer.lineFragmentPadding = 0
-            textView.textContainerInset = UIEdgeInsetsZero
-            textView.font = PostCell.textViewFont
-            textView.sizeToFit()
-            
-            return textView.frame.size.height
-        } else {
-            let comment = tree[row - 1]
-            let indent = CGFloat(comment.lengthToPost - 1)
-            let width = prototypeTextViewWidth - comment.predictedIndentSize() - CommentCell.textViewDistanceToIndent
-            var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
-            textView.text = comment.text
-            textView.textContainer.lineFragmentPadding = 0
-            textView.textContainerInset = UIEdgeInsetsZero
-            textView.font = CommentCell.textViewFont
-            textView.sizeToFit()
-            
-            return textView.frame.size.height
-        }
-    }
-    
-    ///Converts Int to formatted #.#k String
-    func convertToThousands(number: Int) -> String {
-        var thousands : Double = Double(number / 1000)
-        if thousands < 0 {
-            thousands -= Double(number % 1000 / 100) * 0.1
-        } else {
-            thousands += Double(number % 1000 / 100) * 0.1
-        }
-        return "\(thousands)k"
-    }
 }

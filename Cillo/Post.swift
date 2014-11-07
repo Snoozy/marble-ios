@@ -14,31 +14,31 @@ class Post: NSObject {
     // MARK: - Properties
     
     ///Username that posted Post
-    let user : String
+    let user : String = ""
     
     ///Profile picture of user
-    let picture : UIImage
+    let picture : UIImage = UIImage(named: "Me")!
     
     ///Group that Post was posted in
-    let group : String
+    let group : String = ""
     
     ///Content of Post
-    let text : String
+    let text : String = ""
     
     ///Title of Post. Posts can have no title
     let title : String?
     
     ///Time since Post was posted. Formatted as #h for # hours
-    let time : String
+    let time : String = ""
     
     ///Number of comments attached to Post
-    var numComments : Int
+    var numComments : Int = 0
     
     ///(Upvotes - Downvotes) for Post
-    var rep : Int
+    var rep : Int = 0
     
     ///Comments replying to this Post
-    let comments : [Comment]
+    let comments : [Comment] = []
     
     ///Expansion status of Post. nil -> unexpandable, false -> shortened, true -> full size
     var seeFull : Bool?
@@ -62,17 +62,33 @@ class Post: NSObject {
     
     //Creates an empty Post
     override init() {
-        user = ""
-        picture = UIImage(named: "Me")!
-        group = ""
-        text = ""
-        title = nil
-        time = ""
-        numComments = 0
-        rep = 0
-        seeFull = nil
-        self.comments = []
         super.init()
+    }
+    
+    // MARK: - Helper Functions
+    
+    func heightOfPostWithWidth(textViewWidth: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
+        var textView = UITextView(frame: CGRectMake(0, 0, textViewWidth, CGFloat.max))
+        textView.text = text
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = UIEdgeInsetsZero
+        textView.font = PostCell.TEXT_VIEW_FONT
+        textView.sizeToFit()
+        
+        if let h = maxHeight {
+            //seeFull should not be nil if post needs expansion option
+            if seeFull == nil && textView.frame.size.height > h {
+                seeFull = false
+            }
+            
+            if seeFull == nil || seeFull! {
+                return textView.frame.size.height
+            } else {
+                return h
+            }
+        } else {
+            return textView.frame.size.height
+        }
     }
     
 }
