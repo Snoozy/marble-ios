@@ -644,6 +644,9 @@
                                     <segment title="Posts"/>
                                     <segment title="Comments"/>
                                 </segments>
+                                <connections>
+                                    <action selector="valueChanged:" destination="zEk-TA-0tM" eventType="valueChanged" id="50p-LG-wSC"/>
+                                </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="T2j-20-96e">
                                 <rect key="frame" x="0.0" y="337" width="600" height="214"/>
@@ -849,6 +852,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
+                                                        <action selector="seeFullPressed:" destination="zEk-TA-0tM" eventType="touchUpInside" id="VbC-53-D9c"/>
                                                         <action selector="seeFullPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="wZF-hL-GK5"/>
                                                     </connections>
                                                 </button>

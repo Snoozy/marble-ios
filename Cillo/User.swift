@@ -10,7 +10,7 @@ import UIKit
 
 class User: NSObject {
    
-    //MARK - Properties
+    //MARK: - Properties
     
     var username: String = ""
     var posts: [Post] = []
@@ -21,7 +21,7 @@ class User: NSObject {
     var rep: Int = 0
     
     
-    //MARK - Initializers
+    //MARK: - Initializers
     
     init(username: String, posts: [Post], comments: [Comment], profilePic: UIImage, bio: String, numGroups: Int, rep: Int) {
         self.username = username
@@ -35,6 +35,20 @@ class User: NSObject {
     
     override init() {
         super.init()
+    }
+    
+    
+    //MARK: - Helper Functions
+    
+    func heightOfBioWithWidth(width: CGFloat) -> CGFloat {
+        var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
+        textView.text = bio
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = UIEdgeInsetsZero
+        textView.font = CommentCell.TEXT_VIEW_FONT
+        textView.sizeToFit()
+            
+        return textView.frame.size.height
     }
     
     

@@ -91,7 +91,8 @@ class PostTableViewController: UITableViewController {
     //Make height of cell appropriate size for settings
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 { //PostCell
-            return post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: nil) + PostCell.ADDITIONAL_VERT_SPACE_NEEDED
+            let heightWithTitle = post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: nil) + PostCell.ADDITIONAL_VERT_SPACE_NEEDED
+            return post.title != nil ? heightWithTitle : heightWithTitle - PostCell.TITLE_HEIGHT
         }
         //is a CommentCell
         let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED
