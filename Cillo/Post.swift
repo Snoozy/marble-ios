@@ -38,7 +38,7 @@ class Post: NSObject {
     var rep : Int = 0
     
     ///Comments replying to this Post
-    let comments : [Comment] = []
+    var comments : [Comment] = []
     
     ///Expansion status of Post. nil -> unexpandable, false -> shortened, true -> full size
     var seeFull : Bool?

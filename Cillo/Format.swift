@@ -20,7 +20,10 @@ class Format: NSObject {
         }
         return "\(thousands)k"
     }
-    
+
+}
+
+extension UIColor {
     ///Returns the Cillo Blue Color
     class func cilloBlue() -> UIColor {
         return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)
@@ -30,5 +33,4 @@ class Format: NSObject {
     class func defaultTableViewDividerColor() -> UIColor {
         return UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
     }
-    
 }

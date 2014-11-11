@@ -34,7 +34,7 @@ class Comment: NSObject {
     var lengthToPost: Int = 1
     
     ///Comments replying to this Comment
-    let comments: [Comment] = []
+    var comments: [Comment] = []
     
     ///Post that Comment is replying to
     var post: Post = Post()

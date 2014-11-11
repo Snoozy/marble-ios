@@ -9,7 +9,7 @@
 import UIKit
 
 ///Handles all navigation segues in Home tab of application
-class HomeNavigationViewController: UINavigationController {
+class FormattedNavigationViewController: UINavigationController {
     
     //MARK: - UIViewController
     

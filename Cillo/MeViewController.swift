@@ -17,11 +17,13 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var bioTextView: UITextView!
+    @IBOutlet weak var repLabel: UILabel!
     @IBOutlet weak var groupsButton: UIButton!
     @IBOutlet weak var postsSegControl: UISegmentedControl!
     @IBOutlet weak var postsTableView: UITableView!
     @IBOutlet weak var bioHeightConstraint: NSLayoutConstraint!
     
+
     //MARK: - Constants
     
     var PROTOTYPE_TEXT_VIEW_WIDTH:CGFloat{return view.frame.size.width - 16}
@@ -36,11 +38,13 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var post = Post(text: "Hi people", numComments: 0, user: "Andrew Daley", rep: 10, time: "2d", group: "Basketball", title: "Hello", picture: UIImage(named: "Me")!, comments: [])
-        var post2 = Post(text: "Hi peoples", numComments: 0, user: "Andrew Daley", rep: 11, time: "2h", group: "Soccer", title: "Hellos", picture: UIImage(named: "Me")!, comments: [])
         var comment = Comment(user: "Andrew Daley", picture: UIImage(named: "Me")!, text: "hi", time: "1d", numComments: 0, rep: -1, lengthToPost: 1, comments: [])
         var comment2 = Comment(user: "Andrew Daley", picture: UIImage(named: "Me")!, text: "his", time: "1h", numComments: 0, rep: -2, lengthToPost: 1, comments: [])
-        user = User(username: "Andrew Daley", posts: [post, post2], comments: [comment, comment2], profilePic: UIImage(named: "Me")!, bio: "hi people", numGroups: 20, rep: -3)
+        var post = Post(text: "Hi people", numComments: 2, user: "Andrew Daley", rep: 10, time: "2d", group: "Basketball", title: "Hello", picture: UIImage(named: "Me")!, comments: [comment, comment2])
+        var post2 = Post(text: "Hi peoples", numComments: 0, user: "Andrew Daley", rep: 11, time: "2h", group: "Soccer", title: "Hellos", picture: UIImage(named: "Me")!, comments: [])
+        comment.post = post
+        comment2.post = post
+        user = User(username: "Andrew Daley", posts: [post, post2], comments: [comment, comment2], profilePic: UIImage(named: "Me")!, bio: "Hello, my name is Andrew Daley. I am widely regarded as the best human being on the planet. Thank you for visitng my page. Read my posts carefully, you might learn something.", numGroups: 20, rep: -3)
         profilePicView.image = user.profilePic
         userLabel.text = user.username
         bioTextView.text = user.bio
@@ -48,7 +52,14 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
         bioTextView.textContainer.lineFragmentPadding = 0
         bioTextView.textContainerInset = UIEdgeInsetsZero
         bioHeightConstraint.constant = user.heightOfBioWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH)
+        repLabel.text = user.rep >= 1000 ?
+                        "\(Format.convertToThousands(user.rep)) rep"
+                        : "\(user.rep) rep"
         groupsButton.setTitle("\(user.numGroups) Groups", forState: UIControlState.Normal)
+        
+        
+        //gets rid of Front Page Text on back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
     }
     
     
@@ -96,7 +107,7 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     //Makes divider inbetween cells blue
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var view = UIView()
-        view.backgroundColor = Format.cilloBlue()
+        view.backgroundColor = UIColor.cilloBlue()
         return view
     }
     
@@ -107,6 +118,12 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
             return post.title != nil ? height : height - PostCell.TITLE_HEIGHT
         }
         return user.comments[indexPath.section].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED - CommentCell.BUTTON_HEIGHT
+    }
+    
+    //If cell is selected then go to post
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("MeToPost", sender: indexPath)
+        postsTableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
     
     //MARK: - IBActions
@@ -123,4 +140,22 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
         postsTableView.reloadData()
     }
     
+    //MARK: - Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "MeToPost" {
+            var destination = segue.destinationViewController as PostTableViewController
+            if postsSegControl.selectedSegmentIndex == 0 {
+                if sender is UIButton {
+                    destination.post = user.posts[(sender as UIButton).tag]
+                } else if sender is NSIndexPath {
+                    destination.post = user.posts[(sender as NSIndexPath).section]
+                }
+            } else {
+                if sender is NSIndexPath {
+                    destination.post = user.comments[(sender as NSIndexPath).section].post
+                }
+            }
+        }
+    }
 }

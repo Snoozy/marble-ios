@@ -109,7 +109,7 @@ class CommentCell: UITableViewCell {
         //adds the vertical lines to the cells
         for var i=1; i<=indentationLevel; i++ {
             var line = UIView(frame: CGRectMake(CGFloat(i)*CommentCell.INDENT_SIZE, 0, 1, frame.size.height))
-            line.backgroundColor = Format.defaultTableViewDividerColor()
+            line.backgroundColor = UIColor.defaultTableViewDividerColor()
             lines.append(line)
             contentView.addSubview(line)
         }

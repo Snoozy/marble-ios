@@ -97,7 +97,7 @@ class HomeTableViewController: UITableViewController {
     //Makes divider inbetween cells blue
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var view = UIView()
-        view.backgroundColor = Format.cilloBlue()
+        view.backgroundColor = UIColor.cilloBlue()
         return view
     }
     
@@ -111,6 +111,7 @@ class HomeTableViewController: UITableViewController {
     //If cell is selected then go to post
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("HomeToPost", sender: indexPath)
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
     
     
