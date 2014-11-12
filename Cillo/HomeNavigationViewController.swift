@@ -21,7 +21,7 @@ class FormattedNavigationViewController: UINavigationController {
     
     //Changes top battery bar to white color
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+        return .LightContent
     }
     
 }

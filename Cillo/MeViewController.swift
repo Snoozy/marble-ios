@@ -32,6 +32,16 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     var BIO_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
+    var REP_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    
+    var REP_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    
+    var GROUPS_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    
+    var GROUPS_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    
+    var SEG_CONTROL_FONT:UIFont {return UIFont.boldSystemFontOfSize(12.0)}
+    
     
     //MARK: - UIViewController
     
@@ -45,21 +55,30 @@ class MeViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
         comment.post = post
         comment2.post = post
         user = User(username: "Andrew Daley", posts: [post, post2], comments: [comment, comment2], profilePic: UIImage(named: "Me")!, bio: "Hello, my name is Andrew Daley. I am widely regarded as the best human being on the planet. Thank you for visitng my page. Read my posts carefully, you might learn something.", numGroups: 20, rep: -3)
+        
         profilePicView.image = user.profilePic
         userLabel.text = user.username
+        
         bioTextView.text = user.bio
         bioTextView.font = BIO_FONT
         bioTextView.textContainer.lineFragmentPadding = 0
         bioTextView.textContainerInset = UIEdgeInsetsZero
         bioHeightConstraint.constant = user.heightOfBioWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH)
-        repLabel.text = user.rep >= 1000 ?
-                        "\(Format.convertToThousands(user.rep)) rep"
-                        : "\(user.rep) rep"
-        groupsButton.setTitle("\(user.numGroups) Groups", forState: UIControlState.Normal)
         
+        var rep = NSMutableAttributedString(string: user.rep >= 1000 ? "\(Format.convertToThousands(user.rep))" : "\(user.rep)", attributes: [NSFontAttributeName:REP_FONT_BOLD])
+        var repWord = NSMutableAttributedString(string: " REP", attributes: [NSFontAttributeName:REP_FONT])
+        rep.appendAttributedString(repWord)
+        repLabel.attributedText = rep
         
-        //gets rid of Front Page Text on back button
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
+        var group = NSMutableAttributedString(string: user.numGroups >= 1000 ? "\(Format.convertToThousands(user.numGroups))" : "\(user.numGroups)", attributes: [NSFontAttributeName:GROUPS_FONT_BOLD])
+        var groupWord = NSMutableAttributedString(string: " GROUPS", attributes: [NSFontAttributeName:GROUPS_FONT])
+        group.appendAttributedString(groupWord)
+        groupsButton.setAttributedTitle(group, forState: .Normal)
+        groupsButton.tintColor = UIColor.blackColor()
+        
+        postsSegControl.setTitleTextAttributes([NSFontAttributeName:SEG_CONTROL_FONT], forState: .Normal)
+        //gets rid of Me Text on back button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Bordered, target: nil, action: nil)
     }
     
     
