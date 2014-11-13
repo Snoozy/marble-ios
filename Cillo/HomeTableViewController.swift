@@ -1,5 +1,5 @@
 //
-//  FrontPageTableViewController.swift
+//  HomeTableViewController.swift
 //  Cillo
 //
 //  Created by Andrew Daley on 10/23/14.

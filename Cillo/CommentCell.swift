@@ -71,12 +71,7 @@ class CommentCell: UITableViewCell {
         commentTextView.font = CommentCell.COMMENT_TEXT_VIEW_FONT
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsetsZero
-        var repText = ""
-        if comment.rep >= 1000 || comment.rep <= -1000 {
-            repText = Format.convertToThousands(comment.rep)
-        } else {
-            repText = String(comment.rep)
-        }
+        var repText = Format.formatNumberAsString(comment.rep)
         if comment.rep > 0 {
             repText = "+\(repText)"
         }

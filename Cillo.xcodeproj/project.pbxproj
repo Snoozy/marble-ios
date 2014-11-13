@@ -14,7 +14,7 @@
 		95468AF119F99B8A00F158DE /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF019F99B8A00F158DE /* PostCell.swift */; };
 		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
 		954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D99A91A04865D002490C4 /* PostTableViewController.swift */; };
-		954E48061A035AB600598B6D /* HomeNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* HomeNavigationViewController.swift */; };
+		954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
@@ -43,7 +43,7 @@
 		95468AF019F99B8A00F158DE /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
-		954E48051A035AB600598B6D /* HomeNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeNavigationViewController.swift; sourceTree = "<group>"; };
+		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattedNavigationViewController.swift; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +76,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		95352D6E1A155BF200874B0F /* UITableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				95468AF019F99B8A00F158DE /* PostCell.swift */,
+				9530E0841A0754B3001DB24E /* CommentCell.swift */,
+				95E496911A15208500154864 /* UserCell.swift */,
+			);
+			name = UITableViewCells;
+			sourceTree = "<group>";
+		};
+		95352D6F1A155C0E00874B0F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				95468AF219F99D7A00F158DE /* Post.swift */,
+				9530E0821A075073001DB24E /* Comment.swift */,
+				95A1C9341A0BE95600914DB0 /* User.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		95352D701A155C3500874B0F /* Root VCs */ = {
+			isa = PBXGroup;
+			children = (
+				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
+				95E496931A1520AB00154864 /* MeTableViewController.swift */,
+			);
+			name = "Root VCs";
+			sourceTree = "<group>";
+		};
+		95352D711A155C4100874B0F /* Other VCs */ = {
+			isa = PBXGroup;
+			children = (
+				954D99A91A04865D002490C4 /* PostTableViewController.swift */,
+			);
+			name = "Other VCs";
+			sourceTree = "<group>";
+		};
+		95352D721A155C4D00874B0F /* Navigation VCs */ = {
+			isa = PBXGroup;
+			children = (
+				954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */,
+			);
+			name = "Navigation VCs";
+			sourceTree = "<group>";
+		};
 		95EFD29B19F8D2B400086BAF = {
 			isa = PBXGroup;
 			children = (
@@ -99,16 +144,11 @@
 			children = (
 				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
 				95EFD2AD19F8D2B400086BAF /* Main.storyboard */,
-				954E48051A035AB600598B6D /* HomeNavigationViewController.swift */,
-				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
-				95E496931A1520AB00154864 /* MeTableViewController.swift */,
-				954D99A91A04865D002490C4 /* PostTableViewController.swift */,
-				95468AF019F99B8A00F158DE /* PostCell.swift */,
-				9530E0841A0754B3001DB24E /* CommentCell.swift */,
-				95E496911A15208500154864 /* UserCell.swift */,
-				95468AF219F99D7A00F158DE /* Post.swift */,
-				9530E0821A075073001DB24E /* Comment.swift */,
-				95A1C9341A0BE95600914DB0 /* User.swift */,
+				95352D721A155C4D00874B0F /* Navigation VCs */,
+				95352D701A155C3500874B0F /* Root VCs */,
+				95352D711A155C4100874B0F /* Other VCs */,
+				95352D6E1A155BF200874B0F /* UITableViewCells */,
+				95352D6F1A155C0E00874B0F /* Model */,
 				95062D0A1A0D2A6200B4162D /* Format.swift */,
 				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
 				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
@@ -248,7 +288,7 @@
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
-				954E48061A035AB600598B6D /* HomeNavigationViewController.swift in Sources */,
+				954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */,
 				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,
 				95E496921A15208500154864 /* UserCell.swift in Sources */,
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,

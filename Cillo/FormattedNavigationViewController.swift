@@ -1,5 +1,5 @@
 //
-//  HomeNavigationViewController.swift
+//  FormattedNavigationViewController.swift
 //  Cillo
 //
 //  Created by Andrew Daley on 10/31/14.

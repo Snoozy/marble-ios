@@ -67,16 +67,8 @@ class PostCell: UITableViewCell {
         }
         
         //Formats numbers on screen to say #.#k if necessary
-        if post.numComments >= 1000 {
-            commentLabel.text = Format.convertToThousands(post.numComments)
-        } else {
-            commentLabel.text = String(post.numComments)
-        }
-        if post.rep >= 1000 || post.rep <= -1000{
-            repLabel.text = Format.convertToThousands(post.rep)
-        } else {
-            repLabel.text = String(post.rep)
-        }
+        commentLabel.text = Format.formatNumberAsString(post.numComments)
+        repLabel.text = Format.formatNumberAsString(post.rep)
         
         if let t = post.title {
             titleLabel.text = t
@@ -99,16 +91,8 @@ class PostCell: UITableViewCell {
         postTextView.textContainerInset = UIEdgeInsetsZero
         
         //Formats numbers on screen to say #.#k if necessary
-        if post.numComments >= 1000 {
-            commentLabel.text = Format.convertToThousands(post.numComments)
-        } else {
-            commentLabel.text = String(post.numComments)
-        }
-        if post.rep >= 1000 || post.rep <= -1000 {
-            repLabel.text = Format.convertToThousands(post.rep)
-        } else {
-            repLabel.text = String(post.rep)
-        }
+        commentLabel.text = Format.formatNumberAsString(post.numComments)
+        repLabel.text = Format.formatNumberAsString(post.rep)
         
         if let t = post.title {
             titleLabel.text = t
