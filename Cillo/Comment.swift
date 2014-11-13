@@ -88,7 +88,7 @@ class Comment: NSObject {
         textView.text = text
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = UIEdgeInsetsZero
-        textView.font = CommentCell.TEXT_VIEW_FONT
+        textView.font = CommentCell.COMMENT_TEXT_VIEW_FONT
         textView.sizeToFit()
         
         return textView.frame.size.height

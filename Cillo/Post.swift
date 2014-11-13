@@ -72,7 +72,7 @@ class Post: NSObject {
         textView.text = text
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = UIEdgeInsetsZero
-        textView.font = PostCell.TEXT_VIEW_FONT
+        textView.font = PostCell.POST_TEXT_VIEW_FONT
         textView.sizeToFit()
         
         if let h = maxHeight {

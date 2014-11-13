@@ -32,7 +32,7 @@ class PostCell: UITableViewCell {
     // MARK: - Constants
     
     ///Font of postTextView in Storyboard
-    class var TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var POST_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Height needed for all components of PostCell except postTextView in Storyboard
     class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 139}
@@ -51,7 +51,7 @@ class PostCell: UITableViewCell {
         timeLabel.text = post.time
         
         postTextView.text = post.text
-        postTextView.font = PostCell.TEXT_VIEW_FONT
+        postTextView.font = PostCell.POST_TEXT_VIEW_FONT
         postTextView.textContainer.lineFragmentPadding = 0
         postTextView.textContainerInset = UIEdgeInsetsZero
         
@@ -94,7 +94,7 @@ class PostCell: UITableViewCell {
         timeLabel.text = post.time
         
         postTextView.text = post.text
-        postTextView.font = PostCell.TEXT_VIEW_FONT
+        postTextView.font = PostCell.POST_TEXT_VIEW_FONT
         postTextView.textContainer.lineFragmentPadding = 0
         postTextView.textContainerInset = UIEdgeInsetsZero
         

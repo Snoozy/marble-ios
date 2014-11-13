@@ -33,10 +33,10 @@ class CommentCell: UITableViewCell {
     
     //MARK: - Constants
     
-    ///Font of postTextView in Storyboard
-    class var TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    ///Font of commentTextView in Storyboard
+    class var COMMENT_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
-    ///Height needed for all components of PostCell except postTextView in Storyboard
+    ///Height needed for all components of CommentCell except commentTextView in Storyboard
     class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 88}
     
     ///Height of buttons in expanded menu when CommentCell is selected
@@ -68,7 +68,7 @@ class CommentCell: UITableViewCell {
         
         profilePicView.image = comment.picture
         commentTextView.text = comment.text
-        commentTextView.font = CommentCell.TEXT_VIEW_FONT
+        commentTextView.font = CommentCell.COMMENT_TEXT_VIEW_FONT
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsetsZero
         var repText = ""

@@ -13,6 +13,7 @@ class User: NSObject {
     //MARK: - Properties
     
     var username: String = ""
+    var accountname: String = ""
     var posts: [Post] = []
     var comments: [Comment] = []
     var profilePic: UIImage = UIImage(named: "Me")!
@@ -23,8 +24,9 @@ class User: NSObject {
     
     //MARK: - Initializers
     
-    init(username: String, posts: [Post], comments: [Comment], profilePic: UIImage, bio: String, numGroups: Int, rep: Int) {
+    init(username: String, accountname: String, posts: [Post], comments: [Comment], profilePic: UIImage, bio: String, numGroups: Int, rep: Int) {
         self.username = username
+        self.accountname = accountname
         self.posts = posts
         self.comments = comments
         self.profilePic = profilePic
@@ -45,7 +47,7 @@ class User: NSObject {
         textView.text = bio
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = UIEdgeInsetsZero
-        textView.font = CommentCell.TEXT_VIEW_FONT
+        textView.font = CommentCell.COMMENT_TEXT_VIEW_FONT
         textView.sizeToFit()
             
         return textView.frame.size.height

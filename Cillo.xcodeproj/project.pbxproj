@@ -15,8 +15,9 @@
 		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
 		954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D99A91A04865D002490C4 /* PostTableViewController.swift */; };
 		954E48061A035AB600598B6D /* HomeNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* HomeNavigationViewController.swift */; };
-		95A1C9331A0BE42C00914DB0 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9321A0BE42C00914DB0 /* MeViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
+		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
+		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
 		95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2A919F8D2B400086BAF /* AppDelegate.swift */; };
 		95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2AD19F8D2B400086BAF /* Main.storyboard */; };
 		95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B019F8D2B400086BAF /* Images.xcassets */; };
@@ -43,8 +44,9 @@
 		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		954E48051A035AB600598B6D /* HomeNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeNavigationViewController.swift; sourceTree = "<group>"; };
-		95A1C9321A0BE42C00914DB0 /* MeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,10 +101,11 @@
 				95EFD2AD19F8D2B400086BAF /* Main.storyboard */,
 				954E48051A035AB600598B6D /* HomeNavigationViewController.swift */,
 				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
-				95A1C9321A0BE42C00914DB0 /* MeViewController.swift */,
+				95E496931A1520AB00154864 /* MeTableViewController.swift */,
 				954D99A91A04865D002490C4 /* PostTableViewController.swift */,
 				95468AF019F99B8A00F158DE /* PostCell.swift */,
 				9530E0841A0754B3001DB24E /* CommentCell.swift */,
+				95E496911A15208500154864 /* UserCell.swift */,
 				95468AF219F99D7A00F158DE /* Post.swift */,
 				9530E0821A075073001DB24E /* Comment.swift */,
 				95A1C9341A0BE95600914DB0 /* User.swift */,
@@ -240,13 +243,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				95062D0B1A0D2A6200B4162D /* Format.swift in Sources */,
-				95A1C9331A0BE42C00914DB0 /* MeViewController.swift in Sources */,
+				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
 				954E48061A035AB600598B6D /* HomeNavigationViewController.swift in Sources */,
 				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,
+				95E496921A15208500154864 /* UserCell.swift in Sources */,
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
