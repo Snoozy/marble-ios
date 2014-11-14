@@ -43,8 +43,11 @@ class HomeTableViewController: UITableViewController {
         let c3 = Comment(user: "Dan2", picture: UIImage(named: "Me")!, text: "hi", time: "10m", numComments: 4, rep: -2, lengthToPost: 3, comments: [c4])
         let c2 = Comment(user: "Dan", picture: UIImage(named: "Me")!, text: "hi", time: "10m", numComments: 5, rep: -2, lengthToPost: 2, comments: [c3])
         let c1 = Comment(user: "Andrew", picture: UIImage(named: "Me")!, text: "Hello", time: "21d", numComments: 6, rep: 10, lengthToPost: 1, comments: [c2])
-        let c8 = Comment(user: "Kevin", picture: UIImage(named: "Me")!, text: "Daniel is stupid", time: "5h", numComments: 0, rep: 42, lengthToPost: 1, comments: [])
+        let c9 = Comment(user: "Bjas", picture: UIImage(named: "Me")!, text: "Nsjdaio", time: "5h", numComments: 0, rep: 42, lengthToPost: 2, comments: [])
+        let c8 = Comment(user: "Kevin", picture: UIImage(named: "Me")!, text: "Daniel is stupid", time: "5h", numComments: 1, rep: 42, lengthToPost: 1, comments: [c9])
         let p1 = Post(text: "A game played by two teams of eleven players with a round ball that may not be touched with the hands or arms during play except by the goalkeepers. The object of the game is to score goals by kicking or heading the ball into the opponents' goal.A game played by two teams of eleven players with a round ball that may not be touched with the hands or arms during play except by the goalkeepers. The object of the game is to score goals by kicking or heading the ball into the opponents' goal.A game played by two teams of eleven players with a round ball that may not be touched with the hands or arms during play except by the goalkeepers. The object of the game is to score goals by kicking or heading the ball into the opponents' goal.A game played by two teams of eleven players with a round ball that may not be touched with the hands or arms during play except by the goalkeepers. The object of the game is to score goals by kicking or heading the ball into the opponents' goal.A game played by two teams of eleven players with a round ball that may not be touched with the hands or arms during play except by the goalkeepers. The object of the game is to score goals by kicking or heading the ball into the opponents' goal.", numComments: 8, user: "Daniel Li", rep: 1501, time: "21h", group: "Soccer", title: "What is Soccer?", picture: UIImage(named: "Me")!, comments: [c1, c8])
+        c9.post = p1
+        c8.post = p1
         c7.post = p1
         c6.post = p1
         c5.post = p1

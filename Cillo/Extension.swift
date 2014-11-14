@@ -1,5 +1,5 @@
 //
-//  Format.swift
+//  Extensions.swift
 //  Cillo
 //
 //  Created by Andrew Daley on 11/7/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Format {
+extension String {
    
     ///Converts Int to formatted 1-4 character String
     static func formatNumberAsString(number: Int) -> String {

@@ -67,6 +67,7 @@ class Post: NSObject {
     
     // MARK: - Helper Functions
     
+    ///Returns the predicted height of a UITextView with .text = post.text. textViewWidth is the width of the UITextView in the container and maxHeight is the maximum height of the UITextView if it is expandable.
     func heightOfPostWithWidth(textViewWidth: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
         var textView = UITextView(frame: CGRectMake(0, 0, textViewWidth, CGFloat.max))
         textView.text = text

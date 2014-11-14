@@ -24,9 +24,10 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var repAndTimeLabel: UILabel!
     
-    ///Will be set to 0 when not selected and 32 when selected
+    ///Will be set to 0 when not selected and BUTTON_HEIGHT when selected
     @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var downvoteHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
     @IBOutlet weak var textIndentConstraint: NSLayoutConstraint!
     
@@ -37,7 +38,7 @@ class CommentCell: UITableViewCell {
     class var COMMENT_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Height needed for all components of CommentCell except commentTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 88}
+    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 89}
     
     ///Height of buttons in expanded menu when CommentCell is selected
     class var BUTTON_HEIGHT:CGFloat{return 32}
@@ -56,6 +57,7 @@ class CommentCell: UITableViewCell {
         return CGFloat(indentationLevel) * CommentCell.INDENT_SIZE
     }
     
+    ///Makes CommentCell formatted in accordance with comment and selected
     func makeStandardCommentCellFromComment(comment: Comment, forIndexPath indexPath: NSIndexPath, withSelected selected: Bool) {
         userLabel.text = comment.user
         //add dots if CommentCell has reached max indent and cannot be indented more
@@ -71,7 +73,7 @@ class CommentCell: UITableViewCell {
         commentTextView.font = CommentCell.COMMENT_TEXT_VIEW_FONT
         commentTextView.textContainer.lineFragmentPadding = 0
         commentTextView.textContainerInset = UIEdgeInsetsZero
-        var repText = Format.formatNumberAsString(comment.rep)
+        var repText = String.formatNumberAsString(comment.rep)
         if comment.rep > 0 {
             repText = "+\(repText)"
         }

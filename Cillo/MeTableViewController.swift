@@ -12,25 +12,31 @@ class MeTableViewController: UITableViewController {
 
     //MARK: -  Properties
     
+    ///User for this ViewController
     var user: User = User()
     
+    ///What the postsSegControl segmentIndexes in UserCell correspond to
     enum segIndex {
         case POSTS
         case COMMENTS
     }
     
+    ///Keeps track of the segmentIndex of postsSegControl
     var cellsShown = segIndex.POSTS
     
     
     //MARK: - Constants
     
+    ///Width of textView in UITableViewCell
     var PROTOTYPE_TEXT_VIEW_WIDTH:CGFloat {return view.frame.size.width - 16}
     
+    ///Max height of postTextView in PostCell before it is expanded by seeFullButton
     var MAX_CONTRACTED_HEIGHT:CGFloat {return tableView.frame.height * 0.625 - PostCell.ADDITIONAL_VERT_SPACE_NEEDED}
 
     
     //MARK: - UIViewController
     
+    //hardcodes posts
     override func viewDidLoad() {
         
         var comment = Comment(user: "Andrew Daley", picture: UIImage(named: "Me")!, text: "hi", time: "1d", numComments: 0, rep: -1, lengthToPost: 1, comments: [])
@@ -47,6 +53,7 @@ class MeTableViewController: UITableViewController {
     
     // MARK: - UITableViewDataSource
 
+    //returns number of sections based on the value of cellsShown
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         switch cellsShown {
         case .POSTS:
@@ -58,10 +65,12 @@ class MeTableViewController: UITableViewController {
         }
     }
 
+    //one row per section
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
+    //makes cells for each section based on the value of cellsShown
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("User", forIndexPath: indexPath) as UserCell
@@ -105,6 +114,7 @@ class MeTableViewController: UITableViewController {
         return view
     }
     
+    //Sets height of cell based on value of cellsShown
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return user.heightOfBioWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + UserCell.ADDITIONAL_VERT_SPACE_NEEDED
@@ -115,7 +125,7 @@ class MeTableViewController: UITableViewController {
             let height = post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: MAX_CONTRACTED_HEIGHT) + PostCell.ADDITIONAL_VERT_SPACE_NEEDED
             return post.title != nil ? height : height - PostCell.TITLE_HEIGHT
         case .COMMENTS:
-            return user.comments[indexPath.section - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED - CommentCell.BUTTON_HEIGHT
+            return user.comments[indexPath.section - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, withSelected: false) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED - CommentCell.BUTTON_HEIGHT
         default:
             return 0
         }
@@ -132,6 +142,7 @@ class MeTableViewController: UITableViewController {
     
     //MARK: - IBActions
     
+    ///update cellsShown when the postsSegControl in UserCell changes its selected index
     @IBAction func valueChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -144,6 +155,7 @@ class MeTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    ///expand the post in PostCell if seeFullButton is pressed
     @IBAction func seeFullPressed(sender: UIButton) {
         var post = user.posts[sender.tag]
         if post.seeFull != nil {
@@ -155,6 +167,7 @@ class MeTableViewController: UITableViewController {
     
     //MARK: - Navigation
     
+    //pass the selected post to PostTableViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "MeToPost" {
             var destination = segue.destinationViewController as PostTableViewController

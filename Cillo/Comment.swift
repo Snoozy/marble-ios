@@ -76,14 +76,16 @@ class Comment: NSObject {
         }
     }
     
-    ///Predicted indent size for CommentCell. Does not account for if CommentCell is selected.
+    ///Predicted indent size for an arbitrary CommentCell containing this Comment. Does not account for if CommentCell is selected.
     func predictedIndentSize() -> CGFloat {
         return CGFloat(predictedIndentLevel()) * CommentCell.INDENT_SIZE
     }
     
-    func heightOfCommentWithWidth(textViewWidth: CGFloat) -> CGFloat {
+    ///Returns predicted height of a UITextView with .text = comment.text and indentation = predictedIndentSize. textViewWidth is the width of the UITextView in the container
+    func heightOfCommentWithWidth(textViewWidth: CGFloat, withSelected selected: Bool) -> CGFloat {
         let indent = CGFloat(lengthToPost - 1)
-        let width = textViewWidth - predictedIndentSize() - CommentCell.TEXT_VIEW_DISTANCE_TO_INDENT
+        var width = textViewWidth - CommentCell.TEXT_VIEW_DISTANCE_TO_INDENT
+        if !selected { width = width - predictedIndentSize() }
         var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
         textView.text = text
         textView.textContainer.lineFragmentPadding = 0

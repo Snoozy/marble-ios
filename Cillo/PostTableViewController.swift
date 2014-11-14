@@ -95,7 +95,7 @@ class PostTableViewController: UITableViewController {
             return post.title != nil ? heightWithTitle : heightWithTitle - PostCell.TITLE_HEIGHT
         }
         //is a CommentCell
-        let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED
+        let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, withSelected: selectedPath == indexPath) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED
         return selectedPath == indexPath ? height : height - CommentCell.BUTTON_HEIGHT
     }
     

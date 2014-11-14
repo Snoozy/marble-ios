@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		95062D0B1A0D2A6200B4162D /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95062D0A1A0D2A6200B4162D /* Format.swift */; };
+		95062D0B1A0D2A6200B4162D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95062D0A1A0D2A6200B4162D /* Extension.swift */; };
 		9530E0831A075073001DB24E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0821A075073001DB24E /* Comment.swift */; };
 		9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0841A0754B3001DB24E /* CommentCell.swift */; };
 		95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */; };
@@ -36,7 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		95062D0A1A0D2A6200B4162D /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
+		95062D0A1A0D2A6200B4162D /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		9530E0841A0754B3001DB24E /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 				95352D711A155C4100874B0F /* Other VCs */,
 				95352D6E1A155BF200874B0F /* UITableViewCells */,
 				95352D6F1A155C0E00874B0F /* Model */,
-				95062D0A1A0D2A6200B4162D /* Format.swift */,
+				95062D0A1A0D2A6200B4162D /* Extension.swift */,
 				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
 				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
 				95EFD2A719F8D2B400086BAF /* Supporting Files */,
@@ -282,7 +282,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95062D0B1A0D2A6200B4162D /* Format.swift in Sources */,
+				95062D0B1A0D2A6200B4162D /* Extension.swift in Sources */,
 				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,

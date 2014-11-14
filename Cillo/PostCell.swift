@@ -67,8 +67,8 @@ class PostCell: UITableViewCell {
         }
         
         //Formats numbers on screen to say #.#k if necessary
-        commentLabel.text = Format.formatNumberAsString(post.numComments)
-        repLabel.text = Format.formatNumberAsString(post.rep)
+        commentLabel.text = String.formatNumberAsString(post.numComments)
+        repLabel.text = String.formatNumberAsString(post.rep)
         
         if let t = post.title {
             titleLabel.text = t
@@ -91,8 +91,8 @@ class PostCell: UITableViewCell {
         postTextView.textContainerInset = UIEdgeInsetsZero
         
         //Formats numbers on screen to say #.#k if necessary
-        commentLabel.text = Format.formatNumberAsString(post.numComments)
-        repLabel.text = Format.formatNumberAsString(post.rep)
+        commentLabel.text = String.formatNumberAsString(post.numComments)
+        repLabel.text = String.formatNumberAsString(post.rep)
         
         if let t = post.title {
             titleLabel.text = t
