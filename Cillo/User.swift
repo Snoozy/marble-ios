@@ -59,16 +59,9 @@ class User: NSObject {
     
     //MARK: - Helper Functions
     
-    //returns the predicted height of a bioTextView in a UserCell
+    ///returns the predicted height of a bioTextView in a UserCell
     func heightOfBioWithWidth(width: CGFloat) -> CGFloat {
-        var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
-        textView.text = bio
-        textView.textContainer.lineFragmentPadding = 0
-        textView.textContainerInset = UIEdgeInsetsZero
-        textView.font = UserCell.BIO_TEXT_VIEW_FONT
-        textView.sizeToFit()
-            
-        return textView.frame.size.height
+        return bio.heightOfTextWithWidth(width, andFont: UserCell.BIO_TEXT_VIEW_FONT)
     }
     
     

@@ -49,7 +49,29 @@ extension String {
             return "WTF"
         }
     }
+    
+    ///Returns the height of a UITextView with a specified width and font containing this String
+    func heightOfTextWithWidth(width: CGFloat, andFont font: UIFont) -> CGFloat {
+        var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
+        textView.text = self
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = UIEdgeInsetsZero
+        textView.font = font
+        textView.sizeToFit()
+        
+        return textView.frame.size.height
+    }
 
+}
+
+extension NSMutableAttributedString {
+    
+    class func firstHalfBoldMutableAttributedString(boldedString: String, boldedFont: UIFont, normalString: String, normalFont: UIFont) -> NSMutableAttributedString{
+        var firstHalf = NSMutableAttributedString(string:boldedString, attributes: [NSFontAttributeName:boldedFont])
+        var secondHalf = NSMutableAttributedString(string: normalString, attributes: [NSFontAttributeName:normalFont])
+        firstHalf.appendAttributedString(secondHalf)
+        return firstHalf
+    }
 }
 
 extension UIColor {

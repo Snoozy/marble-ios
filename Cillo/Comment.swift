@@ -86,14 +86,8 @@ class Comment: NSObject {
         let indent = CGFloat(lengthToPost - 1)
         var width = textViewWidth - CommentCell.TEXT_VIEW_DISTANCE_TO_INDENT
         if !selected { width = width - predictedIndentSize() }
-        var textView = UITextView(frame: CGRectMake(0, 0, width, CGFloat.max))
-        textView.text = text
-        textView.textContainer.lineFragmentPadding = 0
-        textView.textContainerInset = UIEdgeInsetsZero
-        textView.font = CommentCell.COMMENT_TEXT_VIEW_FONT
-        textView.sizeToFit()
         
-        return textView.frame.size.height
+        return text.heightOfTextWithWidth(width, andFont: CommentCell.COMMENT_TEXT_VIEW_FONT)
     }
     
 }

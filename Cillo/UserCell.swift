@@ -24,7 +24,7 @@ class UserCell: UITableViewCell {
     
     //MARK - Constants
     
-    ///Height needed for all components of CommentCell except commentTextView in Storyboard
+    ///Height needed for all components of UserCell except bioTextView in Storyboard
     class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 215}
     
     ///Font for bioTextView
@@ -36,10 +36,10 @@ class UserCell: UITableViewCell {
     ///Font for number in repLabel
     class var REP_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
-    ///Font for word GROUPS in groupsLabel
+    ///Font for word GROUPS in groupsButton
     class var GROUPS_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
-    ///Font for number in groupsLabel
+    ///Font for number in groupsButton
     class var GROUPS_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
     ///Font for postsSegControl
@@ -57,16 +57,12 @@ class UserCell: UITableViewCell {
         bioTextView.textContainerInset = UIEdgeInsetsZero
         
         //Make only the number in repLabel bold
-        var rep = NSMutableAttributedString(string: String.formatNumberAsString(user.rep), attributes: [NSFontAttributeName:UserCell.REP_FONT_BOLD])
-        var repWord = NSMutableAttributedString(string: " REP", attributes: [NSFontAttributeName:UserCell.REP_FONT])
-        rep.appendAttributedString(repWord)
-        repLabel.attributedText = rep
+        var repText = NSMutableAttributedString.firstHalfBoldMutableAttributedString(String.formatNumberAsString(user.rep),boldedFont: UserCell.REP_FONT_BOLD,normalString: " REP", normalFont: UserCell.REP_FONT)
+        repLabel.attributedText = repText
         
         //Make only the number in groupsButton bold
-        var group = NSMutableAttributedString(string: String.formatNumberAsString(user.numGroups), attributes: [NSFontAttributeName:UserCell.GROUPS_FONT_BOLD])
-        var groupWord = NSMutableAttributedString(string: " GROUPS", attributes: [NSFontAttributeName:UserCell.GROUPS_FONT])
-        group.appendAttributedString(groupWord)
-        groupsButton.setAttributedTitle(group, forState: .Normal)
+        var groupsText = NSMutableAttributedString.firstHalfBoldMutableAttributedString(String.formatNumberAsString(user.numGroups),boldedFont: UserCell.GROUPS_FONT_BOLD,normalString: " GROUPS", normalFont: UserCell.GROUPS_FONT)
+        groupsButton.setAttributedTitle(groupsText, forState: .Normal)
         groupsButton.tintColor = UIColor.blackColor()
         
         postsSegControl.setTitleTextAttributes([NSFontAttributeName:UserCell.SEG_CONTROL_FONT], forState: .Normal)

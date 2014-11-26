@@ -15,6 +15,9 @@
 		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
 		954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D99A91A04865D002490C4 /* PostTableViewController.swift */; };
 		954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */; };
+		959E0F0D1A2538C7008B4D19 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0C1A2538C7008B4D19 /* GroupCell.swift */; };
+		959E0F0F1A2538D7008B4D19 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0E1A2538D7008B4D19 /* Group.swift */; };
+		959E0F111A253A1E008B4D19 /* MyGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F101A253A1E008B4D19 /* MyGroupsViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
@@ -44,6 +47,9 @@
 		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattedNavigationViewController.swift; sourceTree = "<group>"; };
+		959E0F0C1A2538C7008B4D19 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
+		959E0F0E1A2538D7008B4D19 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		959E0F101A253A1E008B4D19 /* MyGroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGroupsViewController.swift; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +88,7 @@
 				95468AF019F99B8A00F158DE /* PostCell.swift */,
 				9530E0841A0754B3001DB24E /* CommentCell.swift */,
 				95E496911A15208500154864 /* UserCell.swift */,
+				959E0F0C1A2538C7008B4D19 /* GroupCell.swift */,
 			);
 			name = UITableViewCells;
 			sourceTree = "<group>";
@@ -92,6 +99,7 @@
 				95468AF219F99D7A00F158DE /* Post.swift */,
 				9530E0821A075073001DB24E /* Comment.swift */,
 				95A1C9341A0BE95600914DB0 /* User.swift */,
+				959E0F0E1A2538D7008B4D19 /* Group.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -101,6 +109,7 @@
 			children = (
 				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
 				95E496931A1520AB00154864 /* MeTableViewController.swift */,
+				959E0F101A253A1E008B4D19 /* MyGroupsViewController.swift */,
 			);
 			name = "Root VCs";
 			sourceTree = "<group>";
@@ -289,6 +298,9 @@
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
 				954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */,
+				959E0F0F1A2538D7008B4D19 /* Group.swift in Sources */,
+				959E0F0D1A2538C7008B4D19 /* GroupCell.swift in Sources */,
+				959E0F111A253A1E008B4D19 /* MyGroupsViewController.swift in Sources */,
 				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,
 				95E496921A15208500154864 /* UserCell.swift in Sources */,
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,

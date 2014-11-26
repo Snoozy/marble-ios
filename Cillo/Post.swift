@@ -68,27 +68,21 @@ class Post: NSObject {
     // MARK: - Helper Functions
     
     ///Returns the predicted height of a UITextView with .text = post.text. textViewWidth is the width of the UITextView in the container and maxHeight is the maximum height of the UITextView if it is expandable.
-    func heightOfPostWithWidth(textViewWidth: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
-        var textView = UITextView(frame: CGRectMake(0, 0, textViewWidth, CGFloat.max))
-        textView.text = text
-        textView.textContainer.lineFragmentPadding = 0
-        textView.textContainerInset = UIEdgeInsetsZero
-        textView.font = PostCell.POST_TEXT_VIEW_FONT
-        textView.sizeToFit()
-        
+    func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
+        let height = text.heightOfTextWithWidth(width, andFont: PostCell.POST_TEXT_VIEW_FONT)
         if let h = maxHeight {
             //seeFull should not be nil if post needs expansion option
-            if seeFull == nil && textView.frame.size.height > h {
+            if seeFull == nil && height > h {
                 seeFull = false
             }
             
             if seeFull == nil || seeFull! {
-                return textView.frame.size.height
+                return height
             } else {
                 return h
             }
         } else {
-            return textView.frame.size.height
+            return height
         }
     }
     
