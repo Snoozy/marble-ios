@@ -12,13 +12,25 @@ class UserCell: UITableViewCell {
 
     //MARK: - IBOutlets
     
-    ///IBOulets Corresponding to fields in User
+    ///Corresponds to proficlePic of User
     @IBOutlet weak var profilePicView: UIImageView!
+    
+    ///Corresponds to username of User
     @IBOutlet weak var userLabel: UILabel!
+    
+    ///Corresponds to accountname of User
     @IBOutlet weak var accountLabel: UILabel!
+    
+    ///Corresponds to bio of User
     @IBOutlet weak var bioTextView: UITextView!
+    
+    ///Corresponds to rep of User
     @IBOutlet weak var repLabel: UILabel!
+    
+    ///Corresponds to numGroups of User
     @IBOutlet weak var groupsButton: UIButton!
+    
+    ///Used to select what type of cells are shown under UserCell
     @IBOutlet weak var postsSegControl: UISegmentedControl!
     
     
@@ -45,7 +57,7 @@ class UserCell: UITableViewCell {
     ///Font for postsSegControl
     class var SEG_CONTROL_FONT:UIFont {return UIFont.boldSystemFontOfSize(12.0)}
     
-    ///Makes the UserCell formatted in accordance with user
+    ///Makes the UserCell formatted in accordance with User
     func makeStandardUserCellFromUser(user: User) {
         profilePicView.image = user.profilePic
         userLabel.text = user.username

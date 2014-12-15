@@ -8,30 +8,48 @@
 
 import UIKit
 
-///Cell that corresponds to reuse identifier "Post". Used in HomeTableViewController and PostTableViewController to format Posts in TableView.
+///Cell that corresponds to reuse identifier "Post". Used to format Posts in UITableViews.
 class PostCell: UITableViewCell {
 
     // MARK: - IBOutlets
     
-    ///All IBOutlets correspond to properties of Post. See Post for definitions of properties
+    ///Corresponds to user of Post
     @IBOutlet weak var userLabel: UILabel!
+    
+    ///Corresponds to picture of Post
     @IBOutlet weak var profilePicView: UIImageView!
+    
+    ///Corresponds to group of Post
     @IBOutlet weak var groupLabel: UILabel!
+    
+    ///Corresponds to text of Post
     @IBOutlet weak var postTextView: UITextView!
+    
+    ///Corresponds to title of Post
     @IBOutlet weak var titleLabel: UILabel!
+    
+    ///Corresponds to time of Post
     @IBOutlet weak var timeLabel: UILabel!
+    
+    ///Corresponds to numComments of Post
     @IBOutlet weak var commentLabel: UILabel!
+    
+    ///Corresponds to rep of Post
     @IBOutlet weak var repLabel: UILabel!
+    
+    ///Changes seeFull of Post. Unexpandable Posts do not have this UIButton
     @IBOutlet weak var seeFullButton: UIButton?
+    
+    ///Sends view to Comments Section of PostTableViewController
     @IBOutlet weak var commentButton: UIButton!
     
-    ///Constraint will be set to 0 if there is no title for Post
+    ///Set to 0 if there is no title for Post
     @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
     
     
     // MARK: - Constants
     
-    ///Font of postTextView in Storyboard
+    ///Font of postTextView
     class var POST_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Height needed for all components of PostCell except postTextView in Storyboard

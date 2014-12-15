@@ -8,11 +8,12 @@
 
 import UIKit
 
+///Defines all properties of a Comment on Cillo
 class Comment: NSObject {
    
     //MARK: - Properties
     
-    ///Username that posted Post
+    ///Username that posted Comment
     let user: String = ""
     
     ///Profile picture of user
@@ -21,7 +22,7 @@ class Comment: NSObject {
     ///Content of Comment
     let text: String = ""
     
-    ///Time since Post was posted. Formatted as #h for # hours
+    ///Time since Comment was posted. Formatted as #h for # hours
     let time : String = ""
     
     ///Number of Comments that replied to this Comment
@@ -65,6 +66,7 @@ class Comment: NSObject {
         super.init()
     }
     
+    
     //MARK: - Helper Methods
     
     ///Predicted indentLevel property for CommentCell. Does not account for if CommentCell is selected
@@ -81,7 +83,9 @@ class Comment: NSObject {
         return CGFloat(predictedIndentLevel()) * CommentCell.INDENT_SIZE
     }
     
-    ///Returns predicted height of a UITextView with .text = comment.text and indentation = predictedIndentSize. textViewWidth is the width of the UITextView in the container
+    ///Returns the predicted height of commentTextView in a CommentCell.
+    ///@width - width of UITextView in container
+    ///@selected - true if CommentCell is selected
     func heightOfCommentWithWidth(textViewWidth: CGFloat, withSelected selected: Bool) -> CGFloat {
         let indent = CGFloat(lengthToPost - 1)
         var width = textViewWidth - CommentCell.TEXT_VIEW_DISTANCE_TO_INDENT

@@ -15,7 +15,7 @@ class User: NSObject {
     ///Display name for User
     var username: String = ""
     
-    ///Account name for user (@BlahBlah)
+    ///Account name for user "@username"
     var accountname: String = ""
     
     ///Array of Posts made by User
@@ -24,7 +24,7 @@ class User: NSObject {
     ///Array of Comments made by User
     var comments: [Comment] = []
     
-    ///Profile Picture of User
+    ///Profile picture of User
     var profilePic: UIImage = UIImage(named: "Me")!
     
     ///User biography
@@ -39,7 +39,7 @@ class User: NSObject {
     
     //MARK: - Initializers
     
-    ///creates User based on input parameters
+    ///Creates User based on input parameters
     init(username: String, accountname: String, posts: [Post], comments: [Comment], profilePic: UIImage, bio: String, numGroups: Int, rep: Int) {
         self.username = username
         self.accountname = accountname
@@ -51,7 +51,7 @@ class User: NSObject {
         self.rep = rep
     }
     
-    //creates a default User
+    //Creates a default User
     override init() {
         super.init()
     }
@@ -59,7 +59,8 @@ class User: NSObject {
     
     //MARK: - Helper Functions
     
-    ///returns the predicted height of a bioTextView in a UserCell
+    ///Returns the predicted height of bioTextView in a UserCell.
+    ///@width - width of UITextView in container
     func heightOfBioWithWidth(width: CGFloat) -> CGFloat {
         return bio.heightOfTextWithWidth(width, andFont: UserCell.BIO_TEXT_VIEW_FONT)
     }

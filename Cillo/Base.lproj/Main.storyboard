@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A2A-Fh-JUb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A2A-Fh-JUb">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Group" rowHeight="220" id="dfE-xh-8ig" userLabel="Group" customClass="GroupCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Group" rowHeight="207" id="dfE-xh-8ig" userLabel="Group" customClass="GroupCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dfE-xh-8ig" id="WnL-n3-Goo">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -65,9 +65,8 @@
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="naZ-6G-sFn" secondAttribute="trailing" id="2tl-zC-qSD"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="cj1-Di-k5P" secondAttribute="trailing" constant="4" id="4Rh-sH-evX"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="cj1-Di-k5P" secondAttribute="bottom" constant="8" id="5KW-l4-fYp"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="cj1-Di-k5P" secondAttribute="bottom" constant="-5" id="5KW-l4-fYp"/>
                                         <constraint firstItem="nCr-XP-Qaq" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="5fM-j7-q7h"/>
-                                        <constraint firstItem="nCr-XP-Qaq" firstAttribute="top" secondItem="Yva-fk-xzH" secondAttribute="bottom" constant="28" id="9lO-5k-13b"/>
                                         <constraint firstItem="Yva-fk-xzH" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="BfL-Bo-bOA"/>
                                         <constraint firstItem="5BZ-Mn-CNE" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="Gmp-mE-X9a"/>
                                         <constraint firstItem="nCr-XP-Qaq" firstAttribute="top" secondItem="Yva-fk-xzH" secondAttribute="bottom" constant="28" id="MuH-iE-Ehb"/>
@@ -76,18 +75,13 @@
                                         <constraint firstItem="cj1-Di-k5P" firstAttribute="top" secondItem="naZ-6G-sFn" secondAttribute="bottom" constant="8" id="atH-Fb-VyC"/>
                                         <constraint firstItem="X2V-p5-ldZ" firstAttribute="top" secondItem="Yva-fk-xzH" secondAttribute="bottom" constant="8" id="dTm-eA-w7t"/>
                                         <constraint firstItem="naZ-6G-sFn" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="daf-z3-V9h"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="5BZ-Mn-CNE" secondAttribute="bottom" constant="13" id="jvS-nQ-CsC"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="5BZ-Mn-CNE" secondAttribute="bottom" id="jvS-nQ-CsC"/>
                                         <constraint firstItem="Yva-fk-xzH" firstAttribute="top" secondItem="WnL-n3-Goo" secondAttribute="topMargin" id="kFf-qb-U5R"/>
                                         <constraint firstItem="5BZ-Mn-CNE" firstAttribute="top" secondItem="naZ-6G-sFn" secondAttribute="bottom" constant="12" id="uB5-se-Ltr"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="9lO-5k-13b"/>
-                                        </mask>
-                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="descripTextView" destination="naZ-6G-sFn" id="Hub-Z5-Kgo"/>
+                                    <outlet property="descripTextView" destination="naZ-6G-sFn" id="jRS-KU-T86"/>
                                     <outlet property="followersLabel" destination="5BZ-Mn-CNE" id="Qct-Ox-H7t"/>
                                     <outlet property="groupPicView" destination="Yva-fk-xzH" id="Xry-Mu-2H0"/>
                                     <outlet property="nameLabel" destination="X2V-p5-ldZ" id="rpP-Hq-mz5"/>
@@ -1065,6 +1059,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IqT-4U-DMb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

@@ -8,6 +8,7 @@
 
 import UIKit
 
+///Handles first view of Me tab (Profile of logged in User). Formats TableView to look appealing and be functional.
 class MeTableViewController: UITableViewController {
 
     //MARK: -  Properties
@@ -15,13 +16,15 @@ class MeTableViewController: UITableViewController {
     ///User for this ViewController
     var user: User = User()
     
-    ///What the postsSegControl segmentIndexes in UserCell correspond to
+    ///enum of segmentIndexes in postsSegControl of UserCell
     enum segIndex {
+        //segmentIndex 0
         case POSTS
+        //segmentIndex 1
         case COMMENTS
     }
     
-    ///Keeps track of the segmentIndex of postsSegControl
+    ///Corresponds to segmentIndex of postsSegControl
     var cellsShown = segIndex.POSTS
     
     
@@ -36,7 +39,7 @@ class MeTableViewController: UITableViewController {
     
     //MARK: - UIViewController
     
-    //hardcodes posts
+    //Initializes user
     override func viewDidLoad() {
         
         var comment = Comment(user: "Andrew Daley", picture: UIImage(named: "Me")!, text: "hi", time: "1d", numComments: 0, rep: -1, lengthToPost: 1, comments: [])
@@ -53,7 +56,7 @@ class MeTableViewController: UITableViewController {
     
     // MARK: - UITableViewDataSource
 
-    //returns number of sections based on the value of cellsShown
+    //Assigns number of sections based on the length of the User array corresponding to cellsShown
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         switch cellsShown {
         case .POSTS:
@@ -65,12 +68,12 @@ class MeTableViewController: UITableViewController {
         }
     }
 
-    //one row per section
+    //Assigns 1 row to each section
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    //makes cells for each section based on the value of cellsShown
+    //Creates UserCell, PostCell, or CommentCell based on section # and value of cellsShown
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("User", forIndexPath: indexPath) as UserCell
@@ -114,7 +117,7 @@ class MeTableViewController: UITableViewController {
         return view
     }
     
-    //Sets height of cell based on value of cellsShown
+    //Sets height of cell to appropriate value based on value of cellsShown
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return user.heightOfBioWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH) + UserCell.ADDITIONAL_VERT_SPACE_NEEDED
@@ -131,7 +134,7 @@ class MeTableViewController: UITableViewController {
         }
     }
     
-    //If cell is selected then go to post
+    //Sends to PostTableViewController if CommentCell or PostCell is selected
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
         if indexPath.section != 0 {
@@ -142,7 +145,7 @@ class MeTableViewController: UITableViewController {
     
     //MARK: - IBActions
     
-    ///update cellsShown when the postsSegControl in UserCell changes its selected index
+    ///Update cellsShown when the postsSegControl in UserCell changes its selectedIndex
     @IBAction func valueChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -155,7 +158,7 @@ class MeTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    ///expand the post in PostCell if seeFullButton is pressed
+    ///Expand post in PostCell of sender when seeFullButton is pressed
     @IBAction func seeFullPressed(sender: UIButton) {
         var post = user.posts[sender.tag]
         if post.seeFull != nil {
@@ -167,7 +170,7 @@ class MeTableViewController: UITableViewController {
     
     //MARK: - Navigation
     
-    //pass the selected post to PostTableViewController
+    ///Transfer selected Post to PostTableViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "MeToPost" {
             var destination = segue.destinationViewController as PostTableViewController

@@ -8,22 +8,34 @@
 
 import UIKit
 
+///Cell that corresponds to reuse identifier "Group". Used to format Groups in UITableView.
 class GroupCell: UITableViewCell {
 
     //MARK: - IBOutlets
     
+    ///Corresponds to picture of Group
     @IBOutlet weak var groupPicView: UIImageView!
+    
+    ///Corresponds to name of Group
     @IBOutlet weak var nameLabel: UILabel!
+    
+    ///Corresponds to systemName of Group
     @IBOutlet weak var systemNameLabel: UILabel!
+    
+    ///Corresponds to descrip fo Group
     @IBOutlet weak var descripTextView: UITextView!
+    
+    ///Corresponds to numFollowers of Group
     @IBOutlet weak var followersLabel: UILabel!
+    
+    ///Corresponds to numPosts of Group
     @IBOutlet weak var postsButton: UIButton!
 
     
     //MARK: - Constants
     
     ///Height needed for all components of GroupCell except descripTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 188}
+    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 175}
     
     ///Font for descripTextView
     class var DESCRIP_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
@@ -40,7 +52,7 @@ class GroupCell: UITableViewCell {
     ///Font for number in postsButton
     class var POSTS_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
-    ///Makes the UserCell formatted in accordance with user
+    ///Makes this GroupCell formatted in accordance with group
     func makeStandardGroupCellFromGroup(group: Group) {
         groupPicView.image = group.picture
         nameLabel.text = group.name

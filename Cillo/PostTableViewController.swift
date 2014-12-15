@@ -8,9 +8,10 @@
 
 import UIKit
 
+///Handles view of expanded Post with Comments beneath it. Formats TableView to look appealing and be functional.
 class PostTableViewController: UITableViewController {
 
-    // MARK: - Properties
+    //MARK: - Properties
     
     ///Post that is expanded in ViewController
     var post : Post = Post()
@@ -18,11 +19,11 @@ class PostTableViewController: UITableViewController {
     ///Array that represents Comment tree in pre-order listing
     var tree : [Comment] = []
     
-    ///IndexPath of selected Comment in tableView
+    ///NSIndexPath of selected Comment in tableView
     var selectedPath : NSIndexPath?
     
     
-    // MARK: - Constants
+    //MARK: - Constants
     
     ///Width of postTextView in PostCell
     var PROTOTYPE_TEXT_VIEW_WIDTH:CGFloat {
@@ -31,9 +32,9 @@ class PostTableViewController: UITableViewController {
     }
     
     
-    // MARK: - UIViewController
+    //MARK: - UIViewController
     
-    //When View appears make the Post Comments into an array
+    //Stores comments of post in tree
     override func viewWillAppear(animated: Bool) {
         for comment in post.comments {
             makeCommentTreeIntoArray(comment)
@@ -41,14 +42,14 @@ class PostTableViewController: UITableViewController {
     }
     
 
-    // MARK: - UITableViewDataSource
+    //MARK: - UITableViewDataSource
 
-    //Only needs 1 section in tableView
+    //1 section in tableView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    //Returns number of rows in tableView. This number is number of comments + 1 (the post)
+    //Assigns (# comments + post) rows to tableView
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tree.count + 1
     }
@@ -108,7 +109,7 @@ class PostTableViewController: UITableViewController {
         }
     }
     
-    //If a cell is selcted, update the selectedPath to update TableView properties (expand CommentCell to show menu)
+    //Updates selectedPath
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if selectedPath !== indexPath {
             selectedPath = indexPath

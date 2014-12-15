@@ -8,33 +8,45 @@
 
 import UIKit
 
-///Cell that corresponds to reuse identifier "Comment". Used in PostTableViewController to format Comments in TableView.
+///Cell that corresponds to reuse identifier "Comment". Used to format Comments in UITableView.
 class CommentCell: UITableViewCell {
 
     //MARK: - Properties
     
-    ///An array that stores vertical lines for formating indents. This array should be empty is there is no indent for CommentCell
+    ///An array that stores vertical lines for formating indents in a Comment tree. This array should be empty is there is no indent for CommentCell
     var lines: [UIView] = []
+    
     
     //MARK: - IBOutlets
     
-    ///All IBOutlets correspond to properties of Comment. See Comment for definitions of properties
+    ///Corresponds to user of Comment
     @IBOutlet weak var userLabel: UILabel!
+    
+    ///Corresponds to picture of Comment
     @IBOutlet weak var profilePicView: UIImageView!
+    
+    ///Corresponds to text of Comment
     @IBOutlet weak var commentTextView: UITextView!
+    
+    ///Corresponds to rep and time of Comment
     @IBOutlet weak var repAndTimeLabel: UILabel!
     
-    ///Will be set to 0 when not selected and BUTTON_HEIGHT when selected
+    ///Set to 0 when not selected and BUTTON_HEIGHT when selected
     @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint!
+    
+    ///Set to 0 when not selected and BUTTON_HEIGHT when selected
     @IBOutlet weak var downvoteHeightConstraint: NSLayoutConstraint!
     
+    ///Set to this cell's indent size
     @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
+    
+    ///Set to this cell's indent size
     @IBOutlet weak var textIndentConstraint: NSLayoutConstraint!
     
     
     //MARK: - Constants
     
-    ///Font of commentTextView in Storyboard
+    ///Font of commentTextView
     class var COMMENT_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Height needed for all components of CommentCell except commentTextView in Storyboard
@@ -57,7 +69,7 @@ class CommentCell: UITableViewCell {
         return CGFloat(indentationLevel) * CommentCell.INDENT_SIZE
     }
     
-    ///Makes CommentCell formatted in accordance with comment and selected
+    ///Makes this CommentCell formatted in accordance with comment and selected
     func makeStandardCommentCellFromComment(comment: Comment, forIndexPath indexPath: NSIndexPath, withSelected selected: Bool) {
         userLabel.text = comment.user
         //add dots if CommentCell has reached max indent and cannot be indented more

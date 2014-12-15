@@ -66,6 +66,7 @@ extension String {
 
 extension NSMutableAttributedString {
     
+    ///Returns an AttributedString that has the first half bolded
     class func firstHalfBoldMutableAttributedString(boldedString: String, boldedFont: UIFont, normalString: String, normalFont: UIFont) -> NSMutableAttributedString{
         var firstHalf = NSMutableAttributedString(string:boldedString, attributes: [NSFontAttributeName:boldedFont])
         var secondHalf = NSMutableAttributedString(string: normalString, attributes: [NSFontAttributeName:normalFont])
@@ -75,6 +76,7 @@ extension NSMutableAttributedString {
 }
 
 extension UIColor {
+    
     ///Returns the Cillo Blue Color
     class func cilloBlue() -> UIColor {
         return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)

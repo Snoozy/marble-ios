@@ -11,7 +11,7 @@ import UIKit
 ///Defines all properties of a Post on Cillo
 class Post: NSObject {
     
-    // MARK: - Properties
+    //MARK: - Properties
     
     ///Username that posted Post
     let user : String = ""
@@ -44,9 +44,9 @@ class Post: NSObject {
     var seeFull : Bool?
     
     
-    // MARK: - Initializers
+    //MARK: - Initializers
     
-    ///Creates post based on input parameters
+    ///Creates Post based on input parameters
     init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage, comments: [Comment]) {
         self.text = text
         self.numComments = numComments
@@ -60,14 +60,16 @@ class Post: NSObject {
         super.init()
     }
     
-    //Creates an empty Post
+    //Creates empty Post
     override init() {
         super.init()
     }
     
-    // MARK: - Helper Functions
+    //MARK: - Helper Functions
     
-    ///Returns the predicted height of a UITextView with .text = post.text. textViewWidth is the width of the UITextView in the container and maxHeight is the maximum height of the UITextView if it is expandable.
+    ///Returns the predicted height of postTextView in a PostCell. 
+    ///@width - width of UITextView in container
+    ///@maxHeight - maximum height of UITextView if it is expandable
     func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
         let height = text.heightOfTextWithWidth(width, andFont: PostCell.POST_TEXT_VIEW_FONT)
         if let h = maxHeight {
