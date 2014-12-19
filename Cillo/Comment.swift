@@ -86,12 +86,12 @@ class Comment: NSObject {
     ///Returns the predicted height of commentTextView in a CommentCell.
     ///@width - width of UITextView in container
     ///@selected - true if CommentCell is selected
-    func heightOfCommentWithWidth(textViewWidth: CGFloat, withSelected selected: Bool) -> CGFloat {
+    func heightOfCommentWithWidth(width: CGFloat, withSelected selected: Bool) -> CGFloat {
         let indent = CGFloat(lengthToPost - 1)
-        var width = textViewWidth - CommentCell.TEXT_VIEW_DISTANCE_TO_INDENT
-        if !selected { width = width - predictedIndentSize() }
+        var w = width - CommentCell.TEXT_VIEW_DISTANCE_TO_INDENT
+        if !selected { w -= predictedIndentSize() }
         
-        return text.heightOfTextWithWidth(width, andFont: CommentCell.COMMENT_TEXT_VIEW_FONT)
+        return text.heightOfTextWithWidth(w, andFont: CommentCell.COMMENT_TEXT_VIEW_FONT)
     }
     
 }

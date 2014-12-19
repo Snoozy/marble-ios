@@ -59,10 +59,11 @@ class PostCell: UITableViewCell {
     class var TITLE_HEIGHT:CGFloat {return 26.5}
     
     
-    //MARK: - Initializers
+    //MARK: - Helper Functions
     
-    ///Makes this PostCell formatted to have the possibility of being expanded and contracted. StandardPostCells have a seeFullButton
-    func makeStandardPostCellFromPost(post: Post, forIndexPath indexPath: NSIndexPath) {
+    ///Makes this PostCell formatted to have the possibility of being expanded and contracted if this PostCell has a seeFullButton
+    func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
+        
         userLabel.text = post.user
         groupLabel.text = post.group
         profilePicView.image = post.picture
@@ -73,15 +74,17 @@ class PostCell: UITableViewCell {
         postTextView.textContainer.lineFragmentPadding = 0
         postTextView.textContainerInset = UIEdgeInsetsZero
         
-        //tag acts as way for button to know it's position in data array
-        seeFullButton!.tag = indexPath.section //for button
-        commentButton.tag = indexPath.section //for button
-        
-        //short posts and already expanded posts don't need to be expanded
-        if post.seeFull == nil || post.seeFull! {
-            seeFullButton!.hidden = true
-        } else {
-            seeFullButton!.hidden = false
+        if seeFullButton != nil {
+            //tag acts as way for button to know it's position in data array
+            seeFullButton!.tag = buttonTag
+            commentButton.tag = buttonTag
+            
+            //short posts and already expanded posts don't need to be expanded
+            if post.seeFull == nil || post.seeFull! {
+                seeFullButton!.hidden = true
+            } else {
+                seeFullButton!.hidden = false
+            }
         }
         
         //Formats numbers on screen to say #.#k if necessary
@@ -94,34 +97,12 @@ class PostCell: UITableViewCell {
             titleLabel.text = ""
             titleHeightConstraint.constant = 0.0
         }
-    }
-    
-    ///Makes this PostCell fully expanded by default. ExpandedPostCells don't have a seeFullButton
-    func makeExpandedPostCellFromPost(post: Post, forIndexPath indexPath: NSIndexPath) {
-        userLabel.text = post.user
-        profilePicView.image = post.picture
-        groupLabel.text = post.group
-        timeLabel.text = post.time
         
-        postTextView.text = post.text
-        postTextView.font = PostCell.POST_TEXT_VIEW_FONT
-        postTextView.textContainer.lineFragmentPadding = 0
-        postTextView.textContainerInset = UIEdgeInsetsZero
-        
-        //Formats numbers on screen to say #.#k if necessary
-        commentLabel.text = String.formatNumberAsString(post.numComments)
-        repLabel.text = String.formatNumberAsString(post.rep)
-        
-        if let t = post.title {
-            titleLabel.text = t
-        } else { //post has no title
-            titleLabel.text = ""
-            titleHeightConstraint.constant = 0.0
+        if seeFullButton == nil {
+            //gets rid of small gap in divider
+            layoutMargins = UIEdgeInsetsZero
+            preservesSuperviewLayoutMargins = false
         }
-        
-        //gets rid of small gap in divider
-        layoutMargins = UIEdgeInsetsZero
-        preservesSuperviewLayoutMargins = false
     }
 
 }

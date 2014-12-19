@@ -52,8 +52,11 @@ class GroupCell: UITableViewCell {
     ///Font for number in postsButton
     class var POSTS_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
+    
+    //MARK: - Helper Methods
+    
     ///Makes this GroupCell formatted in accordance with group
-    func makeStandardGroupCellFromGroup(group: Group) {
+    func makeCellFromGroup(group: Group) {
         groupPicView.image = group.picture
         nameLabel.text = group.name
         systemNameLabel.text = group.systemName

@@ -8,6 +8,8 @@
 
 import UIKit
 
+//MARK: - New String Methods
+
 extension String {
    
     ///Converts Int to formatted 1-4 character String
@@ -64,6 +66,8 @@ extension String {
 
 }
 
+//MARK: - New NSMutableAttributedString Method
+
 extension NSMutableAttributedString {
     
     ///Returns an AttributedString that has the first half bolded
@@ -74,6 +78,8 @@ extension NSMutableAttributedString {
         return firstHalf
     }
 }
+
+//MARK: - New UIColor Methods
 
 extension UIColor {
     
@@ -86,4 +92,16 @@ extension UIColor {
     class func defaultTableViewDividerColor() -> UIColor {
         return UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
     }
+}
+
+//MARK: - New UITableViewController Constants
+
+extension UITableViewController {
+    
+    ///Width of textView in UITableViewCell
+    var PROTOTYPE_TEXT_VIEW_WIDTH:CGFloat {return view.frame.size.width - 16}
+    
+    ///Max height of postTextView in PostCell before it is expanded by seeFullButton
+    var MAX_CONTRACTED_HEIGHT:CGFloat {return tableView.frame.height * 0.625 - PostCell.ADDITIONAL_VERT_SPACE_NEEDED}
+    
 }

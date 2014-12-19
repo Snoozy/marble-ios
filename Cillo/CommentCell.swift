@@ -70,7 +70,7 @@ class CommentCell: UITableViewCell {
     }
     
     ///Makes this CommentCell formatted in accordance with comment and selected
-    func makeStandardCommentCellFromComment(comment: Comment, forIndexPath indexPath: NSIndexPath, withSelected selected: Bool) {
+    func makeCellFromComment(comment: Comment, withSelected selected: Bool) {
         userLabel.text = comment.user
         //add dots if CommentCell has reached max indent and cannot be indented more
         if comment.lengthToPost > Comment.LONGEST_LENGTH_TO_POST {

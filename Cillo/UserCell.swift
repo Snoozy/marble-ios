@@ -10,6 +10,14 @@ import UIKit
 
 class UserCell: UITableViewCell {
 
+    ///enum of segmentIndexes in postsSegControl
+    enum segIndex {
+        //segmentIndex 0
+        case POSTS
+        //segmentIndex 1
+        case COMMENTS
+    }
+    
     //MARK: - IBOutlets
     
     ///Corresponds to proficlePic of User
@@ -34,7 +42,7 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var postsSegControl: UISegmentedControl!
     
     
-    //MARK - Constants
+    //MARK: - Constants
     
     ///Height needed for all components of UserCell except bioTextView in Storyboard
     class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 215}
@@ -57,8 +65,11 @@ class UserCell: UITableViewCell {
     ///Font for postsSegControl
     class var SEG_CONTROL_FONT:UIFont {return UIFont.boldSystemFontOfSize(12.0)}
     
+    
+    //MARK: - Helper Methods
+    
     ///Makes the UserCell formatted in accordance with User
-    func makeStandardUserCellFromUser(user: User) {
+    func makeCellFromUser(user: User) {
         profilePicView.image = user.profilePic
         userLabel.text = user.username
         accountLabel.text = user.accountname

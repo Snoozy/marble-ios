@@ -23,15 +23,6 @@ class PostTableViewController: UITableViewController {
     var selectedPath : NSIndexPath?
     
     
-    //MARK: - Constants
-    
-    ///Width of postTextView in PostCell
-    var PROTOTYPE_TEXT_VIEW_WIDTH:CGFloat {
-        //margins are 16
-        return tableView.frame.width - 16
-    }
-    
-    
     //MARK: - UIViewController
     
     //Stores comments of post in tree
@@ -59,7 +50,7 @@ class PostTableViewController: UITableViewController {
         if indexPath.row == 0 { //Make a Post Cell for only first row
             let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
             
-            cell.makeExpandedPostCellFromPost(post, forIndexPath: indexPath)
+            cell.makeCellFromPost(post, withButtonTag: indexPath.row)
             
             return cell
         } else { //Make a CommentCell for all rows past the first row
@@ -67,7 +58,7 @@ class PostTableViewController: UITableViewController {
             
             let comment = tree[indexPath.row - 1] //indexPath.row - 1 b/c Post is not included in tree
             
-            cell.makeStandardCommentCellFromComment(comment, forIndexPath: indexPath, withSelected: selectedPath == indexPath)
+            cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath)
             
             //makes separator indented
             //UIEdgeInsetsMake(top, left, bottom, right)
