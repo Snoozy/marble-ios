@@ -13,8 +13,26 @@ class Post: NSObject {
     
     //MARK: - Properties
     
+    ///ID of post
+    let postID : String = ""
+    
+    ///ID of group
+    let groupID : String = ""
+    
+    ///Is a repost
+    let repost : Bool = false
+    
+    ///Username that reposted Post
+    let repostUser : String?
+    
+    ///Group that Post was reposted into
+    let repostGroup : String?
+    
     ///Username that posted Post
     let user : String = ""
+    
+    ///User username that posted Post (ie "@ndusgal")
+    let username : String = ""
     
     ///Profile picture of user
     let picture : UIImage = UIImage(named: "Me")!
@@ -37,27 +55,36 @@ class Post: NSObject {
     ///(Upvotes - Downvotes) for Post
     var rep : Int = 0
     
-    ///Comments replying to this Post
-    var comments : [Comment] = []
-    
     ///Expansion status of Post. nil -> unexpandable, false -> shortened, true -> full size
     var seeFull : Bool?
     
     
     //MARK: - Initializers
     
-    ///Creates Post based on input parameters
-    init(text: String, numComments: Int, user: String, rep: Int, time: String, group: String, title: String?, picture : UIImage, comments: [Comment]) {
-        self.text = text
-        self.numComments = numComments
-        self.user = user
-        self.rep = rep
-        self.time = time
-        self.group = group
-        self.title = title
-        self.picture = picture
-        self.comments = comments
-        super.init()
+    ///Creates Post based on swiftyJSON
+    init(json: JSON) {
+        self.postID = String(json["post_id"].intValue)
+        self.repost = json["repost"].boolValue
+        if self.repost {
+            self.repostUser = json["repost_user"].stringValue
+            self.repostGroup = json["repost_group"].stringValue
+        }
+        self.text = json["content"].stringValue
+        self.groupID = String(json["group_id"].intValue)
+        self.group = json["group_name"].stringValue
+        self.user = json["user_name"].stringValue
+        self.username = json["user_username"].stringValue
+        if let imageData = NSData(contentsOfURL: NSURL(fileURLWithPath: json["user_photo"].stringValue)!) {
+            if let image = UIImage(data: imageData) {
+                picture = image
+            } else {
+                picture = UIImage(named: "Me")!
+            }
+        }
+        let time = json["time"].int64Value
+        self.time = NSDate.convertToTimeString(time)
+        self.rep = json["votes"].intValue
+        self.numComments = json["comment_count"].intValue
     }
     
     //Creates empty Post

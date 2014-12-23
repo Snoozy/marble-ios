@@ -30,7 +30,7 @@ class MultipleGroupsTableViewController: UITableViewController {
     
     //Creates GroupCell with appropriate properties for Group at given section in groups
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Group", forIndexPath: indexPath) as GroupCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as GroupCell
         let group = groups[indexPath.section]
         
         cell.makeCellFromGroup(group)

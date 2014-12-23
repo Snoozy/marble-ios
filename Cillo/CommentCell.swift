@@ -47,19 +47,22 @@ class CommentCell: UITableViewCell {
     //MARK: - Constants
     
     ///Font of commentTextView
-    class var COMMENT_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var COMMENT_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Height needed for all components of CommentCell except commentTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 89}
+    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 89}
     
     ///Height of buttons in expanded menu when CommentCell is selected
-    class var BUTTON_HEIGHT:CGFloat{return 32}
+    class var BUTTON_HEIGHT : CGFloat {return 32}
     
     ///Distance of commentTextView to right boundary of contentView. Used to align textView with userLabel when cell is indented
-    class var TEXT_VIEW_DISTANCE_TO_INDENT: CGFloat{return 32}
+    class var TEXT_VIEW_DISTANCE_TO_INDENT : CGFloat {return 32}
     
     ///Width of indent of indented Comments
-    class var INDENT_SIZE:CGFloat {return 30}
+    class var INDENT_SIZE : CGFloat {return 30}
+    
+    ///Reuse Identifier for this UITableViewCell
+    class var REUSE_IDENTIFIER : String {return "Comment"}
     
     
     //MARK: - Helper Methods

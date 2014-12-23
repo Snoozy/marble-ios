@@ -16,6 +16,8 @@ class PostTableViewController: UITableViewController {
     ///Post that is expanded in ViewController
     var post : Post = Post()
     
+    var comments : [Comment] = []
+    
     ///Array that represents Comment tree in pre-order listing
     var tree : [Comment] = []
     
@@ -27,7 +29,7 @@ class PostTableViewController: UITableViewController {
     
     //Stores comments of post in tree
     override func viewWillAppear(animated: Bool) {
-        for comment in post.comments {
+        for comment in comments {
             makeCommentTreeIntoArray(comment)
         }
     }
@@ -48,13 +50,13 @@ class PostTableViewController: UITableViewController {
     //Creates PostCell with appropriate properties for Post at first row and CommentCell for each Comment in tree
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 { //Make a Post Cell for only first row
-            let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
             
             cell.makeCellFromPost(post, withButtonTag: indexPath.row)
             
             return cell
         } else { //Make a CommentCell for all rows past the first row
-            let cell = tableView.dequeueReusableCellWithIdentifier("Comment", forIndexPath: indexPath) as CommentCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as CommentCell
             
             let comment = tree[indexPath.row - 1] //indexPath.row - 1 b/c Post is not included in tree
             

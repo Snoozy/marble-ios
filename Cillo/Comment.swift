@@ -14,37 +14,37 @@ class Comment: NSObject {
     //MARK: - Properties
     
     ///Username that posted Comment
-    let user: String = ""
+    let user : String = ""
     
     ///Profile picture of user
-    let picture: UIImage = UIImage(named: "Me")!
+    let picture : UIImage = UIImage(named: "Me")!
     
     ///Content of Comment
-    let text: String = ""
+    let text : String = ""
     
     ///Time since Comment was posted. Formatted as #h for # hours
     let time : String = ""
     
     ///Number of Comments that replied to this Comment
-    var numComments: Int = 0
+    var numComments : Int = 0
     
     ///(Upvotes - Downvotes) for Comment
-    var rep: Int = 0
+    var rep : Int = 0
     
     ///Distance to parent Post through tree
-    var lengthToPost: Int = 1
+    var lengthToPost : Int = 1
     
     ///Comments replying to this Comment
-    var comments: [Comment] = []
+    var comments : [Comment] = []
     
     ///Post that Comment is replying to
-    var post: Post = Post()
+    var post : Post = Post()
     
     
     //MARK: - Constants
     
     ///Longest possible lengthToPost before indent is constant in CommentCell
-    class var LONGEST_LENGTH_TO_POST:Int {return 5}
+    class var LONGEST_LENGTH_TO_POST : Int {return 5}
     
     
     //MARK: - Initializers

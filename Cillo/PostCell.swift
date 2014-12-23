@@ -50,13 +50,16 @@ class PostCell: UITableViewCell {
     // MARK: - Constants
     
     ///Font of postTextView
-    class var POST_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var POST_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Height needed for all components of PostCell except postTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 139}
+    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 139}
     
     ///Height of titleLabel in StoryBoard
-    class var TITLE_HEIGHT:CGFloat {return 26.5}
+    class var TITLE_HEIGHT : CGFloat {return 26.5}
+    
+    ///Reuse Identifier for this UITableViewCell
+    class var REUSE_IDENTIFIER : String {return "Post"}
     
     
     //MARK: - Helper Functions

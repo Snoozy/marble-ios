@@ -45,25 +45,28 @@ class UserCell: UITableViewCell {
     //MARK: - Constants
     
     ///Height needed for all components of UserCell except bioTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 215}
+    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 215}
     
     ///Font for bioTextView
-    class var BIO_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var BIO_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Font for word REP in repLabel
-    class var REP_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var REP_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Font for number in repLabel
-    class var REP_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    class var REP_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
     ///Font for word GROUPS in groupsButton
-    class var GROUPS_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var GROUPS_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Font for number in groupsButton
-    class var GROUPS_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    class var GROUPS_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
     ///Font for postsSegControl
-    class var SEG_CONTROL_FONT:UIFont {return UIFont.boldSystemFontOfSize(12.0)}
+    class var SEG_CONTROL_FONT : UIFont {return UIFont.boldSystemFontOfSize(12.0)}
+    
+    ///Reuse Identifier for this UITableViewCell
+    class var REUSE_IDENTIFIER : String {return "User"}
     
     
     //MARK: - Helper Methods

@@ -109,6 +109,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="D27-8d-2BJ">
+                            <rect key="frame" x="0.0" y="273" width="600" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="color" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Post" rowHeight="187" id="307-fI-2FY" customClass="PostCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -304,6 +309,9 @@
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="D27-8d-2BJ" id="d1O-9x-zML"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Kt-wv-dmX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -603,10 +611,10 @@
             </objects>
             <point key="canvasLocation" x="-296" y="435"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tab View Controller-->
         <scene sceneID="rB0-Zv-Kaf">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="A2A-Fh-JUb" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="A2A-Fh-JUb" customClass="TabViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Hh9-20-l4G">
@@ -617,11 +625,93 @@
                         <segue destination="3D0-tO-Etl" kind="relationship" relationship="viewControllers" id="vlk-nC-2bA"/>
                         <segue destination="PgO-Td-VjA" kind="relationship" relationship="viewControllers" id="pqy-7c-lFW"/>
                         <segue destination="8g1-Vs-kdU" kind="relationship" relationship="viewControllers" id="zaJ-Dv-ySB"/>
+                        <segue destination="Grp-u8-wvc" kind="presentation" identifier="TabToLogin" id="0l7-qC-B7p"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vl-FJ-IpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="560" y="-375"/>
+        </scene>
+        <!--Log In View Controller-->
+        <scene sceneID="eOg-DV-ixm">
+            <objects>
+                <viewController id="Grp-u8-wvc" customClass="LogInViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eae-fd-w6O"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZZb-cS-bWF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wSw-2w-8OV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dmk-My-lgv">
+                                <rect key="frame" x="16" y="28" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9i1-FG-pEe">
+                                <rect key="frame" x="16" y="66" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IzY-9h-aEh">
+                                <rect key="frame" x="281" y="104" width="38" height="30"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="login:" destination="Grp-u8-wvc" eventType="touchUpInside" id="bE5-J1-yca"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULT-2z-as5">
+                                <rect key="frame" x="272" y="142" width="57" height="30"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="register:" destination="Grp-u8-wvc" eventType="touchUpInside" id="zIu-4u-NW1"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l74-Wf-QuU">
+                                <rect key="frame" x="549" y="570" width="54" height="30"/>
+                                <state key="normal" title="Nothing">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="7Mi-1Z-DYw" kind="unwind" identifier="LoginToTab" unwindAction="unwindToTab:" id="t4b-5F-z73"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jTe-Nr-54J">
+                                <rect key="frame" x="290" y="180" width="20" height="20"/>
+                                <color key="color" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9i1-FG-pEe" firstAttribute="top" secondItem="Dmk-My-lgv" secondAttribute="bottom" constant="8" id="4xd-bN-l6j"/>
+                            <constraint firstItem="Dmk-My-lgv" firstAttribute="trailing" secondItem="wSw-2w-8OV" secondAttribute="trailingMargin" id="6Bp-rV-3IQ"/>
+                            <constraint firstItem="9i1-FG-pEe" firstAttribute="leading" secondItem="wSw-2w-8OV" secondAttribute="leadingMargin" id="C0v-1R-TBN"/>
+                            <constraint firstItem="jTe-Nr-54J" firstAttribute="top" secondItem="ULT-2z-as5" secondAttribute="bottom" constant="8" id="Izy-ON-2WZ"/>
+                            <constraint firstAttribute="centerX" secondItem="ULT-2z-as5" secondAttribute="centerX" id="KMo-FF-flc"/>
+                            <constraint firstItem="Dmk-My-lgv" firstAttribute="leading" secondItem="wSw-2w-8OV" secondAttribute="leadingMargin" id="Mu0-tE-Lxb"/>
+                            <constraint firstItem="IzY-9h-aEh" firstAttribute="top" secondItem="9i1-FG-pEe" secondAttribute="bottom" constant="8" id="WeM-wH-SBd"/>
+                            <constraint firstItem="ULT-2z-as5" firstAttribute="top" secondItem="IzY-9h-aEh" secondAttribute="bottom" constant="8" id="Xwg-xW-WRZ"/>
+                            <constraint firstAttribute="centerX" secondItem="jTe-Nr-54J" secondAttribute="centerX" id="Yb6-C0-EnU"/>
+                            <constraint firstItem="9i1-FG-pEe" firstAttribute="trailing" secondItem="wSw-2w-8OV" secondAttribute="trailingMargin" id="qnr-S8-prv"/>
+                            <constraint firstAttribute="centerX" secondItem="IzY-9h-aEh" secondAttribute="centerX" id="xaX-vr-4lR"/>
+                            <constraint firstItem="Dmk-My-lgv" firstAttribute="top" secondItem="eae-fd-w6O" secondAttribute="bottom" constant="8" id="z4x-zh-DK3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="jTe-Nr-54J" id="lfY-Wf-BdC"/>
+                        <outlet property="passwordTextField" destination="9i1-FG-pEe" id="eSA-k9-LYb"/>
+                        <outlet property="userTextField" destination="Dmk-My-lgv" id="dfQ-Df-yeu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WMR-GG-KYg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="7Mi-1Z-DYw" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1291" y="-375"/>
         </scene>
         <!--Me Navigation-->
         <scene sceneID="UuW-WN-jpD">
@@ -1082,6 +1172,6 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bNY-jF-I6p"/>
+        <segue reference="5pP-Ev-dg6"/>
     </inferredMetricsTieBreakers>
 </document>

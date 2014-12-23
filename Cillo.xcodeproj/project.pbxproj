@@ -15,12 +15,17 @@
 		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
 		954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D99A91A04865D002490C4 /* PostTableViewController.swift */; };
 		954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */; };
+		958321C11A461CFB003F2034 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 958321BA1A461C61003F2034 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321C51A461DC5003F2034 /* SwiftyJSON.swift */; };
+		958321CB1A462048003F2034 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321CA1A462048003F2034 /* DataManager.swift */; };
 		9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */; };
 		9587A7341A43E8F2003CDE64 /* SingleUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */; };
 		9587A7381A43F09E003CDE64 /* MultipleGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */; };
 		959E0F0D1A2538C7008B4D19 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0C1A2538C7008B4D19 /* GroupCell.swift */; };
 		959E0F0F1A2538D7008B4D19 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0E1A2538D7008B4D19 /* Group.swift */; };
 		959E0F111A253A1E008B4D19 /* MyGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */; };
+		95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A0575D1A463F6B000F7142 /* LogInViewController.swift */; };
+		95A057611A4640F2000F7142 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A057601A4640F2000F7142 /* TabViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
@@ -32,6 +37,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		958321B91A461C61003F2034 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
+			remoteInfo = Alamofire;
+		};
+		958321BB1A461C61003F2034 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
+			remoteInfo = AlamofireTests;
+		};
+		958321BD1A461CA2003F2034 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = Alamofire;
+		};
 		95EFD2BA19F8D2B400086BAF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95EFD29C19F8D2B400086BAF /* Project object */;
@@ -40,6 +66,20 @@
 			remoteInfo = Cillo;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		958321C01A461CE1003F2034 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				958321C11A461CFB003F2034 /* Alamofire.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		95062D0A1A0D2A6200B4162D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -50,12 +90,17 @@
 		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattedNavigationViewController.swift; sourceTree = "<group>"; };
+		958321B41A461C61003F2034 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = SOURCE_ROOT; };
+		958321C51A461DC5003F2034 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		958321CA1A462048003F2034 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplePostsTableViewController.swift; sourceTree = "<group>"; };
 		9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleUserTableViewController.swift; sourceTree = "<group>"; };
 		9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleGroupsTableViewController.swift; sourceTree = "<group>"; };
 		959E0F0C1A2538C7008B4D19 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		959E0F0E1A2538D7008B4D19 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGroupsTableViewController.swift; sourceTree = "<group>"; };
+		95A0575D1A463F6B000F7142 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		95A057601A4640F2000F7142 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
@@ -128,12 +173,63 @@
 			name = "Other VCs";
 			sourceTree = "<group>";
 		};
-		95352D721A155C4D00874B0F /* Navigation VCs */ = {
+		95352D721A155C4D00874B0F /* UINavigationControllers */ = {
 			isa = PBXGroup;
 			children = (
+				95A057601A4640F2000F7142 /* TabViewController.swift */,
 				954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */,
 			);
-			name = "Navigation VCs";
+			name = UINavigationControllers;
+			sourceTree = "<group>";
+		};
+		958321B51A461C61003F2034 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				958321BA1A461C61003F2034 /* Alamofire.framework */,
+				958321BC1A461C61003F2034 /* AlamofireTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		958321C21A461D28003F2034 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				958321C31A461D39003F2034 /* Alamofire */,
+				958321C41A461D45003F2034 /* SwiftyJSON */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		958321C31A461D39003F2034 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				958321B41A461C61003F2034 /* Alamofire.xcodeproj */,
+			);
+			name = Alamofire;
+			sourceTree = "<group>";
+		};
+		958321C41A461D45003F2034 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				958321C51A461DC5003F2034 /* SwiftyJSON.swift */,
+			);
+			name = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		958321C71A461F76003F2034 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				95EFD2AD19F8D2B400086BAF /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		958321C91A462015003F2034 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				958321CA1A462048003F2034 /* DataManager.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		9587A7321A43E855003CDE64 /* Parent VCs */ = {
@@ -144,6 +240,17 @@
 				9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */,
 			);
 			name = "Parent VCs";
+			sourceTree = "<group>";
+		};
+		9587A73A1A43F256003CDE64 /* UIViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				95A0575D1A463F6B000F7142 /* LogInViewController.swift */,
+				9587A7321A43E855003CDE64 /* Parent VCs */,
+				95352D701A155C3500874B0F /* Root VCs */,
+				95352D711A155C4100874B0F /* Other VCs */,
+			);
+			name = UIViewControllers;
 			sourceTree = "<group>";
 		};
 		95EFD29B19F8D2B400086BAF = {
@@ -167,17 +274,13 @@
 		95EFD2A619F8D2B400086BAF /* Cillo */ = {
 			isa = PBXGroup;
 			children = (
-				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
-				95EFD2AD19F8D2B400086BAF /* Main.storyboard */,
-				95352D721A155C4D00874B0F /* Navigation VCs */,
-				9587A7321A43E855003CDE64 /* Parent VCs */,
-				95352D701A155C3500874B0F /* Root VCs */,
-				95352D711A155C4100874B0F /* Other VCs */,
+				958321C71A461F76003F2034 /* Storyboard */,
+				958321C21A461D28003F2034 /* Vendor */,
+				958321C91A462015003F2034 /* Data */,
+				95352D721A155C4D00874B0F /* UINavigationControllers */,
+				9587A73A1A43F256003CDE64 /* UIViewControllers */,
 				95352D6E1A155BF200874B0F /* UITableViewCells */,
 				95352D6F1A155C0E00874B0F /* Model */,
-				95062D0A1A0D2A6200B4162D /* Extensions.swift */,
-				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
-				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
 				95EFD2A719F8D2B400086BAF /* Supporting Files */,
 			);
 			path = Cillo;
@@ -186,6 +289,10 @@
 		95EFD2A719F8D2B400086BAF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				95062D0A1A0D2A6200B4162D /* Extensions.swift */,
+				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
+				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
+				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
 				95EFD2A819F8D2B400086BAF /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -218,10 +325,12 @@
 				95EFD2A019F8D2B400086BAF /* Sources */,
 				95EFD2A119F8D2B400086BAF /* Frameworks */,
 				95EFD2A219F8D2B400086BAF /* Resources */,
+				958321C01A461CE1003F2034 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				958321BE1A461CA2003F2034 /* PBXTargetDependency */,
 			);
 			name = Cillo;
 			productName = Cillo;
@@ -275,6 +384,12 @@
 			mainGroup = 95EFD29B19F8D2B400086BAF;
 			productRefGroup = 95EFD2A519F8D2B400086BAF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 958321B51A461C61003F2034 /* Products */;
+					ProjectRef = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				95EFD2A319F8D2B400086BAF /* Cillo */,
@@ -282,6 +397,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		958321BA1A461C61003F2034 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 958321B91A461C61003F2034 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		958321BC1A461C61003F2034 /* AlamofireTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AlamofireTests.xctest;
+			remoteRef = 958321BB1A461C61003F2034 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		95EFD2A219F8D2B400086BAF /* Resources */ = {
@@ -309,12 +441,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9587A7341A43E8F2003CDE64 /* SingleUserTableViewController.swift in Sources */,
+				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
 				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
+				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
+				958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */,
 				954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */,
 				959E0F0F1A2538D7008B4D19 /* Group.swift in Sources */,
 				959E0F0D1A2538C7008B4D19 /* GroupCell.swift in Sources */,
@@ -323,6 +458,7 @@
 				95E496921A15208500154864 /* UserCell.swift in Sources */,
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,
 				9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */,
+				95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */,
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
 				9587A7381A43F09E003CDE64 /* MultipleGroupsTableViewController.swift in Sources */,
@@ -340,6 +476,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		958321BE1A461CA2003F2034 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Alamofire;
+			targetProxy = 958321BD1A461CA2003F2034 /* PBXContainerItemProxy */;
+		};
 		95EFD2BB19F8D2B400086BAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 95EFD2A319F8D2B400086BAF /* Cillo */;

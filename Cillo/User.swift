@@ -13,28 +13,28 @@ class User: NSObject {
     //MARK: - Properties
     
     ///Display name for User
-    var username: String = ""
+    var username : String = ""
     
     ///Account name for user "@username"
-    var accountname: String = ""
+    var accountname : String = ""
     
     ///Array of Posts made by User
-    var posts: [Post] = []
+    var posts : [Post] = []
     
     ///Array of Comments made by User
-    var comments: [Comment] = []
+    var comments : [Comment] = []
     
     ///Profile picture of User
-    var profilePic: UIImage = UIImage(named: "Me")!
+    var profilePic : UIImage = UIImage(named: "Me")!
     
     ///User biography
-    var bio: String = ""
+    var bio : String = ""
     
     ///Number of Groups that User is following
-    var numGroups: Int = 0
+    var numGroups : Int = 0
     
     ///Total accumulated rep of User
-    var rep: Int = 0
+    var rep : Int = 0
     
     
     //MARK: - Initializers

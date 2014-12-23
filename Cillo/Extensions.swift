@@ -105,3 +105,48 @@ extension UITableViewController {
     var MAX_CONTRACTED_HEIGHT:CGFloat {return tableView.frame.height * 0.625 - PostCell.ADDITIONAL_VERT_SPACE_NEEDED}
     
 }
+
+extension NSDate {
+    class func convertToTimeString(postTime: Int64) -> String {
+        var date = NSDate()
+        let gmtOffset = NSTimeZone.localTimeZone().secondsFromGMT * 1000
+        let timeSince1970 = Int64(floor(date.timeIntervalSince1970 * 1000))
+        let timeStamp = gmtOffset + timeSince1970
+        let millisSincePost = timeStamp - postTime
+        switch millisSincePost {
+        case 0...59999:
+            return "1m"
+        case 60000...3599999:
+            return "\(millisSincePost / 60000)m"
+        case 3600000...1313999999:
+            return "\(millisSincePost / 3600000)d"
+        case 1314000000...Int64.max:
+            return "\(millisSincePost / 1314000000)y"
+        default:
+            return "WTF"
+        }
+    }
+}
+
+extension NSError {
+    func showAlert() {
+        let alert = UIAlertView(title: "Error \(self.domain) : \(self.code)", message: self.localizedDescription, delegate: nil, cancelButtonTitle: "OK")
+        alert.show()
+    }
+}
+
+extension NSUserDefaults {
+    class var AUTH : String {return "auth"}
+}
+
+extension UIActivityIndicatorView {
+    func start() {
+        self.startAnimating()
+        hidden = false
+    }
+    
+    func stop() {
+        self.stopAnimating()
+        hidden = true
+    }
+}

@@ -14,10 +14,10 @@ class Group: NSObject {
     //MARK: - Properties
     
     ///Picture of Group
-    var picture: UIImage = UIImage(named: "Groups")!
+    var picture : UIImage = UIImage(named: "Groups")!
     
     ///Name of Group
-    var name: String = ""
+    var name : String = ""
     
     ///Group ID "#name"
     var systemName : String = "#"

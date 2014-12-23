@@ -35,22 +35,25 @@ class GroupCell: UITableViewCell {
     //MARK: - Constants
     
     ///Height needed for all components of GroupCell except descripTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED:CGFloat {return 175}
+    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 175}
     
     ///Font for descripTextView
-    class var DESCRIP_TEXT_VIEW_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var DESCRIP_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Font for word FOLLOWERS in followersLabel
-    class var FOLLOWER_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var FOLLOWER_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Font for number in followersLabel
-    class var FOLLOWER_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    class var FOLLOWER_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
     
     ///Font for word POSTS in postsButton
-    class var POSTS_FONT:UIFont {return UIFont.systemFontOfSize(15.0)}
+    class var POSTS_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
     
     ///Font for number in postsButton
-    class var POSTS_FONT_BOLD:UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    class var POSTS_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
+    
+    ///Reuse Identifier for this UITableViewCell
+    class var REUSE_IDENTIFIER : String {return "Group"}
     
     
     //MARK: - Helper Methods

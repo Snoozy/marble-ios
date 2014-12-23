@@ -72,17 +72,17 @@ class SingleUserTableViewController: UITableViewController {
     //Creates UserCell, PostCell, or CommentCell based on section # and value of cellsShown
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("User", forIndexPath: indexPath) as UserCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(UserCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as UserCell
             cell.makeCellFromUser(user)
             return cell
         } else {
             switch cellsShown {
             case .POSTS:
-                let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
                 cell.makeCellFromPost(user.posts[indexPath.section - 1], withButtonTag: indexPath.section)
                 return cell
             case .COMMENTS:
-                let cell = tableView.dequeueReusableCellWithIdentifier("Comment", forIndexPath: indexPath) as CommentCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as CommentCell
                 cell.makeCellFromComment(user.comments[indexPath.section - 1], withSelected: false)
                 return cell
             default:

@@ -54,7 +54,7 @@ class MultiplePostsTableViewController: UITableViewController {
     
     //Creates PostCell with appropriate properties for Post at given section in posts
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Post", forIndexPath: indexPath) as PostCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
         let post = posts[indexPath.section]
         
         cell.makeCellFromPost(post, withButtonTag: indexPath.section)
