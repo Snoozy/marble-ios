@@ -106,7 +106,10 @@ extension UITableViewController {
     
 }
 
+//MARK: - New NSDate Function
+
 extension NSDate {
+    ///Returns a time since epoch to a readable time (ie "1m" or "4h")
     class func convertToTimeString(postTime: Int64) -> String {
         var date = NSDate()
         let gmtOffset = NSTimeZone.localTimeZone().secondsFromGMT * 1000
@@ -128,23 +131,39 @@ extension NSDate {
     }
 }
 
+//MARK: - New NSError Function
+
 extension NSError {
+    ///Shows error properties in an UIAlertView
     func showAlert() {
         let alert = UIAlertView(title: "Error \(self.domain) : \(self.code)", message: self.localizedDescription, delegate: nil, cancelButtonTitle: "OK")
         alert.show()
     }
 }
 
+//MARK: - New NSUserDefaults Constants
+
 extension NSUserDefaults {
+    
+    //keys
+    
+    ///Key to retrieve Auth_Token for the logged in User
     class var AUTH : String {return "auth"}
+    
+    ///Key to retrieve User object for the logged in User
+    class var USER : String {return "user"}
 }
 
+//MARK: - New UIActivityIndicatorView Functions
+
 extension UIActivityIndicatorView {
+    ///Shows and animates the UIActivityIndicatorView
     func start() {
         self.startAnimating()
         hidden = false
     }
     
+    ///Hides and stops animating the UIActivityIndicatorView
     func stop() {
         self.stopAnimating()
         hidden = true

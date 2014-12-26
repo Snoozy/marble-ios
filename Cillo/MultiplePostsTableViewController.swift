@@ -27,7 +27,7 @@ class MultiplePostsTableViewController: UITableViewController {
     
     //MARK: - UIViewController
     
-    ///Transfer selected Post to PostTableViewController
+    //Transfer selected Post to PostTableViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SEGUE_IDENTIFIER_THIS_TO_POST {
             var destination = segue.destinationViewController as PostTableViewController
@@ -54,8 +54,13 @@ class MultiplePostsTableViewController: UITableViewController {
     
     //Creates PostCell with appropriate properties for Post at given section in posts
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
+        
         let post = posts[indexPath.section]
+        if post.repost {
+            let cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as RepostCell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
+        }
         
         cell.makeCellFromPost(post, withButtonTag: indexPath.section)
         
@@ -80,7 +85,12 @@ class MultiplePostsTableViewController: UITableViewController {
     //Sets height of cell to appropriate value depending on length of post and whether post is expanded
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let post = posts[indexPath.section]
-        let height = post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: MAX_CONTRACTED_HEIGHT) + PostCell.ADDITIONAL_VERT_SPACE_NEEDED
+        if post.repost {
+            let additionalVertSpace = RepostCell.ADDITIONAL_VERT_SPACE_NEEDED
+        } else {
+            let additionalVertSpace = PostCell.ADDITIONAL_VERT_SPACE_NEEDED
+        }
+        let height = post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: MAX_CONTRACTED_HEIGHT) + additionalVertSpace
         return post.title != nil ? height : height - PostCell.TITLE_HEIGHT
     }
     

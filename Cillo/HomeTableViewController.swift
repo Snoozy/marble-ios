@@ -18,6 +18,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     
     //MARK: - IBOutlets
     
+    ///Activity indicator used for network interactions
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
@@ -25,6 +26,8 @@ class HomeTableViewController: MultiplePostsTableViewController {
     
     //Initializes posts array
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         if NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.AUTH) != nil {
             retrievePosts()
         }
@@ -36,6 +39,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     
     //MARK: - Helper Functions
     
+    ///Retrieves posts from server
     func retrievePosts() {
         activityIndicator.start()
         DataManager.sharedInstance.getHomePage( { (error, result) -> Void in

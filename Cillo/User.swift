@@ -18,20 +18,14 @@ class User: NSObject {
     ///Account name for user "@username"
     var accountname : String = ""
     
-    ///Array of Posts made by User
-    var posts : [Post] = []
-    
-    ///Array of Comments made by User
-    var comments : [Comment] = []
-    
     ///Profile picture of User
     var profilePic : UIImage = UIImage(named: "Me")!
     
     ///User biography
     var bio : String = ""
     
-    ///Number of Groups that User is following
-    var numGroups : Int = 0
+    ///ID of User
+    var userID: Int = 0
     
     ///Total accumulated rep of User
     var rep : Int = 0
@@ -39,16 +33,20 @@ class User: NSObject {
     
     //MARK: - Initializers
     
-    ///Creates User based on input parameters
-    init(username: String, accountname: String, posts: [Post], comments: [Comment], profilePic: UIImage, bio: String, numGroups: Int, rep: Int) {
-        self.username = username
-        self.accountname = accountname
-        self.posts = posts
-        self.comments = comments
-        self.profilePic = profilePic
-        self.bio = bio
-        self.numGroups = numGroups
-        self.rep = rep
+    ///Creates User based on swiftyJSON
+    init(json: JSON) {
+        self.username = json["name"].stringValue
+        self.accountname = json["username"].stringValue
+        self.userID = json["user_id"].intValue
+        self.rep = json["reputation"].intValue
+        if let imageData = NSData(contentsOfURL: NSURL(fileURLWithPath: json["photo"].stringValue)!) {
+            if let image = UIImage(data: imageData) {
+                profilePic = image
+            } else {
+                profilePic = UIImage(named: "Me")!
+            }
+        }
+        self.bio = json["bio"].stringValue
     }
     
     //Creates a default User

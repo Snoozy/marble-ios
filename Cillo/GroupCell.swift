@@ -19,9 +19,6 @@ class GroupCell: UITableViewCell {
     ///Corresponds to name of Group
     @IBOutlet weak var nameLabel: UILabel!
     
-    ///Corresponds to systemName of Group
-    @IBOutlet weak var systemNameLabel: UILabel!
-    
     ///Corresponds to descrip fo Group
     @IBOutlet weak var descripTextView: UITextView!
     
@@ -35,7 +32,7 @@ class GroupCell: UITableViewCell {
     //MARK: - Constants
     
     ///Height needed for all components of GroupCell except descripTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 175}
+    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 154}
     
     ///Font for descripTextView
     class var DESCRIP_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
@@ -62,7 +59,6 @@ class GroupCell: UITableViewCell {
     func makeCellFromGroup(group: Group) {
         groupPicView.image = group.picture
         nameLabel.text = group.name
-        systemNameLabel.text = group.systemName
         
         descripTextView.text = group.descrip
         descripTextView.font = GroupCell.DESCRIP_TEXT_VIEW_FONT

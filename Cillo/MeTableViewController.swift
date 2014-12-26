@@ -20,7 +20,7 @@ class MeTableViewController: SingleUserTableViewController {
     
     //Initializes user
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
         
         //gets rid of Me Text on back button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Bordered, target: nil, action: nil)

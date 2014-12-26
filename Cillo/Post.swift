@@ -14,10 +14,10 @@ class Post: NSObject {
     //MARK: - Properties
     
     ///ID of post
-    let postID : String = ""
+    let postID : Int = 0
     
     ///ID of group
-    let groupID : String = ""
+    let groupID : Int = 0
     
     ///Is a repost
     let repost : Bool = false
@@ -63,14 +63,14 @@ class Post: NSObject {
     
     ///Creates Post based on swiftyJSON
     init(json: JSON) {
-        self.postID = String(json["post_id"].intValue)
+        self.postID = json["post_id"].intValue
         self.repost = json["repost"].boolValue
         if self.repost {
             self.repostUser = json["repost_user"].stringValue
             self.repostGroup = json["repost_group"].stringValue
         }
         self.text = json["content"].stringValue
-        self.groupID = String(json["group_id"].intValue)
+        self.groupID = json["group_id"].intValue
         self.group = json["group_name"].stringValue
         self.user = json["user_name"].stringValue
         self.username = json["user_username"].stringValue

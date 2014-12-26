@@ -23,12 +23,14 @@ class SingleUserTableViewController: UITableViewController {
     
     //MARK: - Constants
     
+    ///Segue Identifier in Storyboard for this VC to PostTableViewController
+    ///Note: Subclasses must override
     var SEGUE_IDENTIFIER_THIS_TO_POST : String {return ""}
     
     
     //MARK: - UIViewController
     
-    ///Transfer selected Post to PostTableViewController
+    //Transfer selected Post to PostTableViewController
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == SEGUE_IDENTIFIER_THIS_TO_POST {
             var destination = segue.destinationViewController as PostTableViewController
