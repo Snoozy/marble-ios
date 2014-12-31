@@ -8,90 +8,138 @@
 
 import UIKit
 
+/// Cell that corresponds to reuse identifier "User". Used to format Users in UITableView.
 class UserCell: UITableViewCell {
+  
+  // MARK: - IBOutlets
+  
+  /// Displays profilePic property of User.
+  @IBOutlet weak var profilePicView: UIImageView!
+  
+  /// Displays name property of User.
+  @IBOutlet weak var nameLabel: UILabel!
+  
+  /// Displays username property of User.
+  @IBOutlet weak var usernameLabel: UILabel!
+  
+  /// Displays bio property of User.
+  ///
+  /// Height of this UITextView is calulated by heightOfBioWithWidth(_:) in User.
+  @IBOutlet weak var bioTextView: UITextView!
+  
+  /// Displays rep property of User.
+  ///
+  /// Text should display a bolded rep value followed by an unbolded " REP".
+  ///
+  /// Note: Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
+  @IBOutlet weak var repLabel: UILabel!
+  
+  /// Displays numGroups propert of User.
+  ///
+  /// Text should display a bolded numGroups value followed by an unbolded " GROUPS".
+  ///
+  /// Note: Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
+  @IBOutlet weak var groupsButton: UIButton!
+  
+  /// Used to select the type of UITableViewCell is displayed under this UserCell in a SingleUserTableViewController.
+  @IBOutlet weak var postsSegControl: UISegmentedControl!
+  
+  // MARK: - Enums
+  
+  /// Titles of postsSegControl's segments.
+  ///
+  /// * Posts: Title of segment with index 0.
+  /// * Comments: Title of segment with index 1.
+  enum SegIndex {
+    case Posts, Comments
+  }
 
-    ///enum of segmentIndexes in postsSegControl
-    enum segIndex {
-        //segmentIndex 0
-        case POSTS
-        //segmentIndex 1
-        case COMMENTS
+  // MARK: - Constants
+  
+  /// Height needed for all components of a UserCell excluding bioTextView in the Storyboard.
+  ///
+  /// Note: Height of bioTextView must be calculated based on it's text property.
+  class var AdditionalVertSpaceNeeded: CGFloat {
+    get {
+      return 215
     }
-    
-    //MARK: - IBOutlets
-    
-    ///Corresponds to proficlePic of User
-    @IBOutlet weak var profilePicView: UIImageView!
-    
-    ///Corresponds to username of User
-    @IBOutlet weak var userLabel: UILabel!
-    
-    ///Corresponds to accountname of User
-    @IBOutlet weak var accountLabel: UILabel!
-    
-    ///Corresponds to bio of User
-    @IBOutlet weak var bioTextView: UITextView!
-    
-    ///Corresponds to rep of User
-    @IBOutlet weak var repLabel: UILabel!
-    
-    ///Corresponds to numGroups of User
-    @IBOutlet weak var groupsButton: UIButton!
-    
-    ///Used to select what type of cells are shown under UserCell
-    @IBOutlet weak var postsSegControl: UISegmentedControl!
-    
-    
-    //MARK: - Constants
-    
-    ///Height needed for all components of UserCell except bioTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 215}
-    
-    ///Font for bioTextView
-    class var BIO_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Font for word REP in repLabel
-    class var REP_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Font for number in repLabel
-    class var REP_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
-    
-    ///Font for word GROUPS in groupsButton
-    class var GROUPS_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Font for number in groupsButton
-    class var GROUPS_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
-    
-    ///Font for postsSegControl
-    class var SEG_CONTROL_FONT : UIFont {return UIFont.boldSystemFontOfSize(12.0)}
-    
-    ///Reuse Identifier for this UITableViewCell
-    class var REUSE_IDENTIFIER : String {return "User"}
-    
-    
-    //MARK: - Helper Methods
-    
-    ///Makes the UserCell formatted in accordance with User
-    func makeCellFromUser(user: User) {
-        profilePicView.image = user.profilePic
-        userLabel.text = user.username
-        accountLabel.text = user.accountname
-        
-        bioTextView.text = user.bio
-        bioTextView.font = UserCell.BIO_TEXT_VIEW_FONT
-        bioTextView.textContainer.lineFragmentPadding = 0
-        bioTextView.textContainerInset = UIEdgeInsetsZero
-        
-        //Make only the number in repLabel bold
-        var repText = NSMutableAttributedString.firstHalfBoldMutableAttributedString(String.formatNumberAsString(user.rep),boldedFont: UserCell.REP_FONT_BOLD,normalString: " REP", normalFont: UserCell.REP_FONT)
-        repLabel.attributedText = repText
-        
-        //Make only the number in groupsButton bold
-        var groupsText = NSMutableAttributedString.firstHalfBoldMutableAttributedString(String.formatNumberAsString(user.numGroups),boldedFont: UserCell.GROUPS_FONT_BOLD,normalString: " GROUPS", normalFont: UserCell.GROUPS_FONT)
-        groupsButton.setAttributedTitle(groupsText, forState: .Normal)
-        groupsButton.tintColor = UIColor.blackColor()
-        
-        postsSegControl.setTitleTextAttributes([NSFontAttributeName:UserCell.SEG_CONTROL_FONT], forState: .Normal)
+  }
+  
+  /// Font of the text contained within bioTextView.
+  class var BioTextViewFont: UIFont {
+    get {
+      return UIFont.systemFontOfSize(15.0)
     }
-
+  }
+  
+  /// Font used for the word " REP" in repLabel.
+  class var RepFont: UIFont {
+    get {
+      return UIFont.systemFontOfSize(15.0)
+    }
+  }
+  
+  /// Font used for the rep value in repLabel.
+  class var RepFontBold: UIFont {
+    get {
+      return UIFont.boldSystemFontOfSize(18.0)
+    }
+  }
+  
+  /// Font used for the word " GROUPS" in groupsButton.
+  class var GroupsFont: UIFont {
+    get {
+      return UIFont.systemFontOfSize(15.0)
+    }
+  }
+  
+  /// Font used for the numGroups value in groupsButton.
+  class var GroupsFontBold: UIFont {
+    get {
+      return UIFont.boldSystemFontOfSize(18.0)
+    }
+  }
+  
+  /// Font used for the segment titles in postsSegControl.
+  class var SegControlFont: UIFont {
+    get {
+      return UIFont.boldSystemFontOfSize(12.0)
+    }
+  }
+  
+  /// Reuse Identifier for this UITableViewCell.
+  class var ReuseIdentifier: String {
+    get {
+      return "User"
+    }
+  }
+  
+  
+  // MARK: - Helper Methods
+  
+  /// Makes this UserCell's IBOutlets display the correct values of the corresponding User.
+  ///
+  /// :param: user The corresponding User to be displayed by this UserCell.
+  func makeCellFromUser(user: User) {
+    profilePicView.image = user.profilePic
+    nameLabel.text = user.name
+    usernameLabel.text = user.username
+    
+    bioTextView.text = user.bio
+    bioTextView.font = UserCell.BioTextViewFont
+    bioTextView.textContainer.lineFragmentPadding = 0
+    bioTextView.textContainerInset = UIEdgeInsetsZero
+    
+    // Make only the number in repLabel bold
+    var repText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.rep), firstFont: UserCell.RepFontBold, secondHalf: " REP", secondFont: UserCell.RepFont)
+    repLabel.attributedText = repText
+    
+    // Make only the number in groupsButton bold
+    var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " GROUPS", secondFont: UserCell.GroupsFont)
+    groupsButton.setAttributedTitle(groupsText, forState: .Normal)
+    groupsButton.tintColor = UIColor.blackColor()
+    
+    postsSegControl.setTitleTextAttributes([NSFontAttributeName:UserCell.SegControlFont], forState: .Normal)
+  }
+  
 }

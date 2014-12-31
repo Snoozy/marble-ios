@@ -8,108 +8,108 @@
 
 import UIKit
 
-///Inherit this class for any TVC that is only a table of PostCells
-///Note: must override SEGUE_IDENTIFIER_THIS_TO_POST
+/// Inherit this class for any UITableViewController that is only a table of PostCells.
+///
+/// Note: Subclasses must override SegueIdentifierThisToPost.
 class MultiplePostsTableViewController: UITableViewController {
-
-    // MARK: - Properties
-    
-    ///Stores list of all posts retrieved from JSON
-    var posts : [Post] = []
-    
-    
-    // MARK: - Constants
-    
-    ///Segue Identifier in Storyboard for this VC to PostTableViewController
-    ///Note: Subclasses must override
-    var SEGUE_IDENTIFIER_THIS_TO_POST : String {return ""}
-    
-    
-    //MARK: - UIViewController
-    
-    //Transfer selected Post to PostTableViewController
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == SEGUE_IDENTIFIER_THIS_TO_POST {
-            var destination = segue.destinationViewController as PostTableViewController
-            if sender is UIButton {
-                destination.post = posts[(sender as UIButton).tag]
-            } else if sender is NSIndexPath {
-                destination.post = posts[(sender as NSIndexPath).section]
-            }
-        }
+  
+  // MARK: - Properties
+  
+  /// Posts for this UITableViewController.
+  var posts: [Post] = []
+  
+  // MARK: - Constants
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
+  ///
+  /// Note: Subclasses must override this Constant.
+  var SegueIdentifierThisToPost: String {
+    get {
+      return ""
+    }
+  }
+  
+  //MARK: - UIViewController
+  
+  // Transfer selected Post to PostTableViewController.
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == SegueIdentifierThisToPost {
+      var destination = segue.destinationViewController as PostTableViewController
+      if sender is UIButton {
+        destination.post = posts[(sender as UIButton).tag]
+      } else if sender is NSIndexPath {
+        destination.post = posts[(sender as NSIndexPath).section]
+      }
+    }
+  }
+  
+  //MARK: - UITableViewDataSource
+  
+  // Assigns the number of sections based on length of the posts array.
+  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    return posts.count
+  }
+  
+  // Assigns 1 row to each section in this UITAbleViewController.
+  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 1
+  }
+  
+  // Creates PostCell based on section number of indexPath.
+  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let post = posts[indexPath.section]
+    if post.repost {
+      let cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+    } else {
+      let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
     }
     
+    cell.makeCellFromPost(post, withButtonTag: indexPath.section)
     
-    //MARK: - UITableViewDataSource
-    
-    //Assigns the number of sections to length of posts array
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return posts.count
+    return cell
+  }
+  
+  // MARK: - UITableViewDelegate
+  
+  // Sets height of divider inbetween cells.
+  override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return section == 0 ? 0 : 10
+  }
+  
+  // Makes divider inbetween cells blue.
+  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let view = UIView()
+    view.backgroundColor = UIColor.cilloBlue()
+    return view
+  }
+  
+  // Sets height of cell to appropriate value depending on length of post and whether post is expanded.
+  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    let post = posts[indexPath.section]
+    if post.repost {
+      let additionalVertSpace = RepostCell.AdditionalVertSpaceNeeded
+    } else {
+      let additionalVertSpace = PostCell.AdditionalVertSpaceNeeded
     }
-    
-    //Assigns 1 row to each section
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+    let height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + additionalVertSpace
+    return post.title != nil ? height : height - PostCell.TitleHeight
+  }
+  
+  // Sends view to PostTableViewController if PostCell is selected.
+  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+  }
+  
+  //MARK: - IBActions
+  
+  /// Expands post in PostCell of sender when seeFullButton is pressed.
+  @IBAction func seeFullPressed(sender: UIButton) {
+    let post = posts[sender.tag]
+    if post.seeFull != nil {
+      post.seeFull! = !post.seeFull!
     }
-    
-    //Creates PostCell with appropriate properties for Post at given section in posts
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let post = posts[indexPath.section]
-        if post.repost {
-            let cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as RepostCell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
-        }
-        
-        cell.makeCellFromPost(post, withButtonTag: indexPath.section)
-        
-        return cell
-    }
-    
-    
-    //MARK: - UITableViewDelegate
-    
-    //Sets height of divider inbetween cells
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : 10
-    }
-    
-    //Makes divider inbetween cells blue
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var view = UIView()
-        view.backgroundColor = UIColor.cilloBlue()
-        return view
-    }
-    
-    //Sets height of cell to appropriate value depending on length of post and whether post is expanded
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let post = posts[indexPath.section]
-        if post.repost {
-            let additionalVertSpace = RepostCell.ADDITIONAL_VERT_SPACE_NEEDED
-        } else {
-            let additionalVertSpace = PostCell.ADDITIONAL_VERT_SPACE_NEEDED
-        }
-        let height = post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: MAX_CONTRACTED_HEIGHT) + additionalVertSpace
-        return post.title != nil ? height : height - PostCell.TITLE_HEIGHT
-    }
-    
-    //If cell is selected then go to post
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier(SEGUE_IDENTIFIER_THIS_TO_POST, sender: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    }
-    
-    
-    //MARK: - IBActions
-    
-    ///Expands post in PostCell of sender when seeFullButton is pressed
-    @IBAction func seeFullPressed(sender: UIButton) {
-        var post = posts[sender.tag]
-        if post.seeFull != nil {
-            post.seeFull! = !post.seeFull!
-        }
-        tableView.reloadData()
-    }
-
+    tableView.reloadData()
+  }
+  
 }

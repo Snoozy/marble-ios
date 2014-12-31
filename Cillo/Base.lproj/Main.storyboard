@@ -13,6 +13,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="Bsv-8s-kze">
+                            <rect key="frame" x="0.0" y="273" width="600" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="color" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Group" rowHeight="187" id="dfE-xh-8ig" userLabel="Group" customClass="GroupCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -44,27 +49,12 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-Di-k5P">
-                                            <rect key="frame" x="513" y="154" width="75" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="3o6-Xn-z0Z"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <state key="normal" title="# POSTS">
-                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="naZ-6G-sFn" secondAttribute="trailing" id="2tl-zC-qSD"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="cj1-Di-k5P" secondAttribute="trailing" constant="4" id="4Rh-sH-evX"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="cj1-Di-k5P" secondAttribute="bottom" constant="-5" id="5KW-l4-fYp"/>
                                         <constraint firstItem="Yva-fk-xzH" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="BfL-Bo-bOA"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="cj1-Di-k5P" secondAttribute="bottom" constant="-5.5" id="EJx-Go-Ofw"/>
                                         <constraint firstItem="5BZ-Mn-CNE" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="Gmp-mE-X9a"/>
                                         <constraint firstItem="X2V-p5-ldZ" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="Qt9-cC-X2x"/>
-                                        <constraint firstItem="cj1-Di-k5P" firstAttribute="top" secondItem="naZ-6G-sFn" secondAttribute="bottom" constant="8" id="atH-Fb-VyC"/>
                                         <constraint firstItem="naZ-6G-sFn" firstAttribute="top" secondItem="X2V-p5-ldZ" secondAttribute="bottom" constant="4" id="bmH-Qa-noJ"/>
                                         <constraint firstItem="X2V-p5-ldZ" firstAttribute="top" secondItem="Yva-fk-xzH" secondAttribute="bottom" constant="8" id="dTm-eA-w7t"/>
                                         <constraint firstItem="naZ-6G-sFn" firstAttribute="leading" secondItem="WnL-n3-Goo" secondAttribute="leadingMargin" id="daf-z3-V9h"/>
@@ -76,7 +66,6 @@
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="jvS-nQ-CsC"/>
-                                            <exclude reference="5KW-l4-fYp"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -85,7 +74,6 @@
                                     <outlet property="followersLabel" destination="5BZ-Mn-CNE" id="Qct-Ox-H7t"/>
                                     <outlet property="groupPicView" destination="Yva-fk-xzH" id="Xry-Mu-2H0"/>
                                     <outlet property="nameLabel" destination="X2V-p5-ldZ" id="rpP-Hq-mz5"/>
-                                    <outlet property="postsButton" destination="cj1-Di-k5P" id="ms7-8b-D6T"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -95,6 +83,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Groups" id="2cT-4l-Mfz"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Bsv-8s-kze" id="4fW-tK-H7c"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTs-5W-2wV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -109,7 +100,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="D27-8d-2BJ">
-                            <rect key="frame" x="0.0" y="273" width="600" height="20"/>
+                            <rect key="frame" x="0.0" y="463" width="600" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="color" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
@@ -286,15 +277,18 @@
                                 <connections>
                                     <outlet property="commentButton" destination="4xL-Pa-mXM" id="EqR-Ga-GUi"/>
                                     <outlet property="commentLabel" destination="DLL-MQ-M1x" id="eJ0-IU-XA0"/>
+                                    <outlet property="downvoteButton" destination="SKS-gR-T7c" id="r9D-gD-a3p"/>
                                     <outlet property="groupLabel" destination="z2x-Af-n9a" id="o5L-VN-4vw"/>
+                                    <outlet property="nameLabel" destination="o70-Wc-SL7" id="yAP-6X-9us"/>
+                                    <outlet property="pictureView" destination="D7x-r9-O2b" id="tzd-xO-2MT"/>
                                     <outlet property="postTextView" destination="26z-RC-hUd" id="v2L-xp-aKw"/>
-                                    <outlet property="profilePicView" destination="D7x-r9-O2b" id="yMt-5e-5I1"/>
                                     <outlet property="repLabel" destination="Zkr-Mo-Mmv" id="BP6-Ma-ebJ"/>
+                                    <outlet property="repostButton" destination="FTP-bw-ldZ" id="sqQ-9v-I5x"/>
                                     <outlet property="seeFullButton" destination="eVz-lE-HEo" id="8gz-L0-O2U"/>
                                     <outlet property="timeLabel" destination="E84-Bc-RzA" id="0Te-3f-bRq"/>
                                     <outlet property="titleHeightConstraint" destination="n7y-he-d13" id="dLH-dp-gfT"/>
                                     <outlet property="titleLabel" destination="ker-uR-kHF" id="sx4-fE-lyT"/>
-                                    <outlet property="userLabel" destination="o70-Wc-SL7" id="Uq1-Gd-EnK"/>
+                                    <outlet property="upvoteButton" destination="hvH-LG-ily" id="9W4-3G-pPk"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Repost" rowHeight="190" id="hVe-OW-kMf" customClass="RepostCell" customModule="Cillo" customModuleProvider="target">
@@ -327,8 +321,8 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reposted by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="43j-32-h64">
-                                            <rect key="frame" x="8" y="53" width="94" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reposted from" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="43j-32-h64">
+                                            <rect key="frame" x="8" y="56" width="95.5" height="17"/>
                                             <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -386,7 +380,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mk0-8G-iaq">
-                                            <rect key="frame" x="523" y="155.5" width="26" height="18"/>
+                                            <rect key="frame" x="523" y="155" width="26" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="26" id="Vvw-pn-KNd"/>
                                             </constraints>
@@ -419,24 +413,6 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYc-Uv-X5I">
-                                            <rect key="frame" x="95" y="53" width="73" height="24"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="on" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kc9-rN-iLv">
-                                            <rect key="frame" x="167" y="53" width="22" height="24"/>
-                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7i-55-ZcG">
-                                            <rect key="frame" x="187" y="53" width="41" height="24"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zAI-6c-n6N">
                                             <rect key="frame" x="8" y="70" width="584" height="26.5"/>
                                             <constraints>
@@ -446,9 +422,16 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7i-55-ZcG">
+                                            <rect key="frame" x="107" y="56" width="41" height="17"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <gestureRecognizers/>
                                     <constraints>
+                                        <constraint firstItem="O8B-2p-Nsa" firstAttribute="top" secondItem="z7i-55-ZcG" secondAttribute="bottom" constant="15" id="0bq-Je-4OZ"/>
                                         <constraint firstItem="bxM-qT-Cdp" firstAttribute="trailing" secondItem="e43-QY-0my" secondAttribute="trailingMargin" id="2bn-v9-bmq"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="kSH-hK-n8o" secondAttribute="trailing" id="3Ph-34-goP"/>
                                         <constraint firstItem="O8B-2p-Nsa" firstAttribute="leading" secondItem="e43-QY-0my" secondAttribute="leadingMargin" id="5fl-wa-k1a"/>
@@ -462,6 +445,8 @@
                                         <constraint firstItem="p0J-Be-54N" firstAttribute="leading" secondItem="E4Z-gm-rxH" secondAttribute="trailing" constant="8" id="Dob-Sg-vTl"/>
                                         <constraint firstItem="pOz-3X-W6E" firstAttribute="top" secondItem="e43-QY-0my" secondAttribute="topMargin" id="HSY-Qu-zjF"/>
                                         <constraint firstItem="zAI-6c-n6N" firstAttribute="leading" secondItem="e43-QY-0my" secondAttribute="leadingMargin" id="HXw-ZB-j2p"/>
+                                        <constraint firstItem="z7i-55-ZcG" firstAttribute="top" secondItem="pOz-3X-W6E" secondAttribute="bottom" constant="24" id="IC5-zH-Big"/>
+                                        <constraint firstItem="43j-32-h64" firstAttribute="top" secondItem="pOz-3X-W6E" secondAttribute="bottom" constant="24" id="JbC-XU-W6s"/>
                                         <constraint firstItem="4Ni-e2-HgV" firstAttribute="top" secondItem="bxM-qT-Cdp" secondAttribute="bottom" constant="15" id="N19-2x-X5W"/>
                                         <constraint firstItem="iO2-GT-xV6" firstAttribute="leading" secondItem="4Ni-e2-HgV" secondAttribute="trailing" constant="8" id="OXm-kV-Gcl"/>
                                         <constraint firstItem="4Ni-e2-HgV" firstAttribute="leading" secondItem="e43-QY-0my" secondAttribute="leadingMargin" id="Rks-z0-yVW"/>
@@ -478,17 +463,22 @@
                                         <constraint firstItem="kSH-hK-n8o" firstAttribute="leading" secondItem="mk0-8G-iaq" secondAttribute="trailing" constant="11" id="cxj-pd-tiI"/>
                                         <constraint firstItem="E4Z-gm-rxH" firstAttribute="leading" secondItem="e43-QY-0my" secondAttribute="leadingMargin" id="dTm-QW-fai"/>
                                         <constraint firstItem="wR1-b9-SlG" firstAttribute="top" secondItem="pOz-3X-W6E" secondAttribute="bottom" constant="1" id="dfp-Ul-BIT"/>
+                                        <constraint firstItem="43j-32-h64" firstAttribute="leading" secondItem="e43-QY-0my" secondAttribute="leadingMargin" id="fYC-ea-UGm"/>
                                         <constraint firstItem="mk0-8G-iaq" firstAttribute="top" secondItem="bxM-qT-Cdp" secondAttribute="bottom" constant="14" id="gKr-C8-8l1"/>
                                         <constraint firstItem="ogh-Ri-0kh" firstAttribute="top" secondItem="e43-QY-0my" secondAttribute="topMargin" id="iYq-k0-8bk"/>
                                         <constraint firstItem="iO2-GT-xV6" firstAttribute="leading" secondItem="4Ni-e2-HgV" secondAttribute="trailing" constant="8" id="icc-KB-Z7F"/>
+                                        <constraint firstItem="O8B-2p-Nsa" firstAttribute="top" secondItem="43j-32-h64" secondAttribute="bottom" constant="19" id="ija-ce-B2k"/>
                                         <constraint firstItem="E4Z-gm-rxH" firstAttribute="top" secondItem="e43-QY-0my" secondAttribute="topMargin" id="m3p-Bp-fVe"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="mk0-8G-iaq" secondAttribute="bottom" constant="8" id="pHa-Wj-Zfh"/>
                                         <constraint firstItem="zAI-6c-n6N" firstAttribute="top" secondItem="E4Z-gm-rxH" secondAttribute="bottom" constant="8" id="rez-M9-Y8e"/>
                                         <constraint firstItem="bxM-qT-Cdp" firstAttribute="top" secondItem="zAI-6c-n6N" secondAttribute="bottom" constant="2" id="xjj-rP-HhP"/>
+                                        <constraint firstItem="z7i-55-ZcG" firstAttribute="leading" secondItem="43j-32-h64" secondAttribute="trailing" constant="3" id="xvR-Ic-EEk"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="rez-M9-Y8e"/>
+                                            <exclude reference="0bq-Je-4OZ"/>
+                                            <exclude reference="ija-ce-B2k"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -496,17 +486,19 @@
                                 <connections>
                                     <outlet property="commentButton" destination="eJd-33-uCY" id="2YL-Yv-w0Q"/>
                                     <outlet property="commentLabel" destination="mk0-8G-iaq" id="dsb-O1-5zi"/>
+                                    <outlet property="downvoteButton" destination="Q8E-FL-Abf" id="1XJ-4t-UXX"/>
                                     <outlet property="groupLabel" destination="wR1-b9-SlG" id="OEJ-hd-MyF"/>
+                                    <outlet property="nameLabel" destination="pOz-3X-W6E" id="tkI-7t-UuC"/>
+                                    <outlet property="pictureView" destination="E4Z-gm-rxH" id="LQ4-cI-aVx"/>
                                     <outlet property="postTextView" destination="bxM-qT-Cdp" id="11D-0c-ggZ"/>
-                                    <outlet property="profilePicView" destination="E4Z-gm-rxH" id="xdi-KP-ypY"/>
                                     <outlet property="repLabel" destination="4Ni-e2-HgV" id="VzP-kA-Rhx"/>
+                                    <outlet property="repostButton" destination="kSH-hK-n8o" id="W8n-Xp-HTM"/>
                                     <outlet property="repostGroupLabel" destination="z7i-55-ZcG" id="VrO-aT-Q8b"/>
-                                    <outlet property="repostUserLabel" destination="LYc-Uv-X5I" id="XTa-iC-w60"/>
                                     <outlet property="seeFullButton" destination="O8B-2p-Nsa" id="WAl-Gp-pD2"/>
                                     <outlet property="timeLabel" destination="ogh-Ri-0kh" id="uGU-gT-UX4"/>
                                     <outlet property="titleHeightConstraint" destination="xwS-mn-Yqa" id="Tsv-D9-5cU"/>
                                     <outlet property="titleLabel" destination="zAI-6c-n6N" id="fNv-bH-sQb"/>
-                                    <outlet property="userLabel" destination="pOz-3X-W6E" id="bpU-9O-7zM"/>
+                                    <outlet property="upvoteButton" destination="iO2-GT-xV6" id="5jw-pH-ORh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -686,15 +678,19 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
+                                    <outlet property="commentButton" destination="3uf-tu-n0y" id="aJI-Tn-IDH"/>
                                     <outlet property="commentLabel" destination="d7L-Fg-pxN" id="Yc9-3S-wz2"/>
+                                    <outlet property="downvoteButton" destination="SWn-Kp-TdI" id="eeD-37-iju"/>
                                     <outlet property="groupLabel" destination="QUZ-Kv-t7O" id="cvw-Lt-zT6"/>
+                                    <outlet property="nameLabel" destination="ppE-4F-J9f" id="rQP-QW-F9J"/>
+                                    <outlet property="pictureView" destination="MCd-xy-XYc" id="ySu-ao-HjE"/>
                                     <outlet property="postTextView" destination="q6D-ZO-Exp" id="En7-Ca-oAP"/>
-                                    <outlet property="profilePicView" destination="MCd-xy-XYc" id="k2j-Zm-aSU"/>
                                     <outlet property="repLabel" destination="g4w-99-dS9" id="Z0F-FG-6FT"/>
+                                    <outlet property="repostButton" destination="kDI-HB-vd0" id="gjD-b2-7hi"/>
                                     <outlet property="timeLabel" destination="99q-Bf-C0u" id="T5K-gu-bGR"/>
                                     <outlet property="titleHeightConstraint" destination="cCO-0U-Nzy" id="e0S-X5-rA4"/>
                                     <outlet property="titleLabel" destination="Gdc-jF-sYp" id="sB7-Kx-1bR"/>
-                                    <outlet property="userLabel" destination="ppE-4F-J9f" id="8Cv-9g-nMz"/>
+                                    <outlet property="upvoteButton" destination="JGf-ql-eiG" id="C4S-je-hAH"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="141" id="2gs-D9-AmR" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
@@ -1058,13 +1054,13 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="accountLabel" destination="xWf-hs-uNr" id="q1U-xR-75p"/>
                                     <outlet property="bioTextView" destination="ELd-DM-j5u" id="zxP-S7-QUX"/>
                                     <outlet property="groupsButton" destination="lVq-zl-pqe" id="UUi-sT-X1C"/>
+                                    <outlet property="nameLabel" destination="jhz-ui-gDw" id="h8z-PC-xnv"/>
                                     <outlet property="postsSegControl" destination="3rQ-GA-oPe" id="KTc-zJ-nJy"/>
                                     <outlet property="profilePicView" destination="IX2-XH-dMa" id="Syy-t4-FV5"/>
                                     <outlet property="repLabel" destination="qvz-Jo-zIl" id="ubK-5R-zJM"/>
-                                    <outlet property="userLabel" destination="jhz-ui-gDw" id="q1M-2V-rrd"/>
+                                    <outlet property="usernameLabel" destination="xWf-hs-uNr" id="Md8-Wf-Gtm"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="141" id="NaF-cp-Xkn" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
@@ -1383,6 +1379,6 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5pP-Ev-dg6"/>
+        <segue reference="bNY-jF-I6p"/>
     </inferredMetricsTieBreakers>
 </document>

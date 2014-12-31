@@ -135,7 +135,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		95352D6E1A155BF200874B0F /* UITableViewCells */ = {
+		95352D6E1A155BF200874B0F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				95468AF019F99B8A00F158DE /* PostCell.swift */,
@@ -144,7 +144,7 @@
 				959E0F0C1A2538C7008B4D19 /* GroupCell.swift */,
 				95E496911A15208500154864 /* UserCell.swift */,
 			);
-			name = UITableViewCells;
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		95352D6F1A155C0E00874B0F /* Model */ = {
@@ -158,31 +158,30 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		95352D701A155C3500874B0F /* Root VCs */ = {
+		95352D701A155C3500874B0F /* Root TVCs */ = {
 			isa = PBXGroup;
 			children = (
 				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
 				959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */,
 				95E496931A1520AB00154864 /* MeTableViewController.swift */,
 			);
-			name = "Root VCs";
+			name = "Root TVCs";
 			sourceTree = "<group>";
 		};
-		95352D711A155C4100874B0F /* Other VCs */ = {
+		95352D711A155C4100874B0F /* Other TVCs */ = {
 			isa = PBXGroup;
 			children = (
 				954D99A91A04865D002490C4 /* PostTableViewController.swift */,
 			);
-			name = "Other VCs";
+			name = "Other TVCs";
 			sourceTree = "<group>";
 		};
-		95352D721A155C4D00874B0F /* UINavigationControllers */ = {
+		95352D721A155C4D00874B0F /* NCs */ = {
 			isa = PBXGroup;
 			children = (
-				95A057601A4640F2000F7142 /* TabViewController.swift */,
 				954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */,
 			);
-			name = UINavigationControllers;
+			name = NCs;
 			sourceTree = "<group>";
 		};
 		958321B51A461C61003F2034 /* Products */ = {
@@ -235,25 +234,35 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
-		9587A7321A43E855003CDE64 /* Parent VCs */ = {
+		9587A7321A43E855003CDE64 /* Parent TVCs */ = {
 			isa = PBXGroup;
 			children = (
 				9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */,
 				9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */,
 				9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */,
 			);
-			name = "Parent VCs";
+			name = "Parent TVCs";
 			sourceTree = "<group>";
 		};
-		9587A73A1A43F256003CDE64 /* UIViewControllers */ = {
+		9587A73A1A43F256003CDE64 /* VCs */ = {
 			isa = PBXGroup;
 			children = (
 				95A0575D1A463F6B000F7142 /* LogInViewController.swift */,
-				9587A7321A43E855003CDE64 /* Parent VCs */,
-				95352D701A155C3500874B0F /* Root VCs */,
-				95352D711A155C4100874B0F /* Other VCs */,
+				95DB34321A54834B008A8DC0 /* TBCs */,
+				95352D721A155C4D00874B0F /* NCs */,
+				9587A7321A43E855003CDE64 /* Parent TVCs */,
+				95352D701A155C3500874B0F /* Root TVCs */,
+				95352D711A155C4100874B0F /* Other TVCs */,
 			);
-			name = UIViewControllers;
+			name = VCs;
+			sourceTree = "<group>";
+		};
+		95DB34321A54834B008A8DC0 /* TBCs */ = {
+			isa = PBXGroup;
+			children = (
+				95A057601A4640F2000F7142 /* TabViewController.swift */,
+			);
+			name = TBCs;
 			sourceTree = "<group>";
 		};
 		95EFD29B19F8D2B400086BAF = {
@@ -280,9 +289,8 @@
 				958321C71A461F76003F2034 /* Storyboard */,
 				958321C21A461D28003F2034 /* Vendor */,
 				958321C91A462015003F2034 /* Data */,
-				95352D721A155C4D00874B0F /* UINavigationControllers */,
-				9587A73A1A43F256003CDE64 /* UIViewControllers */,
-				95352D6E1A155BF200874B0F /* UITableViewCells */,
+				9587A73A1A43F256003CDE64 /* VCs */,
+				95352D6E1A155BF200874B0F /* Cells */,
 				95352D6F1A155C0E00874B0F /* Model */,
 				95EFD2A719F8D2B400086BAF /* Supporting Files */,
 			);

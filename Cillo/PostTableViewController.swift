@@ -8,6 +8,9 @@
 
 import UIKit
 
+// TODO: Make this class fit the updated Comment and CommentCell Models.
+// TODO: Document this code.
+
 ///Handles view of expanded Post with Comments beneath it. Formats TableView to look appealing and be functional.
 class PostTableViewController: UITableViewController {
 
@@ -33,8 +36,7 @@ class PostTableViewController: UITableViewController {
             makeCommentTreeIntoArray(comment)
         }
     }
-    
-
+  
     //MARK: - UITableViewDataSource
 
     //1 section in tableView
@@ -50,13 +52,13 @@ class PostTableViewController: UITableViewController {
     //Creates PostCell with appropriate properties for Post at first row and CommentCell for each Comment in tree
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 { //Make a Post Cell for only first row
-            let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as PostCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
             
             cell.makeCellFromPost(post, withButtonTag: indexPath.row)
             
             return cell
         } else { //Make a CommentCell for all rows past the first row
-            let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.REUSE_IDENTIFIER, forIndexPath: indexPath) as CommentCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
             
             let comment = tree[indexPath.row - 1] //indexPath.row - 1 b/c Post is not included in tree
             
@@ -85,12 +87,12 @@ class PostTableViewController: UITableViewController {
     //Make height of cell appropriate size for settings
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 { //PostCell
-            let heightWithTitle = post.heightOfPostWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, andMaxContractedHeight: nil) + PostCell.ADDITIONAL_VERT_SPACE_NEEDED
-            return post.title != nil ? heightWithTitle : heightWithTitle - PostCell.TITLE_HEIGHT
+            let heightWithTitle = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: nil) + PostCell.AdditionalVertSpaceNeeded
+            return post.title != nil ? heightWithTitle : heightWithTitle - PostCell.TitleHeight
         }
         //is a CommentCell
-        let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PROTOTYPE_TEXT_VIEW_WIDTH, withSelected: selectedPath == indexPath) + CommentCell.ADDITIONAL_VERT_SPACE_NEEDED
-        return selectedPath == indexPath ? height : height - CommentCell.BUTTON_HEIGHT
+        let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PrototypeTextViewWidth, withSelected: selectedPath == indexPath) + CommentCell.AdditionalVertSpaceNeeded
+        return selectedPath == indexPath ? height : height - CommentCell.ButtonHeight
     }
     
     //Returns the indentationLevel for the indexPath. Cannot exceed 5 to keep cells from getting too small

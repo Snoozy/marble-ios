@@ -8,104 +8,140 @@
 
 import UIKit
 
-///Cell that corresponds to reuse identifier "Post". Used to format Posts in UITableViews.
+/// Cell that corresponds to reuse identifier "Post". Used to format Posts in UITableViews.
 class PostCell: UITableViewCell {
+  
+  // MARK: - IBOutlets
+  
+  /// Displays name property of Post.
+  @IBOutlet weak var nameLabel: UILabel!
+  
+  /// Displays picture property of Post.
+  @IBOutlet weak var pictureView: UIImageView!
+  
+  /// Displays group property of Post.
+  @IBOutlet weak var groupLabel: UILabel!
+  
+  /// Displays text property of Post.
+  @IBOutlet weak var postTextView: UITextView!
+  
+  /// Displays title property of Post.
+  @IBOutlet weak var titleLabel: UILabel!
+  
+  /// Displays time property of Post.
+  @IBOutlet weak var timeLabel: UILabel!
+  
+  /// Displays numComments property of Post.
+  @IBOutlet weak var commentLabel: UILabel!
+  
+  /// Displays rep property of Post.
+  @IBOutlet weak var repLabel: UILabel!
+  
+  /// Changes seeFull value of Post.
+  /// 
+  /// Posts with seeFull == nil do not have this UIButton.
+  @IBOutlet weak var seeFullButton: UIButton?
+  
+  /// Upvotes Post.
+  @IBOutlet weak var upvoteButton: UIButton!
+  
+  /// Downvotes Post.
+  @IBOutlet weak var downvoteButton: UIButton!
+  
+  /// Centers view on Comments Section of PostTableViewController.
+  @IBOutlet weak var commentButton: UIButton!
+  
+  /// Reposts Post in a different Group.
+  @IBOutlet weak var repostButton: UIButton!
+  
+  /// Controls height of titleLabel.
+  ///
+  /// If title of Post is nil, set constant to 0.
+  @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
 
-    // MARK: - IBOutlets
-    
-    ///Corresponds to user of Post
-    @IBOutlet weak var userLabel: UILabel!
-    
-    ///Corresponds to picture of Post
-    @IBOutlet weak var profilePicView: UIImageView!
-    
-    ///Corresponds to group of Post
-    @IBOutlet weak var groupLabel: UILabel!
-    
-    ///Corresponds to text of Post
-    @IBOutlet weak var postTextView: UITextView!
-    
-    ///Corresponds to title of Post
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    ///Corresponds to time of Post
-    @IBOutlet weak var timeLabel: UILabel!
-    
-    ///Corresponds to numComments of Post
-    @IBOutlet weak var commentLabel: UILabel!
-    
-    ///Corresponds to rep of Post
-    @IBOutlet weak var repLabel: UILabel!
-    
-    ///Changes seeFull of Post. Unexpandable Posts do not have this UIButton
-    @IBOutlet weak var seeFullButton: UIButton?
-    
-    ///Sends view to Comments Section of PostTableViewController
-    @IBOutlet weak var commentButton: UIButton!
-    
-    ///Set to 0 if there is no title for Post
-    @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
-    
-    
-    // MARK: - Constants
-    
-    ///Font of postTextView
-    class var POST_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Height needed for all components of PostCell except postTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 139}
-    
-    ///Height of titleLabel in StoryBoard
-    class var TITLE_HEIGHT : CGFloat {return 26.5}
-    
-    ///Reuse Identifier for this UITableViewCell
-    class var REUSE_IDENTIFIER : String {return "Post"}
-    
-    
-    //MARK: - Helper Functions
-    
-    ///Makes this PostCell formatted to have the possibility of being expanded and contracted if this PostCell has a seeFullButton
-    func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
-        
-        userLabel.text = post.user
-        groupLabel.text = post.group
-        profilePicView.image = post.picture
-        timeLabel.text = post.time
-        
-        postTextView.text = post.text
-        postTextView.font = PostCell.POST_TEXT_VIEW_FONT
-        postTextView.textContainer.lineFragmentPadding = 0
-        postTextView.textContainerInset = UIEdgeInsetsZero
-        
-        if seeFullButton != nil {
-            //tag acts as way for button to know it's position in data array
-            seeFullButton!.tag = buttonTag
-            commentButton.tag = buttonTag
-            
-            //short posts and already expanded posts don't need to be expanded
-            if post.seeFull == nil || post.seeFull! {
-                seeFullButton!.hidden = true
-            } else {
-                seeFullButton!.hidden = false
-            }
-        }
-        
-        //Formats numbers on screen to say #.#k if necessary
-        commentLabel.text = String.formatNumberAsString(post.numComments)
-        repLabel.text = String.formatNumberAsString(post.rep)
-        
-        if let t = post.title {
-            titleLabel.text = t
-        } else {
-            titleLabel.text = ""
-            titleHeightConstraint.constant = 0.0
-        }
-        
-        if seeFullButton == nil {
-            //gets rid of small gap in divider
-            layoutMargins = UIEdgeInsetsZero
-            preservesSuperviewLayoutMargins = false
-        }
+  // MARK: - Constants
+  
+  /// Height needed for all components of a PostCell excluding postTextView in the Storyboard.
+  ///
+  /// Note: Height of postTextView must be calculated based on it's text property.
+  class var AdditionalVertSpaceNeeded: CGFloat {
+    get {
+      return 139
     }
-
+  }
+  
+  /// Height of titleLabel in Storyboard.
+  class var TitleHeight: CGFloat {
+    get {
+      return 26.5
+    }
+  }
+  
+  /// Font of the text contained within postTextView.
+  class var PostTextViewFont: UIFont {
+    get {
+      return UIFont.systemFontOfSize(15.0)
+    }
+  }
+  
+  /// Reuse Identifier for this UITableViewCell.
+  class var ReuseIdentifier: String {
+    get {
+      return "Post"
+    }
+  }
+  
+  // MARK: - Helper Functions
+  
+  /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
+  ///
+  /// :param: post The corresponding Post to be displayed by this PostCell.
+  /// :param: buttonTag The tags of all buttons in this PostCell.
+  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
+  func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
+    
+    nameLabel.text = post.name
+    groupLabel.text = post.group
+    pictureView.image = post.picture
+    timeLabel.text = post.time
+    
+    postTextView.text = post.text
+    postTextView.font = PostCell.PostTextViewFont
+    postTextView.textContainer.lineFragmentPadding = 0
+    postTextView.textContainerInset = UIEdgeInsetsZero
+    
+    if seeFullButton != nil {
+      // tag acts as way for button to know it's position in data array
+      seeFullButton!.tag = buttonTag
+      
+      // short posts and already expanded posts don't need to be expanded
+      if post.seeFull == nil || post.seeFull! {
+        seeFullButton!.hidden = true
+      } else {
+        seeFullButton!.hidden = false
+      }
+    }
+    
+    commentButton.tag = buttonTag
+    upvoteButton.tag = buttonTag
+    downvoteButton.tag = buttonTag
+    repostButton.tag = buttonTag
+    
+    commentLabel.text = String.formatNumberAsString(number: post.numComments)
+    repLabel.text = String.formatNumberAsString(number: post.rep)
+    
+    if let title = post.title {
+      titleLabel.text = title
+    } else {
+      titleLabel.text = ""
+      titleHeightConstraint.constant = 0.0
+    }
+    
+    if seeFullButton == nil {
+      //gets rid of small gap in divider
+      layoutMargins = UIEdgeInsetsZero
+      preservesSuperviewLayoutMargins = false
+    }
+  }
+  
 }

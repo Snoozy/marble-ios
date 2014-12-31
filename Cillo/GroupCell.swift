@@ -8,73 +8,85 @@
 
 import UIKit
 
-///Cell that corresponds to reuse identifier "Group". Used to format Groups in UITableView.
+/// Cell that corresponds to reuse identifier "Group". Used to format Groups in UITableView.
 class GroupCell: UITableViewCell {
-
-    //MARK: - IBOutlets
-    
-    ///Corresponds to picture of Group
-    @IBOutlet weak var groupPicView: UIImageView!
-    
-    ///Corresponds to name of Group
-    @IBOutlet weak var nameLabel: UILabel!
-    
-    ///Corresponds to descrip fo Group
-    @IBOutlet weak var descripTextView: UITextView!
-    
-    ///Corresponds to numFollowers of Group
-    @IBOutlet weak var followersLabel: UILabel!
-    
-    ///Corresponds to numPosts of Group
-    @IBOutlet weak var postsButton: UIButton!
-
-    
-    //MARK: - Constants
-    
-    ///Height needed for all components of GroupCell except descripTextView in Storyboard
-    class var ADDITIONAL_VERT_SPACE_NEEDED : CGFloat {return 154}
-    
-    ///Font for descripTextView
-    class var DESCRIP_TEXT_VIEW_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Font for word FOLLOWERS in followersLabel
-    class var FOLLOWER_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Font for number in followersLabel
-    class var FOLLOWER_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
-    
-    ///Font for word POSTS in postsButton
-    class var POSTS_FONT : UIFont {return UIFont.systemFontOfSize(15.0)}
-    
-    ///Font for number in postsButton
-    class var POSTS_FONT_BOLD : UIFont {return UIFont.boldSystemFontOfSize(18.0)}
-    
-    ///Reuse Identifier for this UITableViewCell
-    class var REUSE_IDENTIFIER : String {return "Group"}
-    
-    
-    //MARK: - Helper Methods
-    
-    ///Makes this GroupCell formatted in accordance with group
-    func makeCellFromGroup(group: Group) {
-        groupPicView.image = group.picture
-        nameLabel.text = group.name
-        
-        descripTextView.text = group.descrip
-        descripTextView.font = GroupCell.DESCRIP_TEXT_VIEW_FONT
-        descripTextView.textContainer.lineFragmentPadding = 0
-        descripTextView.textContainerInset = UIEdgeInsetsZero
-        
-        //Make only the number in followersLabel bold
-        var followersText = NSMutableAttributedString.firstHalfBoldMutableAttributedString(String.formatNumberAsString(group.numFollowers),boldedFont: GroupCell.FOLLOWER_FONT_BOLD,normalString: " FOLLOWERS", normalFont: GroupCell.FOLLOWER_FONT)
-        followersLabel.attributedText = followersText
-        
-        //Make only the number in groupsButton bold
-        var postsText = NSMutableAttributedString.firstHalfBoldMutableAttributedString(String.formatNumberAsString(group.numPosts),boldedFont: GroupCell.POSTS_FONT_BOLD,normalString: " POSTS", normalFont: GroupCell.POSTS_FONT)
-        postsButton.setAttributedTitle(postsText, forState: .Normal)
-        postsButton.tintColor = UIColor.blackColor()
-        
+  
+  // MARK: - IBOutlets
+  
+  /// Displays picture property of Group.
+  @IBOutlet weak var groupPicView: UIImageView!
+  
+  /// Displays name property of Group.
+  @IBOutlet weak var nameLabel: UILabel!
+  
+  /// Displays descrip property of Group.
+  ///
+  /// Height of this UITextView is calulated by heightOfDescripWithWidth(_:) in Group.
+  @IBOutlet weak var descripTextView: UITextView!
+  
+  /// Displays numFollowers property of Group.
+  ///
+  /// Text should display a bolded numFollowers value followed by an unbolded " FOLLOWERS".
+  ///
+  /// Note: Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
+  @IBOutlet weak var followersLabel: UILabel!
+  
+  // MARK: - Constants
+  
+  /// Height needed for all components of a GroupCell excluding descripTextView in the Storyboard.
+  ///
+  /// Note: Height of descripTextView must be calculated based on it's text property.
+  class var AdditionalVertSpaceNeeded: CGFloat {
+    get {
+      return 154
     }
+  }
+  
+  /// Font of the text contained within descripTextView.
+  class var DescripTextViewFont: UIFont {
+    get {
+      return UIFont.systemFontOfSize(15.0)
+    }
+  }
+  
+  /// Font used for the word " FOLLOWERS" in followersLabel.
+  class var FollowerFont: UIFont {
+    get {
+      return UIFont.systemFontOfSize(15.0)
+    }
+  }
+  
+  /// Font used for the numFollowers value in followersLabel.
+  class var FollowerFontBold: UIFont {
+    get {
+      return UIFont.boldSystemFontOfSize(18.0)
+    }
+  }
+  
+  /// Reuse Identifier for this UITableViewCell.
+  class var ReuseIdentifier: String {
+    get {
+      return "Group"
+    }
+  }
+  
+  // MARK: - Helper Methods
+  
+  /// Makes this GroupCell's IBOutlets display the correct values of the corresponding Group.
+  ///
+  /// :param: group The corresponding Group to be displayed by this GroupCell.
+  func makeCellFromGroup(group: Group) {
+    groupPicView.image = group.picture
+    nameLabel.text = group.name
     
+    descripTextView.text = group.descrip
+    descripTextView.font = GroupCell.DescripTextViewFont
+    descripTextView.textContainer.lineFragmentPadding = 0
+    descripTextView.textContainerInset = UIEdgeInsetsZero
     
+    // Make only the number in followersLabel bold
+    var followersText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: group.numFollowers), firstFont: GroupCell.FollowerFontBold, secondHalf: " FOLLOWERS", secondFont: GroupCell.FollowerFont)
+    followersLabel.attributedText = followersText
+  }
+  
 }
