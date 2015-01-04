@@ -489,11 +489,11 @@
                                     <outlet property="downvoteButton" destination="Q8E-FL-Abf" id="1XJ-4t-UXX"/>
                                     <outlet property="groupLabel" destination="wR1-b9-SlG" id="OEJ-hd-MyF"/>
                                     <outlet property="nameLabel" destination="pOz-3X-W6E" id="tkI-7t-UuC"/>
+                                    <outlet property="originalGroupLabel" destination="z7i-55-ZcG" id="KRj-CT-1tg"/>
                                     <outlet property="pictureView" destination="E4Z-gm-rxH" id="LQ4-cI-aVx"/>
                                     <outlet property="postTextView" destination="bxM-qT-Cdp" id="11D-0c-ggZ"/>
                                     <outlet property="repLabel" destination="4Ni-e2-HgV" id="VzP-kA-Rhx"/>
                                     <outlet property="repostButton" destination="kSH-hK-n8o" id="W8n-Xp-HTM"/>
-                                    <outlet property="repostGroupLabel" destination="z7i-55-ZcG" id="VrO-aT-Q8b"/>
                                     <outlet property="seeFullButton" destination="O8B-2p-Nsa" id="WAl-Gp-pD2"/>
                                     <outlet property="timeLabel" destination="ogh-Ri-0kh" id="uGU-gT-UX4"/>
                                     <outlet property="titleHeightConstraint" destination="xwS-mn-Yqa" id="Tsv-D9-5cU"/>
@@ -772,11 +772,11 @@
                                     <outlet property="commentTextView" destination="zW8-mG-GU3" id="xOw-45-EC5"/>
                                     <outlet property="downvoteHeightConstraint" destination="0jZ-0s-iNr" id="yLA-r6-VOu"/>
                                     <outlet property="imageIndentConstraint" destination="Xbp-En-iAA" id="S0b-xi-tLe"/>
-                                    <outlet property="profilePicView" destination="ck2-XJ-21u" id="57N-hr-Z27"/>
+                                    <outlet property="nameLabel" destination="uTG-AP-K3d" id="W5L-DV-yCO"/>
+                                    <outlet property="pictureView" destination="ck2-XJ-21u" id="CNN-Z9-lH0"/>
                                     <outlet property="repAndTimeLabel" destination="Jub-eH-fEQ" id="pLo-TK-hkh"/>
                                     <outlet property="textIndentConstraint" destination="o6T-Uq-0vp" id="fVw-pM-HhY"/>
                                     <outlet property="upvoteHeightConstraint" destination="QrS-tn-akc" id="Ju4-N5-zsh"/>
-                                    <outlet property="userLabel" destination="uTG-AP-K3d" id="4gC-1G-E9J"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1143,11 +1143,11 @@
                                     <outlet property="commentTextView" destination="Kvh-iE-ykT" id="DHJ-dS-9CK"/>
                                     <outlet property="downvoteHeightConstraint" destination="Bac-lQ-ANJ" id="JVG-mN-9qU"/>
                                     <outlet property="imageIndentConstraint" destination="rvd-Mh-d4l" id="qDV-Ho-FXW"/>
-                                    <outlet property="profilePicView" destination="VRA-yn-FVa" id="OXe-hy-MSq"/>
+                                    <outlet property="nameLabel" destination="GSt-Qg-j48" id="6SG-SP-3th"/>
+                                    <outlet property="pictureView" destination="VRA-yn-FVa" id="74o-dk-Yok"/>
                                     <outlet property="repAndTimeLabel" destination="Wxr-eg-zbT" id="QAe-0T-4Mb"/>
                                     <outlet property="textIndentConstraint" destination="4YA-zO-kn0" id="9Gb-EP-YLd"/>
                                     <outlet property="upvoteHeightConstraint" destination="74Z-If-mXx" id="j2F-eU-PyY"/>
-                                    <outlet property="userLabel" destination="GSt-Qg-j48" id="K7v-lK-RGt"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Post" rowHeight="187" id="2Ze-x6-pd0" customClass="PostCell" customModule="Cillo" customModuleProvider="target">

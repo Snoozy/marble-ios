@@ -13,7 +13,7 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class HomeTableViewController: MultiplePostsTableViewController {
   
-  //MARK: - Constants
+  // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   override var SegueIdentifierThisToPost: String {
@@ -22,12 +22,12 @@ class HomeTableViewController: MultiplePostsTableViewController {
     }
   }
   
-  //MARK: - IBOutlets
+  // MARK: IBOutlets
   
   /// Activity indicator used for network interactions.
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  //MARK: - UIViewController
+  // MARK: UIViewController
   
   // Initializes posts array
   override func viewDidLoad() {
@@ -41,7 +41,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
   }
   
-  //MARK: - Helper Functions
+  // MARK: Helper Functions
   
   /// Used to retrieve posts in the logged in User's feed from Cillo servers.
   ///
@@ -57,6 +57,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
         self.posts = result!
       }
     })
+    tableView.reloadData()
   }
   
 }

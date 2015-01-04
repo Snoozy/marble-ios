@@ -8,121 +8,49 @@
 
 import UIKit
 
-// TODO: Make this class fit the updated Comment and CommentCell Models.
-// TODO: Document this code.
+/// Handles view of expanded Post with Comments beneath it.
+///
+/// Formats TableView to look appealing and be functional.
+///
+/// Note: Must assign post property of superclass a relevant value before displaying this SinglePostTableViewController.
+class PostTableViewController: SinglePostTableViewController {
 
-///Handles view of expanded Post with Comments beneath it. Formats TableView to look appealing and be functional.
-class PostTableViewController: UITableViewController {
-
-    //MARK: - Properties
-    
-    ///Post that is expanded in ViewController
-    var post : Post = Post()
-    
-    var comments : [Comment] = []
-    
-    ///Array that represents Comment tree in pre-order listing
-    var tree : [Comment] = []
-    
-    ///NSIndexPath of selected Comment in tableView
-    var selectedPath : NSIndexPath?
-    
-    
-    //MARK: - UIViewController
-    
-    //Stores comments of post in tree
-    override func viewWillAppear(animated: Bool) {
-        for comment in comments {
-            makeCommentTreeIntoArray(comment)
-        }
-    }
+  // MARK: IBOutlets
   
-    //MARK: - UITableViewDataSource
-
-    //1 section in tableView
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-
-    //Assigns (# comments + post) rows to tableView
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tree.count + 1
-    }
+  /// Activity indicator used for network interactions.
+  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+  
+  // MARK: UIViewController
+  
+  // Initializes commentTree array
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-    //Creates PostCell with appropriate properties for Post at first row and CommentCell for each Comment in tree
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 { //Make a Post Cell for only first row
-            let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
-            
-            cell.makeCellFromPost(post, withButtonTag: indexPath.row)
-            
-            return cell
-        } else { //Make a CommentCell for all rows past the first row
-            let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
-            
-            let comment = tree[indexPath.row - 1] //indexPath.row - 1 b/c Post is not included in tree
-            
-            cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath)
-            
-            //makes separator indented
-            //UIEdgeInsetsMake(top, left, bottom, right)
-            if indexPath.row != tree.count {
-                if indexPath.row + 1 == selectedPath?.row {
-                    cell.separatorInset = UIEdgeInsetsZero
-                } else if cell.indentationLevel < tree[indexPath.row].predictedIndentLevel() {
-                    cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
-                } else {
-                    cell.separatorInset = UIEdgeInsetsMake(0, tree[indexPath.row].predictedIndentSize(), 0, 0)
-                }
-            }
-            
-            return cell
-        }
-        
+    if NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.Auth) != nil {
+      retrieveCommentTree()
     }
     
-    
-    //MARK: - UITableViewDelegate
-    
-    //Make height of cell appropriate size for settings
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 { //PostCell
-            let heightWithTitle = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: nil) + PostCell.AdditionalVertSpaceNeeded
-            return post.title != nil ? heightWithTitle : heightWithTitle - PostCell.TitleHeight
-        }
-        //is a CommentCell
-        let height = tree[indexPath.row - 1].heightOfCommentWithWidth(PrototypeTextViewWidth, withSelected: selectedPath == indexPath) + CommentCell.AdditionalVertSpaceNeeded
-        return selectedPath == indexPath ? height : height - CommentCell.ButtonHeight
-    }
-    
-    //Returns the indentationLevel for the indexPath. Cannot exceed 5 to keep cells from getting too small
-    override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
-        if indexPath.row == 0 || indexPath == selectedPath {
-            return 0
-        } else {
-            return tree[indexPath.row - 1].predictedIndentLevel()
-        }
-    }
-    
-    //Updates selectedPath
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if selectedPath !== indexPath {
-            selectedPath = indexPath
-        } else {
-            selectedPath = nil
-        }
-        tableView.reloadData()
-    }
-    
-    
-    //MARK: - Helper Functions
-
-    ///Makes Comment tree into an array in pre-order
-    func makeCommentTreeIntoArray(c: Comment) {
-        tree.append(c)
-        for child in c.comments {
-            makeCommentTreeIntoArray(child)
-        }
-    }
-    
+    // Gets rid of Front Page Text on back button
+    navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
+  }
+  
+  // MARK: Helper Functions
+  
+  /// Used to retrieve comment tree from Cillo servers that corresponds to the post passed to this UIViewController.
+  ///
+  /// Assigns commentTree property of SinglePostTableViewController correct values from server calls.
+  func retrieveCommentTree() {
+    activityIndicator.start()
+    DataManager.sharedInstance.getPostCommentsByID(post.postID, completion: { (error, result) -> Void in
+      self.activityIndicator.stop()
+      if error != nil {
+        println(error)
+        error!.showAlert()
+      } else {
+        self.commentTree = result!
+      }
+    })
+    tableView.reloadData()
+  }
+  
 }

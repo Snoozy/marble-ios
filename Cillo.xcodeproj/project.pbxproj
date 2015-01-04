@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95062D0A1A0D2A6200B4162D /* Extensions.swift */; };
+		9509E0001A55F60B00F5083B /* Repost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9509DFFF1A55F60B00F5083B /* Repost.swift */; };
 		9530E0831A075073001DB24E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0821A075073001DB24E /* Comment.swift */; };
 		9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0841A0754B3001DB24E /* CommentCell.swift */; };
 		95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */; };
@@ -28,6 +29,7 @@
 		95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A0575D1A463F6B000F7142 /* LogInViewController.swift */; };
 		95A057611A4640F2000F7142 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A057601A4640F2000F7142 /* TabViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
+		95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
 		95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2A919F8D2B400086BAF /* AppDelegate.swift */; };
@@ -84,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		95062D0A1A0D2A6200B4162D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9509DFFF1A55F60B00F5083B /* Repost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repost.swift; sourceTree = "<group>"; };
 		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		9530E0841A0754B3001DB24E /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		95A0575D1A463F6B000F7142 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		95A057601A4640F2000F7142 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePostTableViewController.swift; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				95468AF219F99D7A00F158DE /* Post.swift */,
+				9509DFFF1A55F60B00F5083B /* Repost.swift */,
 				9530E0821A075073001DB24E /* Comment.swift */,
 				959E0F0E1A2538D7008B4D19 /* Group.swift */,
 				95A1C9341A0BE95600914DB0 /* User.swift */,
@@ -240,6 +245,7 @@
 				9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */,
 				9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */,
 				9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */,
+				95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */,
 			);
 			name = "Parent TVCs";
 			sourceTree = "<group>";
@@ -455,6 +461,8 @@
 				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
 				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
+				9509E0001A55F60B00F5083B /* Repost.swift in Sources */,
+				95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
 				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,

@@ -8,51 +8,30 @@
 
 import UIKit
 
-///Defines all properties of a Post on Cillo
+/// Defines all properties of a Post on Cillo.
 class Post: NSObject {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   /// ID of this Post
   let postID: Int = 0
   
-  /// ID of the Group that this Post was posted in.
-  let groupID: Int = 0
-  
-  /// Indicates whether this Post is a repost from another Group.
-  ///
-  /// * True - This Post is a repost.
-  /// * False - This Post is not a repost
-  let repost: Bool = false
-  
-  /// Accountname of User that reposted this Post.
-  /// Nil if repost is false.
-  let repostUser: String?
-  
-  /// Group that this Post was reposted to.
-  /// Nil if repost is false.
-  let repostGroup: String?
-  
-  /// Display name of User that posted this Post.
-  let name: String = ""
-  
-  /// Username of user that posted this Post.
-  let username: String = ""
-  
-  /// Profile picture of User that posted this Post.
-  let picture: UIImage = UIImage(named: "Me")!
+  /// User that posted this Post.
+  var user: User = User()
   
   /// Group that this Post was posted in.
-  let group: String = ""
+  var group: Group = Group()
   
   /// Content of this Post.
   let text: String = ""
   
   /// Title of this Post.
+  ///
   /// Nil if this Post has no title.
   let title: String?
   
   /// Time since this Post was posted.
+  ///
   /// String is properly formatted via NSDate.convertToTimeString(time:).
   let time: String = ""
   
@@ -60,6 +39,7 @@ class Post: NSObject {
   var numComments: Int = 0
   
   /// Reputation of this Post.
+  ///
   /// Formula: Upvotes - Downvotes
   var rep: Int = 0
   
@@ -70,55 +50,38 @@ class Post: NSObject {
   /// * Nil - Post is unexpandable.
   var seeFull : Bool?
   
-  // MARK: - Initializers
+  // MARK: Initializers
   
   /// Creates Post based on a swiftyJSON retrieved from a call to the Cillo servers.
   ///
   /// Should contain key value pairs for:
   /// * "post_id" - Int
   /// * "repost" - Bool
-  /// * "repost_user" - String (Only present if "repost" is true)
-  /// * "repost_group" - String (Only present if "repost" is true)
   /// * "content" - String
-  /// * "group_id" - Int
-  /// * "group_name" - String
-  /// * "user_name" - String
-  /// * "user_username" - String
-  /// * "user_photo" - String
+  /// * "group" - Dictionary
+  /// * "user" - Dictionary
   /// * "time" - Int64
-  /// * "rep" - Int
+  /// * "votes" - Int
   /// * "comment_count" - Int
+  ///
+  /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
-    self.postID = json["post_id"].intValue
-    self.repost = json["repost"].boolValue
-    if self.repost {
-      self.repostUser = json["repost_user"].stringValue
-      self.repostGroup = json["repost_group"].stringValue
-    }
-    self.text = json["content"].stringValue
-    self.groupID = json["group_id"].intValue
-    self.group = json["group_name"].stringValue
-    self.name = json["user_name"].stringValue
-    self.username = json["user_username"].stringValue
-    if let imageData = NSData(contentsOfURL: NSURL(fileURLWithPath: json["user_photo"].stringValue)!) {
-      if let image = UIImage(data: imageData) {
-        picture = image
-      } else {
-        picture = UIImage(named: "Me")!
-      }
-    }
+    postID = json["post_id"].intValue
+    text = json["content"].stringValue
+    group = Group(json: json["group"])
+    user = User(json: json["user"])
     let time = json["time"].int64Value
     self.time = NSDate.convertToTimeString(time: time)
-    self.rep = json["votes"].intValue
-    self.numComments = json["comment_count"].intValue
+    rep = json["votes"].intValue
+    numComments = json["comment_count"].intValue
   }
   
-  //Creates empty Post
+  // Creates empty Post.
   override init() {
     super.init()
   }
   
-  // MARK: - Helper Functions
+  // MARK: Helper Functions
   
   /// Used to find the height of postTextView in a PostCell displaying this Post.
   ///
@@ -126,7 +89,7 @@ class Post: NSObject {
   /// :param: maxHeight The maximum height of the postTextView before it is expanded.
   /// :param: * Nil if post is unexpandable (seeFull is nil).
   ///  * Usually set to MaxContracted height constant of UITableViewController.
-  /// :returns: Predicted height of descripTextView in a GroupCell.
+  /// :returns: Predicted height of postTextView in a PostCell.
   func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
     let height = text.heightOfTextWithWidth(width, andFont: PostCell.PostTextViewFont)
     if let maxHeight = maxHeight {
@@ -138,7 +101,7 @@ class Post: NSObject {
       if seeFull == nil || seeFull! {
         return height
       } else {
-        return h
+        return maxHeight
       }
     } else {
       return height

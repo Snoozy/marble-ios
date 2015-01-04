@@ -50,29 +50,29 @@ enum Router: URLStringConvertible {
   // TODO: Need method for PostComments, UserComments, GroupCreate, CommentCreate, and MediaUpload.
   
   //GET
-  case Root //DONE
-  case GroupFeed(Int) //DONE
-  case GroupInfo(Int) //DONE
-  case PostInfo(Int) //DONE
+  case Root // DONE
+  case GroupFeed(Int) // DONE
+  case GroupInfo(Int) // DONE
+  case PostInfo(Int) // DONE
   case PostComments(Int)
-  case SelfInfo //DONE
+  case SelfInfo // DONE
   case UserInfo //DONE
-  case UserGroups(Int) //DONE
-  case UserPosts(Int) //DONE
-  case UserComments(Int)
+  case UserGroups(Int) // DONE
+  case UserPosts(Int) // DONE
+  case UserComments(Int) // DONE
   
   //POST
-  case Register //DONE
+  case Register // DONE
   case GroupCreate
-  case Login //DONE
-  case Logout //DONE
-  case PostCreate //DONE
+  case Login // DONE
+  case Logout // DONE
+  case PostCreate // DONE
   case CommentCreate
   case MediaUpload
-  case CommentUp(Int) //DONE
-  case CommentDown(Int) //DONE
-  case PostUp(Int) //DONE
-  case PostDown(Int) //DONE
+  case CommentUp(Int) // DONE
+  case CommentDown(Int) // DONE
+  case PostUp(Int) // DONE
+  case PostDown(Int) // DONE
   
   /// Part of URL after the baseURLString.
   var URLString: String {
@@ -141,7 +141,7 @@ enum Router: URLStringConvertible {
 /// Warning: Always call this class's methods through the sharedInstance.
 class DataManager: NSObject {
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Singleton network manager.
   ///
@@ -153,7 +153,7 @@ class DataManager: NSObject {
     return Static.instance
   }
   
-  // MARK: - Networking Functions
+  // MARK: Networking Functions
   
   /// Attempts to log into server and retrieve an Auth Token.
   ///
@@ -168,21 +168,15 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.Login, parameters: ["username":username, "password":password], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
             let authToken = swiftyJSON["auth_token"].stringValue
-            
             completion(error: nil, result: authToken)
           }
         }
-    }
+      }
   }
   
   /// Attempts to register user with server.
@@ -198,18 +192,14 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.Register, parameters: ["username":username, "name":name, "password":password, "email":email], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, success: false)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
             completion(error: nil, success: true)
           }
         }
-    }
+      }
   }
   
   /// Attempts to logout of server.
@@ -223,18 +213,14 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.Logout, parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, success: false)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
             completion(error: nil, success: true)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve home page from server for the logged in user. If successful, returns an array of posts on home page in completion block
@@ -248,28 +234,25 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.Root, parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let posts = swiftyJSON["posts"].arrayValue // pull out the array from the JSON
-            
+            let posts = swiftyJSON["posts"].arrayValue
             var returnArray: [Post] = []
-            
             for post in posts {
-              let item = Post(json: post)  // convert element to our model object
+              var item: Post
+              if post["repost"].boolValue {
+                item = Repost(json: post)
+              } else {
+                item = Post(json: post)
+              }
               returnArray.append(item)
             }
-            
             completion(error: nil, result: returnArray)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve a group's feed from server.
@@ -284,28 +267,25 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.GroupFeed(groupID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let posts = swiftyJSON["posts"].arrayValue // pull out the array from the JSON
-            
+            let posts = swiftyJSON["posts"].arrayValue
             var returnArray: [Post] = []
-            
             for post in posts {
-              let item = Post(json: post)  // convert element to our model object
+              var item: Post
+              if post["repost"].boolValue {
+                item = Repost(json: post)
+              } else {
+                item = Post(json: post)  // convert element to our model object
+              }
               returnArray.append(item)
             }
-            
             completion(error: nil, result: returnArray)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve info about the logged in user.
@@ -319,21 +299,15 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let user = User(json: swiftyJSON) // pull out the array from the JSON
-            
+            let user = User(json: swiftyJSON)
             completion(error: nil, result: user)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve info about a user by id.
@@ -348,21 +322,15 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.UserInfo, parameters: ["user_id":userID], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let user = User(json: swiftyJSON) // pull out the array from the JSON
-            
+            let user = User(json: swiftyJSON)
             completion(error: nil, result: user)
           }
         }
-    }
+      }
   }
   /// Attempts to retrieve info about a user by unique username.
   ///
@@ -376,21 +344,15 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.UserInfo, parameters: ["username":username], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let user = User(json: swiftyJSON) // pull out the array from the JSON
-            
+            let user = User(json: swiftyJSON)
             completion(error: nil, result: user)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve info about a group by id.
@@ -405,21 +367,15 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.GroupInfo(groupID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let group = Group(json: swiftyJSON) // pull out the array from the JSON
-            
+            let group = Group(json: swiftyJSON)
             completion(error: nil, result: group)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve info about a post by id.
@@ -434,18 +390,49 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
-            let post = Post(json: swiftyJSON) // pull out the array from the JSON
-            
+            var post: Post
+            if swiftyJSON["repost"].boolValue {
+              post = Repost(json: swiftyJSON)
+            } else {
+              post = Post(json: swiftyJSON) // pull out the array from the JSON
+            }
             completion(error: nil, result: post)
+          }
+        }
+      }
+  }
+  
+  /// Attempts to retrieve tree of comments that have replied to a post with the provided post id.
+  ///
+  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: postID The id of the post that the server is retrieving comments for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the comment tree for the post.
+  func getPostCommentsByID(postID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
+    Alamofire
+      .request(.GET, Router.PostComments(postID), parameters: nil, encoding: .URL)
+      .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        if error != nil {
+          completion(error: error!, result: nil)
+        } else {
+          if let swiftyJSON = JSON(rawValue: data!) {
+            let comments = swiftyJSON["comments"].arrayValue
+            var rootComments: [Comment] = []
+            for comment in comments {
+              let item = Comment(json: comment, lengthToPost: 1)
+              rootComments.append(item)
+            }
+            var returnedTree: [Comment] = []
+            for comment in rootComments {
+              returnedTree += comment.makeCommentTree()
+            }
+            completion(error: nil, result: returnedTree)
           }
         }
     }
@@ -463,28 +450,20 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.UserGroups(userID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
             let groups = swiftyJSON["groups"].arrayValue
-            
             var returnArray: [Group] = []
-            
             for group in groups {
               let item = Group(json: group)
               returnArray.append(item)
             }
-            
             completion(error: nil, result: returnArray)
           }
         }
-    }
+      }
   }
   
   /// Attempts to retrieve list of posts that a user has made by user id.
@@ -499,28 +478,53 @@ class DataManager: NSObject {
     Alamofire
       .request(.GET, Router.UserPosts(userID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, result: nil)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            
             let posts = swiftyJSON["posts"].arrayValue
-            
             var returnArray: [Post] = []
-            
             for post in posts {
-              let item = Post(json: post)
+              var item: Post
+              if post["repost"].boolValue {
+                item = Repost(json: post)
+              } else {
+                item = Post(json: post)  // convert element to our model object
+              }
               returnArray.append(item)
             }
-            
             completion(error: nil, result: returnArray)
           }
         }
-    }
+      }
+  }
+  
+  /// Attempts to retrieve list of posts that a user has made by user id.
+  ///
+  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: userID The id of the user that the server is retrieving comments for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the comments that the user has made.
+  func getUserCommentsByID(userID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
+    Alamofire
+      .request(.GET, Router.UserComments(userID), parameters: nil, encoding: .URL)
+      .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        if error != nil {
+          completion(error: error!, result: nil)
+        } else {
+          if let swiftyJSON = JSON(rawValue: data!) {
+            let comments = swiftyJSON["comments"].arrayValue
+            var returnArray: [Comment] = []
+            for comment in comments {
+              let item = Comment(json: comment, lengthToPost: nil)
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        }
+      }
   }
   
   /// Attempts to create a new post made by the logged in user. 
@@ -539,22 +543,30 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
   func createPost(repostID: Int?, groupID: Int, text: String, title: String?, completion:(error: NSError?, result: Post?) -> Void) {
+    var parameters: [String: AnyObject] = ["group_id": groupID, "data": text]
+    if let repostID = repostID {
+      parameters["repost_id"] = repostID
+    }
+    if let title = title {
+      parameters["title"] = title
+    }
     Alamofire
-      .request(.POST, Router.PostCreate, parameters: ["repost_id":repostID, "group_id":groupID, "data":text, "title":title], encoding: .URL)
+      .request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
-          completion(error: error!, success: false)
-          
+          completion(error: error!, result: nil)
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
-            let post = Post(json: swiftyJSON)
-            completion(error: nil, success: post)
+            var post: Post
+            if swiftyJSON["repost"].boolValue {
+              post = Repost(json: swiftyJSON)
+            } else {
+              post = Post(json: swiftyJSON)
+            }
+            completion(error: nil, result: post)
           }
         }
-    }
+      }
   }
   
   
@@ -570,18 +582,14 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, success: false)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
             completion(error: nil, success: true)
           }
         }
-    }
+      }
   }
   
   /// Attempts to downvote a post.
@@ -596,18 +604,14 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, success: false)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
             completion(error: nil, success: true)
           }
         }
-    }
+      }
   }
   
   /// Attempts to upvote a comment.
@@ -622,18 +626,14 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, success: false)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
             completion(error: nil, success: true)
           }
         }
-    }
+      }
   }
   
   /// Attempts to downvote a comment.
@@ -648,18 +648,14 @@ class DataManager: NSObject {
     Alamofire
       .request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        
         if error != nil {
-          
           completion(error: error!, success: false)
-          
         } else {
-          
           if let swiftyJSON = JSON(rawValue: data!) {
             completion(error: nil, success: true)
           }
         }
-    }
+      }
   }
   
 }

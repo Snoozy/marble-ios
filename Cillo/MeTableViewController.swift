@@ -13,12 +13,12 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class MeTableViewController: SingleUserTableViewController {
   
-  //MARK: - IBOutlets
+  // MARK: IBOutlets
   
   /// Activity indicator used for network interactions.
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   override var SegueIdentifierThisToPost: String {
@@ -27,7 +27,7 @@ class MeTableViewController: SingleUserTableViewController {
     }
   }
   
-  // MARK: - UIViewController
+  // MARK: UIViewController
   
   // Initializes user
   override func viewDidLoad() {
@@ -48,6 +48,7 @@ class MeTableViewController: SingleUserTableViewController {
     retrieveUser()
     retrievePosts()
     retrieveComments()
+    tableView.reloadData()
   }
   
   /// Retrieves logged in User from NSUserDefaults and sets user property of superclass to the retrieved User.
@@ -60,7 +61,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// Retrieves posts made by logged in User from Cillo servers and sets posts property of superclass to the retrieved Post array.
   func retrievePosts() {
     activityIndicator.start()
-    DataManager.sharedInstance.getUserPosts(userID: user.userID { (error, result) -> Void in
+    DataManager.sharedInstance.getUserPostsByID(user.userID, completion: { (error, result) -> Void in
       self.activityIndicator.stop()
       if error != nil {
         println(error)

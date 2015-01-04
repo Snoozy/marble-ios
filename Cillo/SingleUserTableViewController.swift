@@ -15,7 +15,7 @@ import UIKit
 /// Note: Subclasses must override SegueIdentifierThisToPost.
 class SingleUserTableViewController: UITableViewController {
   
-  // MARK: -  Properties
+  // MARK: Properties
   
   /// User for this UIViewController.
   var user: User = User()
@@ -30,7 +30,7 @@ class SingleUserTableViewController: UITableViewController {
   var cellsShown = UserCell.SegIndex.Posts
   
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   ///
@@ -42,7 +42,7 @@ class SingleUserTableViewController: UITableViewController {
   }
   
   
-  // MARK: - UIViewController
+  // MARK: UIViewController
   
   // Transfer selected Post to PostTableViewController
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -66,7 +66,7 @@ class SingleUserTableViewController: UITableViewController {
   }
   
   
-  // MARK: - UITableViewDataSource
+  // MARK: UITableViewDataSource
   
   // Assigns number of sections based on the length of the User array corresponding to cellsShown.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -92,14 +92,20 @@ class SingleUserTableViewController: UITableViewController {
       cell.makeCellFromUser(user)
       return cell
     } else {
+      var cell: PostCell
       switch cellsShown {
       case .Posts:
-        let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
-        cell.makeCellFromPost(user.posts[indexPath.section - 1], withButtonTag: indexPath.section)
+        let post = posts[indexPath.section - 1]
+        if let post = post as? Repost {
+          cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+        } else {
+          cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+        }
+        cell.makeCellFromPost(post, withButtonTag: indexPath.section)
         return cell
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
-        cell.makeCellFromComment(user.comments[indexPath.section - 1], withSelected: false)
+        cell.makeCellFromComment(comments[indexPath.section - 1], withSelected: false)
         return cell
       default:
         return UITableViewCell()
@@ -107,7 +113,7 @@ class SingleUserTableViewController: UITableViewController {
     }
   }
   
-  // MARK: - UITableViewDelegate
+  // MARK: UITableViewDelegate
   
   // Sets height of divider inbetween cells.
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -139,10 +145,15 @@ class SingleUserTableViewController: UITableViewController {
     switch cellsShown {
     case .Posts:
       let post = posts[indexPath.section - 1]
-      let height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + PostCell.AdditionalVertSpaceNeeded
+      var height: CGFloat
+      if let post = post as? Repost {
+        height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + RepostCell.AdditionalVertSpaceNeeded
+      } else {
+        height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + PostCell.AdditionalVertSpaceNeeded
+      }
       return post.title != nil ? height : height - PostCell.TitleHeight
     case .Comments:
-      return comments[indexPath.section - 1].heightOfCommentWithWidth(PrototypeTextViewWidth, withSelected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
+      return comments[indexPath.section - 1].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
     default:
       return 0
     }
@@ -157,7 +168,7 @@ class SingleUserTableViewController: UITableViewController {
   }
   
   
-  // MARK: - IBActions
+  // MARK: IBActions
   
   /// Updates cellsShown when the postsSegControl in UserCell changes its selectedIndex.
   @IBAction func valueChanged(sender: UISegmentedControl) {

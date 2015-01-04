@@ -8,9 +8,7 @@
 
 import UIKit
 
-// MARK: - Extensions
-
-// MARK: -
+// MARK: - Extensions -
 
 extension String {
   
@@ -97,10 +95,10 @@ extension NSMutableAttributedString {
   /// :param: secondFont The font that the second part of the AttributedString is displayed in.
   /// :returns: An AttributedString that has two parts displayed in two different fonts.
   class func twoFontString(#firstHalf: String, firstFont: UIFont, secondHalf: String, secondFont: UIFont) -> NSMutableAttributedString {
-    let firstHalf = NSMutableAttributedString(string: boldedString, attributes: [NSFontAttributeName:boldedFont])
-    let secondHalf = NSMutableAttributedString(string: normalString, attributes: [NSFontAttributeName:normalFont])
-    firstHalf.appendAttributedString(secondHalf)
-    return firstHalf
+    let first = NSMutableAttributedString(string: firstHalf, attributes: [NSFontAttributeName:firstFont])
+    let second = NSMutableAttributedString(string: secondHalf, attributes: [NSFontAttributeName:secondFont])
+    first.appendAttributedString(second)
+    return first
   }
   
 }

@@ -8,18 +8,20 @@
 
 import UIKit
 
-/// Cell that corresponds to reuse identifier "Post". Used to format Posts in UITableViews.
+/// Cell that corresponds to reuse identifier "Post".
+///
+/// Used to format Posts in UITableViews.
 class PostCell: UITableViewCell {
   
-  // MARK: - IBOutlets
+  // MARK: IBOutlets
   
-  /// Displays name property of Post.
+  /// Displays user.name property of Post.
   @IBOutlet weak var nameLabel: UILabel!
   
-  /// Displays picture property of Post.
+  /// Displays user.profilePic property of Post.
   @IBOutlet weak var pictureView: UIImageView!
   
-  /// Displays group property of Post.
+  /// Displays group.name property of Post.
   @IBOutlet weak var groupLabel: UILabel!
   
   /// Displays text property of Post.
@@ -59,7 +61,7 @@ class PostCell: UITableViewCell {
   /// If title of Post is nil, set constant to 0.
   @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
 
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Height needed for all components of a PostCell excluding postTextView in the Storyboard.
   ///
@@ -91,7 +93,7 @@ class PostCell: UITableViewCell {
     }
   }
   
-  // MARK: - Helper Functions
+  // MARK: Helper Functions
   
   /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
   ///
@@ -100,9 +102,9 @@ class PostCell: UITableViewCell {
   /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
     
-    nameLabel.text = post.name
-    groupLabel.text = post.group
-    pictureView.image = post.picture
+    nameLabel.text = post.user.name
+    groupLabel.text = post.group.name
+    pictureView.image = post.user.profilePic
     timeLabel.text = post.time
     
     postTextView.text = post.text

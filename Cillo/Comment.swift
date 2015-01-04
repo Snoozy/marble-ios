@@ -8,45 +8,43 @@
 
 import UIKit
 
-// TODO: Make this class fit the Cillo server's model.
-// TODO: Document this code.
-
-///Defines all properties of a Comment on Cillo
+/// Defines all properties of a Comment on Cillo.
 class Comment: NSObject {
   
-  //MARK: - Properties
+  // MARK: Properties
   
-  ///Username that posted Comment
-  let user : String = ""
+  /// User that posted this Comment.
+  let user: User = User()
   
-  ///Profile picture of user
-  let picture : UIImage = UIImage(named: "Me")!
+  /// Post that this Comment replied to.
+  let post: Post = Post()
   
-  ///Content of Comment
-  let text : String = ""
+  /// Comments that replied to this Comment.
+  ///
+  /// Nil if this Comment does not have any children or the children are unknown.
+  let children: [Comment]?
   
-  ///Time since Comment was posted. Formatted as #h for # hours
-  let time : String = ""
+  /// Content of this Comment.
+  let text: String = ""
   
-  ///Number of Comments that replied to this Comment
-  var numComments : Int = 0
+  /// Time since this Comment was posted.
+  ///
+  /// String is properly formatted via NSDate.convertToTimeString(time:).
+  let time: String = ""
   
-  ///(Upvotes - Downvotes) for Comment
-  var rep : Int = 0
+  /// Reputation of this Comment.
+  ///
+  /// Formula: Upvotes - Downvotes
+  var rep: Int = 0
   
-  ///Distance to parent Post through tree
-  var lengthToPost : Int = 1
+  /// Level of this Comment in Comment tree.
+  ///
+  /// Note: A direct reply to a Post has a lengthToPost of 1.
+  var lengthToPost: Int?
   
-  ///Comments replying to this Comment
-  var comments : [Comment] = []
+  // MARK: Constants
   
-  ///Post that Comment is replying to
-  var post : Post = Post()
-  
-  
-  //MARK: - Constants
-  
-  ///Longest possible lengthToPost before indent is constant in CommentCell
+  /// Longest possible lengthToPost before indent is constant in CommentCell.
   class var LongestLengthToPost: Int {
     get {
       return 5
@@ -54,51 +52,94 @@ class Comment: NSObject {
   }
   
   
-  //MARK: - Initializers
+  // MARK: Initializers
   
-  ///Creates Comment based on input parameters
-  init(user: String, picture: UIImage, text: String, time: String, numComments: Int, rep: Int, lengthToPost: Int, comments: [Comment]) {
-    self.user = user
-    self.picture = picture
-    self.text = text
-    self.time = time
-    self.numComments = numComments
-    self.rep = rep
+  /// Creates Post based on a swiftyJSON retrieved from a call to the Cillo servers.
+  ///
+  /// Should contain key value pairs for:
+  /// * "post" - Dictionary
+  /// * "user" - Dictionary
+  /// * "content" - String
+  /// * "time" - Int64
+  /// * "votes" - Int
+  /// * "children" - Array?
+  ///
+  /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
+  /// :param: lengthToPost The level of this Comment in a Comment tree.
+  /// 
+  /// Nil if not building a Comment tree with this Comment.
+  init(json: JSON, lengthToPost: Int?) {
+    post = Post(json: json["post"])
+    user = User(json: json["user"])
+    text = json["content"].stringValue
+    let time = json["time"].int64Value
+    self.time = NSDate.convertToTimeString(time: time)
+    rep = json["votes"].intValue
     self.lengthToPost = lengthToPost
-    self.comments = comments
+    if lengthToPost != nil && json["children"] != nil {
+      let children = json["children"].arrayValue
+      self.children = []
+      for child in children {
+        let item = Comment(json: child, lengthToPost: self.lengthToPost! + 1)
+        self.children!.append(item)
+      }
+    }
   }
   
-  ///Creates empty Comment
+  // Creates empty Comment.
   override init() {
     super.init()
   }
   
   
-  //MARK: - Helper Methods
+  // MARK: Helper Methods
   
-  ///Predicted indentLevel property for CommentCell. Does not account for if CommentCell is selected
-  func predictedIndentLevel() -> Int {
-    if lengthToPost > Comment.LongestLengthToPost {
-      return 4
-    } else {
-      return lengthToPost - 1
+  /// Used to retrieve a Comment tree containing this Comment and all of its children.
+  ///
+  /// :returns: An array of Comments representing a Comment tree in preorder format.
+  func makeCommentTree() -> [Comment] {
+    var tree: [Comment] = [self]
+    if let children = self.children {
+      for child in children {
+        tree += child.makeCommentTree()
+      }
     }
+    return tree
   }
   
-  ///Predicted indent size for an arbitrary CommentCell containing this Comment. Does not account for if CommentCell is selected.
-  func predictedIndentSize() -> CGFloat {
-    return CGFloat(predictedIndentLevel()) * CommentCell.IndentSize
+  /// Used to find the indentLevel property for a CommentCell displaying this Comment.
+  ///
+  /// Warning: Don't call this method if lengthToPost is nil
+  ///
+  /// :param: selected Describes if CommentCell is selected.
+  /// :returns: A valid indentLevel for a CommentCell displaying this Comment.
+  func predictedIndentLevel(#selected: Bool) -> Int {
+    if let lengthToPost = self.lengthToPost {
+      if selected {
+        return 0
+      } else {
+        return lengthToPost > Comment.LongestLengthToPost ? Comment.LongestLengthToPost - 1 : lengthToPost - 1
+      }
+    }
+    return 0
   }
   
-  ///Returns the predicted height of commentTextView in a CommentCell.
-  ///@width - width of UITextView in container
-  ///@selected - true if CommentCell is selected
-  func heightOfCommentWithWidth(width: CGFloat, withSelected selected: Bool) -> CGFloat {
-    let indent = CGFloat(lengthToPost - 1)
-    var w = width - CommentCell.TextViewDistanceToIndent
-    if !selected { w -= predictedIndentSize() }
-    
-    return text.heightOfTextWithWidth(w, andFont: CommentCell.CommentTextViewFont)
+  /// Used to find the indent size for a CommentCell displaying this Comment.
+  ///
+  /// :param: selected Describes if CommentCell is selected.
+  /// :returns: A valid indentSize in pixels for a CommentCell displaying this Comment.
+  func predictedIndentSize(#selected: Bool) -> CGFloat {
+    return CGFloat(predictedIndentLevel(selected: selected)) * CommentCell.IndentSize
+  }
+  
+  /// Used to find the height of commentTextView in a CommentCell displaying this Comment.
+  ///
+  /// :param: width The current width of commentTextView.
+  /// :param: selected Describes if CommentCell is selected.
+  /// :returns: Predicted height of commentTextView in a CommentCell.
+  func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
+    let trueWidth = width - CommentCell.TextViewDistanceToIndent - predictedIndentSize(selected: selected)
+    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentTextViewFont)
   }
   
 }

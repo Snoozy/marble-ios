@@ -8,15 +8,16 @@
 
 import UIKit
 
-/// Defines all properties of a User on Cillo
+/// Defines all properties of a User on Cillo.
 class User: NSObject {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   /// ID of this User.
   let userID: Int = 0
   
   /// Username for this User.
+  ///
   /// Unique to this User.
   /// 
   /// Example: @AccountName
@@ -34,7 +35,7 @@ class User: NSObject {
   /// Total accumulated reputation of this User.
   var rep: Int = 0
   
-  // MARK: - Initializers
+  // MARK: Initializers
   
   /// Creates User based on a swiftyJSON retrieved from a call to the Cillo servers. 
   ///
@@ -45,6 +46,8 @@ class User: NSObject {
   /// * "reputation" - Int
   /// * "photo" - String
   /// * "bio" - String
+  ///
+  /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
     name = json["name"].stringValue
     username = json["username"].stringValue
@@ -60,12 +63,12 @@ class User: NSObject {
     bio = json["bio"].stringValue
   }
   
-  // Creates a default User
+  // Creates a default User.
   override init() {
     super.init()
   }
   
-  // MARK: - Helper Functions
+  // MARK: Helper Functions
   
   /// Used to find the height of bioTextView in a UserCell displaying this User.
   ///

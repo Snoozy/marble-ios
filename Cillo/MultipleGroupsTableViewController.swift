@@ -11,12 +11,12 @@ import UIKit
 /// Inherit this class for any UITableViewController that is only a table of GroupCells
 class MultipleGroupsTableViewController: UITableViewController {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   /// Groups for this UITableViewController.
   var groups: [Group] = []
   
-  // MARK: - UITableViewDataSource
+  // MARK: UITableViewDataSource
   
   // Assigns the number of sections based on the length of the groups array.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -39,7 +39,7 @@ class MultipleGroupsTableViewController: UITableViewController {
   }
   
   
-  // MARK: - UITableViewDelegate
+  // MARK: UITableViewDelegate
   
   // Sets height of divider inbetween cells.
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

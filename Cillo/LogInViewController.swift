@@ -15,7 +15,7 @@ import UIKit
 /// Note: Present this UIViewController if NSUserDefaults does not have values for the .Auth and .User. keys.
 class LogInViewController: UIViewController {
   
-  // MARK: - IBOutlets
+  // MARK: IBOutlets
   
   /// Space for user to enter their username for logging in.
   @IBOutlet weak var userTextField: UITextField!
@@ -26,7 +26,7 @@ class LogInViewController: UIViewController {
   /// Activity indicator used for network interactions.
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UIViewController to TabViewController
   class var SegueIdentifierThisToTab: String {
@@ -35,7 +35,7 @@ class LogInViewController: UIViewController {
     }
   }
   
-  // MARK: - UIViewController
+  // MARK: UIViewController
   
   // Make Root VCs retrieve their data after user logged in.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -62,7 +62,7 @@ class LogInViewController: UIViewController {
     }
   }
   
-  // MARK: - IBActions
+  // MARK: IBActions
   
   /// Sends login request when Login Button is pressed.
   ///

@@ -8,10 +8,12 @@
 
 import UIKit
 
-/// Cell that corresponds to reuse identifier "Group". Used to format Groups in UITableView.
+/// Cell that corresponds to reuse identifier "Group".
+///
+/// Used to format Groups in UITableView.
 class GroupCell: UITableViewCell {
   
-  // MARK: - IBOutlets
+  // MARK: IBOutlets
   
   /// Displays picture property of Group.
   @IBOutlet weak var groupPicView: UIImageView!
@@ -31,7 +33,7 @@ class GroupCell: UITableViewCell {
   /// Note: Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var followersLabel: UILabel!
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Height needed for all components of a GroupCell excluding descripTextView in the Storyboard.
   ///
@@ -70,7 +72,7 @@ class GroupCell: UITableViewCell {
     }
   }
   
-  // MARK: - Helper Methods
+  // MARK: Helper Methods
   
   /// Makes this GroupCell's IBOutlets display the correct values of the corresponding Group.
   ///

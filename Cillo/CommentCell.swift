@@ -11,103 +11,118 @@ import UIKit
 // TODO: Make this class fit the updated Comment Model.
 // TODO: Document this code.
 
-///Cell that corresponds to reuse identifier "Comment". Used to format Comments in UITableView.
+/// Cell that corresponds to reuse identifier "Comment".
+///
+/// Used to format Comments in UITableView.
 class CommentCell: UITableViewCell {
   
-  //MARK: - Properties
+  // MARK: Properties
   
-  ///An array that stores vertical lines for formating indents in a Comment tree. This array should be empty is there is no indent for CommentCell
+  /// An array that stores vertical lines for formating indents in a Comment tree.
+  ///
+  /// Note: This array should be empty if there is no indent for this CommentCell.
   var lines: [UIView] = []
   
-  //MARK: - IBOutlets
+  // MARK: IBOutlets
   
-  ///Corresponds to user of Comment
-  @IBOutlet weak var userLabel: UILabel!
+  /// Displays user.name property of Comment.
+  @IBOutlet weak var nameLabel: UILabel!
   
-  ///Corresponds to picture of Comment
-  @IBOutlet weak var profilePicView: UIImageView!
+  /// Displays user.profilePic property of Comment.
+  @IBOutlet weak var pictureView: UIImageView!
   
-  ///Corresponds to text of Comment
+  /// Displays text property of Comment.
   @IBOutlet weak var commentTextView: UITextView!
   
-  ///Corresponds to rep and time of Comment
+  /// Displays rep and time of Comment
   @IBOutlet weak var repAndTimeLabel: UILabel!
   
-  ///Set to 0 when not selected and BUTTON_HEIGHT when selected
+  /// Set to 0 when cell is selected and ButtonHeight when selected.
   @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint!
   
-  ///Set to 0 when not selected and BUTTON_HEIGHT when selected
+  /// Set to 0 when cell is selected and ButtonHeight when selected.
   @IBOutlet weak var downvoteHeightConstraint: NSLayoutConstraint!
   
-  ///Set to this cell's indent size
+  /// Set to .getIndentationSize().
   @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
   
-  ///Set to this cell's indent size
+  /// Set to .getIndentationSize() + .TextViewDistanceToIndent.
   @IBOutlet weak var textIndentConstraint: NSLayoutConstraint!
   
-  //MARK: - Constants
+  // MARK: Constants
   
-  ///Font of commentTextView
+  /// Font of the text contained within commentTextView.
   class var CommentTextViewFont: UIFont {
     get {
       return UIFont.systemFontOfSize(15.0)
     }
   }
   
-  ///Height needed for all components of CommentCell except commentTextView in Storyboard
+  /// Height needed for all components of a CommentCell excluding commentTextView in the Storyboard.
+  ///
+  /// Note: Height of commentTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
       return 89
     }
   }
   
-  ///Height of buttons in expanded menu when CommentCell is selected
+  /// Height of buttons in expanded menu when CommentCell is selected.
   class var ButtonHeight: CGFloat {
     get {
       return 32
     }
   }
   
-  ///Distance of commentTextView to right boundary of contentView. Used to align textView with userLabel when cell is indented
+  /// Distance of commentTextView to right boundary of contentView.
+  ///
+  /// Note: Used to align commentTextView with nameLabel when cell is indented.
   class var TextViewDistanceToIndent: CGFloat {
     get {
       return 32
     }
   }
   
-  ///Width of indent of indented Comments
+  /// Width of indent per indentationLevel of indented Comments.
   class var IndentSize: CGFloat {
     get {
       return 30
     }
   }
   
-  ///Reuse Identifier for this UITableViewCell
+  /// Reuse Identifier for this UITableViewCell.
   class var ReuseIdentifier: String {
     get {
       return "Comment"
     }
   }
   
-  //MARK: - Helper Methods
+  // MARK: Helper Methods
   
-  ///Returns true indent size for cell with current indentationLevel
+  /// Used to find how many pixels a CommentCell should be indented based on its indentationLevel.
+  ///
+  /// :returns: True indent size for cell with current indentationLevel.
   func getIndentationSize() -> CGFloat {
     return CGFloat(indentationLevel) * CommentCell.IndentSize
   }
   
-  ///Makes this CommentCell formatted in accordance with comment and selected
+  /// Makes this CommentCell's IBOutlets display the correct values of the corresponding Comment.
+  ///
+  /// :param: comment The corresponding Comment to be displayed by this CommentCell.
+  /// :param: selected Descibes if CommentCell is selected.
   func makeCellFromComment(comment: Comment, withSelected selected: Bool) {
-    userLabel.text = comment.user
+    nameLabel.text = comment.user.name
     //add dots if CommentCell has reached max indent and cannot be indented more
-    if comment.lengthToPost > Comment.LongestLengthToPost {
-      let difference = comment.lengthToPost - Comment.LongestLengthToPost
-      for _ in 0..<difference {
-        userLabel.text = "· \(userLabel.text!)"
+    if let lengthToPost = comment.lengthToPost {
+      if lengthToPost > Comment.LongestLengthToPost {
+        let difference = lengthToPost - Comment.LongestLengthToPost
+        for _ in 0..<difference {
+          nameLabel.text = "· \(nameLabel.text!)"
+        }
       }
     }
     
-    profilePicView.image = comment.picture
+    pictureView.image = comment.user.profilePic
     commentTextView.text = comment.text
     commentTextView.font = CommentCell.CommentTextViewFont
     commentTextView.textContainer.lineFragmentPadding = 0
@@ -143,7 +158,7 @@ class CommentCell: UITableViewCell {
     preservesSuperviewLayoutMargins = false
     
     //adds the vertical lines to the cells
-    for _ in 1...indentationLevel {
+    for var i = 1; i <= indentationLevel; i++ {
       var line = UIView(frame: CGRect(x: CGFloat(i)*CommentCell.IndentSize, y: 0, width: 1, height: frame.size.height))
       line.backgroundColor = UIColor.defaultTableViewDividerColor()
       lines.append(line)

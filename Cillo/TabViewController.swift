@@ -21,7 +21,7 @@ import UIKit
 /// Note: Each tab has a FormattedNavigationController as the start of the tab.
 class TabViewController: UITabBarController {
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITabBarController to LoginViewController.
   class var SegueIdentifierThisToLogin: String {
@@ -30,7 +30,7 @@ class TabViewController: UITabBarController {
     }
   }
 
-  // MARK: - UIViewController
+  // MARK: UIViewController
   
   // Modally presents LoginViewController if NSUserDefaults doesn'y have an Auth Token stored.
   override func viewDidAppear(animated: Bool){
@@ -39,7 +39,7 @@ class TabViewController: UITabBarController {
     }
   }
   
-  // MARK: - IBActions
+  // MARK: IBActions
   
   /// Allows LoginViewController to unwind its modal segue.
   @IBAction func unwindToTab(sender: UIStoryboardSegue) {

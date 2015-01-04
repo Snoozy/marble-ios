@@ -13,12 +13,12 @@ import UIKit
 /// Note: Subclasses must override SegueIdentifierThisToPost.
 class MultiplePostsTableViewController: UITableViewController {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   /// Posts for this UITableViewController.
   var posts: [Post] = []
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   ///
@@ -29,21 +29,21 @@ class MultiplePostsTableViewController: UITableViewController {
     }
   }
   
-  //MARK: - UIViewController
+  // MARK: UIViewController
   
   // Transfer selected Post to PostTableViewController.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToPost {
       var destination = segue.destinationViewController as PostTableViewController
-      if sender is UIButton {
-        destination.post = posts[(sender as UIButton).tag]
-      } else if sender is NSIndexPath {
-        destination.post = posts[(sender as NSIndexPath).section]
+      if let sender = sender as? UIButton {
+        destination.post = posts[sender.tag]
+      } else if let sender = sender as? NSIndexPath {
+        destination.post = posts[sender.section]
       }
     }
   }
   
-  //MARK: - UITableViewDataSource
+  // MARK: UITableViewDataSource
   
   // Assigns the number of sections based on length of the posts array.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -58,10 +58,11 @@ class MultiplePostsTableViewController: UITableViewController {
   // Creates PostCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let post = posts[indexPath.section]
-    if post.repost {
-      let cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+    var cell: PostCell
+    if let post = post as? Repost {
+      cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
     } else {
-      let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+      cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
     }
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.section)
@@ -69,7 +70,7 @@ class MultiplePostsTableViewController: UITableViewController {
     return cell
   }
   
-  // MARK: - UITableViewDelegate
+  // MARK: UITableViewDelegate
   
   // Sets height of divider inbetween cells.
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -86,12 +87,7 @@ class MultiplePostsTableViewController: UITableViewController {
   // Sets height of cell to appropriate value depending on length of post and whether post is expanded.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     let post = posts[indexPath.section]
-    if post.repost {
-      let additionalVertSpace = RepostCell.AdditionalVertSpaceNeeded
-    } else {
-      let additionalVertSpace = PostCell.AdditionalVertSpaceNeeded
-    }
-    let height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + additionalVertSpace
+    let height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
     return post.title != nil ? height : height - PostCell.TitleHeight
   }
   
@@ -101,7 +97,7 @@ class MultiplePostsTableViewController: UITableViewController {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
   }
   
-  //MARK: - IBActions
+  //MARK: IBActions
   
   /// Expands post in PostCell of sender when seeFullButton is pressed.
   @IBAction func seeFullPressed(sender: UIButton) {

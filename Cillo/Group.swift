@@ -8,10 +8,10 @@
 
 import UIKit
 
-///Defines all properties of a Group on Cillo
+/// Defines all properties of a Group on Cillo.
 class Group: NSObject {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   /// ID of this Group.
   let groupID: Int = 0
@@ -39,7 +39,7 @@ class Group: NSObject {
   /// * False - Logged in User is not following this Group.
   var following: Bool = false
   
-  // MARK: - Initializers
+  // MARK: Initializers
   
   /// Creates Group based on a swiftyJSON retrieved from a call to the Cillo servers.
   ///
@@ -51,6 +51,8 @@ class Group: NSObject {
   /// * "description" - String?
   /// * "following" - Bool
   /// * "photo" - String
+  ///
+  /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
     name = json["name"].stringValue
     numFollowers = json["followers"].intValue
@@ -69,12 +71,12 @@ class Group: NSObject {
     }
   }
   
-  //Creates empty Group
+  // Creates empty Group.
   override init() {
     super.init()
   }
   
-  // MARK: - Helper Functions
+  // MARK: Helper Functions
   
   /// Used to find the height of descripTextView in a GroupCell displaying this Group.
   ///

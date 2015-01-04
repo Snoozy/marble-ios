@@ -15,7 +15,7 @@ import UIKit
 /// Note: This class is the root UINavigationController of every Tab in the application.
 class FormattedNavigationViewController: UINavigationController {
   
-  //MARK: - UIViewController
+  // MARK: UIViewController
   
   // Changes title of navigationBar to white color.
   override func viewDidLoad() {

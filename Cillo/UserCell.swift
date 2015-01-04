@@ -8,10 +8,12 @@
 
 import UIKit
 
-/// Cell that corresponds to reuse identifier "User". Used to format Users in UITableView.
+/// Cell that corresponds to reuse identifier "User".
+///
+/// Used to format Users in UITableView.
 class UserCell: UITableViewCell {
   
-  // MARK: - IBOutlets
+  // MARK: IBOutlets
   
   /// Displays profilePic property of User.
   @IBOutlet weak var profilePicView: UIImageView!
@@ -44,7 +46,7 @@ class UserCell: UITableViewCell {
   /// Used to select the type of UITableViewCell is displayed under this UserCell in a SingleUserTableViewController.
   @IBOutlet weak var postsSegControl: UISegmentedControl!
   
-  // MARK: - Enums
+  // MARK: Enums
   
   /// Titles of postsSegControl's segments.
   ///
@@ -54,7 +56,7 @@ class UserCell: UITableViewCell {
     case Posts, Comments
   }
 
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Height needed for all components of a UserCell excluding bioTextView in the Storyboard.
   ///
@@ -115,7 +117,7 @@ class UserCell: UITableViewCell {
   }
   
   
-  // MARK: - Helper Methods
+  // MARK: Helper Methods
   
   /// Makes this UserCell's IBOutlets display the correct values of the corresponding User.
   ///

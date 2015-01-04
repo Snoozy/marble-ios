@@ -8,33 +8,37 @@
 
 import UIKit
 
-/// Cell that corresponds to reuse identifier "Repost". Used to format Posts with (repost = true) in UITableViews.
+// TODO: Rephrase the "Reposted from Group" to better show that it takes the User to the original Post.
+
+/// Cell that corresponds to reuse identifier "Repost".
+///
+/// Used to format Posts with (repost = true) in UITableViews.
 class RepostCell: PostCell {
   
-  // MARK: - IBOutlets
+  // MARK: IBOutlets
   
-  /// Displays group property of Post.
-  @IBOutlet weak var repostGroupLabel: UILabel!
+  /// Displays originalGroup.name property of Repost.
+  @IBOutlet weak var originalGroupLabel: UILabel!
   
-  // MARK: - Constants
+  // MARK: Constants
   
   /// Height needed for all components of a RepostCell excluding postTextView in the Storyboard.
   ///
   /// Note: Height of postTextView must be calculated based on it's text property.
-  override var AdditionalVertSpaceNeeded: CGFloat {
+  override class var AdditionalVertSpaceNeeded: CGFloat {
     get {
       return 149
     }
   }
   
   /// Reuse Identifier for this UITableViewCell.
-  override var ReuseIdentifier: String {
+  override class var ReuseIdentifier: String {
     get {
       return "Repost"
     }
   }
   
-  // MARK: - Helper Functions
+  // MARK: Helper Functions
   
   /// Makes this RepostCell's IBOutlets display the correct values of the corresponding Repost.
   ///
@@ -45,10 +49,8 @@ class RepostCell: PostCell {
   /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
   override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
     super.makeCellFromPost(post, withButtonTag: buttonTag)
-    if post.repost {
-      nameLabel.text = post.repostUser!
-      groupLabel.text = post.repostGroup!
-      repostGroupLabel.text = post.group
+    if let post = post as? Repost {
+      originalGroupLabel.text = post.originalGroup.name
     }
   }
 }
