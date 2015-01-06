@@ -16,13 +16,13 @@ class UserCell: UITableViewCell {
   // MARK: IBOutlets
   
   /// Displays profilePic property of User.
-  @IBOutlet weak var profilePicView: UIImageView!
+  @IBOutlet weak var pictureButton: UIButton!
   
   /// Displays name property of User.
-  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var nameButton: UIButton!
   
   /// Displays username property of User.
-  @IBOutlet weak var usernameLabel: UILabel!
+  @IBOutlet weak var usernameButton: UIButton!
   
   /// Displays bio property of User.
   ///
@@ -33,14 +33,14 @@ class UserCell: UITableViewCell {
   ///
   /// Text should display a bolded rep value followed by an unbolded " REP".
   ///
-  /// Note: Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
+  /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var repLabel: UILabel!
   
   /// Displays numGroups propert of User.
   ///
   /// Text should display a bolded numGroups value followed by an unbolded " GROUPS".
   ///
-  /// Note: Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
+  /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var groupsButton: UIButton!
   
   /// Used to select the type of UITableViewCell is displayed under this UserCell in a SingleUserTableViewController.
@@ -60,7 +60,7 @@ class UserCell: UITableViewCell {
   
   /// Height needed for all components of a UserCell excluding bioTextView in the Storyboard.
   ///
-  /// Note: Height of bioTextView must be calculated based on it's text property.
+  /// **Note:** Height of bioTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
       return 215
@@ -122,15 +122,22 @@ class UserCell: UITableViewCell {
   /// Makes this UserCell's IBOutlets display the correct values of the corresponding User.
   ///
   /// :param: user The corresponding User to be displayed by this UserCell.
-  func makeCellFromUser(user: User) {
-    profilePicView.image = user.profilePic
-    nameLabel.text = user.name
-    usernameLabel.text = user.username
+  /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
+  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
+  func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
+    pictureButton.imageView?.contentMode = .ScaleAspectFit
+    pictureButton.setImage(user.profilePic, forState: .Normal | .Highlighted)
+    nameButton.setTitle(user.name, forState: .Normal | .Highlighted)
+    usernameButton.setTitle(user.username, forState: .Normal | .Highlighted)
     
     bioTextView.text = user.bio
     bioTextView.font = UserCell.BioTextViewFont
     bioTextView.textContainer.lineFragmentPadding = 0
     bioTextView.textContainerInset = UIEdgeInsetsZero
+    
+    pictureButton.tag = buttonTag
+    nameButton.tag = buttonTag
+    usernameButton.tag = buttonTag
     
     // Make only the number in repLabel bold
     var repText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.rep), firstFont: UserCell.RepFontBold, secondHalf: " REP", secondFont: UserCell.RepFont)

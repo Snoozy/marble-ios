@@ -20,16 +20,16 @@ class CommentCell: UITableViewCell {
   
   /// An array that stores vertical lines for formating indents in a Comment tree.
   ///
-  /// Note: This array should be empty if there is no indent for this CommentCell.
+  /// **Note:** This array should be empty if there is no indent for this CommentCell.
   var lines: [UIView] = []
   
   // MARK: IBOutlets
   
   /// Displays user.name property of Comment.
-  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var nameButton: UIButton!
   
   /// Displays user.profilePic property of Comment.
-  @IBOutlet weak var pictureView: UIImageView!
+  @IBOutlet weak var pictureButton: UIButton!
   
   /// Displays text property of Comment.
   @IBOutlet weak var commentTextView: UITextView!
@@ -60,7 +60,7 @@ class CommentCell: UITableViewCell {
   
   /// Height needed for all components of a CommentCell excluding commentTextView in the Storyboard.
   ///
-  /// Note: Height of commentTextView must be calculated based on it's text property.
+  /// **Note:** Height of commentTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
       return 89
@@ -76,7 +76,7 @@ class CommentCell: UITableViewCell {
   
   /// Distance of commentTextView to right boundary of contentView.
   ///
-  /// Note: Used to align commentTextView with nameLabel when cell is indented.
+  /// **Note:** Used to align commentTextView with nameLabel when cell is indented.
   class var TextViewDistanceToIndent: CGFloat {
     get {
       return 32
@@ -110,19 +110,24 @@ class CommentCell: UITableViewCell {
   ///
   /// :param: comment The corresponding Comment to be displayed by this CommentCell.
   /// :param: selected Descibes if CommentCell is selected.
-  func makeCellFromComment(comment: Comment, withSelected selected: Bool) {
-    nameLabel.text = comment.user.name
+  /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
+  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
+  func makeCellFromComment(comment: Comment, withSelected selected: Bool, AndButtonTag buttonTag: Int) {
+    
+    var name = comment.user.name
     //add dots if CommentCell has reached max indent and cannot be indented more
     if let lengthToPost = comment.lengthToPost {
       if lengthToPost > Comment.LongestLengthToPost {
         let difference = lengthToPost - Comment.LongestLengthToPost
         for _ in 0..<difference {
-          nameLabel.text = "· \(nameLabel.text!)"
+          name = "· \(name)"
         }
       }
     }
     
-    pictureView.image = comment.user.profilePic
+    nameButton.setTitle(name, forState: .Normal | .Highlighted)
+    pictureButton.imageView?.contentMode = .ScaleAspectFit
+    pictureButton.setImage(comment.user.profilePic, forState: .Normal | .Highlighted)
     commentTextView.text = comment.text
     commentTextView.font = CommentCell.CommentTextViewFont
     commentTextView.textContainer.lineFragmentPadding = 0
@@ -149,6 +154,9 @@ class CommentCell: UITableViewCell {
       repAndTimeLabel.text = repText
     }
     
+    nameButton.tag = buttonTag
+    pictureButton.tag = buttonTag
+    
     //indents cell
     imageIndentConstraint.constant = getIndentationSize()
     textIndentConstraint.constant = getIndentationSize() + CommentCell.TextViewDistanceToIndent
@@ -158,7 +166,7 @@ class CommentCell: UITableViewCell {
     preservesSuperviewLayoutMargins = false
     
     //adds the vertical lines to the cells
-    for var i = 1; i <= indentationLevel; i++ {
+    for i in 1...indentationLevel {
       var line = UIView(frame: CGRect(x: CGFloat(i)*CommentCell.IndentSize, y: 0, width: 1, height: frame.size.height))
       line.backgroundColor = UIColor.defaultTableViewDividerColor()
       lines.append(line)

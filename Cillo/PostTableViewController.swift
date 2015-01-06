@@ -12,13 +12,29 @@ import UIKit
 ///
 /// Formats TableView to look appealing and be functional.
 ///
-/// Note: Must assign post property of superclass a relevant value before displaying this SinglePostTableViewController.
+/// **Note:** Must assign post property of superclass a relevant value before displaying this SinglePostTableViewController.
 class PostTableViewController: SinglePostTableViewController {
 
   // MARK: IBOutlets
   
   /// Activity indicator used for network interactions.
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+  
+  // MARK: Constants
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  override var SegueIdentifierThisToGroup: String {
+    get {
+      return "PostToGroup"
+    }
+  }
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to UserTableViewController.
+  var SegueIdentifierThisToUser: String {
+    get {
+      return "PostToUser"
+    }
+  }
   
   // MARK: UIViewController
   

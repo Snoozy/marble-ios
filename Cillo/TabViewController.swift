@@ -10,6 +10,8 @@ import UIKit
 
 // TODO: Make view scroll to top if tab button is pressed.
 
+// TODO: Maybe implement a way to get back to root vcs quickly
+
 /// Starting UIViewController of Cillo application.
 ///
 /// Has 3 tabs:
@@ -18,7 +20,7 @@ import UIKit
 /// * Groups - Root VC is MyGroupsTableViewController
 /// * Me - Root VC is MeViewController
 ///
-/// Note: Each tab has a FormattedNavigationController as the start of the tab.
+/// **Note:** Each tab has a FormattedNavigationController as the start of the tab.
 class TabViewController: UITabBarController {
   
   // MARK: Constants

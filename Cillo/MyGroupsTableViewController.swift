@@ -18,7 +18,18 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
   /// Activity indicator used for network interactions.
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   
+  // MARK: Constants
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  override var SegueIdentifierThisToGroup: String {
+    get {
+      return "MyGroupsToGroup"
+    }
+  }
+  
   // MARK: UIViewController
+  
+  // TODO: Implement GroupTVC Navigation.
   
   // Initializes groups array
   override func viewDidLoad() {
@@ -39,8 +50,8 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
   /// Assigns groups property of MultipleGroupsTableViewController correct values from server calls.
   func retrieveGroups() {
     activityIndicator.start()
-    if let id = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User) as? User)?.userID {
-      DataManager.sharedInstance.getUserGroupsByID(id, completion: { (error, result) -> Void in
+    if let userID = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User) as? User)?.userID {
+      DataManager.sharedInstance.getUserGroupsByID(userID, completion: { (error, result) -> Void in
         self.activityIndicator.stop()
         if error != nil {
           println(error)
@@ -51,7 +62,6 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
       })
       tableView.reloadData()
     }
-    
   }
   
 }

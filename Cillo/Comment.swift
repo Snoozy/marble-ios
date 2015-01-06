@@ -109,7 +109,7 @@ class Comment: NSObject {
   
   /// Used to find the indentLevel property for a CommentCell displaying this Comment.
   ///
-  /// Warning: Don't call this method if lengthToPost is nil
+  /// **Warning:** Don't call this method if lengthToPost is nil
   ///
   /// :param: selected Describes if CommentCell is selected.
   /// :returns: A valid indentLevel for a CommentCell displaying this Comment.

@@ -9,13 +9,16 @@
 import Foundation
 import Alamofire
 
+// TODO: Implement ?page=2 functionality for feeds (defaults to 1).
+// TODO: Possibly implement &page_size=50 functionality for feeds (defaults to 20).
+
 // MARK: - Enums
 
 /// List of possible requests to Cillo servers.
 ///
-/// Note: NSUserDefaults must have an Auth Token stored in order for requests to work.
+/// **Note:** NSUserDefaults must have an Auth Token stored in order for requests to work.
 ///
-/// Note: Login and Register do not need an Auth Token.
+/// **Note:** Login and Register do not need an Auth Token.
 ///
 /// GET Requests:
 ///
@@ -45,16 +48,16 @@ import Alamofire
 /// * PostDown(Int): Request to downvote a post. Parameter is a post id.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
-  static let baseURLString = "http://api.cillo.co"
+  static let baseURLString = "https://api.cillo.co"
   
-  // TODO: Need method for PostComments, UserComments, GroupCreate, CommentCreate, and MediaUpload.
+  // TODO: Need method for GroupCreate, CommentCreate, and MediaUpload.
   
   //GET
   case Root // DONE
   case GroupFeed(Int) // DONE
   case GroupInfo(Int) // DONE
   case PostInfo(Int) // DONE
-  case PostComments(Int)
+  case PostComments(Int) // DONE
   case SelfInfo // DONE
   case UserInfo //DONE
   case UserGroups(Int) // DONE
@@ -138,14 +141,14 @@ enum Router: URLStringConvertible {
 
 /// Used for all the network calls to the Cillo servers.
 ///
-/// Warning: Always call this class's methods through the sharedInstance.
+/// **Warning:** Always call this class's methods through the sharedInstance.
 class DataManager: NSObject {
   
   // MARK: Constants
   
   /// Singleton network manager.
   ///
-  /// Note: each network call should start with DataManager.sharedInstance.method(_:).
+  /// **Note:** each network call should start with DataManager.sharedInstance.method(_:).
   class var sharedInstance: DataManager {
     struct Static {
       static var instance: DataManager = DataManager()
@@ -157,7 +160,7 @@ class DataManager: NSObject {
   
   /// Attempts to log into server and retrieve an Auth Token.
   ///
-  /// Note: Set NSUserDefaults's .Auth key to the retrieved Auth Token.
+  /// **Note:** Set NSUserDefaults's .Auth key to the retrieved Auth Token.
   ///
   /// :param: username The username of the user attempting to login to the server.
   /// :param: password The password of the user attempting to login to the server.
@@ -204,7 +207,7 @@ class DataManager: NSObject {
   
   /// Attempts to logout of server.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: completion A completion block for the network request.
   /// :param: error If the logout was unsuccessful, this will contain the error message.
@@ -225,7 +228,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve home page from server for the logged in user. If successful, returns an array of posts on home page in completion block
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
@@ -257,7 +260,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve a group's feed from server.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: groupID The id of the group that the server is retrieving a feed for.
   /// :param: completion A completion block for the network request.
@@ -290,7 +293,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve info about the logged in user.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
@@ -312,7 +315,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve info about a user by id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: userID The id of the user that the server is describing.
   /// :param: completion A completion block for the network request.
@@ -334,7 +337,7 @@ class DataManager: NSObject {
   }
   /// Attempts to retrieve info about a user by unique username.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: username The unique username of the user that the server is describing.
   /// :param: completion A completion block for the network request.
@@ -357,7 +360,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve info about a group by id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: groupID The id of the group that the server is describing.
   /// :param: completion A completion block for the network request.
@@ -380,7 +383,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve info about a post by id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: postID The id of the post that the server is describing.
   /// :param: completion A completion block for the network request.
@@ -408,7 +411,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve tree of comments that have replied to a post with the provided post id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: postID The id of the post that the server is retrieving comments for.
   /// :param: completion A completion block for the network request.
@@ -440,7 +443,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve list of groups that a user follows by user id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: userID The id of the user that the server is retrieving a following list for.
   /// :param: completion A completion block for the network request.
@@ -468,7 +471,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve list of posts that a user has made by user id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: userID The id of the user that the server is retrieving posts for.
   /// :param: completion A completion block for the network request.
@@ -501,7 +504,7 @@ class DataManager: NSObject {
   
   /// Attempts to retrieve list of posts that a user has made by user id.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: userID The id of the user that the server is retrieving comments for.
   /// :param: completion A completion block for the network request.
@@ -529,7 +532,7 @@ class DataManager: NSObject {
   
   /// Attempts to create a new post made by the logged in user. 
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: repostID The id of the original post that is being reposted.
   /// 
@@ -572,7 +575,7 @@ class DataManager: NSObject {
   
   /// Attempts to upvote a post.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: postID The id of the post that is being upvoted.
   /// :param: completion A completion block for the network request.
@@ -594,7 +597,7 @@ class DataManager: NSObject {
   
   /// Attempts to downvote a post.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: postID The id of the post that is being downvoted.
   /// :param: completion A completion block for the network request.
@@ -616,7 +619,7 @@ class DataManager: NSObject {
   
   /// Attempts to upvote a comment.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: commentID The id of the comment that is being upvoted.
   /// :param: completion A completion block for the network request.
@@ -638,7 +641,7 @@ class DataManager: NSObject {
   
   /// Attempts to downvote a comment.
   ///
-  /// Warning: NSUserDefaults's .Auth key must have an Auth Token stored.
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: commentID The id of the comment that is being downvoted.
   /// :param: completion A completion block for the network request.

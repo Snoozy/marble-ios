@@ -9,12 +9,39 @@
 import UIKit
 
 /// Inherit this class for any UITableViewController that is only a table of GroupCells
+///
+/// **Note:** Subclasses must override SegueIdentifierThisToGroup.
 class MultipleGroupsTableViewController: UITableViewController {
   
   // MARK: Properties
   
   /// Groups for this UITableViewController.
   var groups: [Group] = []
+  
+  // MARK: Constants
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  ///
+  /// **Note:** Subclasses must override this Constant.
+  var SegueIdentifierThisToGroup: String {
+    get {
+      return ""
+    }
+  }
+  
+  // MARK: UIViewController
+  
+  // Handles passing of data when navigation between UIViewControllers occur.
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == SegueIdentifierThisToGroup {
+      var destination = segue.destinationViewController as GroupTableViewController
+      if let sender = sender as? NSIndexPath {
+        destination.group = groups[sender.section]
+      } else if let sender = sender as? UIButton {
+        destination.group = groups[sender.tag]
+      }
+    }
+  }
   
   // MARK: UITableViewDataSource
   
@@ -33,7 +60,7 @@ class MultipleGroupsTableViewController: UITableViewController {
     let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
     let group = groups[indexPath.section]
     
-    cell.makeCellFromGroup(group)
+    cell.makeCellFromGroup(group, withButtonTag: indexPath.section)
     
     return cell
   }
@@ -57,6 +84,19 @@ class MultipleGroupsTableViewController: UITableViewController {
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     let group = groups[indexPath.section]
     return group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
+  }
+  
+  // Sends view to GroupTableViewController if GroupCell is selected.
+  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+  }
+  
+  // MARK: IBActions
+  
+  /// Triggers segue to GroupTableViewController when nameButton or pictureButton is pressed in GroupCell.
+  @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
   }
   
 }

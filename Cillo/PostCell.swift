@@ -16,13 +16,13 @@ class PostCell: UITableViewCell {
   // MARK: IBOutlets
   
   /// Displays user.name property of Post.
-  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var nameButton: UIButton!
   
   /// Displays user.profilePic property of Post.
-  @IBOutlet weak var pictureView: UIImageView!
+  @IBOutlet weak var pictureButton: UIButton!
   
   /// Displays group.name property of Post.
-  @IBOutlet weak var groupLabel: UILabel!
+  @IBOutlet weak var groupButton: UIButton!
   
   /// Displays text property of Post.
   @IBOutlet weak var postTextView: UITextView!
@@ -65,7 +65,7 @@ class PostCell: UITableViewCell {
   
   /// Height needed for all components of a PostCell excluding postTextView in the Storyboard.
   ///
-  /// Note: Height of postTextView must be calculated based on it's text property.
+  /// **Note:** Height of postTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
       return 139
@@ -98,13 +98,14 @@ class PostCell: UITableViewCell {
   /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
   ///
   /// :param: post The corresponding Post to be displayed by this PostCell.
-  /// :param: buttonTag The tags of all buttons in this PostCell.
+  /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
     
-    nameLabel.text = post.user.name
-    groupLabel.text = post.group.name
-    pictureView.image = post.user.profilePic
+    nameButton.setTitle(post.user.name, forState: .Normal | .Highlighted)
+    groupButton.setTitle(post.group.name, forState: .Normal | .Highlighted)
+    pictureButton.imageView?.contentMode = .ScaleAspectFit
+    pictureButton.setImage(post.user.profilePic, forState: .Normal | .Highlighted)
     timeLabel.text = post.time
     
     postTextView.text = post.text
@@ -116,6 +117,8 @@ class PostCell: UITableViewCell {
       // tag acts as way for button to know it's position in data array
       seeFullButton!.tag = buttonTag
       
+      seeFullButton!.setTitle("More", forState: .Normal | .Highlighted)
+      
       // short posts and already expanded posts don't need to be expanded
       if post.seeFull == nil || post.seeFull! {
         seeFullButton!.hidden = true
@@ -124,6 +127,9 @@ class PostCell: UITableViewCell {
       }
     }
     
+    nameButton.tag = buttonTag
+    groupButton.tag = buttonTag
+    pictureButton.tag = buttonTag
     commentButton.tag = buttonTag
     upvoteButton.tag = buttonTag
     downvoteButton.tag = buttonTag

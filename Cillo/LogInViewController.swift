@@ -12,7 +12,7 @@ import UIKit
 
 /// Handles user login and signup actions.
 ///
-/// Note: Present this UIViewController if NSUserDefaults does not have values for the .Auth and .User. keys.
+/// **Note:** Present this UIViewController if NSUserDefaults does not have values for the .Auth and .User. keys.
 class LogInViewController: UIViewController {
   
   // MARK: IBOutlets
@@ -101,9 +101,9 @@ class LogInViewController: UIViewController {
   
   /// Attempts to register user with server.
   ///
-  /// Note: Currently this UIViewController has no space for name and email. Default emails are used as filler.
+  /// **Note:** Currently this UIViewController has no space for name and email. Default emails are used as filler.
   ///
-  /// Note: User must login after registering.
+  /// **Note:** User must login after registering.
   @IBAction func register(sender: UIButton) {
     activityIndicator.start()
     DataManager.sharedInstance.register(userTextField.text, name: "Andrew Daley", password: passwordTextField.text, email: "ajd93@cornell.edu", { (error, success) -> Void in

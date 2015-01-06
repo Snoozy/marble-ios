@@ -27,8 +27,22 @@ class MeTableViewController: SingleUserTableViewController {
     }
   }
   
-  // MARK: UIViewController
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  override var SegueIdentifierThisToGroup: String {
+    get {
+      return "MeToGroup"
+    }
+  }
   
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupsTableViewController.
+  var SegueIdentifierThisToGroups: String {
+    get {
+      return "MeToGroups"
+    }
+  }
+  
+  // MARK: UIViewController
+ 
   // Initializes user
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,6 +54,8 @@ class MeTableViewController: SingleUserTableViewController {
     // Gets rid of Me Text on back button
     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Bordered, target: nil, action: nil)
   }
+  
+  // MARK: Helper Functions
   
   /// Used to retrieve all necessary data to display UITableViewCells in this UIViewController.
   ///
@@ -74,6 +90,16 @@ class MeTableViewController: SingleUserTableViewController {
   
   /// Retrieves comments made by logged in User from Cillo servers and sets comments property of superclass to the retrieved Comment array.
   func retrieveComments() {
-    //TODO: Write code once Comment networking code is done.
+    activityIndicator.start()
+    DataManager.sharedInstance.getUserCommentsByID(user.userID, completion: { (error, result) -> Void in
+      self.activityIndicator.stop()
+      if error != nil {
+        println(error)
+        error!.showAlert()
+      } else {
+        self.comments = result!
+      }
+    })
   }
+  
 }

@@ -12,7 +12,7 @@ import UIKit
 
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
-/// Note: Subclasses must override SegueIdentifierThisToPost.
+/// **Note:** Subclasses must override SegueIdentifierThisToPost and SegueIdentifierThisToGroup.
 class SingleUserTableViewController: UITableViewController {
   
   // MARK: Properties
@@ -34,34 +34,73 @@ class SingleUserTableViewController: UITableViewController {
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   ///
-  /// Note: Subclasses must override this Constant.
+  /// **Note:** Subclasses must override this Constant.
   var SegueIdentifierThisToPost: String {
     get {
       return ""
     }
   }
   
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  ///
+  /// **Note:** Subclasses must override this Constant.
+  var SegueIdentifierThisToGroup: String {
+    get {
+      return ""
+    }
+  }
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupsTableViewController.
+  ///
+  /// **Note:** Subclasses must override this Constant.
+  var SegueIdentifierThisToGroups: String {
+    get {
+      return ""
+    }
+  }
   
   // MARK: UIViewController
   
-  // Transfer selected Post to PostTableViewController
+  // Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToPost {
       var destination = segue.destinationViewController as PostTableViewController
       switch cellsShown {
       case .Posts:
-        if sender is UIButton {
-          destination.post = posts[(sender as UIButton).tag - 1]
-        } else if sender is NSIndexPath {
-          destination.post = posts[(sender as NSIndexPath).section - 1]
+        if let sender = sender as? UIButton {
+          destination.post = posts[sender.tag]
+        } else if let sender = sender as? NSIndexPath {
+          destination.post = posts[sender.section - 1]
         }
       case .Comments:
-        if sender is NSIndexPath {
-          destination.post = comments[(sender as NSIndexPath).section - 1].post
+        if let sender = sender as? UIButton {
+          destination.post = comments[sender.tag].post
+        } else if let sender = sender as? NSIndexPath {
+          destination.post = comments[sender.section - 1].post
         }
       default:
         break
       }
+    } else if segue.identifier == SegueIdentifierThisToGroup {
+      var destination = segue.destinationViewController as GroupTableViewController
+      switch cellsShown {
+      case .Posts:
+        if let sender = sender as? UIButton {
+          let post = posts[sender.tag]
+          if sender.titleLabel.text == post.group.name {
+            destination.group = post.group
+          } else if let post = post as? Repost {
+            if sender.titleLabel.text == post.originalGroup.name {
+              destination.group = post.originalGroup
+            }
+          }
+        }
+      default:
+        break
+      }
+    } else if segue.identifier == SegueIdentifierThisToGroups {
+      var destination = segue.destinationViewController as GroupsTableViewController
+      destination.userID = user.userID
     }
   }
   
@@ -89,7 +128,7 @@ class SingleUserTableViewController: UITableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 {
       let cell = tableView.dequeueReusableCellWithIdentifier(UserCell.ReuseIdentifier, forIndexPath: indexPath) as UserCell
-      cell.makeCellFromUser(user)
+      cell.makeCellFromUser(user, withButtonTag: 0)
       return cell
     } else {
       var cell: PostCell
@@ -101,11 +140,11 @@ class SingleUserTableViewController: UITableViewController {
         } else {
           cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
         }
-        cell.makeCellFromPost(post, withButtonTag: indexPath.section)
+        cell.makeCellFromPost(post, withButtonTag: indexPath.section - 1)
         return cell
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
-        cell.makeCellFromComment(comments[indexPath.section - 1], withSelected: false)
+        cell.makeCellFromComment(comments[indexPath.section - 1], withSelected: false, andButtonTag: indexPath.section - 1)
         return cell
       default:
         return UITableViewCell()
@@ -190,6 +229,21 @@ class SingleUserTableViewController: UITableViewController {
       post.seeFull! = !post.seeFull!
     }
     tableView.reloadData()
+  }
+  
+  /// Triggers segue to PostTableViewController when commentButton is pressed in PostCell.
+  @IBAction func triggerPostSegueOnButton(sender: UIButton) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: sender)
+  }
+  
+  /// Triggers segue to GroupsTableViewController when groupsButton is pressed in UserCell.
+  @IBAction func triggerGroupsSegueOnButton(sender: UIButton) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToGroups, sender: sender)
+  }
+  
+  /// Triggers segue to GroupTableViewController when groupButton or originalGroupButton is pressed in PostCell.
+  @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
   }
   
 }

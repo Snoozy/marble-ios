@@ -1,38 +1,32 @@
 //
-//  MultiplePostsTableViewController.swift
+//  SingleGroupTableViewController.swift
 //  Cillo
 //
-//  Created by Andrew Daley on 12/18/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Created by Andrew Daley on 1/5/15.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
 
-/// Inherit this class for any UITableViewController that is only a table of PostCells.
+/// Inherit this class for any UITableViewController that is a GroupCell followed by PostCells.
 ///
-/// **Note:** Subclasses must override SegueIdentifierThisToPost and SegueIdentifierThisToGroup.
-class MultiplePostsTableViewController: UITableViewController {
-  
+/// **Note:** Subclasses must override SegueIdentifierThisToPost.
+class SingleGroupTableViewController: UITableViewController {
+
   // MARK: Properties
+  
+  /// Group that is shown in this UITableViewController.
+  var group: Group = Group()
   
   /// Posts for this UITableViewController.
   var posts: [Post] = []
   
-  // MARK: Constants
+  // MARK: Constants 
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   ///
   /// **Note:** Subclasses must override this Constant.
   var SegueIdentifierThisToPost: String {
-    get {
-      return ""
-    }
-  }
-  
-  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
-  ///
-  /// **Note:** Subclasses must override this Constant.
-  var SegueIdentifierThisToGroup: String {
     get {
       return ""
     }
@@ -56,19 +50,7 @@ class MultiplePostsTableViewController: UITableViewController {
       if let sender = sender as? UIButton {
         destination.post = posts[sender.tag]
       } else if let sender = sender as? NSIndexPath {
-        destination.post = posts[sender.section]
-      }
-    } else if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as GroupTableViewController
-      if let sender = sender as? UIButton {
-        let post = posts[sender.tag]
-        if sender.titleLabel.text == post.group.name {
-          destination.group = post.group
-        } else if let post = post as? Repost {
-          if sender.titleLabel.text == post.originalGroup.name {
-            destination.group = post.originalGroup
-          }
-        }
+        destination.post = posts[sender.section - 1]
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController
@@ -82,7 +64,7 @@ class MultiplePostsTableViewController: UITableViewController {
   
   // Assigns the number of sections based on length of the posts array.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return posts.count
+    return posts.count + 1
   }
   
   // Assigns 1 row to each section in this UITAbleViewController.
@@ -90,26 +72,34 @@ class MultiplePostsTableViewController: UITableViewController {
     return 1
   }
   
-  // Creates PostCell based on section number of indexPath.
+  // Creates GroupCell or PostCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let post = posts[indexPath.section]
-    var cell: PostCell
-    if let post = post as? Repost {
-      cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+    if indexPath.row == 0 { // Make a GroupCell for only first row
+      let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
+      
+      cell.makeCellFromGroup(group, withButtonTag: 0)
+      
+      return cell
     } else {
-      cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+      let post = posts[indexPath.section - 1]
+      var cell: PostCell
+      if let post = post as? Repost {
+        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+      } else {
+        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+      }
+      
+      cell.makeCellFromPost(post, withButtonTag: indexPath.section - 1)
+      
+      return cell
     }
-    
-    cell.makeCellFromPost(post, withButtonTag: indexPath.section)
-    
-    return cell
   }
   
   // MARK: UITableViewDelegate
   
   // Sets height of divider inbetween cells.
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return section == 0 ? 0 : 10
+    return section == 0 ? 0 : section == 1 ? 5 : 10
   }
   
   // Makes divider inbetween cells blue.
@@ -121,15 +111,28 @@ class MultiplePostsTableViewController: UITableViewController {
   
   // Sets height of cell to appropriate value depending on length of post and whether post is expanded.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    let post = posts[indexPath.section]
+    if indexPath.section == 0 {
+      return group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
+    }
+    let post = posts[indexPath.section - 1]
     let height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
     return post.title != nil ? height : height - PostCell.TitleHeight
   }
   
   // Sends view to PostTableViewController if PostCell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
+    if indexPath.section != 0 {
+      self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
+    }
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
+  }
+  
+  // Sends view to PostTableViewController if CommentCell or PostCell is selected.
+  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    if indexPath.section != 0 {
+      self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
+    }
   }
   
   // MARK: IBActions
@@ -148,14 +151,9 @@ class MultiplePostsTableViewController: UITableViewController {
     self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: sender)
   }
   
-  /// Triggers segue to UserTableViewController when nameButton or pictureButton is pressed in PostCell.
+  /// Triggers segue to UserTableViewController when nameButton or pictureButton is pressed in PostCell or CommentCell.
   @IBAction func triggerUserSegueOnButton(sender: UIButton) {
     self.performSegueWithIdentifier(SegueIdentifierThisToUser, sender: sender)
   }
-  
-  /// Triggers segue to GroupTableViewController when groupButton is pressed in PostCell or originalGroupButton is pressed in RepostCell.
-  @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
-  }
-  
+
 }

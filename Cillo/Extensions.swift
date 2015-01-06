@@ -21,7 +21,7 @@ extension String {
   /// * 2.6m - any number in the order of millions.
   /// * 6.8b - any number in the order of billions.
   /// 
-  /// Note: Does not display numbers in order of trillions or larger.
+  /// **Note:** Does not display numbers in order of trillions or larger.
   ///
   /// :param: number The number that is formatted as a String.
   /// :returns: The formatted String for the specified number.
@@ -29,36 +29,36 @@ extension String {
     switch number {
     case -999...999:
       return "\(number)"
-    case 1000...9999:
-      var thousands = Double(number / 1000)
-      thousands += Double(number % 1000 / 100) * 0.1
+    case 1_000...9_999:
+      var thousands = Double(number / 1_000)
+      thousands += Double(number % 1_000 / 100) * 0.1
       return "\(thousands)k"
-    case -9999...(-1000):
-      var thousands = Double(number / 1000)
-      thousands -= Double(number % 1000 / 100) * 0.1
+    case -9_999...(-1_000):
+      var thousands = Double(number / 1_000)
+      thousands -= Double(number % 1_000 / 100) * 0.1
       return "\(thousands)k"
-    case 10000...999999, -999999...(-10000):
-      return "\(number / 1000)k"
-    case 1000000...9999999:
-      var millions = Double(number / 1000000)
-      millions += Double(number % 1000000 / 100000) * 0.1
+    case 10_000...999_999, -999_999...(-10_000):
+      return "\(number / 1_000)k"
+    case 1_000_000...9_999_999:
+      var millions = Double(number / 1_000_000)
+      millions += Double(number % 1_000_000 / 100_000) * 0.1
       return "\(millions)m"
-    case -9999999...(-1000000):
-      var millions = Double(number / 1000000)
-      millions -= Double(number % 1000000 / 100000) * 0.1
+    case -9_999_999...(-1_000_000):
+      var millions = Double(number / 1_000_000)
+      millions -= Double(number % 1_000_000 / 100_000) * 0.1
       return "\(millions)m"
-    case 10000000...999999999, -999999999...(-10000000):
-      return "\(number / 1000000)m"
-    case 1000000000...9999999999:
-      var billions = Double(number / 1000000000)
-      billions += Double(number % 1000000000 / 100000000) * 0.1
+    case 10_000_000...999_999_999, -999_999_999...(-10_000_000):
+      return "\(number / 1_000_000)m"
+    case 1_000_000_000...9_999_999_999:
+      var billions = Double(number / 1_000_000_000)
+      billions += Double(number % 1_000_000_000 / 100_000_000) * 0.1
       return "\(billions)b"
-    case -9999999999...(-1000000000):
-      var billions = Double(number / 1000000000)
-      billions -= Double(number % 1000000000 / 100000000) * 0.1
+    case -9_999_999_999...(-1_000_000_000):
+      var billions = Double(number / 1_000_000_000)
+      billions -= Double(number % 1_000_000_000 / 100_000_000) * 0.1
       return "\(billions)b"
-    case 10000000000...999999999999, -999999999999...(-10000000000):
-      return "\(number / 1000000000)b"
+    case 10_000_000_000...999_999_999_999, -999_999_999_999...(-10_000_000_000):
+      return "\(number / 1_000_000_000)b"
     default:
       return "WTF"
     }
@@ -161,14 +161,14 @@ extension NSDate {
     let timeStamp = gmtOffset + timeSince1970
     let millisSincePost = timeStamp - time
     switch millisSincePost {
-    case 0...59999:
+    case 0...59_999:
       return "1m"
-    case 60000...3599999:
-      return "\(millisSincePost / 60000)m"
-    case 3600000...1313999999:
-      return "\(millisSincePost / 3600000)d"
-    case 1314000000...Int64.max:
-      return "\(millisSincePost / 1314000000)y"
+    case 60_000...3_599_999:
+      return "\(millisSincePost / 60_000)m"
+    case 3_600_000...1_313_999_999:
+      return "\(millisSincePost / 3_600_000)d"
+    case 1_314_000_000...Int64.max:
+      return "\(millisSincePost / 1_314_000_000)y"
     default:
       return "WTF"
     }
@@ -206,6 +206,13 @@ extension NSUserDefaults {
     }
   }
   
+}
+
+extension UIViewController {
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+  }
 }
 
 // MARK: -

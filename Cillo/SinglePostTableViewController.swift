@@ -9,6 +9,8 @@
 import UIKit
 
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
+///
+/// **Note:** Subclasses must override SegueIdentifierThisToGroup.
 class SinglePostTableViewController: UITableViewController {
   
   // MARK: Properties
@@ -21,10 +23,45 @@ class SinglePostTableViewController: UITableViewController {
   
   /// Index path of a selected Comment in tableView.
   /// 
-  /// Note: Selected CommentCells are expanded to display additional user interaction options.
+  /// **Note:** Selected CommentCells are expanded to display additional user interaction options.
   ///
   /// Nil if no CommentCell is selected.
   var selectedPath : NSIndexPath?
+  
+  // MARK: Constants
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  ///
+  /// **Note:** Subclasses must override this Constant.
+  var SegueIdentifierThisToGroup: String {
+    get {
+      return ""
+    }
+  }
+  
+  /// Segue Identifier in Storyboard for this UITableViewController to UserTableViewController.
+  ///
+  /// **Note:** Subclasses must override this Constant.
+  var SegueIdentifierThisToUser: String {
+    get {
+      return ""
+    }
+  }
+  
+  // MARK: UIViewController
+  
+  // Handles passing of data when navigation between UIViewControllers occur.
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == SegueIdentifierThisToGroup {
+      var destination = segue.destinationViewController as GroupTableViewController
+      destination.group = post.group
+    } else if segue.identifier == SegueIdentifierThisToUser {
+      var destination = segue.destinationViewController as UserTableViewController
+      if sender = sender as? UIButton {
+        destination.user = commentTree[sender.tag].user
+      }
+    }
+  }
   
   // MARK: UITableViewDataSource
   
@@ -51,7 +88,7 @@ class SinglePostTableViewController: UITableViewController {
       
       let comment = commentTree[indexPath.row - 1] // indexPath.row - 1 b/c Post is not included in tree
       
-      cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath)
+      cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row - 1)
       
       // Makes separator indented
       // UIEdgeInsetsMake(top, left, bottom, right)
@@ -85,7 +122,7 @@ class SinglePostTableViewController: UITableViewController {
   
   // Returns the indentationLevel for the indexPath.
   //
-  // Note: Cannot exceed 5 to keep cells from getting too small
+  // **Note:** Cannot exceed 5 to keep cells from getting too small
   override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
     return indexPath.row == 0 ? 0 : commentTree[indexPath.row - 1].predictedIndentLevel(selected: indexPath == selectedPath)
   }
@@ -100,4 +137,15 @@ class SinglePostTableViewController: UITableViewController {
     tableView.reloadData()
   }
 
+  // MARK: IBActions
+  
+  /// Triggers segue to UserTableViewController when nameButton or pictureButton is pressed in PostCell or CommentCell.
+  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToUser, sender: sender)
+  }
+  
+  /// Triggers segue to GroupTableViewController when groupButton is pressed in PostCell or originalGroupButton is pressed in RepostCell.
+  @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
+    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
+  }
 }

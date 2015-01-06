@@ -19,7 +19,7 @@ class Repost: Post {
   
   /// Creates Repost based on a swiftyJSON retrieved from a call to the Cillo servers.
   ///
-  /// Warning: json must have "repost" key as true.
+  /// **Warning:** json must have "repost" key as true.
   ///
   /// Should contain key value pairs for:
   /// * "post_id" - Int
