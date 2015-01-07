@@ -19,7 +19,6 @@
 		954A5DE61A4D00E50011DB1C /* RepostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954A5DE51A4D00E50011DB1C /* RepostCell.swift */; };
 		954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D99A91A04865D002490C4 /* PostTableViewController.swift */; };
 		954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */; };
-		958321C11A461CFB003F2034 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 958321BA1A461C61003F2034 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321C51A461DC5003F2034 /* SwiftyJSON.swift */; };
 		958321CB1A462048003F2034 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321CA1A462048003F2034 /* DataManager.swift */; };
 		9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */; };
@@ -31,6 +30,8 @@
 		95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A0575D1A463F6B000F7142 /* LogInViewController.swift */; };
 		95A057611A4640F2000F7142 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A057601A4640F2000F7142 /* TabViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
+		95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */; };
+		95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */; };
 		95B2B6391A5B22E500EAE822 /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */; };
 		95B2B63C1A5B3A7100EAE822 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B63B1A5B3A7100EAE822 /* GroupsTableViewController.swift */; };
 		95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */; };
@@ -44,26 +45,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		958321B91A461C61003F2034 /* PBXContainerItemProxy */ = {
+		95A4BD841A5CBCAF00CFD4DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
 			remoteInfo = Alamofire;
 		};
-		958321BB1A461C61003F2034 /* PBXContainerItemProxy */ = {
+		95A4BD861A5CBCAF00CFD4DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
 			remoteInfo = AlamofireTests;
-		};
-		958321BD1A461CA2003F2034 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
-			remoteInfo = Alamofire;
 		};
 		95EFD2BA19F8D2B400086BAF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -81,7 +75,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				958321C11A461CFB003F2034 /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,40 +82,42 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		95062D0A1A0D2A6200B4162D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		9509DFFF1A55F60B00F5083B /* Repost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repost.swift; sourceTree = "<group>"; };
-		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		9530E0841A0754B3001DB24E /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
-		954382951A5A7F8A0036C237 /* SingleGroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleGroupTableViewController.swift; sourceTree = "<group>"; };
-		954382981A5A7FAA0036C237 /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
-		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
-		95468AF019F99B8A00F158DE /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
-		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		954A5DE51A4D00E50011DB1C /* RepostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepostCell.swift; sourceTree = "<group>"; };
-		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
-		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattedNavigationViewController.swift; sourceTree = "<group>"; };
-		958321B41A461C61003F2034 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = SOURCE_ROOT; };
-		958321C51A461DC5003F2034 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
-		958321CA1A462048003F2034 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplePostsTableViewController.swift; sourceTree = "<group>"; };
-		9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleUserTableViewController.swift; sourceTree = "<group>"; };
-		9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleGroupsTableViewController.swift; sourceTree = "<group>"; };
-		959E0F0C1A2538C7008B4D19 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
-		959E0F0E1A2538D7008B4D19 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
-		959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGroupsTableViewController.swift; sourceTree = "<group>"; };
-		95A0575D1A463F6B000F7142 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
-		95A057601A4640F2000F7142 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
-		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewController.swift; sourceTree = "<group>"; };
-		95B2B63B1A5B3A7100EAE822 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
-		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePostTableViewController.swift; sourceTree = "<group>"; };
-		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
-		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
+		95062D0A1A0D2A6200B4162D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = "Supporting Files/Extensions.swift"; sourceTree = "<group>"; };
+		9509DFFF1A55F60B00F5083B /* Repost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Repost.swift; path = Model/Repost.swift; sourceTree = "<group>"; };
+		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Model/Comment.swift; sourceTree = "<group>"; };
+		9530E0841A0754B3001DB24E /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = Model/Cells/CommentCell.swift; sourceTree = "<group>"; };
+		954382951A5A7F8A0036C237 /* SingleGroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleGroupTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleGroupTableViewController.swift"; sourceTree = "<group>"; };
+		954382981A5A7FAA0036C237 /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/GroupTableViewController.swift"; sourceTree = "<group>"; };
+		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/HomeTableViewController.swift"; sourceTree = "<group>"; };
+		95468AF019F99B8A00F158DE /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCell.swift; path = Model/Cells/PostCell.swift; sourceTree = "<group>"; };
+		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = Model/Post.swift; sourceTree = "<group>"; };
+		954A5DE51A4D00E50011DB1C /* RepostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepostCell.swift; path = Model/Cells/RepostCell.swift; sourceTree = "<group>"; };
+		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/PostTableViewController.swift"; sourceTree = "<group>"; };
+		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormattedNavigationViewController.swift; path = "View Controllers/Navigation Controllers/FormattedNavigationViewController.swift"; sourceTree = "<group>"; };
+		958321B41A461C61003F2034 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Cillo/Data/Vendor/Alamofire/Alamofire.xcodeproj; sourceTree = SOURCE_ROOT; };
+		958321C51A461DC5003F2034 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Data/Vendor/SwiftyJSON.swift; sourceTree = "<group>"; };
+		958321CA1A462048003F2034 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = Data/DataManager.swift; sourceTree = "<group>"; };
+		9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiplePostsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultiplePostsTableViewController.swift"; sourceTree = "<group>"; };
+		9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleUserTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleUserTableViewController.swift"; sourceTree = "<group>"; };
+		9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleGroupsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultipleGroupsTableViewController.swift"; sourceTree = "<group>"; };
+		959E0F0C1A2538C7008B4D19 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupCell.swift; path = Model/Cells/GroupCell.swift; sourceTree = "<group>"; };
+		959E0F0E1A2538D7008B4D19 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = Model/Group.swift; sourceTree = "<group>"; };
+		959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyGroupsTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MyGroupsTableViewController.swift"; sourceTree = "<group>"; };
+		95A0575D1A463F6B000F7142 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogInViewController.swift; path = "View Controllers/Standard View Controllers/LogInViewController.swift"; sourceTree = "<group>"; };
+		95A057601A4640F2000F7142 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabViewController.swift; path = "View Controllers/Tab Bar Controllers/TabViewController.swift"; sourceTree = "<group>"; };
+		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPostViewController.swift; path = "View Controllers/Standard View Controllers/NewPostViewController.swift"; sourceTree = "<group>"; };
+		95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/UserTableViewController.swift"; sourceTree = "<group>"; };
+		95B2B63B1A5B3A7100EAE822 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupsTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/GroupsTableViewController.swift"; sourceTree = "<group>"; };
+		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglePostTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SinglePostTableViewController.swift"; sourceTree = "<group>"; };
+		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Model/Cells/UserCell.swift; sourceTree = "<group>"; };
+		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MeTableViewController.swift"; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
+		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Supporting Files/AppDelegate.swift"; sourceTree = "<group>"; };
 		95EFD2AE19F8D2B400086BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		95EFD2B019F8D2B400086BAF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		95EFD2B019F8D2B400086BAF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Supporting Files/Images.xcassets"; sourceTree = "<group>"; };
 		95EFD2B319F8D2B400086BAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		95EFD2B919F8D2B400086BAF /* CilloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CilloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2BE19F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -200,15 +195,6 @@
 			name = NCs;
 			sourceTree = "<group>";
 		};
-		958321B51A461C61003F2034 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				958321BA1A461C61003F2034 /* Alamofire.framework */,
-				958321BC1A461C61003F2034 /* AlamofireTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		958321C21A461D28003F2034 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				95A0575D1A463F6B000F7142 /* LogInViewController.swift */,
+				95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */,
 				95DB34321A54834B008A8DC0 /* TBCs */,
 				95352D721A155C4D00874B0F /* NCs */,
 				9587A7321A43E855003CDE64 /* Parent TVCs */,
@@ -273,6 +260,15 @@
 				95352D711A155C4100874B0F /* Other TVCs */,
 			);
 			name = VCs;
+			sourceTree = "<group>";
+		};
+		95A4BD801A5CBCAF00CFD4DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				95A4BD851A5CBCAF00CFD4DA /* Alamofire.framework */,
+				95A4BD871A5CBCAF00CFD4DA /* AlamofireTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		95DB34321A54834B008A8DC0 /* TBCs */ = {
@@ -286,6 +282,7 @@
 		95EFD29B19F8D2B400086BAF = {
 			isa = PBXGroup;
 			children = (
+				95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */,
 				95EFD2A619F8D2B400086BAF /* Cillo */,
 				95EFD2BC19F8D2B400086BAF /* CilloTests */,
 				95EFD2A519F8D2B400086BAF /* Products */,
@@ -359,7 +356,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				958321BE1A461CA2003F2034 /* PBXTargetDependency */,
 			);
 			name = Cillo;
 			productName = Cillo;
@@ -415,7 +411,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 958321B51A461C61003F2034 /* Products */;
+					ProductGroup = 95A4BD801A5CBCAF00CFD4DA /* Products */;
 					ProjectRef = 958321B41A461C61003F2034 /* Alamofire.xcodeproj */;
 				},
 			);
@@ -428,18 +424,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		958321BA1A461C61003F2034 /* Alamofire.framework */ = {
+		95A4BD851A5CBCAF00CFD4DA /* Alamofire.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Alamofire.framework;
-			remoteRef = 958321B91A461C61003F2034 /* PBXContainerItemProxy */;
+			remoteRef = 95A4BD841A5CBCAF00CFD4DA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		958321BC1A461C61003F2034 /* AlamofireTests.xctest */ = {
+		95A4BD871A5CBCAF00CFD4DA /* AlamofireTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AlamofireTests.xctest;
-			remoteRef = 958321BB1A461C61003F2034 /* PBXContainerItemProxy */;
+			remoteRef = 95A4BD861A5CBCAF00CFD4DA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -450,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */,
+				95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */,
 				95EFD2B419F8D2B400086BAF /* LaunchScreen.xib in Resources */,
 				95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */,
 			);
@@ -498,6 +495,7 @@
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
 				9587A7381A43F09E003CDE64 /* MultipleGroupsTableViewController.swift in Sources */,
+				95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,11 +510,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		958321BE1A461CA2003F2034 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Alamofire;
-			targetProxy = 958321BD1A461CA2003F2034 /* PBXContainerItemProxy */;
-		};
 		95EFD2BB19F8D2B400086BAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 95EFD2A319F8D2B400086BAF /* Cillo */;
@@ -531,6 +524,7 @@
 				95EFD2AE19F8D2B400086BAF /* Base */,
 			);
 			name = Main.storyboard;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */ = {
@@ -539,6 +533,7 @@
 				95EFD2B319F8D2B400086BAF /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
