@@ -55,7 +55,7 @@ class NewGroupViewController: UIViewController {
   
   // MARK: UIViewController
   
-  /// Resizes postTextView so the keyboard won't overlap any UI elements and sets the group name in groupTextView if a group was passed tot his UIViewController.
+  /// Resizes postTextView so the keyboard won't overlap any UI elements and sets the group name in groupTextView if a group was passed to this UIViewController.
   override func viewDidLayoutSubviews() {
     descripTextViewHeightConstraint.constant = DescripTextViewHeight
   }
