@@ -24,9 +24,6 @@ class RegisterViewController: UIViewController {
   /// Space for user to enter their password for logging in.
   @IBOutlet weak var passwordTextView: UITextView!
   
-  /// Activity indicator used for network interactions.
-  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UIViewController to LoginViewController
@@ -45,9 +42,9 @@ class RegisterViewController: UIViewController {
   /// :param: completion The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completion: (success: Bool) -> Void) {
-    activityIndicator.start()
+    let activityIndicator = addActivityIndicatorToCenterWithText("Registering...")
     DataManager.sharedInstance.register(userTextView.text, name: nameTextView.text, password: passwordTextView.text, email: emailTextView.text, { (error, success) -> Void in
-      self.activityIndicator.stop()
+      activityIndicator.removeFromSuperview()
       if error != nil {
         println(error)
         error!.showAlert()

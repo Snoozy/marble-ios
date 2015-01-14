@@ -25,9 +25,6 @@ class NewGroupViewController: UIViewController {
   /// Button used to create the new Group.
   @IBOutlet weak var createGroupButton: UIButton!
   
-  /// Activity indicator used for network interactions.
-  @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-  
   // MARK: Constants
   
   /// Height needed for all components of a NewGroupViewController excluding descripTextView in the Storyboard.
@@ -84,9 +81,9 @@ class NewGroupViewController: UIViewController {
     if descripTextView.text != "" {
       descrip = descripTextView.text
     }
-    activityIndicator.start()
+    let activityIndicator = addActivityIndicatorToCenterWithText("Creating Group...")
     DataManager.sharedInstance.createGroup(name: nameTextView.text, description: descrip, completion: { (error, result) -> Void in
-      self.activityIndicator.stop()
+      activityIndicator.removeFromSuperview()
       if error != nil {
         println(error)
         error!.showAlert()
