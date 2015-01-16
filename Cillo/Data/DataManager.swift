@@ -360,7 +360,6 @@ class DataManager: NSObject {
               completion(error: cilloError, result: nil)
             } else {
               let user = User(json: swiftyJSON)
-              println(user)
               completion(error: nil, result: user)
             }
           } else {
@@ -729,10 +728,12 @@ class DataManager: NSObject {
               var post: Post
               if swiftyJSON["repost"].boolValue {
                 post = Repost(json: swiftyJSON)
+                completion(error: nil, result: post)
               } else {
-                post = Post(json: swiftyJSON)
+                // FIXME: Change back to swiftyJSON after Daniel fixes it
+                post = Post(json: swiftyJSON[0])
+                completion(error: nil, result: post)
               }
-              completion(error: nil, result: post)
             }
           } else {
             completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
@@ -1002,6 +1003,7 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
+  // TODO: Redocument
   func imageUpload(imageData: NSData, completion:(error: NSError?, result: Int?) -> Void) {
     let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
     Alamofire
@@ -1062,6 +1064,7 @@ class DataManager: NSObject {
   }
   
   // this function creates the required URLRequestConvertible and NSData we need to use Alamofire.upload
+  // TODO: Document
   func urlRequestWithComponents(urlString: String, parameters: [String:String], imageData: NSData) -> (URLRequestConvertible, NSData) {
     
     // create url request to send

@@ -74,7 +74,7 @@ class NewPostViewController: UIViewController {
   
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // TODO: Figure out how to remove this from the navigationController's stack. Possibly make it modal?
+    // NOTE: Currently manually presenting the controller, ignoring this segue
     if segue.identifier == SegueIdentifierThisToPost {
       var destination = segue.destinationViewController as PostTableViewController
       if let sender = sender as? Post {
@@ -112,10 +112,18 @@ class NewPostViewController: UIViewController {
   // MARK: IBActions
   
   /// Triggers segue to PostTableViewController when createPostButton is pressed.
+  // TODO: Redocument
   @IBAction func triggerPostSegueOnButton(sender: UIButton) {
     createPost( { (post) -> Void in
       if let post = post {
-        self.performSegueWithIdentifier(self.SegueIdentifierThisToPost, sender: post)
+        // NOTE: currently ignoring segue, found another implementation
+//        self.performSegueWithIdentifier(self.SegueIdentifierThisToPost, sender: post)
+        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
+        postViewController.post = post
+        var viewControllers = self.navigationController!.viewControllers
+        viewControllers.removeLast()
+        viewControllers.append(postViewController)
+        self.navigationController?.setViewControllers(viewControllers, animated: true)
       }
     })
   }

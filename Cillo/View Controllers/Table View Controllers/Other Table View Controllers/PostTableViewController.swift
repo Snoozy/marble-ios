@@ -37,6 +37,8 @@ class PostTableViewController: SinglePostTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    println(post)
+    
     if NSUserDefaults.hasAuthAndUser() {
       retrieveData()
     }

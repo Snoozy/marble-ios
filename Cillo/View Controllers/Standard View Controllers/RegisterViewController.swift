@@ -62,6 +62,7 @@ class RegisterViewController: UIViewController {
   // MARK: IBActions
   
   /// Triggers segue to LoginViewController when registerButton is pressed.
+  // TODO: Redocument
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
     register( { (success) -> Void in
       if success {

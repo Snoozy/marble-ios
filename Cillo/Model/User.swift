@@ -63,9 +63,12 @@ class User: NSObject {
     userID = json["user_id"].intValue
     rep = json["reputation"].intValue
     if let url = NSURL(string: json["photo"].stringValue) {
-      if let imageData = NSData(contentsOfURL: url) {
-        if let image = UIImage(data: imageData) {
-          profilePic = image
+      // TODO: GET RID OF THIS CHECK
+      if url != NSURL(string: "https://static.cillo.co/image/34f4ca41-0d9b-436d-816a-5f30d787fbf2") {
+        if let imageData = NSData(contentsOfURL: url) {
+          if let image = UIImage(data: imageData) {
+            profilePic = image
+          }
         }
       }
     }

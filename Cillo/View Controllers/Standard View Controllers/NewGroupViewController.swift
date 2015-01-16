@@ -97,10 +97,18 @@ class NewGroupViewController: UIViewController {
   // MARK: IBActions
   
   /// Triggers segue to GroupTableViewController when createGroupButton is pressed.
+  // TODO: Redocument
   @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
     createGroup( { (group) -> Void in
       if let group = group {
-        self.performSegueWithIdentifier(self.SegueIdentifierThisToGroup, sender: group)
+        // NOTE: currently ignoring segue, found another implementation
+//        self.performSegueWithIdentifier(self.SegueIdentifierThisToGroup, sender: group)
+        let groupViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Group") as GroupTableViewController
+        groupViewController.group = group
+        var viewControllers = self.navigationController!.viewControllers
+        viewControllers.removeLast()
+        viewControllers.append(groupViewController)
+        self.navigationController?.setViewControllers(viewControllers, animated: true)
       }
     })
   }

@@ -163,6 +163,12 @@ extension UITableViewController {
     tableView.addSubview(refreshControl!)
   }
   
+  // TODO: Document
+  override public func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    tabBarController?.delegate = self
+  }
+  
   // MARK: Helper Functions
   
   /// Used to retrieve all necessary data to display UITableViewCells in this UITableViewController.
@@ -170,7 +176,29 @@ extension UITableViewController {
   /// **Note:** This function does nothing unless overriden. Subclasses should override this function to retrieve data from the Cillo servers.
   ///
   /// **Note:** The overriden function should contain tableView.reloadData() and refreshControl?.endResfreshing()
-  func retrieveData() {   }
+  func retrieveData() {
+  }
+  
+}
+
+extension UITableViewController: UITabBarControllerDelegate {
+  
+  // MARK: UITabBarControllerDelegate
+  
+  // TODO: Document
+  public func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    if viewController is UINavigationController {
+      if navigationController == viewController {
+        let topIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(topIndexPath, atScrollPosition: .Top, animated: true)
+      }
+    } else if viewController is UITableViewController {
+      if self == viewController {
+        let topIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(topIndexPath, atScrollPosition: .Top, animated: true)
+      }
+    }
+  }
   
 }
 
@@ -205,7 +233,7 @@ extension NSDate {
 //    println("Millis Since: \(millisSincePost)")
     let millisSincePost = timeSince1970 - time
     switch millisSincePost {
-    case 0...59_999:
+    case -40_000...59_999:
       return "1m"
     case 60_000...3_599_999:
       return "\(millisSincePost / 60_000)m"
