@@ -113,7 +113,8 @@ extension UIColor {
   
   /// :returns: The dark blue color that is the theme for Cillo.
   class func cilloBlue() -> UIColor {
-    return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)
+//    return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)
+    return UIColor(red: 9/255.0, green: 120/255.0, blue: 40/255.0, alpha: 0.87)
   }
   
   /// Allows an alpha to be specified for the cillo blue color.

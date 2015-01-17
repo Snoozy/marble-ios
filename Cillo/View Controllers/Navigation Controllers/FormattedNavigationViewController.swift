@@ -27,6 +27,8 @@ class FormattedNavigationViewController: UINavigationController {
   /// Changes title of navigationBar to white color.
   override func viewDidLoad() {
     super.viewDidLoad()
+    navigationBar.barTintColor = UIColor.cilloBlue()
+    navigationBar.translucent = false
     navigationBar.tintColor = UIColor.whiteColor()
     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Bordered, target: nil, action: nil)
   }
