@@ -145,6 +145,20 @@ class MultiplePostsTableViewController: UITableViewController {
   
   // MARK: Helper Functions
   
+  /// TODO: Document
+  func repostPostAtIndex(index: Int, toGroupWithName groupName: String, completion: (success: Bool) -> Void) {
+    let post = posts[index]
+    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: post.postID, text: post.text, title: post.title, completion: { (error, repost) -> Void in
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(success: false)
+      } else {
+        completion(success: repost != nil)
+      }
+    })
+  }
+  
   /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
   /// :param: index The index of the post being upvoted in the posts array.
@@ -220,6 +234,31 @@ class MultiplePostsTableViewController: UITableViewController {
   /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
   @IBAction func triggerNewPostSegueOnButton(sender: UIButton) {
     self.performSegueWithIdentifier(SegueIdentifierThisToNewPost, sender: sender)
+  }
+  
+  /// TODO: Document
+  @IBAction func repostPressed(sender: UIButton) {
+    let alert = UIAlertController(title: "Repost", message: "Which group are you reposting this post to?", preferredStyle: .Alert)
+    let repostAction = UIAlertAction(title: "Repost", style: .Default, handler: { (action) in
+      let groupName = alert.textFields![0].text
+      self.repostPostAtIndex(sender.tag, toGroupWithName: groupName, completion: { (success) in
+        if (success) {
+          let repostSuccessfulAlert = UIAlertController(title: "Repost Successful", message: "Reposted to \(groupName)", preferredStyle: .Alert)
+          let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (action) in
+          })
+          repostSuccessfulAlert.addAction(okAction)
+          self.presentViewController(repostSuccessfulAlert, animated: true, completion: nil)
+        }
+      })
+    })
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+    })
+    alert.addTextFieldWithConfigurationHandler( { (textField) in
+      textField.placeholder = "Group Name"
+    })
+    alert.addAction(cancelAction)
+    alert.addAction(repostAction)
+    presentViewController(alert, animated: true, completion: nil)
   }
   
   /// Upvotes a post.

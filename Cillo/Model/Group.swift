@@ -74,7 +74,7 @@ class Group: NSObject {
     }
     following = json["following"].boolValue
     if let url = NSURL(string: json["photo"].stringValue) {
-      // TODO: GET RID OF THIS CHECK
+      // FIXME: Get rid of this check when default images are added to database
       if url != NSURL(string: "https://static.cillo.co/image/34f4ca41-0d9b-436d-816a-5f30d787fbf2") {
         if let imageData = NSData(contentsOfURL: url) {
           if let image = UIImage(data: imageData) {

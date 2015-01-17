@@ -207,6 +207,59 @@ class SingleUserTableViewController: UITableViewController {
     }
   }
   
+  // MARK: Helper Functions
+  
+  /// TODO: Document
+  func repostPostAtIndex(index: Int, toGroupWithName groupName: String, completion: (success: Bool) -> Void) {
+    let post = posts[index]
+    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: post.postID, text: post.text, title: post.title, completion: { (error, repost) -> Void in
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(success: false)
+      } else {
+        completion(success: repost != nil)
+      }
+    })
+  }
+  
+  /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
+  ///
+  /// :param: index The index of the post being upvoted in the posts array.
+  /// :param: completion The completion block for the upvote.
+  /// :param: success True if upvote request was successful. If error was received, it is false.
+  func upvotePostAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    DataManager.sharedInstance.postUpvote(posts[index].postID, completion: { (error, success) -> Void in
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(success: false)
+      } else {
+        if success {
+          completion(success: true)
+        }
+      }
+    })
+  }
+  
+  /// Sends downvote request to Cillo Servers for the post that this UIViewController is representing.
+  ///
+  /// :param: index The index of the post being upvoted in the posts array.
+  /// :param: completion The completion block for the upvote.
+  /// :param: success True if downvote request was successful. If error was received, it is false.
+  func downvotePostAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    DataManager.sharedInstance.postDownvote(posts[index].postID, completion: { (error, success) -> Void in
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(success: false)
+      } else {
+        if success {
+          completion(success: true)
+        }
+      }
+    })
+  }
   
   // MARK: IBActions
   
@@ -255,6 +308,77 @@ class SingleUserTableViewController: UITableViewController {
   /// :param: sender The button that is touched to send this function is a groupButton in a PostCell or an originalGroupButton in a RepostCell.
   @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
     self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
+  }
+  
+  /// TODO: Document
+  @IBAction func repostPressed(sender: UIButton) {
+    let alert = UIAlertController(title: "Repost", message: "Which group are you reposting this post to?", preferredStyle: .Alert)
+    let repostAction = UIAlertAction(title: "Repost", style: .Default, handler: { (action) in
+      let groupName = alert.textFields![0].text
+      self.repostPostAtIndex(sender.tag, toGroupWithName: groupName, completion: { (success) in
+        if (success) {
+          let repostSuccessfulAlert = UIAlertController(title: "Repost Successful", message: "Reposted to \(groupName)", preferredStyle: .Alert)
+          let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (action) in
+          })
+          repostSuccessfulAlert.addAction(okAction)
+          self.presentViewController(repostSuccessfulAlert, animated: true, completion: nil)
+        }
+      })
+    })
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+    })
+    alert.addTextFieldWithConfigurationHandler( { (textField) in
+      textField.placeholder = "Group Name"
+    })
+    alert.addAction(cancelAction)
+    alert.addAction(repostAction)
+    presentViewController(alert, animated: true, completion: nil)
+  }
+  
+  /// Upvotes a post.
+  ///
+  /// **Note:** The position of the Post to be upvoted is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is an upvoteButton in a PostCell.
+  @IBAction func upvotePostPressed(sender: UIButton) {
+    let post = self.posts[sender.tag]
+    if post.voteValue != 1 {
+      upvotePostAtIndex(sender.tag, completion: { (success) -> Void in
+        if success {
+          if post.voteValue == 0 {
+            post.rep++
+          } else if post.voteValue == -1 {
+            post.rep += 2
+          }
+          post.voteValue = 1
+          let postIndexPath = NSIndexPath(forRow: 0, inSection: sender.tag)
+          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+        }
+      })
+    }
+  }
+  
+  /// Downvotes a psot.
+  ///
+  /// **Note:** The position of the Post to be downvoted is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is a downvoteButton in a PostCell.
+  @IBAction func downvotePostPressed(sender: UIButton) {
+    let post = self.posts[sender.tag]
+    if post.voteValue != -1 {
+      downvotePostAtIndex(sender.tag, completion: { (success) -> Void in
+        if success {
+          if post.voteValue == 0 {
+            post.rep--
+          } else if post.voteValue == 1 {
+            post.rep -= 2
+          }
+          post.voteValue = -1
+          let postIndexPath = NSIndexPath(forRow: 0, inSection: sender.tag)
+          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+        }
+      })
+    }
   }
   
 }

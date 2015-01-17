@@ -314,6 +314,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="rjZ-G3-XeW"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLL-MQ-M1x">
                                             <rect key="frame" x="523" y="152" width="26" height="19"/>
@@ -535,6 +538,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="CWZ-A4-Ae2"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mk0-8G-iaq">
                                             <rect key="frame" x="523" y="155" width="26" height="18"/>
@@ -737,7 +743,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -806,6 +812,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="zc4-gc-Hzm"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LXQ-sy-DZi">
                                             <rect key="frame" x="523" y="152" width="26" height="19"/>
@@ -1005,6 +1014,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="jzG-Xu-kSh"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYf-u9-stg">
                                             <rect key="frame" x="523" y="155" width="26" height="18"/>
@@ -1643,6 +1655,9 @@
                                             <state key="normal" backgroundImage="Up Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upvotePostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="SSf-vg-gPv"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBF-3y-yLS">
                                             <rect key="frame" x="520" y="148" width="32" height="32"/>
@@ -1666,6 +1681,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="ohZ-TQ-sO5"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDa-tm-cH9">
                                             <rect key="frame" x="523" y="152" width="26" height="19"/>
@@ -1709,6 +1727,9 @@
                                             <state key="normal" backgroundImage="Down Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="downvotePostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="4sR-Nc-HER"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fii-oe-qo3">
                                             <rect key="frame" x="87" y="34" width="49" height="20"/>
@@ -1851,6 +1872,9 @@
                                             <state key="normal" backgroundImage="Up Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upvotePostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="Wgs-9y-UYc"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYc-l9-Ins">
                                             <rect key="frame" x="520" y="151" width="32" height="32"/>
@@ -1874,6 +1898,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="Xv6-FV-bjO"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qod-9J-dfQ">
                                             <rect key="frame" x="523" y="155" width="26" height="18"/>
@@ -1908,6 +1935,9 @@
                                             <state key="normal" backgroundImage="Down Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="downvotePostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="GPt-Hn-bjA"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qjf-Qz-LgZ">
                                             <rect key="frame" x="8" y="70" width="584" height="26.5"/>
@@ -2173,7 +2203,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Group" title="Groups Table" id="99g-h6-cT9" userLabel="Group Table" customClass="GroupTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2328,6 +2358,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="ax8-PX-YQo"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eks-TS-07f">
                                             <rect key="frame" x="523" y="152" width="26" height="19"/>
@@ -2520,6 +2553,9 @@
                                             <state key="normal" backgroundImage="Up Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="PiG-y9-RKD"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQd-mA-gbs">
                                             <rect key="frame" x="520" y="151" width="32" height="32"/>
@@ -2532,7 +2568,6 @@
                                             </state>
                                             <connections>
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="2JI-Hs-D78"/>
-                                                <action selector="upvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="OJd-Gg-RsJ"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtL-kH-iEG">
@@ -2544,6 +2579,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="758-d3-LC8"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="43P-Xp-B6a">
                                             <rect key="frame" x="523" y="155" width="26" height="18"/>
@@ -2741,7 +2779,7 @@
             <objects>
                 <tableViewController id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2917,6 +2955,9 @@
                                             <state key="normal" backgroundImage="Up Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="7yW-HX-bJ5"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7O-36-xAA">
                                             <rect key="frame" x="520" y="148" width="32" height="32"/>
@@ -2940,6 +2981,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="WTO-22-6y3"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tRj-io-hBi">
                                             <rect key="frame" x="523" y="152" width="26" height="19"/>
@@ -2983,6 +3027,9 @@
                                             <state key="normal" backgroundImage="Down Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="PVN-ga-KZc"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwD-7y-ayg">
                                             <rect key="frame" x="87" y="34" width="49" height="20"/>
@@ -3126,6 +3173,9 @@
                                             <state key="normal" backgroundImage="Up Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="upvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="n6Y-F2-ePS"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tE2-pr-vcY">
                                             <rect key="frame" x="520" y="151" width="32" height="32"/>
@@ -3149,6 +3199,9 @@
                                             <state key="normal" backgroundImage="Repost">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="repostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="4KS-9i-lPu"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xo7-g9-Wo4">
                                             <rect key="frame" x="523" y="155" width="26" height="18"/>
@@ -3183,6 +3236,9 @@
                                             <state key="normal" backgroundImage="Down Arrow">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="WmF-eQ-6zp"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9a-Kk-KrE">
                                             <rect key="frame" x="8" y="70" width="584" height="26.5"/>
@@ -3803,11 +3859,11 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DUk-kf-nGq"/>
+        <segue reference="X2k-fD-Ni0"/>
+        <segue reference="R4s-Dx-08g"/>
+        <segue reference="KLZ-SI-aJM"/>
+        <segue reference="tpB-Dw-nh7"/>
+        <segue reference="Jl6-tW-uib"/>
         <segue reference="EJ5-yy-zZf"/>
-        <segue reference="uUb-b1-8y1"/>
-        <segue reference="8tG-h2-T9M"/>
-        <segue reference="162-n2-HAP"/>
-        <segue reference="Ndf-JY-QqC"/>
     </inferredMetricsTieBreakers>
 </document>

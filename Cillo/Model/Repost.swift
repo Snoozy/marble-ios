@@ -29,10 +29,10 @@ class Repost: Post {
     var expanded = "Expanded by Default"
     if seeFull != nil && seeFull! {
       expanded = "Expanded"
-    } else if !seeFull! {
+    } else if seeFull != nil && !seeFull! {
       expanded = "Not Expanded Yet"
     }
-    return "Repost {/n  Post ID: \(postID)\n  Title: \(title != nil ? title : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n   Original User: \(originalUser)\n   Original Group: \(originalGroup)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n   Expansion Status: \(expanded)\n}\n"
+    return "Repost {\n  Post ID: \(postID)\n  Title: \(title != nil ? title : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Original User: \(originalUser)\n  Original Group: \(originalGroup)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n}\n"
   }
   
   /// Creates Repost based on a swiftyJSON retrieved from a call to the Cillo servers.

@@ -245,6 +245,8 @@ class MeTableViewController: SingleUserTableViewController {
 
 extension MeTableViewController: UIImagePickerControllerDelegate {
   
+  // MARK: UIImagePickerControllerDelegate
+  
   /// Handles the instance in which an image was picked by a UIImagePickerController presented by this MeTableViewController.
   ///
   /// :param: picker The UIImagePickerController presented by this MeTableViewController.
@@ -278,5 +280,7 @@ extension MeTableViewController: UIImagePickerControllerDelegate {
 
 // Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
 extension MeTableViewController: UINavigationControllerDelegate {
+  
+  // MARK: UINavigationControllerDelegate
   
 }
