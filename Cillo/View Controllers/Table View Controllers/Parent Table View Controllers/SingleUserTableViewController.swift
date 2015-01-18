@@ -212,7 +212,13 @@ class SingleUserTableViewController: UITableViewController {
   /// TODO: Document
   func repostPostAtIndex(index: Int, toGroupWithName groupName: String, completion: (success: Bool) -> Void) {
     let post = posts[index]
-    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: post.postID, text: post.text, title: post.title, completion: { (error, repost) -> Void in
+    var id = 0
+    if let post = post as? Repost {
+      id = post.originalPostID
+    } else {
+      id = post.postID
+    }
+    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: id, text: post.text, title: post.title, completion: { (error, repost) -> Void in
       if error != nil {
         println(error!)
         error!.showAlert()

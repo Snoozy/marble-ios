@@ -17,6 +17,9 @@ class Repost: Post {
   /// Group name of Group that this Post was originally posted to.
   let originalGroup: Group = Group()
   
+  // TODO: Document
+  let originalPostID: Int = 0
+  
   /// Used to print properties in println statements.
   override var description: String {
     let none = "N/A"
@@ -44,6 +47,7 @@ class Repost: Post {
   /// * "repost" - Bool
   /// * "repost_user" - Dictionary
   /// * "repost_group" - Dictionary
+  /// * "repost_id" - Int
   /// * "content" - String
   /// * "group" - Dictionary
   /// * "user" - Dictionary
@@ -60,6 +64,7 @@ class Repost: Post {
     user = User(json: json["repost_user"])
     originalGroup = Group(json: json["group"])
     group = Group(json: json["repost_group"])
+    originalPostID = json["repost_id"].intValue
   }
   
   /// Create empty Repost.
