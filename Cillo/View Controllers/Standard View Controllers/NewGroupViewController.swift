@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: Put photo upload in UI and handle uploading photos in code
+
 /// Handles creating new Groups.
 class NewGroupViewController: UIViewController {
 
@@ -59,7 +61,7 @@ class NewGroupViewController: UIViewController {
   
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // TODO: Figure out how to remove this from the navigationController's stack. Possibly make it modal?
+    // NOTE: currently ignoring segue, found another implementation
     if segue.identifier == SegueIdentifierThisToGroup {
       var destination = segue.destinationViewController as GroupTableViewController
       if let sender = sender as? Group {
@@ -72,17 +74,18 @@ class NewGroupViewController: UIViewController {
   
   /// Used to create and retrieve a new Group made by the logged in User from Cillo servers.
   ///
+  /// :param: mediaID The media id for the uploaded photo that resembles this group.
   /// :param: completion The completion block for the group creation.
   /// :param: group The new Group that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createGroup(completion: (group: Group?) -> Void) {
+  func createGroupWithPhoto(mediaID: Int?, completion: (group: Group?) -> Void) {
     var descrip: String?
     if descripTextView.text != "" {
       descrip = descripTextView.text
     }
     let activityIndicator = addActivityIndicatorToCenterWithText("Creating Group...")
-    DataManager.sharedInstance.createGroup(name: nameTextView.text, description: descrip, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.createGroup(name: nameTextView.text, description: descrip, mediaID: mediaID, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error)
@@ -99,7 +102,8 @@ class NewGroupViewController: UIViewController {
   /// Triggers segue to GroupTableViewController when createGroupButton is pressed.
   // TODO: Redocument
   @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
-    createGroup( { (group) -> Void in
+    // TODO: handle media id and photo uploads
+    createGroupWithPhoto(nil, completion: { (group) -> Void in
       if let group = group {
         // NOTE: currently ignoring segue, found another implementation
 //        self.performSegueWithIdentifier(self.SegueIdentifierThisToGroup, sender: group)

@@ -8,8 +8,7 @@
 
 import UIKit
 
-// TODO: Make this class fit the updated Comment Model.
-// TODO: Document this code.
+// TODO: Handle Original Poster tag
 
 /// Cell that corresponds to reuse identifier "Comment".
 ///

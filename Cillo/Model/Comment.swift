@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: Update model to have original poster Bool property
+
 /// Defines all properties of a Comment on Cillo.
 class Comment: NSObject {
   

@@ -40,11 +40,11 @@ class TabViewController: UITabBarController {
 
   // MARK: UIViewController
   
-  // TODO: Document
-  override func viewDidLoad() {
+  // NOTE: Tab Bar is white right now. This code will make it blue if needed.
+//  override func viewDidLoad() {
 //    tabBar.barTintColor = UIColor.cilloBlue()
 //    tabBar.translucent = false
-  }
+//  }
   
   /// Modally presents LoginViewController if NSUserDefaults doesn't have an Auth Token stored.
   override func viewDidAppear(animated: Bool){

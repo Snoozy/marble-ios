@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Revamp this entire VC in storyboard and code to look nice and be more functional.
-
 /// Handles user login and signup actions.
 ///
 /// **Note:** Present this UIViewController if NSUserDefaults does not have values for the .Auth and .User. keys.

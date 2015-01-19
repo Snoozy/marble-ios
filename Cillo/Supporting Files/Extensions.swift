@@ -111,7 +111,7 @@ extension UIColor {
   
   // MARK: Helper Functions
   
-  /// :returns: The dark blue color that is the theme for Cillo.
+  /// :returns: The blue color that is the theme for Cillo.
   class func cilloBlue() -> UIColor {
 //    return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)
     return UIColor(red: 73/255.0, green: 141/255.0, blue: 244/255.0, alpha: 0.87)
@@ -121,12 +121,12 @@ extension UIColor {
   ///
   /// **Note:** The default alpha for UIColor.cilloBlue() is 0.87.
   /// :param: alpha The alpha of the returned color.
-  /// :returns: The dark blue color that is the theme of Cillo with a specified alpha.
+  /// :returns: The blue color that is the theme of Cillo with a specified alpha.
   class func cilloBlueWithAlpha(alpha: CGFloat) -> UIColor {
     return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: alpha)
   }
   
-  /// :returns: The light gray color that is used for dividers in UITableViews
+  /// :returns: The light gray color that is used for dividers in UITableViews.
   class func defaultTableViewDividerColor() -> UIColor {
     return UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
   }
@@ -139,14 +139,14 @@ extension UITableViewController {
   
   // MARK: Constants
   
-  /// Width of textView in UITableViewCell
+  /// Width of textView in UITableViewCell.
   var PrototypeTextViewWidth: CGFloat {
     get {
       return view.frame.size.width - 16
     }
   }
   
-  /// Max height of postTextView in a PostCell before it is expanded by seeFullButton
+  /// Max height of postTextView in a PostCell before it is expanded by seeFullButton.
   var MaxContractedHeight: CGFloat {
     get {
       return tableView.frame.height * 0.625 - PostCell.AdditionalVertSpaceNeeded
@@ -257,14 +257,16 @@ extension NSError {
   
   // MARK: Constants
   
+  // TODO: Document
   class var CilloErrorDomain: String {
     get {
-      return "CilloGivenError"
+      return "CilloErrorDomain"
     }
   }
   
   // MARK: Initializers
   
+  // TODO: Document
   convenience init(cilloErrorString: String, requestType: Router) {
     self.init(domain: NSError.CilloErrorDomain, code: NSError.getErrorCodeForRouter(requestType), userInfo: [NSLocalizedDescriptionKey: cilloErrorString])
   }
@@ -372,7 +374,7 @@ extension NSError {
   }
   
   class func noJSONFromDataError(#requestType: Router) -> NSError {
-    return NSError(domain: "WeirdJSON", code: NSError.getErrorCodeForRouter(requestType), userInfo: [NSLocalizedDescriptionKey: "Problem making JSON from data retrieved by Alamofire"])
+    return NSError(domain: "NoJSONErrorDomain", code: NSError.getErrorCodeForRouter(requestType), userInfo: [NSLocalizedDescriptionKey: "Problem making JSON from data retrieved by Alamofire"])
   }
   
 }

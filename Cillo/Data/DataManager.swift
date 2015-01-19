@@ -327,7 +327,7 @@ class DataManager: NSObject {
                 if post["repost"].boolValue {
                   item = Repost(json: post)
                 } else {
-                  item = Post(json: post)  // convert element to our model object
+                  item = Post(json: post)
                 }
                 returnArray.append(item)
               }
@@ -730,8 +730,7 @@ class DataManager: NSObject {
                 post = Repost(json: swiftyJSON)
                 completion(error: nil, result: post)
               } else {
-                // FIXME: Change back to swiftyJSON after Daniel fixes it
-                post = Post(json: swiftyJSON[0])
+                post = Post(json: swiftyJSON)
                 completion(error: nil, result: post)
               }
             }
@@ -753,10 +752,13 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Group.
-  func createGroup(#name: String, description: String?, completion:(error: NSError?, result: Group?) -> Void) {
+  func createGroup(#name: String, description: String?, mediaID: Int?, completion:(error: NSError?, result: Group?) -> Void) {
     var parameters: [String: AnyObject] = ["name": name]
     if let description = description {
       parameters["description"] = description
+    }
+    if let mediaID = mediaID {
+      parameters["media_id"] = mediaID
     }
     Alamofire
       .request(.POST, Router.GroupCreate, parameters: parameters, encoding: .URL)

@@ -54,7 +54,7 @@ class User: NSObject {
   /// * "reputation" - Int
   /// * "photo" - String
   /// * "bio" - String
-  /// * "group_count" - Int
+  /// * "groups_count" - Int
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
