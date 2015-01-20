@@ -118,14 +118,15 @@ class LogInViewController: UIViewController {
   
   // MARK: IBActions
   
-  /// Triggers segue to RegisterViewController when registerButton is pressed.
-  // TODO: Redocument
+  /// Triggers segue to RegisterViewController.
+  /// :param: sender The button that is touched to send this function is registerButton.
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
     self.performSegueWithIdentifier(SegueIdentifierThisToRegister, sender: sender)
   }
   
   /// Triggers segue to TabViewController when loginButton is pressed if a login attempt is successful.
-  // TODO: Redocument
+  ///
+  /// :param: sender The button that is touched to send this function is loginButton.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
     login( { (loginSuccess) -> Void in
       if loginSuccess {
@@ -141,7 +142,6 @@ class LogInViewController: UIViewController {
   }
   
   /// Allows RegisterViewController to unwind its modal segue.
-  // TODO: Redocument
   @IBAction func unwindToLogin(sender: UIStoryboardSegue) {
     
   }

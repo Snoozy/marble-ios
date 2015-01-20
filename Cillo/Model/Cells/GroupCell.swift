@@ -38,6 +38,16 @@ class GroupCell: UITableViewCell {
   /// Follows or unfollows Group.
   @IBOutlet weak var followButton: UIButton!
   
+  /// Custom border between cells.
+  ///
+  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants totuse default UITableView separators.
+  @IBOutlet weak var separatorView: UIView?
+  
+  /// Controls height of separatorView.
+  ///
+  /// Set constant to value of separatorHeight in the makeCellFromGroup(_:_:_:) function.
+  @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
+  
   // MARK: Constants
   
   /// Height needed for all components of a GroupCell excluding descripTextView in the Storyboard.
@@ -83,8 +93,10 @@ class GroupCell: UITableViewCell {
   ///
   /// :param: group The corresponding Group to be displayed by this GroupCell.
   /// :param: buttonTag The tags of all buttons in this GroupCell corresponding to their index in the array holding them.
-  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
-  func makeCellFromGroup(group: Group, withButtonTag buttonTag: Int) {
+  /// :param: * Pass the precise index of the group in its model array.
+  /// :param: separatorHeight The height of the custom separators at the bottom of this GroupCell.
+  /// :param: * The default value is 0.0, meaning the separators will not show by default.
+  func makeCellFromGroup(group: Group, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     pictureButton.setBackgroundImage(group.picture, forState: .Normal)
     pictureButton.setBackgroundImage(group.picture, forState: .Highlighted)
     nameButton.setTitle(group.name, forState: .Normal)
@@ -110,6 +122,11 @@ class GroupCell: UITableViewCell {
     // Make only the number in followersLabel bold
     var followersText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: group.numFollowers), firstFont: GroupCell.FollowerFontBold, secondHalf: " FOLLOWERS", secondFont: GroupCell.FollowerFont)
     followersLabel.attributedText = followersText
+    
+    if let separatorView = separatorView {
+      separatorView.backgroundColor = UIColor.cilloBlue()
+      separatorViewHeightConstraint!.constant = separatorHeight
+    }
   }
   
 }

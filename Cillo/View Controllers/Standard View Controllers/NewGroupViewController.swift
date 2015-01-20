@@ -99,8 +99,9 @@ class NewGroupViewController: UIViewController {
   
   // MARK: IBActions
   
-  /// Triggers segue to GroupTableViewController when createGroupButton is pressed.
-  // TODO: Redocument
+  /// Creates a group. If the creation is successful, presents a GroupTableViewController and removes self from navigationController's stack.
+  ///
+  /// :param: sender The button that is touched to send this function is createGroupButton.
   @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
     // TODO: handle media id and photo uploads
     createGroupWithPhoto(nil, completion: { (group) -> Void in

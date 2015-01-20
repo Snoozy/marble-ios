@@ -17,7 +17,7 @@ class Repost: Post {
   /// Group name of Group that this Post was originally posted to.
   let originalGroup: Group = Group()
   
-  // TODO: Document
+  /// ID of the original post that this post if a repost of.
   let originalPostID: Int = 0
   
   /// Used to print properties in println statements.

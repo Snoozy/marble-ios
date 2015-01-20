@@ -25,6 +25,7 @@ class TabViewController: UITabBarController {
   
   // MARK: Constants
   
+  /// The height of the tabBar of this UITabBarController
   var TabBarHeight: CGFloat {
     get {
       return tabBar.frame.size.height

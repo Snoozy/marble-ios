@@ -46,8 +46,10 @@ class RepostCell: PostCell {
   ///
   /// :param: post The corresponding Post to be displayed by this RepostCell.
   /// :param: buttonTag The tags of all buttons in this RepostCell.
-  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
-  override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
+  /// :param: * Pass the precise index of the post in its model array.
+  /// :param: separatorHeight The height of the custom separators at the bottom of this Post Cell.
+  /// :param: * The default value is 0.0, meaning the separators will not show by default.
+  override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     super.makeCellFromPost(post, withButtonTag: buttonTag)
     if let post = post as? Repost {
       originalGroupButton.setTitle(post.originalGroup.name, forState: .Normal)

@@ -9,11 +9,12 @@
 import UIKit
 
 // TODO: Decide whether upvoting/downvoting from this screen is allowed.
+// TODO: Revamp divider implementation
 // TODO: Find way to make UISegmentedControl stick to navigation bar when scrolled off screen.
 
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
-/// **Note:** Subclasses must override SegueIdentifierThisToPost and SegueIdentifierThisToGroup.
+/// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup and SegueIdentifierThisToGroups.
 class SingleUserTableViewController: UITableViewController {
   
   // MARK: Properties
@@ -209,7 +210,14 @@ class SingleUserTableViewController: UITableViewController {
   
   // MARK: Helper Functions
   
-  /// TODO: Document
+  /// Sends create post request to Cillo Servers for the Post at the specified index in posts.
+  ///
+  /// **Note:** Create post is used to repost posts when given a repostID parameter.
+  ///
+  /// :param: index The index of the post being reposted in the posts array.
+  /// :param: groupName The name of the group that the specified post is being reposted to.
+  /// :param: completion The completion block for the repost.
+  /// :param: success True if repost request was successful. If error was received, it is false.
   func repostPostAtIndex(index: Int, toGroupWithName groupName: String, completion: (success: Bool) -> Void) {
     let post = posts[index]
     var id = 0
@@ -316,7 +324,11 @@ class SingleUserTableViewController: UITableViewController {
     self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
   }
   
-  /// TODO: Document
+  /// Reposts a post.
+  ///
+  /// **Note:** The position of the Post to be reposted is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
   @IBAction func repostPressed(sender: UIButton) {
     let alert = UIAlertController(title: "Repost", message: "Which group are you reposting this post to?", preferredStyle: .Alert)
     let repostAction = UIAlertAction(title: "Repost", style: .Default, handler: { (action) in

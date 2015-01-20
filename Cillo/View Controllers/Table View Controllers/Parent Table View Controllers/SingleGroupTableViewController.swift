@@ -10,7 +10,7 @@ import UIKit
 
 /// Inherit this class for any UITableViewController that is a GroupCell followed by PostCells.
 ///
-/// **Note:** Subclasses must override SegueIdentifierThisToPost.
+/// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
 class SingleGroupTableViewController: UITableViewController {
 
   // MARK: Properties
@@ -22,6 +22,13 @@ class SingleGroupTableViewController: UITableViewController {
   var posts: [Post] = []
   
   // MARK: Constants 
+  
+  /// Height of the custom divider UIViews at the bottom of the PostCells managed by this SingleGroupPostsTableViewController.
+  class var DividerHeight: CGFloat {
+    get {
+      return 10.0
+    }
+  }
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   ///
@@ -59,7 +66,7 @@ class SingleGroupTableViewController: UITableViewController {
       if let sender = sender as? UIButton {
         destination.post = posts[sender.tag]
       } else if let sender = sender as? NSIndexPath {
-        destination.post = posts[sender.section - 1]
+        destination.post = posts[sender.row - 1]
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController
@@ -74,14 +81,14 @@ class SingleGroupTableViewController: UITableViewController {
   
   // MARK: UITableViewDataSource
   
-  /// Assigns the number of sections based on length of the posts array.
+  /// Assigns the number of sections in tableView to 1.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return posts.count + 1
+    return 1
   }
   
-  /// Assigns 1 row to each section in this UITAbleViewController.
+  /// Assigns the number of rows in tableView based on the size of the posts array.
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return posts.count + 1
   }
   
   /// Creates GroupCell or PostCell based on section number of indexPath.
@@ -89,11 +96,11 @@ class SingleGroupTableViewController: UITableViewController {
     if indexPath.row == 0 { // Make a GroupCell for only first row
       let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
       
-      cell.makeCellFromGroup(group, withButtonTag: 0)
+      cell.makeCellFromGroup(group, withButtonTag: 0, andSeparatorHeight: SingleGroupTableViewController.DividerHeight)
       
       return cell
     } else {
-      let post = posts[indexPath.section - 1]
+      let post = posts[indexPath.row - 1]
       var cell: PostCell
       if let post = post as? Repost {
         cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
@@ -101,7 +108,7 @@ class SingleGroupTableViewController: UITableViewController {
         cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
       }
       
-      cell.makeCellFromPost(post, withButtonTag: indexPath.section - 1)
+      cell.makeCellFromPost(post, withButtonTag: indexPath.row - 1, andSeparatorHeight: SingleGroupTableViewController.DividerHeight)
       
       return cell
     }
@@ -109,31 +116,23 @@ class SingleGroupTableViewController: UITableViewController {
   
   // MARK: UITableViewDelegate
   
-  /// Sets height of divider inbetween cells.
-  override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return section == 0 ? 0 : section == 1 ? 5 : 10
-  }
-  
-  /// Makes divider inbetween cells blue.
-  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let view = UIView()
-    view.backgroundColor = UIColor.cilloBlue()
-    return view
-  }
-  
   /// Sets height of cell to appropriate value depending on length of post and whether post is expanded.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 {
-      return group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
+    if indexPath.row == 0 {
+      let height = group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
+      return posts.count != 0 ? height + SingleGroupTableViewController.DividerHeight : height
     }
-    let post = posts[indexPath.section - 1]
-    let height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
+    let post = posts[indexPath.row - 1]
+    var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
+    if indexPath.row != posts.count - 1 {
+      height += SingleGroupTableViewController.DividerHeight
+    }
     return post.title != nil ? height : height - PostCell.TitleHeight
   }
   
   /// Sends view to PostTableViewController if PostCell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if indexPath.section != 0 {
+    if indexPath.row != 0 {
       self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
     }
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
@@ -141,7 +140,14 @@ class SingleGroupTableViewController: UITableViewController {
   
   // MARK: Helper Functions
   
-  /// TODO: Document
+  /// Sends create post request to Cillo Servers for the Post at the specified index in posts.
+  ///
+  /// **Note:** Create post is used to repost posts when given a repostID parameter.
+  ///
+  /// :param: index The index of the post being reposted in the posts array.
+  /// :param: groupName The name of the group that the specified post is being reposted to.
+  /// :param: completion The completion block for the repost.
+  /// :param: success True if repost request was successful. If error was received, it is false.
   func repostPostAtIndex(index: Int, toGroupWithName groupName: String, completion: (success: Bool) -> Void) {
     let post = posts[index]
     var id = 0
@@ -289,7 +295,7 @@ class SingleGroupTableViewController: UITableViewController {
             post.rep += 2
           }
           post.voteValue = 1
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: sender.tag)
+          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
@@ -312,7 +318,7 @@ class SingleGroupTableViewController: UITableViewController {
             post.rep -= 2
           }
           post.voteValue = -1
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: sender.tag)
+          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
@@ -346,7 +352,11 @@ class SingleGroupTableViewController: UITableViewController {
     }
   }
   
-  /// TODO: Document
+  /// Reposts a post.
+  ///
+  /// **Note:** The position of the Post to be reposted is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
   @IBAction func repostPressed(sender: UIButton) {
     let alert = UIAlertController(title: "Repost", message: "Which group are you reposting this post to?", preferredStyle: .Alert)
     let repostAction = UIAlertAction(title: "Repost", style: .Default, handler: { (action) in

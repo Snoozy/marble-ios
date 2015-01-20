@@ -111,8 +111,9 @@ class NewPostViewController: UIViewController {
   
   // MARK: IBActions
   
-  /// Triggers segue to PostTableViewController when createPostButton is pressed.
-  // TODO: Redocument
+  /// Creates a post. If the creation is successful, presents a PostTableViewController and removes self from navigationController's stack.
+  ///
+  /// :param: sender The button that is touched to send this function is createPostButton.
   @IBAction func triggerPostSegueOnButton(sender: UIButton) {
     createPost( { (post) -> Void in
       if let post = post {

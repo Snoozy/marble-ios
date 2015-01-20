@@ -56,10 +56,20 @@ class PostCell: UITableViewCell {
   /// Reposts Post in a different Group.
   @IBOutlet weak var repostButton: UIButton!
   
+  /// Custom border between cells.
+  ///
+  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants totuse default UITableView separators.
+  @IBOutlet weak var separatorView: UIView?
+  
   /// Controls height of titleLabel.
   ///
   /// If title of Post is nil, set constant to 0.
   @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
+  
+  /// Controls height of separatorView.
+  ///
+  /// Set constant to value of separatorHeight in the makeCellFromPost(_:_:_:) function.
+  @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
 
   // MARK: Constants
   
@@ -99,8 +109,10 @@ class PostCell: UITableViewCell {
   ///
   /// :param: post The corresponding Post to be displayed by this PostCell.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
-  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
-  func makeCellFromPost(post: Post, withButtonTag buttonTag: Int) {
+  /// :param: * Pass the precise index of the post in its model array.
+  /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
+  /// :param: * The default value is 0.0, meaning the separators will not show by default.
+  func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     
     nameButton.setTitle(post.user.name, forState: .Normal)
     groupButton.setTitle(post.group.name, forState: .Normal)
@@ -160,6 +172,11 @@ class PostCell: UITableViewCell {
       //gets rid of small gap in divider
       layoutMargins = UIEdgeInsetsZero
       preservesSuperviewLayoutMargins = false
+    }
+    
+    if let separatorView = separatorView {
+      separatorView.backgroundColor = UIColor.cilloBlue()
+      separatorViewHeightConstraint!.constant = separatorHeight
     }
   }
   

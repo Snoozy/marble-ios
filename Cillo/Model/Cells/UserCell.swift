@@ -122,7 +122,7 @@ class UserCell: UITableViewCell {
   ///
   /// :param: user The corresponding User to be displayed by this UserCell.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
-  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
+  /// :param: * Pass the precise index of the post in its model array.
   func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
     pictureButton.setBackgroundImage(user.profilePic, forState: .Normal)
     pictureButton.setBackgroundImage(user.profilePic, forState: .Highlighted)

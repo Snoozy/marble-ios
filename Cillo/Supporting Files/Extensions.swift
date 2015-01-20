@@ -186,7 +186,7 @@ extension UITableViewController: UITabBarControllerDelegate {
   
   // MARK: UITabBarControllerDelegate
   
-  // TODO: Document
+  /// Scrolls tableView back to top if a tab that is already selected is pressed again.
   public func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
     if viewController is UINavigationController {
       if navigationController == viewController {
@@ -257,7 +257,7 @@ extension NSError {
   
   // MARK: Constants
   
-  // TODO: Document
+  /// The domain name of errors returned by jsons retrieved from the cillo servers.
   class var CilloErrorDomain: String {
     get {
       return "CilloErrorDomain"
@@ -266,7 +266,10 @@ extension NSError {
   
   // MARK: Initializers
   
-  // TODO: Document
+  /// Initializer used to create custom errors retrieved from the cillo servers.
+  ///
+  /// :param: cilloErrorString The message that was given by the key "error" in the retrieved json.
+  /// :param: requestType The request type that the error corresponds to. See Router enum for a full list.
   convenience init(cilloErrorString: String, requestType: Router) {
     self.init(domain: NSError.CilloErrorDomain, code: NSError.getErrorCodeForRouter(requestType), userInfo: [NSLocalizedDescriptionKey: cilloErrorString])
   }

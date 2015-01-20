@@ -61,8 +61,9 @@ class RegisterViewController: UIViewController {
   
   // MARK: IBActions
   
-  /// Triggers segue to LoginViewController when registerButton is pressed.
-  // TODO: Redocument
+  /// Triggers segue to LoginViewController after registering the new user with the server.
+  ///
+  /// :param: sender The button that is touched to send this function is registerButton.
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
     register( { (success) -> Void in
       if success {

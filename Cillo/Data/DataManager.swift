@@ -1001,11 +1001,12 @@ class DataManager: NSObject {
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
-  /// :param: imageURL The local url of the image to be uploaded.
+  /// :param: imageData The data containing the image to be uploaded.
+  ///
+  /// :param: * The data can be retrieved via UIImagePNGRepresentation(_:)
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
-  // TODO: Redocument
   func imageUpload(imageData: NSData, completion:(error: NSError?, result: Int?) -> Void) {
     let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
     Alamofire
@@ -1032,7 +1033,20 @@ class DataManager: NSObject {
       }
   }
   
-  // TODO: Document
+  /// Attempts to update the settings of the logged in User.
+  ///
+  /// **Note:** All parameters are optional because settings can be updated independent of each other.
+  ///
+  /// * At least one parameter should not be nil.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: newName The new name of the logged in User.
+  /// :param: newMediaID The media ID of the new profile picture of the logged in User.
+  /// :param: newBio The new bio of the logged in User.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the user object of the logged in User with the updated settings.
   func editSelfSettings(#newName: String?, newMediaID: Int?, newBio: String?, completion:(error: NSError?, result: User?) -> Void) {
     var parameters: [String: AnyObject] = [:]
     if let newName = newName {
@@ -1065,8 +1079,15 @@ class DataManager: NSObject {
       }
   }
   
-  // this function creates the required URLRequestConvertible and NSData we need to use Alamofire.upload
-  // TODO: Document
+  // MARK: Helper Functions
+  
+  /// This function creates the required URLRequestConvertible and NSData we need to use Alamofire.upload
+  ///
+  /// :param: urlString The url of the request that is being performed.
+  /// :param: parameters The parameters attached to the request.
+  /// :param: * These are not important for cillo image uploads so anything can be written in this dictionary.
+  /// :param: imageData The data of the image to be converted to Alamofire compatible image data.
+  /// :returns: The tuple that is needed for the Alamofire.upload function.
   func urlRequestWithComponents(urlString: String, parameters: [String:String], imageData: NSData) -> (URLRequestConvertible, NSData) {
     
     // create url request to send
@@ -1075,8 +1096,6 @@ class DataManager: NSObject {
     let boundaryConstant = "myRandomBoundary12345";
     let contentType = "multipart/form-data;boundary="+boundaryConstant
     mutableURLRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
-    
-    
     
     // create upload data to send
     let uploadData = NSMutableData()

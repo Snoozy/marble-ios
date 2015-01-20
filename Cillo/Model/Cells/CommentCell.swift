@@ -116,7 +116,7 @@ class CommentCell: UITableViewCell {
   /// :param: comment The corresponding Comment to be displayed by this CommentCell.
   /// :param: selected Descibes if CommentCell is selected.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
-  /// :param: * Pass either indexPath.section or indexPath.row for this parameter depending on the implementation of your UITableViewController.
+  /// :param: * Pass the precise index of the comment in its model array.
   func makeCellFromComment(comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int) {
     
     var name = comment.user.name

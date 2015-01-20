@@ -8,7 +8,7 @@
 
 import UIKit
 
-// TODO: Update Bio and Name code as UIAlertControllers with .Alert style
+// TODO: Implement Update Bio UI
 
 /// Handles first view of Me tab (Profile of logged in User). 
 ///
@@ -151,7 +151,12 @@ class MeTableViewController: SingleUserTableViewController {
     })
   }
   
-  // TODO: Document
+  /// Sends edit settings request to Cillo Servers for the logged in User in order to change the profile picture of the logged in User.
+  ///
+  /// :param: mediaID The id of the uploaded picture that will be the new profile picture of the logged in User.
+  /// :param: groupName The name of the group that the specified post is being reposted to.
+  /// :param: completion The completion block for the repost.
+  /// :param: user The User object for the logged in User after being updated with a new profilePic. Nil if error was received.
   func updateProfilePic(mediaID: Int, completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
     DataManager.sharedInstance.editSelfSettings(newName: nil, newMediaID: mediaID, newBio: nil, completion: { (error, result) -> Void in
@@ -166,7 +171,11 @@ class MeTableViewController: SingleUserTableViewController {
     })
   }
   
-  // TODO: Document
+  /// Sends edit settings request to Cillo Servers for the logged in User in order to change the name of the logged in User.
+  ///
+  /// :param: name The new name of the logged in User.
+  /// :param: completion The completion block for the repost.
+  /// :param: user The User object for the logged in User after being updated with a new name. Nil if error was received.
   func updateName(name: String, completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
     DataManager.sharedInstance.editSelfSettings(newName: name, newMediaID: nil, newBio: nil, completion: { (error, result) -> Void in
@@ -181,7 +190,11 @@ class MeTableViewController: SingleUserTableViewController {
     })
   }
   
-  // TODO: Document
+  /// Sends edit settings request to Cillo Servers for the logged in User in order to change the bio of the logged in User.
+  ///
+  /// :param: bio The new bio of the logged in User.
+  /// :param: completion The completion block for the repost.
+  /// :param: user The User object for the logged in User after being updated with a new bio. Nil if error was received.
   func updateBio(bio: String, completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
     DataManager.sharedInstance.editSelfSettings(newName: nil, newMediaID: nil, newBio: bio, completion: { (error, result) -> Void in
@@ -219,7 +232,9 @@ class MeTableViewController: SingleUserTableViewController {
     presentViewController(actionSheet, animated: true, completion: nil)
   }
   
-  // TODO: Document
+  /// Presents alert with a text field that allows the user to change their name.
+  ///
+  /// :param: sender The button that is touched to send this function is a nameButton in a UserCell.
   @IBAction func nameButtonPressed(sender: UIButton) {
     let alert = UIAlertController(title: "Change Display Name", message: "Enter new name:", preferredStyle: .Alert)
     let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
@@ -229,7 +244,8 @@ class MeTableViewController: SingleUserTableViewController {
       self.updateName(nameTextField.text, completion: { (user) -> Void in
         if user != nil {
           self.user = user!
-          self.tableView.reloadData()
+          let userIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+          self.tableView.reloadRowsAtIndexPaths([userIndexPath], withRowAnimation: .None)
         }
       })
     })
@@ -258,9 +274,8 @@ extension MeTableViewController: UIImagePickerControllerDelegate {
           self.updateProfilePic(mediaID!, completion: { (user) -> Void in
             if user != nil {
               self.user = user!
-              self.tableView.reloadData()
-            } else {
-              
+              let userIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+              self.tableView.reloadRowsAtIndexPaths([userIndexPath], withRowAnimation: .None)
             }
           })
         }

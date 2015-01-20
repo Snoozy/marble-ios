@@ -17,7 +17,7 @@ class FormattedNavigationViewController: UINavigationController {
   
   // MARK: Constants
   
-  // TODO: Document
+  /// The height of the navigationBar of this UINavigationController.
   var NavigationBarHeight: CGFloat {
     get {
       return navigationBar.frame.size.height

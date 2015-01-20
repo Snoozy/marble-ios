@@ -10,7 +10,7 @@ import UIKit
 
 /// Inherit this class for any UITableViewController that is only a table of GroupCells
 ///
-/// **Note:** Subclasses must override SegueIdentifierThisToGroup.
+/// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToNewGroup.
 class MultipleGroupsTableViewController: UITableViewController {
   
   // MARK: Properties
@@ -19,6 +19,13 @@ class MultipleGroupsTableViewController: UITableViewController {
   var groups: [Group] = []
   
   // MARK: Constants
+  
+  /// Height of the custom divider UIViews at the bottom of the GroupCells managed by this MultipleGroupsTableViewController.
+  class var DividerHeight: CGFloat {
+    get {
+      return 10.0
+    }
+  }
   
   /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
   ///
@@ -40,12 +47,17 @@ class MultipleGroupsTableViewController: UITableViewController {
   
   // MARK: UIViewController
   
+  /// Removes the default separator from tableView to allow for the custom implementation of cell separators.
+  override func viewDidLoad() {
+    tableView.separatorStyle = .None
+  }
+  
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToGroup {
       var destination = segue.destinationViewController as GroupTableViewController
       if let sender = sender as? NSIndexPath {
-        destination.group = groups[sender.section]
+        destination.group = groups[sender.row]
       } else if let sender = sender as? UIButton {
         destination.group = groups[sender.tag]
       }
@@ -56,22 +68,22 @@ class MultipleGroupsTableViewController: UITableViewController {
   
   // MARK: UITableViewDataSource
   
-  /// Assigns the number of sections based on the length of the groups array.
+  /// Assigns the number of sections in tableView to 1.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return groups.count
+    return 1
   }
   
-  /// Assigns 1 row to each section in this UITableViewController.
+  /// Assigns the number of rows in tableView based on the size of the groups array.
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return groups.count
   }
   
   /// Creates GroupCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
-    let group = groups[indexPath.section]
+    let group = groups[indexPath.row]
     
-    cell.makeCellFromGroup(group, withButtonTag: indexPath.section)
+    cell.makeCellFromGroup(group, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != groups.count - 1 ? MultipleGroupsTableViewController.DividerHeight : 0.0))
     
     return cell
   }
@@ -79,22 +91,11 @@ class MultipleGroupsTableViewController: UITableViewController {
   
   // MARK: UITableViewDelegate
   
-  /// Sets height of divider inbetween cells.
-  override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return section == 0 ? 0 : 10
-  }
-  
-  /// Makes divider inbetween cells blue.
-  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let view = UIView()
-    view.backgroundColor = UIColor.cilloBlue()
-    return view
-  }
-  
   /// Sets height of cell to appropriate value.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    let group = groups[indexPath.section]
-    return group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
+    let group = groups[indexPath.row]
+    let height = group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
+    return indexPath.row != groups.count - 1 ? height + MultipleGroupsTableViewController.DividerHeight : height
   }
   
   /// Sends view to GroupTableViewController if GroupCell is selected.
@@ -119,7 +120,7 @@ class MultipleGroupsTableViewController: UITableViewController {
       } else {
         if success {
           completion(success: true)
-          let groupIndexPath = NSIndexPath(forRow: 0, inSection: index)
+          let groupIndexPath = NSIndexPath(forRow: index, inSection: 0)
           self.tableView.reloadRowsAtIndexPaths([groupIndexPath], withRowAnimation: .None)
         }
       }
@@ -140,7 +141,7 @@ class MultipleGroupsTableViewController: UITableViewController {
       } else {
         if success {
           completion(success: true)
-          let groupIndexPath = NSIndexPath(forRow: 0, inSection: index)
+          let groupIndexPath = NSIndexPath(forRow: index, inSection: 0)
           self.tableView.reloadRowsAtIndexPaths([groupIndexPath], withRowAnimation: .None)
         }
       }

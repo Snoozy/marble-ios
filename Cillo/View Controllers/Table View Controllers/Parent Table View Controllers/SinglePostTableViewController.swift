@@ -10,7 +10,7 @@ import UIKit
 
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
-/// **Note:** Subclasses must override SegueIdentifierThisToGroup.
+/// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToUser.
 class SinglePostTableViewController: UITableViewController {
   
   // MARK: Properties
@@ -139,7 +139,13 @@ class SinglePostTableViewController: UITableViewController {
   
   // MARK: Helper Functions
   
-  /// TODO: Document
+  /// Sends create post request to Cillo Servers for post.
+  ///
+  /// **Note:** Create post is used to repost posts when given a repostID parameter.
+  ///
+  /// :param: groupName The name of the group that the specified post is being reposted to.
+  /// :param: completion The completion block for the repost.
+  /// :param: success True if repost request was successful. If error was received, it is false.
   func repostPostToGroup(groupName: String, completion: (success: Bool) -> Void) {
     var id = 0
     if let post = post as? Repost {
@@ -248,7 +254,9 @@ class SinglePostTableViewController: UITableViewController {
     self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
   }
   
-  /// TODO: Document
+  /// Reposts a post.
+  ///
+  /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
   @IBAction func repostPressed(sender: UIButton) {
     let alert = UIAlertController(title: "Repost", message: "Which group are you reposting this post to?", preferredStyle: .Alert)
     let repostAction = UIAlertAction(title: "Repost", style: .Default, handler: { (action) in
