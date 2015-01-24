@@ -42,19 +42,6 @@ class UserCell: UITableViewCell {
   ///
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var groupsButton: UIButton!
-  
-  /// Used to select the type of UITableViewCell is displayed under this UserCell in a SingleUserTableViewController.
-  @IBOutlet weak var postsSegControl: UISegmentedControl!
-  
-  // MARK: Enums
-  
-  /// Titles of postsSegControl's segments.
-  ///
-  /// * Posts: Title of segment with index 0.
-  /// * Comments: Title of segment with index 1.
-  enum SegIndex {
-    case Posts, Comments
-  }
 
   // MARK: Constants
   
@@ -63,7 +50,7 @@ class UserCell: UITableViewCell {
   /// **Note:** Height of bioTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
-      return 215
+      return 174
     }
   }
   
@@ -99,13 +86,6 @@ class UserCell: UITableViewCell {
   class var GroupsFontBold: UIFont {
     get {
       return UIFont.boldSystemFontOfSize(18.0)
-    }
-  }
-  
-  /// Font used for the segment titles in postsSegControl.
-  class var SegControlFont: UIFont {
-    get {
-      return UIFont.boldSystemFontOfSize(12.0)
     }
   }
   
@@ -148,8 +128,6 @@ class UserCell: UITableViewCell {
     var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " GROUPS", secondFont: UserCell.GroupsFont)
     groupsButton.setAttributedTitle(groupsText, forState: .Normal)
     groupsButton.tintColor = UIColor.blackColor()
-    
-    postsSegControl.setTitleTextAttributes([NSFontAttributeName:UserCell.SegControlFont], forState: .Normal)
   }
   
 }

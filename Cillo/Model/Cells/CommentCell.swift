@@ -9,6 +9,7 @@
 import UIKit
 
 // TODO: Handle Original Poster tag
+// TODO: Implement a reply button.
 
 /// Cell that corresponds to reuse identifier "Comment".
 ///
@@ -53,6 +54,16 @@ class CommentCell: UITableViewCell {
   
   /// Set to .getIndentationSize() + .TextViewDistanceToIndent.
   @IBOutlet weak var textIndentConstraint: NSLayoutConstraint!
+  
+  /// Custom border between cells.
+  ///
+  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants totuse default UITableView separators.
+  @IBOutlet weak var separatorView: UIView?
+  
+  /// Controls height of separatorView.
+  ///
+  /// Set constant to value of separatorHeight in the makeCellFromGroup(_:_:_:) function.
+  @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
   
   // MARK: Constants
   
@@ -117,7 +128,7 @@ class CommentCell: UITableViewCell {
   /// :param: selected Descibes if CommentCell is selected.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the comment in its model array.
-  func makeCellFromComment(comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int) {
+  func makeCellFromComment(comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     
     var name = comment.user.name
     //add dots if CommentCell has reached max indent and cannot be indented more
@@ -185,6 +196,12 @@ class CommentCell: UITableViewCell {
       lines.append(line)
       contentView.addSubview(line)
     }
+    
+    if let separatorView = separatorView {
+      separatorView.backgroundColor = UIColor.cilloBlue()
+      separatorViewHeightConstraint!.constant = separatorHeight
+    }
+    
   }
   
 }

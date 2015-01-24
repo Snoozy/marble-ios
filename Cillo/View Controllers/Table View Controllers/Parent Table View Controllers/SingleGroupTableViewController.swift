@@ -8,10 +8,12 @@
 
 import UIKit
 
+// TODO: Possibly make into 2 section tableview
+
 /// Inherit this class for any UITableViewController that is a GroupCell followed by PostCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
-class SingleGroupTableViewController: UITableViewController {
+class SingleGroupTableViewController: CustomTableViewController {
 
   // MARK: Properties
   
@@ -58,6 +60,12 @@ class SingleGroupTableViewController: UITableViewController {
   }
   
   // MARK: UIViewController
+  
+  /// Removes the default separator from tableView to allow for the custom implementation of cell separators.
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    tableView.separatorStyle = .None
+  }
   
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

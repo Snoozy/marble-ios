@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 // TODO: Implement ?page=2 functionality for feeds (defaults to 1).
 // TODO: Possibly implement &page_size=50 functionality for feeds (defaults to 20).
@@ -182,8 +181,7 @@ class DataManager: NSObject {
   /// :param: error If the login was unsuccessful, this will contain the error message.
   /// :param: result If the login was successful, this will be the Auth Token.
   func login(username: String, password: String, completion:(error: NSError?, result: String?) -> Void) {
-    Alamofire
-      .request(.POST, Router.Login, parameters: ["username":username, "password":password], encoding: .URL)
+    request(.POST, Router.Login, parameters: ["username":username, "password":password], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -200,7 +198,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .Login), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to register user with server.
@@ -213,8 +211,7 @@ class DataManager: NSObject {
   /// :param: error If the registration was unsuccessful, this will contain the error message.
   /// :param: success If the registration was successful, this will be true.
   func register(username: String, name: String, password: String, email: String, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.Register, parameters: ["username":username, "name":name, "password":password, "email":email], encoding: .URL)
+    request(.POST, Router.Register, parameters: ["username":username, "name":name, "password":password, "email":email], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -230,7 +227,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to logout of server.
@@ -241,8 +238,7 @@ class DataManager: NSObject {
   /// :param: error If the logout was unsuccessful, this will contain the error message.
   /// :param: success If the logout was successful, this will be true.
   func logout(completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.Logout, parameters: nil, encoding: .URL)
+    request(.POST, Router.Logout, parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -258,7 +254,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve home page from server for the logged in user. If successful, returns an array of posts on home page in completion block
@@ -269,8 +265,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
   func getHomePage(completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire
-      .request(.GET, Router.Root, parameters: nil, encoding: .URL)
+    request(.GET, Router.Root, parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -297,7 +292,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .Root), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve a group's feed from server.
@@ -309,8 +304,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the group's feed page.
   func getGroupFeed(groupID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire
-      .request(.GET, Router.GroupFeed(groupID), parameters: nil, encoding: .URL)
+    request(.GET, Router.GroupFeed(groupID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -337,7 +331,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .GroupFeed(groupID)), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve info about the logged in user.
@@ -348,8 +342,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the logged in user.
   func getSelfInfo(completion:(error: NSError?, result: User?) -> Void) {
-    Alamofire
-      .request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
+    request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -366,7 +359,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .SelfInfo), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve info about a user by id.
@@ -378,8 +371,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the user with id userID.
   func getUserByID(userID: Int, completion:(error: NSError?, result: User?) -> Void) {
-    Alamofire
-      .request(.GET, Router.UserInfo, parameters: ["user_id":userID], encoding: .URL)
+    request(.GET, Router.UserInfo, parameters: ["user_id":userID], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -396,7 +388,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
           }
         }
-      }
+    }
   }
   /// Attempts to retrieve info about a user by unique username.
   ///
@@ -407,8 +399,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the user with the given username.
   func getUserByUsername(username: String, completion:(error: NSError?, result: User?) -> Void) {
-    Alamofire
-      .request(.GET, Router.UserInfo, parameters: ["username":username], encoding: .URL)
+    request(.GET, Router.UserInfo, parameters: ["username":username], encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -425,7 +416,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve info about a group by id.
@@ -437,8 +428,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the Group object for the group with id groupID.
   func getGroupByID(groupID: Int, completion:(error: NSError?, result: Group?) -> Void) {
-    Alamofire
-      .request(.GET, Router.GroupInfo(groupID), parameters: nil, encoding: .URL)
+    request(.GET, Router.GroupInfo(groupID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -455,7 +445,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .GroupInfo(groupID)), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve info about a post by id.
@@ -467,8 +457,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the Post object for the post with id postID.
   func getPostByID(postID: Int, completion:(error: NSError?, result: Post?) -> Void) {
-    Alamofire
-      .request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
+    request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -490,7 +479,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .PostInfo(postID)), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve tree of comments that have replied to a post with the provided post id.
@@ -502,8 +491,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comment tree for the post.
   func getPostCommentsByID(postID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
-    Alamofire
-      .request(.GET, Router.PostComments(postID), parameters: nil, encoding: .URL)
+    request(.GET, Router.PostComments(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -541,8 +529,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the groups that the user follows.
   func getUserGroupsByID(userID: Int, completion:(error: NSError?, result: [Group]?) -> Void) {
-    Alamofire
-      .request(.GET, Router.UserGroups(userID), parameters: nil, encoding: .URL)
+    request(.GET, Router.UserGroups(userID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -564,7 +551,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .UserGroups(userID)), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve list of posts that a user has made by user id.
@@ -576,8 +563,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts that the user has made.
   func getUserPostsByID(userID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire
-      .request(.GET, Router.UserPosts(userID), parameters: nil, encoding: .URL)
+    request(.GET, Router.UserPosts(userID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -604,7 +590,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID)), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to retrieve list of posts that a user has made by user id.
@@ -616,8 +602,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comments that the user has made.
   func getUserCommentsByID(userID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
-    Alamofire
-      .request(.GET, Router.UserComments(userID), parameters: nil, encoding: .URL)
+    request(.GET, Router.UserComments(userID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -639,15 +624,15 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID)), result: nil)
           }
         }
-      }
+    }
   }
   
-  /// Attempts to create a new post made by the logged in user. 
+  /// Attempts to create a new post made by the logged in user.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: repostID The id of the original post that is being reposted.
-  /// 
+  ///
   ///  Nil if the post being created is not a repost.
   /// :param: groupID The id of the group that the new post is being posted in.
   /// :param: text The content of the post.
@@ -665,8 +650,7 @@ class DataManager: NSObject {
     if let title = title {
       parameters["title"] = title
     }
-    Alamofire
-      .request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
+    request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -688,7 +672,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to create a new post made by the logged in user.
@@ -714,13 +698,13 @@ class DataManager: NSObject {
     if let title = title {
       parameters["title"] = title
     }
-    Alamofire
-      .request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
+    request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
+            println(swiftyJSON)
             if swiftyJSON["error"] != nil {
               let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
               completion(error: cilloError, result: nil)
@@ -760,8 +744,7 @@ class DataManager: NSObject {
     if let mediaID = mediaID {
       parameters["media_id"] = mediaID
     }
-    Alamofire
-      .request(.POST, Router.GroupCreate, parameters: parameters, encoding: .URL)
+    request(.POST, Router.GroupCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -801,8 +784,7 @@ class DataManager: NSObject {
     if let parentID = parentID {
       parameters["parent_id"] = parentID
     }
-    Alamofire
-      .request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL)
+    request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -832,8 +814,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func postUpvote(postID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
+    request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -849,7 +830,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to downvote a post.
@@ -861,8 +842,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func postDownvote(postID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
+    request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -878,7 +858,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to upvote a comment.
@@ -890,8 +870,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func commentUpvote(commentID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
+    request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -907,7 +886,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to downvote a comment.
@@ -919,8 +898,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func commentDownvote(commentID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
+    request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -936,7 +914,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to follow a group.
@@ -948,8 +926,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func groupFollow(groupID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.GroupFollow(groupID), parameters: nil, encoding: .URL)
+    request(.POST, Router.GroupFollow(groupID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -965,7 +942,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .GroupFollow(groupID)), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to unfollow a group.
@@ -977,8 +954,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func groupUnfollow(groupID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire
-      .request(.POST, Router.GroupUnfollow(groupID), parameters: nil, encoding: .URL)
+    request(.POST, Router.GroupUnfollow(groupID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, success: false)
@@ -994,7 +970,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .GroupUnfollow(groupID)), success: false)
           }
         }
-      }
+    }
   }
   
   /// Attempts to upload an image.
@@ -1009,8 +985,7 @@ class DataManager: NSObject {
   /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
   func imageUpload(imageData: NSData, completion:(error: NSError?, result: Int?) -> Void) {
     let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
-    Alamofire
-      .upload(urlRequest.0, urlRequest.1)
+    upload(urlRequest.0, urlRequest.1)
       .progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
         println("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
       }
@@ -1030,7 +1005,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .MediaUpload), result: nil)
           }
         }
-      }
+    }
   }
   
   /// Attempts to update the settings of the logged in User.
@@ -1058,8 +1033,7 @@ class DataManager: NSObject {
     if let newBio = newBio {
       parameters["bio"] = newBio
     }
-    Alamofire
-      .request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL)
+    request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -1076,7 +1050,7 @@ class DataManager: NSObject {
             completion(error: NSError.noJSONFromDataError(requestType: .SelfSettings), result: nil)
           }
         }
-      }
+    }
   }
   
   // MARK: Helper Functions
@@ -1092,7 +1066,7 @@ class DataManager: NSObject {
     
     // create url request to send
     var mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: urlString)!)
-    mutableURLRequest.HTTPMethod = Alamofire.Method.POST.rawValue
+    mutableURLRequest.HTTPMethod = Method.POST.rawValue
     let boundaryConstant = "myRandomBoundary12345";
     let contentType = "multipart/form-data;boundary="+boundaryConstant
     mutableURLRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
@@ -1114,7 +1088,7 @@ class DataManager: NSObject {
     uploadData.appendData("\r\n--\(boundaryConstant)--\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
     
     // return URLRequestConvertible and NSData
-    return (Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: nil).0, uploadData)
+    return (ParameterEncoding.URL.encode(mutableURLRequest, parameters: nil).0, uploadData)
   }
   
 }

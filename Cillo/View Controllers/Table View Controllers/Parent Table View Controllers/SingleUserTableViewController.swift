@@ -8,14 +8,12 @@
 
 import UIKit
 
-// TODO: Decide whether upvoting/downvoting from this screen is allowed.
-// TODO: Revamp divider implementation
-// TODO: Find way to make UISegmentedControl stick to navigation bar when scrolled off screen.
+// TODO: Test sticky UISegmentedControl and new divider implementation.
 
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup and SegueIdentifierThisToGroups.
-class SingleUserTableViewController: UITableViewController {
+class SingleUserTableViewController: CustomTableViewController {
   
   // MARK: Properties
   
@@ -29,10 +27,37 @@ class SingleUserTableViewController: UITableViewController {
   var comments: [Comment] = []
   
   /// Corresponds to segmentIndex of postsSegControl in UserCell.
-  var cellsShown = UserCell.SegIndex.Posts
-  
+  var cellsShown = SegIndex.Posts
   
   // MARK: Constants
+  
+  /// Font used for the segment titles in the UISegmentedCOntrol that is placed in the section 1 header.
+  class var SegControlFont: UIFont {
+    get {
+      return UIFont.boldSystemFontOfSize(12.0)
+    }
+  }
+  
+  /// Height of the UISegmentedCOntrol that is added to the section 1 header.
+  class var SegmentedControlHeight: CGFloat {
+    get {
+      return 24.0
+    }
+  }
+  
+  /// Height of the custom divider UIViews at the bottom of the PostCells managed by this SingleUserTableViewController.
+  class var PostDividerHeight: CGFloat {
+    get {
+      return 10.0
+    }
+  }
+  
+  /// Height of the custom divider UIViews at the bottom of the CommentCells managed by this SingleUserTableViewController.
+  class var CommentDividerHeight: CGFloat {
+    get {
+      return 5.0
+    }
+  }
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
   ///
@@ -61,7 +86,23 @@ class SingleUserTableViewController: UITableViewController {
     }
   }
   
+  // MARK: Enums
+  
+  /// Titles of postsSegControl's segments.
+  ///
+  /// * Posts: Title of segment with index 0.
+  /// * Comments: Title of segment with index 1.
+  enum SegIndex {
+    case Posts, Comments
+  }
+  
   // MARK: UIViewController
+  
+  /// Removes the default separator from tableView to allow for the custom implementation of cell separators.
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    tableView.separatorStyle = .None
+  }
   
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -72,13 +113,13 @@ class SingleUserTableViewController: UITableViewController {
         if let sender = sender as? UIButton {
           destination.post = posts[sender.tag]
         } else if let sender = sender as? NSIndexPath {
-          destination.post = posts[sender.section - 1]
+          destination.post = posts[sender.row]
         }
       case .Comments:
         if let sender = sender as? UIButton {
           destination.post = comments[sender.tag].post
         } else if let sender = sender as? NSIndexPath {
-          destination.post = comments[sender.section - 1].post
+          destination.post = comments[sender.row].post
         }
       default:
         break
@@ -111,19 +152,17 @@ class SingleUserTableViewController: UITableViewController {
   
   /// Assigns number of sections based on the length of the User array corresponding to cellsShown.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    switch cellsShown {
-    case .Posts:
-      return 1 + posts.count
-    case .Comments:
-      return 1 + comments.count
-    default:
-      return 1
-    }
+    return 2
   }
   
   // Assigns 1 row to each section in this UITableViewController.
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    switch cellsShown {
+    case .Posts:
+      return section == 0 ? 1 : posts.count
+    case .Comments:
+      return section == 0 ? 1 : comments.count
+    }
   }
   
   /// Creates UserCell, PostCell, or CommentCell based on section number of indexPath and value of cellsShown.
@@ -136,20 +175,18 @@ class SingleUserTableViewController: UITableViewController {
       var cell: PostCell
       switch cellsShown {
       case .Posts:
-        let post = posts[indexPath.section - 1]
+        let post = posts[indexPath.row]
         if let post = post as? Repost {
           cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
         } else {
           cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
         }
-        cell.makeCellFromPost(post, withButtonTag: indexPath.section - 1)
+        cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleUserTableViewController.PostDividerHeight : 0.0)
         return cell
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
-        cell.makeCellFromComment(comments[indexPath.section - 1], withSelected: false, andButtonTag: indexPath.section - 1)
+        cell.makeCellFromComment(comments[indexPath.row], withSelected: false, andButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleUserTableViewController.CommentDividerHeight : 0.0)
         return cell
-      default:
-        return UITableViewCell()
       }
     }
   }
@@ -158,24 +195,22 @@ class SingleUserTableViewController: UITableViewController {
   
   /// Sets height of divider inbetween cells.
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section == 0 {
-      return 0
-    }
-    switch cellsShown {
-    case .Posts:
-      return 10
-    case .Comments:
-      return 5
-    default:
-      return 0
-    }
+    return section == 0 ? 0 : SingleUserTableViewController.SegmentedControlHeight
   }
   
   /// Makes divider inbetween cells blue.
   override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let view = UIView()
-    view.backgroundColor = UIColor.cilloBlue()
-    return view
+    if section == 1 {
+      let segControl = UISegmentedControl(items: ["Posts", "Comments"])
+      segControl.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+      segControl.setTitleTextAttributes([NSFontAttributeName:SingleUserTableViewController.SegControlFont], forState: .Normal)
+      segControl.backgroundColor = UIColor.cilloBlue()
+      segControl.tintColor = UIColor.whiteColor()
+      segControl.userInteractionEnabled = true
+      segControl.selectedSegmentIndex = 0
+      return segControl
+    }
+    return nil
   }
   
   /// Sets height of cell to appropriate value based on value of cellsShown.
@@ -185,7 +220,7 @@ class SingleUserTableViewController: UITableViewController {
     }
     switch cellsShown {
     case .Posts:
-      let post = posts[indexPath.section - 1]
+      let post = posts[indexPath.row]
       var height: CGFloat
       if let post = post as? Repost {
         height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + RepostCell.AdditionalVertSpaceNeeded
@@ -194,9 +229,7 @@ class SingleUserTableViewController: UITableViewController {
       }
       return post.title != nil ? height : height - PostCell.TitleHeight
     case .Comments:
-      return comments[indexPath.section - 1].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
-    default:
-      return 0
+      return comments[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
     }
   }
   
@@ -275,12 +308,10 @@ class SingleUserTableViewController: UITableViewController {
     })
   }
   
-  // MARK: IBActions
-  
-  /// Updates cellsShown based on the selectedIndex of sender.
+  /// Updates cellsShown based on the selectedSegmentIndex of sender.
   ///
-  /// :param: sender The postsSegControl in a UserCell.
-  @IBAction func valueChanged(sender: UISegmentedControl) {
+  /// :param: sender The UISegmentedControl in section 1 header.
+  func valueChanged(sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case 0:
       cellsShown = .Posts
@@ -291,6 +322,8 @@ class SingleUserTableViewController: UITableViewController {
     }
     tableView.reloadData()
   }
+  
+  // MARK: IBActions
   
   /// Expands postTextView.
   ///
@@ -369,14 +402,14 @@ class SingleUserTableViewController: UITableViewController {
             post.rep += 2
           }
           post.voteValue = 1
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: sender.tag)
+          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
     }
   }
   
-  /// Downvotes a psot.
+  /// Downvotes a post.
   ///
   /// **Note:** The position of the Post to be downvoted is known via the tag of the button.
   ///
@@ -392,7 +425,7 @@ class SingleUserTableViewController: UITableViewController {
             post.rep -= 2
           }
           post.voteValue = -1
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: sender.tag)
+          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })

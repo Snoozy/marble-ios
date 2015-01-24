@@ -126,6 +126,7 @@ class PostCell: UITableViewCell {
     postTextView.font = PostCell.PostTextViewFont
     postTextView.textContainer.lineFragmentPadding = 0
     postTextView.textContainerInset = UIEdgeInsetsZero
+    postTextView.editable = false
     
     if seeFullButton != nil {
       // tag acts as way for button to know it's position in data array

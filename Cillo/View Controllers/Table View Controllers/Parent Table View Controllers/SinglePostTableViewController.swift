@@ -8,10 +8,12 @@
 
 import UIKit
 
+// TODO: Possibly make into 2 section tableview
+
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToUser.
-class SinglePostTableViewController: UITableViewController {
+class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: Properties
   

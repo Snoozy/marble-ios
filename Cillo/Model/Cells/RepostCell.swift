@@ -50,7 +50,7 @@ class RepostCell: PostCell {
   /// :param: separatorHeight The height of the custom separators at the bottom of this Post Cell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
-    super.makeCellFromPost(post, withButtonTag: buttonTag)
+    super.makeCellFromPost(post, withButtonTag: buttonTag, andSeparatorHeight: separatorHeight)
     if let post = post as? Repost {
       originalGroupButton.setTitle(post.originalGroup.name, forState: .Normal)
       originalGroupButton.setTitle(post.originalGroup.name, forState: .Highlighted)

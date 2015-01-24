@@ -11,7 +11,7 @@ import UIKit
 /// Inherit this class for any UITableViewController that is only a table of GroupCells
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToNewGroup.
-class MultipleGroupsTableViewController: UITableViewController {
+class MultipleGroupsTableViewController: CustomTableViewController {
   
   // MARK: Properties
   
@@ -49,6 +49,7 @@ class MultipleGroupsTableViewController: UITableViewController {
   
   /// Removes the default separator from tableView to allow for the custom implementation of cell separators.
   override func viewDidLoad() {
+    super.viewDidLoad()
     tableView.separatorStyle = .None
   }
   

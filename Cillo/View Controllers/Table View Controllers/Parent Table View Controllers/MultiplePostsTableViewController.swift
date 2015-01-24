@@ -11,7 +11,7 @@ import UIKit
 /// Inherit this class for any UITableViewController that is only a table of PostCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
-class MultiplePostsTableViewController: UITableViewController {
+class MultiplePostsTableViewController: CustomTableViewController {
   
   // MARK: Properties
   
@@ -125,6 +125,7 @@ class MultiplePostsTableViewController: UITableViewController {
     }
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
+    cell.postTextView.delegate = self
     
     return cell
   }
@@ -329,3 +330,4 @@ class MultiplePostsTableViewController: UITableViewController {
   }
   
 }
+
