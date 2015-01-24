@@ -104,7 +104,7 @@ class SingleGroupTableViewController: CustomTableViewController {
     if indexPath.row == 0 { // Make a GroupCell for only first row
       let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
       
-      cell.makeCellFromGroup(group, withButtonTag: 0, andSeparatorHeight: SingleGroupTableViewController.DividerHeight)
+      cell.makeCellFromGroup(group, withButtonTag: 0, andSeparatorHeight: posts.count != 0 ? SingleGroupTableViewController.DividerHeight : 0.0)
       
       return cell
     } else {
@@ -116,7 +116,7 @@ class SingleGroupTableViewController: CustomTableViewController {
         cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
       }
       
-      cell.makeCellFromPost(post, withButtonTag: indexPath.row - 1, andSeparatorHeight: SingleGroupTableViewController.DividerHeight)
+      cell.makeCellFromPost(post, withButtonTag: indexPath.row - 1, andSeparatorHeight: indexPath.row != posts.count ? SingleGroupTableViewController.DividerHeight : 0.0)
       
       return cell
     }
@@ -132,7 +132,7 @@ class SingleGroupTableViewController: CustomTableViewController {
     }
     let post = posts[indexPath.row - 1]
     var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
-    if indexPath.row != posts.count - 1 {
+    if indexPath.row != posts.count {
       height += SingleGroupTableViewController.DividerHeight
     }
     return post.title != nil ? height : height - PostCell.TitleHeight

@@ -31,17 +31,17 @@ class SingleUserTableViewController: CustomTableViewController {
   
   // MARK: Constants
   
-  /// Font used for the segment titles in the UISegmentedCOntrol that is placed in the section 1 header.
+  /// Font used for the segment titles in the UISegmentedControl that is placed in the section 1 header.
   class var SegControlFont: UIFont {
     get {
-      return UIFont.boldSystemFontOfSize(12.0)
+      return UIFont.boldSystemFontOfSize(14.0)
     }
   }
   
-  /// Height of the UISegmentedCOntrol that is added to the section 1 header.
+  /// Height of the UISegmentedControl that is added to the section 1 header.
   class var SegmentedControlHeight: CGFloat {
     get {
-      return 24.0
+      return 28.0
     }
   }
   
@@ -185,7 +185,7 @@ class SingleUserTableViewController: CustomTableViewController {
         return cell
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
-        cell.makeCellFromComment(comments[indexPath.row], withSelected: false, andButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleUserTableViewController.CommentDividerHeight : 0.0)
+        cell.makeCellFromComment(comments[indexPath.row], withSelected: false, andButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != comments.count - 1 ? SingleUserTableViewController.CommentDividerHeight : 0.0)
         return cell
       }
     }
@@ -202,12 +202,17 @@ class SingleUserTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     if section == 1 {
       let segControl = UISegmentedControl(items: ["Posts", "Comments"])
-      segControl.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+      segControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents: .ValueChanged)
       segControl.setTitleTextAttributes([NSFontAttributeName:SingleUserTableViewController.SegControlFont], forState: .Normal)
-      segControl.backgroundColor = UIColor.cilloBlue()
-      segControl.tintColor = UIColor.whiteColor()
-      segControl.userInteractionEnabled = true
-      segControl.selectedSegmentIndex = 0
+      switch cellsShown {
+      case .Posts:
+        segControl.selectedSegmentIndex = 0
+      case .Comments:
+        segControl.selectedSegmentIndex = 1
+      }
+      segControl.tintColor = UIColor.grayColor()
+      segControl.backgroundColor = UIColor.whiteColor()
+      segControl.layer.cornerRadius = 0
       return segControl
     }
     return nil
@@ -227,9 +232,16 @@ class SingleUserTableViewController: CustomTableViewController {
       } else {
         height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + PostCell.AdditionalVertSpaceNeeded
       }
+      if indexPath.row != posts.count - 1 {
+        height += MultiplePostsTableViewController.DividerHeight
+      }
       return post.title != nil ? height : height - PostCell.TitleHeight
     case .Comments:
-      return comments[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
+      var height = comments[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
+      if indexPath.row != comments.count - 1 {
+        height += MultiplePostsTableViewController.DividerHeight
+      }
+      return height
     }
   }
   
@@ -311,7 +323,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Updates cellsShown based on the selectedSegmentIndex of sender.
   ///
   /// :param: sender The UISegmentedControl in section 1 header.
-  func valueChanged(sender: UISegmentedControl) {
+  func segmentedControlValueChanged(sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case 0:
       cellsShown = .Posts
