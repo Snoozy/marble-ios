@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Possibly make into 2 section tableview
-
 /// Inherit this class for any UITableViewController that is a GroupCell followed by PostCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
@@ -89,26 +87,26 @@ class SingleGroupTableViewController: CustomTableViewController {
   
   // MARK: UITableViewDataSource
   
-  /// Assigns the number of sections in tableView to 1.
+  /// Assigns the number of sections in tableView to 2.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 1
+    return 2
   }
   
   /// Assigns the number of rows in tableView based on the size of the posts array.
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return posts.count + 1
+    return section == 0 ? 1 : posts.count
   }
   
   /// Creates GroupCell or PostCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if indexPath.row == 0 { // Make a GroupCell for only first row
+    if indexPath.section == 0 { // Make a GroupCell for only first row
       let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
       
       cell.makeCellFromGroup(group, withButtonTag: 0, andSeparatorHeight: posts.count != 0 ? SingleGroupTableViewController.DividerHeight : 0.0)
       
       return cell
     } else {
-      let post = posts[indexPath.row - 1]
+      let post = posts[indexPath.row]
       var cell: PostCell
       if let post = post as? Repost {
         cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
@@ -116,7 +114,7 @@ class SingleGroupTableViewController: CustomTableViewController {
         cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
       }
       
-      cell.makeCellFromPost(post, withButtonTag: indexPath.row - 1, andSeparatorHeight: indexPath.row != posts.count ? SingleGroupTableViewController.DividerHeight : 0.0)
+      cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleGroupTableViewController.DividerHeight : 0.0)
       
       return cell
     }
@@ -126,13 +124,13 @@ class SingleGroupTableViewController: CustomTableViewController {
   
   /// Sets height of cell to appropriate value depending on length of post and whether post is expanded.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.row == 0 {
+    if indexPath.section == 0 {
       let height = group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
       return posts.count != 0 ? height + SingleGroupTableViewController.DividerHeight : height
     }
-    let post = posts[indexPath.row - 1]
+    let post = posts[indexPath.row]
     var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
-    if indexPath.row != posts.count {
+    if indexPath.row != posts.count - 1 {
       height += SingleGroupTableViewController.DividerHeight
     }
     return post.title != nil ? height : height - PostCell.TitleHeight
@@ -140,7 +138,7 @@ class SingleGroupTableViewController: CustomTableViewController {
   
   /// Sends view to PostTableViewController if PostCell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if indexPath.row != 0 {
+    if indexPath.section != 0 {
       self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
     }
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
@@ -303,7 +301,7 @@ class SingleGroupTableViewController: CustomTableViewController {
             post.rep += 2
           }
           post.voteValue = 1
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
@@ -326,7 +324,7 @@ class SingleGroupTableViewController: CustomTableViewController {
             post.rep -= 2
           }
           post.voteValue = -1
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
