@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Test sticky UISegmentedControl and new divider implementation.
-
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup and SegueIdentifierThisToGroups.
@@ -42,6 +40,12 @@ class SingleUserTableViewController: CustomTableViewController {
   class var SegmentedControlHeight: CGFloat {
     get {
       return 28.0
+    }
+  }
+  
+  class var SegmentedControlMargins: CGFloat {
+    get {
+      return 6
     }
   }
   
@@ -193,14 +197,17 @@ class SingleUserTableViewController: CustomTableViewController {
   
   // MARK: UITableViewDelegate
   
-  /// Sets height of divider inbetween cells.
+  // TODO: Document
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return section == 0 ? 0 : SingleUserTableViewController.SegmentedControlHeight
+    return section == 0 ? 0 : SingleUserTableViewController.SegmentedControlHeight + SingleUserTableViewController.SegmentedControlMargins * 2
   }
   
-  /// Makes divider inbetween cells blue.
+  // TODO: Document
   override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     if section == 1 {
+      let view = UIView()
+      view.backgroundColor = UIColor.whiteColor()
+      
       let segControl = UISegmentedControl(items: ["Posts", "Comments"])
       segControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents: .ValueChanged)
       segControl.setTitleTextAttributes([NSFontAttributeName:SingleUserTableViewController.SegControlFont], forState: .Normal)
@@ -213,7 +220,14 @@ class SingleUserTableViewController: CustomTableViewController {
       segControl.tintColor = UIColor.grayColor()
       segControl.backgroundColor = UIColor.whiteColor()
       segControl.layer.cornerRadius = 0
-      return segControl
+      segControl.frame = CGRect(x: SingleUserTableViewController.SegmentedControlMargins, y: SingleUserTableViewController.SegmentedControlMargins, width: tableView.frame.size.width - SingleUserTableViewController.SegmentedControlMargins * 2, height: SingleUserTableViewController.SegmentedControlHeight)
+      view.addSubview(segControl)
+      
+      let bottomBorder = UIView(frame: CGRect(x: 0, y: SingleUserTableViewController.SegmentedControlHeight + SingleUserTableViewController.SegmentedControlMargins * 2 - 1, width: tableView.frame.size.width, height: 1))
+      bottomBorder.backgroundColor = UIColor.grayColor()
+      view.addSubview(bottomBorder)
+      
+      return view
     }
     return nil
   }
