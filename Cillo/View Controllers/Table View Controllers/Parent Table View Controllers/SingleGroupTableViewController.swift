@@ -72,7 +72,7 @@ class SingleGroupTableViewController: CustomTableViewController {
       if let sender = sender as? UIButton {
         destination.post = posts[sender.tag]
       } else if let sender = sender as? NSIndexPath {
-        destination.post = posts[sender.row - 1]
+        destination.post = posts[sender.row]
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController

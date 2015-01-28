@@ -817,7 +817,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1317,6 +1317,19 @@
                                                 <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="XaP-FL-LDN"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAL-c5-ERl">
+                                            <rect key="frame" x="8" y="100" width="32" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="32" id="4Xn-ic-W84"/>
+                                                <constraint firstAttribute="height" constant="32" id="VDv-hh-oeZ"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="Reply">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="replyToCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="Kjg-iD-Jv3"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="HZT-el-ks9" firstAttribute="top" secondItem="nNl-zX-PAX" secondAttribute="topMargin" id="2ga-9q-Zhi"/>
@@ -1324,9 +1337,11 @@
                                         <constraint firstItem="Jub-eH-fEQ" firstAttribute="top" secondItem="nNl-zX-PAX" secondAttribute="topMargin" id="B8z-Da-8Ar"/>
                                         <constraint firstItem="00X-bS-pTz" firstAttribute="leading" secondItem="nNl-zX-PAX" secondAttribute="leadingMargin" id="Ee2-el-a9m"/>
                                         <constraint firstItem="zW8-mG-GU3" firstAttribute="top" secondItem="HZT-el-ks9" secondAttribute="bottom" constant="8" id="RZa-ev-9BN"/>
+                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="leading" secondItem="nNl-zX-PAX" secondAttribute="leadingMargin" id="VKn-1s-Ib3"/>
                                         <constraint firstItem="00X-bS-pTz" firstAttribute="top" secondItem="nNl-zX-PAX" secondAttribute="topMargin" id="YkU-Bw-4fW"/>
                                         <constraint firstItem="Jub-eH-fEQ" firstAttribute="trailing" secondItem="nNl-zX-PAX" secondAttribute="trailingMargin" id="ZaE-Jm-6zd"/>
                                         <constraint firstItem="HZT-el-ks9" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="trailing" constant="8" id="aZ8-xE-7KA"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="MAL-c5-ERl" secondAttribute="bottom" constant="1" id="bVF-tf-Jv3"/>
                                         <constraint firstItem="zW8-mG-GU3" firstAttribute="trailing" secondItem="nNl-zX-PAX" secondAttribute="trailingMargin" id="cjU-vt-fSI"/>
                                         <constraint firstItem="XTC-1x-g9s" firstAttribute="top" secondItem="zW8-mG-GU3" secondAttribute="bottom" constant="8" id="eA2-B9-gWv"/>
                                         <constraint firstItem="8pQ-tU-Dl9" firstAttribute="trailing" secondItem="nNl-zX-PAX" secondAttribute="trailingMargin" id="eCc-M1-8CC"/>
@@ -1341,7 +1356,12 @@
                                     <outlet property="commentTextView" destination="zW8-mG-GU3" id="xOw-45-EC5"/>
                                     <outlet property="downvoteButton" destination="8pQ-tU-Dl9" id="OfX-OA-aZu"/>
                                     <outlet property="downvoteHeightConstraint" destination="0jZ-0s-iNr" id="yLA-r6-VOu"/>
+                                    <outlet property="imageIndentConstraint" destination="Ee2-el-a9m" id="iiG-La-m7H"/>
+                                    <outlet property="nameButton" destination="HZT-el-ks9" id="mCY-7v-MDv"/>
+                                    <outlet property="pictureButton" destination="00X-bS-pTz" id="j9R-aT-8CP"/>
                                     <outlet property="repAndTimeLabel" destination="Jub-eH-fEQ" id="pLo-TK-hkh"/>
+                                    <outlet property="replyButton" destination="MAL-c5-ERl" id="DPi-Tw-5j4"/>
+                                    <outlet property="replyHeightConstraint" destination="VDv-hh-oeZ" id="lLV-DK-5dA"/>
                                     <outlet property="textIndentConstraint" destination="o6T-Uq-0vp" id="fVw-pM-HhY"/>
                                     <outlet property="upvoteButton" destination="XTC-1x-g9s" id="FW5-l1-bo9"/>
                                     <outlet property="upvoteHeightConstraint" destination="QrS-tn-akc" id="Ju4-N5-zsh"/>
@@ -1356,6 +1376,9 @@
                     <navigationItem key="navigationItem" title="Post" id="P1h-w2-pWg">
                         <barButtonItem key="rightBarButtonItem" title="Comment" id="svt-sC-miV">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="newCommentPressed:" destination="cWZ-ps-xcO" id="eOd-hx-3ND"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -2281,9 +2304,16 @@
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="commentTextView" destination="VT9-mU-3IS" id="7tf-EK-bsI"/>
+                                    <outlet property="downvoteButton" destination="YX9-jQ-bjr" id="ZC9-D5-iRs"/>
                                     <outlet property="downvoteHeightConstraint" destination="Kcm-kg-T0Q" id="AGp-hH-XZg"/>
+                                    <outlet property="imageIndentConstraint" destination="hqo-fM-FFG" id="wmY-d5-fWI"/>
+                                    <outlet property="nameButton" destination="0hz-1h-bYH" id="VcB-sI-JE6"/>
+                                    <outlet property="pictureButton" destination="y1o-NH-6lU" id="Vgc-mH-VAg"/>
                                     <outlet property="repAndTimeLabel" destination="R2Q-Ws-3z2" id="cJn-bX-gbT"/>
+                                    <outlet property="separatorView" destination="ERP-f3-UMd" id="p3j-Ov-gHe"/>
+                                    <outlet property="separatorViewHeightConstraint" destination="yu8-66-3Tq" id="bUb-mk-Lf0"/>
                                     <outlet property="textIndentConstraint" destination="qBf-hE-gVY" id="Z2i-WN-Ujw"/>
+                                    <outlet property="upvoteButton" destination="A10-bp-FJb" id="GUp-F4-7tO"/>
                                     <outlet property="upvoteHeightConstraint" destination="jm9-T0-rAa" id="OrB-hd-JSP"/>
                                 </connections>
                             </tableViewCell>
@@ -2332,7 +2362,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Group" title="Groups Table" id="99g-h6-cT9" userLabel="Group Table" customClass="GroupTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2972,7 +3002,7 @@
             <objects>
                 <tableViewController id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3319,6 +3349,8 @@
                                     <outlet property="repLabel" destination="CkQ-Io-nel" id="0e8-tA-NcV"/>
                                     <outlet property="repostButton" destination="DaR-Ij-wyr" id="BNB-ZH-0vi"/>
                                     <outlet property="seeFullButton" destination="eSN-ho-7zb" id="18V-fN-4yY"/>
+                                    <outlet property="separatorView" destination="Jjh-Ko-dNa" id="OaL-cP-OV4"/>
+                                    <outlet property="separatorViewHeightConstraint" destination="AHC-rC-e2c" id="RlA-3M-LcU"/>
                                     <outlet property="timeLabel" destination="cFR-qY-ytq" id="p9Z-23-E3M"/>
                                     <outlet property="titleHeightConstraint" destination="GO8-YB-6Ba" id="ry0-i4-nwZ"/>
                                     <outlet property="titleLabel" destination="8EM-03-XrQ" id="K4a-KE-ELO"/>
@@ -3585,6 +3617,8 @@
                                     <outlet property="repLabel" destination="F0g-EQ-F9D" id="U6Q-c0-g7f"/>
                                     <outlet property="repostButton" destination="ooz-vb-yKe" id="maK-oB-chF"/>
                                     <outlet property="seeFullButton" destination="lJD-Rc-ChW" id="ndZ-0h-iaZ"/>
+                                    <outlet property="separatorView" destination="VgJ-Wk-ZhX" id="RIS-UF-5Dt"/>
+                                    <outlet property="separatorViewHeightConstraint" destination="sC7-xH-Kci" id="AZ1-5s-fnV"/>
                                     <outlet property="timeLabel" destination="0DV-r9-K3t" id="hO0-9b-RHU"/>
                                     <outlet property="titleHeightConstraint" destination="Cni-BD-9GI" id="J3a-He-Yb8"/>
                                     <outlet property="titleLabel" destination="W9a-Kk-KrE" id="xR8-Ta-XSD"/>
@@ -3693,9 +3727,16 @@
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="commentTextView" destination="75j-HC-6JA" id="JAx-9K-oP7"/>
+                                    <outlet property="downvoteButton" destination="E6E-Bq-MHy" id="vq8-Q0-43R"/>
                                     <outlet property="downvoteHeightConstraint" destination="6TD-Fr-xCC" id="ECb-G4-xTE"/>
+                                    <outlet property="imageIndentConstraint" destination="F77-Hd-cil" id="OBb-S0-fCY"/>
+                                    <outlet property="nameButton" destination="e6k-bp-cuJ" id="zUD-bJ-7Dt"/>
+                                    <outlet property="pictureButton" destination="7Jp-lz-q9p" id="3Lg-zo-Abd"/>
                                     <outlet property="repAndTimeLabel" destination="I9M-vz-5Sb" id="R1O-9U-nnJ"/>
+                                    <outlet property="separatorView" destination="66I-yN-JXU" id="ezE-z1-wBI"/>
+                                    <outlet property="separatorViewHeightConstraint" destination="kMD-KW-KIg" id="Vr6-tT-Mw3"/>
                                     <outlet property="textIndentConstraint" destination="IPh-XL-npz" id="Vau-pr-aje"/>
+                                    <outlet property="upvoteButton" destination="xyB-gD-w3i" id="KVJ-J1-wQx"/>
                                     <outlet property="upvoteHeightConstraint" destination="lgo-No-M44" id="1xP-Tj-3vJ"/>
                                 </connections>
                             </tableViewCell>
@@ -3721,7 +3762,7 @@
             <objects>
                 <tableViewController title="Groups Table" id="csT-b3-QYy" customClass="MyGroupsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3977,7 +4018,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qQN-ZP-g7F">
-                                <rect key="frame" x="107" y="66" width="477" height="30"/>
+                                <rect key="frame" x="106" y="66" width="478" height="30"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pWz-Wg-xB4"/>
@@ -3986,7 +4027,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6A-Sd-ihA">
-                                <rect key="frame" x="16" y="68" width="84" height="21"/>
+                                <rect key="frame" x="16" y="67" width="84" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -3998,7 +4039,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5B-Qd-fZe">
-                                <rect key="frame" x="16" y="145" width="47" height="21"/>
+                                <rect key="frame" x="16" y="144" width="47" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -4119,15 +4160,16 @@
         <image name="Groups" width="30" height="30"/>
         <image name="Home" width="30" height="30"/>
         <image name="Me" width="30" height="30"/>
+        <image name="Reply" width="32" height="32"/>
         <image name="Repost" width="32" height="32"/>
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DUk-kf-nGq"/>
+        <segue reference="syA-mT-UDy"/>
+        <segue reference="ErJ-Pf-JZ7"/>
+        <segue reference="8tG-h2-T9M"/>
+        <segue reference="Jl6-tW-uib"/>
         <segue reference="Shy-YE-kuX"/>
         <segue reference="R4s-Dx-08g"/>
-        <segue reference="tpB-Dw-nh7"/>
-        <segue reference="X2k-fD-Ni0"/>
-        <segue reference="KLZ-SI-aJM"/>
     </inferredMetricsTieBreakers>
 </document>

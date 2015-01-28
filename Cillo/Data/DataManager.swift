@@ -91,7 +91,7 @@ enum Router: URLStringConvertible {
     var pageString = "&page=1"
     let path: String = {
       switch self {
-        //GET
+        // GET
       case .Root:
         return "/\(vNum)/me/feed\(authString)\(pageString)"
       case .GroupFeed(let groupID):
@@ -113,7 +113,7 @@ enum Router: URLStringConvertible {
       case .UserComments(let userID):
         return "/\(vNum)/users/\(userID)/comments\(authString)"
         
-        //POST
+        // POST
       case .Register:
         return "/\(vNum)/users/register"
       case .GroupCreate:
@@ -497,6 +497,7 @@ class DataManager: NSObject {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
+            println(swiftyJSON)
             if swiftyJSON["error"] != nil {
               let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(postID))
               completion(error: cilloError, result: nil)
@@ -509,6 +510,7 @@ class DataManager: NSObject {
               }
               var returnedTree: [Comment] = []
               for comment in rootComments {
+                println(comment)
                 returnedTree += comment.makeCommentTree()
               }
               completion(error: nil, result: returnedTree)
@@ -608,6 +610,7 @@ class DataManager: NSObject {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
+            println(swiftyJSON)
             if swiftyJSON["error"] != nil {
               let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID))
               completion(error: cilloError, result: nil)
@@ -704,7 +707,6 @@ class DataManager: NSObject {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
-            println(swiftyJSON)
             if swiftyJSON["error"] != nil {
               let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
               completion(error: cilloError, result: nil)
@@ -769,13 +771,11 @@ class DataManager: NSObject {
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
   /// :param: parentID The id of the comment that this comment is reply to.
-  ///
-  /// Nil if the comment is replying to the post directly.
+  /// :param: * Nil if the comment is replying to the post directly.
   /// :param: postID The id of the post that this comment is associated with.
   /// :param: text The content of the comment.
   /// :param: lengthToPost The level of this comment in the comment tree.
-  ///
-  /// **Note:** Should be equal to parentComment.lengthToPost + 1.
+  /// :param: * **Note:** Should be equal to parentComment.lengthToPost + 1.
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Comment.

@@ -11,8 +11,6 @@ import UIKit
 // TODO: Document.
 class CustomTableViewController: UITableViewController {
   
-  var prevViewController: UIViewController?
-  
   // MARK: Constants
   
   /// Width of textView in UITableViewCell.
@@ -60,14 +58,9 @@ extension CustomTableViewController: UITabBarControllerDelegate {
   
   // MARK: UITabBarControllerDelegate
   
-  func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
-    prevViewController = viewController
-    return true
-  }
-  
   /// Scrolls tableView back to top if a tab that is already selected is pressed again.
   func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-    if prevViewController == viewController {
+    if navigationController == viewController {
       tableView.setContentOffset(CGPointZero, animated: true)
     }
   }

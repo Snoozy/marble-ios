@@ -26,7 +26,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// **Note:** Selected CommentCells are expanded to display additional user interaction options.
   ///
   /// Nil if no CommentCell is selected.
-  var selectedPath : NSIndexPath?
+  var selectedPath: NSIndexPath?
   
   // MARK: Constants
   
@@ -86,7 +86,7 @@ class SinglePostTableViewController: CustomTableViewController {
     } else { // Make a CommentCell for all rows past the first section
       let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
       
-      let comment = commentTree[indexPath.row] // indexPath.row - 1 b/c Post is not included in tree
+      let comment = commentTree[indexPath.row]
       
       cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row)
       
@@ -136,6 +136,8 @@ class SinglePostTableViewController: CustomTableViewController {
     }
     tableView.reloadData()
   }
+  
+  
   
   // MARK: Helper Functions
   

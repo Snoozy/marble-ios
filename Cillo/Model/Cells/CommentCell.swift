@@ -31,11 +31,14 @@ class CommentCell: UITableViewCell {
   /// Displays user.profilePic property of Comment.
   @IBOutlet weak var pictureButton: UIButton!
   
-  /// Upvotes Post.
+  /// Upvotes Comment.
   @IBOutlet weak var upvoteButton: UIButton!
   
-  /// Downvotes Post.
+  /// Downvotes Comment.
   @IBOutlet weak var downvoteButton: UIButton!
+  
+  /// Replies to Comment.
+  @IBOutlet weak var replyButton: UIButton?
   
   /// Displays text property of Comment.
   @IBOutlet weak var commentTextView: UITextView!
@@ -48,6 +51,9 @@ class CommentCell: UITableViewCell {
   
   /// Set to 0 when cell is selected and ButtonHeight when selected.
   @IBOutlet weak var downvoteHeightConstraint: NSLayoutConstraint!
+  
+  /// Set to 0 when cell is selected and ButtonHeight when selected.
+  @IBOutlet weak var replyHeightConstraint: NSLayoutConstraint?
   
   /// Set to .getIndentationSize().
   @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
@@ -157,6 +163,7 @@ class CommentCell: UITableViewCell {
       //Show button bar when selected
       upvoteHeightConstraint.constant = CommentCell.ButtonHeight
       downvoteHeightConstraint.constant = CommentCell.ButtonHeight
+      replyHeightConstraint?.constant = CommentCell.ButtonHeight
       //Selected CommentCells show time next to rep
       repAndTimeLabel.text = "\(repText) · \(comment.time)"
       //Selected CommentCells need to clear vertical lines from the cell in order to expand cell
@@ -168,11 +175,15 @@ class CommentCell: UITableViewCell {
       //hide button bar when not selected
       upvoteHeightConstraint.constant = 0.0
       downvoteHeightConstraint.constant = 0.0
+      replyHeightConstraint?.constant = 0.0
       repAndTimeLabel.text = repText
     }
     
     nameButton.tag = buttonTag
     pictureButton.tag = buttonTag
+    upvoteButton.tag = buttonTag
+    downvoteButton.tag = buttonTag
+    replyButton?.tag = buttonTag
     
     // TODO: Handle voteValues changing colors of images
     if comment.voteValue == 1 {
@@ -190,7 +201,7 @@ class CommentCell: UITableViewCell {
     preservesSuperviewLayoutMargins = false
     
     //adds the vertical lines to the cells
-    for i in 1...indentationLevel {
+    for i in 0...indentationLevel {
       var line = UIView(frame: CGRect(x: CGFloat(i)*CommentCell.IndentSize, y: 0, width: 1, height: frame.size.height))
       line.backgroundColor = UIColor.defaultTableViewDividerColor()
       lines.append(line)

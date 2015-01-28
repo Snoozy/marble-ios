@@ -8,12 +8,19 @@
 
 import UIKit
 
+// TODO: Debug comment
+
 /// Handles view of expanded Post with Comments beneath it.
 ///
 /// Formats TableView to look appealing and be functional.
 ///
 /// **Note:** Must assign post property of superclass a relevant value before displaying this SinglePostTableViewController.
 class PostTableViewController: SinglePostTableViewController {
+  
+  // MARK: Properties
+  
+  // TODO: Document.
+  var newCommentView: (UIView, UITextField)?
 
   // MARK: Constants
   
@@ -34,17 +41,130 @@ class PostTableViewController: SinglePostTableViewController {
   // MARK: UIViewController
   
   /// Initializes commentTree array.
+  // TODO: Redocument
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    println(post)
-    
     if NSUserDefaults.hasAuthAndUser() {
       retrieveData()
+    }
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+  }
+  
+  // MARK: Notification
+  
+  // TODO: Document
+  func keyboardWillShow(notif: NSNotification) {
+    // FIXME: Why is there whitespace inbetween keyboard and the view?
+    if let newCommentView = newCommentView {
+      let value = notif.userInfo![UIKeyboardFrameEndUserInfoKey] as NSValue
+      let keyboardHeight = value.CGRectValue().height
+      let commentView = newCommentView.0
+      commentView.frame = CGRect(x: commentView.frame.minX, y: view.frame.size.height - keyboardHeight, width: commentView.frame.size.width, height: commentView.frame.size.height)
+      view.addSubview(commentView)
+    }
+  }
+  
+  // TODO: Document
+  func keyboardWillHide(notif: NSNotification) {
+    if let newCommentView = newCommentView {
+      newCommentView.0.removeFromSuperview()
+      self.newCommentView = nil
     }
   }
   
   // MARK: Helper Functions
+  
+  // TODO: Document
+  func createComment(completion: (success: Bool) -> Void) {
+    if let newCommentView = newCommentView {
+      let textField = newCommentView.1
+      let activityIndicator = addActivityIndicatorToCenterWithText("Making Comment...")
+      DataManager.sharedInstance.createComment(parentID: nil, postID: post.postID, text: textField.text, lengthToPost: 1, completion: { (error, comment) -> Void in
+        activityIndicator.removeFromSuperview()
+        if error != nil {
+          println(error!)
+          error!.showAlert()
+          completion(success: false)
+        } else {
+          if comment != nil {
+            completion(success: true)
+          }
+        }
+      })
+    }
+  }
+  
+  func replyToCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    if let newCommentView = newCommentView {
+      let textField = newCommentView.1
+      let activityIndicator = addActivityIndicatorToCenterWithText("Replying to Comment...")
+      let commentReplyingTo = commentTree[index]
+      DataManager.sharedInstance.createComment(parentID: commentReplyingTo.commentID, postID: post.postID, text: textField.text, lengthToPost: commentReplyingTo.lengthToPost! + 1, completion: { (error, comment) -> Void in
+        activityIndicator.removeFromSuperview()
+        if error != nil {
+          println(error!)
+          error!.showAlert()
+          completion(success: false)
+        } else {
+          if comment != nil {
+            completion(success: true)
+          }
+        }
+      })
+    }
+  }
+  
+  // TODO: Document
+  func replyPressed(sender: UIButton) {
+    if sender.tag < 0 {
+      createComment( { (success) -> Void in
+        if success {
+          self.newCommentView?.1.resignFirstResponder()
+          self.retrieveData()
+        }
+      })
+    } else {
+      replyToCommentAtIndex(sender.tag, completion: { (success) -> Void in
+        if success {
+          self.newCommentView?.1.resignFirstResponder()
+          self.retrieveData()
+        }
+      })
+    }
+  }
+  
+  // TODO: Document.
+  func makeNewCommentView(#tag: Int) {
+    let textField = UITextField(frame: CGRect(x: 8.0, y: 8.0, width: self.view.frame.size.width - 72.0, height: 30.0))
+    textField.backgroundColor = UIColor.whiteColor()
+    textField.delegate = self
+    let replyButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 58.0, y: 8.0, width: 50.0, height: 30.0))
+    replyButton.tintColor = UIColor.whiteColor()
+    replyButton.setTitle("Reply", forState: .Normal)
+    replyButton.addTarget(self, action: "replyPressed:", forControlEvents: .TouchUpInside)
+    replyButton.tag = tag
+    let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 46.0))
+    view.backgroundColor = UIColor.cilloBlue()
+    view.addSubview(textField)
+    view.addSubview(replyButton)
+    newCommentView = (view, textField)
+  }
+  
+  // TODO: Document.
+  @IBAction func newCommentPressed(sender: UIButton) {
+    // tag of -1 signifies a direct reply to the post
+    makeNewCommentView(tag: -1)
+    view.addSubview(newCommentView!.0)
+    newCommentView!.1.becomeFirstResponder()
+  }
+  
+  // TODO: Document
+  @IBAction func replyToCommentPressed(sender: UIButton) {
+    makeNewCommentView(tag: sender.tag)
+    view.addSubview(newCommentView!.0)
+    newCommentView!.1.becomeFirstResponder()
+  }
   
   /// Used to retrieve all necessary data to display UITableViewCells in this UIViewController.
   ///
@@ -76,6 +196,18 @@ class PostTableViewController: SinglePostTableViewController {
         completion(commentTree: result!)
       }
     })
+  }
+  
+}
+
+extension PostTableViewController: UITextFieldDelegate {
+  
+  // MARK: UITextFieldDelegate
+  
+  // TODO: Document
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.endEditing(true)
+    return true
   }
   
 }

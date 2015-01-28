@@ -171,8 +171,11 @@ class PostCell: UITableViewCell {
     
     if seeFullButton == nil {
       //gets rid of small gap in divider
-      layoutMargins = UIEdgeInsetsZero
+      let dividerFix = UIView(frame: CGRect(x: 0, y: contentView.frame.size.height, width: 40, height: 1))
+      dividerFix.backgroundColor = UIColor.defaultTableViewDividerColor()
+      contentView.addSubview(dividerFix)
       preservesSuperviewLayoutMargins = false
+      layoutMargins = UIEdgeInsetsZero
     }
     
     if let separatorView = separatorView {
