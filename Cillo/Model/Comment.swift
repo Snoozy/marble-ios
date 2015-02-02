@@ -54,6 +54,9 @@ class Comment: NSObject {
   /// Note: A direct reply to a Post has a lengthToPost of 1.
   var lengthToPost: Int?
   
+  // TODO: Document
+  let isOP: Bool = false
+  
   /// Used to print properties in println statements.
   override var description: String {
     let none: String = "N/A"
@@ -119,6 +122,9 @@ class Comment: NSObject {
         let item = Comment(json: child, lengthToPost: self.lengthToPost! + 1)
         self.children!.append(item)
       }
+    }
+    if post.user.userID == user.userID {
+      isOP = true
     }
   }
   

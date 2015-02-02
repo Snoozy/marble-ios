@@ -38,6 +38,9 @@ class User: NSObject {
   /// Number of groups that this User follows
   var numGroups: Int = 0
   
+  // TODO: Document
+  let isSelf: Bool = false
+  
   /// Used to print properties in println statements.
   override var description: String {
     return "User {\n   User ID: \(userID)\n   Username: \(username)\n   Display Name: \(name)\n   Bio: \(bio)\n   Reputation: \(rep)\n   Number of Groups: \(numGroups)\n }\n"
@@ -74,6 +77,7 @@ class User: NSObject {
     }
     bio = json["bio"].stringValue
     numGroups = json["group_count"].intValue
+    isSelf = json["self"].boolValue
   }
   
   /// Creates a default User.
