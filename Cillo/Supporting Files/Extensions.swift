@@ -164,7 +164,7 @@ extension NSDate {
 //    println("Millis Since: \(millisSincePost)")
     let millisSincePost = timeSince1970 - time
     switch millisSincePost {
-    case -40_000...59_999:
+    case -100_000...59_999:
       return "1m"
     case 60_000...3_599_999:
       return "\(millisSincePost / 60_000)m"

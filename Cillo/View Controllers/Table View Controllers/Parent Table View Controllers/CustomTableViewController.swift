@@ -56,14 +56,14 @@ class CustomTableViewController: UITableViewController {
 
 extension CustomTableViewController: UITabBarControllerDelegate {
   
-  // MARK: UITabBarControllerDelegate
-  
-  /// Scrolls tableView back to top if a tab that is already selected is pressed again.
-  func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-    if navigationController == viewController {
-      tableView.setContentOffset(CGPointZero, animated: true)
-    }
-  }
+//  // MARK: UITabBarControllerDelegate
+//  
+//  /// Scrolls tableView back to top if a tab that is already selected is pressed again.
+//  func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+//    if navigationController == viewController {
+//      tableView.setContentOffset(CGPointZero, animated: true)
+//    }
+//  }
   
 }
 

@@ -6,7 +6,11 @@ New Comment text field has white space between it and the keyboard.
 
 Images currently not loaded asynchronously.
 
+Tap Tab to top is still acting really weird.
+
 **Feature TODOs:**
+
+Image Posts.
 
 Rename Groups to Boards.
 
@@ -31,6 +35,8 @@ Implement graphics that were not taken from the internet.
 Handle auth token expiration.
 
 Add an option to logout.
+
+Add a popup tableview when typing in a textfield involving Group names.
 
 **Other:**
 

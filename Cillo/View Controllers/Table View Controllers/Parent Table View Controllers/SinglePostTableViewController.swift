@@ -58,7 +58,11 @@ class SinglePostTableViewController: CustomTableViewController {
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController
       if let sender = sender as? UIButton {
-        destination.user = commentTree[sender.tag].user
+        if sender.tag == -1 {
+          destination.user = post.user
+        } else {
+          destination.user = commentTree[sender.tag].user
+        }
       }
     }
   }
@@ -80,7 +84,7 @@ class SinglePostTableViewController: CustomTableViewController {
     if indexPath.section == 0 { // Make a Post Cell for only first section
       let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
       
-      cell.makeCellFromPost(post, withButtonTag: indexPath.row)
+      cell.makeCellFromPost(post, withButtonTag: -1)
       
       return cell
     } else { // Make a CommentCell for all rows past the first section
