@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: Image Posts
+
 /// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToUser.

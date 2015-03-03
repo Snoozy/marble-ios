@@ -1,16 +1,18 @@
 **Bugs:**
 
+Figure out why oh why the stupid navigation animation is wrong on the home page until you switch a tab.
+
 NSDate function convertToTimeString(time:) sometimes returns WTF.
 
 New Comment text field has white space between it and the keyboard.
 
 Images currently not loaded asynchronously.
 
-Tap Tab to top is still acting really weird.
+Tap Tab to top is still acting really weird (Figure out new implementation).
 
 **Feature TODOs:**
 
-Image Posts.
+Image Posts (Testing).
 
 Rename Groups to Boards.
 
@@ -22,9 +24,11 @@ Allow User to take a profile picture via the camera.
 
 Allow User to edit their bio.
 
+^ Make new view to edit settings
+
 Retrieve Posts from server 20 at a time.
 
-Make creating a new Post accessible from as many views as possible.
+Make creating a new Post accessible from as many views as possible. < Just add the buttons/segues now
 
 Handle searching and remodel MyGroupsTableViewController.
 

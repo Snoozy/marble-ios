@@ -31,7 +31,7 @@ class FormattedNavigationViewController: UINavigationController {
     navigationBar.barTintColor = UIColor.cilloBlue()
     navigationBar.translucent = false
     navigationBar.tintColor = UIColor.whiteColor()
-    navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Bordered, target: nil, action: nil)
+//    navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Bordered, target: nil, action: nil)
   }
   
   /// Changes top battery bar to white color.

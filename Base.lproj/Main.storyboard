@@ -126,6 +126,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Groups" id="2cT-4l-Mfz">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="7jc-pf-jpS"/>
                         <barButtonItem key="rightBarButtonItem" title="New Group" id="LAN-Xf-H0G">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -177,7 +178,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="triggerPostSegueOnButton:" destination="nzy-ZD-gBV" eventType="touchUpInside" id="Nw5-gc-JRF"/>
+                                    <action selector="triggerTabSegueOnButton:" destination="nzy-ZD-gBV" eventType="touchUpInside" id="nmi-Lj-sWB"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXQ-TH-rcf">
@@ -213,6 +214,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQn-iW-qdi">
+                                <rect key="frame" x="546" y="526" width="54" height="30"/>
+                                <state key="normal" title="Nothing">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="l38-JC-lYu" kind="unwind" identifier="NewPostToTab" unwindAction="unwindToTab:" id="oll-YA-mSq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -244,12 +254,12 @@
                         <outlet property="postTextView" destination="UXQ-TH-rcf" id="ndS-2H-F9w"/>
                         <outlet property="postTextViewHeightConstraint" destination="Itu-DF-EI1" id="XH5-we-TCP"/>
                         <outlet property="titleTextView" destination="rJi-PP-Ap4" id="3wc-X4-gzp"/>
-                        <segue destination="cWZ-ps-xcO" kind="show" identifier="NewPostToPost" id="kTO-ne-vWn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DXc-EF-aaJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="l38-JC-lYu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1129" y="1776"/>
+            <point key="canvasLocation" x="-1142" y="382"/>
         </scene>
         <!--Home Table-->
         <scene sceneID="YjA-Hm-HTL">
@@ -506,6 +516,7 @@
                                     <outlet property="timeLabel" destination="E84-Bc-RzA" id="0Te-3f-bRq"/>
                                     <outlet property="titleHeightConstraint" destination="n7y-he-d13" id="dLH-dp-gfT"/>
                                     <outlet property="titleLabel" destination="ker-uR-kHF" id="sx4-fE-lyT"/>
+                                    <outlet property="titleToTextViewSpacingConstraint" destination="gNp-CV-uNL" id="qxc-gm-2K6"/>
                                     <outlet property="upvoteButton" destination="hvH-LG-ily" id="9W4-3G-pPk"/>
                                 </connections>
                             </tableViewCell>
@@ -784,6 +795,7 @@
                                     <outlet property="timeLabel" destination="ogh-Ri-0kh" id="uGU-gT-UX4"/>
                                     <outlet property="titleHeightConstraint" destination="xwS-mn-Yqa" id="Tsv-D9-5cU"/>
                                     <outlet property="titleLabel" destination="zAI-6c-n6N" id="fNv-bH-sQb"/>
+                                    <outlet property="titleToTextViewSpacingConstraint" destination="xjj-rP-HhP" id="i54-1i-Prc"/>
                                     <outlet property="upvoteButton" destination="iO2-GT-xV6" id="5jw-pH-ORh"/>
                                 </connections>
                             </tableViewCell>
@@ -794,6 +806,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Front Page" id="nEu-ir-OVD">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="n9l-RC-b8c"/>
                         <barButtonItem key="rightBarButtonItem" title="New Post" id="UaN-bN-QlD" userLabel="New Post">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -803,9 +816,8 @@
                     </navigationItem>
                     <connections>
                         <segue destination="99g-h6-cT9" kind="show" identifier="HomeToGroup" id="tpB-Dw-nh7"/>
-                        <segue destination="cWZ-ps-xcO" kind="show" identifier="HomeToPost" id="KLZ-SI-aJM"/>
                         <segue destination="KG3-Ho-FcM" kind="show" identifier="HomeToUser" id="X2k-fD-Ni0"/>
-                        <segue destination="nzy-ZD-gBV" kind="show" identifier="HomeToNewPost" id="R4s-Dx-08g"/>
+                        <segue destination="cWZ-ps-xcO" kind="show" identifier="HomeToPost" id="rwG-J9-MDJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Kt-wv-dmX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -817,7 +829,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1374,6 +1386,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Post" id="P1h-w2-pWg">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="H0t-uF-ylG"/>
                         <barButtonItem key="rightBarButtonItem" title="Comment" id="svt-sC-miV">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -1429,6 +1442,7 @@
                         <segue destination="PgO-Td-VjA" kind="relationship" relationship="viewControllers" id="pqy-7c-lFW"/>
                         <segue destination="8g1-Vs-kdU" kind="relationship" relationship="viewControllers" id="zaJ-Dv-ySB"/>
                         <segue destination="Grp-u8-wvc" kind="presentation" identifier="TabToLogin" id="0l7-qC-B7p"/>
+                        <segue destination="nzy-ZD-gBV" kind="presentation" identifier="TabToNewPost" id="j17-6e-rWe"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vl-FJ-IpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2323,7 +2337,9 @@
                             <outlet property="delegate" destination="RHX-4q-5ga" id="XF3-r9-5UO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Me" id="Wj8-mF-LxL"/>
+                    <navigationItem key="navigationItem" title="Me" id="Wj8-mF-LxL">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="NCv-Wx-V7v"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="99g-h6-cT9" kind="show" identifier="MeToGroup" id="9nY-Wc-CQM"/>
                         <segue destination="cWZ-ps-xcO" kind="show" identifier="MeToPost" id="txn-K4-4lh"/>
@@ -2362,7 +2378,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Group" title="Groups Table" id="99g-h6-cT9" userLabel="Group Table" customClass="GroupTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2979,6 +2995,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Group" id="dHq-5S-MqE">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="sW0-Vx-Ul6"/>
                         <barButtonItem key="rightBarButtonItem" title="New Post" id="rH6-2Y-P5z">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -2990,7 +3007,6 @@
                     <connections>
                         <segue destination="cWZ-ps-xcO" kind="show" identifier="GroupToPost" id="162-n2-HAP"/>
                         <segue destination="KG3-Ho-FcM" kind="show" identifier="GroupToUser" id="Ndf-JY-QqC"/>
-                        <segue destination="nzy-ZD-gBV" kind="show" identifier="GroupToNewPost" id="uUb-b1-8y1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ghn-96-nBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3002,7 +3018,7 @@
             <objects>
                 <tableViewController id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3746,7 +3762,9 @@
                             <outlet property="delegate" destination="KG3-Ho-FcM" id="NWU-71-Fcd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="User" id="II6-hl-9bL"/>
+                    <navigationItem key="navigationItem" title="User" id="II6-hl-9bL">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="ujK-aI-hak"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="99g-h6-cT9" kind="show" identifier="UserToGroup" id="lj2-2c-ePA"/>
                         <segue destination="cWZ-ps-xcO" kind="show" identifier="UserToPost" id="ErJ-Pf-JZ7"/>
@@ -3762,7 +3780,7 @@
             <objects>
                 <tableViewController title="Groups Table" id="csT-b3-QYy" customClass="MyGroupsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3878,6 +3896,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Groups" id="hw2-zO-lMK">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="SiI-bR-rYP"/>
                         <barButtonItem key="rightBarButtonItem" title="New Group" id="fdW-yt-ET3">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -3961,7 +3980,9 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="New Group" id="fvi-rA-6c7"/>
+                    <navigationItem key="navigationItem" title="New Group" id="fvi-rA-6c7">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="aGi-N9-oSg"/>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -4018,7 +4039,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qQN-ZP-g7F">
-                                <rect key="frame" x="107" y="66" width="477" height="30"/>
+                                <rect key="frame" x="106" y="66" width="478" height="30"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pWz-Wg-xB4"/>
@@ -4027,19 +4048,19 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6A-Sd-ihA">
-                                <rect key="frame" x="16" y="68" width="84" height="21"/>
+                                <rect key="frame" x="16" y="67" width="84" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Password:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eti-1N-ivk">
-                                <rect key="frame" x="16" y="108" width="81" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eti-1N-ivk">
+                                <rect key="frame" x="16" y="106" width="81" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5B-Qd-fZe">
-                                <rect key="frame" x="16" y="146" width="47" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5B-Qd-fZe">
+                                <rect key="frame" x="16" y="144" width="47" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -4165,11 +4186,10 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="syA-mT-UDy"/>
-        <segue reference="ErJ-Pf-JZ7"/>
-        <segue reference="8tG-h2-T9M"/>
-        <segue reference="Jl6-tW-uib"/>
         <segue reference="Shy-YE-kuX"/>
-        <segue reference="R4s-Dx-08g"/>
+        <segue reference="0fK-Cx-ysj"/>
+        <segue reference="X2k-fD-Ni0"/>
+        <segue reference="Jl6-tW-uib"/>
+        <segue reference="ErJ-Pf-JZ7"/>
     </inferredMetricsTieBreakers>
 </document>

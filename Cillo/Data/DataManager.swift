@@ -95,9 +95,9 @@ enum Router: URLStringConvertible {
       case .Root:
         return "/\(vNum)/me/feed\(authString)\(pageString)"
       case .GroupFeed(let groupID):
-        return "/\(vNum)/groups/\(groupID)/feed\(authString)"
+        return "/\(vNum)/boards/\(groupID)/feed\(authString)"
       case .GroupInfo(let groupID):
-        return "/\(vNum)/groups/\(groupID)/describe\(authString)"
+        return "/\(vNum)/boards/\(groupID)/describe\(authString)"
       case .PostInfo(let postID):
         return "/\(vNum)/posts/\(postID)/describe\(authString)"
       case .PostComments(let postID):
@@ -107,7 +107,7 @@ enum Router: URLStringConvertible {
       case .UserInfo:
         return "/\(vNum)/users/describe\(authString)"
       case .UserGroups(let userID):
-        return "/\(vNum)/users/\(userID)/groups\(authString)"
+        return "/\(vNum)/users/\(userID)/boards\(authString)"
       case .UserPosts(let userID):
         return "/\(vNum)/users/\(userID)/posts\(authString)\(pageString)"
       case .UserComments(let userID):
@@ -117,7 +117,7 @@ enum Router: URLStringConvertible {
       case .Register:
         return "/\(vNum)/users/register"
       case .GroupCreate:
-        return "/\(vNum)/groups/create\(authString)"
+        return "/\(vNum)/boards/create\(authString)"
       case .Login:
         return "/\(vNum)/auth/login"
       case .Logout:
@@ -137,9 +137,9 @@ enum Router: URLStringConvertible {
       case .PostDown(let postID):
         return "/\(vNum)/posts/\(postID)/downvote\(authString)"
       case .GroupFollow(let groupID):
-        return "/\(vNum)/groups/\(groupID)/follow\(authString)"
+        return "/\(vNum)/boards/\(groupID)/follow\(authString)"
       case .GroupUnfollow(let groupID):
-        return "/\(vNum)/groups/\(groupID)/unfollow\(authString)"
+        return "/\(vNum)/boards/\(groupID)/unfollow\(authString)"
       case .SelfSettings:
         return "/\(vNum)/me/settings\(authString)"
       }
@@ -541,7 +541,7 @@ class DataManager: NSObject {
               let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserGroups(userID))
               completion(error: cilloError, result: nil)
             } else {
-              let groups = swiftyJSON["groups"].arrayValue
+              let groups = swiftyJSON["boards"].arrayValue
               var returnArray: [Group] = []
               for group in groups {
                 let item = Group(json: group)
@@ -646,7 +646,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
   func createPostByGroupID(repostID: Int?, groupID: Int, text: String, title: String?, completion:(error: NSError?, result: Post?) -> Void) {
-    var parameters: [String: AnyObject] = ["group_id": groupID, "data": text]
+    var parameters: [String: AnyObject] = ["board_id": groupID, "data": text]
     if let repostID = repostID {
       parameters["repost_id"] = repostID
     }
@@ -694,7 +694,7 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
   func createPostByGroupName(groupName: String, repostID: Int?, text: String, title: String?, completion:(error: NSError?, result: Post?) -> Void) {
-    var parameters: [String: AnyObject] = ["group_name": groupName, "data": text]
+    var parameters: [String: AnyObject] = ["board_name": groupName, "data": text]
     if let repostID = repostID {
       parameters["repost_id"] = repostID
     }

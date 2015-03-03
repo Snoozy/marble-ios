@@ -38,6 +38,13 @@ class TabViewController: UITabBarController {
       return "TabToLogin"
     }
   }
+  
+  // TODO: Document
+  class var SegueIdentifierThisToNewPost: String {
+    get {
+      return "TabToNewPost"
+    }
+  }
 
   // MARK: UIViewController
   

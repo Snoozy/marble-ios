@@ -35,11 +35,6 @@ class CustomTableViewController: UITableViewController {
     refreshControl = UIRefreshControl()
     refreshControl!.addTarget(self, action: "retrieveData", forControlEvents: .ValueChanged)
     tableView.addSubview(refreshControl!)
-    tabBarController?.delegate = self
-  }
-  
-  override func viewDidAppear(animated: Bool) {
-    tabBarController?.delegate = self
   }
   
   // MARK: Helper Functions

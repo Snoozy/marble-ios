@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: Image Posts
+
 /// Inherit this class for any UITableViewController that is a GroupCell followed by PostCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
@@ -282,7 +284,9 @@ class SingleGroupTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is the button in the navigationBar.
   @IBAction func triggerNewPostSegueOnButton(sender: UIButton) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToNewPost, sender: sender)
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewPost, sender: sender)
+    }
   }
   
   /// Upvotes a post.

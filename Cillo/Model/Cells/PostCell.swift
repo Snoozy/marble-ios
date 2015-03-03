@@ -13,6 +13,11 @@ import UIKit
 /// Used to format Posts in UITableViews.
 class PostCell: UITableViewCell {
   
+  // MARK: Properties
+  
+  // TODO: Document
+  var imageViews: [UIImageView] = []
+  
   // MARK: IBOutlets
   
   /// Displays user.name property of Post.
@@ -70,6 +75,9 @@ class PostCell: UITableViewCell {
   ///
   /// Set constant to value of separatorHeight in the makeCellFromPost(_:_:_:) function.
   @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
+  
+  // TODO: Document
+  @IBOutlet weak var titleToTextViewSpacingConstraint: NSLayoutConstraint!
 
   // MARK: Constants
   
@@ -86,6 +94,13 @@ class PostCell: UITableViewCell {
   class var TitleHeight: CGFloat {
     get {
       return 26.5
+    }
+  }
+  
+  // TODO: Document
+  class var ImageMargins: CGFloat {
+    get {
+      return 3
     }
   }
   
@@ -113,7 +128,6 @@ class PostCell: UITableViewCell {
   /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
-    
     nameButton.setTitle(post.user.name, forState: .Normal)
     groupButton.setTitle(post.group.name, forState: .Normal)
     pictureButton.setBackgroundImage(post.user.profilePic, forState: .Normal)
@@ -182,6 +196,19 @@ class PostCell: UITableViewCell {
       separatorView.backgroundColor = UIColor.cilloBlue()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
+  }
+  
+  // TODO: Document
+  func addImage(image: UIImage) {
+    let height = image.size.height
+    let width = image.size.width
+    let ratio = height/width
+    let imageView: UIImageView = UIImageView(frame: CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.maxY + PostCell.ImageMargins, width: titleLabel.frame.width, height: titleLabel.frame.width * ratio))
+    imageView.contentMode = .ScaleAspectFit
+    imageView.image = image
+    titleToTextViewSpacingConstraint.constant += imageView.frame.height + PostCell.ImageMargins * 2
+    contentView.addSubview(imageView)
+    
   }
   
 }

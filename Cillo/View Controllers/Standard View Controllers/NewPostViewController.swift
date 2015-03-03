@@ -56,9 +56,9 @@ class NewPostViewController: UIViewController {
   }
   
   /// Segue Identifier in Storyboard for this UIViewController to PostTableViewController.
-  var SegueIdentifierThisToPost: String {
+  var SegueIdentifierThisToTab: String {
     get {
-      return "NewPostToPost"
+      return "NewPostToTab"
     }
   }
   
@@ -74,12 +74,18 @@ class NewPostViewController: UIViewController {
   
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // NOTE: Currently manually presenting the controller, ignoring this segue
-    if segue.identifier == SegueIdentifierThisToPost {
-      var destination = segue.destinationViewController as PostTableViewController
-      if let sender = sender as? Post {
-        destination.post = sender
-      }
+    if segue.identifier == SegueIdentifierThisToTab {
+      var destination = segue.destinationViewController as TabViewController
+      createPost( { (post) -> Void in
+        if let post = post {
+          // NOTE: currently ignoring segue, found another implementation
+          let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
+          if let nav = destination.selectedViewController as? UINavigationController {
+            postViewController.post = post
+            nav.pushViewController(postViewController, animated: true)
+          }
+        }
+      })
     }
   }
   
@@ -114,17 +120,11 @@ class NewPostViewController: UIViewController {
   /// Creates a post. If the creation is successful, presents a PostTableViewController and removes self from navigationController's stack.
   ///
   /// :param: sender The button that is touched to send this function is createPostButton.
-  @IBAction func triggerPostSegueOnButton(sender: UIButton) {
+  @IBAction func triggerTabSegueOnButton(sender: UIButton) {
     createPost( { (post) -> Void in
       if let post = post {
         // NOTE: currently ignoring segue, found another implementation
-//        self.performSegueWithIdentifier(self.SegueIdentifierThisToPost, sender: post)
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
-        postViewController.post = post
-        var viewControllers = self.navigationController!.viewControllers
-        viewControllers.removeLast()
-        viewControllers.append(postViewController)
-        self.navigationController?.setViewControllers(viewControllers, animated: true)
+        self.performSegueWithIdentifier(self.SegueIdentifierThisToTab, sender: post)
       }
     })
   }

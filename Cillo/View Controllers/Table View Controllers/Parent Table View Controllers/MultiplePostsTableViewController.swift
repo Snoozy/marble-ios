@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: Test Image Posts
+
 /// Inherit this class for any UITableViewController that is only a table of PostCells.
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
@@ -125,6 +127,9 @@ class MultiplePostsTableViewController: CustomTableViewController {
     }
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
+    if post.image != nil {
+      cell.addImage(post.image!)
+    }
     cell.postTextView.delegate = self
     
     return cell
@@ -136,6 +141,9 @@ class MultiplePostsTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     let post = posts[indexPath.row]
     var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
+    if post.image != nil {
+      height += PostCell.ImageMargins * 2 + (post.image!.size.height / post.image!.size.width) * PrototypeTextViewWidth
+    }
     if indexPath.row != posts.count - 1 {
       height += MultiplePostsTableViewController.DividerHeight
     }
@@ -144,8 +152,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
   
   /// Sends view to PostTableViewController if PostCell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    self.performSegueWithIdentifier(SegueIdentifierThisToPost, sender: indexPath)
   }
   
   // MARK: Helper Functions
@@ -251,7 +259,9 @@ class MultiplePostsTableViewController: CustomTableViewController {
   
   /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
   @IBAction func triggerNewPostSegueOnButton(sender: UIButton) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToNewPost, sender: sender)
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewPost, sender: sender)
+    }
   }
   
   /// Reposts a post.

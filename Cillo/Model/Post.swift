@@ -55,11 +55,15 @@ class Post: NSObject {
   /// * True - Post is fully expanded. All text is shown.
   /// * False - Post is contracted. Only text that fits in MaxContractedHeight of UITableViewController is shown.
   /// * Nil - Post is expanded by default.
-  var seeFull : Bool?
+  var seeFull: Bool?
+  
+  // TODO: Document
+  var image: UIImage?
   
   /// Used to print properties in println statements.
   override var description: String {
     let none = "N/A"
+    let imgstr = "HASANIMAGE"
     var vote = "Has not voted"
     if voteValue == 1 {
       vote = "Upvoted"
@@ -72,7 +76,7 @@ class Post: NSObject {
     } else if seeFull != nil && !seeFull! {
       expanded = "Not Expanded Yet"
     }
-    return "Post {\n  Post ID: \(postID)\n  Title: \(title != nil ? title! : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n}\n"
+    return "Post {\n  Post ID: \(postID)\n  Title: \(title != nil ? title! : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n  Image: \(image != nil ? imgstr : none)\n}\n"
   }
   
   // MARK: Initializers
@@ -90,6 +94,7 @@ class Post: NSObject {
   /// * "votes" - Int
   /// * "comment_count" - Int
   /// * "vote_value" - Int
+  /// * "media_url" - String
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
@@ -105,6 +110,16 @@ class Post: NSObject {
     rep = json["votes"].intValue
     numComments = json["comment_count"].intValue
     voteValue = json["vote_value"].intValue
+    if json["media_url"] != nil {
+      print(json["media_url"])
+      if let url = NSURL(string: json["media_url"].stringValue) {
+        if let imageData = NSData(contentsOfURL: url) {
+          if let image = UIImage(data: imageData) {
+            self.image = image
+          }
+        }
+      }
+    }
   }
   
   /// Creates empty Post.
@@ -137,6 +152,11 @@ class Post: NSObject {
     } else {
       return height
     }
+  }
+  
+  // TODO: Document
+  func isImagePost() -> Bool {
+    return image != nil
   }
   
 }
