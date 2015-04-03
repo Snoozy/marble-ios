@@ -231,6 +231,8 @@ extension NSError {
   /// * User: 4
   /// * Me: 5 (Me is the auth_token for the logged in User)
   /// * Nothing/Misc: 6
+  /// * Search: 7
+  /// * Autocomplete: 8
   ///
   /// *Third Digit: Data that is needed from the server"
   ///
@@ -274,6 +276,10 @@ extension NSError {
       code = 141
     case .UserComments(let userID):
       code = 142
+    case .GroupSearch:
+      code = 173
+    case .GroupAutocomplete:
+      code = 183
     case .Register:
       code = 2664
     case .GroupCreate:

@@ -50,7 +50,7 @@ import Foundation
 /// * GroupUnfollow(Int): Request to unfollow a group. Parameter is a group id.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
-  static let baseURLString = "https://api.cillo.co"
+  static let baseURLString = "http://api.cillo.co"
   
   //GET
   case Root // DONE
@@ -63,6 +63,8 @@ enum Router: URLStringConvertible {
   case UserGroups(Int) // DONE
   case UserPosts(Int) // DONE
   case UserComments(Int) // DONE
+  case GroupSearch
+  case GroupAutocomplete
   
   //POST
   case Register // DONE
@@ -112,6 +114,10 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/users/\(userID)/posts\(authString)\(pageString)"
       case .UserComments(let userID):
         return "/\(vNum)/users/\(userID)/comments\(authString)"
+      case .GroupSearch:
+        return "/\(vNum)/boards/search\(authString)"
+      case .GroupAutocomplete:
+        return "/\(vNum)/boards/autocomplete\(authString)"
         
         // POST
       case .Register:
@@ -625,6 +631,62 @@ class DataManager: NSObject {
             }
           } else {
             completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID)), result: nil)
+          }
+        }
+    }
+  }
+  
+  // TODO: Document
+  func groupsSearchByName(name: String, completion:(error: NSError?, result: [Group]?) -> Void) {
+    request(.GET, Router.GroupSearch, parameters: ["q": name], encoding: .URL)
+      .responseJSON { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        if error != nil {
+          completion(error: error!, result: nil)
+        } else {
+          if let swiftyJSON = JSON(rawValue: data!) {
+            println(swiftyJSON)
+            if swiftyJSON["error"] != nil {
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupSearch)
+              completion(error: cilloError, result: nil)
+            } else {
+              let groups = swiftyJSON["results"].arrayValue
+              var returnArray: [Group] = []
+              for group in groups {
+                let item = Group(json: group)
+                returnArray.append(item)
+              }
+              completion(error: nil, result: returnArray)
+            }
+          } else {
+            completion(error: NSError.noJSONFromDataError(requestType: .GroupSearch), result: nil)
+          }
+        }
+      }
+  }
+  
+  // TODO: Document
+  func groupsAutocompleteByName(name: String, completion:(error: NSError?, result: [String]?) -> Void) {
+    request(.GET, Router.GroupAutocomplete, parameters: ["q": name], encoding: .URL)
+      .responseJSON { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        if error != nil {
+          completion(error: error!, result: nil)
+        } else {
+          if let swiftyJSON = JSON(rawValue: data!) {
+            println(swiftyJSON)
+            if swiftyJSON["error"] != nil {
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupAutocomplete)
+              completion(error: cilloError, result: nil)
+            } else {
+              let groups = swiftyJSON["results"].arrayValue
+              var returnArray: [String] = []
+              for group in groups {
+                let name = group["name"].stringValue
+                returnArray.append(name)
+              }
+              completion(error: nil, result: returnArray)
+            }
+          } else {
+            completion(error: NSError.noJSONFromDataError(requestType: .GroupAutocomplete), result: nil)
           }
         }
     }

@@ -12,13 +12,13 @@ Tap Tab to top is still acting really weird (Figure out new implementation).
 
 **Feature TODOs:**
 
-Image Posts (Testing).
+-- Image Posts (Testing).
 
 Rename Groups to Boards.
 
-Handle original poster tag in CommentCells.
+-- Handle original poster tag in CommentCells (Test).
 
-Implement a UI feature that shows that a User is the logged in User.
+-- Implement a UI feature that shows that a User is the logged in User (Test).
 
 Allow User to take a profile picture via the camera.
 
@@ -30,7 +30,7 @@ Retrieve Posts from server 20 at a time.
 
 Make creating a new Post accessible from as many views as possible. < Just add the buttons/segues now
 
-Handle searching and remodel MyGroupsTableViewController.
+-- Handle searching and remodel MyGroupsTableViewController (Test).
 
 Handle upvote and downvote coloring based on voteValue.
 
@@ -41,6 +41,10 @@ Handle auth token expiration.
 Add an option to logout.
 
 Add a popup tableview when typing in a textfield involving Group names.
+
+New Post UI (implement image button)
+
+New Repost UI < Cell and make
 
 **Other:**
 

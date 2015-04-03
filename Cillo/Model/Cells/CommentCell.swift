@@ -185,6 +185,12 @@ class CommentCell: UITableViewCell {
     downvoteButton.tag = buttonTag
     replyButton?.tag = buttonTag
     
+    if comment.isOP {
+      nameButton.setTitleColor(UIColor.orangeColor(), forState: .Normal | .Highlighted)
+    } else if comment.user.isSelf {
+      nameButton.setTitleColor(UIColor.blueColor(), forState: .Normal | .Highlighted)
+    }
+    
     // TODO: Handle voteValues changing colors of images
     if comment.voteValue == 1 {
       

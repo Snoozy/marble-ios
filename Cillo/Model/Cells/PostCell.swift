@@ -165,6 +165,10 @@ class PostCell: UITableViewCell {
     downvoteButton.tag = buttonTag
     repostButton.tag = buttonTag
     
+    if post.user.isSelf {
+      nameButton.setTitleColor(UIColor.blueColor(), forState: .Normal | .Highlighted)
+    }
+    
     // TODO: Handle voteValues changing colors of images
     if post.voteValue == 1 {
   

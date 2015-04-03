@@ -15,6 +15,8 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class MyGroupsTableViewController: MultipleGroupsTableViewController {
 
+  var searchResults: [String] = []
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
@@ -73,6 +75,111 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
           completion(groups: nil)
         } else {
           completion(groups: result!)
+        }
+      })
+    }
+  }
+  
+  // TODO: DOcument
+  func searchGroups(#search: String, completion: (groups: [Group]?) -> Void) {
+    DataManager.sharedInstance.groupsSearchByName(search, completion: { (error, result) -> Void in
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(groups: nil)
+      } else {
+        completion(groups: result!)
+      }
+    })
+  }
+  
+  // TODO: DOcument
+  func autocompleteGroups(#search: String, completion: (names: [String]?) -> Void) {
+    DataManager.sharedInstance.groupsAutocompleteByName(search, completion: { (error, result) -> Void in
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(names: nil)
+      } else {
+        completion(names: result!)
+      }
+    })
+  }
+}
+
+extension MyGroupsTableViewController: UISearchControllerDelegate {
+  
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchBar.text != "" {
+      autocompleteGroups(search: searchBar.text, completion: { (names) in
+        if names != nil {
+          self.searchResults = names!
+        }
+      })
+    }
+  }
+  
+  func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    searchResults = []
+    searchBar.resignFirstResponder()
+  }
+}
+
+extension MyGroupsTableViewController: UISearchBarDelegate {
+  
+  func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    searchResults = []
+    searchGroups(search: searchBar.text, completion: { (groups) in
+      if groups != nil {
+        self.groups = groups!
+        self.tableView.reloadData()
+        self.searchDisplayController?.setActive(false, animated: true)
+      }
+    })
+  }
+}
+
+extension MyGroupsTableViewController: UITableViewDataSource, UITableViewDelegate {
+  
+  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if tableView == self.tableView {
+      return super.tableView(tableView, numberOfRowsInSection: section)
+    } else {
+      return searchResults.count
+    }
+  }
+  
+  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    if tableView == self.tableView {
+      return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    } else {
+      let cell = UITableViewCell()
+      cell.textLabel?.text = searchResults[indexPath.row]
+      return cell
+    }
+  }
+  
+  // MARK: UITableViewDelegate
+  
+  /// Sets height of cell to appropriate value.
+  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    if tableView == self.tableView {
+      return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+    } else {
+      return 44
+    }
+  }
+  
+  /// Sends view to GroupTableViewController if GroupCell is selected.
+  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    if tableView == self.tableView {
+      super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+    } else {
+      searchGroups(search: searchResults[indexPath.row], completion: { (groups) in
+        if groups != nil {
+          self.groups = groups!
+          self.tableView.reloadData()
+          self.searchDisplayController?.setActive(false, animated: true)
         }
       })
     }

@@ -23,10 +23,10 @@ class NewPostViewController: UIViewController {
   /// Allows logged in User to enter the group name that he/she wants to post the new Post to.
   ///
   /// **Note:** Text is automatically set if group is not nil.
-  @IBOutlet weak var groupTextView: UITextView!
+  @IBOutlet weak var groupTextField: UITextField!
   
   /// Allows logged in User to enter a title to his/her new Post.
-  @IBOutlet weak var titleTextView: UITextView!
+  @IBOutlet weak var titleTextField: UITextField!
   
   /// Allows logged in User to enter text for his/her new Post.
   @IBOutlet weak var postTextView: UITextView!
@@ -35,7 +35,13 @@ class NewPostViewController: UIViewController {
   @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
 
   /// Button used to create the new Post.
-  @IBOutlet weak var createPostButton: UIButton!
+  @IBOutlet weak var createPostButton: UIBarButtonItem!
+  
+  @IBOutlet weak var imageButton: UIButton!
+  
+  @IBOutlet weak var userImageView: UIImageView!
+  
+  @IBOutlet weak var usernameLabel: UILabel!
   
   // MARK: Constants
   
@@ -44,7 +50,7 @@ class NewPostViewController: UIViewController {
   /// **Note:** Height of postTextView must be calculated based on the frame size of the device.
   class var VertSpaceExcludingPostTextView: CGFloat {
     get {
-      return 186
+      return 213
     }
   }
   
@@ -68,8 +74,14 @@ class NewPostViewController: UIViewController {
   override func viewDidLayoutSubviews() {
     postTextViewHeightConstraint.constant = PostTextViewHeight
     if let group = group {
-      groupTextView.text = group.name
+      groupTextField.text = group.name
     }
+    retrieveUser( { (user) in
+      if user != nil {
+        self.userImageView.image = user!.profilePic
+        self.usernameLabel.text = user!.username
+      }
+    })
   }
   
   /// Handles passing of data when navigation between UIViewControllers occur.
@@ -99,11 +111,11 @@ class NewPostViewController: UIViewController {
   /// :param: * Nil if server call passed an error back.
   func createPost(completion: (post: Post?) -> Void) {
     var title: String?
-    if titleTextView.text != "" {
-      title = titleTextView.text
+    if titleTextField.text != "" {
+      title = titleTextField.text
     }
     let activityIndicator = addActivityIndicatorToCenterWithText("Creating Post...")
-    DataManager.sharedInstance.createPostByGroupName(groupTextView.text, repostID: nil, text: postTextView.text, title: title, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.createPostByGroupName(groupTextField.text, repostID: nil, text: postTextView.text, title: title, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error)
@@ -111,6 +123,20 @@ class NewPostViewController: UIViewController {
         completion(post: nil)
       } else {
         completion(post: result!)
+      }
+    })
+  }
+  
+  func retrieveUser(completion: (user: User?) -> Void) {
+    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
+    DataManager.sharedInstance.getSelfInfo( { (error, result) -> Void in
+      activityIndicator.removeFromSuperview()
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(user: nil)
+      } else {
+        completion(user: result!)
       }
     })
   }

@@ -120,6 +120,10 @@ class UserCell: UITableViewCell {
     nameButton.tag = buttonTag
     usernameButton.tag = buttonTag
     
+    if user.isSelf {
+      nameButton.setTitleColor(UIColor.blueColor(), forState: .Normal | .Highlighted)
+    }
+    
     // Make only the number in repLabel bold
     var repText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.rep), firstFont: UserCell.RepFontBold, secondHalf: " REP", secondFont: UserCell.RepFont)
     repLabel.attributedText = repText
