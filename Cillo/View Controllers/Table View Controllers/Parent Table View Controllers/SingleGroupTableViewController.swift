@@ -23,6 +23,8 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// Posts for this UITableViewController.
   var posts: [Post] = []
   
+  var pageNumber: Int = 1
+  
   // MARK: Constants 
   
   /// Height of the custom divider UIViews at the bottom of the PostCells managed by this SingleGroupPostsTableViewController.
@@ -278,15 +280,6 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a PostCell.
   @IBAction func triggerUserSegueOnButton(sender: UIButton) {
     self.performSegueWithIdentifier(SegueIdentifierThisToUser, sender: sender)
-  }
-
-  /// Triggers segue to NewPostViewController.
-  ///
-  /// :param: sender The button that is touched to send this function is the button in the navigationBar.
-  @IBAction func triggerNewPostSegueOnButton(sender: UIButton) {
-    if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewPost, sender: sender)
-    }
   }
   
   /// Upvotes a post.

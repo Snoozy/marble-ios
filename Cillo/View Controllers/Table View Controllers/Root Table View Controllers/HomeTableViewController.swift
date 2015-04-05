@@ -13,6 +13,8 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class HomeTableViewController: MultiplePostsTableViewController {
   
+  var retrievingPage = false
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
@@ -60,11 +62,16 @@ class HomeTableViewController: MultiplePostsTableViewController {
   ///
   /// Assigns posts property of MultiplePostsTableViewController correct values from server calls.
   override func retrieveData() {
+    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
+    retrievingPage = true
     retrievePosts( { (posts) -> Void in
+      self.retrievingPage = false
+      activityIndicator.removeFromSuperview()
       if posts != nil {
         self.posts = posts!
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
+        self.pageNumber++
       }
     })
   }
@@ -75,9 +82,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   /// :param: posts The posts in the logged in User's home feed.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
-    DataManager.sharedInstance.getHomePage( { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
+    DataManager.sharedInstance.getHomePage(pageNumber: pageNumber, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
         error!.showAlert()
@@ -86,6 +91,21 @@ class HomeTableViewController: MultiplePostsTableViewController {
         completion(posts: result!)
       }
     })
+  }
+  
+  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    if !retrievingPage && indexPath.row > (pageNumber - 1) * 10 + 10 {
+      retrievePosts( { (posts) in
+        self.retrievingPage = false
+        if posts != nil {
+          for post in posts! {
+            self.posts.append(post)
+            self.tableView.reloadData()
+            self.pageNumber++
+          }
+        }
+      })
+    }
   }
   
 }

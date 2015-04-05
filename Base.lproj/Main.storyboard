@@ -135,10 +135,16 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="My Groups" id="2cT-4l-Mfz">
                         <barButtonItem key="backBarButtonItem" title="Back" id="7jc-pf-jpS"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Group" id="LAN-Xf-H0G">
+                        <barButtonItem key="leftBarButtonItem" title="New Group" id="LAN-Xf-H0G">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewGroupSegueOnButton:" destination="vM0-Cn-CkN" id="8UB-VS-8v6"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="New Post" id="qSp-o4-igl">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="triggerNewPostSegueOnButton:" destination="vM0-Cn-CkN" id="mRp-9w-ZOW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -189,6 +195,9 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Post" id="ggF-vF-MIf">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="triggerTabSegueOnButton:" destination="nzy-ZD-gBV" id="AfK-1A-fMG"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -220,6 +229,9 @@
                                 <state key="normal" title="Image">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="imageButtonPressed:" destination="nzy-ZD-gBV" eventType="touchUpInside" id="aIu-GL-enL"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wuw-93-5Ae">
                                 <rect key="frame" x="16" y="94" width="568" height="40"/>
@@ -2358,6 +2370,16 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Me" id="Wj8-mF-LxL">
                         <barButtonItem key="backBarButtonItem" title="Back" id="NCv-Wx-V7v"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="cye-k5-9ZB">
+                            <connections>
+                                <action selector="logoutButtonPressed:" destination="RHX-4q-5ga" id="7Cg-ei-JX5"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="New Post" id="cnz-e6-3Kd">
+                            <connections>
+                                <action selector="triggerNewPostSegueOnButton:" destination="RHX-4q-5ga" id="xrS-yI-Ivs"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="99g-h6-cT9" kind="show" identifier="MeToGroup" id="9nY-Wc-CQM"/>
@@ -3783,6 +3805,12 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="User" id="II6-hl-9bL">
                         <barButtonItem key="backBarButtonItem" title="Back" id="ujK-aI-hak"/>
+                        <barButtonItem key="rightBarButtonItem" title="New Post" id="S1H-xt-ONX">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="triggerNewPostSegueOnButton:" destination="KG3-Ho-FcM" id="VEz-x2-Rxg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="99g-h6-cT9" kind="show" identifier="UserToGroup" id="lj2-2c-ePA"/>
@@ -3797,7 +3825,7 @@
         <!--Groups Table-->
         <scene sceneID="dNK-G1-N0g">
             <objects>
-                <tableViewController title="Groups Table" id="csT-b3-QYy" customClass="MyGroupsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Groups Table" id="csT-b3-QYy" customClass="GroupsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3916,10 +3944,10 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Groups" id="hw2-zO-lMK">
                         <barButtonItem key="backBarButtonItem" title="Back" id="SiI-bR-rYP"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Group" id="fdW-yt-ET3">
+                        <barButtonItem key="rightBarButtonItem" title="New Post" id="fdW-yt-ET3">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="triggerNewGroupSegueOnButton:" destination="csT-b3-QYy" id="Zra-Kd-Gye"/>
+                                <action selector="triggerNewPostSegueOnButton:" destination="csT-b3-QYy" id="Pzy-La-Vi2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -4205,10 +4233,10 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DUk-kf-nGq"/>
-        <segue reference="9nY-Wc-CQM"/>
         <segue reference="txn-K4-4lh"/>
+        <segue reference="9nY-Wc-CQM"/>
+        <segue reference="DUk-kf-nGq"/>
+        <segue reference="Ndf-JY-QqC"/>
         <segue reference="Shy-YE-kuX"/>
-        <segue reference="X2k-fD-Ni0"/>
     </inferredMetricsTieBreakers>
 </document>

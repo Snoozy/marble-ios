@@ -160,8 +160,8 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   /// Triggers segue to NewGroupViewController.
   ///
-  /// :param: sender The button that is touched to send this function is the button in the navtigationBar.
-  @IBAction func triggerNewGroupSegueOnButton(sender: UIButton) {
+  /// :param: sender The button that is touched to send this function is the button in the navigationBar.
+  @IBAction func triggerNewGroupSegueOnButton(sender: UIBarButtonItem) {
     self.performSegueWithIdentifier(SegueIdentifierThisToNewGroup, sender: sender)
   }
   

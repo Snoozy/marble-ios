@@ -26,9 +26,9 @@ Allow User to edit their bio.
 
 ^ Make new view to edit settings
 
-Retrieve Posts from server 20 at a time.
+-- Retrieve Posts from server 20 at a time. (Test)
 
-Make creating a new Post accessible from as many views as possible. < Just add the buttons/segues now
+-- Make creating a new Post accessible from as many views as possible. (Test)
 
 -- Handle searching and remodel MyGroupsTableViewController (Test).
 
@@ -38,13 +38,13 @@ Implement graphics that were not taken from the internet.
 
 Handle auth token expiration.
 
-Add an option to logout.
+-- Add an option to logout. (Test)
 
 Add a popup tableview when typing in a textfield involving Group names.
 
-New Post UI (implement image button)
+-- New Post UI (Test)
 
-New Repost UI < Cell and make
+New Repost UI < Cell and make storyboard... also considering how to display post without it being awkward on iOS
 
 **Other:**
 

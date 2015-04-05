@@ -18,6 +18,8 @@ class NewPostViewController: UIViewController {
   /// Set this property to pass a group name to this UIViewController from another UIViewController.
   var group: Group?
   
+  var image: UIImage?
+  
   // MARK: IBOutlets
   
   /// Allows logged in User to enter the group name that he/she wants to post the new Post to.
@@ -88,16 +90,13 @@ class NewPostViewController: UIViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToTab {
       var destination = segue.destinationViewController as TabViewController
-      createPost( { (post) -> Void in
-        if let post = post {
-          // NOTE: currently ignoring segue, found another implementation
-          let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
-          if let nav = destination.selectedViewController as? UINavigationController {
-            postViewController.post = post
-            nav.pushViewController(postViewController, animated: true)
-          }
+      if let sender = sender as? Post {
+        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
+        if let nav = destination.selectedViewController as? UINavigationController {
+          postViewController.post = sender
+          nav.pushViewController(postViewController, animated: true)
         }
-      })
+      }
     }
   }
   
@@ -115,16 +114,37 @@ class NewPostViewController: UIViewController {
       title = titleTextField.text
     }
     let activityIndicator = addActivityIndicatorToCenterWithText("Creating Post...")
-    DataManager.sharedInstance.createPostByGroupName(groupTextField.text, repostID: nil, text: postTextView.text, title: title, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error)
-        error!.showAlert()
-        completion(post: nil)
-      } else {
-        completion(post: result!)
-      }
-    })
+    if let image = image {
+      DataManager.sharedInstance.imageUpload(UIImagePNGRepresentation(image), completion: { (error, mediaID) in
+        if error != nil {
+          println(error!)
+          error!.showAlert()
+          completion(post: nil)
+        } else {
+          DataManager.sharedInstance.createPostByGroupName(self.groupTextField.text, repostID: nil, text: self.postTextView.text, title: title, mediaID: mediaID, completion: { (error, result) in
+            activityIndicator.removeFromSuperview()
+            if error != nil {
+              println(error!)
+              error!.showAlert()
+              completion(post: nil)
+            } else {
+              completion(post: result!)
+            }
+          })
+        }
+      })
+    } else {
+      DataManager.sharedInstance.createPostByGroupName(groupTextField.text, repostID: nil, text: postTextView.text, title: title, mediaID: nil, completion: { (error, result) -> Void in
+        activityIndicator.removeFromSuperview()
+        if error != nil {
+          println(error!)
+          error!.showAlert()
+          completion(post: nil)
+        } else {
+          completion(post: result!)
+        }
+      })
+    }
   }
   
   func retrieveUser(completion: (user: User?) -> Void) {
@@ -149,10 +169,61 @@ class NewPostViewController: UIViewController {
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
     createPost( { (post) -> Void in
       if let post = post {
-        // NOTE: currently ignoring segue, found another implementation
+        // NOTE: currently ignoring segue, found another implementation < is it?
         self.performSegueWithIdentifier(self.SegueIdentifierThisToTab, sender: post)
       }
     })
   }
+  
+  @IBAction func imageButtonPressed(sender: UIButton) {
+    let actionSheet = UIAlertController(title: "Change Profile Picture", message: nil, preferredStyle: .ActionSheet)
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+    })
+    let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default, handler:  { (action) in
+      let pickerController = UIImagePickerController()
+      pickerController.delegate = self
+      self.presentViewController(pickerController, animated: true, completion: nil)
+    })
+    let cameraAction = UIAlertAction(title: "Take Photo", style: .Default, handler: { (action) in
+      // TODO: Camera picker
+    })
+    actionSheet.addAction(cancelAction)
+    actionSheet.addAction(pickerAction)
+    actionSheet.addAction(cameraAction)
+    presentViewController(actionSheet, animated: true, completion: nil)
+  }
+  
+}
+
+extension NewPostViewController: UIImagePickerControllerDelegate {
+  // MARK: UIImagePickerControllerDelegate
+  
+  /// Handles the instance in which an image was picked by a UIImagePickerController presented by this MeTableViewController.
+  ///
+  /// :param: picker The UIImagePickerController presented by this MeTableViewController.
+  /// :param: info The dictionary containing the selected image's data.
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+      self.image = image
+      imageButton.frame.size = image.size
+      imageButton.setBackgroundImage(image, forState: .Normal | .Highlighted | .Disabled)
+      imageButton.setTitle("", forState: .Normal | .Highlighted | .Disabled)
+      imageButton.enabled = true
+    }
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
+  
+  /// Handles the instance in which the user cancels the selection of an image by a UIImagePickerController presented by this MeTableViewController.
+  ///
+  /// :param: picker The UIImagePickerController presented by this MeTableViewController.
+  func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
+}
+
+// Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
+extension NewPostViewController: UINavigationControllerDelegate {
+  
+  // MARK: UINavigationControllerDelegate
   
 }

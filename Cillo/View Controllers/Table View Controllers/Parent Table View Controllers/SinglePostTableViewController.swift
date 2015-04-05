@@ -161,7 +161,7 @@ class SinglePostTableViewController: CustomTableViewController {
     } else {
       id = post.postID
     }
-    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: id, text: post.text, title: post.title, completion: { (error, repost) -> Void in
+    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: id, text: post.text, title: post.title, mediaID: nil, completion: { (error, repost) -> Void in
       if error != nil {
         println(error!)
         error!.showAlert()

@@ -41,6 +41,7 @@
 		95BEFA001A74549A008AFDB9 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9FF1A74549A008AFDB9 /* Alamofire.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
+		95EAA84E1AD19C7600DCE1E8 /* NewRepostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */; };
 		95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2A919F8D2B400086BAF /* AppDelegate.swift */; };
 		95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2AD19F8D2B400086BAF /* Main.storyboard */; };
 		95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B019F8D2B400086BAF /* Images.xcassets */; };
@@ -107,6 +108,7 @@
 		95BEF9FF1A74549A008AFDB9 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Data/Vendor/Alamofire.swift; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Model/Cells/UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MeTableViewController.swift"; sourceTree = "<group>"; };
+		95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewRepostViewController.swift; path = "View Controllers/Standard View Controllers/NewRepostViewController.swift"; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Supporting Files/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				959866791A5F90E4003181BC /* RegisterViewController.swift */,
 				95F935B01A5DE11100F65022 /* NewGroupViewController.swift */,
 				95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */,
+				95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */,
 				95BEF9F81A71C954008AFDB9 /* WebViewController.swift */,
 				95DB34321A54834B008A8DC0 /* TBCs */,
 				95352D721A155C4D00874B0F /* NCs */,
@@ -463,6 +466,7 @@
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,
 				9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */,
 				95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */,
+				95EAA84E1AD19C7600DCE1E8 /* NewRepostViewController.swift in Sources */,
 				9598667A1A5F90E4003181BC /* RegisterViewController.swift in Sources */,
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,

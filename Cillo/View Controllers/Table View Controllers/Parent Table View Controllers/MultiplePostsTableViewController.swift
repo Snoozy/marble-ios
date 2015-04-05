@@ -15,6 +15,8 @@ import UIKit
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
 class MultiplePostsTableViewController: CustomTableViewController {
   
+  var pageNumber: Int = 1
+  
   // MARK: Properties
   
   /// Posts for this UITableViewController.
@@ -174,7 +176,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     } else {
       id = post.postID
     }
-    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: id, text: post.text, title: post.title, completion: { (error, repost) -> Void in
+    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: id, text: post.text, title: post.title, mediaID: nil, completion: { (error, repost) -> Void in
       if error != nil {
         println(error!)
         error!.showAlert()
@@ -257,12 +259,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
   }
   
-  /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
-  @IBAction func triggerNewPostSegueOnButton(sender: UIButton) {
-    if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewPost, sender: sender)
-    }
-  }
+  
   
   /// Reposts a post.
   ///

@@ -46,6 +46,13 @@ class CustomTableViewController: UITableViewController {
   /// **Note:** The overriden function should contain tableView.reloadData() and refreshControl?.endResfreshing()
   func retrieveData() {
   }
+  
+  /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
+  @IBAction func triggerNewPostSegueOnButton(sender: UIBarButtonItem) {
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewPost, sender: sender)
+    }
+  }
 
 }
 

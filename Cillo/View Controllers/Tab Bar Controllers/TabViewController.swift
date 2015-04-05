@@ -32,6 +32,12 @@ class TabViewController: UITabBarController {
     }
   }
   
+  class var SegueIdentifierThisToNewRepost: String {
+    get {
+      return "TabToNewRepost"
+    }
+  }
+  
   /// Segue Identifier in Storyboard for this UITabBarController to LoginViewController.
   class var SegueIdentifierThisToLogin: String {
     get {

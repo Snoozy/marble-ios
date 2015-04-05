@@ -15,6 +15,8 @@ import UIKit
 /// **Note:** Must assign group property of superclass a relevant value before displaying this SingleGroupTableViewController.
 class GroupTableViewController: SingleGroupTableViewController {
 
+  var retrievingPage = false
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
@@ -55,11 +57,14 @@ class GroupTableViewController: SingleGroupTableViewController {
   ///
   /// Assigns posts property of SingleGroupTableViewController correct values from server calls.
   override func retrieveData() {
+    retrievingPage = true
     retrievePosts( { (posts) -> Void in
+      self.retrievingPage = false
       if posts != nil {
         self.posts = posts!
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
+        self.pageNumber++
       }
     })
   }
@@ -71,7 +76,7 @@ class GroupTableViewController: SingleGroupTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
-    DataManager.sharedInstance.getGroupFeed(group.groupID, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.getGroupFeed(pageNumber: pageNumber, groupID: group.groupID, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)
@@ -81,6 +86,21 @@ class GroupTableViewController: SingleGroupTableViewController {
         completion(posts: result!)
       }
     })
+  }
+  
+  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    if !retrievingPage && indexPath.row > (pageNumber - 1) * 10 + 10 {
+      retrievePosts( { (posts) in
+        self.retrievingPage = false
+        if posts != nil {
+          for post in posts! {
+            self.posts.append(post)
+            self.tableView.reloadData()
+            self.pageNumber++
+          }
+        }
+      })
+    }
   }
 
 }

@@ -53,8 +53,8 @@ enum Router: URLStringConvertible {
   static let baseURLString = "http://api.cillo.co"
   
   //GET
-  case Root // DONE
-  case GroupFeed(Int) // DONE
+  case Root(Int) // DONE
+  case GroupFeed(Int, Int) // DONE
   case GroupInfo(Int) // DONE
   case PostInfo(Int) // DONE
   case PostComments(Int) // DONE
@@ -90,14 +90,14 @@ enum Router: URLStringConvertible {
       authString = "?auth_token=\(auth)"
     }
     let vNum = "v1"
-    var pageString = "&page=1"
+    var pageString = "&page="
     let path: String = {
       switch self {
         // GET
-      case .Root:
-        return "/\(vNum)/me/feed\(authString)\(pageString)"
-      case .GroupFeed(let groupID):
-        return "/\(vNum)/boards/\(groupID)/feed\(authString)"
+      case .Root(let pgNum):
+        return "/\(vNum)/me/feed\(authString)\(pageString)\(pgNum)"
+      case .GroupFeed(let groupID, let pgNum):
+        return "/\(vNum)/boards/\(groupID)/feed\(authString)\(pageString)\(pgNum)"
       case .GroupInfo(let groupID):
         return "/\(vNum)/boards/\(groupID)/describe\(authString)"
       case .PostInfo(let postID):
@@ -270,15 +270,15 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
-  func getHomePage(completion:(error: NSError?, result: [Post]?) -> Void) {
-    request(.GET, Router.Root, parameters: nil, encoding: .URL)
+  func getHomePage(#pageNumber: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
+    request(.GET, Router.Root(pageNumber), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
             if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Root)
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Root(pageNumber))
               completion(error: cilloError, result: nil)
             } else {
               let posts = swiftyJSON["posts"].arrayValue
@@ -295,7 +295,7 @@ class DataManager: NSObject {
               completion(error: nil, result: returnArray)
             }
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .Root), result: nil)
+            completion(error: NSError.noJSONFromDataError(requestType: .Root(pageNumber)), result: nil)
           }
         }
     }
@@ -309,15 +309,15 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the group's feed page.
-  func getGroupFeed(groupID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
-    request(.GET, Router.GroupFeed(groupID), parameters: nil, encoding: .URL)
+  func getGroupFeed(#pageNumber: Int, groupID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
+    request(.GET, Router.GroupFeed(groupID, pageNumber), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
             if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupFeed(groupID))
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupFeed(groupID, pageNumber))
               completion(error: cilloError, result: nil)
             } else {
               let posts = swiftyJSON["posts"].arrayValue
@@ -334,7 +334,7 @@ class DataManager: NSObject {
               completion(error: nil, result: returnArray)
             }
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupFeed(groupID)), result: nil)
+            completion(error: NSError.noJSONFromDataError(requestType: .GroupFeed(groupID, pageNumber)), result: nil)
           }
         }
     }
@@ -755,13 +755,16 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
-  func createPostByGroupName(groupName: String, repostID: Int?, text: String, title: String?, completion:(error: NSError?, result: Post?) -> Void) {
+  func createPostByGroupName(groupName: String, repostID: Int?, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> Void) {
     var parameters: [String: AnyObject] = ["board_name": groupName, "data": text]
     if let repostID = repostID {
       parameters["repost_id"] = repostID
     }
     if let title = title {
       parameters["title"] = title
+    }
+    if let mediaID = mediaID {
+      parameters["media_id"] = mediaID
     }
     request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in

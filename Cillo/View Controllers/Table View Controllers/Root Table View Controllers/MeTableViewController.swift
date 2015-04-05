@@ -209,6 +209,20 @@ class MeTableViewController: SingleUserTableViewController {
     })
   }
   
+  func logout(completion: (success: Bool) -> Void) {
+    let activityIndicator = addActivityIndicatorToCenterWithText("Logging Out")
+    DataManager.sharedInstance.logout( { (error, success) in
+      activityIndicator.removeFromSuperview()
+      if error != nil {
+        println(error!)
+        error!.showAlert()
+        completion(success: false)
+      } else {
+        completion(success: success)
+      }
+    })
+  }
+  
   // MARK: IBActions
   
   /// Presents action sheet to take a photo or retrieve a photo from the device's library.
@@ -253,6 +267,24 @@ class MeTableViewController: SingleUserTableViewController {
       textField.placeholder = "New Name"
     })
     alert.addAction(okAction)
+    alert.addAction(cancelAction)
+    presentViewController(alert, animated: true, completion: nil)
+  }
+  
+  @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
+    let alert = UIAlertController(title: "Logout", message: "Are you sure you want to Logout?", preferredStyle: .Alert)
+    let yesAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) in
+      self.logout( { (success) in
+        if success {
+          NSUserDefaults.standardUserDefaults().setNilValueForKey(NSUserDefaults.Auth)
+          NSUserDefaults.standardUserDefaults().setNilValueForKey(NSUserDefaults.User)
+          self.tabBarController?.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToLogin, sender: sender)
+        }
+      })
+    })
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+    })
+    alert.addAction(yesAction)
     alert.addAction(cancelAction)
     presentViewController(alert, animated: true, completion: nil)
   }
