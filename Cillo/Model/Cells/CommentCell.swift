@@ -193,9 +193,26 @@ class CommentCell: UITableViewCell {
     
     // TODO: Handle voteValues changing colors of images
     if comment.voteValue == 1 {
-      
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
     } else if comment.voteValue == -1 {
-      
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
+    } else {
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
     }
     
     //indents cell

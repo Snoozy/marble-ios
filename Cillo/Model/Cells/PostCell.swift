@@ -171,12 +171,30 @@ class PostCell: UITableViewCell {
     
     // TODO: Handle voteValues changing colors of images
     if post.voteValue == 1 {
-  
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
     } else if post.voteValue == -1 {
-      
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
+    } else {
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
     }
     
     commentLabel.text = String.formatNumberAsString(number: post.numComments)
+    commentLabel.textColor = UIColor.whiteColor()
     repLabel.text = String.formatNumberAsString(number: post.rep)
     
     if let title = post.title {

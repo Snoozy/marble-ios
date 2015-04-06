@@ -32,9 +32,9 @@ Allow User to edit their bio.
 
 -- Handle searching and remodel MyGroupsTableViewController (Test).
 
-Handle upvote and downvote coloring based on voteValue.
+-- Handle upvote and downvote coloring based on voteValue (Test).
 
-Implement graphics that were not taken from the internet.
+Implement graphics that were not taken from the internet < halfway there.
 
 Handle auth token expiration.
 

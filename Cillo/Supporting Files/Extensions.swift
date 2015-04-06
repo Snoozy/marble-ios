@@ -114,7 +114,7 @@ extension UIColor {
   /// :returns: The blue color that is the theme for Cillo.
   class func cilloBlue() -> UIColor {
 //    return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)
-    return UIColor(red: 73/255.0, green: 141/255.0, blue: 244/255.0, alpha: 0.87)
+    return UIColor(red: 2/255.0, green: 81/255.0, blue: 138/255.0, alpha: 0.87)
   }
   
   /// Allows an alpha to be specified for the cillo blue color.
@@ -418,7 +418,7 @@ extension UITextView {
   /// Height of keyboard when a UITextView is selected.
   class var KeyboardHeight: CGFloat {
     get {
-      return 224
+      return 256
     }
   }
   

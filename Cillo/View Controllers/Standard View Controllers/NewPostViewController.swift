@@ -39,7 +39,11 @@ class NewPostViewController: UIViewController {
   /// Button used to create the new Post.
   @IBOutlet weak var createPostButton: UIBarButtonItem!
   
+  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  
   @IBOutlet weak var imageButton: UIButton!
+  
+  @IBOutlet weak var imageButtonHeightConstraint: NSLayoutConstraint!
   
   @IBOutlet weak var userImageView: UIImageView!
   
@@ -52,7 +56,7 @@ class NewPostViewController: UIViewController {
   /// **Note:** Height of postTextView must be calculated based on the frame size of the device.
   class var VertSpaceExcludingPostTextView: CGFloat {
     get {
-      return 213
+      return 230
     }
   }
   
@@ -73,17 +77,32 @@ class NewPostViewController: UIViewController {
   // MARK: UIViewController
   
   /// Resizes postTextView so the keyboard won't overlap any UI elements and sets the group name in groupTextView if a group was passed tot his UIViewController.
-  override func viewDidLayoutSubviews() {
+  override func viewDidLoad() {
     postTextViewHeightConstraint.constant = PostTextViewHeight
     if let group = group {
       groupTextField.text = group.name
     }
+    fakeNavigationBar.backgroundColor = UIColor.cilloBlue()
     retrieveUser( { (user) in
       if user != nil {
         self.userImageView.image = user!.profilePic
         self.usernameLabel.text = user!.username
       }
     })
+  }
+  
+  override func viewDidAppear(animated: Bool) {
+    if let image = image {
+      println("here")
+      var height = imageButton.frame.width * image.size.height / image.size.width
+      if height > UITextView.KeyboardHeight {
+        height = UITextView.KeyboardHeight
+      }
+      imageButtonHeightConstraint.constant = height
+      imageButton.setBackgroundImage(image, forState: .Disabled)
+      imageButton.setTitle("", forState: .Disabled)
+      imageButton.enabled = false
+    }
   }
   
   /// Handles passing of data when navigation between UIViewControllers occur.
@@ -98,6 +117,10 @@ class NewPostViewController: UIViewController {
         }
       }
     }
+  }
+  
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
   }
   
   // MARK: Helper Functions
@@ -117,6 +140,7 @@ class NewPostViewController: UIViewController {
     if let image = image {
       DataManager.sharedInstance.imageUpload(UIImagePNGRepresentation(image), completion: { (error, mediaID) in
         if error != nil {
+          activityIndicator.removeFromSuperview()
           println(error!)
           error!.showAlert()
           completion(post: nil)
@@ -205,10 +229,6 @@ extension NewPostViewController: UIImagePickerControllerDelegate {
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       self.image = image
-      imageButton.frame.size = image.size
-      imageButton.setBackgroundImage(image, forState: .Normal | .Highlighted | .Disabled)
-      imageButton.setTitle("", forState: .Normal | .Highlighted | .Disabled)
-      imageButton.enabled = true
     }
     self.dismissViewControllerAnimated(true, completion: nil)
   }
@@ -226,4 +246,10 @@ extension NewPostViewController: UINavigationControllerDelegate {
   
   // MARK: UINavigationControllerDelegate
   
+}
+
+extension NewPostViewController: UIBarPositioningDelegate {
+  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+    return .TopAttached
+  }
 }

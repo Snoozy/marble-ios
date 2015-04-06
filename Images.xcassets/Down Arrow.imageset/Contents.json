@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "Arrows-Down-Circular-icon-1.png"
+      "filename" : "downvote-arrow.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Arrows-Down-Circular-icon.png"
+      "filename" : "downvote-arrow-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Arrows-Down-Circular-icon-1-1.png"
+      "filename" : "downvote-arrow-1-1.png"
     }
   ],
   "info" : {

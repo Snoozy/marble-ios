@@ -141,7 +141,7 @@
                                 <action selector="triggerNewGroupSegueOnButton:" destination="vM0-Cn-CkN" id="8UB-VS-8v6"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="New Post" id="qSp-o4-igl">
+                        <barButtonItem key="rightBarButtonItem" image="Create Post" id="qSp-o4-igl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="vM0-Cn-CkN" id="mRp-9w-ZOW"/>
@@ -180,8 +180,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDr-BJ-3vn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                <color key="barTintColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.87" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -201,22 +202,25 @@
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
+                                <connections>
+                                    <outlet property="delegate" destination="nzy-ZD-gBV" id="SkX-6Q-DAK"/>
+                                </connections>
                             </navigationBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AwI-hj-8mi">
-                                <rect key="frame" x="16" y="51" width="40" height="40"/>
+                                <rect key="frame" x="16" y="71" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="gL3-fm-1SH"/>
                                     <constraint firstAttribute="width" constant="40" id="oY1-VT-k3V"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAT-iQ-egI">
-                                <rect key="frame" x="64" y="60" width="79" height="20.5"/>
+                                <rect key="frame" x="64" y="80" width="79" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="98A-za-pfE">
-                                <rect key="frame" x="16" y="136" width="568" height="120"/>
+                                <rect key="frame" x="16" y="156" width="568" height="120"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="2um-KD-jTn"/>
@@ -224,17 +228,26 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOs-i2-uFI">
-                                <rect key="frame" x="16" y="303" width="568" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOs-i2-uFI">
+                                <rect key="frame" x="16" y="320" width="568" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Eve-nc-cRS"/>
+                                    <constraint firstAttribute="height" constant="30" id="OzI-0f-iXi"/>
+                                </constraints>
                                 <state key="normal" title="Image">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="OzI-0f-iXi"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="imageButtonPressed:" destination="nzy-ZD-gBV" eventType="touchUpInside" id="aIu-GL-enL"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wuw-93-5Ae">
-                                <rect key="frame" x="16" y="94" width="568" height="40"/>
+                                <rect key="frame" x="16" y="114" width="568" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="fgB-xj-IhO"/>
@@ -243,7 +256,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Group" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sBN-iM-X7a">
-                                <rect key="frame" x="16" y="258" width="568" height="40"/>
+                                <rect key="frame" x="16" y="278" width="568" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="kWz-zo-DZP"/>
@@ -259,11 +272,14 @@
                             <constraint firstItem="HDr-BJ-3vn" firstAttribute="top" secondItem="Z9v-es-8CF" secondAttribute="topMargin" id="2qR-mb-ldD"/>
                             <constraint firstItem="98A-za-pfE" firstAttribute="trailing" secondItem="Z9v-es-8CF" secondAttribute="trailingMargin" id="321-qh-ouN"/>
                             <constraint firstItem="PAT-iQ-egI" firstAttribute="leading" secondItem="AwI-hj-8mi" secondAttribute="trailing" constant="8" id="52n-AP-txf"/>
+                            <constraint firstItem="HDr-BJ-3vn" firstAttribute="top" secondItem="vdH-jj-6Mo" secondAttribute="bottom" id="Avc-Yc-Lh3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HDr-BJ-3vn" secondAttribute="trailing" constant="-16" id="CIr-IP-9JD"/>
+                            <constraint firstItem="FOs-i2-uFI" firstAttribute="leading" secondItem="Z9v-es-8CF" secondAttribute="leadingMargin" id="GJR-ZF-fKG"/>
                             <constraint firstItem="sBN-iM-X7a" firstAttribute="leading" secondItem="Z9v-es-8CF" secondAttribute="leadingMargin" id="Ic4-TC-SZa"/>
                             <constraint firstItem="wuw-93-5Ae" firstAttribute="trailing" secondItem="Z9v-es-8CF" secondAttribute="trailingMargin" id="LRJ-I5-vba"/>
                             <constraint firstItem="98A-za-pfE" firstAttribute="leading" secondItem="Z9v-es-8CF" secondAttribute="leadingMargin" id="M8f-cx-Cup"/>
                             <constraint firstItem="AwI-hj-8mi" firstAttribute="top" secondItem="HDr-BJ-3vn" secondAttribute="bottom" constant="7" id="OP6-2D-aYU"/>
+                            <constraint firstItem="FOs-i2-uFI" firstAttribute="trailing" secondItem="Z9v-es-8CF" secondAttribute="trailingMargin" id="OyO-Zc-wiY"/>
                             <constraint firstItem="sBN-iM-X7a" firstAttribute="top" secondItem="98A-za-pfE" secondAttribute="bottom" constant="2" id="QTd-QE-zxz"/>
                             <constraint firstItem="wuw-93-5Ae" firstAttribute="top" secondItem="AwI-hj-8mi" secondAttribute="bottom" constant="3" id="RSo-YJ-BRE"/>
                             <constraint firstItem="wuw-93-5Ae" firstAttribute="leading" secondItem="Z9v-es-8CF" secondAttribute="leadingMargin" id="RoM-nP-uif"/>
@@ -271,15 +287,23 @@
                             <constraint firstItem="98A-za-pfE" firstAttribute="top" secondItem="wuw-93-5Ae" secondAttribute="bottom" constant="2" id="XtX-Tr-s5o"/>
                             <constraint firstItem="AwI-hj-8mi" firstAttribute="leading" secondItem="Z9v-es-8CF" secondAttribute="leadingMargin" id="m6y-B5-wul"/>
                             <constraint firstItem="PAT-iQ-egI" firstAttribute="top" secondItem="HDr-BJ-3vn" secondAttribute="bottom" constant="16" id="tZf-Da-Vgf"/>
+                            <constraint firstItem="FOs-i2-uFI" firstAttribute="top" secondItem="sBN-iM-X7a" secondAttribute="bottom" constant="2" id="trK-XU-kRV"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2qR-mb-ldD"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="createPostButton" destination="ggF-vF-MIf" id="cZw-VC-9uH"/>
+                        <outlet property="fakeNavigationBar" destination="HDr-BJ-3vn" id="WAk-Pg-ghj"/>
                         <outlet property="groupTextField" destination="sBN-iM-X7a" id="LpX-fA-xxg"/>
                         <outlet property="imageButton" destination="FOs-i2-uFI" id="fBZ-6T-zWs"/>
+                        <outlet property="imageButtonHeightConstraint" destination="Eve-nc-cRS" id="ZFN-7z-LxA"/>
                         <outlet property="postTextView" destination="98A-za-pfE" id="2X8-fi-8xK"/>
                         <outlet property="postTextViewHeightConstraint" destination="2um-KD-jTn" id="mYO-xy-3BU"/>
                         <outlet property="titleTextField" destination="wuw-93-5Ae" id="gOb-hf-1mI"/>
@@ -290,7 +314,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DXc-EF-aaJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="l38-JC-lYu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1142" y="420"/>
+            <point key="canvasLocation" x="-1110" y="435"/>
         </scene>
         <!--Home Table-->
         <scene sceneID="YjA-Hm-HTL">
@@ -838,7 +862,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Front Page" id="nEu-ir-OVD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="n9l-RC-b8c"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Post" id="UaN-bN-QlD" userLabel="New Post">
+                        <barButtonItem key="rightBarButtonItem" image="Create Post" id="UaN-bN-QlD" userLabel="New Post">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="uF0-C9-9Mx" id="JiI-PC-we2"/>
@@ -2375,7 +2399,7 @@
                                 <action selector="logoutButtonPressed:" destination="RHX-4q-5ga" id="7Cg-ei-JX5"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="New Post" id="cnz-e6-3Kd">
+                        <barButtonItem key="rightBarButtonItem" image="Create Post" id="cnz-e6-3Kd">
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="RHX-4q-5ga" id="xrS-yI-Ivs"/>
                             </connections>
@@ -2395,7 +2419,7 @@
         <scene sceneID="mPE-bG-BC9">
             <objects>
                 <navigationController title="Groups" automaticallyAdjustsScrollViewInsets="NO" id="PgO-Td-VjA" userLabel="Groups Navigation" customClass="FormattedNavigationViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Groups" image="Groups" id="zec-OO-sQR"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="Discover" id="zec-OO-sQR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IqT-4U-DMb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -3037,7 +3061,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Group" id="dHq-5S-MqE">
                         <barButtonItem key="backBarButtonItem" title="Back" id="sW0-Vx-Ul6"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Post" id="rH6-2Y-P5z">
+                        <barButtonItem key="rightBarButtonItem" image="Create Post" id="rH6-2Y-P5z">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="99g-h6-cT9" id="o6R-sD-dek"/>
@@ -3805,7 +3829,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="User" id="II6-hl-9bL">
                         <barButtonItem key="backBarButtonItem" title="Back" id="ujK-aI-hak"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Post" id="S1H-xt-ONX">
+                        <barButtonItem key="rightBarButtonItem" image="Create Post" id="S1H-xt-ONX">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="KG3-Ho-FcM" id="VEz-x2-Rxg"/>
@@ -3944,7 +3968,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Groups" id="hw2-zO-lMK">
                         <barButtonItem key="backBarButtonItem" title="Back" id="SiI-bR-rYP"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Post" id="fdW-yt-ET3">
+                        <barButtonItem key="rightBarButtonItem" image="Create Post" id="fdW-yt-ET3">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="csT-b3-QYy" id="Pzy-La-Vi2"/>
@@ -4223,20 +4247,22 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Comment" width="32" height="32"/>
-        <image name="Down Arrow" width="32" height="32"/>
+        <image name="Comment" width="28" height="26"/>
+        <image name="Create Post" width="31" height="30"/>
+        <image name="Discover" width="30" height="28"/>
+        <image name="Down Arrow" width="14" height="13"/>
         <image name="Groups" width="30" height="30"/>
-        <image name="Home" width="30" height="30"/>
-        <image name="Me" width="30" height="30"/>
+        <image name="Home" width="32" height="28"/>
+        <image name="Me" width="29" height="29"/>
         <image name="Reply" width="32" height="32"/>
-        <image name="Repost" width="32" height="32"/>
-        <image name="Up Arrow" width="32" height="32"/>
+        <image name="Repost" width="34" height="25"/>
+        <image name="Up Arrow" width="15" height="15"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="txn-K4-4lh"/>
-        <segue reference="9nY-Wc-CQM"/>
-        <segue reference="DUk-kf-nGq"/>
-        <segue reference="Ndf-JY-QqC"/>
-        <segue reference="Shy-YE-kuX"/>
+        <segue reference="Jl6-tW-uib"/>
+        <segue reference="X2k-fD-Ni0"/>
+        <segue reference="tpB-Dw-nh7"/>
+        <segue reference="rwG-J9-MDJ"/>
+        <segue reference="EJ5-yy-zZf"/>
     </inferredMetricsTieBreakers>
 </document>
