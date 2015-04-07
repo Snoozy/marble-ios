@@ -129,9 +129,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     }
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
-    if post.image != nil {
-      cell.addImage(post.image!)
-    }
+    
     cell.postTextView.delegate = self
     
     return cell
@@ -143,9 +141,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     let post = posts[indexPath.row]
     var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
-    if post.image != nil {
-      height += PostCell.ImageMargins * 2 + (post.image!.size.height / post.image!.size.width) * PrototypeTextViewWidth
-    }
+    height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 20)
     if indexPath.row != posts.count - 1 {
       height += MultiplePostsTableViewController.DividerHeight
     }
@@ -234,6 +230,14 @@ class MultiplePostsTableViewController: CustomTableViewController {
     let post = posts[sender.tag]
     if post.seeFull != nil {
       post.seeFull! = !post.seeFull!
+    }
+    tableView.reloadData()
+  }
+  
+  @IBAction func showImagesPressed(sender: UIButton) {
+    let post = posts[sender.tag]
+    if !post.showImages {
+      post.showImages = !post.showImages
     }
     tableView.reloadData()
   }

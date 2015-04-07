@@ -12,11 +12,9 @@ Tap Tab to top is still acting really weird (Figure out new implementation).
 
 **Feature TODOs:**
 
--- Image Posts (Testing).
+Find way to do multiple image Posts.
 
 Rename Groups to Boards.
-
--- Handle original poster tag in CommentCells (Test).
 
 -- Implement a UI feature that shows that a User is the logged in User (Test).
 
@@ -28,11 +26,7 @@ Allow User to edit their bio.
 
 -- Retrieve Posts from server 20 at a time. (Test)
 
--- Make creating a new Post accessible from as many views as possible. (Test)
-
 -- Handle searching and remodel MyGroupsTableViewController (Test).
-
--- Handle upvote and downvote coloring based on voteValue (Test).
 
 Implement graphics that were not taken from the internet < halfway there.
 
@@ -45,6 +39,8 @@ Add a popup tableview when typing in a textfield involving Group names.
 -- New Post UI (Test)
 
 New Repost UI < Cell and make storyboard... also considering how to display post without it being awkward on iOS
+
+Present New Group modally
 
 **Other:**
 

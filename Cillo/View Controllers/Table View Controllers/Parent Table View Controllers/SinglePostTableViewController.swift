@@ -86,6 +86,7 @@ class SinglePostTableViewController: CustomTableViewController {
     if indexPath.section == 0 { // Make a Post Cell for only first section
       let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
       
+      post.showImages = true
       cell.makeCellFromPost(post, withButtonTag: -1)
       
       return cell
@@ -93,6 +94,8 @@ class SinglePostTableViewController: CustomTableViewController {
       let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
       
       let comment = commentTree[indexPath.row]
+      
+      comment.post = post
       
       cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row)
       
@@ -118,8 +121,9 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Sets height of cell to appropriate value.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 { // PostCell
-      let heightWithTitle = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: nil) + PostCell.AdditionalVertSpaceNeeded
-      return post.title != nil ? heightWithTitle : heightWithTitle - PostCell.TitleHeight
+      var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: nil) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
+      height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 0)
+      return post.title != nil ? height : height - PostCell.TitleHeight
     }
     // is a CommentCell
     let height = commentTree[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: selectedPath == indexPath) + CommentCell.AdditionalVertSpaceNeeded

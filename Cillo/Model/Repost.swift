@@ -46,10 +46,10 @@ class Repost: Post {
   /// * "post_id" - Int
   /// * "repost" - Bool
   /// * "repost_user" - Dictionary
-  /// * "repost_group" - Dictionary
+  /// * "repost_board" - Dictionary
   /// * "repost_id" - Int
   /// * "content" - String
-  /// * "group" - Dictionary
+  /// * "board" - Dictionary
   /// * "user" - Dictionary
   /// * "time" - Int64
   /// * "title" - String?
@@ -62,8 +62,8 @@ class Repost: Post {
     super.init(json: json)
     originalUser = User(json: json["user"])
     user = User(json: json["repost_user"])
-    originalGroup = Group(json: json["group"])
-    group = Group(json: json["repost_group"])
+    originalGroup = Group(json: json["board"])
+    group = Group(json: json["repost_board"])
     originalPostID = json["repost_id"].intValue
   }
   

@@ -20,6 +20,8 @@ class NewPostViewController: UIViewController {
   
   var image: UIImage?
   
+  var scrollView: UIScrollView?
+  
   // MARK: IBOutlets
   
   /// Allows logged in User to enter the group name that he/she wants to post the new Post to.
@@ -82,7 +84,9 @@ class NewPostViewController: UIViewController {
     if let group = group {
       groupTextField.text = group.name
     }
-    fakeNavigationBar.backgroundColor = UIColor.cilloBlue()
+    imageButton.tintColor = UIColor.whiteColor()
+    imageButton.backgroundColor = UIColor.cilloBlue()
+    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
     retrieveUser( { (user) in
       if user != nil {
         self.userImageView.image = user!.profilePic
@@ -93,15 +97,20 @@ class NewPostViewController: UIViewController {
   
   override func viewDidAppear(animated: Bool) {
     if let image = image {
+      scrollView?.removeFromSuperview()
       println("here")
       var height = imageButton.frame.width * image.size.height / image.size.width
-      if height > UITextView.KeyboardHeight {
-        height = UITextView.KeyboardHeight
-      }
-      imageButtonHeightConstraint.constant = height
-      imageButton.setBackgroundImage(image, forState: .Disabled)
-      imageButton.setTitle("", forState: .Disabled)
-      imageButton.enabled = false
+      scrollView = UIScrollView(frame: CGRect(x: imageButton.frame.minX, y: imageButton.frame.minY, width: imageButton.frame.width, height: UITextView.KeyboardHeight))
+      view.addSubview(scrollView!)
+      scrollView!.contentSize = CGSize(width: imageButton.frame.size.width, height: height)
+      let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: scrollView!.contentSize.width, height: scrollView!.contentSize.height))
+      scrollView!.addSubview(imageView)
+      imageView.image = image
+      imageView.contentMode = .ScaleAspectFit
+      view.bringSubviewToFront(imageButton)
+      imageButton.setTitle("Choose New Image", forState: .Normal)
+      imageButton.setTitle("Choose New Image", forState: .Highlighted)
+      imageButton.alpha = 0.5
     }
   }
   

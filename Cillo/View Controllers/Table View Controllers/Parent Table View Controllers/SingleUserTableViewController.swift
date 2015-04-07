@@ -248,14 +248,15 @@ class SingleUserTableViewController: CustomTableViewController {
       } else {
         height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + PostCell.AdditionalVertSpaceNeeded
       }
+      height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 20)
       if indexPath.row != posts.count - 1 {
-        height += MultiplePostsTableViewController.DividerHeight
+        height += SingleUserTableViewController.PostDividerHeight
       }
       return post.title != nil ? height : height - PostCell.TitleHeight
     case .Comments:
       var height = comments[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
       if indexPath.row != comments.count - 1 {
-        height += MultiplePostsTableViewController.DividerHeight
+        height += SingleUserTableViewController.CommentDividerHeight
       }
       return height
     }
@@ -360,6 +361,14 @@ class SingleUserTableViewController: CustomTableViewController {
     var post = posts[sender.tag]
     if post.seeFull != nil {
       post.seeFull! = !post.seeFull!
+    }
+    tableView.reloadData()
+  }
+  
+  @IBAction func showImagesPressed(sender: UIButton) {
+    let post = posts[sender.tag]
+    if !post.showImages {
+      post.showImages = !post.showImages
     }
     tableView.reloadData()
   }

@@ -57,7 +57,7 @@ class Group: NSObject {
   /// Should contain key value pairs for:
   /// * "name" - String
   /// * "followers" - Int
-  /// * "group_id" - Int
+  /// * "board_id" - Int
   /// * "creator_id" - Int
   /// * "description" - String?
   /// * "following" - Bool
@@ -67,7 +67,7 @@ class Group: NSObject {
   init(json: JSON) {
     name = json["name"].stringValue
     numFollowers = json["followers"].intValue
-    groupID = json["group_id"].intValue
+    groupID = json["board_id"].intValue
     creatorID = json["creator_id"].intValue
     if json["description"].string != nil {
       descrip = json["description"].stringValue

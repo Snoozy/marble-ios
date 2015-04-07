@@ -20,7 +20,7 @@ class Comment: NSObject {
   let user: User = User()
   
   /// Post that this Comment replied to.
-  let post: Post = Post()
+  var post: Post = Post()
   
   /// Comments that replied to this Comment.
   ///
@@ -53,7 +53,9 @@ class Comment: NSObject {
   var lengthToPost: Int?
   
   // TODO: Document
-  let isOP: Bool = false
+  var isOP: Bool {
+    return post.user.userID == user.userID
+  }
   
   /// Used to print properties in println statements.
   override var description: String {
@@ -87,7 +89,7 @@ class Comment: NSObject {
   
   // MARK: Initializers
   
-  /// Creates Post based on a swiftyJSON retrieved from a call to the Cillo servers.
+  /// Creates Comment based on a swiftyJSON retrieved from a call to the Cillo servers.
   ///
   /// Should contain key value pairs for:
   /// * "comment_id" - Int
@@ -104,6 +106,7 @@ class Comment: NSObject {
   /// 
   /// Nil if not building a Comment tree with this Comment.
   init(json: JSON, lengthToPost: Int?) {
+    println(json)
     commentID = json["comment_id"].intValue
     post = Post(json: json["post"])
     user = User(json: json["user"])
@@ -120,9 +123,6 @@ class Comment: NSObject {
         let item = Comment(json: child, lengthToPost: self.lengthToPost! + 1)
         self.children!.append(item)
       }
-    }
-    if post.user.userID == user.userID {
-      isOP = true
     }
   }
   

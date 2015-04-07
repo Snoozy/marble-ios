@@ -496,8 +496,8 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comment tree for the post.
-  func getPostCommentsByID(postID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
-    request(.GET, Router.PostComments(postID), parameters: nil, encoding: .URL)
+  func getPostCommentsByID(post: Post, completion:(error: NSError?, result: [Comment]?) -> Void) {
+    request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -505,13 +505,14 @@ class DataManager: NSObject {
           if let swiftyJSON = JSON(rawValue: data!) {
             println(swiftyJSON)
             if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(postID))
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(post.postID))
               completion(error: cilloError, result: nil)
             } else {
               let comments = swiftyJSON["comments"].arrayValue
               var rootComments: [Comment] = []
               for comment in comments {
                 let item = Comment(json: comment, lengthToPost: 1)
+                item.post = post
                 rootComments.append(item)
               }
               var returnedTree: [Comment] = []
@@ -522,7 +523,7 @@ class DataManager: NSObject {
               completion(error: nil, result: returnedTree)
             }
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostComments(postID)), result: nil)
+            completion(error: NSError.noJSONFromDataError(requestType: .PostComments(post.postID)), result: nil)
           }
         }
     }
@@ -707,13 +708,16 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
-  func createPostByGroupID(repostID: Int?, groupID: Int, text: String, title: String?, completion:(error: NSError?, result: Post?) -> Void) {
+  func createPostByGroupID(repostID: Int?, groupID: Int, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> Void) {
     var parameters: [String: AnyObject] = ["board_id": groupID, "data": text]
     if let repostID = repostID {
       parameters["repost_id"] = repostID
     }
     if let title = title {
       parameters["title"] = title
+    }
+    if let mediaID = mediaID {
+      parameters["media_id"] = mediaID
     }
     request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
@@ -764,7 +768,7 @@ class DataManager: NSObject {
       parameters["title"] = title
     }
     if let mediaID = mediaID {
-      parameters["media_id"] = mediaID
+      parameters["media"] = mediaID
     }
     request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
@@ -809,7 +813,7 @@ class DataManager: NSObject {
       parameters["description"] = description
     }
     if let mediaID = mediaID {
-      parameters["media_id"] = mediaID
+      parameters["media"] = mediaID
     }
     request(.POST, Router.GroupCreate, parameters: parameters, encoding: .URL)
       .responseJSON { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in

@@ -134,6 +134,7 @@ class SingleGroupTableViewController: CustomTableViewController {
     }
     let post = posts[indexPath.row]
     var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
+    height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 20)
     if indexPath.row != posts.count - 1 {
       height += SingleGroupTableViewController.DividerHeight
     }
@@ -264,6 +265,14 @@ class SingleGroupTableViewController: CustomTableViewController {
     let post = posts[sender.tag]
     if post.seeFull != nil {
       post.seeFull! = !post.seeFull!
+    }
+    tableView.reloadData()
+  }
+  
+  @IBAction func showImagesPressed(sender: UIButton) {
+    let post = posts[sender.tag]
+    if !post.showImages {
+      post.showImages = !post.showImages
     }
     tableView.reloadData()
   }

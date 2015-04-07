@@ -57,7 +57,7 @@ class User: NSObject {
   /// * "reputation" - Int
   /// * "photo" - String
   /// * "bio" - String
-  /// * "groups_count" - Int
+  /// * "board_count" - Int
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
@@ -76,7 +76,7 @@ class User: NSObject {
       }
     }
     bio = json["bio"].stringValue
-    numGroups = json["group_count"].intValue
+    numGroups = json["board_count"].intValue
     isSelf = json["self"].boolValue
   }
   

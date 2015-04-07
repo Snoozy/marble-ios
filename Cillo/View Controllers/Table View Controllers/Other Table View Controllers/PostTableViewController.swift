@@ -186,7 +186,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveCommentTree(completion: (commentTree: [Comment]?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Comments")
-    DataManager.sharedInstance.getPostCommentsByID(post.postID, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.getPostCommentsByID(post, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)

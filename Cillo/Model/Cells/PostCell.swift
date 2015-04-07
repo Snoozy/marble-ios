@@ -76,8 +76,9 @@ class PostCell: UITableViewCell {
   /// Set constant to value of separatorHeight in the makeCellFromPost(_:_:_:) function.
   @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
   
-  // TODO: Document
-  @IBOutlet weak var titleToTextViewSpacingConstraint: NSLayoutConstraint!
+  @IBOutlet weak var imagesButton: UIButton!
+  
+  @IBOutlet weak var imagesButtonHeightConstraint: NSLayoutConstraint!
 
   // MARK: Constants
   
@@ -86,7 +87,8 @@ class PostCell: UITableViewCell {
   /// **Note:** Height of postTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
-      return 139
+      return 145
+  
     }
   }
   
@@ -128,10 +130,13 @@ class PostCell: UITableViewCell {
   /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
-    nameButton.setTitle(post.user.name, forState: .Normal)
+    
+    let me = post.user.isSelf ? " (me)" : ""
+    let nameTitle = "\(post.user.name)\(me)"
+    nameButton.setTitle(nameTitle, forState: .Normal)
     groupButton.setTitle(post.group.name, forState: .Normal)
     pictureButton.setBackgroundImage(post.user.profilePic, forState: .Normal)
-    nameButton.setTitle(post.user.name, forState: .Highlighted)
+    nameButton.setTitle(nameTitle, forState: .Highlighted)
     groupButton.setTitle(post.group.name, forState: .Highlighted)
     pictureButton.setBackgroundImage(post.user.profilePic, forState: .Highlighted)
     timeLabel.text = post.time
@@ -164,9 +169,14 @@ class PostCell: UITableViewCell {
     upvoteButton.tag = buttonTag
     downvoteButton.tag = buttonTag
     repostButton.tag = buttonTag
+    imagesButton.tag = buttonTag
     
     if post.user.isSelf {
-      nameButton.setTitleColor(UIColor.blueColor(), forState: .Normal | .Highlighted)
+      nameButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
+      nameButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+    } else {
+      nameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+      nameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
     }
     
     // TODO: Handle voteValues changing colors of images
@@ -188,9 +198,9 @@ class PostCell: UITableViewCell {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
     }
     
     commentLabel.text = String.formatNumberAsString(number: post.numComments)
@@ -218,19 +228,20 @@ class PostCell: UITableViewCell {
       separatorView.backgroundColor = UIColor.cilloBlue()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
+    
+    imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width, andButtonHeight: 20)
+    if imagesButtonHeightConstraint.constant == 20 {
+      imagesButton.setTitle("Show Images", forState: .Normal)
+      imagesButton.setTitle("Show Images", forState: .Highlighted)
+      imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
+      imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+    } else if post.images != nil && post.showImages {
+      imagesButton.setBackgroundImage(post.images![0], forState: .Disabled)
+      imagesButton.setTitle("", forState: .Disabled)
+      imagesButton.contentMode = .ScaleAspectFit
+      imagesButton.enabled = false
+    }
   }
   
-  // TODO: Document
-  func addImage(image: UIImage) {
-    let height = image.size.height
-    let width = image.size.width
-    let ratio = height/width
-    let imageView: UIImageView = UIImageView(frame: CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.maxY + PostCell.ImageMargins, width: titleLabel.frame.width, height: titleLabel.frame.width * ratio))
-    imageView.contentMode = .ScaleAspectFit
-    imageView.image = image
-    titleToTextViewSpacingConstraint.constant += imageView.frame.height + PostCell.ImageMargins * 2
-    contentView.addSubview(imageView)
-    
-  }
   
 }

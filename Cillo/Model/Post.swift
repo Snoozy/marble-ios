@@ -58,7 +58,9 @@ class Post: NSObject {
   var seeFull: Bool?
   
   // TODO: Document
-  var image: UIImage?
+  var images: [UIImage]?
+  
+  var showImages: Bool = false
   
   /// Used to print properties in println statements.
   override var description: String {
@@ -76,7 +78,7 @@ class Post: NSObject {
     } else if seeFull != nil && !seeFull! {
       expanded = "Not Expanded Yet"
     }
-    return "Post {\n  Post ID: \(postID)\n  Title: \(title != nil ? title! : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n  Image: \(image != nil ? imgstr : none)\n}\n"
+    return "Post {\n  Post ID: \(postID)\n  Title: \(title != nil ? title! : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n  Image: \(images != nil ? imgstr : none)\n}\n"
   }
   
   // MARK: Initializers
@@ -87,7 +89,7 @@ class Post: NSObject {
   /// * "post_id" - Int
   /// * "repost" - Bool
   /// * "content" - String
-  /// * "group" - Dictionary
+  /// * "board" - Dictionary
   /// * "user" - Dictionary
   /// * "time" - Int64
   /// * "title" - String?
@@ -98,9 +100,10 @@ class Post: NSObject {
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
+    println(json)
     postID = json["post_id"].intValue
     text = json["content"].stringValue
-    group = Group(json: json["group"])
+    group = Group(json: json["board"])
     user = User(json: json["user"])
     let time = json["time"].int64Value
     self.time = NSDate.convertToTimeString(time: time)
@@ -110,12 +113,16 @@ class Post: NSObject {
     rep = json["votes"].intValue
     numComments = json["comment_count"].intValue
     voteValue = json["vote_value"].intValue
-    if json["media_url"] != nil {
-      print(json["media_url"])
-      if let url = NSURL(string: json["media_url"].stringValue) {
-        if let imageData = NSData(contentsOfURL: url) {
-          if let image = UIImage(data: imageData) {
-            self.image = image
+    if json["media"] != nil {
+      for media in json["media"].arrayValue {
+        if let url = NSURL(string: media.stringValue) {
+          if let imageData = NSData(contentsOfURL: url) {
+            if let image = UIImage(data: imageData) {
+              if images == nil {
+                images = []
+              }
+              self.images!.append(image)
+            }
           }
         }
       }
@@ -154,9 +161,26 @@ class Post: NSObject {
     }
   }
   
+  func heightOfImagesInPostWithWidth(width: CGFloat, andButtonHeight height: CGFloat) -> CGFloat {
+    if images != nil {
+      if showImages {
+        var height: CGFloat = 0.0
+        for image in images! {
+          height += width * image.size.height / image.size.width
+          break // TODO: Find way to make multiple images
+        }
+        return height
+      } else {
+        return 20
+      }
+    } else {
+      return 0
+    }
+  }
+  
   // TODO: Document
   func isImagePost() -> Bool {
-    return image != nil
+    return images != nil
   }
   
 }
