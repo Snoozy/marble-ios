@@ -74,26 +74,57 @@ class MultiplePostsTableViewController: CustomTableViewController {
     if segue.identifier == SegueIdentifierThisToPost {
       var destination = segue.destinationViewController as PostTableViewController
       if let sender = sender as? UIButton {
-        destination.post = posts[sender.tag]
+        var post: Post
+        if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
+          if let repost = posts[sender.tag] as? Repost {
+            post = repost.originalPost
+          } else {
+            post = posts[sender.tag]
+          }
+        } else {
+          post = posts[sender.tag]
+        }
+        destination.post = post
+        if let post = post as? Repost {
+          destination.mainShowImages = post.originalPost.showImages
+        } else {
+          destination.mainShowImages = post.showImages
+        }
       } else if let sender = sender as? NSIndexPath {
         destination.post = posts[sender.row]
+        if let post = posts[sender.row] as? Repost {
+          destination.mainShowImages = post.originalPost.showImages
+        } else {
+          destination.mainShowImages = posts[sender.row].showImages
+        }
       }
     } else if segue.identifier == SegueIdentifierThisToGroup {
       var destination = segue.destinationViewController as GroupTableViewController
       if let sender = sender as? UIButton {
         let post = posts[sender.tag]
-        if sender.titleLabel?.text == post.group.name {
-          destination.group = post.group
-        } else if let post = post as? Repost {
-          if sender.titleLabel?.text == post.originalGroup.name {
-            destination.group = post.originalGroup
+        if let post = post as? Repost {
+          if sender.titleForState(.Normal) == post.group.name {
+            destination.group = post.group
+          } else {
+            destination.group = post.originalPost.group
           }
+        } else {
+          destination.group = post.group
         }
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController
       if let sender = sender as? UIButton {
-        destination.user = posts[sender.tag].user
+        let post = posts[sender.tag]
+        if let post = post as? Repost {
+          if sender.backgroundImageForState(.Normal) == post.user.profilePic || sender.titleForState(.Normal) == post.user.name {
+            destination.user = post.user
+          } else {
+            destination.user = post.originalPost.user
+          }
+        } else {
+          destination.user = post.user
+        }
       }
     } else if segue.identifier == SegueIdentifierThisToNewPost {
       // do not transmit any data
@@ -131,6 +162,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
     
     cell.postTextView.delegate = self
+    (cell as? RepostCell)?.originalPostTextView.delegate = self
     
     return cell
   }
@@ -140,12 +172,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// Sets height of cell to appropriate value depending on length of post and whether post is expanded.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     let post = posts[indexPath.row]
-    var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
-    height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 20)
-    if indexPath.row != posts.count - 1 {
-      height += MultiplePostsTableViewController.DividerHeight
-    }
-    return post.title != nil ? height : height - PostCell.TitleHeight
+    let dividerHeight = indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0
+    return PostCell.heightOfPostCellForPost(post, withElementWidth: PrototypeTextViewWidth, maxContractedHeight: MaxContractedHeight, andDividerHeight: dividerHeight)
   }
   
   /// Sends view to PostTableViewController if PostCell is selected.
@@ -228,8 +256,14 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a seeFullButton in a PostCell.
   @IBAction func seeFullPressed(sender: UIButton) {
     let post = posts[sender.tag]
-    if post.seeFull != nil {
-      post.seeFull! = !post.seeFull!
+    if let post = post as? Repost {
+      if post.originalPost.seeFull != nil {
+        post.seeFull! = !post.seeFull!
+      }
+    } else {
+      if post.seeFull != nil {
+        post.seeFull! = !post.seeFull!
+      }
     }
     tableView.reloadData()
   }
@@ -337,6 +371,12 @@ class MultiplePostsTableViewController: CustomTableViewController {
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
+    }
+  }
+  
+  @IBAction func goToOriginalPost(sender: UIButton) {
+    if let post = posts[sender.tag] as? Repost {
+      performSegueWithIdentifier(SegueIdentifierThisToPost, sender: sender)
     }
   }
   

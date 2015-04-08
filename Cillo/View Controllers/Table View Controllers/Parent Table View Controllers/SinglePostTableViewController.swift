@@ -30,6 +30,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Nil if no CommentCell is selected.
   var selectedPath: NSIndexPath?
   
+  var mainShowImages: Bool = false
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
@@ -56,16 +58,42 @@ class SinglePostTableViewController: CustomTableViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToGroup {
       var destination = segue.destinationViewController as GroupTableViewController
-      destination.group = post.group
+      if let post = post as? Repost {
+        if let sender = sender as? UIButton {
+          if sender.titleForState(.Normal) == post.group.name {
+            destination.group = post.group
+          } else {
+            destination.group = post.originalPost.group
+          }
+        }
+      } else {
+        destination.group = post.group
+      }
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController
       if let sender = sender as? UIButton {
         if sender.tag == -1 {
-          destination.user = post.user
+          if let post = post as? Repost {
+            if sender.backgroundImageForState(.Normal) == post.user.profilePic || sender.titleForState(.Normal) == post.user.name {
+              destination.user = post.user
+            } else {
+              destination.user = post.originalPost.user
+            }
+          } else {
+            destination.user = post.user
+          }
         } else {
           destination.user = commentTree[sender.tag].user
         }
       }
+    }
+  }
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    post.showImages = mainShowImages
+    if let post = post as? Repost {
+      post.originalPost.showImages = mainShowImages
     }
   }
   
@@ -84,11 +112,17 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Creates PostCell if row number is zero and CommentCell based on row number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 { // Make a Post Cell for only first section
-      let cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
-      
+      var cell: PostCell
+      if let post = post as? Repost {
+        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+        post.originalPost.showImages = true
+      } else {
+        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+      }
       post.showImages = true
       cell.makeCellFromPost(post, withButtonTag: -1)
-      
+      cell.postTextView.delegate = self
+      (cell as? RepostCell)?.originalPostTextView.delegate = self
       return cell
     } else { // Make a CommentCell for all rows past the first section
       let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
@@ -121,13 +155,10 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Sets height of cell to appropriate value.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 { // PostCell
-      var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: nil) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
-      height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 0)
-      return post.title != nil ? height : height - PostCell.TitleHeight
+      return PostCell.heightOfPostCellForPost(post, withElementWidth: PrototypeTextViewWidth, maxContractedHeight: nil, andDividerHeight: 0)
     }
     // is a CommentCell
-    let height = commentTree[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: selectedPath == indexPath) + CommentCell.AdditionalVertSpaceNeeded
-    return selectedPath == indexPath ? height : height - CommentCell.ButtonHeight
+    return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: PrototypeTextViewWidth, selectedState: selectedPath == indexPath, andDividerHeight: 0)
   }
   
   /// Returns the indentationLevel for the indexPath.
@@ -372,6 +403,14 @@ class SinglePostTableViewController: CustomTableViewController {
           self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
         }
       })
+    }
+  }
+  
+  @IBAction func goToOriginalPost(sender: UIButton) {
+    if let post = post as? Repost {
+      let postViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(PostTableViewController.StoryboardIdentifier) as PostTableViewController
+      postViewController.post = post.originalPost
+      navigationController?.pushViewController(postViewController, animated: true)
     }
   }
   

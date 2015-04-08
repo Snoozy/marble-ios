@@ -285,7 +285,7 @@ class DataManager: NSObject {
               var returnArray: [Post] = []
               for post in posts {
                 var item: Post
-                if post["repost"].boolValue {
+                if post["repost"] != nil {
                   item = Repost(json: post)
                 } else {
                   item = Post(json: post)
@@ -324,7 +324,7 @@ class DataManager: NSObject {
               var returnArray: [Post] = []
               for post in posts {
                 var item: Post
-                if post["repost"].boolValue {
+                if post["repost"] != nil {
                   item = Repost(json: post)
                 } else {
                   item = Post(json: post)
@@ -474,7 +474,7 @@ class DataManager: NSObject {
               completion(error: cilloError, result: nil)
             } else {
               var post: Post
-              if swiftyJSON["repost"].boolValue {
+              if swiftyJSON["repost"] != nil {
                 post = Repost(json: swiftyJSON)
               } else {
                 post = Post(json: swiftyJSON) // pull out the array from the JSON
@@ -586,7 +586,7 @@ class DataManager: NSObject {
               var returnArray: [Post] = []
               for post in posts {
                 var item: Post
-                if post["repost"].boolValue {
+                if post["repost"] != nil {
                   item = Repost(json: post)
                 } else {
                   item = Post(json: post)  // convert element to our model object

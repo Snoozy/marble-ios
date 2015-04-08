@@ -11,8 +11,8 @@ import UIKit
 /// Defines all properties of a Repost on Cillo.
 class Repost: Post {
   
-  /// User that originally posted this Post.
-  let originalUser: User = User()
+  /// The original Post
+  let originalPost: Post = Post()
   
   /// Group name of Group that this Post was originally posted to.
   let originalGroup: Group = Group()
@@ -35,7 +35,7 @@ class Repost: Post {
     } else if seeFull != nil && !seeFull! {
       expanded = "Not Expanded Yet"
     }
-    return "Repost {\n  Post ID: \(postID)\n  Title: \(title != nil ? title : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Original User: \(originalUser)\n  Original Group: \(originalGroup)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n}\n"
+    return "Repost {\n  Post ID: \(postID)\n  Title: \(title != nil ? title : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Original Post: \(originalPost)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n}\n"
   }
   
   /// Creates Repost based on a swiftyJSON retrieved from a call to the Cillo servers.
@@ -44,10 +44,7 @@ class Repost: Post {
   ///
   /// Should contain key value pairs for:
   /// * "post_id" - Int
-  /// * "repost" - Bool
-  /// * "repost_user" - Dictionary
-  /// * "repost_board" - Dictionary
-  /// * "repost_id" - Int
+  /// * "repost" - Dictionary
   /// * "content" - String
   /// * "board" - Dictionary
   /// * "user" - Dictionary
@@ -60,11 +57,7 @@ class Repost: Post {
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   override init(json: JSON) {
     super.init(json: json)
-    originalUser = User(json: json["user"])
-    user = User(json: json["repost_user"])
-    originalGroup = Group(json: json["board"])
-    group = Group(json: json["repost_board"])
-    originalPostID = json["repost_id"].intValue
+    originalPost = Post(json: json["repost"])
   }
   
   /// Create empty Repost.

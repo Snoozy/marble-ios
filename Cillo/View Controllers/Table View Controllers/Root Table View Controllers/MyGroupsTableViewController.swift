@@ -114,6 +114,7 @@ extension MyGroupsTableViewController: UISearchControllerDelegate {
       autocompleteGroups(search: searchBar.text, completion: { (names) in
         if names != nil {
           self.searchResults = names!
+          self.searchDisplayController?.searchResultsTableView.reloadData()
         }
       })
     }

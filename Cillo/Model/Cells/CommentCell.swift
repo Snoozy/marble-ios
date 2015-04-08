@@ -247,4 +247,9 @@ class CommentCell: UITableViewCell {
     
   }
   
+  class func heightOfCommentCellForComment(comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    let height = comment.heightOfCommentWithWidth(width, selected: selected) + CommentCell.AdditionalVertSpaceNeeded + dividerHeight
+    return selected ? height : height - CommentCell.ButtonHeight
+  }
+  
 }

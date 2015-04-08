@@ -129,4 +129,7 @@ class GroupCell: UITableViewCell {
     }
   }
   
+  class func heightOfGroupCellForGroup(group: Group, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    return group.heightOfDescripWithWidth(width) + GroupCell.AdditionalVertSpaceNeeded + dividerHeight
+  }
 }

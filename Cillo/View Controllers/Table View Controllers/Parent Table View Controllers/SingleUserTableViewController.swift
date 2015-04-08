@@ -117,9 +117,29 @@ class SingleUserTableViewController: CustomTableViewController {
       switch cellsShown {
       case .Posts:
         if let sender = sender as? UIButton {
-          destination.post = posts[sender.tag]
+          var post: Post
+          if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
+            if let repost = posts[sender.tag] as? Repost {
+              post = repost.originalPost
+            } else {
+              post = posts[sender.tag]
+            }
+          } else {
+            post = posts[sender.tag]
+          }
+          destination.post = post
+          if let post = post as? Repost {
+            destination.mainShowImages = post.originalPost.showImages
+          } else {
+            destination.mainShowImages = post.showImages
+          }
         } else if let sender = sender as? NSIndexPath {
           destination.post = posts[sender.row]
+          if let post = posts[sender.row] as? Repost {
+            destination.mainShowImages = post.originalPost.showImages
+          } else {
+            destination.mainShowImages = posts[sender.row].showImages
+          }
         }
       case .Comments:
         if let sender = sender as? UIButton {
@@ -136,12 +156,14 @@ class SingleUserTableViewController: CustomTableViewController {
       case .Posts:
         if let sender = sender as? UIButton {
           let post = posts[sender.tag]
-          if sender.titleLabel?.text == post.group.name {
-            destination.group = post.group
-          } else if let post = post as? Repost {
-            if sender.titleLabel?.text == post.originalGroup.name {
-              destination.group = post.originalGroup
+          if let post = post as? Repost {
+            if sender.titleForState(.Normal) == post.group.name {
+              destination.group = post.group
+            } else {
+              destination.group = post.originalPost.group
             }
+          } else {
+            destination.group = post.group
           }
         }
       default:
@@ -178,9 +200,9 @@ class SingleUserTableViewController: CustomTableViewController {
       cell.makeCellFromUser(user, withButtonTag: 0)
       return cell
     } else {
-      var cell: PostCell
       switch cellsShown {
       case .Posts:
+        var cell: PostCell
         let post = posts[indexPath.row]
         if let post = post as? Repost {
           cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
@@ -188,6 +210,8 @@ class SingleUserTableViewController: CustomTableViewController {
           cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
         }
         cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleUserTableViewController.PostDividerHeight : 0.0)
+        cell.postTextView.delegate = self
+        (cell as? RepostCell)?.originalPostTextView.delegate = self
         return cell
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
@@ -237,28 +261,16 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Sets height of cell to appropriate value based on value of cellsShown.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      return user.heightOfBioWithWidth(PrototypeTextViewWidth) + UserCell.AdditionalVertSpaceNeeded
+      return UserCell.heightOfUserCellForUser(user, withElementWidth: PrototypeTextViewWidth)
     }
     switch cellsShown {
     case .Posts:
       let post = posts[indexPath.row]
-      var height: CGFloat
-      if let post = post as? Repost {
-        height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + RepostCell.AdditionalVertSpaceNeeded
-      } else {
-        height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + PostCell.AdditionalVertSpaceNeeded
-      }
-      height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 20)
-      if indexPath.row != posts.count - 1 {
-        height += SingleUserTableViewController.PostDividerHeight
-      }
-      return post.title != nil ? height : height - PostCell.TitleHeight
+      let dividerHeight = indexPath.row != posts.count - 1 ? SingleUserTableViewController.PostDividerHeight : 0
+      return PostCell.heightOfPostCellForPost(post, withElementWidth: PrototypeTextViewWidth, maxContractedHeight: MaxContractedHeight, andDividerHeight: dividerHeight)
     case .Comments:
-      var height = comments[indexPath.row].heightOfCommentWithWidth(PrototypeTextViewWidth, selected: false) + CommentCell.AdditionalVertSpaceNeeded - CommentCell.ButtonHeight
-      if indexPath.row != comments.count - 1 {
-        height += SingleUserTableViewController.CommentDividerHeight
-      }
-      return height
+      let dividerHeight = indexPath.row != comments.count - 1 ? SingleUserTableViewController.CommentDividerHeight : 0
+      return CommentCell.heightOfCommentCellForComment(comments[indexPath.row], withElementWidth: PrototypeTextViewWidth, selectedState: false, andDividerHeight: dividerHeight)
     }
   }
   
@@ -359,8 +371,14 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a seeFullButton in a PostCell.
   @IBAction func seeFullPressed(sender: UIButton) {
     var post = posts[sender.tag]
-    if post.seeFull != nil {
-      post.seeFull! = !post.seeFull!
+    if let post = post as? Repost {
+      if post.originalPost.seeFull != nil {
+        post.seeFull! = !post.seeFull!
+      }
+    } else {
+      if post.seeFull != nil {
+        post.seeFull! = !post.seeFull!
+      }
     }
     tableView.reloadData()
   }
@@ -466,6 +484,12 @@ class SingleUserTableViewController: CustomTableViewController {
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
       })
+    }
+  }
+  
+  @IBAction func goToOriginalPost(sender: UIButton) {
+    if let post = posts[sender.tag] as? Repost {
+      performSegueWithIdentifier(SegueIdentifierThisToPost, sender: sender)
     }
   }
   

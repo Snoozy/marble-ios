@@ -94,9 +94,8 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   /// Sets height of cell to appropriate value.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    let group = groups[indexPath.row]
-    let height = group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
-    return indexPath.row != groups.count - 1 ? height + MultipleGroupsTableViewController.DividerHeight : height
+    let dividerHeight = indexPath.row != groups.count - 1 ? MultipleGroupsTableViewController.DividerHeight : 0
+    return GroupCell.heightOfGroupCellForGroup(groups[indexPath.row], withElementWidth: PrototypeTextViewWidth, andDividerHeight: dividerHeight)
   }
   
   /// Sends view to GroupTableViewController if GroupCell is selected.

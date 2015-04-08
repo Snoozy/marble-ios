@@ -134,4 +134,8 @@ class UserCell: UITableViewCell {
     groupsButton.tintColor = UIColor.blackColor()
   }
   
+  class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {
+    return user.heightOfBioWithWidth(width) + UserCell.AdditionalVertSpaceNeeded
+  }
+  
 }

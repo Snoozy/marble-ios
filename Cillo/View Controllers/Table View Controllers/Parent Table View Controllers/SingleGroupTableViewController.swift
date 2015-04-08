@@ -74,14 +74,39 @@ class SingleGroupTableViewController: CustomTableViewController {
     if segue.identifier == SegueIdentifierThisToPost {
       var destination = segue.destinationViewController as PostTableViewController
       if let sender = sender as? UIButton {
-        destination.post = posts[sender.tag]
+        var post: Post
+        if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
+          if let repost = posts[sender.tag] as? Repost {
+            post = repost.originalPost
+          } else {
+            post = posts[sender.tag]
+          }
+        } else {
+          post = posts[sender.tag]
+        }
+        destination.post = post
+        if let post = post as? Repost {
+          destination.mainShowImages = post.originalPost.showImages
+        } else {
+          destination.mainShowImages = post.showImages
+        }
       } else if let sender = sender as? NSIndexPath {
         destination.post = posts[sender.row]
+        destination.mainShowImages = posts[sender.row].showImages
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as UserTableViewController
       if let sender = sender as? UIButton {
-        destination.user = posts[sender.tag].user
+        let post = posts[sender.tag]
+        if let post = post as? Repost {
+          if sender.backgroundImageForState(.Normal) == post.user.profilePic || sender.titleForState(.Normal) == post.user.name {
+            destination.user = post.user
+          } else {
+            destination.user = post.originalPost.user
+          }
+        } else {
+          destination.user = post.user
+        }
       }
     } else if segue.identifier == SegueIdentifierThisToNewPost {
       var destination = segue.destinationViewController as NewPostViewController
@@ -119,6 +144,8 @@ class SingleGroupTableViewController: CustomTableViewController {
       }
       
       cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleGroupTableViewController.DividerHeight : 0.0)
+      cell.postTextView.delegate = self
+      (cell as? RepostCell)?.originalPostTextView.delegate = self
       
       return cell
     }
@@ -129,16 +156,12 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// Sets height of cell to appropriate value depending on length of post and whether post is expanded.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      let height = group.heightOfDescripWithWidth(PrototypeTextViewWidth) + GroupCell.AdditionalVertSpaceNeeded
-      return posts.count != 0 ? height + SingleGroupTableViewController.DividerHeight : height
+      let dividerHeight = posts.count != 0 ? SingleGroupTableViewController.DividerHeight : 0
+      return GroupCell.heightOfGroupCellForGroup(group, withElementWidth: PrototypeTextViewWidth, andDividerHeight: dividerHeight)
     }
     let post = posts[indexPath.row]
-    var height = post.heightOfPostWithWidth(PrototypeTextViewWidth, andMaxContractedHeight: MaxContractedHeight) + (post is Repost ? RepostCell.AdditionalVertSpaceNeeded : PostCell.AdditionalVertSpaceNeeded)
-    height += post.heightOfImagesInPostWithWidth(PrototypeTextViewWidth, andButtonHeight: 20)
-    if indexPath.row != posts.count - 1 {
-      height += SingleGroupTableViewController.DividerHeight
-    }
-    return post.title != nil ? height : height - PostCell.TitleHeight
+    let dividerHeight = indexPath.row != posts.count - 1 ? SingleGroupTableViewController.DividerHeight : 0
+    return PostCell.heightOfPostCellForPost(post, withElementWidth: PrototypeTextViewWidth, maxContractedHeight: MaxContractedHeight, andDividerHeight: dividerHeight)
   }
   
   /// Sends view to PostTableViewController if PostCell is selected.
@@ -263,8 +286,14 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a seeFullButton in a PostCell.
   @IBAction func seeFullPressed(sender: UIButton) {
     let post = posts[sender.tag]
-    if post.seeFull != nil {
-      post.seeFull! = !post.seeFull!
+    if let post = post as? Repost {
+      if post.originalPost.seeFull != nil {
+        post.seeFull! = !post.seeFull!
+      }
+    } else {
+      if post.seeFull != nil {
+        post.seeFull! = !post.seeFull!
+      }
     }
     tableView.reloadData()
   }
@@ -289,6 +318,14 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a PostCell.
   @IBAction func triggerUserSegueOnButton(sender: UIButton) {
     self.performSegueWithIdentifier(SegueIdentifierThisToUser, sender: sender)
+  }
+  
+  @IBAction func triggerOriginalGroupTransitionOnButton(sender: UIButton) {
+    if let post = posts[sender.tag] as? Repost {
+      let groupViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(GroupTableViewController.StoryboardIdentifier) as GroupTableViewController
+      groupViewController.group = post.originalPost.group
+      navigationController?.pushViewController(groupViewController, animated: true)
+    }
   }
   
   /// Upvotes a post.
@@ -391,6 +428,12 @@ class SingleGroupTableViewController: CustomTableViewController {
     alert.addAction(cancelAction)
     alert.addAction(repostAction)
     presentViewController(alert, animated: true, completion: nil)
+  }
+  
+  @IBAction func goToOriginalPost(sender: UIButton) {
+    if let post = posts[sender.tag] as? Repost {
+      performSegueWithIdentifier(SegueIdentifierThisToPost, sender: sender)
+    }
   }
   
 }

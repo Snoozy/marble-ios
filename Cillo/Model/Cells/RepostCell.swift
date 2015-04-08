@@ -17,8 +17,19 @@ class RepostCell: PostCell {
   
   // MARK: IBOutlets
   
-  /// Displays originalGroup.name property of Repost.
+  @IBOutlet weak var originalPictureButton: UIButton!
+  
+  @IBOutlet weak var originalNameButton: UIButton!
+  
   @IBOutlet weak var originalGroupButton: UIButton!
+  
+  @IBOutlet weak var originalPostTextView: UITextView!
+  
+  @IBOutlet weak var goToOriginalPostButton: UIButton!
+  
+  @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
+  
+  
   
   // MARK: Constants
   
@@ -27,7 +38,7 @@ class RepostCell: PostCell {
   // **Note:** Height of postTextView must be calculated based on it's text property.
   override class var AdditionalVertSpaceNeeded: CGFloat {
     get {
-      return 149
+      return 200
     }
   }
   
@@ -36,6 +47,18 @@ class RepostCell: PostCell {
     get {
       return "Repost"
     }
+  }
+  
+  class var OriginalPostMargins: CGFloat {
+    return 37
+  }
+  
+  class var OriginalPostTitleHeight: CGFloat {
+    return 23
+  }
+  
+  class var OriginalPostTextViewFont: UIFont {
+    return UIFont.systemFontOfSize(13.0)
   }
   
   // MARK: Helper Functions
@@ -52,9 +75,73 @@ class RepostCell: PostCell {
   override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     super.makeCellFromPost(post, withButtonTag: buttonTag, andSeparatorHeight: separatorHeight)
     if let post = post as? Repost {
-      originalGroupButton.setTitle(post.originalGroup.name, forState: .Normal)
-      originalGroupButton.setTitle(post.originalGroup.name, forState: .Highlighted)
+      
+      postTextViewHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil)
+      
+      let me = post.originalPost.user.isSelf ? " (me)" : ""
+      let nameTitle = "\(post.originalPost.user.name)\(me)"
+      originalNameButton.setTitle(nameTitle, forState: .Normal)
+      originalGroupButton.setTitle(post.originalPost.group.name, forState: .Normal)
+      originalPictureButton.setBackgroundImage(post.originalPost.user.profilePic, forState: .Normal)
+      originalNameButton.setTitle(nameTitle, forState: .Highlighted)
+      originalGroupButton.setTitle(post.originalPost.group.name, forState: .Highlighted)
+      originalPictureButton.setBackgroundImage(post.originalPost.user.profilePic, forState: .Highlighted)
+      
+      originalPostTextView.text = post.originalPost.text
+      originalPostTextView.font = RepostCell.OriginalPostTextViewFont
+      originalPostTextView.textContainer.lineFragmentPadding = 0
+      originalPostTextView.textContainerInset = UIEdgeInsetsZero
+      originalPostTextView.editable = false
+      
+      if seeFullButton != nil {
+        if post.originalPost.seeFull == nil || post.originalPost.seeFull! {
+          seeFullButton!.hidden = true
+        } else {
+          seeFullButton!.hidden = false
+        }
+      }
+      
+      originalNameButton.tag = buttonTag
       originalGroupButton.tag = buttonTag
+      originalPictureButton.tag = buttonTag
+      goToOriginalPostButton.tag = buttonTag
+      
+      if post.originalPost.user.isSelf {
+        originalNameButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
+        originalNameButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+      } else {
+        originalNameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        originalNameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+      }
+      
+      if let title = post.originalPost.title {
+        titleLabel.text = title
+        titleHeightConstraint.constant = RepostCell.TitleHeight
+      } else {
+        titleLabel.text = ""
+        titleHeightConstraint.constant = 0.0
+      }
+      
+      imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.OriginalPostMargins, andButtonHeight: 20)
+      if imagesButtonHeightConstraint.constant == 20 {
+        imagesButton.setTitle("Show Images", forState: .Normal)
+        imagesButton.setTitle("Show Images", forState: .Highlighted)
+        imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
+        imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+      } else if post.originalPost.images != nil && post.originalPost.showImages {
+        imagesButton.setBackgroundImage(post.images![0], forState: .Disabled)
+        imagesButton.setTitle("", forState: .Disabled)
+        imagesButton.contentMode = .ScaleAspectFit
+        imagesButton.enabled = false
+      }
+      
     }
+  }
+  
+  class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil) + RepostCell.AdditionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.OriginalPostMargins, andMaxContractedHeight: maxHeight)
+    height += post.heightOfImagesInPostWithWidth(width - RepostCell.OriginalPostMargins, andButtonHeight: 20)
+    height += dividerHeight
+    return post.title != nil ? height : height - RepostCell.TitleHeight
   }
 }

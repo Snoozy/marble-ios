@@ -38,6 +38,10 @@ class PostTableViewController: SinglePostTableViewController {
     }
   }
   
+  class var StoryboardIdentifier: String {
+    return "Post"
+  }
+  
   // MARK: UIViewController
   
   /// Initializes commentTree array.

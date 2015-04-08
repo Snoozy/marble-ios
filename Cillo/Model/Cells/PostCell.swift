@@ -229,7 +229,7 @@ class PostCell: UITableViewCell {
       separatorViewHeightConstraint!.constant = separatorHeight
     }
     
-    imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width, andButtonHeight: 20)
+    imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andButtonHeight: 20)
     if imagesButtonHeightConstraint.constant == 20 {
       imagesButton.setTitle("Show Images", forState: .Normal)
       imagesButton.setTitle("Show Images", forState: .Highlighted)
@@ -243,5 +243,14 @@ class PostCell: UITableViewCell {
     }
   }
   
+  class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    if let post = post as? Repost {
+      return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
+    }
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight) + PostCell.AdditionalVertSpaceNeeded
+    height += post.heightOfImagesInPostWithWidth(width, andButtonHeight: 20)
+    height += dividerHeight
+    return post.title != nil ? height : height - PostCell.TitleHeight
+  }
   
 }

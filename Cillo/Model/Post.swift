@@ -87,7 +87,6 @@ class Post: NSObject {
   ///
   /// Should contain key value pairs for:
   /// * "post_id" - Int
-  /// * "repost" - Bool
   /// * "content" - String
   /// * "board" - Dictionary
   /// * "user" - Dictionary

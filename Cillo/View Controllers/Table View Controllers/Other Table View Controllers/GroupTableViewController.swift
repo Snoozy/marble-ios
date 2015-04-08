@@ -40,6 +40,10 @@ class GroupTableViewController: SingleGroupTableViewController {
     }
   }
   
+  class var StoryboardIdentifier: String {
+    return "Group"
+  }
+  
   // MARK: UIViewController
   
   /// Initializes commentTree array.
