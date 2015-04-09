@@ -124,12 +124,13 @@ class RepostCell: PostCell {
       
       imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.OriginalPostMargins, andButtonHeight: 20)
       if imagesButtonHeightConstraint.constant == 20 {
+        imagesButton.enabled = true
         imagesButton.setTitle("Show Images", forState: .Normal)
         imagesButton.setTitle("Show Images", forState: .Highlighted)
         imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
         imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
       } else if post.originalPost.images != nil && post.originalPost.showImages {
-        imagesButton.setBackgroundImage(post.images![0], forState: .Disabled)
+        imagesButton.setBackgroundImage(post.originalPost.images![0], forState: .Disabled)
         imagesButton.setTitle("", forState: .Disabled)
         imagesButton.contentMode = .ScaleAspectFit
         imagesButton.enabled = false
@@ -140,8 +141,13 @@ class RepostCell: PostCell {
   
   class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil) + RepostCell.AdditionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.OriginalPostMargins, andMaxContractedHeight: maxHeight)
-    height += post.heightOfImagesInPostWithWidth(width - RepostCell.OriginalPostMargins, andButtonHeight: 20)
+    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.OriginalPostMargins, andButtonHeight: 20)
     height += dividerHeight
-    return post.title != nil ? height : height - RepostCell.TitleHeight
+    return post.originalPost.title != nil ? height : height - RepostCell.TitleHeight
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    postTextViewHeightConstraint.constant = 20
   }
 }

@@ -62,8 +62,11 @@ class GroupTableViewController: SingleGroupTableViewController {
   /// Assigns posts property of SingleGroupTableViewController correct values from server calls.
   override func retrieveData() {
     retrievingPage = true
+    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
+    posts = []
     retrievePosts( { (posts) -> Void in
       self.retrievingPage = false
+      activityIndicator.removeFromSuperview()
       if posts != nil {
         self.posts = posts!
         self.refreshControl?.endRefreshing()
@@ -79,9 +82,7 @@ class GroupTableViewController: SingleGroupTableViewController {
   /// :param: posts The posts in the feed for this group.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
-    DataManager.sharedInstance.getGroupFeed(pageNumber: pageNumber, groupID: group.groupID, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
+    DataManager.sharedInstance.getGroupFeed(lastPostID: posts.last?.postID, groupID: group.groupID, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
         error!.showAlert()
@@ -94,15 +95,16 @@ class GroupTableViewController: SingleGroupTableViewController {
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     if !retrievingPage && indexPath.row > (pageNumber - 1) * 10 + 10 {
+      retrievingPage = true
       retrievePosts( { (posts) in
-        self.retrievingPage = false
         if posts != nil {
           for post in posts! {
             self.posts.append(post)
-            self.tableView.reloadData()
-            self.pageNumber++
           }
+          self.tableView.reloadData()
+          self.pageNumber++
         }
+        self.retrievingPage = false
       })
     }
   }

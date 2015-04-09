@@ -64,6 +64,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   override func retrieveData() {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
     retrievingPage = true
+    posts = []
     retrievePosts( { (posts) -> Void in
       self.retrievingPage = false
       activityIndicator.removeFromSuperview()
@@ -82,10 +83,10 @@ class HomeTableViewController: MultiplePostsTableViewController {
   /// :param: posts The posts in the logged in User's home feed.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    DataManager.sharedInstance.getHomePage(pageNumber: pageNumber, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.getHomePage(lastPostID: posts.last?.postID, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
-        error!.showAlert()
+        //error!.showAlert()
         completion(posts: nil)
       } else {
         completion(posts: result!)
@@ -94,16 +95,23 @@ class HomeTableViewController: MultiplePostsTableViewController {
   }
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !retrievingPage && indexPath.row > (pageNumber - 1) * 10 + 10 {
+    if !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
+      println(pageNumber)
+      println(posts.last?.postID)
+      for post in posts {
+        print("\(post.postID),")
+      }
+      println()
+      retrievingPage = true
       retrievePosts( { (posts) in
-        self.retrievingPage = false
         if posts != nil {
           for post in posts! {
             self.posts.append(post)
-            self.tableView.reloadData()
-            self.pageNumber++
           }
+          self.pageNumber++
+          self.tableView.reloadData()
         }
+        self.retrievingPage = false
       })
     }
   }

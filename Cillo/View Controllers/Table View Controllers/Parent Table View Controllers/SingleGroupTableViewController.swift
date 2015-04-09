@@ -300,8 +300,14 @@ class SingleGroupTableViewController: CustomTableViewController {
   
   @IBAction func showImagesPressed(sender: UIButton) {
     let post = posts[sender.tag]
-    if !post.showImages {
-      post.showImages = !post.showImages
+    if let post = post as? Repost {
+      if !post.originalPost.showImages {
+        post.originalPost.showImages = !post.originalPost.showImages
+      }
+    } else {
+      if !post.showImages {
+        post.showImages = !post.showImages
+      }
     }
     tableView.reloadData()
   }

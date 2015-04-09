@@ -147,20 +147,7 @@ class PostCell: UITableViewCell {
     postTextView.textContainerInset = UIEdgeInsetsZero
     postTextView.editable = false
     
-    if seeFullButton != nil {
-      // tag acts as way for button to know it's position in data array
-      seeFullButton!.tag = buttonTag
-      
-      seeFullButton!.setTitle("More", forState: .Normal)
-      seeFullButton!.setTitle("More", forState: .Highlighted)
-      
-      // short posts and already expanded posts don't need to be expanded
-      if post.seeFull == nil || post.seeFull! {
-        seeFullButton!.hidden = true
-      } else {
-        seeFullButton!.hidden = false
-      }
-    }
+    
     
     nameButton.tag = buttonTag
     groupButton.tag = buttonTag
@@ -207,13 +194,7 @@ class PostCell: UITableViewCell {
     commentLabel.textColor = UIColor.whiteColor()
     repLabel.text = String.formatNumberAsString(number: post.rep)
     
-    if let title = post.title {
-      titleLabel.text = title
-      titleHeightConstraint.constant = PostCell.TitleHeight
-    } else {
-      titleLabel.text = ""
-      titleHeightConstraint.constant = 0.0
-    }
+    
     
     if seeFullButton == nil {
       //gets rid of small gap in divider
@@ -229,17 +210,42 @@ class PostCell: UITableViewCell {
       separatorViewHeightConstraint!.constant = separatorHeight
     }
     
-    imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andButtonHeight: 20)
-    if imagesButtonHeightConstraint.constant == 20 {
-      imagesButton.setTitle("Show Images", forState: .Normal)
-      imagesButton.setTitle("Show Images", forState: .Highlighted)
-      imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
-      imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
-    } else if post.images != nil && post.showImages {
-      imagesButton.setBackgroundImage(post.images![0], forState: .Disabled)
-      imagesButton.setTitle("", forState: .Disabled)
-      imagesButton.contentMode = .ScaleAspectFit
-      imagesButton.enabled = false
+    if !(post is Repost) {
+      if seeFullButton != nil {
+        // tag acts as way for button to know it's position in data array
+        seeFullButton!.tag = buttonTag
+        
+        seeFullButton!.setTitle("More", forState: .Normal)
+        seeFullButton!.setTitle("More", forState: .Highlighted)
+        
+        // short posts and already expanded posts don't need to be expanded
+        if post.seeFull == nil || post.seeFull! {
+          seeFullButton!.hidden = true
+        } else {
+          seeFullButton!.hidden = false
+        }
+      }
+      
+      if let title = post.title {
+        titleLabel.text = title
+        titleHeightConstraint.constant = PostCell.TitleHeight
+      } else {
+        titleLabel.text = ""
+        titleHeightConstraint.constant = 0.0
+      }
+      
+      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andButtonHeight: 20)
+      if imagesButtonHeightConstraint.constant == 20 {
+        imagesButton.setTitle("Show Images", forState: .Normal)
+        imagesButton.setTitle("Show Images", forState: .Highlighted)
+        imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
+        imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+      } else if post.images != nil && post.showImages {
+        imagesButton.setBackgroundImage(post.images![0], forState: .Disabled)
+        imagesButton.setTitle("", forState: .Disabled)
+        imagesButton.contentMode = .ScaleAspectFit
+        imagesButton.enabled = false
+      }
     }
   }
   
@@ -251,6 +257,10 @@ class PostCell: UITableViewCell {
     height += post.heightOfImagesInPostWithWidth(width, andButtonHeight: 20)
     height += dividerHeight
     return post.title != nil ? height : height - PostCell.TitleHeight
+  }
+  
+  override func prepareForReuse() {
+    imagesButtonHeightConstraint.constant = 0
   }
   
 }
