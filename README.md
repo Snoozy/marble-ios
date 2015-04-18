@@ -6,11 +6,11 @@ NSDate function convertToTimeString(time:) sometimes returns WTF.
 
 New Comment text field has white space between it and the keyboard.
 
-Images currently not loaded asynchronously. <<<<< IMPORTANT (Test)
+-- Images currently not loaded asynchronously. <<<<< IMPORTANT (Test)
 
 Tap Tab to top is still acting really weird (Figure out new implementation).
 
-Weird margins showed up in cells after updating.
+-- Weird margins showed up in cells after updating. (Currently using preserveSuperviewLayoutMargins fix, later update constraints to constrain to cell instead of margins)
 
 **Feature TODOs:**
 
