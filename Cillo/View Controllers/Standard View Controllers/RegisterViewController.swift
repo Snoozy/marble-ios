@@ -43,7 +43,7 @@ class RegisterViewController: UIViewController {
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Registering...")
-    DataManager.sharedInstance.register(userTextView.text, name: nameTextView.text, password: passwordTextView.text, email: emailTextView.text, { (error, success) -> Void in
+    DataManager.sharedInstance.register(userTextView.text, name: nameTextView.text, password: passwordTextView.text, email: emailTextView.text, completion: { (error, success) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error)

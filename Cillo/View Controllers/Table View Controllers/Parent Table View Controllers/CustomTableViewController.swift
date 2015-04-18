@@ -16,7 +16,7 @@ class CustomTableViewController: UITableViewController {
   /// Width of textView in UITableViewCell.
   var PrototypeTextViewWidth: CGFloat {
     get {
-      return view.frame.size.width - 16
+      return tableView.frame.size.width - 16
     }
   }
   

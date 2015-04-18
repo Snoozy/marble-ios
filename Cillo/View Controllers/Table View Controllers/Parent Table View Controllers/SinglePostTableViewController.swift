@@ -57,10 +57,10 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as GroupTableViewController
+      var destination = segue.destinationViewController as! GroupTableViewController
       if let post = post as? Repost {
         if let sender = sender as? UIButton {
-          if sender.titleForState(.Normal) == post.group.name {
+          if sender.tag > -1000000 {
             destination.group = post.group
           } else {
             destination.group = post.originalPost.group
@@ -70,11 +70,11 @@ class SinglePostTableViewController: CustomTableViewController {
         destination.group = post.group
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
-      var destination = segue.destinationViewController as UserTableViewController
+      var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
-        if sender.tag == -1 {
+        if sender.tag == -1 || sender.tag == -1000000 {
           if let post = post as? Repost {
-            if sender.backgroundImageForState(.Normal) == post.user.profilePic || sender.titleForState(.Normal) == post.user.name {
+            if sender.tag > -1000000 {
               destination.user = post.user
             } else {
               destination.user = post.originalPost.user
@@ -114,18 +114,23 @@ class SinglePostTableViewController: CustomTableViewController {
     if indexPath.section == 0 { // Make a Post Cell for only first section
       var cell: PostCell
       if let post = post as? Repost {
-        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as! RepostCell
         post.originalPost.showImages = true
       } else {
-        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as! PostCell
       }
       post.showImages = true
       cell.makeCellFromPost(post, withButtonTag: -1)
       cell.postTextView.delegate = self
+      println(cell.contentView.frame.width)
+      println(cell.separatorView?.frame.width)
+      println(cell.frame.width)
+      println(tableView.frame.width)
+      println(view.frame.width)
       (cell as? RepostCell)?.originalPostTextView.delegate = self
       return cell
     } else { // Make a CommentCell for all rows past the first section
-      let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
+      let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as! CommentCell
       
       let comment = commentTree[indexPath.row]
       
@@ -192,7 +197,7 @@ class SinglePostTableViewController: CustomTableViewController {
   func repostPostToGroup(groupName: String, completion: (success: Bool) -> Void) {
     var id = 0
     if let post = post as? Repost {
-      id = post.originalPostID
+      id = post.originalPost.postID
     } else {
       id = post.postID
     }
@@ -408,7 +413,7 @@ class SinglePostTableViewController: CustomTableViewController {
   
   @IBAction func goToOriginalPost(sender: UIButton) {
     if let post = post as? Repost {
-      let postViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(PostTableViewController.StoryboardIdentifier) as PostTableViewController
+      let postViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(PostTableViewController.StoryboardIdentifier) as! PostTableViewController
       postViewController.post = post.originalPost
       navigationController?.pushViewController(postViewController, animated: true)
     }

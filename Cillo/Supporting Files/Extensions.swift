@@ -70,6 +70,9 @@ extension String {
   /// :param: font The font currently displayed in the UITextView.
   /// :returns: The height of a UITextView with the specified parameters containing this String.
   func heightOfTextWithWidth(width: CGFloat, andFont font: UIFont) -> CGFloat {
+    if self == "" {
+      return CGFloat(0.0)
+    }
     let textView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.max))
     textView.text = self
     textView.textContainer.lineFragmentPadding = 0
@@ -345,7 +348,7 @@ extension NSUserDefaults {
   /// :returns: True if there are values for both .Auth and .User.
   class func hasAuthAndUser() -> Bool {
     let auth: String? = NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.Auth) as? String
-    let user: Int? = NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User)? as? Int
+    let user: Int? = NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User) as? Int
     if let auth = auth {
       if auth == "" {
         return false

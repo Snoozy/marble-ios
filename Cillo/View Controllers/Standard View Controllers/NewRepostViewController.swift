@@ -25,8 +25,8 @@ class NewRepostViewController: UIViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToTab {
       if let sender = sender as? Post {
-        var destination = segue.destinationViewController as TabViewController
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
+        var destination = segue.destinationViewController as! TabViewController
+        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as! PostTableViewController
         if let nav = destination.selectedViewController as? UINavigationController {
           postViewController.post = sender
           nav.pushViewController(postViewController, animated: true)

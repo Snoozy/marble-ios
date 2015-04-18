@@ -254,7 +254,7 @@ class MeTableViewController: SingleUserTableViewController {
     let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
     })
     let okAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-      let nameTextField = alert.textFields![0] as UITextField
+      let nameTextField = alert.textFields![0] as! UITextField
       self.updateName(nameTextField.text, completion: { (user) -> Void in
         if user != nil {
           self.user = user!

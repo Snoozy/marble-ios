@@ -104,8 +104,8 @@ class UserCell: UITableViewCell {
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the post in its model array.
   func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
-    pictureButton.setBackgroundImage(user.profilePic, forState: .Normal)
-    pictureButton.setBackgroundImage(user.profilePic, forState: .Highlighted)
+    pictureButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
+    pictureButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
     nameButton.setTitle(user.name, forState: .Normal)
     nameButton.setTitle(user.name, forState: .Highlighted)
     usernameButton.setTitle("@\(user.username)", forState: .Normal)
@@ -132,6 +132,8 @@ class UserCell: UITableViewCell {
     var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " GROUPS", secondFont: UserCell.GroupsFont)
     groupsButton.setAttributedTitle(groupsText, forState: .Normal)
     groupsButton.tintColor = UIColor.blackColor()
+    
+    preservesSuperviewLayoutMargins = false
   }
   
   class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {

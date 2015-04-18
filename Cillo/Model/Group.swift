@@ -14,13 +14,13 @@ class Group: NSObject {
   // MARK: Properties
   
   /// ID of this Group.
-  let groupID: Int = 0
+  var groupID: Int = 0
   
   /// ID of User that created this Group.
-  let creatorID: Int = 0
+  var creatorID: Int = 0
   
   /// Picture of this Group.
-  var picture: UIImage = UIImage(named: "Groups")!
+  var pictureURL: NSURL = NSURL()
   
   /// Name of this Group.
   ///
@@ -74,14 +74,7 @@ class Group: NSObject {
     }
     following = json["following"].boolValue
     if let url = NSURL(string: json["photo"].stringValue) {
-      // FIXME: Get rid of this check when default images are added to database
-      if url != NSURL(string: "https://static.cillo.co/image/34f4ca41-0d9b-436d-816a-5f30d787fbf2") {
-        if let imageData = NSData(contentsOfURL: url) {
-          if let image = UIImage(data: imageData) {
-            picture = image
-          }
-        }
-      }
+      pictureURL = url
     }
   }
   

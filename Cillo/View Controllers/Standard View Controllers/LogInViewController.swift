@@ -80,7 +80,7 @@ class LogInViewController: UIViewController {
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Logging in...")
-    DataManager.sharedInstance.login(userTextView.text, password: passwordTextView.text, { (error, result) -> Void in
+    DataManager.sharedInstance.login(userTextView.text, password: passwordTextView.text, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)

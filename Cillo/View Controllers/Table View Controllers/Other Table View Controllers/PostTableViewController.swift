@@ -61,7 +61,7 @@ class PostTableViewController: SinglePostTableViewController {
   func keyboardWillShow(notif: NSNotification) {
     // FIXME: Why is there whitespace inbetween keyboard and the view?
     if let newCommentView = newCommentView {
-      let value = notif.userInfo![UIKeyboardFrameEndUserInfoKey] as NSValue
+      let value = notif.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
       let keyboardHeight = value.CGRectValue().height
       let commentView = newCommentView.0
       commentView.frame = CGRect(x: commentView.frame.minX, y: view.frame.size.height - keyboardHeight, width: commentView.frame.size.width, height: commentView.frame.size.height)

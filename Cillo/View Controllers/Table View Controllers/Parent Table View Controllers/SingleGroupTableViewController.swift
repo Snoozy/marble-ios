@@ -72,17 +72,18 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToPost {
-      var destination = segue.destinationViewController as PostTableViewController
+      var destination = segue.destinationViewController as! PostTableViewController
       if let sender = sender as? UIButton {
+        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
         var post: Post
         if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
-          if let repost = posts[sender.tag] as? Repost {
+          if let repost = posts[tag] as? Repost {
             post = repost.originalPost
           } else {
-            post = posts[sender.tag]
+            post = posts[tag]
           }
         } else {
-          post = posts[sender.tag]
+          post = posts[tag]
         }
         destination.post = post
         if let post = post as? Repost {
@@ -95,11 +96,12 @@ class SingleGroupTableViewController: CustomTableViewController {
         destination.mainShowImages = posts[sender.row].showImages
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
-      var destination = segue.destinationViewController as UserTableViewController
+      var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
-        let post = posts[sender.tag]
+        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+        let post = posts[tag]
         if let post = post as? Repost {
-          if sender.backgroundImageForState(.Normal) == post.user.profilePic || sender.titleForState(.Normal) == post.user.name {
+          if sender.tag < 1000000 {
             destination.user = post.user
           } else {
             destination.user = post.originalPost.user
@@ -109,7 +111,7 @@ class SingleGroupTableViewController: CustomTableViewController {
         }
       }
     } else if segue.identifier == SegueIdentifierThisToNewPost {
-      var destination = segue.destinationViewController as NewPostViewController
+      var destination = segue.destinationViewController as! NewPostViewController
       destination.group = group
     }
   }
@@ -129,7 +131,7 @@ class SingleGroupTableViewController: CustomTableViewController {
   /// Creates GroupCell or PostCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 { // Make a GroupCell for only first row
-      let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
+      let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as! GroupCell
       
       cell.makeCellFromGroup(group, withButtonTag: 0, andSeparatorHeight: posts.count != 0 ? SingleGroupTableViewController.DividerHeight : 0.0)
       
@@ -138,9 +140,9 @@ class SingleGroupTableViewController: CustomTableViewController {
       let post = posts[indexPath.row]
       var cell: PostCell
       if let post = post as? Repost {
-        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as! RepostCell
       } else {
-        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as! PostCell
       }
       
       cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleGroupTableViewController.DividerHeight : 0.0)
@@ -186,7 +188,7 @@ class SingleGroupTableViewController: CustomTableViewController {
     let post = posts[index]
     var id = 0
     if let post = post as? Repost {
-      id = post.originalPostID
+      id = post.originalPost.postID
     } else {
       id = post.postID
     }
@@ -328,7 +330,7 @@ class SingleGroupTableViewController: CustomTableViewController {
   
   @IBAction func triggerOriginalGroupTransitionOnButton(sender: UIButton) {
     if let post = posts[sender.tag] as? Repost {
-      let groupViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(GroupTableViewController.StoryboardIdentifier) as GroupTableViewController
+      let groupViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(GroupTableViewController.StoryboardIdentifier) as! GroupTableViewController
       groupViewController.group = post.originalPost.group
       navigationController?.pushViewController(groupViewController, animated: true)
     }

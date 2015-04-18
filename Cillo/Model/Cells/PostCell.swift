@@ -13,11 +13,6 @@ import UIKit
 /// Used to format Posts in UITableViews.
 class PostCell: UITableViewCell {
   
-  // MARK: Properties
-  
-  // TODO: Document
-  var imageViews: [UIImageView] = []
-  
   // MARK: IBOutlets
   
   /// Displays user.name property of Post.
@@ -87,7 +82,7 @@ class PostCell: UITableViewCell {
   /// **Note:** Height of postTextView must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
-      return 145
+      return 140
   
     }
   }
@@ -135,10 +130,10 @@ class PostCell: UITableViewCell {
     let nameTitle = "\(post.user.name)\(me)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     groupButton.setTitle(post.group.name, forState: .Normal)
-    pictureButton.setBackgroundImage(post.user.profilePic, forState: .Normal)
+    pictureButton.setBackgroundImageForState(.Normal, withURL: post.user.profilePicURL)
     nameButton.setTitle(nameTitle, forState: .Highlighted)
     groupButton.setTitle(post.group.name, forState: .Highlighted)
-    pictureButton.setBackgroundImage(post.user.profilePic, forState: .Highlighted)
+    pictureButton.setBackgroundImageForState(.Highlighted, withURL: post.user.profilePicURL)
     timeLabel.text = post.time
     
     postTextView.text = post.text
@@ -195,13 +190,12 @@ class PostCell: UITableViewCell {
     repLabel.text = String.formatNumberAsString(number: post.rep)
     
     
-    
+    preservesSuperviewLayoutMargins = false
     if seeFullButton == nil {
       //gets rid of small gap in divider
       let dividerFix = UIView(frame: CGRect(x: 0, y: contentView.frame.size.height, width: 40, height: 1))
       dividerFix.backgroundColor = UIColor.defaultTableViewDividerColor()
       contentView.addSubview(dividerFix)
-      preservesSuperviewLayoutMargins = false
       layoutMargins = UIEdgeInsetsZero
     }
     
@@ -235,15 +229,18 @@ class PostCell: UITableViewCell {
       }
       
       imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andButtonHeight: 20)
+      if post.imageURLs != nil {
+        imagesButton.setBackgroundImageForState(.Disabled, withURL: post.imageURLs![0], placeholderImage: UIImage(named: "Me"))
+        imagesButton.setTitle("", forState: .Disabled)
+        imagesButton.contentMode = .ScaleAspectFit
+      }
       if imagesButtonHeightConstraint.constant == 20 {
         imagesButton.setTitle("Show Images", forState: .Normal)
         imagesButton.setTitle("Show Images", forState: .Highlighted)
         imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
         imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
-      } else if post.images != nil && post.showImages {
-        imagesButton.setBackgroundImage(post.images![0], forState: .Disabled)
-        imagesButton.setTitle("", forState: .Disabled)
-        imagesButton.contentMode = .ScaleAspectFit
+        imagesButton.enabled = true
+      } else if post.imageURLs != nil && post.showImages {
         imagesButton.enabled = false
       }
     }

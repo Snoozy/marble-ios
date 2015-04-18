@@ -63,7 +63,7 @@ class NewGroupViewController: UIViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     // NOTE: currently ignoring segue, found another implementation
     if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as GroupTableViewController
+      var destination = segue.destinationViewController as! GroupTableViewController
       if let sender = sender as? Group {
         destination.group = sender
       }
@@ -108,7 +108,7 @@ class NewGroupViewController: UIViewController {
       if let group = group {
         // NOTE: currently ignoring segue, found another implementation
 //        self.performSegueWithIdentifier(self.SegueIdentifierThisToGroup, sender: group)
-        let groupViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Group") as GroupTableViewController
+        let groupViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Group") as! GroupTableViewController
         groupViewController.group = group
         var viewControllers = self.navigationController!.viewControllers
         viewControllers.removeLast()

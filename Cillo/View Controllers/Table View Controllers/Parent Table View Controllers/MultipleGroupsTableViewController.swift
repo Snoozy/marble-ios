@@ -56,7 +56,7 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as GroupTableViewController
+      var destination = segue.destinationViewController as! GroupTableViewController
       if let sender = sender as? NSIndexPath {
         destination.group = groups[sender.row]
       } else if let sender = sender as? UIButton {
@@ -81,7 +81,7 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   /// Creates GroupCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as GroupCell
+    let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as! GroupCell
     let group = groups[indexPath.row]
     
     cell.makeCellFromGroup(group, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != groups.count - 1 ? MultipleGroupsTableViewController.DividerHeight : 0.0))

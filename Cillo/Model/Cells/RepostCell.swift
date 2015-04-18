@@ -82,10 +82,10 @@ class RepostCell: PostCell {
       let nameTitle = "\(post.originalPost.user.name)\(me)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
       originalGroupButton.setTitle(post.originalPost.group.name, forState: .Normal)
-      originalPictureButton.setBackgroundImage(post.originalPost.user.profilePic, forState: .Normal)
+      originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.profilePicURL)
       originalNameButton.setTitle(nameTitle, forState: .Highlighted)
       originalGroupButton.setTitle(post.originalPost.group.name, forState: .Highlighted)
-      originalPictureButton.setBackgroundImage(post.originalPost.user.profilePic, forState: .Highlighted)
+      originalPictureButton.setBackgroundImageForState(.Highlighted, withURL: post.originalPost.user.profilePicURL)
       
       originalPostTextView.text = post.originalPost.text
       originalPostTextView.font = RepostCell.OriginalPostTextViewFont
@@ -101,9 +101,9 @@ class RepostCell: PostCell {
         }
       }
       
-      originalNameButton.tag = buttonTag
-      originalGroupButton.tag = buttonTag
-      originalPictureButton.tag = buttonTag
+      originalNameButton.tag = buttonTag * 1000000
+      originalGroupButton.tag = buttonTag * 1000000
+      originalPictureButton.tag = buttonTag * 1000000
       goToOriginalPostButton.tag = buttonTag
       
       if post.originalPost.user.isSelf {
@@ -123,16 +123,18 @@ class RepostCell: PostCell {
       }
       
       imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.OriginalPostMargins, andButtonHeight: 20)
+      if post.originalPost.imageURLs != nil {
+        imagesButton.setBackgroundImageForState(.Disabled, withURL: post.originalPost.imageURLs![0], placeholderImage: UIImage(named: "Me"))
+        imagesButton.setTitle("", forState: .Disabled)
+        imagesButton.contentMode = .ScaleAspectFit
+      }
       if imagesButtonHeightConstraint.constant == 20 {
-        imagesButton.enabled = true
         imagesButton.setTitle("Show Images", forState: .Normal)
         imagesButton.setTitle("Show Images", forState: .Highlighted)
         imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
         imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
-      } else if post.originalPost.images != nil && post.originalPost.showImages {
-        imagesButton.setBackgroundImage(post.originalPost.images![0], forState: .Disabled)
-        imagesButton.setTitle("", forState: .Disabled)
-        imagesButton.contentMode = .ScaleAspectFit
+        imagesButton.enabled = true
+      } else if post.originalPost.imageURLs != nil && post.originalPost.showImages {
         imagesButton.enabled = false
       }
       

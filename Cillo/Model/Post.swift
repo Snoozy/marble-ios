@@ -14,7 +14,7 @@ class Post: NSObject {
   // MARK: Properties
   
   /// ID of this Post.
-  let postID: Int = 0
+  var postID: Int = 0
   
   /// User that posted this Post.
   var user: User = User()
@@ -23,17 +23,17 @@ class Post: NSObject {
   var group: Group = Group()
   
   /// Content of this Post.
-  let text: String = ""
+  var text: String = ""
   
   /// Title of this Post.
   ///
   /// Nil if this Post has no title.
-  let title: String?
+  var title: String?
   
   /// Time since this Post was posted.
   ///
   /// String is properly formatted via NSDate.convertToTimeString(time:).
-  let time: String = ""
+  var time: String = ""
   
   /// Number of Comments relating to this Post.
   var numComments: Int = 0
@@ -58,7 +58,7 @@ class Post: NSObject {
   var seeFull: Bool?
   
   // TODO: Document
-  var images: [UIImage]?
+  var imageURLs: [NSURL]?
   
   var showImages: Bool = false
   
@@ -78,7 +78,7 @@ class Post: NSObject {
     } else if seeFull != nil && !seeFull! {
       expanded = "Not Expanded Yet"
     }
-    return "Post {\n  Post ID: \(postID)\n  Title: \(title != nil ? title! : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n  Image: \(images != nil ? imgstr : none)\n}\n"
+    return "Post {\n  Post ID: \(postID)\n  Title: \(title != nil ? title! : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n  Image: \(imageURLs != nil ? imgstr : none)\n}\n"
   }
   
   // MARK: Initializers
@@ -112,16 +112,10 @@ class Post: NSObject {
     numComments = json["comment_count"].intValue
     voteValue = json["vote_value"].intValue
     if json["media"] != nil {
+      imageURLs = []
       for media in json["media"].arrayValue {
         if let url = NSURL(string: media.stringValue) {
-          if let imageData = NSData(contentsOfURL: url) {
-            if let image = UIImage(data: imageData) {
-              if images == nil {
-                images = []
-              }
-              self.images!.append(image)
-            }
-          }
+          imageURLs!.append(url)
         }
       }
     }
@@ -160,11 +154,18 @@ class Post: NSObject {
   }
   
   func heightOfImagesInPostWithWidth(width: CGFloat, andButtonHeight height: CGFloat) -> CGFloat {
-    if images != nil {
+    if imageURLs != nil {
       if showImages {
         var height: CGFloat = 0.0
-        for image in images! {
-          height += width * image.size.height / image.size.width
+        for imageURL in imageURLs! {
+          let button = UIButton()
+          button.setBackgroundImageForState(.Normal, withURL: imageURL, placeholderImage: UIImage(named: "Me"))
+          let image = button.backgroundImageForState(.Normal)
+          if image != nil && image != UIImage(named: "Me") {
+            height += width * image!.size.height / image!.size.width
+          } else {
+            height += 20
+          }
           break // TODO: Find way to make multiple images
         }
         return height
@@ -178,7 +179,7 @@ class Post: NSObject {
   
   // TODO: Document
   func isImagePost() -> Bool {
-    return images != nil
+    return imageURLs != nil
   }
   
 }

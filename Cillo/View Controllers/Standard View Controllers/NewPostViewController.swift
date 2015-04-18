@@ -89,8 +89,8 @@ class NewPostViewController: UIViewController {
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
     retrieveUser( { (user) in
       if user != nil {
-        self.userImageView.image = user!.profilePic
-        self.usernameLabel.text = user!.username
+        self.userImageView.setImageWithURL(user!.profilePicURL)
+        self.usernameLabel.text = user!.name
       }
     })
   }
@@ -117,9 +117,9 @@ class NewPostViewController: UIViewController {
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToTab {
-      var destination = segue.destinationViewController as TabViewController
+      var destination = segue.destinationViewController as! TabViewController
       if let sender = sender as? Post {
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as PostTableViewController
+        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as! PostTableViewController
         if let nav = destination.selectedViewController as? UINavigationController {
           postViewController.post = sender
           nav.pushViewController(postViewController, animated: true)
@@ -202,7 +202,6 @@ class NewPostViewController: UIViewController {
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
     createPost( { (post) -> Void in
       if let post = post {
-        // NOTE: currently ignoring segue, found another implementation < is it?
         self.performSegueWithIdentifier(self.SegueIdentifierThisToTab, sender: post)
       }
     })

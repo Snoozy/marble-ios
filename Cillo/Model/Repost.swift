@@ -12,13 +12,7 @@ import UIKit
 class Repost: Post {
   
   /// The original Post
-  let originalPost: Post = Post()
-  
-  /// Group name of Group that this Post was originally posted to.
-  let originalGroup: Group = Group()
-  
-  /// ID of the original post that this post if a repost of.
-  let originalPostID: Int = 0
+  var originalPost: Post = Post()
   
   /// Used to print properties in println statements.
   override var description: String {
@@ -56,8 +50,8 @@ class Repost: Post {
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   override init(json: JSON) {
-    super.init(json: json)
     originalPost = Post(json: json["repost"])
+    super.init(json: json)
   }
   
   /// Create empty Repost.

@@ -6,9 +6,11 @@ NSDate function convertToTimeString(time:) sometimes returns WTF.
 
 New Comment text field has white space between it and the keyboard.
 
-Images currently not loaded asynchronously. <<<<< IMPORTANT
+Images currently not loaded asynchronously. <<<<< IMPORTANT (Test)
 
 Tap Tab to top is still acting really weird (Figure out new implementation).
+
+Weird margins showed up in cells after updating.
 
 **Feature TODOs:**
 
@@ -34,7 +36,7 @@ Add a popup tableview when typing in a textfield involving Group names.
 
 -- New Post UI (Test)
 
-New Repost UI < Cell and make storyboard... also considering how to display post without it being awkward on iOS
+New Repost UI < Redo everything (no longer popup now modal vc pushed)
 
 Present New Group modally
 

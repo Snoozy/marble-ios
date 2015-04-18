@@ -97,8 +97,8 @@ class GroupCell: UITableViewCell {
   /// :param: separatorHeight The height of the custom separators at the bottom of this GroupCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   func makeCellFromGroup(group: Group, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
-    pictureButton.setBackgroundImage(group.picture, forState: .Normal)
-    pictureButton.setBackgroundImage(group.picture, forState: .Highlighted)
+    pictureButton.setBackgroundImageForState(.Normal, withURL: group.pictureURL)
+    pictureButton.setBackgroundImageForState(.Highlighted, withURL: group.pictureURL)
     nameButton.setTitle(group.name, forState: .Normal)
     nameButton.setTitle(group.name, forState: .Highlighted)
     
@@ -127,6 +127,8 @@ class GroupCell: UITableViewCell {
       separatorView.backgroundColor = UIColor.cilloBlue()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
+    
+    preservesSuperviewLayoutMargins = false
   }
   
   class func heightOfGroupCellForGroup(group: Group, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {

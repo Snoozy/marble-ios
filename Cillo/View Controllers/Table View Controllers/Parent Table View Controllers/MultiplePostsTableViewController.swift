@@ -72,17 +72,18 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToPost {
-      var destination = segue.destinationViewController as PostTableViewController
+      var destination = segue.destinationViewController as! PostTableViewController
       if let sender = sender as? UIButton {
+        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
         var post: Post
         if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
-          if let repost = posts[sender.tag] as? Repost {
+          if let repost = posts[tag] as? Repost {
             post = repost.originalPost
           } else {
-            post = posts[sender.tag]
+            post = posts[tag]
           }
         } else {
-          post = posts[sender.tag]
+          post = posts[tag]
         }
         destination.post = post
         if let post = post as? Repost {
@@ -99,11 +100,12 @@ class MultiplePostsTableViewController: CustomTableViewController {
         }
       }
     } else if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as GroupTableViewController
+      var destination = segue.destinationViewController as! GroupTableViewController
       if let sender = sender as? UIButton {
-        let post = posts[sender.tag]
+        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+        let post = posts[tag]
         if let post = post as? Repost {
-          if sender.titleForState(.Normal) == post.group.name {
+          if sender.tag < 1000000 {
             destination.group = post.group
           } else {
             destination.group = post.originalPost.group
@@ -113,11 +115,12 @@ class MultiplePostsTableViewController: CustomTableViewController {
         }
       }
     } else if segue.identifier == SegueIdentifierThisToUser {
-      var destination = segue.destinationViewController as UserTableViewController
+      var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
-        let post = posts[sender.tag]
+        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+        let post = posts[tag]
         if let post = post as? Repost {
-          if sender.backgroundImageForState(.Normal) == post.user.profilePic || sender.titleForState(.Normal) == post.user.name {
+          if sender.tag < 1000000 {
             destination.user = post.user
           } else {
             destination.user = post.originalPost.user
@@ -154,12 +157,18 @@ class MultiplePostsTableViewController: CustomTableViewController {
     let post = posts[indexPath.row]
     var cell: PostCell
     if let post = post as? Repost {
-      cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+      cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as! RepostCell
     } else {
-      cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+      cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as! PostCell
     }
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
+    
+    println(cell.contentView.frame.width)
+    println(cell.separatorView!.frame.width)
+    println(cell.frame.width)
+    println(tableView.frame.width)
+    println(view.frame.width)
     
     cell.postTextView.delegate = self
     (cell as? RepostCell)?.originalPostTextView.delegate = self
@@ -196,7 +205,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     let post = posts[index]
     var id = 0
     if let post = post as? Repost {
-      id = post.originalPostID
+      id = post.originalPost.postID
     } else {
       id = post.postID
     }
@@ -340,6 +349,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is an upvoteButton in a PostCell.
   @IBAction func upvotePostPressed(sender: UIButton) {
+    println((tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! PostCell).separatorView?.frame.width)
     let post = self.posts[sender.tag]
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag, completion: { (success) -> Void in

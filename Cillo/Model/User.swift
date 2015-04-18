@@ -14,20 +14,20 @@ class User: NSObject {
   // MARK: Properties
   
   /// ID of this User.
-  let userID: Int = 0
+  var userID: Int = 0
   
   /// Username for this User.
   ///
   /// Unique to this User.
   /// 
   /// Example: @AccountName
-  let username: String = ""
+  var username: String = ""
   
   /// Display name for this User.
   var name: String = ""
   
   /// Profile picture of this User.
-  var profilePic: UIImage = UIImage(named: "Me")!
+  var profilePicURL: NSURL = NSURL()
   
   /// User biography.
   var bio: String = ""
@@ -39,7 +39,7 @@ class User: NSObject {
   var numGroups: Int = 0
   
   // TODO: Document
-  let isSelf: Bool = false
+  var isSelf: Bool = false
   
   /// Used to print properties in println statements.
   override var description: String {
@@ -66,14 +66,7 @@ class User: NSObject {
     userID = json["user_id"].intValue
     rep = json["reputation"].intValue
     if let url = NSURL(string: json["photo"].stringValue) {
-      // FIXME: Get rid of this check when default images are added to database
-      if url != NSURL(string: "https://static.cillo.co/image/34f4ca41-0d9b-436d-816a-5f30d787fbf2") {
-        if let imageData = NSData(contentsOfURL: url) {
-          if let image = UIImage(data: imageData) {
-            profilePic = image
-          }
-        }
-      }
+      profilePicURL = url
     }
     bio = json["bio"].stringValue
     numGroups = json["board_count"].intValue

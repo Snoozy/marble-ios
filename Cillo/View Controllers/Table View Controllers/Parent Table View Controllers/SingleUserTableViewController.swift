@@ -113,19 +113,20 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifierThisToPost {
-      var destination = segue.destinationViewController as PostTableViewController
+      var destination = segue.destinationViewController as! PostTableViewController
       switch cellsShown {
       case .Posts:
         if let sender = sender as? UIButton {
+          let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
           var post: Post
           if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
-            if let repost = posts[sender.tag] as? Repost {
+            if let repost = posts[tag] as? Repost {
               post = repost.originalPost
             } else {
-              post = posts[sender.tag]
+              post = posts[tag]
             }
           } else {
-            post = posts[sender.tag]
+            post = posts[tag]
           }
           destination.post = post
           if let post = post as? Repost {
@@ -143,7 +144,8 @@ class SingleUserTableViewController: CustomTableViewController {
         }
       case .Comments:
         if let sender = sender as? UIButton {
-          destination.post = comments[sender.tag].post
+          let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+          destination.post = comments[tag].post
         } else if let sender = sender as? NSIndexPath {
           destination.post = comments[sender.row].post
         }
@@ -151,13 +153,14 @@ class SingleUserTableViewController: CustomTableViewController {
         break
       }
     } else if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as GroupTableViewController
+      var destination = segue.destinationViewController as! GroupTableViewController
       switch cellsShown {
       case .Posts:
         if let sender = sender as? UIButton {
-          let post = posts[sender.tag]
+          let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+          let post = posts[tag]
           if let post = post as? Repost {
-            if sender.titleForState(.Normal) == post.group.name {
+            if sender.tag < 1000000 {
               destination.group = post.group
             } else {
               destination.group = post.originalPost.group
@@ -170,7 +173,7 @@ class SingleUserTableViewController: CustomTableViewController {
         break
       }
     } else if segue.identifier == SegueIdentifierThisToGroups {
-      var destination = segue.destinationViewController as GroupsTableViewController
+      var destination = segue.destinationViewController as! GroupsTableViewController
       destination.userID = user.userID
     }
   }
@@ -196,7 +199,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Creates UserCell, PostCell, or CommentCell based on section number of indexPath and value of cellsShown.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 {
-      let cell = tableView.dequeueReusableCellWithIdentifier(UserCell.ReuseIdentifier, forIndexPath: indexPath) as UserCell
+      let cell = tableView.dequeueReusableCellWithIdentifier(UserCell.ReuseIdentifier, forIndexPath: indexPath) as! UserCell
       cell.makeCellFromUser(user, withButtonTag: 0)
       return cell
     } else {
@@ -205,16 +208,16 @@ class SingleUserTableViewController: CustomTableViewController {
         var cell: PostCell
         let post = posts[indexPath.row]
         if let post = post as? Repost {
-          cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as RepostCell
+          cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as! RepostCell
         } else {
-          cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as PostCell
+          cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as! PostCell
         }
         cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleUserTableViewController.PostDividerHeight : 0.0)
         cell.postTextView.delegate = self
         (cell as? RepostCell)?.originalPostTextView.delegate = self
         return cell
       case .Comments:
-        let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as CommentCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as! CommentCell
         cell.makeCellFromComment(comments[indexPath.row], withSelected: false, andButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != comments.count - 1 ? SingleUserTableViewController.CommentDividerHeight : 0.0)
         return cell
       }
@@ -296,7 +299,7 @@ class SingleUserTableViewController: CustomTableViewController {
     let post = posts[index]
     var id = 0
     if let post = post as? Repost {
-      id = post.originalPostID
+      id = post.originalPost.postID
     } else {
       id = post.postID
     }

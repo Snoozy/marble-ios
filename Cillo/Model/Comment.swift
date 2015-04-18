@@ -14,10 +14,10 @@ class Comment: NSObject {
   // MARK: Properties
   
   /// ID of this Comment.
-  let commentID: Int = 0
+  var commentID: Int = 0
   
   /// User that posted this Comment.
-  let user: User = User()
+  var user: User = User()
   
   /// Post that this Comment replied to.
   var post: Post = Post()
@@ -25,15 +25,15 @@ class Comment: NSObject {
   /// Comments that replied to this Comment.
   ///
   /// Nil if this Comment does not have any children or the children are unknown.
-  let children: [Comment]?
+  var children: [Comment]?
   
   /// Content of this Comment.
-  let text: String = ""
+  var text: String = ""
   
   /// Time since this Comment was posted.
   ///
   /// String is properly formatted via NSDate.convertToTimeString(time:).
-  let time: String = ""
+  var time: String = ""
   
   /// Reputation of this Comment.
   ///

@@ -152,9 +152,9 @@ class CommentCell: UITableViewCell {
     let op = comment.isOP ? " (op)" : ""
     let nameTitle = "\(name)\(op)\(me)"
     nameButton.setTitle(nameTitle, forState: .Normal)
-    pictureButton.setBackgroundImage(comment.user.profilePic, forState: .Normal)
+    pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
     nameButton.setTitle(nameTitle, forState: .Highlighted)
-    pictureButton.setBackgroundImage(comment.user.profilePic, forState: .Highlighted)
+    pictureButton.setBackgroundImageForState(.Highlighted, withURL: comment.user.profilePicURL)
     commentTextView.text = comment.text
     commentTextView.font = CommentCell.CommentTextViewFont
     commentTextView.textContainer.lineFragmentPadding = 0
@@ -245,6 +245,7 @@ class CommentCell: UITableViewCell {
       separatorViewHeightConstraint!.constant = separatorHeight
     }
     
+    preservesSuperviewLayoutMargins = false
   }
   
   class func heightOfCommentCellForComment(comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {

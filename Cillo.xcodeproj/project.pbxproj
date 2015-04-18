@@ -38,7 +38,6 @@
 		95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */; };
 		95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9F81A71C954008AFDB9 /* WebViewController.swift */; };
 		95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */; };
-		95BEFA001A74549A008AFDB9 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9FF1A74549A008AFDB9 /* Alamofire.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
 		95EAA84E1AD19C7600DCE1E8 /* NewRepostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */; };
@@ -48,6 +47,7 @@
 		95EFD2B419F8D2B400086BAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */; };
 		95EFD2C019F8D2B400086BAF /* CilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2BF19F8D2B400086BAF /* CilloTests.swift */; };
 		95F935B11A5DE11100F65022 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F935B01A5DE11100F65022 /* NewGroupViewController.swift */; };
+		9C7D4DE5A51ED97759C1ABCF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4B14E410488646383B73EA /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1D6EC5A94CF312F19585C6D1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		95062D0A1A0D2A6200B4162D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = "Supporting Files/Extensions.swift"; sourceTree = "<group>"; };
 		9509DFFF1A55F60B00F5083B /* Repost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Repost.swift; path = Model/Repost.swift; sourceTree = "<group>"; };
 		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Model/Comment.swift; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		954A5DE51A4D00E50011DB1C /* RepostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepostCell.swift; path = Model/Cells/RepostCell.swift; sourceTree = "<group>"; };
 		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/PostTableViewController.swift"; sourceTree = "<group>"; };
 		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormattedNavigationViewController.swift; path = "View Controllers/Navigation Controllers/FormattedNavigationViewController.swift"; sourceTree = "<group>"; };
+		957FE9AB1AE1993400CADE1B /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = ../bridge.h; sourceTree = "<group>"; };
 		958321C51A461DC5003F2034 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Data/Vendor/SwiftyJSON.swift; sourceTree = "<group>"; };
 		958321CA1A462048003F2034 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = Data/DataManager.swift; sourceTree = "<group>"; };
 		9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiplePostsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultiplePostsTableViewController.swift"; sourceTree = "<group>"; };
@@ -105,7 +107,6 @@
 		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglePostTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SinglePostTableViewController.swift"; sourceTree = "<group>"; };
 		95BEF9F81A71C954008AFDB9 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewController.swift; path = "View Controllers/Standard View Controllers/WebViewController.swift"; sourceTree = "<group>"; };
 		95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/CustomTableViewController.swift"; sourceTree = "<group>"; };
-		95BEF9FF1A74549A008AFDB9 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Data/Vendor/Alamofire.swift; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Model/Cells/UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MeTableViewController.swift"; sourceTree = "<group>"; };
 		95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewRepostViewController.swift; path = "View Controllers/Standard View Controllers/NewRepostViewController.swift"; sourceTree = "<group>"; };
@@ -119,6 +120,8 @@
 		95EFD2BE19F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2BF19F8D2B400086BAF /* CilloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CilloTests.swift; sourceTree = "<group>"; };
 		95F935B01A5DE11100F65022 /* NewGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewGroupViewController.swift; path = "View Controllers/Standard View Controllers/NewGroupViewController.swift"; sourceTree = "<group>"; };
+		BA4B14E410488646383B73EA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C7D4DE5A51ED97759C1ABCF /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +143,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11F193A48D01021202160371 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA4B14E410488646383B73EA /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2FF3A9049BEDC1907F12BA7E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */,
+				1D6EC5A94CF312F19585C6D1 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		95352D6E1A155BF200874B0F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,18 +216,9 @@
 		958321C21A461D28003F2034 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				958321C31A461D39003F2034 /* Alamofire */,
 				958321C41A461D45003F2034 /* SwiftyJSON */,
 			);
 			name = Vendor;
-			sourceTree = "<group>";
-		};
-		958321C31A461D39003F2034 /* Alamofire */ = {
-			isa = PBXGroup;
-			children = (
-				95BEF9FF1A74549A008AFDB9 /* Alamofire.swift */,
-			);
-			name = Alamofire;
 			sourceTree = "<group>";
 		};
 		958321C41A461D45003F2034 /* SwiftyJSON */ = {
@@ -278,6 +290,8 @@
 				95EFD2A619F8D2B400086BAF /* Cillo */,
 				95EFD2BC19F8D2B400086BAF /* CilloTests */,
 				95EFD2A519F8D2B400086BAF /* Products */,
+				2FF3A9049BEDC1907F12BA7E /* Pods */,
+				11F193A48D01021202160371 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -313,6 +327,7 @@
 				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
 				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
 				95EFD2A819F8D2B400086BAF /* Info.plist */,
+				957FE9AB1AE1993400CADE1B /* bridge.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -341,10 +356,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EFD2C319F8D2B400086BAF /* Build configuration list for PBXNativeTarget "Cillo" */;
 			buildPhases = (
+				C61181981F4EE9128762F3B4 /* Check Pods Manifest.lock */,
 				95EFD2A019F8D2B400086BAF /* Sources */,
 				95EFD2A119F8D2B400086BAF /* Frameworks */,
 				95EFD2A219F8D2B400086BAF /* Resources */,
 				958321C01A461CE1003F2034 /* Copy Frameworks */,
+				D3B724F5AA14C38CCB0F00C5 /* Copy Pods Resources */,
+				07E22BA06EF092F8DB58818A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -431,6 +449,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		07E22BA06EF092F8DB58818A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C61181981F4EE9128762F3B4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D3B724F5AA14C38CCB0F00C5 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		95EFD2A019F8D2B400086BAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -442,7 +508,6 @@
 				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
 				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
-				95BEFA001A74549A008AFDB9 /* Alamofire.swift in Sources */,
 				9509E0001A55F60B00F5083B /* Repost.swift in Sources */,
 				95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */,
 				95F935B11A5DE11100F65022 /* NewGroupViewController.swift in Sources */,
@@ -534,6 +599,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -553,6 +619,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = bridge.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -577,6 +644,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -589,6 +657,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = bridge.h;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -596,26 +665,33 @@
 		};
 		95EFD2C419F8D2B400086BAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = bridge.h;
 			};
 			name = Debug;
 		};
 		95EFD2C519F8D2B400086BAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D6EC5A94CF312F19585C6D1 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = bridge.h;
 			};
 			name = Release;
 		};
 		95EFD2C719F8D2B400086BAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -635,6 +711,7 @@
 		};
 		95EFD2C819F8D2B400086BAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D6EC5A94CF312F19585C6D1 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
