@@ -1826,8 +1826,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2C-Ba-O2O">
-                                <rect key="frame" x="16" y="32" width="84" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2C-Ba-O2O">
+                                <rect key="frame" x="16" y="32" width="47" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1859,7 +1859,7 @@
                             <constraint firstItem="IzY-9h-aEh" firstAttribute="top" secondItem="aOY-Dp-wRE" secondAttribute="bottom" constant="13" id="hQq-tU-ghO"/>
                             <constraint firstItem="ULT-2z-as5" firstAttribute="top" secondItem="IzY-9h-aEh" secondAttribute="bottom" constant="8" id="r6b-4c-LGM"/>
                             <constraint firstAttribute="centerX" secondItem="ULT-2z-as5" secondAttribute="centerX" id="vub-rN-Urm"/>
-                            <constraint firstItem="GVP-QW-CSn" firstAttribute="leading" secondItem="R2C-Ba-O2O" secondAttribute="trailing" constant="8" id="wDE-bK-TwO"/>
+                            <constraint firstItem="GVP-QW-CSn" firstAttribute="leading" secondItem="R2C-Ba-O2O" secondAttribute="trailing" constant="45" id="wDE-bK-TwO"/>
                             <constraint firstAttribute="centerX" secondItem="IzY-9h-aEh" secondAttribute="centerX" id="xaX-vr-4lR"/>
                         </constraints>
                         <variation key="default">
@@ -1870,8 +1870,8 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="emailTextView" destination="GVP-QW-CSn" id="EmH-Gk-nOh"/>
                         <outlet property="passwordTextView" destination="H1L-j3-f3U" id="nCR-3T-DoD"/>
-                        <outlet property="userTextView" destination="GVP-QW-CSn" id="H0E-B0-S7i"/>
                         <segue destination="bWu-Qz-3tZ" kind="presentation" identifier="LoginToRegister" id="yIv-vc-nnI"/>
                     </connections>
                 </viewController>

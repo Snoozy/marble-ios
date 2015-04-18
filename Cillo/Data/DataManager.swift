@@ -189,8 +189,8 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the login was unsuccessful, this will contain the error message.
   /// :param: result If the login was successful, this will be the Auth Token.
-  func login(username: String, password: String, completion:(error: NSError?, result: String?) -> Void) {
-    Alamofire.request(.POST, Router.Login, parameters: ["username":username, "password":password], encoding: .URL)
+  func login(email: String, password: String, completion:(error: NSError?, result: String?) -> Void) {
+    Alamofire.request(.POST, Router.Login, parameters: ["email":email, "password":password], encoding: .URL)
       .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)

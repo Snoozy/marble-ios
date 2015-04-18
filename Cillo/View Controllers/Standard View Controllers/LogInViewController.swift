@@ -16,7 +16,7 @@ class LogInViewController: UIViewController {
   // MARK: IBOutlets
   
   /// Space for user to enter their username for logging in.
-  @IBOutlet weak var userTextView: UITextView!
+  @IBOutlet weak var emailTextView: UITextView!
   
   /// Space for user to enter their password for logging in.
   @IBOutlet weak var passwordTextView: UITextView!
@@ -80,7 +80,7 @@ class LogInViewController: UIViewController {
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Logging in...")
-    DataManager.sharedInstance.login(userTextView.text, password: passwordTextView.text, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.login(emailTextView.text, password: passwordTextView.text, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)
