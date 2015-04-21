@@ -41,6 +41,10 @@ class User: NSObject {
   // TODO: Document
   var isSelf: Bool = false
   
+  var isAnon: Bool {
+    return username == ""
+  }
+  
   /// Used to print properties in println statements.
   override var description: String {
     return "User {\n   User ID: \(userID)\n   Username: \(username)\n   Display Name: \(name)\n   Bio: \(bio)\n   Reputation: \(rep)\n   Number of Groups: \(numGroups)\n }\n"

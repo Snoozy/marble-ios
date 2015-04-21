@@ -98,7 +98,6 @@ class NewPostViewController: UIViewController {
   override func viewDidAppear(animated: Bool) {
     if let image = image {
       scrollView?.removeFromSuperview()
-      println("here")
       var height = imageButton.frame.width * image.size.height / image.size.width
       scrollView = UIScrollView(frame: CGRect(x: imageButton.frame.minX, y: imageButton.frame.minY, width: imageButton.frame.width, height: UITextView.KeyboardHeight))
       view.addSubview(scrollView!)

@@ -24,6 +24,8 @@ class RegisterViewController: UIViewController {
   /// Space for user to enter their password for logging in.
   @IBOutlet weak var passwordTextView: UITextView!
   
+  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UIViewController to LoginViewController
@@ -31,6 +33,15 @@ class RegisterViewController: UIViewController {
     get {
       return "RegisterToLogin"
     }
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
+  }
+  
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
   }
   
   // MARK: Helper Functions
@@ -72,4 +83,10 @@ class RegisterViewController: UIViewController {
     })
   }
 
+}
+
+extension RegisterViewController: UIBarPositioningDelegate {
+  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+    return .TopAttached
+  }
 }

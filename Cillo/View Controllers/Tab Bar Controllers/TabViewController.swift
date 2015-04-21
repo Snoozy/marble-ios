@@ -60,6 +60,19 @@ class TabViewController: UITabBarController {
 //    tabBar.translucent = false
 //  }
   
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == TabViewController.SegueIdentifierThisToNewRepost {
+      if let sender = sender as? Post {
+        let destination = segue.destinationViewController as! NewRepostViewController
+        if let repost = sender as? Repost {
+          destination.postToRepost = repost.originalPost
+        } else {
+          destination.postToRepost = sender
+        }
+      }
+    }
+  }
+  
   /// Modally presents LoginViewController if NSUserDefaults doesn't have an Auth Token stored.
   override func viewDidAppear(animated: Bool){
     if !NSUserDefaults.hasAuthAndUser() {

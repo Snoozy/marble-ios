@@ -16,29 +16,29 @@ Tap Tab to top is still acting really weird (Figure out new implementation).
 
 Find way to do multiple image Posts.
 
-Rename Groups to Boards.
+$$ Rename Groups to Boards.
 
-Allow User to take a profile picture via the camera.
+$$$ Allow User to take a profile picture via the camera.
 
-Allow User to edit their bio.
+$$$ Allow User to edit their bio.
 
-^ Make new view to edit settings
+$$$$ ^ Make new view to edit settings
 
--- Retrieve Posts from server 20 at a time. (Test) < Still retrieve everything else 20 at a time.
+-- Retrieve Posts from server 20 at a time. (Test)
 
-Implement graphics that were not taken from the internet < halfway there.
+$$$ ^ Still retrieve everything else 20 at a time.
+
+$$$$ Implement graphics that were not taken from the internet < halfway there.
 
 Handle auth token expiration.
 
--- Add an option to logout. (Test)
-
 Add a popup tableview when typing in a textfield involving Group names.
 
--- New Post UI (Test)
+-- New Post UI (Test More)
 
-New Repost UI < Redo everything (no longer popup now modal vc pushed)
+-- New Repost UI < Redo everything (no longer popup now modal vc pushed) (Test More)
 
-Present New Group modally
+$$ Present New Group modally
 
 -- Repost UI Revamp (Test more)
 

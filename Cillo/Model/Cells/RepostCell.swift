@@ -93,6 +93,13 @@ class RepostCell: PostCell {
       originalPostTextView.textContainerInset = UIEdgeInsetsZero
       originalPostTextView.editable = false
       
+      if post.originalPost.user.isAnon {
+        originalNameButton.setTitle(nameTitle, forState: .Disabled)
+        originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
+        originalNameButton.enabled = false
+        originalPictureButton.enabled = false
+      }
+      
       if seeFullButton != nil {
         if post.originalPost.seeFull == nil || post.originalPost.seeFull! {
           seeFullButton!.hidden = true
@@ -151,5 +158,7 @@ class RepostCell: PostCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     postTextViewHeightConstraint.constant = 20
+    originalNameButton.enabled = true
+    originalPictureButton.enabled = true
   }
 }

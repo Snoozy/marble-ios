@@ -187,31 +187,6 @@ class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: Helper Functions
   
-  /// Sends create post request to Cillo Servers for post.
-  ///
-  /// **Note:** Create post is used to repost posts when given a repostID parameter.
-  ///
-  /// :param: groupName The name of the group that the specified post is being reposted to.
-  /// :param: completion The completion block for the repost.
-  /// :param: success True if repost request was successful. If error was received, it is false.
-  func repostPostToGroup(groupName: String, completion: (success: Bool) -> Void) {
-    var id = 0
-    if let post = post as? Repost {
-      id = post.originalPost.postID
-    } else {
-      id = post.postID
-    }
-    DataManager.sharedInstance.createPostByGroupName(groupName, repostID: id, text: post.text, title: post.title, mediaID: nil, completion: { (error, repost) -> Void in
-      if error != nil {
-        println(error!)
-        error!.showAlert()
-        completion(success: false)
-      } else {
-        completion(success: repost != nil)
-      }
-    })
-  }
-  
   /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
   /// :param: completion The completion block for the upvote.
@@ -306,27 +281,9 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
   @IBAction func repostPressed(sender: UIButton) {
-    let alert = UIAlertController(title: "Repost", message: "Which group are you reposting this post to?", preferredStyle: .Alert)
-    let repostAction = UIAlertAction(title: "Repost", style: .Default, handler: { (action) in
-      let groupName = alert.textFields![0].text
-      self.repostPostToGroup(groupName, completion: { (success) in
-        if (success) {
-          let repostSuccessfulAlert = UIAlertController(title: "Repost Successful", message: "Reposted to \(groupName)", preferredStyle: .Alert)
-          let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (action) in
-          })
-          repostSuccessfulAlert.addAction(okAction)
-          self.presentViewController(repostSuccessfulAlert, animated: true, completion: nil)
-        }
-      })
-    })
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
-    })
-    alert.addTextFieldWithConfigurationHandler( { (textField) in
-      textField.placeholder = "Group Name"
-    })
-    alert.addAction(cancelAction)
-    alert.addAction(repostAction)
-    presentViewController(alert, animated: true, completion: nil)
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewRepost, sender: post)
+    }
   }
   
   /// Upvotes a post.

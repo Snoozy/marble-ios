@@ -733,7 +733,7 @@ class DataManager: NSObject {
               completion(error: cilloError, result: nil)
             } else {
               var post: Post
-              if swiftyJSON["repost"].boolValue {
+              if swiftyJSON["repost"] != nil {
                 post = Repost(json: swiftyJSON)
               } else {
                 post = Post(json: swiftyJSON)
@@ -779,12 +779,13 @@ class DataManager: NSObject {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
+            println(swiftyJSON)
             if swiftyJSON["error"] != nil {
               let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
               completion(error: cilloError, result: nil)
             } else {
               var post: Post
-              if swiftyJSON["repost"].boolValue {
+              if swiftyJSON["repost"] != nil {
                 post = Repost(json: swiftyJSON)
                 completion(error: nil, result: post)
               } else {
@@ -1148,8 +1149,8 @@ class DataManager: NSObject {
     
     // add image
     uploadData.appendData("\r\n--\(boundaryConstant)\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
-    uploadData.appendData("Content-Disposition: form-data; name=\"media\"; filename=\"file.png\"\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
-    uploadData.appendData("Content-Type: image/png\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+    uploadData.appendData("Content-Disposition: form-data; name=\"media\"; filename=\"file.jpeg\"\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+    uploadData.appendData("Content-Type: image/jpeg\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
     uploadData.appendData(imageData)
     
     // add parameters

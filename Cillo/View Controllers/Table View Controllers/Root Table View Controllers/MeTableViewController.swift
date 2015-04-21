@@ -137,7 +137,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
-    let imageData = UIImagePNGRepresentation(image)
+    let imageData = UIImageJPEGRepresentation(image, 0.5)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.imageUpload(imageData, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()

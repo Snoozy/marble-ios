@@ -49,16 +49,14 @@ extension String {
       return "\(millions)m"
     case 10_000_000...999_999_999, -999_999_999...(-10_000_000):
       return "\(number / 1_000_000)m"
-    case 1_000_000_000...9_999_999_999:
+    case 1_000_000_000...Int.max:
       var billions = Double(number / 1_000_000_000)
       billions += Double(number % 1_000_000_000 / 100_000_000) * 0.1
       return "\(billions)b"
-    case -9_999_999_999...(-1_000_000_000):
+    case Int.min...(-1_000_000_000):
       var billions = Double(number / 1_000_000_000)
       billions -= Double(number % 1_000_000_000 / 100_000_000) * 0.1
       return "\(billions)b"
-    case 10_000_000_000...999_999_999_999, -999_999_999_999...(-10_000_000_000):
-      return "\(number / 1_000_000_000)b"
     default:
       return "WTF"
     }

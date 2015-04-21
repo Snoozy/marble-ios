@@ -21,6 +21,8 @@ class LogInViewController: UIViewController {
   /// Space for user to enter their password for logging in.
   @IBOutlet weak var passwordTextView: UITextView!
   
+   @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UIViewController to TabViewController
@@ -41,6 +43,11 @@ class LogInViewController: UIViewController {
   
   override func viewDidLoad() {
     passwordTextView.secureTextEntry = true
+    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
+  }
+  
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
   }
   
   /// Make Root VCs retrieve their data after user logged in.
@@ -146,4 +153,10 @@ class LogInViewController: UIViewController {
     
   }
   
+}
+
+extension LogInViewController: UIBarPositioningDelegate {
+  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+    return .TopAttached
+  }
 }

@@ -155,6 +155,14 @@ class CommentCell: UITableViewCell {
     pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
     nameButton.setTitle(nameTitle, forState: .Highlighted)
     pictureButton.setBackgroundImageForState(.Highlighted, withURL: comment.user.profilePicURL)
+    
+    if comment.user.isAnon {
+      nameButton.setTitle(nameTitle, forState: .Disabled)
+      pictureButton.setBackgroundImageForState(.Disabled, withURL: comment.user.profilePicURL)
+      nameButton.enabled = false
+      pictureButton.enabled = false
+    }
+    
     commentTextView.text = comment.text
     commentTextView.font = CommentCell.CommentTextViewFont
     commentTextView.textContainer.lineFragmentPadding = 0
@@ -253,4 +261,10 @@ class CommentCell: UITableViewCell {
     return selected ? height : height - CommentCell.ButtonHeight
   }
   
+  override func prepareForReuse() {
+    nameButton.enabled = true
+    pictureButton.enabled = true
+  }
+  
 }
+

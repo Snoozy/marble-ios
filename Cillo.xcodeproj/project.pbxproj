@@ -402,6 +402,7 @@
 				TargetAttributes = {
 					95EFD2A319F8D2B400086BAF = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = C27CEAWK74;
 					};
 					95EFD2B819F8D2B400086BAF = {
 						CreatedOnToolsVersion = 6.1;
@@ -667,7 +668,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -680,7 +681,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1D6EC5A94CF312F19585C6D1 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

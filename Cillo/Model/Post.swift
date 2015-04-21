@@ -156,21 +156,21 @@ class Post: NSObject {
   func heightOfImagesInPostWithWidth(width: CGFloat, andButtonHeight height: CGFloat) -> CGFloat {
     if imageURLs != nil {
       if showImages {
-        var height: CGFloat = 0.0
+        var h: CGFloat = 0.0
         for imageURL in imageURLs! {
           let button = UIButton()
           button.setBackgroundImageForState(.Normal, withURL: imageURL, placeholderImage: UIImage(named: "Me"))
           let image = button.backgroundImageForState(.Normal)
           if image != nil && image != UIImage(named: "Me") {
-            height += width * image!.size.height / image!.size.width
+            h += width * image!.size.height / image!.size.width
           } else {
-            height += 20
+            h += height
           }
           break // TODO: Find way to make multiple images
         }
-        return height
+        return h
       } else {
-        return 20
+        return height
       }
     } else {
       return 0

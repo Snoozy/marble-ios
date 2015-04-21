@@ -142,7 +142,12 @@ class PostCell: UITableViewCell {
     postTextView.textContainerInset = UIEdgeInsetsZero
     postTextView.editable = false
     
-    
+    if post.user.isAnon {
+      nameButton.setTitle(nameTitle, forState: .Disabled)
+      pictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
+      nameButton.enabled = false
+      pictureButton.enabled = false
+    }
     
     nameButton.tag = buttonTag
     groupButton.tag = buttonTag
@@ -258,6 +263,8 @@ class PostCell: UITableViewCell {
   
   override func prepareForReuse() {
     imagesButtonHeightConstraint.constant = 0
+    nameButton.enabled = true
+    pictureButton.enabled = true
   }
   
 }
