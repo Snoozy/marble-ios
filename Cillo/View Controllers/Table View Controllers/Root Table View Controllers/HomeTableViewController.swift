@@ -65,6 +65,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
     retrievingPage = true
     posts = []
+    pageNumber = 1
     retrievePosts( { (posts) -> Void in
       self.retrievingPage = false
       activityIndicator.removeFromSuperview()
@@ -96,12 +97,6 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     if !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
-      println(pageNumber)
-      println(posts.last?.postID)
-      for post in posts {
-        print("\(post.postID),")
-      }
-      println()
       retrievingPage = true
       retrievePosts( { (posts) in
         if posts != nil {

@@ -15,6 +15,10 @@ import UIKit
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToGroup and SegueIdentifierThisToGroups.
 class SingleUserTableViewController: CustomTableViewController {
   
+  var postsPageNumber: Int = 1
+  
+  var commentsPageNumber: Int = 1
+  
   // MARK: Properties
   
   /// User for this UIViewController.

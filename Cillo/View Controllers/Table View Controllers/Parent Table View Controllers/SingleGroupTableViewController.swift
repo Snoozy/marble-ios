@@ -14,7 +14,7 @@ import UIKit
 ///
 /// **Note:** Subclasses must override SegueIdentifierThisToPost, SegueIdentifierThisToUser, and SegueIdentifierThisToNewPost.
 class SingleGroupTableViewController: CustomTableViewController {
-
+  
   // MARK: Properties
   
   /// Group that is shown in this UITableViewController.

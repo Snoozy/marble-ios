@@ -24,13 +24,6 @@ class NewRepostViewController: UIViewController {
   
   var contentView: RepostContentView!
   
-  class var StaticHeight: CGFloat {
-    return 216
-  }
-  class var InsetsToDynamicComponents: CGFloat {
-    return 56
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
@@ -55,6 +48,7 @@ class NewRepostViewController: UIViewController {
     scrollView.contentSize = contentView.frame.size
     view.addSubview(scrollView)
     scrollView.addSubview(contentView)
+    println(contentView.commentLabel.font.pointSize)
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -128,6 +122,8 @@ class RepostContentView: UIView {
   
   var usernameLabel: UILabel!
   
+  var commentLabel: UILabel!
+  
   var originalPictureButton: UIButton!
   
   var originalUsernameLabel: UILabel!
@@ -152,11 +148,11 @@ class RepostContentView: UIView {
     usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 17, width: 200, height: 21))
     usernameLabel.font = UIFont.boldSystemFontOfSize(17)
     
-    let commentLabel = UILabel(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 3, width: 144, height: 15))
+    commentLabel = UILabel(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 3, width: 144, height: 15))
     commentLabel.font = UIFont.systemFontOfSize(12)
     commentLabel.text = "Comment about the Post:"
     
-    let groupTextFieldLeadingEdge = width - commentLabel.frame.maxX - 52
+    let groupTextFieldLeadingEdge = commentLabel.frame.maxX + 40
     
     let repostLabel = UILabel(frame: CGRect(x: groupTextFieldLeadingEdge, y: 10, width: 97, height: 15))
     repostLabel.font = UIFont.systemFontOfSize(12)

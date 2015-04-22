@@ -64,6 +64,7 @@ class GroupTableViewController: SingleGroupTableViewController {
     retrievingPage = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
     posts = []
+    pageNumber = 1
     retrievePosts( { (posts) -> Void in
       self.retrievingPage = false
       activityIndicator.removeFromSuperview()

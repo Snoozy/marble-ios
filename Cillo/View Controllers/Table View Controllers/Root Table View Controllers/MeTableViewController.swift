@@ -15,6 +15,8 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class MeTableViewController: SingleUserTableViewController {
 
+  var retrievingPage = false
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
@@ -55,19 +57,35 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// Assigns user, posts, and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
+    var activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
     retrieveUser( { (user) -> Void in
+      activityIndicator.removeFromSuperview()
       if user != nil {
         self.user = user!
+        activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Posts...")
+        self.retrievingPage = true
+        self.posts = []
+        self.postsPageNumber = 1
         self.retrievePosts( { (posts) -> Void in
+          activityIndicator.removeFromSuperview()
           if posts != nil {
             self.posts = posts!
+            self.postsPageNumber++
+            activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Comments...")
+            self.comments = []
+            self.commentsPageNumber = 1
             self.retrieveComments( { (comments) -> Void in
+              activityIndicator.removeFromSuperview()
               if comments != nil {
                 self.comments = comments!
                 self.refreshControl?.endRefreshing()
                 self.tableView.reloadData()
+                self.commentsPageNumber++
               }
+              self.retrievingPage = false
             })
+          } else {
+            self.retrievingPage = false
           }
         })
       }
@@ -80,9 +98,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: user The logged in User.
   /// :param: * Nil if there was an error in the server call.
   func retrieveUser(completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
+    
     DataManager.sharedInstance.getSelfInfo( { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)
         error!.showAlert()
@@ -99,12 +116,11 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: posts The posts that the logged in User has made.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
-    DataManager.sharedInstance.getUserPostsByID(user.userID, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
+    
+    DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
-        error!.showAlert()
+        //error!.showAlert()
         completion(posts: nil)
       } else {
         completion(posts: result!)
@@ -118,12 +134,11 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: comments The comments that the logged in User has made.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completion: (comments: [Comment]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Comments...")
-    DataManager.sharedInstance.getUserCommentsByID(user.userID, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
+    
+    DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
-        error!.showAlert()
+        //error!.showAlert()
         completion(comments: nil)
       } else {
         completion(comments: result!)
@@ -289,6 +304,38 @@ class MeTableViewController: SingleUserTableViewController {
     presentViewController(alert, animated: true, completion: nil)
   }
   
+  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    switch cellsShown {
+    case .Posts:
+      if !retrievingPage && indexPath.row > (postsPageNumber - 2) * 20 + 10 {
+        retrievingPage = true
+        retrievePosts( { (posts) in
+          if posts != nil {
+            for post in posts! {
+              self.posts.append(post)
+            }
+            self.postsPageNumber++
+            self.tableView.reloadData()
+          }
+          self.retrievingPage = false
+        })
+      }
+    case .Comments:
+      if !retrievingPage && indexPath.row > (commentsPageNumber - 2) * 20 + 10 {
+        retrievingPage = true
+        retrieveComments( { (comments) in
+          if comments != nil {
+            for comment in comments! {
+              self.comments.append(comment)
+            }
+            self.commentsPageNumber++
+            self.tableView.reloadData()
+          }
+          self.retrievingPage = false
+        })
+      }
+    }
+  }
 }
 
 extension MeTableViewController: UIImagePickerControllerDelegate {

@@ -15,6 +15,7 @@ import UIKit
 /// **Note:** Must assign user property of superclass a relevant value before displaying this SingleUserTableViewController.
 class UserTableViewController: SingleUserTableViewController {
 
+  var retrievingPage = false
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
@@ -55,16 +56,30 @@ class UserTableViewController: SingleUserTableViewController {
   ///
   /// Assigns posts and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
+    var activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
+    self.posts = []
+    self.postsPageNumber = 1
+    retrievingPage = true
     retrievePosts( { (posts) -> Void in
+      activityIndicator.removeFromSuperview()
       if posts != nil {
         self.posts = posts!
+        self.postsPageNumber++
+        activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Comments")
+        self.comments = []
+        self.commentsPageNumber = 1
         self.retrieveComments( { (comments) -> Void in
+          activityIndicator.removeFromSuperview()
           if comments != nil {
             self.comments = comments!
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.commentsPageNumber++
           }
+          self.retrievingPage = false
         })
+      } else {
+        self.retrievingPage = false
       }
     })
   }
@@ -75,12 +90,10 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
-    DataManager.sharedInstance.getUserPostsByID(user.userID, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
+    DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
-        error!.showAlert()
+        //error!.showAlert()
         completion(posts: nil)
       } else {
         completion(posts: result!)
@@ -94,17 +107,48 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completion: (comments: [Comment]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Comments")
-    DataManager.sharedInstance.getUserCommentsByID(user.userID, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
+    DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID, completion: { (error, result) -> Void in
       if error != nil {
         println(error!)
-        error!.showAlert()
+        //error!.showAlert()
         completion(comments: nil)
       } else {
         completion(comments: result!)
       }
     })
+  }
+  
+  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    switch cellsShown {
+    case .Posts:
+      if !retrievingPage && indexPath.row > (postsPageNumber - 2) * 20 + 10 {
+        retrievingPage = true
+        retrievePosts( { (posts) in
+          if posts != nil {
+            for post in posts! {
+              self.posts.append(post)
+            }
+            self.postsPageNumber++
+            self.tableView.reloadData()
+          }
+          self.retrievingPage = false
+        })
+      }
+    case .Comments:
+      if !retrievingPage && indexPath.row > (commentsPageNumber - 2) * 20 + 10 {
+        retrievingPage = true
+        retrieveComments( { (comments) in
+          if comments != nil {
+            for comment in comments! {
+              self.comments.append(comment)
+            }
+            self.commentsPageNumber++
+            self.tableView.reloadData()
+          }
+          self.retrievingPage = false
+        })
+      }
+    }
   }
 
 }

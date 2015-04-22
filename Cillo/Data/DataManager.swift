@@ -61,9 +61,9 @@ enum Router: URLStringConvertible {
   case PostComments(Int) // DONE
   case SelfInfo // DONE
   case UserInfo //DONE
-  case UserGroups(Int) // DONE
-  case UserPosts(Int) // DONE
-  case UserComments(Int) // DONE
+  case UserGroups(Int, Int?) // DONE
+  case UserPosts(Int, Int?) // DONE
+  case UserComments(Int, Int?) // DONE
   case GroupSearch
   case GroupAutocomplete
   
@@ -106,17 +106,20 @@ enum Router: URLStringConvertible {
       case .PostInfo(let postID):
         return "/\(vNum)/posts/\(postID)/describe\(authString)"
       case .PostComments(let postID):
-        return "/\(vNum)/posts/\(postID)/comments\(authString)\(pageString)"
+        return "/\(vNum)/posts/\(postID)/comments\(authString)"
       case .SelfInfo:
         return "/\(vNum)/me/describe\(authString)"
       case .UserInfo:
         return "/\(vNum)/users/describe\(authString)"
-      case .UserGroups(let userID):
-        return "/\(vNum)/users/\(userID)/boards\(authString)"
-      case .UserPosts(let userID):
-        return "/\(vNum)/users/\(userID)/posts\(authString)\(pageString)"
-      case .UserComments(let userID):
-        return "/\(vNum)/users/\(userID)/comments\(authString)"
+      case .UserGroups(let userID, let pgNum):
+        let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
+        return "/\(vNum)/users/\(userID)/boards\(authString)\(page)"
+      case .UserPosts(let userID, let pgNum):
+        let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
+        return "/\(vNum)/users/\(userID)/posts\(authString)\(page)"
+      case .UserComments(let userID, let pgNum):
+        let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
+        return "/\(vNum)/users/\(userID)/comments\(authString)\(page)"
       case .GroupSearch:
         return "/\(vNum)/boards/search\(authString)"
       case .GroupAutocomplete:
@@ -540,15 +543,15 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the groups that the user follows.
-  func getUserGroupsByID(userID: Int, completion:(error: NSError?, result: [Group]?) -> Void) {
-    Alamofire.request(.GET, Router.UserGroups(userID), parameters: nil, encoding: .URL)
+  func getUserGroupsByID(#lastGroupID: Int?, userID: Int, completion:(error: NSError?, result: [Group]?) -> Void) {
+    Alamofire.request(.GET, Router.UserGroups(userID, lastGroupID), parameters: nil, encoding: .URL)
       .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
             if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserGroups(userID))
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserGroups(userID, lastGroupID))
               completion(error: cilloError, result: nil)
             } else {
               let groups = swiftyJSON["boards"].arrayValue
@@ -560,7 +563,7 @@ class DataManager: NSObject {
               completion(error: nil, result: returnArray)
             }
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserGroups(userID)), result: nil)
+            completion(error: NSError.noJSONFromDataError(requestType: .UserGroups(userID, lastGroupID)), result: nil)
           }
         }
     })
@@ -574,15 +577,15 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts that the user has made.
-  func getUserPostsByID(userID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire.request(.GET, Router.UserPosts(userID), parameters: nil, encoding: .URL)
+  func getUserPostsByID(#lastPostID: Int?, userID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
+    Alamofire.request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
       .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
         } else {
           if let swiftyJSON = JSON(rawValue: data!) {
             if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserPosts(userID))
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserPosts(userID, lastPostID))
               completion(error: cilloError, result: nil)
             } else {
               let posts = swiftyJSON["posts"].arrayValue
@@ -599,7 +602,7 @@ class DataManager: NSObject {
               completion(error: nil, result: returnArray)
             }
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID)), result: nil)
+            completion(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID, lastPostID)), result: nil)
           }
         }
     })
@@ -613,8 +616,8 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comments that the user has made.
-  func getUserCommentsByID(userID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
-    Alamofire.request(.GET, Router.UserComments(userID), parameters: nil, encoding: .URL)
+  func getUserCommentsByID(#lastCommentID: Int?, userID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
+    Alamofire.request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
       .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
         if error != nil {
           completion(error: error!, result: nil)
@@ -622,7 +625,7 @@ class DataManager: NSObject {
           if let swiftyJSON = JSON(rawValue: data!) {
             println(swiftyJSON)
             if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID))
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID, lastCommentID))
               completion(error: cilloError, result: nil)
             } else {
               let comments = swiftyJSON["comments"].arrayValue
@@ -634,7 +637,7 @@ class DataManager: NSObject {
               completion(error: nil, result: returnArray)
             }
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID)), result: nil)
+            completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID, lastCommentID)), result: nil)
           }
         }
     })

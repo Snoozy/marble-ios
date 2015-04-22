@@ -56,11 +56,11 @@ class LogInViewController: UIViewController {
       if let destination = segue.destinationViewController as? TabViewController {
         for vc in destination.viewControllers! {
           if let vc = vc as? FormattedNavigationViewController {
-            if let visibleVC = vc.visibleViewController as? HomeTableViewController {
+            if let visibleVC = vc.topViewController as? HomeTableViewController {
               visibleVC.retrieveData()
-            } else if let visibleVC = vc.visibleViewController as? MyGroupsTableViewController {
+            } else if let visibleVC = vc.topViewController as? MyGroupsTableViewController {
               visibleVC.retrieveData()
-            } else if let visibleVC = vc.visibleViewController as? MeTableViewController {
+            } else if let visibleVC = vc.topViewController as? MeTableViewController {
               visibleVC.retrieveData()
             }
           } else if let vc = vc as? HomeTableViewController {

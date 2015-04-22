@@ -164,12 +164,6 @@ class MultiplePostsTableViewController: CustomTableViewController {
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
     
-    println(cell.contentView.frame.width)
-    println(cell.separatorView!.frame.width)
-    println(cell.frame.width)
-    println(tableView.frame.width)
-    println(view.frame.width)
-    
     cell.postTextView.delegate = self
     (cell as? RepostCell)?.originalPostTextView.delegate = self
     

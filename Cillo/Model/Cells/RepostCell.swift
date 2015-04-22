@@ -93,6 +93,8 @@ class RepostCell: PostCell {
       originalPostTextView.textContainerInset = UIEdgeInsetsZero
       originalPostTextView.editable = false
       
+      goToOriginalPostButton.tintColor = UIColor.cilloBlue()
+      
       if post.originalPost.user.isAnon {
         originalNameButton.setTitle(nameTitle, forState: .Disabled)
         originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)

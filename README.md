@@ -26,7 +26,7 @@ $$$$ ^ Make new view to edit settings
 
 -- Retrieve Posts from server 20 at a time. (Test)
 
-$$$ ^ Still retrieve everything else 20 at a time.
+-- ^ Still retrieve everything else 20 at a time. (Test)
 
 $$$$ Implement graphics that were not taken from the internet < halfway there.
 

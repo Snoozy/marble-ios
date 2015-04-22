@@ -15,6 +15,10 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class MyGroupsTableViewController: MultipleGroupsTableViewController {
 
+  var retrievingPage = false
+  
+  var searched = false
+  
   var searchResults: [String] = []
   
   // MARK: Constants
@@ -50,11 +54,18 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
   ///
   /// Assigns groups property of MultipleGroupsTableViewController correct values from server calls.
   override func retrieveData() {
+    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Groups")
+    retrievingPage = true
+    groups = []
+    pageNumber = 1
     retrieveGroups( { (groups) -> Void in
+      activityIndicator.removeFromSuperview()
+      self.retrievingPage = false
       if groups != nil {
         self.groups = groups!
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
+        self.pageNumber++
       }
     })
   }
@@ -65,13 +76,12 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
   /// :param: groups The groups that the logged in User follows.
   /// :param: * Nil if there was an error in the server call.
   func retrieveGroups(completion: (groups: [Group]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Groups")
+    
     if let userID = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User) as? Int) {
-      DataManager.sharedInstance.getUserGroupsByID(userID, completion: { (error, result) -> Void in
-        activityIndicator.removeFromSuperview()
+      DataManager.sharedInstance.getUserGroupsByID(lastGroupID: groups.last?.groupID, userID: userID, completion: { (error, result) -> Void in
         if error != nil {
           println(error!)
-          error!.showAlert()
+          //error!.showAlert()
           completion(groups: nil)
         } else {
           completion(groups: result!)
@@ -104,6 +114,22 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
         completion(names: result!)
       }
     })
+  }
+  
+  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    if tableView == self.tableView && !searched && !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
+      retrievingPage = true
+      retrieveGroups( { (groups) in
+        if groups != nil {
+          for group in groups! {
+            self.groups.append(group)
+          }
+          self.pageNumber++
+          self.tableView.reloadData()
+        }
+        self.retrievingPage = false
+      })
+    }
   }
 }
 

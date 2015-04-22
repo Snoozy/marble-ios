@@ -13,6 +13,8 @@ import UIKit
 /// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToNewGroup.
 class MultipleGroupsTableViewController: CustomTableViewController {
   
+  var pageNumber: Int = 1
+  
   // MARK: Properties
   
   /// Groups for this UITableViewController.
