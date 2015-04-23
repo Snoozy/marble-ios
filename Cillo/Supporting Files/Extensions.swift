@@ -173,7 +173,7 @@ extension NSDate {
       return "\(millisSincePost / 3_600_000)h"
     case 86_400_000...31_535_999_999:
       return "\(millisSincePost / 86_400_000)d"
-    case 31_536_000_000...Int64.max:
+    case 31_536_000_000..<Int64.max:
       return "\(millisSincePost / 31_536_000_000)y"
     default:
       return "WTF"

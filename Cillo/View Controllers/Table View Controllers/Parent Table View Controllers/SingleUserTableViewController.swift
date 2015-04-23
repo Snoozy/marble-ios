@@ -121,7 +121,7 @@ class SingleUserTableViewController: CustomTableViewController {
       switch cellsShown {
       case .Posts:
         if let sender = sender as? UIButton {
-          let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+          let tag = sender.tag >= 1000000 ? sender.tag / 1000000 : sender.tag
           var post: Post
           if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
             if let repost = posts[tag] as? Repost {
@@ -148,7 +148,7 @@ class SingleUserTableViewController: CustomTableViewController {
         }
       case .Comments:
         if let sender = sender as? UIButton {
-          let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+          let tag = sender.tag >= 1000000 ? sender.tag / 1000000 : sender.tag
           destination.post = comments[tag].post
         } else if let sender = sender as? NSIndexPath {
           destination.post = comments[sender.row].post
@@ -161,7 +161,7 @@ class SingleUserTableViewController: CustomTableViewController {
       switch cellsShown {
       case .Posts:
         if let sender = sender as? UIButton {
-          let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+          let tag = sender.tag >= 1000000 ? sender.tag / 1000000 : sender.tag
           let post = posts[tag]
           if let post = post as? Repost {
             if sender.tag < 1000000 {

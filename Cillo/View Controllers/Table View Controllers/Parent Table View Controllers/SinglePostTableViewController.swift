@@ -175,7 +175,7 @@ class SinglePostTableViewController: CustomTableViewController {
   
   /// Updates selectedPath when a new cell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if selectedPath !== indexPath {
+    if selectedPath != indexPath {
       selectedPath = indexPath
     } else {
       selectedPath = nil

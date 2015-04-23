@@ -102,7 +102,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     } else if segue.identifier == SegueIdentifierThisToGroup {
       var destination = segue.destinationViewController as! GroupTableViewController
       if let sender = sender as? UIButton {
-        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+        let tag = sender.tag >= 1000000 ? sender.tag / 1000000 : sender.tag
         let post = posts[tag]
         if let post = post as? Repost {
           if sender.tag < 1000000 {
@@ -117,7 +117,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     } else if segue.identifier == SegueIdentifierThisToUser {
       var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
-        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+        let tag = sender.tag >= 1000000 ? sender.tag / 1000000 : sender.tag
         let post = posts[tag]
         if let post = post as? Repost {
           if sender.tag < 1000000 {
