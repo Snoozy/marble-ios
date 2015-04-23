@@ -224,7 +224,7 @@ extension NSError {
   /// * GET Request: 1
   /// * POST Request: 2
   ///
-  /// *Second Digit: Data that requester has already"
+  /// *Second Digit: Data that requester has already*
   ///
   /// * Post: 1
   /// * Comment: 2
@@ -235,7 +235,7 @@ extension NSError {
   /// * Search: 7
   /// * Autocomplete: 8
   ///
-  /// *Third Digit: Data that is needed from the server"
+  /// *Third Digit: Data that is needed from the server*
   ///
   /// * Post: 1
   /// * Comment: 2
@@ -251,6 +251,7 @@ extension NSError {
   /// * Downvote or Unfollow: 3
   /// * Account Related: 4
   /// * Upload: 5
+  /// * Password Change: 6
   ///
   /// :param: requestType The request that retrieved an error. See Router enum for full list.
   /// :returns: The 3 (GET requests) or 4 (POST requests) digit code for an error with a speccific Router type.
@@ -309,6 +310,8 @@ extension NSError {
       code = 2363
     case .SelfSettings:
       code = 2544
+    case .PasswordUpdate:
+      code = 2556
     }
     return code
   }

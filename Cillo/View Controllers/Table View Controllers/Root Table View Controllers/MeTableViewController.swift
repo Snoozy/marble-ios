@@ -174,45 +174,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: user The User object for the logged in User after being updated with a new profilePic. Nil if error was received.
   func updateProfilePic(mediaID: Int, completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
-    DataManager.sharedInstance.editSelfSettings(newName: nil, newMediaID: mediaID, newBio: nil, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
-        completion(user: nil)
-      } else {
-        completion(user: result!)
-      }
-    })
-  }
-  
-  /// Sends edit settings request to Cillo Servers for the logged in User in order to change the name of the logged in User.
-  ///
-  /// :param: name The new name of the logged in User.
-  /// :param: completion The completion block for the repost.
-  /// :param: user The User object for the logged in User after being updated with a new name. Nil if error was received.
-  func updateName(name: String, completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
-    DataManager.sharedInstance.editSelfSettings(newName: name, newMediaID: nil, newBio: nil, completion: { (error, result) -> Void in
-      activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
-        completion(user: nil)
-      } else {
-        completion(user: result!)
-      }
-    })
-  }
-  
-  /// Sends edit settings request to Cillo Servers for the logged in User in order to change the bio of the logged in User.
-  ///
-  /// :param: bio The new bio of the logged in User.
-  /// :param: completion The completion block for the repost.
-  /// :param: user The User object for the logged in User after being updated with a new bio. Nil if error was received.
-  func updateBio(bio: String, completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
-    DataManager.sharedInstance.editSelfSettings(newName: nil, newMediaID: nil, newBio: bio, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.editSelfSettings(newName: nil, newUsername: nil, newMediaID: mediaID, newBio: nil, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)
@@ -261,31 +223,6 @@ class MeTableViewController: SingleUserTableViewController {
     presentViewController(actionSheet, animated: true, completion: nil)
   }
   
-  /// Presents alert with a text field that allows the user to change their name.
-  ///
-  /// :param: sender The button that is touched to send this function is a nameButton in a UserCell.
-  @IBAction func nameButtonPressed(sender: UIButton) {
-    let alert = UIAlertController(title: "Change Display Name", message: "Enter new name:", preferredStyle: .Alert)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
-    })
-    let okAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-      let nameTextField = alert.textFields![0] as! UITextField
-      self.updateName(nameTextField.text, completion: { (user) -> Void in
-        if user != nil {
-          self.user = user!
-          let userIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([userIndexPath], withRowAnimation: .None)
-        }
-      })
-    })
-    alert.addTextFieldWithConfigurationHandler( { (textField) in
-      textField.placeholder = "New Name"
-    })
-    alert.addAction(okAction)
-    alert.addAction(cancelAction)
-    presentViewController(alert, animated: true, completion: nil)
-  }
-  
   @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
     let alert = UIAlertController(title: "Logout", message: "Are you sure you want to Logout?", preferredStyle: .Alert)
     let yesAction = UIAlertAction(title: "Yes", style: .Default, handler: { (action) in
@@ -302,6 +239,10 @@ class MeTableViewController: SingleUserTableViewController {
     alert.addAction(yesAction)
     alert.addAction(cancelAction)
     presentViewController(alert, animated: true, completion: nil)
+  }
+  
+  @IBAction func cogPressed(sender: UIButton) {
+    self.tabBarController?.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToSettings, sender: user)
   }
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {

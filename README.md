@@ -20,9 +20,7 @@ $$ Rename Groups to Boards.
 
 $$$ Allow User to take a profile picture via the camera.
 
-$$$ Allow User to edit their bio.
-
-$$$$ ^ Make new view to edit settings
+-- ^ Make new view to edit settings (Test)
 
 -- Retrieve Posts from server 20 at a time. (Test)
 

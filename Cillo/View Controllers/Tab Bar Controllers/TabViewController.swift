@@ -51,6 +51,10 @@ class TabViewController: UITabBarController {
       return "TabToNewPost"
     }
   }
+  
+  class var SegueIdentifierThisToSettings: String {
+    return "TabToSettings"
+  }
 
   // MARK: UIViewController
   
@@ -69,6 +73,11 @@ class TabViewController: UITabBarController {
         } else {
           destination.postToRepost = sender
         }
+      }
+    } else if segue.identifier == TabViewController.SegueIdentifierThisToSettings {
+      if let sender = sender as? User {
+        let destination = segue.destinationViewController as! SettingsViewController
+        destination.user = sender
       }
     }
   }

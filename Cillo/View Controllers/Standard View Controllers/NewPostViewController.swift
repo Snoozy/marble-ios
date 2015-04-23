@@ -146,7 +146,7 @@ class NewPostViewController: UIViewController {
     }
     let activityIndicator = addActivityIndicatorToCenterWithText("Creating Post...")
     if let image = image {
-      DataManager.sharedInstance.imageUpload(UIImagePNGRepresentation(image), completion: { (error, mediaID) in
+      DataManager.sharedInstance.imageUpload(UIImageJPEGRepresentation(image, 0.5), completion: { (error, mediaID) in
         if error != nil {
           activityIndicator.removeFromSuperview()
           println(error!)

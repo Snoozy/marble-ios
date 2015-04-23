@@ -82,6 +82,7 @@ enum Router: URLStringConvertible {
   case GroupFollow(Int) // DONE
   case GroupUnfollow(Int) // DONE
   case SelfSettings // DONE
+  case PasswordUpdate
   
   /// Part of URL after the baseURLString.
   var URLString: String {
@@ -154,6 +155,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/boards/\(groupID)/unfollow\(authString)"
       case .SelfSettings:
         return "/\(vNum)/me/settings\(authString)"
+      case .PasswordUpdate:
+        return "/\(vNum)/me/settings/password\(authString)"
       }
     }()
     
@@ -1098,10 +1101,13 @@ class DataManager: NSObject {
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the user object of the logged in User with the updated settings.
-  func editSelfSettings(#newName: String?, newMediaID: Int?, newBio: String?, completion:(error: NSError?, result: User?) -> Void) {
+  func editSelfSettings(#newName: String?, newUsername: String?, newMediaID: Int?, newBio: String?, completion:(error: NSError?, result: User?) -> Void) {
     var parameters: [String: AnyObject] = [:]
     if let newName = newName {
       parameters["name"] = newName
+    }
+    if let newUsername = newUsername {
+      parameters["username"] = newUsername
     }
     if let newMediaID = newMediaID {
       parameters["photo"] = newMediaID
@@ -1127,6 +1133,26 @@ class DataManager: NSObject {
           }
         }
     })
+  }
+  
+  func updatePassword(#oldPassword: String, newPassword: String, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL)
+      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        if error != nil {
+          completion(error: error!, success: false)
+        } else {
+          if let swiftyJSON = JSON(rawValue: data!) {
+            if swiftyJSON["error"] != nil {
+              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PasswordUpdate)
+              completion(error: cilloError, success: false)
+            } else {
+              completion(error: nil, success: true)
+            }
+          } else {
+            completion(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)
+          }
+        }
+      })
   }
   
   // MARK: Helper Functions
