@@ -106,7 +106,7 @@ class NewPostViewController: UIViewController {
       let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: scrollView!.contentSize.width, height: scrollView!.contentSize.height))
       scrollView!.addSubview(imageView)
       imageView.image = image
-      imageView.contentMode = .ScaleAspectFit
+      imageView.contentMode = .ScaleAspectFill
       view.bringSubviewToFront(imageButton)
       imageButton.setTitle("Choose New Image", forState: .Normal)
       imageButton.setTitle("Choose New Image", forState: .Highlighted)
