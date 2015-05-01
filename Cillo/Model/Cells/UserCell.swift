@@ -129,7 +129,7 @@ class UserCell: UITableViewCell {
     repLabel.attributedText = repText
     
     // Make only the number in groupsButton bold
-    var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " GROUPS", secondFont: UserCell.GroupsFont)
+    var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " BOARDS", secondFont: UserCell.GroupsFont)
     groupsButton.setAttributedTitle(groupsText, forState: .Normal)
     groupsButton.tintColor = UIColor.blackColor()
     

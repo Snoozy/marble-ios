@@ -78,8 +78,7 @@ class RepostCell: PostCell {
       
       postTextViewHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil)
       
-      let me = post.originalPost.user.isSelf ? " (me)" : ""
-      let nameTitle = "\(post.originalPost.user.name)\(me)"
+      let nameTitle = "\(post.originalPost.user.name)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
       originalGroupButton.setTitle(post.originalPost.group.name, forState: .Normal)
       originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.profilePicURL)

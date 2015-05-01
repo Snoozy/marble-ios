@@ -16,9 +16,9 @@ Tap Tab to top is still acting really weird (Figure out new implementation).
 
 Find way to do multiple image Posts.
 
-$$ Rename Groups to Boards.
+-- Rename Groups to Boards. (Test)
 
-$$$ Allow User to take a profile picture via the camera.
+-- Allow User to take a profile picture via the camera. (Test)
 
 -- ^ Make new view to edit settings (Test)
 
@@ -36,7 +36,7 @@ Add a popup tableview when typing in a textfield involving Group names.
 
 -- New Repost UI < Redo everything (no longer popup now modal vc pushed) (Test More)
 
-$$ Present New Group modally
+-- Present New Group modally (Test)
 
 -- Repost UI Revamp (Test more)
 

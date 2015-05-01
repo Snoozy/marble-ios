@@ -148,9 +148,7 @@ class CommentCell: UITableViewCell {
     }
     
     println(comment.user.isSelf)
-    let me = comment.user.isSelf ? " (me)" : ""
-    let op = comment.isOP ? " (op)" : ""
-    let nameTitle = "\(name)\(op)\(me)"
+    let nameTitle = "\(name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
     nameButton.setTitle(nameTitle, forState: .Highlighted)

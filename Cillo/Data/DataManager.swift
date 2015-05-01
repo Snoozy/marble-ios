@@ -726,7 +726,7 @@ class DataManager: NSObject {
       parameters["title"] = title
     }
     if let mediaID = mediaID {
-      parameters["media_id"] = mediaID
+      parameters["media"] = mediaID
     }
     Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
@@ -823,7 +823,7 @@ class DataManager: NSObject {
       parameters["description"] = description
     }
     if let mediaID = mediaID {
-      parameters["media"] = mediaID
+      parameters["photo"] = mediaID
     }
     Alamofire.request(.POST, Router.GroupCreate, parameters: parameters, encoding: .URL)
       .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in

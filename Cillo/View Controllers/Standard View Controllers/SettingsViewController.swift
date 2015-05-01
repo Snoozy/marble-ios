@@ -35,6 +35,7 @@ class SettingsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
+    fakeNavigationBar.translucent = false
     changePasswordButton.tintColor = UIColor.cilloBlue()
     updatePhotoButton.tintColor = UIColor.cilloBlue()
     nameTextView.text = user.name
@@ -191,7 +192,12 @@ class SettingsViewController: UIViewController {
       self.presentViewController(pickerController, animated: true, completion: nil)
     })
     let cameraAction = UIAlertAction(title: "Take Photo", style: .Default, handler: { (action) in
-      // TODO: Camera picker
+      let pickerController = UIImagePickerController()
+      pickerController.delegate = self
+      if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+        pickerController.sourceType = .Camera
+      }
+      self.presentViewController(pickerController, animated: true, completion: nil)
     })
     actionSheet.addAction(cancelAction)
     actionSheet.addAction(pickerAction)

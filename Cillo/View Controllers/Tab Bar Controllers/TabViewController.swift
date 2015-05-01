@@ -55,6 +55,10 @@ class TabViewController: UITabBarController {
   class var SegueIdentifierThisToSettings: String {
     return "TabToSettings"
   }
+  
+  class var SegueIdentifierThisToNewGroup: String {
+    return "TabToNewGroup"
+  }
 
   // MARK: UIViewController
   

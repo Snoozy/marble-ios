@@ -27,6 +27,7 @@ class NewRepostViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
+    fakeNavigationBar.translucent = false
   }
   
   override func viewWillAppear(animated: Bool) {

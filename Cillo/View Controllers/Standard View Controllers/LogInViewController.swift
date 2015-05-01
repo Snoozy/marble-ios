@@ -44,6 +44,7 @@ class LogInViewController: UIViewController {
   override func viewDidLoad() {
     passwordTextView.secureTextEntry = true
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
+    fakeNavigationBar.translucent = false
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {

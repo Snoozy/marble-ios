@@ -38,6 +38,7 @@ class RegisterViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
+    fakeNavigationBar.translucent = false
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {

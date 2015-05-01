@@ -215,7 +215,12 @@ class MeTableViewController: SingleUserTableViewController {
       self.presentViewController(pickerController, animated: true, completion: nil)
     })
     let cameraAction = UIAlertAction(title: "Take Photo", style: .Default, handler: { (action) in
-      // TODO: Camera picker
+      let pickerController = UIImagePickerController()
+      pickerController.delegate = self
+      if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+        pickerController.sourceType = .Camera
+      }
+      self.presentViewController(pickerController, animated: true, completion: nil)
     })
     actionSheet.addAction(cancelAction)
     actionSheet.addAction(pickerAction)

@@ -126,8 +126,7 @@ class PostCell: UITableViewCell {
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     
-    let me = post.user.isSelf ? " (me)" : ""
-    let nameTitle = "\(post.user.name)\(me)"
+    let nameTitle = "\(post.user.name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     groupButton.setTitle(post.group.name, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: post.user.profilePicURL)

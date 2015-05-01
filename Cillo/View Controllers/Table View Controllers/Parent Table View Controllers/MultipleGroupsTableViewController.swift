@@ -38,15 +38,6 @@ class MultipleGroupsTableViewController: CustomTableViewController {
     }
   }
   
-  /// Segue Identifier in Storyboard for this UITableViewController to NewGroupViewController.
-  ///
-  /// **Note:** Subclasses must override this Constant.
-  var SegueIdentifierThisToNewGroup: String {
-    get {
-      return ""
-    }
-  }
-  
   // MARK: UIViewController
   
   /// Removes the default separator from tableView to allow for the custom implementation of cell separators.
@@ -64,8 +55,6 @@ class MultipleGroupsTableViewController: CustomTableViewController {
       } else if let sender = sender as? UIButton {
         destination.group = groups[sender.tag]
       }
-    } else if segue.identifier == SegueIdentifierThisToNewGroup {
-      // no data to pass
     }
   }
   
@@ -163,7 +152,9 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is the button in the navigationBar.
   @IBAction func triggerNewGroupSegueOnButton(sender: UIBarButtonItem) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToNewGroup, sender: sender)
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewGroup, sender: sender)
+    }
   }
   
   /// Either follows the group at index sender.tag or presents an ActionSheet to unfollow the group.

@@ -30,13 +30,6 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
     }
   }
   
-  /// Segue Identifier in Storyboard for this UITableViewController to NewGroupViewController.
-  override var SegueIdentifierThisToNewGroup: String {
-    get {
-      return "MyGroupsToNewGroup"
-    }
-  }
-  
   // MARK: UIViewController
   
   /// Initializes groups array
