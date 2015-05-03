@@ -26,7 +26,9 @@ Find way to do multiple image Posts.
 
 -- ^ Still retrieve everything else 20 at a time. (Test)
 
-$$$$ Implement graphics that were not taken from the internet < halfway there.
+-- Implement graphics that were not taken from the internet (Test)
+
+$$ Do 10 groups on MyGroupsVC with New Board button after them and Show All button.
 
 Handle auth token expiration.
 

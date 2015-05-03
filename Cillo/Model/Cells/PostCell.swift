@@ -173,6 +173,7 @@ class PostCell: UITableViewCell {
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
+      repLabel.textColor = UIColor.greenColor()
     } else if post.voteValue == -1 {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
@@ -180,6 +181,7 @@ class PostCell: UITableViewCell {
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
+      repLabel.textColor = UIColor.redColor()
     } else {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
@@ -187,11 +189,13 @@ class PostCell: UITableViewCell {
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
+      repLabel.textColor = UIColor.blackColor()
     }
     
     commentLabel.text = String.formatNumberAsString(number: post.numComments)
     commentLabel.textColor = UIColor.whiteColor()
     repLabel.text = String.formatNumberAsString(number: post.rep)
+    repLabel.font = UIFont.systemFontOfSize(24)
     
     
     preservesSuperviewLayoutMargins = false

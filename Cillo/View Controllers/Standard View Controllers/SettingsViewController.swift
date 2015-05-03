@@ -45,6 +45,10 @@ class SettingsViewController: UIViewController {
     photoButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
   }
   
+  override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return .LightContent
+  }
+  
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SettingsViewController.SegueIdentifierThisToTab {
       if let sender = sender as? User {
