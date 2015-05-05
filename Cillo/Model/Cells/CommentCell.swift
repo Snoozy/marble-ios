@@ -214,6 +214,7 @@ class CommentCell: UITableViewCell {
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
+      repAndTimeLabel.textColor = UIColor.upvoteGreen()
     } else if comment.voteValue == -1 {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
@@ -221,6 +222,7 @@ class CommentCell: UITableViewCell {
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
+      repAndTimeLabel.textColor = UIColor.downvoteRed()
     } else {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)

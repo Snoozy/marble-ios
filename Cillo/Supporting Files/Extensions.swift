@@ -115,7 +115,7 @@ extension UIColor {
   /// :returns: The blue color that is the theme for Cillo.
   class func cilloBlue() -> UIColor {
 //    return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: 0.87)
-    return UIColor(red: 2/255.0, green: 81/255.0, blue: 138/255.0, alpha: 0.87)
+    return UIColor.cilloBlueWithAlpha(0.87)
   }
   
   /// Allows an alpha to be specified for the cillo blue color.
@@ -124,7 +124,15 @@ extension UIColor {
   /// :param: alpha The alpha of the returned color.
   /// :returns: The blue color that is the theme of Cillo with a specified alpha.
   class func cilloBlueWithAlpha(alpha: CGFloat) -> UIColor {
-    return UIColor(red: 0.0627, green: 0.396, blue: 0.768, alpha: alpha)
+    return UIColor(red: 2/255.0, green: 81/255.0, blue: 138/255.0, alpha: alpha)
+  }
+  
+  class func downvoteRed() -> UIColor {
+    return UIColor(red: 174/255.0, green: 0/255.0, blue: 37/255.0, alpha: 1.0)
+  }
+  
+  class func upvoteGreen() -> UIColor {
+    return UIColor(red: 75/255.0, green: 129/255.0, blue: 44/255.0, alpha: 1.0)
   }
   
   /// :returns: The light gray color that is used for dividers in UITableViews.
