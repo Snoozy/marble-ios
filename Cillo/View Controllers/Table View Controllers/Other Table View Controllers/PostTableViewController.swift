@@ -59,13 +59,13 @@ class PostTableViewController: SinglePostTableViewController {
   
   // TODO: Document
   func keyboardWillShow(notif: NSNotification) {
-    // FIXME: Why is there whitespace inbetween keyboard and the view?
     if let newCommentView = newCommentView {
       let value = notif.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
       let keyboardHeight = value.CGRectValue().height
-      let commentView = newCommentView.0
-      commentView.frame = CGRect(x: commentView.frame.minX, y: view.frame.size.height - keyboardHeight, width: commentView.frame.size.width, height: commentView.frame.size.height)
-      view.addSubview(commentView)
+      let duration = (notif.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+      UIView.animateWithDuration(duration, animations: {
+        newCommentView.0.frame.offset(dx: 0, dy: -keyboardHeight + self.tabBarController!.tabBar.frame.height)
+      })
     }
   }
   
@@ -148,7 +148,7 @@ class PostTableViewController: SinglePostTableViewController {
     replyButton.setTitle("Reply", forState: .Normal)
     replyButton.addTarget(self, action: "replyPressed:", forControlEvents: .TouchUpInside)
     replyButton.tag = tag
-    let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 46.0))
+    let view = UIView(frame: CGRect(x: 0.0, y: self.view.frame.size.height - 46.0, width: self.view.frame.size.width, height: 46.0))
     view.backgroundColor = UIColor.cilloBlue()
     view.addSubview(textField)
     view.addSubview(replyButton)

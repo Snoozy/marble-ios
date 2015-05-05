@@ -84,6 +84,8 @@ class NewPostViewController: UIViewController {
     if let group = group {
       groupTextField.text = group.name
     }
+    groupTextField.delegate = self
+    titleTextField.delegate = self
     imageButton.tintColor = UIColor.whiteColor()
     imageButton.backgroundColor = UIColor.cilloBlue()
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
@@ -122,6 +124,9 @@ class NewPostViewController: UIViewController {
         let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as! PostTableViewController
         if let nav = destination.selectedViewController as? UINavigationController {
           postViewController.post = sender
+          if image != nil {
+            sender.showImages = true
+          }
           nav.pushViewController(postViewController, animated: true)
         }
       }
@@ -230,6 +235,14 @@ class NewPostViewController: UIViewController {
     presentViewController(actionSheet, animated: true, completion: nil)
   }
   
+}
+
+extension NewPostViewController: UITextFieldDelegate {
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
+  }
 }
 
 extension NewPostViewController: UIImagePickerControllerDelegate {

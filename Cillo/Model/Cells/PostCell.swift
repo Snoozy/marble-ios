@@ -267,6 +267,8 @@ class PostCell: UITableViewCell {
   
   override func prepareForReuse() {
     imagesButtonHeightConstraint.constant = 0
+    imagesButton.setTitle("", forState: .Normal)
+    imagesButton.setTitle("", forState: .Highlighted)
     nameButton.enabled = true
     pictureButton.enabled = true
   }

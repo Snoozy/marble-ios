@@ -4,7 +4,7 @@ Figure out why oh why the stupid navigation animation is wrong on the home page 
 
 NSDate function convertToTimeString(time:) sometimes returns WTF.
 
-New Comment text field has white space between it and the keyboard.
+-- New Comment text field has white space between it and the keyboard. (Test)
 
 -- Images currently not loaded asynchronously. <<<<< IMPORTANT (Test)
 
