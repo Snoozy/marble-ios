@@ -147,7 +147,7 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   /// Sends view to GroupTableViewController if GroupCell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if seeAll || numberOfGroupsDisplayedBeforeSeeAll() < indexPath.row {
+    if seeAll || numberOfGroupsDisplayedBeforeSeeAll() > indexPath.row {
       self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: indexPath)
     }
     tableView.deselectRowAtIndexPath(indexPath, animated: false)

@@ -74,7 +74,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     if segue.identifier == SegueIdentifierThisToPost {
       var destination = segue.destinationViewController as! PostTableViewController
       if let sender = sender as? UIButton {
-        let tag = sender.tag > 1000000 ? sender.tag / 1000000 : sender.tag
+        let tag = sender.tag >= 1000000 ? sender.tag / 1000000 : sender.tag
         var post: Post
         if sender.titleForState(.Normal) != nil && sender.titleForState(.Normal)! == "Original Post" {
           if let repost = posts[tag] as? Repost {

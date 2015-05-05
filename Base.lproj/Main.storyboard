@@ -2545,8 +2545,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="LLd-V1-DHh"/>
-                                                <action selector="triggerGroupSegueOnButton:" destination="RHX-4q-5ga" eventType="touchDragInside" id="URT-1n-aUv"/>
+                                                <action selector="triggerGroupSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="n9n-Tx-LPu"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTb-Er-bcy">
@@ -5582,9 +5581,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0fK-Cx-ysj"/>
+        <segue reference="DUk-kf-nGq"/>
+        <segue reference="txn-K4-4lh"/>
+        <segue reference="9nY-Wc-CQM"/>
         <segue reference="Ndf-JY-QqC"/>
-        <segue reference="ErJ-Pf-JZ7"/>
-        <segue reference="Jl6-tW-uib"/>
     </inferredMetricsTieBreakers>
 </document>
