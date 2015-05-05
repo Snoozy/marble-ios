@@ -49,6 +49,7 @@ class GroupsTableViewController: MultipleGroupsTableViewController {
     retrievingPage = true
     groups = []
     pageNumber = 1
+    seeAll = true
     retrieveGroups( { (groups) -> Void in
       activityIndicator.removeFromSuperview()
       if groups != nil {

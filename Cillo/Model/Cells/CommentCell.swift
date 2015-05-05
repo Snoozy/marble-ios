@@ -264,6 +264,11 @@ class CommentCell: UITableViewCell {
   override func prepareForReuse() {
     nameButton.enabled = true
     pictureButton.enabled = true
+    upvoteHeightConstraint.constant = 0.0
+    downvoteHeightConstraint.constant = 0.0
+    replyHeightConstraint?.constant = 0.0
+    imageIndentConstraint.constant = 0.0
+    textIndentConstraint.constant = CommentCell.TextViewDistanceToIndent
   }
   
 }

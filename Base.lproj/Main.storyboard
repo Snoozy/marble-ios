@@ -127,6 +127,70 @@
                                     <outlet property="separatorViewHeightConstraint" destination="6SL-P0-L7h" id="Ucz-Pv-gzS"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewGroup" rowHeight="40" id="YF7-GO-Hnd">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YF7-GO-Hnd" id="IV8-AZ-zjX">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ge4-Sm-h6F">
+                                            <rect key="frame" x="262" y="5" width="77" height="30"/>
+                                            <state key="normal" title="New Board">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="triggerNewGroupSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="Fiv-Cq-eEn"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXP-B2-iNM">
+                                            <rect key="frame" x="0.0" y="37" width="600" height="1"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="HbJ-xf-8B0"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="Ge4-Sm-h6F" secondAttribute="centerX" id="F47-dd-xgc"/>
+                                        <constraint firstAttribute="trailing" secondItem="cXP-B2-iNM" secondAttribute="trailing" id="GkV-B9-jTo"/>
+                                        <constraint firstAttribute="centerY" secondItem="Ge4-Sm-h6F" secondAttribute="centerY" id="Gzt-Yh-97c"/>
+                                        <constraint firstItem="cXP-B2-iNM" firstAttribute="leading" secondItem="IV8-AZ-zjX" secondAttribute="leading" id="q84-i2-qP7"/>
+                                        <constraint firstAttribute="bottom" secondItem="cXP-B2-iNM" secondAttribute="bottom" constant="1" id="vvX-Ns-lP4"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeeAll" rowHeight="40" id="PRZ-ZA-8t0">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PRZ-ZA-8t0" id="sc5-G4-fKV">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UhF-i4-nRL">
+                                            <rect key="frame" x="250" y="5" width="101" height="30"/>
+                                            <state key="normal" title="See All Boards">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="seeAllGroupsPressed:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="6Wu-k4-ZOe"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUy-M0-g4q">
+                                            <rect key="frame" x="0.0" y="37" width="600" height="1"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="2Uw-uG-VCQ"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="rUy-M0-g4q" secondAttribute="trailing" id="1sI-h6-Thw"/>
+                                        <constraint firstAttribute="bottom" secondItem="rUy-M0-g4q" secondAttribute="bottom" constant="1" id="Isn-q7-IYI"/>
+                                        <constraint firstAttribute="centerX" secondItem="UhF-i4-nRL" secondAttribute="centerX" id="Oew-L9-qpN"/>
+                                        <constraint firstAttribute="centerY" secondItem="UhF-i4-nRL" secondAttribute="centerY" id="T40-qA-HjA"/>
+                                        <constraint firstItem="rUy-M0-g4q" firstAttribute="leading" secondItem="sc5-G4-fKV" secondAttribute="leading" id="dTj-XL-W9v"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="vM0-Cn-CkN" id="CEp-5D-eSm"/>
@@ -135,12 +199,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="My Boards" id="2cT-4l-Mfz">
                         <barButtonItem key="backBarButtonItem" title="Back" id="7jc-pf-jpS"/>
-                        <barButtonItem key="leftBarButtonItem" title="New Group" id="LAN-Xf-H0G">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="triggerNewGroupSegueOnButton:" destination="vM0-Cn-CkN" id="8UB-VS-8v6"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="Create Post" id="qSp-o4-igl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -149,6 +207,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="8TD-LZ-f5A" id="jzv-Yl-bDe"/>
                         <outlet property="searchDisplayController" destination="Zdj-CN-iNG" id="zyq-pz-FnM"/>
                         <segue destination="99g-h6-cT9" kind="show" identifier="MyGroupsToGroup" id="0fK-Cx-ysj"/>
                     </connections>
@@ -1035,7 +1094,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2912,7 +2971,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Group" title="Groups Table" id="99g-h6-cT9" userLabel="Group Table" customClass="GroupTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3705,7 +3764,7 @@
             <objects>
                 <tableViewController id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -4839,7 +4898,7 @@
             <objects>
                 <tableViewController title="Groups Table" id="csT-b3-QYy" customClass="GroupsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -5523,9 +5582,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="0fK-Cx-ysj"/>
         <segue reference="Ndf-JY-QqC"/>
-        <segue reference="lj2-2c-ePA"/>
-        <segue reference="Jl6-tW-uib"/>
         <segue reference="ErJ-Pf-JZ7"/>
+        <segue reference="Jl6-tW-uib"/>
     </inferredMetricsTieBreakers>
 </document>

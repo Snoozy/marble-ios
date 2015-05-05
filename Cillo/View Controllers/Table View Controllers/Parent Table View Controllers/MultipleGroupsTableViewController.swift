@@ -15,6 +15,8 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   var pageNumber: Int = 1
   
+  var seeAll: Bool = false
+  
   // MARK: Properties
   
   /// Groups for this UITableViewController.
@@ -27,6 +29,22 @@ class MultipleGroupsTableViewController: CustomTableViewController {
     get {
       return 10.0
     }
+  }
+  
+  class var SeeAllReuseIdentifier: String {
+    return "SeeAll"
+  }
+  
+  class var NewGroupReuseIdentifier: String {
+    return "NewGroup"
+  }
+  
+  class var NumberGroupsShownBeforeSeeAll: Int {
+    return 10
+  }
+  
+  class var HeightOfSingleButtonCells: CGFloat {
+    return 40.0
   }
   
   /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
@@ -67,15 +85,45 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   /// Assigns the number of rows in tableView based on the size of the groups array.
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return groups.count
+    return seeAll ? groups.count : numberOfGroupsDisplayedBeforeSeeAll() + numberOfExtraCellsBeforeSeeAll()
   }
   
   /// Creates GroupCell based on section number of indexPath.
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    if !seeAll {
+      if indexPath.row == numberOfGroupsDisplayedBeforeSeeAll() && seeAllNecessary() {
+        let cell = tableView.dequeueReusableCellWithIdentifier(MultipleGroupsTableViewController.SeeAllReuseIdentifier) as! UITableViewCell
+        for view in cell.contentView.subviews {
+          if let button = view as? UIButton {
+            button.tintColor = UIColor.cilloBlue()
+          } else if let view = view as? UIView {
+            view.backgroundColor = UIColor.cilloBlue()
+          }
+        }
+        return cell
+      } else if indexPath.row >= numberOfGroupsDisplayedBeforeSeeAll() {
+        let cell = tableView.dequeueReusableCellWithIdentifier(MultipleGroupsTableViewController.NewGroupReuseIdentifier) as! UITableViewCell
+        for view in cell.contentView.subviews {
+          if let button = view as? UIButton {
+            button.tintColor = UIColor.cilloBlue()
+          } else if let view = view as? UIView {
+            //view.backgroundColor = UIColor.cilloBlue()
+          }
+        }
+        return cell
+      }
+    }
     let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as! GroupCell
     let group = groups[indexPath.row]
     
-    cell.makeCellFromGroup(group, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != groups.count - 1 ? MultipleGroupsTableViewController.DividerHeight : 0.0))
+    var dividerHeight = MultipleGroupsTableViewController.DividerHeight
+    if !seeAll && indexPath.row == numberOfGroupsDisplayedBeforeSeeAll() - 1 {
+      dividerHeight = 1.0
+    } else if seeAll && indexPath.row == groups.count - 1 {
+      dividerHeight = 0.0
+    }
+    
+    cell.makeCellFromGroup(group, withButtonTag: indexPath.row, andSeparatorHeight: dividerHeight)
     
     return cell
   }
@@ -85,13 +133,23 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   
   /// Sets height of cell to appropriate value.
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    let dividerHeight = indexPath.row != groups.count - 1 ? MultipleGroupsTableViewController.DividerHeight : 0
+    if !seeAll && indexPath.row >= numberOfGroupsDisplayedBeforeSeeAll() {
+      return MultipleGroupsTableViewController.HeightOfSingleButtonCells
+    }
+    var dividerHeight = MultipleGroupsTableViewController.DividerHeight
+    if !seeAll && indexPath.row == numberOfGroupsDisplayedBeforeSeeAll() - 1 {
+      dividerHeight = 1.0
+    } else if seeAll && indexPath.row == groups.count - 1 {
+      dividerHeight = 0.0
+    }
     return GroupCell.heightOfGroupCellForGroup(groups[indexPath.row], withElementWidth: PrototypeTextViewWidth, andDividerHeight: dividerHeight)
   }
   
   /// Sends view to GroupTableViewController if GroupCell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: indexPath)
+    if seeAll || numberOfGroupsDisplayedBeforeSeeAll() < indexPath.row {
+      self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: indexPath)
+    }
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
   }
   
@@ -151,10 +209,15 @@ class MultipleGroupsTableViewController: CustomTableViewController {
   /// Triggers segue to NewGroupViewController.
   ///
   /// :param: sender The button that is touched to send this function is the button in the navigationBar.
-  @IBAction func triggerNewGroupSegueOnButton(sender: UIBarButtonItem) {
+  @IBAction func triggerNewGroupSegueOnButton(sender: UIButton) {
     if let tabBarController = tabBarController as? TabViewController {
       tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewGroup, sender: sender)
     }
+  }
+  
+  @IBAction func seeAllGroupsPressed(sender: UIButton) {
+    seeAll = true
+    tableView.reloadData()
   }
   
   /// Either follows the group at index sender.tag or presents an ActionSheet to unfollow the group.
@@ -183,6 +246,20 @@ class MultipleGroupsTableViewController: CustomTableViewController {
       actionSheet.addAction(cancelAction)
       presentViewController(actionSheet, animated: true, completion: nil)
     }
+  }
+  
+  // MARK: Helper Functions
+  
+  func numberOfGroupsDisplayedBeforeSeeAll() -> Int {
+    return groups.count < MultipleGroupsTableViewController.NumberGroupsShownBeforeSeeAll ? groups.count : MultipleGroupsTableViewController.NumberGroupsShownBeforeSeeAll
+  }
+  
+  func seeAllNecessary() -> Bool {
+    return groups.count > MultipleGroupsTableViewController.NumberGroupsShownBeforeSeeAll
+  }
+  
+  func numberOfExtraCellsBeforeSeeAll() -> Int {
+    return seeAllNecessary() ? 2 : 1
   }
   
 }

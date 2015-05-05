@@ -15,9 +15,17 @@ import UIKit
 /// Formats TableView to look appealing and be functional.
 class MyGroupsTableViewController: MultipleGroupsTableViewController {
 
+  @IBOutlet weak var searchBar: UISearchBar!
+  
   var retrievingPage = false
   
-  var searched = false
+  var searched = false {
+    didSet {
+      if searched {
+        seeAll = true
+      }
+    }
+  }
   
   var searchResults: [String] = []
   
@@ -51,6 +59,8 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
     retrievingPage = true
     groups = []
     pageNumber = 1
+    seeAll = false
+    searched = false
     retrieveGroups( { (groups) -> Void in
       activityIndicator.removeFromSuperview()
       if groups != nil {
@@ -152,6 +162,7 @@ extension MyGroupsTableViewController: UISearchBarDelegate {
     searchGroups(search: searchBar.text, completion: { (groups) in
       if groups != nil {
         self.groups = groups!
+        self.searched = true
         self.tableView.reloadData()
         self.searchDisplayController?.setActive(false, animated: true)
       }
@@ -198,11 +209,11 @@ extension MyGroupsTableViewController: UITableViewDataSource, UITableViewDelegat
       searchGroups(search: searchResults[indexPath.row], completion: { (groups) in
         if groups != nil {
           self.groups = groups!
+          self.searched = true
           self.tableView.reloadData()
           self.searchDisplayController?.setActive(false, animated: true)
         }
       })
     }
   }
-  
 }
