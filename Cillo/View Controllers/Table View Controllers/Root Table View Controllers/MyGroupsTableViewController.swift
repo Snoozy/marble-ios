@@ -53,13 +53,13 @@ class MyGroupsTableViewController: MultipleGroupsTableViewController {
     pageNumber = 1
     retrieveGroups( { (groups) -> Void in
       activityIndicator.removeFromSuperview()
-      self.retrievingPage = false
       if groups != nil {
+        self.pageNumber++
         self.groups = groups!
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
-        self.pageNumber++
       }
+      self.retrievingPage = false
     })
   }
   

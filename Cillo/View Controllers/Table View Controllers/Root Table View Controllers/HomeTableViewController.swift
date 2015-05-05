@@ -65,16 +65,17 @@ class HomeTableViewController: MultiplePostsTableViewController {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
     retrievingPage = true
     posts = []
+    println(self.posts.count)
     pageNumber = 1
     retrievePosts( { (posts) -> Void in
-      self.retrievingPage = false
       activityIndicator.removeFromSuperview()
       if posts != nil {
+        self.pageNumber++
         self.posts = posts!
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
-        self.pageNumber++
       }
+      self.retrievingPage = false
     })
   }
   

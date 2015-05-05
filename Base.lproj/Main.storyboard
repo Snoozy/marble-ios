@@ -2904,13 +2904,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQU-GC-WF3">
-                                            <rect key="frame" x="8" y="87" width="584" height="56"/>
+                                            <rect key="frame" x="8" y="87" width="584" height="50"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cz4-8J-V1i">
-                                            <rect key="frame" x="8" y="153" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2932,7 +2932,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgM-cp-uBJ">
-                                            <rect key="frame" x="46" y="146" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="32" id="G6R-Bh-5Gr"/>
                                                 <constraint firstAttribute="height" constant="32" id="Pwq-HE-0zF"/>
@@ -2944,21 +2944,8 @@
                                                 <action selector="upvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="8k5-nE-dug"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAG-Un-1LH">
-                                            <rect key="frame" x="520" y="148" width="32" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="32" id="faZ-C2-Gra"/>
-                                                <constraint firstAttribute="height" constant="32" id="iaZ-pd-4v4"/>
-                                            </constraints>
-                                            <state key="normal" backgroundImage="Comment">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="vJX-UA-er6"/>
-                                            </connections>
-                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2wD-e3-a8q">
-                                            <rect key="frame" x="560" y="151" width="32" height="32"/>
+                                            <rect key="frame" x="560" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="AkZ-2K-OtU"/>
                                                 <constraint firstAttribute="width" constant="32" id="sBs-jV-y2w"/>
@@ -2971,7 +2958,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eks-TS-07f">
-                                            <rect key="frame" x="523" y="157" width="26" height="14"/>
+                                            <rect key="frame" x="523" y="151" width="26" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="26" id="VnQ-kp-752"/>
                                             </constraints>
@@ -2989,7 +2976,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0WE-EE-JgS">
-                                            <rect key="frame" x="8" y="90" width="584" height="48"/>
+                                            <rect key="frame" x="8" y="89" width="584" height="48"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="48" id="nDy-X9-kCR"/>
@@ -3004,7 +2991,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vb3-yo-7Sd">
-                                            <rect key="frame" x="86" y="146" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="32" id="Bbu-aH-yS1"/>
                                                 <constraint firstAttribute="height" constant="32" id="vxi-Vk-uca"/>
@@ -3074,6 +3061,19 @@
                                                 <action selector="showImagesPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="v1B-a9-YJM"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAG-Un-1LH">
+                                            <rect key="frame" x="520" y="147" width="32" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="32" id="faZ-C2-Gra"/>
+                                                <constraint firstAttribute="height" constant="32" id="iaZ-pd-4v4"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="Comment">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="vJX-UA-er6"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <gestureRecognizers/>
                                     <constraints>
@@ -3105,6 +3105,7 @@
                                         <constraint firstItem="k0N-vD-Qp7" firstAttribute="leading" secondItem="ajf-sx-5gb" secondAttribute="trailing" constant="8" id="dV6-c9-ub5"/>
                                         <constraint firstItem="wQU-GC-WF3" firstAttribute="top" secondItem="OfK-9G-HCh" secondAttribute="bottom" constant="2" id="ePI-aE-RVT"/>
                                         <constraint firstItem="OfK-9G-HCh" firstAttribute="trailing" secondItem="UHG-hF-0BS" secondAttribute="trailingMargin" constant="2" id="fiQ-CE-74T"/>
+                                        <constraint firstItem="Vb3-yo-7Sd" firstAttribute="top" secondItem="fgM-cp-uBJ" secondAttribute="top" id="gBB-Cf-WmW"/>
                                         <constraint firstItem="fgM-cp-uBJ" firstAttribute="leading" secondItem="cz4-8J-V1i" secondAttribute="trailing" constant="8" id="gXA-5J-fkP"/>
                                         <constraint firstItem="3jE-dA-5qS" firstAttribute="top" secondItem="k0N-vD-Qp7" secondAttribute="bottom" constant="2" id="hVE-Qa-b0f"/>
                                         <constraint firstItem="eks-TS-07f" firstAttribute="top" secondItem="wQU-GC-WF3" secondAttribute="bottom" constant="14" id="hhH-8e-l0g"/>
@@ -3116,15 +3117,17 @@
                                         <constraint firstItem="0WE-EE-JgS" firstAttribute="leading" secondItem="UHG-hF-0BS" secondAttribute="leadingMargin" id="moy-th-uml"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="sIj-Nm-b17" secondAttribute="bottom" constant="-6.5" id="mzp-up-T8J"/>
                                         <constraint firstItem="2wD-e3-a8q" firstAttribute="leading" secondItem="YAG-Un-1LH" secondAttribute="trailing" constant="8" id="ng0-gv-uIV"/>
+                                        <constraint firstItem="YAG-Un-1LH" firstAttribute="top" secondItem="2wD-e3-a8q" secondAttribute="top" id="ove-PA-uUp"/>
                                         <constraint firstItem="sIj-Nm-b17" firstAttribute="top" secondItem="cz4-8J-V1i" secondAttribute="bottom" constant="13" id="pBo-jM-uLr"/>
-                                        <constraint firstItem="sIj-Nm-b17" firstAttribute="top" secondItem="YAG-Un-1LH" secondAttribute="bottom" constant="4" id="r4w-fb-J08"/>
-                                        <constraint firstItem="sIj-Nm-b17" firstAttribute="top" secondItem="Vb3-yo-7Sd" secondAttribute="bottom" constant="6" id="rss-kj-5Gg"/>
+                                        <constraint firstItem="sIj-Nm-b17" firstAttribute="top" secondItem="YAG-Un-1LH" secondAttribute="bottom" constant="5" id="r4w-fb-J08"/>
+                                        <constraint firstItem="sIj-Nm-b17" firstAttribute="top" secondItem="Vb3-yo-7Sd" secondAttribute="bottom" constant="7" id="rss-kj-5Gg"/>
                                         <constraint firstItem="wQU-GC-WF3" firstAttribute="top" secondItem="AYs-NZ-gEf" secondAttribute="bottom" constant="2" id="sj6-nS-7BB"/>
                                         <constraint firstItem="OfK-9G-HCh" firstAttribute="top" secondItem="AYs-NZ-gEf" secondAttribute="bottom" id="ufl-hc-8n0"/>
                                         <constraint firstItem="AYs-NZ-gEf" firstAttribute="top" secondItem="ajf-sx-5gb" secondAttribute="bottom" constant="4" id="vG2-7E-O7s"/>
                                         <constraint firstItem="Vb3-yo-7Sd" firstAttribute="leading" secondItem="fgM-cp-uBJ" secondAttribute="trailing" constant="8" id="vJS-UA-5wy"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Vb3-yo-7Sd" secondAttribute="bottom" constant="1" id="vN6-NO-dFw"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="sIj-Nm-b17" secondAttribute="trailing" constant="-8" id="xPp-vz-dKz"/>
+                                        <constraint firstItem="sIj-Nm-b17" firstAttribute="top" secondItem="2wD-e3-a8q" secondAttribute="bottom" constant="7" id="yNb-cz-hhh"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -3134,8 +3137,10 @@
                                             <exclude reference="XsS-MJ-DvD"/>
                                             <exclude reference="a1S-vn-9TJ"/>
                                             <exclude reference="vN6-NO-dFw"/>
+                                            <exclude reference="NTG-1A-Nds"/>
                                             <exclude reference="pBo-jM-uLr"/>
                                             <exclude reference="kv5-5S-mYe"/>
+                                            <exclude reference="ove-PA-uUp"/>
                                             <exclude reference="3Xg-O5-SAy"/>
                                             <exclude reference="Ptu-Y9-zeu"/>
                                         </mask>
@@ -5488,9 +5493,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9nY-Wc-CQM"/>
+        <segue reference="X2k-fD-Ni0"/>
         <segue reference="DUk-kf-nGq"/>
-        <segue reference="txn-K4-4lh"/>
-        <segue reference="Ndf-JY-QqC"/>
+        <segue reference="rwG-J9-MDJ"/>
+        <segue reference="tpB-Dw-nh7"/>
     </inferredMetricsTieBreakers>
 </document>

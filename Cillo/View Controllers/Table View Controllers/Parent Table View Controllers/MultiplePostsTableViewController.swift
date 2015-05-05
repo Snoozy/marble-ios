@@ -298,7 +298,6 @@ class MultiplePostsTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is an upvoteButton in a PostCell.
   @IBAction func upvotePostPressed(sender: UIButton) {
-    println((tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! PostCell).separatorView?.frame.width)
     let post = self.posts[sender.tag]
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag, completion: { (success) -> Void in
