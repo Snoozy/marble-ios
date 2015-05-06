@@ -13,18 +13,20 @@ class RegisterViewController: UIViewController {
   // MARK: IBOutlets
   
   /// Space for user to enter their email associated with their account.
-  @IBOutlet weak var emailTextView: UITextView!
+  @IBOutlet weak var emailTextField: UITextField!
   
   /// Space for user to enter their username for logging in.
-  @IBOutlet weak var userTextView: UITextView!
+  @IBOutlet weak var userTextField: UITextField!
   
   /// Space for user to enter their display name for logging in.
-  @IBOutlet weak var nameTextView: UITextView!
+  @IBOutlet weak var nameTextField: UITextField!
   
   /// Space for user to enter their password for logging in.
-  @IBOutlet weak var passwordTextView: UITextView!
+  @IBOutlet weak var passwordTextField: UITextField!
   
   @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  
+  @IBOutlet weak var registerButton: UIButton!
   
   // MARK: Constants
   
@@ -39,6 +41,11 @@ class RegisterViewController: UIViewController {
     super.viewDidLoad()
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
     fakeNavigationBar.translucent = false
+    emailTextField.delegate = self
+    nameTextField.delegate = self
+    passwordTextField.delegate = self
+    userTextField.delegate = self
+    registerButton.backgroundColor = UIColor.cilloBlue()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -55,7 +62,7 @@ class RegisterViewController: UIViewController {
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Registering...")
-    DataManager.sharedInstance.register(userTextView.text, name: nameTextView.text, password: passwordTextView.text, email: emailTextView.text, completion: { (error, success) -> Void in
+    DataManager.sharedInstance.register(userTextField.text, name: nameTextField.text, password: passwordTextField.text, email: emailTextField.text, completion: { (error, success) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error)
@@ -89,5 +96,13 @@ class RegisterViewController: UIViewController {
 extension RegisterViewController: UIBarPositioningDelegate {
   func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
     return .TopAttached
+  }
+}
+
+extension RegisterViewController: UITextFieldDelegate {
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
   }
 }

@@ -65,6 +65,7 @@ class User: NSObject {
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
+    println(json)
     name = json["name"].stringValue
     username = json["username"].stringValue
     userID = json["user_id"].intValue

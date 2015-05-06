@@ -62,6 +62,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   ///
   /// Assigns posts property of MultiplePostsTableViewController correct values from server calls.
   override func retrieveData() {
+    println("called")
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
     retrievingPage = true
     posts = []

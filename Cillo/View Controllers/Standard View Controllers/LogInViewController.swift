@@ -16,12 +16,16 @@ class LogInViewController: UIViewController {
   // MARK: IBOutlets
   
   /// Space for user to enter their username for logging in.
-  @IBOutlet weak var emailTextView: UITextView!
+  @IBOutlet weak var emailTextField: UITextField!
   
   /// Space for user to enter their password for logging in.
-  @IBOutlet weak var passwordTextView: UITextView!
+  @IBOutlet weak var passwordTextField: UITextField!
   
-   @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  
+  @IBOutlet weak var registerButton: UIButton!
+  
+  @IBOutlet weak var loginButton: UIButton!
   
   // MARK: Constants
   
@@ -42,9 +46,12 @@ class LogInViewController: UIViewController {
   // MARK: UIViewController
   
   override func viewDidLoad() {
-    passwordTextView.secureTextEntry = true
     fakeNavigationBar.barTintColor = UIColor.cilloBlue()
     fakeNavigationBar.translucent = false
+    registerButton.tintColor = UIColor.cilloBlue()
+    loginButton.backgroundColor = UIColor.cilloBlue()
+    passwordTextField.delegate = self
+    emailTextField.delegate = self
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -88,7 +95,7 @@ class LogInViewController: UIViewController {
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Logging in...")
-    DataManager.sharedInstance.login(emailTextView.text, password: passwordTextView.text, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.login(emailTextField.text, password: passwordTextField.text, completion: { (error, result) -> Void in
       activityIndicator.removeFromSuperview()
       if error != nil {
         println(error!)
@@ -159,5 +166,13 @@ class LogInViewController: UIViewController {
 extension LogInViewController: UIBarPositioningDelegate {
   func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
     return .TopAttached
+  }
+}
+
+extension LogInViewController: UITextFieldDelegate {
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
   }
 }

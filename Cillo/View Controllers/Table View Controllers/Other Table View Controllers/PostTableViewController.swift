@@ -143,6 +143,10 @@ class PostTableViewController: SinglePostTableViewController {
     let textField = UITextField(frame: CGRect(x: 8.0, y: 8.0, width: self.view.frame.size.width - 72.0, height: 30.0))
     textField.backgroundColor = UIColor.whiteColor()
     textField.delegate = self
+    textField.returnKeyType = .Done
+    textField.autocorrectionType = .No
+    textField.spellCheckingType = .No
+    textField.tag = tag
     let replyButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 58.0, y: 8.0, width: 50.0, height: 30.0))
     replyButton.tintColor = UIColor.whiteColor()
     replyButton.setTitle("Reply", forState: .Normal)
@@ -210,7 +214,21 @@ extension PostTableViewController: UITextFieldDelegate {
   
   // TODO: Document
   func textFieldShouldReturn(textField: UITextField) -> Bool {
-    textField.endEditing(true)
+    if textField.tag < 0 {
+      createComment( { (success) -> Void in
+        if success {
+          self.newCommentView?.1.resignFirstResponder()
+          self.retrieveData()
+        }
+      })
+    } else {
+      replyToCommentAtIndex(textField.tag, completion: { (success) -> Void in
+        if success {
+          self.newCommentView?.1.resignFirstResponder()
+          self.retrieveData()
+        }
+      })
+    }
     return true
   }
   

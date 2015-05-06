@@ -78,6 +78,8 @@ extension String {
     textView.font = font
     textView.sizeToFit()
     
+    println("TextViewHeightCalculated: \(textView.frame.size.height)")
+    
     return textView.frame.size.height
   }
   

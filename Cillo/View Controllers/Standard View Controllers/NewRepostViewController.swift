@@ -49,7 +49,7 @@ class NewRepostViewController: UIViewController {
     scrollView.contentSize = contentView.frame.size
     view.addSubview(scrollView)
     scrollView.addSubview(contentView)
-    println(contentView.commentLabel.font.pointSize)
+    contentView.groupTextField.delegate = self
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -113,6 +113,14 @@ extension NewRepostViewController: UIBarPositioningDelegate {
   }
 }
 
+extension NewRepostViewController: UITextFieldDelegate {
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
+  }
+}
+
 class RepostContentView: UIView {
   
   var saySomethingTextView: UITextView!
@@ -163,10 +171,14 @@ class RepostContentView: UIView {
     groupTextField.placeholder = "Group"
     groupTextField.backgroundColor = textEntryBackground
     groupTextField.font = UIFont.systemFontOfSize(16)
+    groupTextField.spellCheckingType = .No
+    groupTextField.autocorrectionType = .No
     
     saySomethingTextView = UITextView(frame: CGRect(x: 8, y: groupTextField.frame.maxY + 8, width: width - 16, height: 60))
     saySomethingTextView.font = UIFont.systemFontOfSize(14)
     saySomethingTextView.backgroundColor = textEntryBackground
+    saySomethingTextView.spellCheckingType = .No
+    saySomethingTextView.autocorrectionType = .No
     
     let originalPostLabel = UILabel(frame: CGRect(x: 8, y: saySomethingTextView.frame.maxY + 8, width: 93, height: 18))
     originalPostLabel.font = UIFont.systemFontOfSize(15)

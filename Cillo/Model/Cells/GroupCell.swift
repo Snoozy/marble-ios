@@ -116,7 +116,7 @@ class GroupCell: UITableViewCell {
       followButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
     } else {
       followButton.setTitle("Following", forState: .Normal)
-      followButton.setTitleColor(UIColor.greenColor(), forState: .Normal)
+      followButton.setTitleColor(UIColor.upvoteGreen(), forState: .Normal)
     }
     
     // Make only the number in followersLabel bold
