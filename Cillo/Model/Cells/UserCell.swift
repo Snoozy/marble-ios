@@ -134,13 +134,9 @@ class UserCell: UITableViewCell {
     groupsButton.tintColor = UIColor.blackColor()
     
     preservesSuperviewLayoutMargins = false
-    println("\(user.bio)a")
-    println(bioTextView.frame.height)
   }
   
   class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {
-    let height = user.heightOfBioWithWidth(width) + UserCell.AdditionalVertSpaceNeeded
-    println("ReturnedHeight: \(height)")
-    return height
+    return user.heightOfBioWithWidth(width) + UserCell.AdditionalVertSpaceNeeded
   }
 }
