@@ -124,6 +124,7 @@ class MultipleGroupsTableViewController: CustomTableViewController {
     }
     
     cell.makeCellFromGroup(group, withButtonTag: indexPath.row, andSeparatorHeight: dividerHeight)
+    cell.descripTTTAttributedLabel.delegate = self
     
     return cell
   }

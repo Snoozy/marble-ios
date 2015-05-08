@@ -134,6 +134,7 @@ class SingleGroupTableViewController: CustomTableViewController {
       let cell = tableView.dequeueReusableCellWithIdentifier(GroupCell.ReuseIdentifier, forIndexPath: indexPath) as! GroupCell
       
       cell.makeCellFromGroup(group, withButtonTag: 0, andSeparatorHeight: posts.count != 0 ? SingleGroupTableViewController.DividerHeight : 0.0)
+      cell.descripTTTAttributedLabel.delegate = self
       
       return cell
     } else {

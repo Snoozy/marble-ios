@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 // TODO: Handle following property of Group
 
@@ -26,7 +27,7 @@ class GroupCell: UITableViewCell {
   /// Displays descrip property of Group.
   ///
   /// Height of this UITextView is calulated by heightOfDescripWithWidth(_:) in Group.
-  @IBOutlet weak var descripTextView: UITextView!
+  @IBOutlet weak var descripTTTAttributedLabel: TTTAttributedLabel!
   
   /// Displays numFollowers property of Group.
   ///
@@ -60,7 +61,7 @@ class GroupCell: UITableViewCell {
   }
   
   /// Font of the text contained within descripTextView.
-  class var DescripTextViewFont: UIFont {
+  class var DescripTTTAttributedLabelFont: UIFont {
     get {
       return UIFont.systemFontOfSize(15.0)
     }
@@ -102,10 +103,11 @@ class GroupCell: UITableViewCell {
     nameButton.setTitle(group.name, forState: .Normal)
     nameButton.setTitle(group.name, forState: .Highlighted)
     
-    descripTextView.text = group.descrip
-    descripTextView.font = GroupCell.DescripTextViewFont
-    descripTextView.textContainer.lineFragmentPadding = 0
-    descripTextView.textContainerInset = UIEdgeInsetsZero
+    descripTTTAttributedLabel.numberOfLines = 0
+    descripTTTAttributedLabel.font = GroupCell.DescripTTTAttributedLabelFont
+    descripTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    descripTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
+    descripTTTAttributedLabel.text = group.descrip
     
     pictureButton.tag = buttonTag
     nameButton.tag = buttonTag
@@ -127,8 +129,6 @@ class GroupCell: UITableViewCell {
       separatorView.backgroundColor = UIColor.cilloBlue()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
-    
-    preservesSuperviewLayoutMargins = false
   }
   
   class func heightOfGroupCellForGroup(group: Group, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {

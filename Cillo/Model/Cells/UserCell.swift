@@ -134,8 +134,6 @@ class UserCell: UITableViewCell {
     var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " BOARDS", secondFont: UserCell.GroupsFont)
     groupsButton.setAttributedTitle(groupsText, forState: .Normal)
     groupsButton.tintColor = UIColor.blackColor()
-    
-    preservesSuperviewLayoutMargins = false
   }
   
   class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {

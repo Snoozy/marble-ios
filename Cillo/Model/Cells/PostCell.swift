@@ -198,8 +198,6 @@ class PostCell: UITableViewCell {
     repLabel.text = String.formatNumberAsString(number: post.rep)
     repLabel.font = UIFont.systemFontOfSize(24)
     
-    
-    preservesSuperviewLayoutMargins = false
     if seeFullButton == nil {
       //gets rid of small gap in divider
       let dividerFix = UIView(frame: CGRect(x: 0, y: contentView.frame.size.height, width: 40, height: 1))

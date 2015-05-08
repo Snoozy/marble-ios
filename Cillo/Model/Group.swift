@@ -90,7 +90,7 @@ class Group: NSObject {
   /// :param: width The current width of descripTextView.
   /// :returns: Predicted height of descripTextView in a GroupCell.
   func heightOfDescripWithWidth(width: CGFloat) -> CGFloat {
-    return descrip.heightOfTextWithWidth(width, andFont: GroupCell.DescripTextViewFont)
+    return descrip.heightOfTextWithWidth(width, andFont: GroupCell.DescripTTTAttributedLabelFont)
   }
   
 }
