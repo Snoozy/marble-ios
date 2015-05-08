@@ -21,6 +21,8 @@ class PostTableViewController: SinglePostTableViewController {
   
   // TODO: Document.
   var newCommentView: (UIView, UITextField)?
+  
+  var keyboardHeight: CGFloat?
 
   // MARK: Constants
   
@@ -42,6 +44,13 @@ class PostTableViewController: SinglePostTableViewController {
     return "Post"
   }
   
+  override func scrollViewDidScroll(scrollView: UIScrollView) {
+    if let newCommentView = newCommentView, keyboardHeight = keyboardHeight {
+      let newY = tableView.contentOffset.y + tableView.frame.size.height - 46.0 - keyboardHeight + tabBarController!.tabBar.frame.height
+      newCommentView.0.frame = CGRect(x: 0.0, y: newY, width: self.tableView.frame.size.width, height: 46.0)
+    }
+  }
+  
   // MARK: UIViewController
   
   /// Initializes commentTree array.
@@ -61,10 +70,10 @@ class PostTableViewController: SinglePostTableViewController {
   func keyboardWillShow(notif: NSNotification) {
     if let newCommentView = newCommentView {
       let value = notif.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-      let keyboardHeight = value.CGRectValue().height
+      keyboardHeight = value.CGRectValue().height
       let duration = (notif.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
       UIView.animateWithDuration(duration, animations: {
-        newCommentView.0.frame.offset(dx: 0, dy: -keyboardHeight + self.tabBarController!.tabBar.frame.height)
+        newCommentView.0.frame = CGRect(x: 0.0, y: self.tableView.contentOffset.y + self.tableView.frame.size.height - 46.0 - self.keyboardHeight! + self.tabBarController!.tabBar.frame.height, width: self.tableView.frame.size.width, height: 46.0)
       })
     }
   }
@@ -74,6 +83,7 @@ class PostTableViewController: SinglePostTableViewController {
     if let newCommentView = newCommentView {
       newCommentView.0.removeFromSuperview()
       self.newCommentView = nil
+      keyboardHeight = nil
     }
   }
   
@@ -140,19 +150,19 @@ class PostTableViewController: SinglePostTableViewController {
   
   // TODO: Document.
   func makeNewCommentView(#tag: Int) {
-    let textField = UITextField(frame: CGRect(x: 8.0, y: 8.0, width: self.view.frame.size.width - 72.0, height: 30.0))
+    let textField = UITextField(frame: CGRect(x: 8.0, y: 8.0, width: tableView.frame.size.width - 72.0, height: 30.0))
     textField.backgroundColor = UIColor.whiteColor()
     textField.delegate = self
     textField.returnKeyType = .Done
     textField.autocorrectionType = .No
     textField.spellCheckingType = .No
     textField.tag = tag
-    let replyButton = UIButton(frame: CGRect(x: self.view.frame.size.width - 58.0, y: 8.0, width: 50.0, height: 30.0))
+    let replyButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 58.0, y: 8.0, width: 50.0, height: 30.0))
     replyButton.tintColor = UIColor.whiteColor()
     replyButton.setTitle("Reply", forState: .Normal)
     replyButton.addTarget(self, action: "replyPressed:", forControlEvents: .TouchUpInside)
     replyButton.tag = tag
-    let view = UIView(frame: CGRect(x: 0.0, y: self.view.frame.size.height - 46.0, width: self.view.frame.size.width, height: 46.0))
+    let view = UIView(frame: CGRect(x: 0.0, y: tableView.contentOffset.y + tableView.frame.size.height - 46.0, width: tableView.frame.size.width, height: 46.0))
     view.backgroundColor = UIColor.cilloBlue()
     view.addSubview(textField)
     view.addSubview(replyButton)

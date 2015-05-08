@@ -253,6 +253,9 @@ class CommentCell: UITableViewCell {
     pictureButton.enabled = true
     upvoteHeightConstraint?.constant = 0.0
     imageIndentConstraint.constant = 0.0
+    for line in lines {
+      line.removeFromSuperview()
+    }
   }
   
 }
