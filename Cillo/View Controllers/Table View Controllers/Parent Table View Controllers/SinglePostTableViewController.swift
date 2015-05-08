@@ -121,13 +121,10 @@ class SinglePostTableViewController: CustomTableViewController {
       }
       post.showImages = true
       cell.makeCellFromPost(post, withButtonTag: -1)
-      cell.postTextView.delegate = self
-      println(cell.contentView.frame.width)
-      println(cell.separatorView?.frame.width)
-      println(cell.frame.width)
-      println(tableView.frame.width)
-      println(view.frame.width)
-      (cell as? RepostCell)?.originalPostTextView.delegate = self
+      cell.postTTTAttributedLabel.delegate = self
+      if let cell = cell as? RepostCell {
+        cell.originalPostTTTAttributedLabel.delegate = self
+      }
       return cell
     } else { // Make a CommentCell for all rows past the first section
       let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as! CommentCell

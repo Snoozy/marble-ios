@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 /// Cell that corresponds to reuse identifier "Post".
 ///
@@ -24,8 +25,7 @@ class PostCell: UITableViewCell {
   /// Displays group.name property of Post.
   @IBOutlet weak var groupButton: UIButton!
   
-  /// Displays text property of Post.
-  @IBOutlet weak var postTextView: UITextView!
+  @IBOutlet weak var postTTTAttributedLabel: TTTAttributedLabel!
   
   /// Displays title property of Post.
   @IBOutlet weak var titleLabel: UILabel!
@@ -77,9 +77,9 @@ class PostCell: UITableViewCell {
 
   // MARK: Constants
   
-  /// Height needed for all components of a PostCell excluding postTextView in the Storyboard.
+  /// Height needed for all components of a PostCell excluding postTTTAttributedLabel in the Storyboard.
   ///
-  /// **Note:** Height of postTextView must be calculated based on it's text property.
+  /// **Note:** Height of postTTTAttributedLabel must be calculated based on it's text property.
   class var AdditionalVertSpaceNeeded: CGFloat {
     get {
       return 140
@@ -101,8 +101,8 @@ class PostCell: UITableViewCell {
     }
   }
   
-  /// Font of the text contained within postTextView.
-  class var PostTextViewFont: UIFont {
+  /// Font of the text contained within postTTTAttributedLabel.
+  class var PostTTTAttributedLabelFont: UIFont {
     get {
       return UIFont.systemFontOfSize(15.0)
     }
@@ -135,11 +135,12 @@ class PostCell: UITableViewCell {
     pictureButton.setBackgroundImageForState(.Highlighted, withURL: post.user.profilePicURL)
     timeLabel.text = post.time
     
-    postTextView.text = post.text
-    postTextView.font = PostCell.PostTextViewFont
-    postTextView.textContainer.lineFragmentPadding = 0
-    postTextView.textContainerInset = UIEdgeInsetsZero
-    postTextView.editable = false
+    // TODO: Revamp all the Cells to use this new approach to link displaying. Must rename stuff too and also do the New Repost UI update with new way to handle links
+    postTTTAttributedLabel.numberOfLines = 0
+    postTTTAttributedLabel.font = PostCell.PostTTTAttributedLabelFont
+    postTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    postTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
+    postTTTAttributedLabel.text = post.text
     
     if post.user.isAnon {
       nameButton.setTitle(nameTitle, forState: .Disabled)

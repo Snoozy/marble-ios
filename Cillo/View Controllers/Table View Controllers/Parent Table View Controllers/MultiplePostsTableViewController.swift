@@ -164,8 +164,10 @@ class MultiplePostsTableViewController: CustomTableViewController {
     
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: (indexPath.row != posts.count - 1 ? MultiplePostsTableViewController.DividerHeight : 0.0))
     
-    cell.postTextView.delegate = self
-    (cell as? RepostCell)?.originalPostTextView.delegate = self
+    cell.postTTTAttributedLabel.delegate = self
+    if let cell = cell as? RepostCell {
+      cell.originalPostTTTAttributedLabel.delegate = self
+    }
     
     return cell
   }
@@ -232,9 +234,12 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a seeFullButton in a PostCell.
   @IBAction func seeFullPressed(sender: UIButton) {
     let post = posts[sender.tag]
+    println(post)
     if let post = post as? Repost {
+      println("in lv1)")
       if post.originalPost.seeFull != nil {
-        post.seeFull! = !post.seeFull!
+        println("in lv2")
+        post.originalPost.seeFull! = !post.originalPost.seeFull!
       }
     } else {
       if post.seeFull != nil {

@@ -217,8 +217,11 @@ class SingleUserTableViewController: CustomTableViewController {
           cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as! PostCell
         }
         cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != posts.count - 1 ? SingleUserTableViewController.PostDividerHeight : 0.0)
-        cell.postTextView.delegate = self
-        (cell as? RepostCell)?.originalPostTextView.delegate = self
+        cell.postTTTAttributedLabel.delegate = self
+        if let cell = cell as? RepostCell {
+          cell.originalPostTTTAttributedLabel.delegate = self
+        }
+        
         return cell
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as! CommentCell
@@ -353,7 +356,7 @@ class SingleUserTableViewController: CustomTableViewController {
     var post = posts[sender.tag]
     if let post = post as? Repost {
       if post.originalPost.seeFull != nil {
-        post.seeFull! = !post.seeFull!
+        post.originalPost.seeFull! = !post.originalPost.seeFull!
       }
     } else {
       if post.seeFull != nil {

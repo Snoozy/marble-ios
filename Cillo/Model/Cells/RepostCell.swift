@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 // TODO: Rephrase the "Reposted from Group" to better show that it takes the User to the original Post.
 
@@ -23,11 +24,11 @@ class RepostCell: PostCell {
   
   @IBOutlet weak var originalGroupButton: UIButton!
   
-  @IBOutlet weak var originalPostTextView: UITextView!
-  
   @IBOutlet weak var goToOriginalPostButton: UIButton!
   
-  @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
+  @IBOutlet weak var postTTTAttributedLabelHeightConstraint: NSLayoutConstraint!
+  
+  @IBOutlet weak var originalPostTTTAttributedLabel: TTTAttributedLabel!
   
   
   
@@ -38,7 +39,7 @@ class RepostCell: PostCell {
   // **Note:** Height of postTextView must be calculated based on it's text property.
   override class var AdditionalVertSpaceNeeded: CGFloat {
     get {
-      return 200
+      return 205
     }
   }
   
@@ -57,7 +58,7 @@ class RepostCell: PostCell {
     return 23
   }
   
-  class var OriginalPostTextViewFont: UIFont {
+  class var OriginalPostTTTAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(13.0)
   }
   
@@ -76,7 +77,7 @@ class RepostCell: PostCell {
     super.makeCellFromPost(post, withButtonTag: buttonTag, andSeparatorHeight: separatorHeight)
     if let post = post as? Repost {
       
-      postTextViewHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil)
+      postTTTAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil)
       
       let nameTitle = "\(post.originalPost.user.name)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
@@ -86,11 +87,11 @@ class RepostCell: PostCell {
       originalGroupButton.setTitle(post.originalPost.group.name, forState: .Highlighted)
       originalPictureButton.setBackgroundImageForState(.Highlighted, withURL: post.originalPost.user.profilePicURL)
       
-      originalPostTextView.text = post.originalPost.text
-      originalPostTextView.font = RepostCell.OriginalPostTextViewFont
-      originalPostTextView.textContainer.lineFragmentPadding = 0
-      originalPostTextView.textContainerInset = UIEdgeInsetsZero
-      originalPostTextView.editable = false
+      originalPostTTTAttributedLabel.numberOfLines = 0
+      originalPostTTTAttributedLabel.font = RepostCell.OriginalPostTTTAttributedLabelFont
+      originalPostTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+      originalPostTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
+      originalPostTTTAttributedLabel.text = post.originalPost.text
       
       goToOriginalPostButton.tintColor = UIColor.cilloBlue()
       
@@ -102,6 +103,7 @@ class RepostCell: PostCell {
       }
       
       if seeFullButton != nil {
+        seeFullButton!.tag = buttonTag
         if post.originalPost.seeFull == nil || post.originalPost.seeFull! {
           seeFullButton!.hidden = true
         } else {
@@ -150,7 +152,7 @@ class RepostCell: PostCell {
   }
   
   class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil) + RepostCell.AdditionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.OriginalPostMargins, andMaxContractedHeight: maxHeight)
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil) + RepostCell.AdditionalVertSpaceNeeded + post.originalPost.heightOfPostWithSmallerFontAndWidth(width - RepostCell.OriginalPostMargins, andMaxContractedHeight: maxHeight)
     height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.OriginalPostMargins, andButtonHeight: 20)
     height += dividerHeight
     return post.originalPost.title != nil ? height : height - RepostCell.TitleHeight
@@ -158,7 +160,7 @@ class RepostCell: PostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    postTextViewHeightConstraint.constant = 20
+    postTTTAttributedLabelHeightConstraint.constant = 20
     originalNameButton.enabled = true
     originalPictureButton.enabled = true
   }

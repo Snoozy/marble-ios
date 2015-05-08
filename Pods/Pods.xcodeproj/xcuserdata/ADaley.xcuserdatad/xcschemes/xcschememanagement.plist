@@ -8,35 +8,41 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 		<key>Pods-Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
+		</dict>
+		<key>Pods-TTTAttributedLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>00FE81EB75C1BBE96CE0264A</key>
+		<key>0EA2370FEBB8B48E31ECB6ED</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0BDCE38088843F760FF6511B</key>
+		<key>36B107EA15DA7EC8BC75DA30</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A6E560428BF96DA13A45E548</key>
+		<key>B4FB29C94FB9DB7BA934CB37</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BBDEFB449326049E8AADCAD6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

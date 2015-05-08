@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 // TODO: Document.
 class CustomTableViewController: UITableViewController {
@@ -69,16 +70,11 @@ extension CustomTableViewController: UITabBarControllerDelegate {
   
 }
 
-extension CustomTableViewController: UITextViewDelegate {
-  
-  // MARK: UITextViewDelegate
-  
-  // TODO: Document.
-  func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+extension CustomTableViewController: TTTAttributedLabelDelegate {
+
+  func attributedLabel(label: TTTAttributedLabel, didSelectLinkWithURL url: NSURL) {
     let webViewController = WebViewController()
-    webViewController.urlToLoad = URL
+    webViewController.urlToLoad = url
     navigationController?.pushViewController(webViewController, animated: true)
-    return false
   }
-  
 }

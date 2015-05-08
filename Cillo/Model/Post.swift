@@ -136,7 +136,25 @@ class Post: NSObject {
   ///  * Usually set to MaxContracted height constant of UITableViewController.
   /// :returns: Predicted height of postTextView in a PostCell.
   func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
-    let height = text.heightOfTextWithWidth(width, andFont: PostCell.PostTextViewFont)
+    let height = text.heightOfTextWithWidth(width, andFont: PostCell.PostTTTAttributedLabelFont)
+    if let maxHeight = maxHeight {
+      // seeFull should not be nil if post needs expansion option
+      if seeFull == nil && height > maxHeight {
+        seeFull = false
+      }
+      
+      if seeFull == nil || seeFull! {
+        return height
+      } else {
+        return maxHeight
+      }
+    } else {
+      return height
+    }
+  }
+  
+  func heightOfPostWithSmallerFontAndWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?) -> CGFloat {
+    let height = text.heightOfTextWithWidth(width, andFont: RepostCell.OriginalPostTTTAttributedLabelFont)
     if let maxHeight = maxHeight {
       // seeFull should not be nil if post needs expansion option
       if seeFull == nil && height > maxHeight {
