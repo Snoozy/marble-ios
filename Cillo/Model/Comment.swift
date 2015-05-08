@@ -178,8 +178,8 @@ class Comment: NSObject {
   /// :param: selected Describes if CommentCell is selected.
   /// :returns: Predicted height of commentTextView in a CommentCell.
   func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
-    let trueWidth = width - CommentCell.TextViewDistanceToIndent - predictedIndentSize(selected: selected)
-    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentTextViewFont)
+    let trueWidth = width - CommentCell.TTTAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
+    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentTTTAttributedLabelFont)
   }
   
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 // TODO: Handle Original Poster tag
 // TODO: Implement a reply button.
@@ -32,34 +33,24 @@ class CommentCell: UITableViewCell {
   @IBOutlet weak var pictureButton: UIButton!
   
   /// Upvotes Comment.
-  @IBOutlet weak var upvoteButton: UIButton!
+  @IBOutlet weak var upvoteButton: UIButton?
   
   /// Downvotes Comment.
-  @IBOutlet weak var downvoteButton: UIButton!
+  @IBOutlet weak var downvoteButton: UIButton?
   
   /// Replies to Comment.
   @IBOutlet weak var replyButton: UIButton?
   
-  /// Displays text property of Comment.
-  @IBOutlet weak var commentTextView: UITextView!
+  @IBOutlet weak var commentTTTAttributedLabel: TTTAttributedLabel!
   
   /// Displays rep and time of Comment
   @IBOutlet weak var repAndTimeLabel: UILabel!
   
   /// Set to 0 when cell is selected and ButtonHeight when selected.
-  @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint!
-  
-  /// Set to 0 when cell is selected and ButtonHeight when selected.
-  @IBOutlet weak var downvoteHeightConstraint: NSLayoutConstraint!
-  
-  /// Set to 0 when cell is selected and ButtonHeight when selected.
-  @IBOutlet weak var replyHeightConstraint: NSLayoutConstraint?
+  @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint?
   
   /// Set to .getIndentationSize().
   @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
-  
-  /// Set to .getIndentationSize() + .TextViewDistanceToIndent.
-  @IBOutlet weak var textIndentConstraint: NSLayoutConstraint!
   
   /// Custom border between cells.
   ///
@@ -74,7 +65,7 @@ class CommentCell: UITableViewCell {
   // MARK: Constants
   
   /// Font of the text contained within commentTextView.
-  class var CommentTextViewFont: UIFont {
+  class var CommentTTTAttributedLabelFont: UIFont {
     get {
       return UIFont.systemFontOfSize(15.0)
     }
@@ -99,7 +90,7 @@ class CommentCell: UITableViewCell {
   /// Distance of commentTextView to right boundary of contentView.
   ///
   /// **Note:** Used to align commentTextView with nameLabel when cell is indented.
-  class var TextViewDistanceToIndent: CGFloat {
+  class var TTTAttributedLabelDistanceToIndent: CGFloat {
     get {
       return 32
     }
@@ -125,7 +116,7 @@ class CommentCell: UITableViewCell {
   ///
   /// :returns: True indent size for cell with current indentationLevel.
   func getIndentationSize() -> CGFloat {
-    return CGFloat(indentationLevel) * CommentCell.IndentSize
+    return CGFloat(indentationLevel) * CommentCell.IndentSize + 8
   }
   
   /// Makes this CommentCell's IBOutlets display the correct values of the corresponding Comment.
@@ -147,7 +138,6 @@ class CommentCell: UITableViewCell {
       }
     }
     
-    println(comment.user.isSelf)
     let nameTitle = "\(name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
@@ -161,19 +151,19 @@ class CommentCell: UITableViewCell {
       pictureButton.enabled = false
     }
     
-    commentTextView.text = comment.text
-    commentTextView.font = CommentCell.CommentTextViewFont
-    commentTextView.textContainer.lineFragmentPadding = 0
-    commentTextView.textContainerInset = UIEdgeInsetsZero
+    commentTTTAttributedLabel.numberOfLines = 0
+    commentTTTAttributedLabel.font = CommentCell.CommentTTTAttributedLabelFont
+    commentTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    commentTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
+    commentTTTAttributedLabel.text = comment.text
+    
     var repText = String.formatNumberAsString(number: comment.rep)
     if comment.rep > 0 {
       repText = "+\(repText)"
     }
     if selected {
       //Show button bar when selected
-      upvoteHeightConstraint.constant = CommentCell.ButtonHeight
-      downvoteHeightConstraint.constant = CommentCell.ButtonHeight
-      replyHeightConstraint?.constant = CommentCell.ButtonHeight
+      upvoteHeightConstraint?.constant = CommentCell.ButtonHeight
       //Selected CommentCells show time next to rep
       repAndTimeLabel.text = "\(repText) · \(comment.time)"
       //Selected CommentCells need to clear vertical lines from the cell in order to expand cell
@@ -183,16 +173,14 @@ class CommentCell: UITableViewCell {
       lines.removeAll()
     } else {
       //hide button bar when not selected
-      upvoteHeightConstraint.constant = 0.0
-      downvoteHeightConstraint.constant = 0.0
-      replyHeightConstraint?.constant = 0.0
+      upvoteHeightConstraint?.constant = 0.0
       repAndTimeLabel.text = repText
     }
     
     nameButton.tag = buttonTag
     pictureButton.tag = buttonTag
-    upvoteButton.tag = buttonTag
-    downvoteButton.tag = buttonTag
+    upvoteButton?.tag = buttonTag
+    downvoteButton?.tag = buttonTag
     replyButton?.tag = buttonTag
     
     if comment.isOP {
@@ -208,33 +196,32 @@ class CommentCell: UITableViewCell {
     
     // TODO: Handle voteValues changing colors of images
     if comment.voteValue == 1 {
-      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
-      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
-      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Disabled)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Disabled)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
       repAndTimeLabel.textColor = UIColor.upvoteGreen()
     } else if comment.voteValue == -1 {
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
       repAndTimeLabel.textColor = UIColor.downvoteRed()
     } else {
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
     }
     
     //indents cell
     imageIndentConstraint.constant = getIndentationSize()
-    textIndentConstraint.constant = getIndentationSize() + CommentCell.TextViewDistanceToIndent
     
     //gets rid of small gap in divider
     layoutMargins = UIEdgeInsetsZero
@@ -264,11 +251,8 @@ class CommentCell: UITableViewCell {
   override func prepareForReuse() {
     nameButton.enabled = true
     pictureButton.enabled = true
-    upvoteHeightConstraint.constant = 0.0
-    downvoteHeightConstraint.constant = 0.0
-    replyHeightConstraint?.constant = 0.0
+    upvoteHeightConstraint?.constant = 0.0
     imageIndentConstraint.constant = 0.0
-    textIndentConstraint.constant = CommentCell.TextViewDistanceToIndent
   }
   
 }

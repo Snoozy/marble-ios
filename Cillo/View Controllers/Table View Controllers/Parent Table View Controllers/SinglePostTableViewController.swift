@@ -134,6 +134,7 @@ class SinglePostTableViewController: CustomTableViewController {
       comment.post = post
       
       cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row)
+      cell.commentTTTAttributedLabel.delegate = self
       
       // Makes separator indented
       // UIEdgeInsetsMake(top, left, bottom, right)

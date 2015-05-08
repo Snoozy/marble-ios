@@ -226,6 +226,7 @@ class SingleUserTableViewController: CustomTableViewController {
       case .Comments:
         let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as! CommentCell
         cell.makeCellFromComment(comments[indexPath.row], withSelected: false, andButtonTag: indexPath.row, andSeparatorHeight: indexPath.row != comments.count - 1 ? SingleUserTableViewController.CommentDividerHeight : 0.0)
+        cell.commentTTTAttributedLabel.delegate = self
         return cell
       }
     }
