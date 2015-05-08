@@ -135,7 +135,6 @@ class PostCell: UITableViewCell {
     pictureButton.setBackgroundImageForState(.Highlighted, withURL: post.user.profilePicURL)
     timeLabel.text = post.time
     
-    // TODO: Revamp all the Cells to use this new approach to link displaying. Must rename stuff too and also do the New Repost UI update with new way to handle links
     postTTTAttributedLabel.numberOfLines = 0
     postTTTAttributedLabel.font = PostCell.PostTTTAttributedLabelFont
     postTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue

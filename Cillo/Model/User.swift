@@ -90,7 +90,7 @@ class User: NSObject {
   /// :param: width The current width of bioTextView.
   /// :returns: Predicted height of bioTextView in a UserCell.
   func heightOfBioWithWidth(width: CGFloat) -> CGFloat {
-    return bio.heightOfTextWithWidth(width, andFont: UserCell.BioTextViewFont)
+    return bio.heightOfTextWithWidth(width, andFont: UserCell.BioTTTAttributedLabelFont)
   }
   
   

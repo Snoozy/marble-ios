@@ -205,6 +205,7 @@ class SingleUserTableViewController: CustomTableViewController {
     if indexPath.section == 0 {
       let cell = tableView.dequeueReusableCellWithIdentifier(UserCell.ReuseIdentifier, forIndexPath: indexPath) as! UserCell
       cell.makeCellFromUser(user, withButtonTag: 0)
+      cell.bioTTTAttributedLabel.delegate = self
       return cell
     } else {
       switch cellsShown {

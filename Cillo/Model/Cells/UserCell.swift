@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 /// Cell that corresponds to reuse identifier "User".
 ///
@@ -27,7 +28,7 @@ class UserCell: UITableViewCell {
   /// Displays bio property of User.
   ///
   /// Height of this UITextView is calulated by heightOfBioWithWidth(_:) in User.
-  @IBOutlet weak var bioTextView: UITextView!
+  @IBOutlet weak var bioTTTAttributedLabel: TTTAttributedLabel!
   
   /// Displays rep property of User.
   ///
@@ -55,7 +56,7 @@ class UserCell: UITableViewCell {
   }
   
   /// Font of the text contained within bioTextView.
-  class var BioTextViewFont: UIFont {
+  class var BioTTTAttributedLabelFont: UIFont {
     get {
       return UIFont.systemFontOfSize(15.0)
     }
@@ -111,10 +112,11 @@ class UserCell: UITableViewCell {
     usernameButton.setTitle("@\(user.username)", forState: .Normal)
     usernameButton.setTitle("@\(user.username)", forState: .Highlighted)
     
-    bioTextView.text = user.bio
-    bioTextView.font = UserCell.BioTextViewFont
-    bioTextView.textContainer.lineFragmentPadding = 0
-    bioTextView.textContainerInset = UIEdgeInsetsZero
+    bioTTTAttributedLabel.numberOfLines = 0
+    bioTTTAttributedLabel.font = UserCell.BioTTTAttributedLabelFont
+    bioTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    bioTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
+    bioTTTAttributedLabel.text = user.bio
     
     pictureButton.tag = buttonTag
     nameButton.tag = buttonTag
