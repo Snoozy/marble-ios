@@ -11,15 +11,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
-  enum CilloStyleOptions {
-    case Blue, Gray
-  }
-  
   var window: UIWindow?
-  
-  class var style: CilloStyleOptions {
-    return .Gray
-  }
   
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.

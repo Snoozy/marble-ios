@@ -37,64 +37,45 @@ class UserCell: UITableViewCell {
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var repLabel: UILabel!
   
-  /// Displays numGroups propert of User.
+  /// Displays numBoards propert of User.
   ///
-  /// Text should display a bolded numGroups value followed by an unbolded " GROUPS".
+  /// Text should display a bolded numBoards value followed by an unbolded " GROUPS".
   ///
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
-  @IBOutlet weak var groupsButton: UIButton!
+  @IBOutlet weak var boardsButton: UIButton!
 
   // MARK: Constants
   
   /// Height needed for all components of a UserCell excluding bioTextView in the Storyboard.
   ///
   /// **Note:** Height of bioTextView must be calculated based on it's text property.
-  class var AdditionalVertSpaceNeeded: CGFloat {
-    get {
-      return 174
-    }
+  class var additionalVertSpaceNeeded: CGFloat {
+    return 174
   }
   
   /// Font of the text contained within bioTextView.
-  class var BioTTTAttributedLabelFont: UIFont {
-    get {
-      return UIFont.systemFontOfSize(15.0)
-    }
+  class var bioTTTAttributedLabelFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
   }
   
   /// Font used for the word " REP" in repLabel.
-  class var RepFont: UIFont {
-    get {
-      return UIFont.systemFontOfSize(15.0)
-    }
+  class var repFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
   }
   
   /// Font used for the rep value in repLabel.
-  class var RepFontBold: UIFont {
-    get {
-      return UIFont.boldSystemFontOfSize(18.0)
-    }
+  class var repFontBold: UIFont {
+    return UIFont.boldSystemFontOfSize(18.0)
   }
   
-  /// Font used for the word " GROUPS" in groupsButton.
-  class var GroupsFont: UIFont {
-    get {
-      return UIFont.systemFontOfSize(15.0)
-    }
+  /// Font used for the word " GROUPS" in boardsButton.
+  class var boardsFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
   }
   
-  /// Font used for the numGroups value in groupsButton.
-  class var GroupsFontBold: UIFont {
-    get {
-      return UIFont.boldSystemFontOfSize(18.0)
-    }
-  }
-  
-  /// Reuse Identifier for this UITableViewCell.
-  class var ReuseIdentifier: String {
-    get {
-      return "User"
-    }
+  /// Font used for the numBoards value in boardsButton.
+  class var boardsFontBold: UIFont {
+    return UIFont.boldSystemFontOfSize(18.0)
   }
   
   // MARK: Helper Methods
@@ -105,6 +86,8 @@ class UserCell: UITableViewCell {
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the post in its model array.
   func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
+    let scheme = ColorScheme.defaultScheme
+    
     pictureButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
     pictureButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
     nameButton.setTitle(user.name, forState: .Normal)
@@ -113,7 +96,7 @@ class UserCell: UITableViewCell {
     usernameButton.setTitle("@\(user.username)", forState: .Highlighted)
     
     bioTTTAttributedLabel.numberOfLines = 0
-    bioTTTAttributedLabel.font = UserCell.BioTTTAttributedLabelFont
+    bioTTTAttributedLabel.font = UserCell.bioTTTAttributedLabelFont
     bioTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
     bioTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
     bioTTTAttributedLabel.text = user.bio
@@ -123,20 +106,25 @@ class UserCell: UITableViewCell {
     usernameButton.tag = buttonTag
     
     if user.isSelf {
-      nameButton.setTitleColor(UIColor.blueColor(), forState: .Normal | .Highlighted)
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
     }
     
     // Make only the number in repLabel bold
-    var repText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.rep), firstFont: UserCell.RepFontBold, secondHalf: " REP", secondFont: UserCell.RepFont)
+    var repText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.rep), firstFont: UserCell.repFontBold, secondHalf: " REP", secondFont: UserCell.repFont)
     repLabel.attributedText = repText
     
-    // Make only the number in groupsButton bold
-    var groupsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.numGroups), firstFont: UserCell.GroupsFontBold, secondHalf: " BOARDS", secondFont: UserCell.GroupsFont)
-    groupsButton.setAttributedTitle(groupsText, forState: .Normal)
-    groupsButton.tintColor = UIColor.blackColor()
+    // Make only the number in boardsButton bold
+    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.boardCount), firstFont: UserCell.boardsFontBold, secondHalf: " BOARDS", secondFont: UserCell.boardsFont)
+    boardsButton.setAttributedTitle(boardsText, forState: .Normal)
+    boardsButton.tintColor = UIColor.blackColor()
+  }
+  
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    bioTTTAttributedLabel.delegate = delegate
   }
   
   class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {
-    return user.heightOfBioWithWidth(width) + UserCell.AdditionalVertSpaceNeeded
+    return user.heightOfBioWithWidth(width) + UserCell.additionalVertSpaceNeeded
   }
 }

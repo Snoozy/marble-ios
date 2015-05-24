@@ -22,8 +22,8 @@ class PostCell: UITableViewCell {
   /// Displays user.profilePic property of Post.
   @IBOutlet weak var pictureButton: UIButton!
   
-  /// Displays group.name property of Post.
-  @IBOutlet weak var groupButton: UIButton!
+  /// Displays board.name property of Post.
+  @IBOutlet weak var boardButton: UIButton!
   
   @IBOutlet weak var postTTTAttributedLabel: TTTAttributedLabel!
   
@@ -53,7 +53,7 @@ class PostCell: UITableViewCell {
   /// Centers view on Comments Section of PostTableViewController.
   @IBOutlet weak var commentButton: UIButton!
   
-  /// Reposts Post in a different Group.
+  /// Reposts Post in a different Board.
   @IBOutlet weak var repostButton: UIButton!
   
   /// Custom border between cells.
@@ -80,39 +80,23 @@ class PostCell: UITableViewCell {
   /// Height needed for all components of a PostCell excluding postTTTAttributedLabel in the Storyboard.
   ///
   /// **Note:** Height of postTTTAttributedLabel must be calculated based on it's text property.
-  class var AdditionalVertSpaceNeeded: CGFloat {
-    get {
-      return 140
-  
-    }
+  class var additionalVertSpaceNeeded: CGFloat {
+    return 140
   }
   
   /// Height of titleLabel in Storyboard.
-  class var TitleHeight: CGFloat {
-    get {
-      return 26.5
-    }
+  class var titleHeight: CGFloat {
+    return 26
   }
   
   // TODO: Document
-  class var ImageMargins: CGFloat {
-    get {
-      return 3
-    }
+  class var imageMargins: CGFloat {
+    return 3
   }
   
   /// Font of the text contained within postTTTAttributedLabel.
-  class var PostTTTAttributedLabelFont: UIFont {
-    get {
-      return UIFont.systemFontOfSize(15.0)
-    }
-  }
-  
-  /// Reuse Identifier for this UITableViewCell.
-  class var ReuseIdentifier: String {
-    get {
-      return "Post"
-    }
+  class var postTTTAttributedLabelFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
   }
   
   // MARK: Helper Functions
@@ -125,18 +109,19 @@ class PostCell: UITableViewCell {
   /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+    let scheme = ColorScheme.defaultScheme
     
     let nameTitle = "\(post.user.name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
-    groupButton.setTitle(post.group.name, forState: .Normal)
+    boardButton.setTitle(post.board.name, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: post.user.profilePicURL)
     nameButton.setTitle(nameTitle, forState: .Highlighted)
-    groupButton.setTitle(post.group.name, forState: .Highlighted)
+    boardButton.setTitle(post.board.name, forState: .Highlighted)
     pictureButton.setBackgroundImageForState(.Highlighted, withURL: post.user.profilePicURL)
     timeLabel.text = post.time
     
     postTTTAttributedLabel.numberOfLines = 0
-    postTTTAttributedLabel.font = PostCell.PostTTTAttributedLabelFont
+    postTTTAttributedLabel.font = PostCell.postTTTAttributedLabelFont
     postTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
     postTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
     postTTTAttributedLabel.text = post.text
@@ -149,7 +134,7 @@ class PostCell: UITableViewCell {
     }
     
     nameButton.tag = buttonTag
-    groupButton.tag = buttonTag
+    boardButton.tag = buttonTag
     pictureButton.tag = buttonTag
     commentButton.tag = buttonTag
     upvoteButton.tag = buttonTag
@@ -158,14 +143,13 @@ class PostCell: UITableViewCell {
     imagesButton.tag = buttonTag
     
     if post.user.isSelf {
-      nameButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
-      nameButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
     } else {
       nameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
       nameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
     }
     
-    // TODO: Handle voteValues changing colors of images
     if post.voteValue == 1 {
       upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
       upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
@@ -192,7 +176,7 @@ class PostCell: UITableViewCell {
       repLabel.textColor = UIColor.blackColor()
     }
     
-    commentLabel.text = String.formatNumberAsString(number: post.numComments)
+    commentLabel.text = String.formatNumberAsString(number: post.commentCount)
     commentLabel.textColor = UIColor.whiteColor()
     contentView.bringSubviewToFront(commentLabel)
     repLabel.text = String.formatNumberAsString(number: post.rep)
@@ -206,61 +190,64 @@ class PostCell: UITableViewCell {
       layoutMargins = UIEdgeInsetsZero
     }
     
-    if let separatorView = separatorView {
-      separatorView.backgroundColor = UIColor.cilloBlue()
-      separatorViewHeightConstraint!.constant = separatorHeight
-    }
+    separatorViewHeightConstraint?.constant = separatorHeight
+    
+    separatorView?.backgroundColor = scheme.dividerBackgroundColor()
     
     if !(post is Repost) {
-      if seeFullButton != nil {
+      if let seeFullButton = seeFullButton {
         // tag acts as way for button to know it's position in data array
-        seeFullButton!.tag = buttonTag
+        seeFullButton.tag = buttonTag
         
-        seeFullButton!.setTitle("More", forState: .Normal)
-        seeFullButton!.setTitle("More", forState: .Highlighted)
+        seeFullButton.setTitle("More", forState: .Normal)
+        seeFullButton.setTitle("More", forState: .Highlighted)
         
         // short posts and already expanded posts don't need to be expanded
-        if post.seeFull == nil || post.seeFull! {
-          seeFullButton!.hidden = true
+        if let seeFull = post.seeFull where !seeFull {
+          seeFullButton.hidden = false
         } else {
-          seeFullButton!.hidden = false
+          seeFullButton.hidden = true
         }
       }
       
       if let title = post.title {
         titleLabel.text = title
-        titleHeightConstraint.constant = PostCell.TitleHeight
+        titleHeightConstraint.constant = PostCell.titleHeight
       } else {
         titleLabel.text = ""
         titleHeightConstraint.constant = 0.0
       }
       
       imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andButtonHeight: 20)
-      if post.imageURLs != nil {
-        imagesButton.setBackgroundImageForState(.Disabled, withURL: post.imageURLs![0], placeholderImage: UIImage(named: "Me"))
+      if let imageURLs = post.imageURLs {
+        imagesButton.setBackgroundImageForState(.Disabled, withURL: imageURLs[0], placeholderImage: UIImage(named: "Me"))
         imagesButton.setTitle("", forState: .Disabled)
         imagesButton.contentMode = .ScaleAspectFit
       }
       if imagesButtonHeightConstraint.constant == 20 {
         imagesButton.setTitle("Show Images", forState: .Normal)
         imagesButton.setTitle("Show Images", forState: .Highlighted)
-        imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
-        imagesButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Highlighted)
         imagesButton.enabled = true
-      } else if post.imageURLs != nil && post.showImages {
+      } else if let imageURLs = post.imageURLs where post.showImages {
         imagesButton.enabled = false
       }
     }
+  }
+  
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    postTTTAttributedLabel.delegate = delegate
   }
   
   class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     if let post = post as? Repost {
       return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
     }
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight) + PostCell.AdditionalVertSpaceNeeded
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postTTTAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
     height += post.heightOfImagesInPostWithWidth(width, andButtonHeight: 20)
     height += dividerHeight
-    return post.title != nil ? height : height - PostCell.TitleHeight
+    return post.title != nil ? height : height - PostCell.titleHeight
   }
   
   override func prepareForReuse() {

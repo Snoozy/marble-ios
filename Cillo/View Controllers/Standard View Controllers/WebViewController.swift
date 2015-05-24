@@ -8,18 +8,20 @@
 
 import UIKit
 
-// TODO: Document
+/// Handles displaying web pages within the app.
 class WebViewController: UIViewController {
   
-  // TODO: Document
+  // MARK: Properties
+  
+  /// The url that will be displayed by this WebViewController.
   var urlToLoad: NSURL = NSURL()
   
-  // TODO: Document.
+  // MARK: UIViewController
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     let webView = UIWebView(frame: view.bounds)
     view.addSubview(webView)
     webView.loadRequest(NSURLRequest(URL: urlToLoad))
   }
-
 }

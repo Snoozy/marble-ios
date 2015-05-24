@@ -8,97 +8,132 @@
 
 import UIKit
 
+// TODO: Update Storyboard constraints
+
 /// Handles creating new Posts.
-class NewPostViewController: UIViewController {
+class NewPostViewController: CustomViewController {
 
   // MARK: Properties
   
-  /// Group that this new Post will be posted to.
+  /// Board that this new Post will be posted to.
   ///
-  /// Set this property to pass a group name to this UIViewController from another UIViewController.
-  var group: Group?
+  /// Set this property to pass a board name to this UIViewController from another UIViewController.
+  var board: Board?
   
+  /// Stores the chosen image for this post, if the post is an image post.
   var image: UIImage?
-  
+ 
+  /// Displays a scrollable image to fit `image` on the screen.
+  ///
+  /// Setup in viewDidAppear(_:) to reload each time a new picture is selected via an ImagePickerController.
   var scrollView: UIScrollView?
   
   // MARK: IBOutlets
   
-  /// Allows logged in User to enter the group name that he/she wants to post the new Post to.
+  /// Field for end user to enter the name of the Board that they want to post this post to.
   ///
-  /// **Note:** Text is automatically set if group is not nil.
-  @IBOutlet weak var groupTextField: UITextField!
+  /// **Note:** Text is automatically set if board is not nil.
+  @IBOutlet weak var boardTextField: UITextField!
   
-  /// Allows logged in User to enter a title to his/her new Post.
-  @IBOutlet weak var titleTextField: UITextField!
+  /// Button allowing end user to pick an image for their post.
+  @IBOutlet weak var imageButton: UIButton!
   
-  /// Allows logged in User to enter text for his/her new Post.
+  /// Field for end user to enter the text of their post.
   @IBOutlet weak var postTextView: UITextView!
   
   /// Set to PostTextViewHeight after viewDidLayoutSubviews().
   @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
-
-  /// Button used to create the new Post.
-  @IBOutlet weak var createPostButton: UIBarButtonItem!
   
-  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  /// Field for end user to enter the title of their post.
+  @IBOutlet weak var titleTextField: UITextField!
   
-  @IBOutlet weak var imageButton: UIButton!
-  
-  @IBOutlet weak var imageButtonHeightConstraint: NSLayoutConstraint!
-  
+  /// ImageView used to display the end user's profile picture.
   @IBOutlet weak var userImageView: UIImageView!
   
+  /// Label used to display the end user's name.
   @IBOutlet weak var usernameLabel: UILabel!
   
   // MARK: Constants
   
+  // FIXME: Implement this with notification center to get keyboard height correctly
+  
+  /// Calculated height of postTextView based on frame size of device.
+  var postTextViewHeight: CGFloat {
+    return view.frame.height - UITextView.KeyboardHeight - NewPostViewController.vertSpaceExcludingPostTextView
+  }
+  
   /// Height needed for all components of a NewPostViewController excluding postTextView in the Storyboard.
   ///
   /// **Note:** Height of postTextView must be calculated based on the frame size of the device.
-  class var VertSpaceExcludingPostTextView: CGFloat {
-    get {
-      return 230
-    }
-  }
-  
-  /// Calculated height of postTextView based on frame size of device.
-  var PostTextViewHeight: CGFloat {
-    get {
-      return view.frame.height - UITextView.KeyboardHeight - NewPostViewController.VertSpaceExcludingPostTextView
-    }
-  }
-  
-  /// Segue Identifier in Storyboard for this UIViewController to PostTableViewController.
-  var SegueIdentifierThisToTab: String {
-    get {
-      return "NewPostToTab"
-    }
+  class var vertSpaceExcludingPostTextView: CGFloat {
+   return 230
   }
   
   // MARK: UIViewController
   
-  /// Resizes postTextView so the keyboard won't overlap any UI elements and sets the group name in groupTextView if a group was passed tot his UIViewController.
-  override func viewDidLoad() {
-    postTextViewHeightConstraint.constant = PostTextViewHeight
-    if let group = group {
-      groupTextField.text = group.name
-    }
-    groupTextField.delegate = self
-    titleTextField.delegate = self
-    imageButton.tintColor = UIColor.whiteColor()
-    imageButton.backgroundColor = UIColor.cilloBlue()
-    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
-    fakeNavigationBar.translucent = false
-    retrieveUser( { (user) in
-      if user != nil {
-        self.userImageView.setImageWithURL(user!.profilePicURL)
-        self.usernameLabel.text = user!.name
+  /// Handles passing of data when navigation between UIViewControllers occur.
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == SegueIdentifiers.newPostToTab {
+      var destination = segue.destinationViewController as! TabViewController
+      if let sender = sender as? Post {
+        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
+        if let nav = destination.selectedViewController as? UINavigationController {
+          postViewController.post = sender
+          if image != nil {
+            sender.showImages = true
+          }
+          nav.pushViewController(postViewController, animated: true)
+        }
       }
-    })
+    }
   }
   
   override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    setupScrollView()
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setupColorScheme()
+    setupOutletAppearances()
+    setupOutletDelegates()
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets up the colors of the Outlets according to the default scheme of the app.
+  private func setupColorScheme() {
+    let scheme = ColorScheme.defaultScheme
+    imageButton.tintColor = scheme.solidButtonTextColor()
+    imageButton.backgroundColor = scheme.solidButtonBackgroundColor()
+    boardTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    titleTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    postTextView.backgroundColor = scheme.textFieldBackgroundColor()
+  }
+  
+  /// Sets up the appearance of Outlets that were not set in the storyboard.
+  private func setupOutletAppearances() {
+    postTextViewHeightConstraint.constant = postTextViewHeight
+    if let board = board {
+      boardTextField.text = board.name
+    }
+    retrieveUser { user in
+      if let user = user {
+        self.userImageView.setImageWithURL(user.profilePicURL)
+        self.usernameLabel.text = user.name
+      }
+    }
+  }
+  
+  /// Sets any delegates of Outlets that were not set in the storyboard.
+  private func setupOutletDelegates() {
+    boardTextField.delegate = self
+    titleTextField.delegate = self
+  }
+  
+  /// Sets up the scrollView to display a scrollable representaiton of image.
+  private func setupScrollView() {
     if let image = image {
       scrollView?.removeFromSuperview()
       var height = imageButton.frame.width * image.size.height / image.size.width
@@ -116,28 +151,7 @@ class NewPostViewController: UIViewController {
     }
   }
   
-  /// Handles passing of data when navigation between UIViewControllers occur.
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == SegueIdentifierThisToTab {
-      var destination = segue.destinationViewController as! TabViewController
-      if let sender = sender as? Post {
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as! PostTableViewController
-        if let nav = destination.selectedViewController as? UINavigationController {
-          postViewController.post = sender
-          if image != nil {
-            sender.showImages = true
-          }
-          nav.pushViewController(postViewController, animated: true)
-        }
-      }
-    }
-  }
-  
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
-  }
-  
-  // MARK: Helper Functions
+  // MARK: Networking Helper Functions
   
   /// Used to create and retrieve a new Post made by the logged in User from Cillo servers.
   ///
@@ -152,130 +166,122 @@ class NewPostViewController: UIViewController {
     }
     let activityIndicator = addActivityIndicatorToCenterWithText("Creating Post...")
     if let image = image {
-      DataManager.sharedInstance.imageUpload(UIImageJPEGRepresentation(image, 0.5), completion: { (error, mediaID) in
-        if error != nil {
-          activityIndicator.removeFromSuperview()
-          println(error!)
-          error!.showAlert()
-          completion(post: nil)
-        } else {
-          DataManager.sharedInstance.createPostByGroupName(self.groupTextField.text, repostID: nil, text: self.postTextView.text, title: title, mediaID: mediaID, completion: { (error, result) in
+      uploadImage(image) { mediaID in
+        if let mediaID = mediaID {
+          DataManager.sharedInstance.createPostByBoardName(self.boardTextField.text, repostID: nil, text: self.postTextView.text, title: title, mediaID: mediaID) { error, result in
             activityIndicator.removeFromSuperview()
-            if error != nil {
-              println(error!)
-              error!.showAlert()
+            if let error = error {
+              println(error)
+              error.showAlert()
               completion(post: nil)
             } else {
               completion(post: result!)
             }
-          })
+          }
+        } else {
+          activityIndicator.removeFromSuperview()
+          completion(post: nil)
         }
-      })
+      }
     } else {
-      DataManager.sharedInstance.createPostByGroupName(groupTextField.text, repostID: nil, text: postTextView.text, title: title, mediaID: nil, completion: { (error, result) -> Void in
+      DataManager.sharedInstance.createPostByBoardName(boardTextField.text, repostID: nil, text: postTextView.text, title: title, mediaID: nil) { error, result in
         activityIndicator.removeFromSuperview()
-        if error != nil {
-          println(error!)
-          error!.showAlert()
+        if let error = error {
+          println(error)
+          error.showAlert()
           completion(post: nil)
         } else {
           completion(post: result!)
         }
-      })
+      }
     }
   }
   
+  /// Retrieves the end user's info from the Cillo Servers.
+  ///
+  /// :param: completion The completion block for the request.
+  /// :param: user The end user's info.
+  /// :param: * Nil if an error occurred in the server call.
   func retrieveUser(completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
-    DataManager.sharedInstance.getSelfInfo( { (error, result) -> Void in
+    DataManager.sharedInstance.getSelfInfo { error, result in
       activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(user: nil)
       } else {
         completion(user: result!)
       }
-    })
+    }
+  }
+  
+  /// Used to upload image to Cillo servers.
+  ///
+  /// :param: completion The completion block for the server call.
+  /// :param: mediaID The id of the image uploaded to the Cillo servers.
+  /// :param: * Nil if there was an error in the server call.
+  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
+    let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
+    let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
+    DataManager.sharedInstance.imageUpload(imageData) { error, result in
+      activityIndicator.removeFromSuperview()
+      if let error = error {
+        println(error)
+        error.showAlert()
+        completion(mediaID: nil)
+      } else {
+        completion(mediaID: result!)
+      }
+    }
   }
   
   // MARK: IBActions
   
+  /// Presents an AlertController with ActionSheet style that allows the user to choose an image for their post.
+  ///
+  /// :param: sender The button that is touched to send this function is imageButton.
+  @IBAction func imageButtonPressed(sender: UIButton) {
+    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
+  }
+  
   /// Creates a post. If the creation is successful, presents a PostTableViewController and removes self from navigationController's stack.
   ///
-  /// :param: sender The button that is touched to send this function is createPostButton.
+  /// :param: sender The bar button item that says Create.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
-    createPost( { (post) -> Void in
+    createPost { post in
       if let post = post {
-        self.performSegueWithIdentifier(self.SegueIdentifierThisToTab, sender: post)
+        self.performSegueWithIdentifier(SegueIdentifiers.newPostToTab, sender: post)
       }
-    })
+    }
   }
-  
-  @IBAction func imageButtonPressed(sender: UIButton) {
-    let actionSheet = UIAlertController(title: "Change Profile Picture", message: nil, preferredStyle: .ActionSheet)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
-    })
-    let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default, handler:  { (action) in
-      let pickerController = UIImagePickerController()
-      pickerController.delegate = self
-      self.presentViewController(pickerController, animated: true, completion: nil)
-    })
-    let cameraAction = UIAlertAction(title: "Take Photo", style: .Default, handler: { (action) in
-      let pickerController = UIImagePickerController()
-      pickerController.delegate = self
-      if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-        pickerController.sourceType = .Camera
-      }
-      self.presentViewController(pickerController, animated: true, completion: nil)
-    })
-    actionSheet.addAction(cancelAction)
-    actionSheet.addAction(pickerAction)
-    actionSheet.addAction(cameraAction)
-    presentViewController(actionSheet, animated: true, completion: nil)
-  }
-  
 }
 
-extension NewPostViewController: UITextFieldDelegate {
-  
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
-    return true
-  }
-}
+// MARK: - UIImagePickerControllerDelegate
 
 extension NewPostViewController: UIImagePickerControllerDelegate {
-  // MARK: UIImagePickerControllerDelegate
   
-  /// Handles the instance in which an image was picked by a UIImagePickerController presented by this MeTableViewController.
+  /// Handles the instance in which an image was picked by a UIImagePickerController presented by this NewPostViewController.
   ///
-  /// :param: picker The UIImagePickerController presented by this MeTableViewController.
+  /// :param: picker The UIImagePickerController presented by this NewPostViewController.
   /// :param: info The dictionary containing the selected image's data.
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       self.image = image
     }
-    self.dismissViewControllerAnimated(true, completion: nil)
+    dismissViewControllerAnimated(true, completion: nil)
   }
   
-  /// Handles the instance in which the user cancels the selection of an image by a UIImagePickerController presented by this MeTableViewController.
+  /// Handles the instance in which the user cancels the selection of an image by a UIImagePickerController presented by this NewPostViewController.
   ///
-  /// :param: picker The UIImagePickerController presented by this MeTableViewController.
+  /// :param: picker The UIImagePickerController presented by this NewPostViewController.
   func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+    dismissViewControllerAnimated(true, completion: nil)
   }
 }
+
+// MARK: - UINavigationControllerDelegate
 
 // Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
 extension NewPostViewController: UINavigationControllerDelegate {
-  
-  // MARK: UINavigationControllerDelegate
-  
-}
-
-extension NewPostViewController: UIBarPositioningDelegate {
-  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-    return .TopAttached
-  }
 }

@@ -8,51 +8,56 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController {
+/// Handles end user registration.
+class RegisterViewController: CustomViewController {
 
   // MARK: IBOutlets
   
-  /// Space for user to enter their email associated with their account.
+  /// Field for end user to enter email.
   @IBOutlet weak var emailTextField: UITextField!
   
-  /// Space for user to enter their username for logging in.
-  @IBOutlet weak var userTextField: UITextField!
-  
-  /// Space for user to enter their display name for logging in.
+  /// Field for end user to enter name.
   @IBOutlet weak var nameTextField: UITextField!
   
-  /// Space for user to enter their password for logging in.
+  /// Field for end user to enter password
   @IBOutlet weak var passwordTextField: UITextField!
   
-  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
-  
+  /// Button allowing end user to create a new account.
   @IBOutlet weak var registerButton: UIButton!
   
-  // MARK: Constants
+  /// Field for end user to enter username
+  @IBOutlet weak var userTextField: UITextField!
   
-  /// Segue Identifier in Storyboard for this UIViewController to LoginViewController
-  var SegueIdentifierThisToLogin: String {
-    get {
-      return "RegisterToLogin"
-    }
-  }
+  // MARK: UIViewController
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
-    fakeNavigationBar.translucent = false
+    setupColorScheme()
+    setupOutletDelegates()
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets up the colors of the Outlets according to the default scheme of the app.
+  private func setupColorScheme() {
+    let scheme = ColorScheme.defaultScheme
+    emailTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    userTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    passwordTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    registerButton.backgroundColor = scheme.solidButtonBackgroundColor()
+    registerButton.tintColor = scheme.solidButtonTextColor()
+  }
+  
+  /// Sets any delegates of Outlets that were not set in the storyboard.
+  private func setupOutletDelegates() {
     emailTextField.delegate = self
     nameTextField.delegate = self
     passwordTextField.delegate = self
     userTextField.delegate = self
-    registerButton.backgroundColor = UIColor.cilloBlue()
   }
   
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
-  }
-  
-  // MARK: Helper Functions
+  // MARK: Networking Helper Functions
   
   /// Attempts to register user with Cillo servers.
   ///
@@ -62,20 +67,20 @@ class RegisterViewController: UIViewController {
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Registering...")
-    DataManager.sharedInstance.register(userTextField.text, name: nameTextField.text, password: passwordTextField.text, email: emailTextField.text, completion: { (error, success) -> Void in
+    DataManager.sharedInstance.register(userTextField.text, name: nameTextField.text, password: passwordTextField.text, email: emailTextField.text) { error, success in
       activityIndicator.removeFromSuperview()
-      if error != nil {
+      if let error = error {
         println(error)
-        error!.showAlert()
+        error.showAlert()
         completion(success: false)
       } else {
         if success {
           let alert = UIAlertView(title: "Registration Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
           alert.show()
-          completion(success: true)
         }
+        completion(success: success)
       }
-    })
+    }
   }
   
   // MARK: IBActions
@@ -84,25 +89,10 @@ class RegisterViewController: UIViewController {
   ///
   /// :param: sender The button that is touched to send this function is registerButton.
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
-    register( { (success) -> Void in
+    register { success in
       if success {
-        self.performSegueWithIdentifier(self.SegueIdentifierThisToLogin, sender: sender)
+        self.performSegueWithIdentifier(SegueIdentifiers.registerToLogin, sender: sender)
       }
-    })
-  }
-
-}
-
-extension RegisterViewController: UIBarPositioningDelegate {
-  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-    return .TopAttached
-  }
-}
-
-extension RegisterViewController: UITextFieldDelegate {
-  
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
-    return true
+    }
   }
 }

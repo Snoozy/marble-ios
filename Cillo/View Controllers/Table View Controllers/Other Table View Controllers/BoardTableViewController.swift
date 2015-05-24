@@ -1,40 +1,37 @@
 //
-//  HomeTableViewController.swift
+//  BoardTableViewController.swift
 //  Cillo
 //
-//  Created by Andrew Daley on 10/23/14.
+//  Created by Andrew Daley on 1/5/15.
 //  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
 
-/// Handles first view of Home tab (Front Page of Cillo). 
+/// Handles view of expanded Post with Comments beneath it.
 ///
 /// Formats TableView to look appealing and be functional.
-class HomeTableViewController: MultiplePostsTableViewController {
+///
+/// **Note:** Must assign board property of superclass a relevant value before displaying this SingleBoardTableViewController.
+class BoardTableViewController: SingleBoardTableViewController {
   
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for segue to PostTableViewController.
   override var segueIdentifierThisToPost: String {
-    return SegueIdentifiers.homeToPost
-  }
-  
-  /// Segue Identifier in Storyboard for segue to BoardTableViewController.
-  override var segueIdentifierThisToBoard: String {
-    return SegueIdentifiers.homeToBoard
+    return SegueIdentifiers.boardToPost
   }
   
   /// Segue Identifier in Storyboard for segue to UserTableViewController.
   override var segueIdentifierThisToUser: String {
-    return SegueIdentifiers.homeToUser
+    return SegueIdentifiers.boardToUser
   }
   
   /// Segue Identifier in Storyboard for segue to NewPostViewController.
   override var segueIdentifierThisToNewPost: String {
-    return SegueIdentifiers.homeToNewPost
+    return SegueIdentifiers.boardToNewPost
   }
-
+  
   // MARK: UIViewController
   
   override func viewDidLoad() {
@@ -47,15 +44,15 @@ class HomeTableViewController: MultiplePostsTableViewController {
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
+    if !retrievingPage && indexPath.row > (pageNumber - 1) * 10 + 10 {
       retrievingPage = true
       retrievePosts { posts in
         if let posts = posts {
           for post in posts {
             self.posts.append(post)
           }
-          self.pageNumber++
           self.tableView.reloadData()
+          self.pageNumber++
         }
         self.retrievingPage = false
       }
@@ -66,37 +63,37 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   /// Used to retrieve all necessary data to display UITableViewCells in this view controller.
   ///
-  /// Assigns `posts` correct values from server calls.
+  /// Assigns posts property of SingleBoardTableViewController correct values from server calls.
   override func retrieveData() {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
     retrievingPage = true
+    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
     posts = []
     pageNumber = 1
     retrievePosts { posts in
       activityIndicator.removeFromSuperview()
       if let posts = posts {
-        self.pageNumber++
         self.posts = posts
         self.tableView.reloadData()
+        self.pageNumber++
       }
       self.refreshControl?.endRefreshing()
       self.retrievingPage = false
     }
   }
   
-  /// Used to retrieve posts in the end user's feed from Cillo servers.
+  /// Used to retrieve the feed for this board from Cillo servers.
   ///
   /// :param: completion The completion block for the server call.
-  /// :param: posts The posts in the end user's home feed.
+  /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    DataManager.sharedInstance.getHomePage(lastPostID: posts.last?.postID) { error, result in
+    DataManager.sharedInstance.getBoardFeed(lastPostID: posts.last?.postID, boardID: board.boardID) { error, result in
       if let error = error {
         println(error)
         error.showAlert()
         completion(posts: nil)
       } else {
-        completion(posts: result)
+        completion(posts: result!)
       }
     }
   }

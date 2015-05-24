@@ -1,0 +1,300 @@
+//
+//  ColorScheme.swift
+//  Cillo
+//
+//  Created by Andrew Daley on 5/14/15.
+//  Copyright (c) 2015 Cillo. All rights reserved.
+//
+
+import UIKit
+
+// MARK: - ColorScheme
+
+/// Represents a particular color scheme for the app.
+struct ColorScheme {
+  
+  // MARK: Properties
+  
+  /// Describes the color scheme that this instance represents
+  var scheme: ColorSchemeOptions
+  
+  // MARK: Static Variables
+  
+  /// Current scheme used in the live version of the app
+  static var defaultScheme: ColorScheme {
+    return ColorScheme(scheme: .Gray)
+  }
+  
+  // MARK: Initializers
+  
+  /// Initializer that takes in a scheme option
+  ///
+  /// :param: scheme The chosen option to represent the created ColorScheme instance
+  init(scheme: ColorSchemeOptions) {
+    self.scheme = scheme
+  }
+  
+  func navigationBarColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func barButtonItemColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.blackColor()
+    }
+    
+  }
+  
+  func navigationBarTitleColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.blackColor()
+    }
+  }
+  
+  func touchableTextColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func solidButtonBackgroundColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func solidButtonTextColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.blackColor()
+    }
+  }
+  
+  func textFieldBackgroundColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlueWithAlpha(0.1)
+    case .Gray:
+      return UIColor.cilloGrayWithAlpha(0.1)
+    }
+  }
+  
+  func thinLineBackgroundColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.defaultTableViewDividerColor()
+    case .Gray:
+      return UIColor.defaultTableViewDividerColor()
+    }
+  }
+  
+  func statusBarStyle() -> UIStatusBarStyle {
+    switch scheme {
+    case .Blue:
+      return .LightContent
+    case .Gray:
+      return .Default
+    }
+  }
+  
+  func dividerBackgroundColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func segmentedControlSelectedColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.grayColor()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func segmentedControlUnselectedColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.whiteColor()
+    }
+  }
+  
+  func barAboveKeyboardColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func barAboveKeyboardTouchableTextColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.blackColor()
+    }
+  }
+  
+  func opTextColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.orangeColor()
+    case .Gray:
+      return UIColor.orangeColor()
+    }
+  }
+  
+  func meTextColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloBlue()
+    }
+  }
+  
+  func activityIndicatorBackgroundColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.cilloBlue()
+    case .Gray:
+      return UIColor.cilloGray()
+    }
+  }
+  
+  func activityIndicatorTextColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.blackColor()
+    }
+  }
+  
+  func activityIndicatoryStyle() -> UIActivityIndicatorViewStyle {
+    switch scheme {
+    case .Blue:
+      return .WhiteLarge
+    case .Gray:
+      return .WhiteLarge
+    }
+  }
+}
+
+// MARK: ColorScheme Enums
+
+/// Enum of the scheme options.
+/// * Blue: A scheme based around cilloBlue color.
+/// * Gray: A scheme based around cilloGray color.
+enum ColorSchemeOptions {
+  case Blue
+  case Gray
+}
+
+// MARK: - DividerScheme
+
+/// Represents a particular divider scheme for the app.
+struct DividerScheme {
+  
+  // MARK: Properties
+  
+  /// Describes the divider scheme that this instance represents
+  var scheme: DividerSchemeOptions
+  
+  // MARK: Static Variables
+
+  /// Current scheme used in the live version of the app
+  static var defaultScheme: DividerScheme {
+    return DividerScheme(scheme: .Thin)
+  }
+  
+  // MARK: Initializers
+  
+  /// Initializer that takes in a scheme option
+  ///
+  /// :param: scheme The chosen option to represent the created DividerScheme instance
+  init(scheme: DividerSchemeOptions) {
+    self.scheme = scheme
+  }
+  
+  func multiplePostsDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 10.0
+    case .Thin:
+      return 1.0
+    }
+  }
+  
+  func multipleBoardsDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 10.0
+    case .Thin:
+      return 1.0
+    }
+  }
+  
+  func singleUserPostDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 10.0
+    case .Thin:
+      return 1.0
+    }
+  }
+  
+  func singleUserCommentDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 5.0
+    case .Thin:
+      return 1.0
+    }
+  }
+  
+  func singleBoardDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 10.0
+    case .Thin:
+      return 1.0
+    }
+  }
+}
+
+// MARK: DividerScheme  Enums
+
+/// Enum of the scheme options.
+/// * Thick: A scheme with mostly 5px dividers.
+/// * Thin: A scheme with 1px dividers.
+enum DividerSchemeOptions {
+  case Thin
+  case Thick
+}

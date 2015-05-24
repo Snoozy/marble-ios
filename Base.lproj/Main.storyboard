@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A2A-Fh-JUb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="A2A-Fh-JUb">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--My Groups Table-->
+        <!--My Boards Table-->
         <scene sceneID="3JI-4x-LKO">
             <objects>
-                <tableViewController title="Groups Table" id="vM0-Cn-CkN" userLabel="My Groups Table" customClass="MyGroupsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Groups Table" id="vM0-Cn-CkN" userLabel="My Boards Table" customClass="MyBoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="2SV-vX-Mzr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,12 +23,12 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Group" rowHeight="187" id="dfE-xh-8ig" userLabel="Group" customClass="GroupCell" customModule="Cillo" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Board" rowHeight="187" id="dfE-xh-8ig" userLabel="Board" customClass="BoardCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dfE-xh-8ig" id="WnL-n3-Goo">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kbr-Od-Cxu" userLabel="Group Picture">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kbr-Od-Cxu" userLabel="Board Picture">
                                             <rect key="frame" x="8" y="8" width="69" height="69"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="kbr-Od-Cxu" secondAttribute="height" multiplier="1:1" id="WNW-IS-dL5"/>
@@ -39,27 +39,27 @@
                                             </state>
                                             <state key="highlighted" backgroundImage="Groups"/>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="Maz-zR-RtK"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="Swk-9K-pFy"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CP2-4c-bdd" userLabel="Name">
-                                            <rect key="frame" x="8" y="85" width="112" height="24"/>
+                                            <rect key="frame" x="8" y="85" width="110" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="vYr-pg-OeL"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <state key="normal" title="GroupName">
+                                            <state key="normal" title="BoardName">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="hxB-DJ-b7E"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="FLH-ds-oOF"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQ8-xB-e6l" userLabel="Description Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="113" width="584" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BZ-Mn-CNE" userLabel="Followers Count">
@@ -82,7 +82,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="followOrUnfollowGroup:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="tXJ-KS-iUk"/>
+                                                <action selector="followOrUnfollowBoard:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="72L-9X-yDk"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="40d-BU-8jg" userLabel="Separator">
@@ -121,7 +121,7 @@
                                     <outlet property="separatorViewHeightConstraint" destination="6SL-P0-L7h" id="Ucz-Pv-gzS"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewGroup" rowHeight="40" id="YF7-GO-Hnd">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewBoard" rowHeight="40" id="YF7-GO-Hnd" userLabel="NewBoard">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YF7-GO-Hnd" id="IV8-AZ-zjX">
@@ -133,7 +133,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerNewGroupSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="Fiv-Cq-eEn"/>
+                                                <action selector="triggerNewBoardSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="M9y-2E-wtg"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXP-B2-iNM">
@@ -153,7 +153,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeeAll" rowHeight="40" id="PRZ-ZA-8t0">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeeAll" rowHeight="40" id="PRZ-ZA-8t0" userLabel="SeeAll">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PRZ-ZA-8t0" id="sc5-G4-fKV">
@@ -165,7 +165,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="seeAllGroupsPressed:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="6Wu-k4-ZOe"/>
+                                                <action selector="seeAllBoardsPressed:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="VeN-Z5-UHX"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUy-M0-g4q">
@@ -203,7 +203,7 @@
                     <connections>
                         <outlet property="searchBar" destination="8TD-LZ-f5A" id="jzv-Yl-bDe"/>
                         <outlet property="searchDisplayController" destination="Zdj-CN-iNG" id="zyq-pz-FnM"/>
-                        <segue destination="99g-h6-cT9" kind="show" identifier="MyGroupsToGroup" id="0fK-Cx-ysj"/>
+                        <segue destination="99g-h6-cT9" kind="show" identifier="MyBoardsToBoard" id="0fK-Cx-ysj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTs-5W-2wV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -350,11 +350,9 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="createPostButton" destination="ggF-vF-MIf" id="cZw-VC-9uH"/>
-                        <outlet property="fakeNavigationBar" destination="HDr-BJ-3vn" id="WAk-Pg-ghj"/>
-                        <outlet property="groupTextField" destination="sBN-iM-X7a" id="LpX-fA-xxg"/>
+                        <outlet property="boardTextField" destination="sBN-iM-X7a" id="cW8-qD-8r4"/>
                         <outlet property="imageButton" destination="FOs-i2-uFI" id="fBZ-6T-zWs"/>
-                        <outlet property="imageButtonHeightConstraint" destination="Eve-nc-cRS" id="ZFN-7z-LxA"/>
+                        <outlet property="imitationNavigationBar" destination="HDr-BJ-3vn" id="aYV-lW-EnB"/>
                         <outlet property="postTextView" destination="98A-za-pfE" id="2X8-fi-8xK"/>
                         <outlet property="postTextViewHeightConstraint" destination="2um-KD-jTn" id="mYO-xy-3BU"/>
                         <outlet property="titleTextField" destination="wuw-93-5Ae" id="gOb-hf-1mI"/>
@@ -410,7 +408,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E84-Bc-RzA" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -425,18 +423,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bce-60-dsz" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bce-60-dsz" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="qxL-oc-6Ek"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="8Lt-vL-50b"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="pRJ-SJ-9JH"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ker-uR-kHF" userLabel="Title">
@@ -482,13 +480,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkr-Mo-Mmv" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvH-LG-ily" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="hvH-LG-ily" secondAttribute="height" multiplier="1:1" id="YzO-mq-tlA"/>
                                                 <constraint firstAttribute="height" constant="32" id="hi6-MK-BZp"/>
@@ -501,7 +499,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKS-gR-T7c" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="SKS-gR-T7c" secondAttribute="height" multiplier="1:1" id="U7q-5b-qxh"/>
                                             </constraints>
@@ -600,10 +598,10 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="bce-60-dsz" id="B6u-33-ohf"/>
                                     <outlet property="commentButton" destination="4xL-Pa-mXM" id="EqR-Ga-GUi"/>
                                     <outlet property="commentLabel" destination="DLL-MQ-M1x" id="eJ0-IU-XA0"/>
                                     <outlet property="downvoteButton" destination="SKS-gR-T7c" id="r9D-gD-a3p"/>
-                                    <outlet property="groupButton" destination="bce-60-dsz" id="EBV-2G-dL3"/>
                                     <outlet property="imagesButton" destination="2dI-Lp-xKW" id="M8H-o7-TPG"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="mVo-n6-jyG" id="PJq-Lr-HTj"/>
                                     <outlet property="nameButton" destination="0x0-G0-4uj" id="yMm-jo-yp4"/>
@@ -654,7 +652,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3d-Id-v5v" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -669,18 +667,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDK-ju-Ew5" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDK-ju-Ew5" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="zxx-KT-4uJ"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="fU5-TX-SQ6"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="kMW-KK-1Dm"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoM-HP-nsO" userLabel="Post Text" customClass="TTTAttributedLabel">
@@ -689,7 +687,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="fZw-t6-77h"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GUO-KE-McP" userLabel="Vertical Line">
@@ -737,18 +735,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YRN-XR-nCt" userLabel="Original Group">
-                                            <rect key="frame" x="110" y="102" width="44" height="16"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YRN-XR-nCt" userLabel="Original Board">
+                                            <rect key="frame" x="110" y="102" width="43" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="x6p-2P-GbB"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="Qi2-1U-JBG"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="UPU-Cj-zsH"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z1W-HX-dpu" userLabel="Original Title">
@@ -775,7 +773,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQD-IO-TR1" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EcB-G9-mFN" userLabel="Original &quot;More&quot;">
@@ -808,13 +806,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7Z-jn-oFx" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1z-Jm-C6m" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="pXT-w2-M8p"/>
                                             </constraints>
@@ -826,7 +824,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wjw-MX-srS" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="wjw-MX-srS" secondAttribute="height" multiplier="1:1" id="RE8-84-Teb"/>
                                             </constraints>
@@ -941,15 +939,15 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="lDK-ju-Ew5" id="HoS-GW-tGl"/>
                                     <outlet property="commentButton" destination="QAf-Xh-5mK" id="Sbz-cs-VdM"/>
                                     <outlet property="commentLabel" destination="9BC-jK-bJL" id="Mp2-zP-fKd"/>
                                     <outlet property="downvoteButton" destination="wjw-MX-srS" id="8dV-vW-wA5"/>
                                     <outlet property="goToOriginalPostButton" destination="tJ1-22-eEq" id="wxZ-HQ-1s3"/>
-                                    <outlet property="groupButton" destination="lDK-ju-Ew5" id="uim-dX-8NR"/>
                                     <outlet property="imagesButton" destination="izW-Yh-df9" id="1ZW-e6-b0p"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="KT2-AN-uW8" id="UQn-DO-1kY"/>
                                     <outlet property="nameButton" destination="iKd-IM-EQ8" id="K5m-bZ-aaa"/>
-                                    <outlet property="originalGroupButton" destination="YRN-XR-nCt" id="tTh-uB-VL2"/>
+                                    <outlet property="originalBoardButton" destination="YRN-XR-nCt" id="dek-a5-b6p"/>
                                     <outlet property="originalNameButton" destination="Q20-cx-mR0" id="4Wc-n6-9eK"/>
                                     <outlet property="originalPictureButton" destination="Qcg-To-ZZ6" id="IM2-yW-LsY"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="kQD-IO-TR1" id="Z6n-54-Rvq"/>
@@ -965,6 +963,7 @@
                                     <outlet property="titleHeightConstraint" destination="Jo1-g4-8RK" id="tQS-kn-7ki"/>
                                     <outlet property="titleLabel" destination="z1W-HX-dpu" id="Tik-9h-xJf"/>
                                     <outlet property="upvoteButton" destination="O1z-Jm-C6m" id="uyl-ay-zKr"/>
+                                    <outlet property="verticalLineView" destination="GUO-KE-McP" id="azB-aj-ou0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -976,14 +975,13 @@
                     <navigationItem key="navigationItem" title="Front Page" id="nEu-ir-OVD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="n9l-RC-b8c"/>
                         <barButtonItem key="rightBarButtonItem" image="Create Post" id="UaN-bN-QlD" userLabel="New Post">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="triggerNewPostSegueOnButton:" destination="uF0-C9-9Mx" id="l0u-z7-hee"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="99g-h6-cT9" kind="show" identifier="HomeToGroup" id="tpB-Dw-nh7"/>
+                        <segue destination="99g-h6-cT9" kind="show" identifier="HomeToBoard" id="tpB-Dw-nh7"/>
                         <segue destination="KG3-Ho-FcM" kind="show" identifier="HomeToUser" id="X2k-fD-Ni0"/>
                         <segue destination="cWZ-ps-xcO" kind="show" identifier="HomeToPost" id="rwG-J9-MDJ"/>
                     </connections>
@@ -1035,7 +1033,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbV-f6-8mW" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1050,18 +1048,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8RO-nJ-kj9" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8RO-nJ-kj9" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="qwd-D3-WRZ"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="qeV-ia-KXb"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="cGS-RR-OTB"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHt-DA-wcd" userLabel="Title">
@@ -1089,13 +1087,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQf-4k-m6v" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cB0-Nl-BS6" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="45.5" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="Asq-Xl-uSK"/>
                                                 <constraint firstAttribute="width" secondItem="cB0-Nl-BS6" secondAttribute="height" multiplier="1:1" id="cTZ-Am-xit"/>
@@ -1108,7 +1106,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JlG-fF-eoR" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="85.5" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="JlG-fF-eoR" secondAttribute="height" multiplier="1:1" id="2Il-m9-clu"/>
                                             </constraints>
@@ -1201,10 +1199,10 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="8RO-nJ-kj9" id="5aH-Ht-LCI"/>
                                     <outlet property="commentButton" destination="rw3-7r-R5c" id="RxW-1J-L8r"/>
                                     <outlet property="commentLabel" destination="wpH-h4-uQn" id="9b5-cH-Oo5"/>
                                     <outlet property="downvoteButton" destination="JlG-fF-eoR" id="fuI-4Q-OZX"/>
-                                    <outlet property="groupButton" destination="8RO-nJ-kj9" id="pgr-gj-bHu"/>
                                     <outlet property="imagesButton" destination="wYL-UQ-wND" id="8jr-jo-azH"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="9XB-vJ-mHz" id="7ep-xf-wjT"/>
                                     <outlet property="nameButton" destination="J4Y-Gj-Vzr" id="l4l-nV-vnR"/>
@@ -1254,7 +1252,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCE-PT-VFy" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1269,18 +1267,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FeY-a3-VZu" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FeY-a3-VZu" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="fIS-jD-q5H"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="Xmd-1x-i8W"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="b8m-hw-bA4"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qER-gh-TsX" userLabel="Post Text" customClass="TTTAttributedLabel">
@@ -1289,7 +1287,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="BFR-3P-91V"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mfV-QH-f7c" userLabel="Vertical Line">
@@ -1337,18 +1335,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Got-Lc-g1c" userLabel="Original Group">
-                                            <rect key="frame" x="110" y="102" width="44" height="16"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Got-Lc-g1c" userLabel="Original Board">
+                                            <rect key="frame" x="110" y="102" width="43" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="UrM-aN-5SE"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="0zr-Jd-7i5"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="lGZ-n0-Not"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gy9-75-5Fy" userLabel="Original Title">
@@ -1372,7 +1370,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAn-fN-fae" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pnU-lz-RPl" userLabel="&quot;Original Post&quot;">
@@ -1390,13 +1388,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1j-Iq-1wx" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mx-68-4O1" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="Lrb-a3-xdN"/>
                                             </constraints>
@@ -1408,7 +1406,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8Y-b1-9pb" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="h8Y-b1-9pb" secondAttribute="height" multiplier="1:1" id="6Xc-HH-X0C"/>
                                             </constraints>
@@ -1517,15 +1515,15 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="FeY-a3-VZu" id="zNA-Ec-c5Q"/>
                                     <outlet property="commentButton" destination="LLD-5r-yuY" id="gkO-Mk-bRo"/>
                                     <outlet property="commentLabel" destination="Ace-dC-G7W" id="IYv-9e-DWb"/>
                                     <outlet property="downvoteButton" destination="h8Y-b1-9pb" id="sxb-gu-Oed"/>
                                     <outlet property="goToOriginalPostButton" destination="pnU-lz-RPl" id="F5n-gQ-ruH"/>
-                                    <outlet property="groupButton" destination="FeY-a3-VZu" id="T7P-0L-Be4"/>
                                     <outlet property="imagesButton" destination="78Y-Jt-ASG" id="7lx-jQ-1R8"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="h3v-qV-G6V" id="D97-dp-9fH"/>
                                     <outlet property="nameButton" destination="YuF-Xh-qUI" id="OAm-ms-cZA"/>
-                                    <outlet property="originalGroupButton" destination="Got-Lc-g1c" id="rGu-lY-o0t"/>
+                                    <outlet property="originalBoardButton" destination="Got-Lc-g1c" id="NRz-ia-7Jd"/>
                                     <outlet property="originalNameButton" destination="qqh-YS-9JQ" id="SiB-3Y-kq2"/>
                                     <outlet property="originalPictureButton" destination="N5a-Eb-Rm6" id="Bhg-0F-15i"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="DAn-fN-fae" id="7l5-is-s9l"/>
@@ -1540,6 +1538,7 @@
                                     <outlet property="titleHeightConstraint" destination="o96-VZ-gxz" id="TZ4-O0-B4u"/>
                                     <outlet property="titleLabel" destination="gy9-75-5Fy" id="1b6-Fu-0fC"/>
                                     <outlet property="upvoteButton" destination="9mx-68-4O1" id="CT9-oD-E3O"/>
+                                    <outlet property="verticalLineView" destination="mfV-QH-f7c" id="inc-dx-hML"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="141" id="2gs-D9-AmR" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
@@ -1586,7 +1585,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Dn-Of-mKr" userLabel="Comment Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="40" y="40" width="552" height="52"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTC-1x-g9s" userLabel="Upvote">
@@ -1677,7 +1676,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="99g-h6-cT9" kind="show" identifier="PostToGroup" id="8tG-h2-T9M"/>
+                        <segue destination="99g-h6-cT9" kind="show" identifier="PostToBoard" id="8tG-h2-T9M"/>
                         <segue destination="KG3-Ho-FcM" kind="show" identifier="PostToUser" id="syA-mT-UDy"/>
                     </connections>
                 </tableViewController>
@@ -1695,7 +1694,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1727,7 +1726,7 @@
                         <segue destination="nzy-ZD-gBV" kind="presentation" identifier="TabToNewPost" id="j17-6e-rWe"/>
                         <segue destination="A5M-A6-FxW" kind="presentation" identifier="TabToNewRepost" id="Fia-TA-lJj"/>
                         <segue destination="OOk-WO-h23" kind="presentation" identifier="TabToSettings" id="wJN-wH-slB"/>
-                        <segue destination="RL6-mp-tie" kind="presentation" identifier="TabToNewGroup" id="9YX-8n-VK3"/>
+                        <segue destination="RL6-mp-tie" kind="presentation" identifier="TabToNewBoard" id="9YX-8n-VK3"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vl-FJ-IpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1777,13 +1776,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2C-Ba-O2O">
-                                <rect key="frame" x="16" y="76" width="47" height="21"/>
+                                <rect key="frame" x="16" y="77" width="47" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOY-Dp-wRE">
-                                <rect key="frame" x="16" y="114" width="81" height="21"/>
+                                <rect key="frame" x="16" y="114" width="81" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1867,7 +1866,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="l7L-b5-iLo" id="W2r-kX-pDI"/>
-                        <outlet property="fakeNavigationBar" destination="Y3J-Pg-8ab" id="SfO-VV-C6K"/>
+                        <outlet property="imitationNavigationBar" destination="Y3J-Pg-8ab" id="yV6-ko-vv6"/>
                         <outlet property="loginButton" destination="IzY-9h-aEh" id="Alk-fS-UFf"/>
                         <outlet property="passwordTextField" destination="57k-I4-3Zg" id="vjP-f1-BJ4"/>
                         <outlet property="registerButton" destination="ULT-2z-as5" id="nk7-7U-Pve"/>
@@ -1968,11 +1967,11 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bdn-Ah-JyS" userLabel="Bio Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="132" width="584" height="31"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k REP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qvz-Jo-zIl" userLabel="Rep">
-                                            <rect key="frame" x="8" y="175" width="70" height="22"/>
+                                            <rect key="frame" x="8" y="175" width="69.5" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="F1h-9N-NQB"/>
                                             </constraints>
@@ -1980,18 +1979,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVq-zl-pqe" userLabel="Groups">
-                                            <rect key="frame" x="500" y="171" width="92" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVq-zl-pqe" userLabel="Boards">
+                                            <rect key="frame" x="502" y="171" width="90" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="eEt-Kg-xlB"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <state key="normal" title="# GROUPS">
+                                            <state key="normal" title="# BOARDS">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupsSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="i6w-Rz-AST"/>
+                                                <action selector="triggerBoardsSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="bQk-mw-xXT"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vmp-Uk-rHS" userLabel="Separator">
@@ -2026,7 +2025,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="bioTTTAttributedLabel" destination="Bdn-Ah-JyS" id="4ZQ-fQ-zUi"/>
-                                    <outlet property="groupsButton" destination="lVq-zl-pqe" id="UUi-sT-X1C"/>
+                                    <outlet property="boardsButton" destination="lVq-zl-pqe" id="biN-hW-N2q"/>
                                     <outlet property="nameButton" destination="V9i-qf-fZm" id="YbJ-1x-QDu"/>
                                     <outlet property="pictureButton" destination="rPM-ih-RYV" id="3BI-kh-of1"/>
                                     <outlet property="repLabel" destination="qvz-Jo-zIl" id="ubK-5R-zJM"/>
@@ -2061,7 +2060,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrQ-eR-2RL" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2076,18 +2075,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PWJ-Eh-0qs" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PWJ-Eh-0qs" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="lHc-Np-1p8"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="lz0-fQ-ffF"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="4Hq-e1-FQ0"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JuI-9Q-y4q" userLabel="Title">
@@ -2133,13 +2132,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joh-EH-RJh" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mf5-XV-f40" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="mf5-XV-f40" secondAttribute="height" multiplier="1:1" id="AFs-AC-ygy"/>
                                                 <constraint firstAttribute="height" constant="32" id="Umn-8k-V1I"/>
@@ -2152,7 +2151,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7bI-Qb-9xC" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="7bI-Qb-9xC" secondAttribute="height" multiplier="1:1" id="AGs-d0-G6R"/>
                                             </constraints>
@@ -2251,10 +2250,10 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="PWJ-Eh-0qs" id="Grg-EV-MuQ"/>
                                     <outlet property="commentButton" destination="tuX-8a-9sj" id="e14-JZ-Aw7"/>
                                     <outlet property="commentLabel" destination="fyf-RM-gai" id="UBZ-By-GEr"/>
                                     <outlet property="downvoteButton" destination="7bI-Qb-9xC" id="uW3-Jm-UGJ"/>
-                                    <outlet property="groupButton" destination="PWJ-Eh-0qs" id="lhf-62-3fh"/>
                                     <outlet property="imagesButton" destination="Vra-bA-5Yf" id="ght-b1-2nf"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="BK2-NY-BMp" id="MaQ-nG-1IX"/>
                                     <outlet property="nameButton" destination="YNQ-VQ-qs4" id="9CA-QU-wF7"/>
@@ -2299,7 +2298,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRA-Ve-fl4" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2314,18 +2313,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEw-dX-Xpb" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEw-dX-Xpb" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="OeE-aw-Jo2"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="sph-q3-j35"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="a7w-HU-a0J"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="csx-LM-MMc" userLabel="Post Text" customClass="TTTAttributedLabel">
@@ -2334,7 +2333,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="V0O-nQ-RW1"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Es8-0Z-k6R" userLabel="Vertical Line">
@@ -2376,18 +2375,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYc-03-HhZ" userLabel="Original Group">
-                                            <rect key="frame" x="110" y="102" width="44" height="16"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYc-03-HhZ" userLabel="Original Board">
+                                            <rect key="frame" x="110" y="102" width="43" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="jtv-b1-XIR"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="ZxR-i1-CWe"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="5VK-qU-ZO1"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMg-GH-bGG" userLabel="Original Title">
@@ -2414,7 +2413,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cX2-6O-YVd" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aw3-bf-xsG" userLabel="Original &quot;More&quot;">
@@ -2447,13 +2446,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oaE-AN-d7w" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFM-zB-Hpb" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="WIh-gT-iKs"/>
                                             </constraints>
@@ -2465,7 +2464,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5W-Ho-xOL" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="q5W-Ho-xOL" secondAttribute="height" multiplier="1:1" id="78s-2X-KXx"/>
                                             </constraints>
@@ -2580,15 +2579,15 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="HEw-dX-Xpb" id="ah5-kH-k81"/>
                                     <outlet property="commentButton" destination="vDg-At-sfL" id="pFC-EO-UjQ"/>
                                     <outlet property="commentLabel" destination="F5f-oI-L61" id="TM2-nq-HE1"/>
                                     <outlet property="downvoteButton" destination="q5W-Ho-xOL" id="c7r-1Z-KaP"/>
                                     <outlet property="goToOriginalPostButton" destination="jhT-Cz-Syt" id="7FF-l0-zHA"/>
-                                    <outlet property="groupButton" destination="HEw-dX-Xpb" id="SNJ-dc-p3t"/>
                                     <outlet property="imagesButton" destination="9Xg-kU-xfh" id="yj8-s1-2d2"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="jOp-qh-wIw" id="tMh-VI-K6t"/>
                                     <outlet property="nameButton" destination="f67-Xw-PPf" id="vyh-aB-teJ"/>
-                                    <outlet property="originalGroupButton" destination="ZYc-03-HhZ" id="yuS-Jd-yqm"/>
+                                    <outlet property="originalBoardButton" destination="ZYc-03-HhZ" id="EPU-aA-M7j"/>
                                     <outlet property="originalNameButton" destination="M8Y-Jw-mcQ" id="DLx-a6-1Wf"/>
                                     <outlet property="originalPictureButton" destination="u8q-63-xDz" id="46x-Ya-8yb"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="cX2-6O-YVd" id="qf4-O6-GKe"/>
@@ -2604,6 +2603,7 @@
                                     <outlet property="titleHeightConstraint" destination="Xb6-c6-xyW" id="Itg-f0-kgq"/>
                                     <outlet property="titleLabel" destination="CMg-GH-bGG" id="JpM-nq-AgH"/>
                                     <outlet property="upvoteButton" destination="vFM-zB-Hpb" id="DAt-OV-tEQ"/>
+                                    <outlet property="verticalLineView" destination="Es8-0Z-k6R" id="tbh-Nd-L6U"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="109" id="MTC-E9-2bV" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
@@ -2650,7 +2650,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zu1-c4-yhp" userLabel="Comment Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="40" y="40" width="552" height="51"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qu4-bv-FkU" userLabel="Separator">
@@ -2708,19 +2708,19 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="99g-h6-cT9" kind="show" identifier="MeToGroup" id="9nY-Wc-CQM"/>
+                        <segue destination="99g-h6-cT9" kind="show" identifier="MeToBoard" id="9nY-Wc-CQM"/>
                         <segue destination="cWZ-ps-xcO" kind="show" identifier="MeToPost" id="txn-K4-4lh"/>
-                        <segue destination="csT-b3-QYy" kind="show" identifier="MeToGroups" id="DUk-kf-nGq"/>
+                        <segue destination="csT-b3-QYy" kind="show" identifier="MeToBoards" id="DUk-kf-nGq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6er-Uu-VVn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1508" y="1344"/>
         </scene>
-        <!--Groups Navigation-->
+        <!--Discover Navigation-->
         <scene sceneID="mPE-bG-BC9">
             <objects>
-                <navigationController title="Groups" automaticallyAdjustsScrollViewInsets="NO" id="PgO-Td-VjA" userLabel="Groups Navigation" customClass="FormattedNavigationViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController title="Discover" automaticallyAdjustsScrollViewInsets="NO" id="PgO-Td-VjA" userLabel="Discover Navigation" customClass="FormattedNavigationViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Discover" image="Discover" id="zec-OO-sQR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IqT-4U-DMb">
@@ -2740,21 +2740,21 @@
             </objects>
             <point key="canvasLocation" x="553" y="435"/>
         </scene>
-        <!--Group Table-->
+        <!--Board Table-->
         <scene sceneID="u4g-YB-qlU">
             <objects>
-                <tableViewController storyboardIdentifier="Group" title="Groups Table" id="99g-h6-cT9" userLabel="Group Table" customClass="GroupTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Board" title="Board Table" id="99g-h6-cT9" userLabel="Board Table" customClass="BoardTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Group" rowHeight="187" id="TCQ-e7-wMo" userLabel="Group" customClass="GroupCell" customModule="Cillo" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Board" rowHeight="187" id="TCQ-e7-wMo" userLabel="Board" customClass="BoardCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TCQ-e7-wMo" id="SiT-ka-euQ">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zp3-0P-dxf" userLabel="Group Picture">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zp3-0P-dxf" userLabel="Board Picture">
                                             <rect key="frame" x="8" y="8" width="69" height="69"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="zp3-0P-dxf" secondAttribute="height" multiplier="1:1" id="ApC-0z-In4"/>
@@ -2766,12 +2766,12 @@
                                             <state key="highlighted" backgroundImage="Groups"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4iZ-p1-HuS" userLabel="Name">
-                                            <rect key="frame" x="8" y="85" width="112" height="24"/>
+                                            <rect key="frame" x="8" y="85" width="110" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="SVK-TZ-qif"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <state key="normal" title="GroupName">
+                                            <state key="normal" title="BoardName">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -2779,7 +2779,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a8u-XF-d1l" userLabel="Description Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="113" width="584" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fMq-WX-LEW" userLabel="Followers Count">
@@ -2802,7 +2802,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="followOrUnfollowGroup:" destination="99g-h6-cT9" eventType="touchUpInside" id="w7t-Ft-Nng"/>
+                                                <action selector="followOrUnfollowBoard:" destination="99g-h6-cT9" eventType="touchUpInside" id="oug-y2-Rnj"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3NB-oS-p4p" userLabel="Separator">
@@ -2875,7 +2875,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Tb-dW-ed9" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2890,13 +2890,13 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqA-on-nxG" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqA-on-nxG" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="rUd-7u-5Xs"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -2944,13 +2944,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0h-OR-oox" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-X5-W1a" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="6HE-X5-W1a" secondAttribute="height" multiplier="1:1" id="0dL-VC-tSQ"/>
                                                 <constraint firstAttribute="height" constant="32" id="HJk-W1-gud"/>
@@ -2963,7 +2963,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-IX-2mO" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="6ge-IX-2mO" secondAttribute="height" multiplier="1:1" id="LEY-fW-BOt"/>
                                             </constraints>
@@ -3062,10 +3062,10 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="jqA-on-nxG" id="Rqn-GV-Pfq"/>
                                     <outlet property="commentButton" destination="Vgb-Ei-mCZ" id="Uo2-jj-7cf"/>
                                     <outlet property="commentLabel" destination="2XG-3j-7Rg" id="VbD-AE-nQS"/>
                                     <outlet property="downvoteButton" destination="6ge-IX-2mO" id="mrK-vY-9bu"/>
-                                    <outlet property="groupButton" destination="jqA-on-nxG" id="jbS-zH-qPb"/>
                                     <outlet property="imagesButton" destination="qWR-PC-GBc" id="atd-eU-psN"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="h2z-bb-rJz" id="Iet-BP-mbP"/>
                                     <outlet property="nameButton" destination="GNc-tI-Tjn" id="T2I-wR-3gL"/>
@@ -3116,7 +3116,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2W7-2J-eQd" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3131,13 +3131,13 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fto-OT-5fd" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fto-OT-5fd" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="8ma-tC-Tqk"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -3148,7 +3148,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="9af-2l-CPc"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cGz-T5-0UY" userLabel="Vertical Line">
@@ -3196,18 +3196,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbC-bu-77w" userLabel="Original Group">
-                                            <rect key="frame" x="110" y="102" width="44" height="16"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbC-bu-77w" userLabel="Original Board">
+                                            <rect key="frame" x="110" y="102" width="43" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="2gp-Ap-Jcf"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerOriginalGroupTransitionOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="Xxg-Ud-oFD"/>
+                                                <action selector="triggerOriginalBoardTransitionOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="wq4-1W-W1r"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kh2-Er-Tf3" userLabel="Original Title">
@@ -3234,7 +3234,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7I-yK-N0F" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYe-Rv-QIJ" userLabel="Original &quot;More&quot;">
@@ -3267,13 +3267,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cre-G5-4UX" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdp-E7-8a7" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="kD8-HF-ppR"/>
                                             </constraints>
@@ -3285,7 +3285,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jmb-jh-ww3" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="jmb-jh-ww3" secondAttribute="height" multiplier="1:1" id="K93-zi-Kdf"/>
                                             </constraints>
@@ -3400,15 +3400,15 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="fto-OT-5fd" id="che-mm-O7I"/>
                                     <outlet property="commentButton" destination="iEk-Rx-fm4" id="Ndy-I6-9vA"/>
                                     <outlet property="commentLabel" destination="ixE-oe-DCf" id="SBi-th-D7X"/>
                                     <outlet property="downvoteButton" destination="jmb-jh-ww3" id="vr9-E9-pIy"/>
                                     <outlet property="goToOriginalPostButton" destination="Dad-t7-Y0t" id="XyM-Xy-Em1"/>
-                                    <outlet property="groupButton" destination="fto-OT-5fd" id="3rF-ph-r2r"/>
                                     <outlet property="imagesButton" destination="YaM-aM-7qb" id="aA2-6a-BnZ"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="zW5-c3-vYj" id="Bty-aA-IVA"/>
                                     <outlet property="nameButton" destination="fp3-hj-Qv4" id="Ql3-Vr-4ET"/>
-                                    <outlet property="originalGroupButton" destination="CbC-bu-77w" id="Urg-Mw-rJk"/>
+                                    <outlet property="originalBoardButton" destination="CbC-bu-77w" id="uaZ-8g-pvH"/>
                                     <outlet property="originalNameButton" destination="G30-Hz-vd9" id="Qkg-Mf-7Uq"/>
                                     <outlet property="originalPictureButton" destination="04z-0e-Ydb" id="CKs-LY-KKp"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="A7I-yK-N0F" id="91N-Ti-IF4"/>
@@ -3424,6 +3424,7 @@
                                     <outlet property="titleHeightConstraint" destination="eBP-ru-cug" id="o4j-P2-k5u"/>
                                     <outlet property="titleLabel" destination="Kh2-Er-Tf3" id="cK4-5j-WDZ"/>
                                     <outlet property="upvoteButton" destination="fdp-E7-8a7" id="upQ-Yo-gEF"/>
+                                    <outlet property="verticalLineView" destination="cGz-T5-0UY" id="XNo-N7-BQX"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -3501,11 +3502,11 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhB-Aa-aQu" userLabel="Bio Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="132" width="584" height="31"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k REP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDO-q8-tfr" userLabel="Rep">
-                                            <rect key="frame" x="8" y="175" width="70" height="22"/>
+                                            <rect key="frame" x="8" y="175" width="69.5" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="KgE-LE-sKE"/>
                                             </constraints>
@@ -3513,18 +3514,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyw-dO-8ts" userLabel="Groups">
-                                            <rect key="frame" x="500" y="171" width="92" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyw-dO-8ts" userLabel="Boards">
+                                            <rect key="frame" x="502" y="171" width="90" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="QvD-zO-tAD"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <state key="normal" title="# GROUPS">
+                                            <state key="normal" title="# BOARDS">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupsSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="ybG-ja-fp4"/>
+                                                <action selector="triggerBoardsSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="fim-iW-WNH"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXM-aJ-rgB" userLabel="Separator">
@@ -3557,7 +3558,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="bioTTTAttributedLabel" destination="LhB-Aa-aQu" id="oke-4h-82S"/>
-                                    <outlet property="groupsButton" destination="tyw-dO-8ts" id="Jog-91-IOH"/>
+                                    <outlet property="boardsButton" destination="tyw-dO-8ts" id="KCN-GD-1V7"/>
                                     <outlet property="nameButton" destination="fcd-3a-iLT" id="2cR-bE-5c2"/>
                                     <outlet property="pictureButton" destination="Edv-Gu-fAG" id="NrB-A2-rGQ"/>
                                     <outlet property="repLabel" destination="hDO-q8-tfr" id="pbq-Kq-fLz"/>
@@ -3592,7 +3593,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VP0-yS-7ZP" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3607,18 +3608,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cts-ht-BBK" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cts-ht-BBK" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="1JJ-OK-dUC"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="lmB-w8-uBJ"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="aWI-M2-tcB"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Gr-EM-bMe" userLabel="Title">
@@ -3664,13 +3665,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WuJ-AT-cuE" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTg-cg-NaM" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="45.5" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="CTg-cg-NaM" secondAttribute="height" multiplier="1:1" id="6us-bF-KbZ"/>
                                                 <constraint firstAttribute="height" constant="32" id="cEK-3K-6yM"/>
@@ -3683,7 +3684,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXq-gc-LRG" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="85.5" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="PXq-gc-LRG" secondAttribute="height" multiplier="1:1" id="IQn-EV-mm2"/>
                                             </constraints>
@@ -3782,10 +3783,10 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="Cts-ht-BBK" id="aWf-9f-eSU"/>
                                     <outlet property="commentButton" destination="cvS-xm-oco" id="bIc-Tb-IWB"/>
                                     <outlet property="commentLabel" destination="tdi-sf-uGp" id="HSN-dE-XrU"/>
                                     <outlet property="downvoteButton" destination="PXq-gc-LRG" id="CpM-cv-9pp"/>
-                                    <outlet property="groupButton" destination="Cts-ht-BBK" id="HoU-JC-Oxw"/>
                                     <outlet property="imagesButton" destination="7La-eh-OmY" id="wQt-kL-nnk"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="XtK-Qh-aPN" id="riH-8u-igP"/>
                                     <outlet property="nameButton" destination="eEc-ea-9AD" id="9oX-vi-DBc"/>
@@ -3830,7 +3831,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fm-Ph-4Bz" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3845,18 +3846,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wda-w7-pdf" userLabel="Group">
-                                            <rect key="frame" x="87" y="34" width="49" height="20"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wda-w7-pdf" userLabel="Board">
+                                            <rect key="frame" x="87" y="34" width="48" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="meh-OQ-dhY"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="KxM-ij-4Ef"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="rnY-5y-mVS"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOX-2C-Qlv" userLabel="Post Text" customClass="TTTAttributedLabel">
@@ -3865,7 +3866,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="2hf-gQ-LGv"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcx-Vi-tL1" userLabel="Vertical Line">
@@ -3907,18 +3908,18 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXQ-x0-bPH" userLabel="Original Group">
-                                            <rect key="frame" x="110" y="102" width="44" height="16"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXQ-x0-bPH" userLabel="Original Board">
+                                            <rect key="frame" x="110" y="102" width="43" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="RZV-DC-8RD"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Group">
+                                            <state key="normal" title="Board">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="9fD-wo-6tb"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="BKI-Wp-ZqD"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjJ-1y-dGM" userLabel="Original Title">
@@ -3945,7 +3946,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpO-SK-TUt" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ATe-kQ-gwg" userLabel="Original &quot;More&quot;">
@@ -3978,13 +3979,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUV-5k-0wC" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psu-cc-hM1" userLabel="Upvote">
-                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="45" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="pRy-Eb-Gq7"/>
                                             </constraints>
@@ -3996,7 +3997,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFb-8j-gIz" userLabel="Downvote">
-                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="85" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="KFb-8j-gIz" secondAttribute="height" multiplier="1:1" id="IgU-Ti-WO8"/>
                                             </constraints>
@@ -4111,15 +4112,15 @@
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="boardButton" destination="Wda-w7-pdf" id="tqT-05-aVk"/>
                                     <outlet property="commentButton" destination="zVF-o0-pNn" id="zM4-RE-OiI"/>
                                     <outlet property="commentLabel" destination="Ybf-vZ-2B2" id="c9z-IW-EvW"/>
                                     <outlet property="downvoteButton" destination="KFb-8j-gIz" id="WRI-6Y-w7I"/>
                                     <outlet property="goToOriginalPostButton" destination="0VP-Vh-fMr" id="XwH-Bh-pWW"/>
-                                    <outlet property="groupButton" destination="Wda-w7-pdf" id="C6T-vt-j7t"/>
                                     <outlet property="imagesButton" destination="tsc-EB-1jY" id="vvs-7Q-hiE"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="8YE-8w-uwp" id="X6F-Pz-xgu"/>
                                     <outlet property="nameButton" destination="Pyd-uh-lI6" id="pvf-F1-VyR"/>
-                                    <outlet property="originalGroupButton" destination="oXQ-x0-bPH" id="tsx-P4-Ctd"/>
+                                    <outlet property="originalBoardButton" destination="oXQ-x0-bPH" id="fv7-OU-lUw"/>
                                     <outlet property="originalNameButton" destination="Fky-jg-tAb" id="0w4-3v-uxM"/>
                                     <outlet property="originalPictureButton" destination="vox-IP-wvy" id="KBV-46-3mm"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="dpO-SK-TUt" id="wfP-C8-vJv"/>
@@ -4135,6 +4136,7 @@
                                     <outlet property="titleHeightConstraint" destination="xNG-dZ-Jb3" id="vFs-zb-jdS"/>
                                     <outlet property="titleLabel" destination="CjJ-1y-dGM" id="5ev-oa-ZQD"/>
                                     <outlet property="upvoteButton" destination="psu-cc-hM1" id="wSh-zd-POh"/>
+                                    <outlet property="verticalLineView" destination="Vcx-Vi-tL1" id="ZDK-bv-xsl"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="109" id="k4S-bk-ceM" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
@@ -4181,7 +4183,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tx8-Rw-Mdt" userLabel="Comment Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="40" y="40" width="552" height="51"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T9l-Aa-vPm" userLabel="Separator">
@@ -4235,9 +4237,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="99g-h6-cT9" kind="show" identifier="UserToGroup" id="lj2-2c-ePA"/>
+                        <segue destination="99g-h6-cT9" kind="show" identifier="UserToBoard" id="lj2-2c-ePA"/>
                         <segue destination="cWZ-ps-xcO" kind="show" identifier="UserToPost" id="ErJ-Pf-JZ7"/>
-                        <segue destination="csT-b3-QYy" kind="show" identifier="UserToGroups" id="Jl6-tW-uib"/>
+                        <segue destination="csT-b3-QYy" kind="show" identifier="UserToBoards" id="Jl6-tW-uib"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oOl-Fh-aDq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4462,7 +4464,7 @@
                     <connections>
                         <outlet property="bioTextView" destination="Ats-b4-Dc0" id="tnl-Lf-kgn"/>
                         <outlet property="changePasswordButton" destination="ofZ-cN-MaG" id="Ipx-iv-Uch"/>
-                        <outlet property="fakeNavigationBar" destination="ju7-re-YpL" id="CnT-QO-3rG"/>
+                        <outlet property="imitationNavigationBar" destination="ju7-re-YpL" id="NG5-D9-e1p"/>
                         <outlet property="nameTextView" destination="eNb-JA-UnI" id="KND-bq-5Mm"/>
                         <outlet property="photoButton" destination="9Wb-QR-leb" id="y39-mh-g0D"/>
                         <outlet property="updatePhotoButton" destination="lJR-sN-4xn" id="T6s-1r-5h8"/>
@@ -4474,21 +4476,21 @@
             </objects>
             <point key="canvasLocation" x="2375" y="1256"/>
         </scene>
-        <!--Groups Table-->
+        <!--Boards Table-->
         <scene sceneID="dNK-G1-N0g">
             <objects>
-                <tableViewController title="Groups Table" id="csT-b3-QYy" customClass="GroupsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Boards Table" id="csT-b3-QYy" userLabel="Boards Table" customClass="BoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Group" rowHeight="187" id="DOH-RK-wIX" userLabel="Group" customClass="GroupCell" customModule="Cillo" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Board" rowHeight="187" id="DOH-RK-wIX" userLabel="Board" customClass="BoardCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DOH-RK-wIX" id="bCQ-xQ-p31">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdB-bF-yuW" userLabel="Group Picture">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdB-bF-yuW" userLabel="Board Picture">
                                             <rect key="frame" x="8" y="8" width="69" height="69"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="wdB-bF-yuW" secondAttribute="height" multiplier="1:1" id="OdM-at-B6H"/>
@@ -4499,27 +4501,27 @@
                                             </state>
                                             <state key="highlighted" backgroundImage="Groups"/>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="csT-b3-QYy" eventType="touchUpInside" id="PgJ-34-gUU"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="csT-b3-QYy" eventType="touchUpInside" id="ydI-jc-HhE"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gm4-gw-wzv" userLabel="Name">
-                                            <rect key="frame" x="8" y="85" width="112" height="24"/>
+                                            <rect key="frame" x="8" y="85" width="110" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="Y3m-De-Ioh"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <state key="normal" title="GroupName">
+                                            <state key="normal" title="BoardName">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerGroupSegueOnButton:" destination="csT-b3-QYy" eventType="touchUpInside" id="7My-Wv-4Fz"/>
+                                                <action selector="triggerBoardSegueOnButton:" destination="csT-b3-QYy" eventType="touchUpInside" id="7tS-8r-rVM"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sjc-rW-MPZ" userLabel="Description Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="113" width="584" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSU-Me-DMf" userLabel="Followers Count">
@@ -4542,7 +4544,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="followOrUnfollowGroup:" destination="csT-b3-QYy" eventType="touchUpInside" id="Atv-XQ-zE1"/>
+                                                <action selector="followOrUnfollowBoard:" destination="csT-b3-QYy" eventType="touchUpInside" id="BmE-bG-FyB"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="meb-Kg-NJh" userLabel="Separator">
@@ -4597,17 +4599,17 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="99g-h6-cT9" kind="show" identifier="GroupsToGroup" id="g7D-gS-UuW"/>
+                        <segue destination="99g-h6-cT9" kind="show" identifier="BoardsToBoard" id="g7D-gS-UuW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kht-wu-m1l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2504" y="1962"/>
         </scene>
-        <!--New Group-->
+        <!--New Board-->
         <scene sceneID="h26-wu-AUT">
             <objects>
-                <viewController title="New Post" id="RL6-mp-tie" userLabel="New Group" customClass="NewGroupViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="New Board" id="RL6-mp-tie" userLabel="New Board" customClass="NewBoardViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rze-OA-mWC"/>
                         <viewControllerLayoutGuide type="bottom" id="a5x-Tr-exj"/>
@@ -4641,7 +4643,7 @@
                                         <barButtonItem key="leftBarButtonItem" image="Close" id="liJ-d7-AgJ">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="vn5-y9-WhC" kind="unwind" identifier="NewGroupToTab" unwindAction="unwindToTab:" id="TEG-Wb-Opo"/>
+                                                <segue destination="vn5-y9-WhC" kind="unwind" identifier="NewBoardToTab" unwindAction="unwindToTab:" id="TEG-Wb-Opo"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Create" id="QfV-Uu-dvC">
@@ -4715,7 +4717,7 @@
                         <outlet property="choosePictureButton" destination="Bc0-n6-1F3" id="mfr-20-0BU"/>
                         <outlet property="descripTextView" destination="kzF-VU-MfP" id="4TQ-NJ-Nuo"/>
                         <outlet property="descripTextViewHeightConstraint" destination="t4V-5M-FfU" id="iUR-sO-h1f"/>
-                        <outlet property="fakeNavigationBar" destination="OZ4-lj-q7d" id="x6h-88-eo0"/>
+                        <outlet property="imitationNavigationBar" destination="OZ4-lj-q7d" id="aNG-mT-yOv"/>
                         <outlet property="nameTextView" destination="78P-5R-6YG" id="7Nq-uT-hPd"/>
                         <outlet property="pictureButton" destination="DYv-uN-Mnr" id="Rtq-xS-oqI"/>
                     </connections>
@@ -4742,24 +4744,21 @@
                                 <state key="normal" title="Nothing">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <segue destination="3JV-HM-z2W" kind="unwind" identifier="RegisterToLogin" unwindAction="unwindToLogin:" id="MrP-fa-bnS"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eti-1N-ivk">
-                                <rect key="frame" x="16" y="152" width="81" height="21"/>
+                                <rect key="frame" x="16" y="151" width="81" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5B-Qd-fZe">
-                                <rect key="frame" x="16" y="190" width="47" height="21"/>
+                                <rect key="frame" x="16" y="188.5" width="47" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Full Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfu-GB-jJU">
-                                <rect key="frame" x="16" y="76" width="82" height="21"/>
+                                <rect key="frame" x="16" y="76" width="82" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -4775,7 +4774,7 @@
                                     <navigationItem title="Register" id="M8q-dM-Nkg">
                                         <barButtonItem key="leftBarButtonItem" image="Close" id="s20-nd-CgI">
                                             <connections>
-                                                <segue destination="3JV-HM-z2W" kind="unwind" unwindAction="unwindToLogin:" id="o4G-Lg-DY0"/>
+                                                <segue destination="3JV-HM-z2W" kind="unwind" identifier="RegisterToLogin" unwindAction="unwindToLogin:" id="TpX-Li-FMl"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -4800,13 +4799,13 @@
                                 </variation>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6A-Sd-ihA">
-                                <rect key="frame" x="16" y="114" width="84" height="21"/>
+                                <rect key="frame" x="16" y="113.5" width="83.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pma-9Y-JOo">
-                                <rect key="frame" x="106" y="110" width="478" height="30"/>
+                                <rect key="frame" x="105.5" y="110" width="478.5" height="30"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="7Qz-X9-ilR"/>
@@ -4923,7 +4922,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="BaQ-x8-Uv3" id="GO0-Dh-tNU"/>
-                        <outlet property="fakeNavigationBar" destination="Ar7-rB-kbh" id="DE2-vC-7SO"/>
+                        <outlet property="imitationNavigationBar" destination="Ar7-rB-kbh" id="Tod-zH-4ZR"/>
                         <outlet property="nameTextField" destination="yBZ-2z-BBj" id="oFU-QA-wzu"/>
                         <outlet property="passwordTextField" destination="q7Y-sS-ms2" id="JO7-wS-DIP"/>
                         <outlet property="registerButton" destination="BlS-Im-KuE" id="A0l-Ih-ETs"/>
@@ -5136,7 +5135,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="fakeNavigationBar" destination="rtx-Yo-KGT" id="1w9-Hb-ouA"/>
+                        <outlet property="imitationNavigationBar" destination="rtx-Yo-KGT" id="XeC-X0-u6k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ty2-gD-mIX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5161,9 +5160,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0fK-Cx-ysj"/>
-        <segue reference="Ndf-JY-QqC"/>
-        <segue reference="txn-K4-4lh"/>
-        <segue reference="DUk-kf-nGq"/>
+        <segue reference="Jl6-tW-uib"/>
+        <segue reference="X2k-fD-Ni0"/>
+        <segue reference="rwG-J9-MDJ"/>
+        <segue reference="g7D-gS-UuW"/>
     </inferredMetricsTieBreakers>
 </document>

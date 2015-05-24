@@ -127,6 +127,18 @@ extension UIColor {
     return UIColor(red: 2/255.0, green: 81/255.0, blue: 138/255.0, alpha: alpha)
   }
   
+  class func cilloGray() -> UIColor {
+    return UIColor.cilloGrayWithAlpha(0.87)
+  }
+  
+  class func cilloGrayWithAlpha(alpha: CGFloat) -> UIColor {
+    return UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: alpha)
+  }
+  
+  class func buttonGray() -> UIColor {
+    return UIColor(red: 125/255.0, green: 138/255.0, blue: 150/255.0, alpha: 1.0)
+  }
+  
   class func downvoteRed() -> UIColor {
     return UIColor(red: 174/255.0, green: 0/255.0, blue: 37/255.0, alpha: 1.0)
   }
@@ -236,7 +248,7 @@ extension NSError {
   ///
   /// * Post: 1
   /// * Comment: 2
-  /// * Group: 3
+  /// * Board: 3
   /// * User: 4
   /// * Me: 5 (Me is the auth_token for the logged in User)
   /// * Nothing/Misc: 6
@@ -247,7 +259,7 @@ extension NSError {
   ///
   /// * Post: 1
   /// * Comment: 2
-  /// * Group: 3
+  /// * Board: 3
   /// * User: 4
   /// * Me: 5 (Me is the auth_token for the logged in User)
   /// * Success Message: 6
@@ -268,9 +280,9 @@ extension NSError {
     switch requestType {
     case .Root:
       code = 151
-    case .GroupFeed(let groupID):
+    case .BoardFeed(let boardID):
       code = 131
-    case .GroupInfo(let groupID):
+    case .BoardInfo(let boardID):
       code = 163
     case .PostInfo(let postID):
       code = 161
@@ -280,19 +292,19 @@ extension NSError {
       code = 154
     case .UserInfo:
       code = 164
-    case .UserGroups(let userID):
+    case .UserBoards(let userID):
       code = 143
     case .UserPosts(let userID):
       code = 141
     case .UserComments(let userID):
       code = 142
-    case .GroupSearch:
+    case .BoardSearch:
       code = 173
-    case .GroupAutocomplete:
+    case .BoardAutocomplete:
       code = 183
     case .Register:
       code = 2664
-    case .GroupCreate:
+    case .BoardCreate:
       code = 2631
     case .Login:
       code = 2654
@@ -312,9 +324,9 @@ extension NSError {
       code = 2162
     case .PostDown(let postID):
       code = 2163
-    case .GroupFollow(let groupID):
+    case .BoardFollow(let boardID):
       code = 2362
-    case .GroupUnfollow(let groupID):
+    case .BoardUnfollow(let boardID):
       code = 2363
     case .SelfSettings:
       code = 2544
@@ -389,25 +401,25 @@ extension UIViewController {
   /// :returns: **Note:** Can remove the UIView from the center of this view by calling returnedView.removeFromSuperView(), where returnedView is the UIView returned by this function.
   func addActivityIndicatorToCenterWithText(text: String) -> UIView {
     let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: 170, height: 170))
-    loadingView.backgroundColor = UIColor.cilloBlue()
+    loadingView.backgroundColor = ColorScheme.defaultScheme.activityIndicatorBackgroundColor()
     loadingView.clipsToBounds = true
     loadingView.layer.cornerRadius = 10.0
     loadingView.center = CGPoint(x: view.center.x, y: view.center.y)
     if let navigationController = navigationController as? FormattedNavigationViewController {
-      loadingView.center.y -= navigationController.NavigationBarHeight / 2
+      loadingView.center.y -= navigationController.navigationBar.frame.height / 2
     }
     if let tabBarController = tabBarController as? TabViewController {
-      loadingView.center.y -= tabBarController.TabBarHeight / 2
+      loadingView.center.y -= tabBarController.tabBar.frame.height / 2
     }
     
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: ColorScheme.defaultScheme.activityIndicatoryStyle())
     activityIndicator.frame.origin.x = 65
     activityIndicator.frame.origin.y = 60
     loadingView.addSubview(activityIndicator)
     
     let loadingLabel = UILabel(frame: CGRect(x: 15, y: 115, width: 140, height: 30))
     loadingLabel.backgroundColor = UIColor.clearColor()
-    loadingLabel.textColor = UIColor.whiteColor()
+    loadingLabel.textColor = ColorScheme.defaultScheme.activityIndicatorTextColor()
     loadingLabel.adjustsFontSizeToFitWidth = true
     loadingLabel.textAlignment = .Center
     loadingLabel.text = text
@@ -434,5 +446,62 @@ extension UITextView {
     }
   }
   
+}
+
+// MARK: -
+
+extension UINavigationBar {
+  
+  func setupAttributesForColorScheme(scheme: ColorScheme) {
+    backgroundColor = scheme.navigationBarColor()
+    tintColor = scheme.barButtonItemColor()
+    titleTextAttributes = [NSForegroundColorAttributeName: scheme.navigationBarTitleColor()]
+  }
+}
+
+// MARK: -
+
+extension UIImagePickerController {
+  
+  class func presentActionSheetForPhotoSelectionFromSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate>(source: T) {
+    let actionSheet = UIAlertController(title: "Change Profile Picture", message: nil, preferredStyle: .ActionSheet)
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (_) in
+    })
+    let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default, handler:  { (action) in
+      let pickerController = UIImagePickerController()
+      pickerController.delegate = source
+      source.presentViewController(pickerController, animated: true, completion: nil)
+    })
+    let cameraAction = UIAlertAction(title: "Take Photo", style: .Default, handler: { (_) in
+      let pickerController = UIImagePickerController()
+      pickerController.delegate = source
+      if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+        pickerController.sourceType = .Camera
+      }
+      source.presentViewController(pickerController, animated: true, completion: nil)
+    })
+    actionSheet.addAction(cancelAction)
+    actionSheet.addAction(pickerAction)
+    actionSheet.addAction(cameraAction)
+    source.presentViewController(actionSheet, animated: true, completion: nil)
+  }
+}
+
+// MARK: -
+
+extension UIImage {
+  
+  class var JPEGCompression: CGFloat {
+    return 0.5
+  }
+}
+
+// MARK: -
+
+extension UIStoryboard {
+  
+  class var mainStoryboard: UIStoryboard {
+    return UIStoryboard(name: "Main", bundle: nil)
+  }
 }
 

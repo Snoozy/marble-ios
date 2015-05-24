@@ -13,79 +13,56 @@ class Comment: NSObject {
   
   // MARK: Properties
   
-  /// ID of this Comment.
-  var commentID: Int = 0
-  
-  /// User that posted this Comment.
-  var user: User = User()
-  
-  /// Post that this Comment replied to.
-  var post: Post = Post()
-  
   /// Comments that replied to this Comment.
   ///
   /// Nil if this Comment does not have any children or the children are unknown.
   var children: [Comment]?
   
-  /// Content of this Comment.
-  var text: String = ""
-  
-  /// Time since this Comment was posted.
-  ///
-  /// String is properly formatted via NSDate.convertToTimeString(time:).
-  var time: String = ""
-  
-  /// Reputation of this Comment.
-  ///
-  /// Formula: Upvotes - Downvotes
-  var rep: Int = 0
-  
-  /// The voting status of the logged in User on this Comment.
-  ///
-  /// * -1: This Comment has been downvoted by the User.
-  /// * 0: This Comment has not been upvoted or downvoted by the User.
-  /// * 1: This Comment has been upvoted by the User.
-  var voteValue: Int = 0
+  /// ID of this Comment.
+  var commentID = 0
   
   /// Level of this Comment in Comment tree.
   ///
   /// Note: A direct reply to a Post has a lengthToPost of 1.
   var lengthToPost: Int?
   
-  // TODO: Document
+  /// True if this Comment's user is the same as the user of the main Post.
   var isOP: Bool {
     return post.user.userID == user.userID
   }
   
-  /// Used to print properties in println statements.
-  override var description: String {
-    let none: String = "N/A"
-    var numberOfChildren = none
-    if children != nil {
-      numberOfChildren = "\(children!.count)"
-    }
-    var lengthToPostString = none
-    if lengthToPost != nil {
-      lengthToPostString = "\(lengthToPost)"
-    }
-    var vote = "Has not voted"
-    if voteValue == 1 {
-      vote = "Upvoted"
-    } else if voteValue == -1 {
-      vote = "Downvoted"
-    }
-    return "Comment {\n   Comment ID: \(commentID)\n   Text: \(text)\n   User: \(user)\n   Post: \(post)\n   Time: \(time)\n   Number of Children: \(numberOfChildren)\n   Reputation: \(rep)\n   Vote Value: \(vote)\n   Length to Post:   \(lengthToPostString)\n}\n"
-  }
+  /// Post that this Comment replied to.
+  var post = Post()
   
+  /// Reputation of this Comment.
+  ///
+  /// Formula: Upvotes - Downvotes
+  var rep = 0
+  
+  /// Content of this Comment.
+  var text = ""
+  
+  /// Time since this Comment was posted.
+  ///
+  /// String is properly formatted via NSDate.convertToTimeString(time:).
+  var time = ""
+  
+  /// User that posted this Comment.
+  var user = User()
+  
+  /// The voting status of the logged in User on this Comment.
+  ///
+  /// * -1: This Comment has been downvoted by the User.
+  /// * 0: This Comment has not been upvoted or downvoted by the User.
+  /// * 1: This Comment has been upvoted by the User.
+  var voteValue = 0
+
   // MARK: Constants
   
   /// Longest possible lengthToPost before indent is constant in CommentCell.
-  class var LongestLengthToPost: Int {
-    get {
-      return 5
-    }
+  class var longestLengthToPost: Int {
+    return 5
   }
-  
   
   // MARK: Initializers
   
@@ -106,7 +83,6 @@ class Comment: NSObject {
   /// 
   /// Nil if not building a Comment tree with this Comment.
   init(json: JSON, lengthToPost: Int?) {
-    println(json)
     commentID = json["comment_id"].intValue
     post = Post(json: json["post"])
     user = User(json: json["user"])
@@ -131,8 +107,17 @@ class Comment: NSObject {
     super.init()
   }
   
+  // MARK: Setup Helper Functions
   
-  // MARK: Helper Methods
+  /// Used to find the height of commentTextView in a CommentCell displaying this Comment.
+  ///
+  /// :param: width The current width of commentTextView.
+  /// :param: selected Describes if CommentCell is selected.
+  /// :returns: Predicted height of commentTextView in a CommentCell.
+  func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
+    let trueWidth = width - CommentCell.commentTTTAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
+    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.commentTTTAttributedLabelFont)
+  }
   
   /// Used to retrieve a Comment tree containing this Comment and all of its children.
   ///
@@ -158,7 +143,7 @@ class Comment: NSObject {
       if selected {
         return 0
       } else {
-        return lengthToPost > Comment.LongestLengthToPost ? Comment.LongestLengthToPost - 1 : lengthToPost - 1
+        return lengthToPost > Comment.longestLengthToPost ? Comment.longestLengthToPost - 1 : lengthToPost - 1
       }
     }
     return 0
@@ -169,17 +154,31 @@ class Comment: NSObject {
   /// :param: selected Describes if CommentCell is selected.
   /// :returns: A valid indentSize in pixels for a CommentCell displaying this Comment.
   func predictedIndentSize(#selected: Bool) -> CGFloat {
-    return CGFloat(predictedIndentLevel(selected: selected)) * CommentCell.IndentSize
+    return CGFloat(predictedIndentLevel(selected: selected)) * CommentCell.indentSize
   }
   
-  /// Used to find the height of commentTextView in a CommentCell displaying this Comment.
-  ///
-  /// :param: width The current width of commentTextView.
-  /// :param: selected Describes if CommentCell is selected.
-  /// :returns: Predicted height of commentTextView in a CommentCell.
-  func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
-    let trueWidth = width - CommentCell.TTTAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
-    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentTTTAttributedLabelFont)
+  func upvote() {
+    switch voteValue {
+    case 0:
+      rep++
+    case -1:
+      rep += 2
+    default:
+      break
+    }
+    voteValue = 1
+  }
+  
+  func downvote() {
+    switch voteValue {
+    case 0:
+      rep--
+    case 1:
+      rep -= 2
+    default:
+      break
+    }
+    voteValue = -1
   }
   
 }

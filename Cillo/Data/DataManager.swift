@@ -3,15 +3,14 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 12/20/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import Foundation
 import Alamofire
 
-// TODO: Implement ?page=2 functionality for feeds (defaults to 1).
-// TODO: Possibly implement &page_size=50 functionality for feeds (defaults to 20).
-// TODO: When private groups are implemented, get rid of createPostByGroupName
+// TODO: Implement page number functionality for comments
+// TODO: When private boards are implemented, get rid of createPostByBoardName
 
 // MARK: - Enums
 
@@ -24,20 +23,20 @@ import Alamofire
 /// GET Requests:
 ///
 /// * Root: Request to retrieve feed of posts for logged in user.
-/// * GroupFeed(Int): Request to retrieve feed of posts for a specific group. Parameter is a group id.
-/// * GroupInfo(Int): Request to retrieve info about a specific group. Parameter is a group id.
+/// * BoardFeed(Int): Request to retrieve feed of posts for a specific board. Parameter is a board id.
+/// * BoardInfo(Int): Request to retrieve info about a specific board. Parameter is a board id.
 /// * PostInfo(Int): Request to retrieve info about a specific post. Parameter is a post id.
 /// * PostComments(Int): Request to retrieve all comments for a specific post. Parameter is a post id.
 /// * SelfInfo: Request to retrieve info about the logged in user.
 /// * UserInfo: Request to retrieve info about a specific user. No Parameter is present because either a user id or username may be passed when the request is performed.
-/// * UserGroups(Int): Request to retrieve the groups that a specific user follows. Parameter is a user id.
+/// * UserBoards(Int): Request to retrieve the boards that a specific user follows. Parameter is a user id.
 /// * UserPosts(Int): Request to retrieve the posts that a specific user has made. Parameter is a user id.
 /// * UserComments(Int): Request to retrieve the comments that a specific user has made. parameter is a user id.
 ///
 /// POST Requests:
 ///
 /// * Register: Request to register user with server. Does not need an Auth Token.
-/// * GroupCreate: Request to create a group.
+/// * BoardCreate: Request to create a board.
 /// * Login: Request to login to server. Does not need an Auth Token.
 /// * Logout: Request to logout of server.
 /// * PostCreate: Request to create a post.
@@ -47,44 +46,44 @@ import Alamofire
 /// * CommentDown(Int): Request to downvote a comment. Parameter is a comment id.
 /// * PostUp(Int): Request to upvote a post. Parameter is a post id.
 /// * PostDown(Int): Request to downvote a post. Parameter is a post id.
-/// * GroupFollow(Int): Request to follow a group. Parameter is a group id.
-/// * GroupUnfollow(Int): Request to unfollow a group. Parameter is a group id.
+/// * BoardFollow(Int): Request to follow a board. Parameter is a board id.
+/// * BoardUnfollow(Int): Request to unfollow a board. Parameter is a board id.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
   static let baseURLString = "http://api.cillo.co"
   
   //GET
-  case Root(Int?) // DONE
-  case GroupFeed(Int, Int?) // DONE
-  case GroupInfo(Int) // DONE
-  case PostInfo(Int) // DONE
-  case PostComments(Int) // DONE
-  case SelfInfo // DONE
-  case UserInfo //DONE
-  case UserGroups(Int, Int?) // DONE
-  case UserPosts(Int, Int?) // DONE
-  case UserComments(Int, Int?) // DONE
-  case GroupSearch
-  case GroupAutocomplete
+  case Root(Int?)
+  case BoardFeed(Int, Int?)
+  case BoardInfo(Int)
+  case PostInfo(Int)
+  case PostComments(Int)
+  case SelfInfo
+  case UserInfo
+  case UserBoards(Int, Int?)
+  case UserPosts(Int, Int?)
+  case UserComments(Int, Int?)
+  case BoardSearch
+  case BoardAutocomplete
   
   //POST
-  case Register // DONE
-  case GroupCreate // DONE
-  case Login // DONE
-  case Logout // DONE
-  case PostCreate // DONE
-  case CommentCreate // DONE
-  case MediaUpload // DONE
-  case CommentUp(Int) // DONE
-  case CommentDown(Int) // DONE
-  case PostUp(Int) // DONE
-  case PostDown(Int) // DONE
-  case GroupFollow(Int) // DONE
-  case GroupUnfollow(Int) // DONE
-  case SelfSettings // DONE
+  case Register
+  case BoardCreate
+  case Login
+  case Logout
+  case PostCreate
+  case CommentCreate
+  case MediaUpload
+  case CommentUp(Int)
+  case CommentDown(Int)
+  case PostUp(Int)
+  case PostDown(Int)
+  case BoardFollow(Int)
+  case BoardUnfollow(Int)
+  case SelfSettings
   case PasswordUpdate
   
-  /// Part of URL after the baseURLString.
+  /// URL of the server call.
   var URLString: String {
     let auth = NSUserDefaults.standardUserDefaults().stringForKey(NSUserDefaults.Auth)
     var authString: String = ""
@@ -99,11 +98,11 @@ enum Router: URLStringConvertible {
       case .Root(let pgNum):
         let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
         return "/\(vNum)/me/feed\(authString)\(page)"
-      case .GroupFeed(let groupID, let pgNum):
+      case .BoardFeed(let boardID, let pgNum):
         let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
-        return "/\(vNum)/boards/\(groupID)/feed\(authString)\(page)"
-      case .GroupInfo(let groupID):
-        return "/\(vNum)/boards/\(groupID)/describe\(authString)"
+        return "/\(vNum)/boards/\(boardID)/feed\(authString)\(page)"
+      case .BoardInfo(let boardID):
+        return "/\(vNum)/boards/\(boardID)/describe\(authString)"
       case .PostInfo(let postID):
         return "/\(vNum)/posts/\(postID)/describe\(authString)"
       case .PostComments(let postID):
@@ -112,7 +111,7 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/me/describe\(authString)"
       case .UserInfo:
         return "/\(vNum)/users/describe\(authString)"
-      case .UserGroups(let userID, let pgNum):
+      case .UserBoards(let userID, let pgNum):
         let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
         return "/\(vNum)/users/\(userID)/boards\(authString)\(page)"
       case .UserPosts(let userID, let pgNum):
@@ -121,15 +120,15 @@ enum Router: URLStringConvertible {
       case .UserComments(let userID, let pgNum):
         let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
         return "/\(vNum)/users/\(userID)/comments\(authString)\(page)"
-      case .GroupSearch:
+      case .BoardSearch:
         return "/\(vNum)/boards/search\(authString)"
-      case .GroupAutocomplete:
+      case .BoardAutocomplete:
         return "/\(vNum)/boards/autocomplete\(authString)"
         
         // POST
       case .Register:
         return "/\(vNum)/users/register"
-      case .GroupCreate:
+      case .BoardCreate:
         return "/\(vNum)/boards/create\(authString)"
       case .Login:
         return "/\(vNum)/auth/login"
@@ -149,10 +148,10 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/posts/\(postID)/upvote\(authString)"
       case .PostDown(let postID):
         return "/\(vNum)/posts/\(postID)/downvote\(authString)"
-      case .GroupFollow(let groupID):
-        return "/\(vNum)/boards/\(groupID)/follow\(authString)"
-      case .GroupUnfollow(let groupID):
-        return "/\(vNum)/boards/\(groupID)/unfollow\(authString)"
+      case .BoardFollow(let boardID):
+        return "/\(vNum)/boards/\(boardID)/follow\(authString)"
+      case .BoardUnfollow(let boardID):
+        return "/\(vNum)/boards/\(boardID)/unfollow\(authString)"
       case .SelfSettings:
         return "/\(vNum)/me/settings\(authString)"
       case .PasswordUpdate:
@@ -186,638 +185,186 @@ class DataManager: NSObject {
   
   // MARK: Networking Functions
   
-  /// Attempts to log into server and retrieve an Auth Token.
-  ///
-  /// **Note:** Set NSUserDefaults's .Auth key to the retrieved Auth Token.
-  ///
-  /// :param: username The username of the user attempting to login to the server.
-  /// :param: password The password of the user attempting to login to the server.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the login was unsuccessful, this will contain the error message.
-  /// :param: result If the login was successful, this will be the Auth Token.
-  func login(email: String, password: String, completion:(error: NSError?, result: String?) -> Void) {
-    Alamofire.request(.POST, Router.Login, parameters: ["email":email, "password":password], encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Login)
-              completion(error: cilloError, result: nil)
-            } else {
-              let authToken = swiftyJSON["auth_token"].stringValue
-              completion(error: nil, result: authToken)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .Login), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to register user with server.
-  ///
-  /// :param: username The username of the user attempting to register with the server. This must be unique.
-  /// :param: name The display name of the user attempting to register with the server. This doesn't have to be unique.
-  /// :param: password The password of the user attempting to register with the server.
-  /// :param: email The email of the user attempting to register with the server. This must be unique.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the registration was unsuccessful, this will contain the error message.
-  /// :param: success If the registration was successful, this will be true.
-  func register(username: String, name: String, password: String, email: String, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.Register, parameters: ["username":username, "name":name, "password":password, "email":email], encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Register)
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to logout of server.
+  /// Attempts to follow a board.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the logout was unsuccessful, this will contain the error message.
-  /// :param: success If the logout was successful, this will be true.
-  func logout(completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.Logout, parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Logout)
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve home page from server for the logged in user. If successful, returns an array of posts on home page in completion block
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
+  /// :param: boardID The id of the board that is being followed.
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
-  func getHomePage(#lastPostID: Int?, completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire.request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Root(lastPostID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let posts = swiftyJSON["posts"].arrayValue
-              var returnArray: [Post] = []
-              for post in posts {
-                var item: Post
-                if post["repost"] != nil {
-                  item = Repost(json: post)
-                } else {
-                  item = Post(json: post)
-                }
-                returnArray.append(item)
-              }
-              completion(error: nil, result: returnArray)
-            }
+  /// :param: success If the request was successful, this will be true.
+  func boardFollow(boardID: Int, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.BoardFollow(boardID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardFollow(boardID))
+            completion(error: cilloError, success: false)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .Root(lastPostID)), result: nil)
+            completion(error: nil, success: true)
           }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve a group's feed from server.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: groupID The id of the group that the server is retrieving a feed for.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the posts to be displayed on the group's feed page.
-  func getGroupFeed(#lastPostID: Int?, groupID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire.request(.GET, Router.GroupFeed(groupID, lastPostID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
         } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupFeed(groupID, lastPostID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let posts = swiftyJSON["posts"].arrayValue
-              var returnArray: [Post] = []
-              for post in posts {
-                var item: Post
-                if post["repost"] != nil {
-                  item = Repost(json: post)
-                } else {
-                  item = Post(json: post)
-                }
-                returnArray.append(item)
-              }
-              completion(error: nil, result: returnArray)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupFeed(groupID, lastPostID)), result: nil)
-          }
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardFollow(boardID)), success: false)
         }
-    })
-  }
-  
-  /// Attempts to retrieve info about the logged in user.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the User object for the logged in user.
-  func getSelfInfo(completion:(error: NSError?, result: User?) -> Void) {
-    Alamofire.request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfInfo)
-              completion(error: cilloError, result: nil)
-            } else {
-              let user = User(json: swiftyJSON)
-              completion(error: nil, result: user)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .SelfInfo), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve info about a user by id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: userID The id of the user that the server is describing.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the User object for the user with id userID.
-  func getUserByID(userID: Int, completion:(error: NSError?, result: User?) -> Void) {
-    Alamofire.request(.GET, Router.UserInfo, parameters: ["user_id":userID], encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
-              completion(error: cilloError, result: nil)
-            } else {
-              let user = User(json: swiftyJSON)
-              completion(error: nil, result: user)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
-          }
-        }
-    })
-  }
-  /// Attempts to retrieve info about a user by unique username.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: username The unique username of the user that the server is describing.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the User object for the user with the given username.
-  func getUserByUsername(username: String, completion:(error: NSError?, result: User?) -> Void) {
-    Alamofire.request(.GET, Router.UserInfo, parameters: ["username":username], encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
-              completion(error: cilloError, result: nil)
-            } else {
-              let user = User(json: swiftyJSON)
-              completion(error: nil, result: user)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve info about a group by id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: groupID The id of the group that the server is describing.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the Group object for the group with id groupID.
-  func getGroupByID(groupID: Int, completion:(error: NSError?, result: Group?) -> Void) {
-    Alamofire.request(.GET, Router.GroupInfo(groupID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupInfo(groupID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let group = Group(json: swiftyJSON)
-              completion(error: nil, result: group)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupInfo(groupID)), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve info about a post by id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: postID The id of the post that the server is describing.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the Post object for the post with id postID.
-  func getPostByID(postID: Int, completion:(error: NSError?, result: Post?) -> Void) {
-    Alamofire.request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostInfo(postID))
-              completion(error: cilloError, result: nil)
-            } else {
-              var post: Post
-              if swiftyJSON["repost"] != nil {
-                post = Repost(json: swiftyJSON)
-              } else {
-                post = Post(json: swiftyJSON) // pull out the array from the JSON
-              }
-              completion(error: nil, result: post)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostInfo(postID)), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve tree of comments that have replied to a post with the provided post id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: postID The id of the post that the server is retrieving comments for.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the comment tree for the post.
-  func getPostCommentsByID(post: Post, completion:(error: NSError?, result: [Comment]?) -> Void) {
-    Alamofire.request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            println(swiftyJSON)
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(post.postID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let comments = swiftyJSON["comments"].arrayValue
-              var rootComments: [Comment] = []
-              for comment in comments {
-                let item = Comment(json: comment, lengthToPost: 1)
-                item.post = post
-                rootComments.append(item)
-              }
-              var returnedTree: [Comment] = []
-              for comment in rootComments {
-                println(comment)
-                returnedTree += comment.makeCommentTree()
-              }
-              completion(error: nil, result: returnedTree)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostComments(post.postID)), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve list of groups that a user follows by user id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: userID The id of the user that the server is retrieving a following list for.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the groups that the user follows.
-  func getUserGroupsByID(#lastGroupID: Int?, userID: Int, completion:(error: NSError?, result: [Group]?) -> Void) {
-    Alamofire.request(.GET, Router.UserGroups(userID, lastGroupID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserGroups(userID, lastGroupID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let groups = swiftyJSON["boards"].arrayValue
-              var returnArray: [Group] = []
-              for group in groups {
-                let item = Group(json: group)
-                returnArray.append(item)
-              }
-              completion(error: nil, result: returnArray)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserGroups(userID, lastGroupID)), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve list of posts that a user has made by user id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: userID The id of the user that the server is retrieving posts for.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the posts that the user has made.
-  func getUserPostsByID(#lastPostID: Int?, userID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
-    Alamofire.request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserPosts(userID, lastPostID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let posts = swiftyJSON["posts"].arrayValue
-              var returnArray: [Post] = []
-              for post in posts {
-                var item: Post
-                if post["repost"] != nil {
-                  item = Repost(json: post)
-                } else {
-                  item = Post(json: post)  // convert element to our model object
-                }
-                returnArray.append(item)
-              }
-              completion(error: nil, result: returnArray)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID, lastPostID)), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to retrieve list of posts that a user has made by user id.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: userID The id of the user that the server is retrieving comments for.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the comments that the user has made.
-  func getUserCommentsByID(#lastCommentID: Int?, userID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
-    Alamofire.request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            println(swiftyJSON)
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID, lastCommentID))
-              completion(error: cilloError, result: nil)
-            } else {
-              let comments = swiftyJSON["comments"].arrayValue
-              var returnArray: [Comment] = []
-              for comment in comments {
-                let item = Comment(json: comment, lengthToPost: nil)
-                returnArray.append(item)
-              }
-              completion(error: nil, result: returnArray)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID, lastCommentID)), result: nil)
-          }
-        }
-    })
-  }
-  
-  // TODO: Document
-  func groupsSearchByName(name: String, completion:(error: NSError?, result: [Group]?) -> Void) {
-    Alamofire.request(.GET, Router.GroupSearch, parameters: ["q": name], encoding: .URL)
-      .responseJSON(completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            println(swiftyJSON)
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupSearch)
-              completion(error: cilloError, result: nil)
-            } else {
-              let groups = swiftyJSON["results"].arrayValue
-              var returnArray: [Group] = []
-              for group in groups {
-                let item = Group(json: group)
-                returnArray.append(item)
-              }
-              completion(error: nil, result: returnArray)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupSearch), result: nil)
-          }
-        }
-    })
-  }
-  
-  // TODO: Document
-  func groupsAutocompleteByName(name: String, completion:(error: NSError?, result: [String]?) -> Void) {
-    Alamofire.request(.GET, Router.GroupAutocomplete, parameters: ["q": name], encoding: .URL)
-      .responseJSON(completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            println(swiftyJSON)
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupAutocomplete)
-              completion(error: cilloError, result: nil)
-            } else {
-              let groups = swiftyJSON["results"].arrayValue
-              var returnArray: [String] = []
-              for group in groups {
-                let name = group["name"].stringValue
-                returnArray.append(name)
-              }
-              completion(error: nil, result: returnArray)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupAutocomplete), result: nil)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to create a new post made by the logged in user.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: repostID The id of the original post that is being reposted.
-  ///
-  ///  Nil if the post being created is not a repost.
-  /// :param: groupID The id of the group that the new post is being posted in.
-  /// :param: text The content of the post.
-  /// :param: title The title of the post.
-  ///
-  ///  Nil if the post has no title.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Post.
-  func createPostByGroupID(repostID: Int?, groupID: Int, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> Void) {
-    var parameters: [String: AnyObject] = ["board_id": groupID, "data": text]
-    if let repostID = repostID {
-      parameters["repost_id"] = repostID
     }
-    if let title = title {
-      parameters["title"] = title
-    }
-    if let mediaID = mediaID {
-      parameters["media"] = mediaID
-    }
-    Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
-              completion(error: cilloError, result: nil)
-            } else {
-              var post: Post
-              if swiftyJSON["repost"] != nil {
-                post = Repost(json: swiftyJSON)
-              } else {
-                post = Post(json: swiftyJSON)
-              }
-              completion(error: nil, result: post)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
-          }
-        }
-    })
   }
   
-  /// Attempts to create a new post made by the logged in user.
+  /// Attempts to unfollow a board.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
-  /// :param: repostID The id of the original post that is being reposted.
-  ///
-  ///  Nil if the post being created is not a repost.
-  /// :param: groupName The name of the group that the new post is being posted in.
-  /// :param: text The content of the post.
-  /// :param: title The title of the post.
-  ///
-  ///  Nil if the post has no title.
+  /// :param: boardID The id of the board that is being followed.
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Post.
-  func createPostByGroupName(groupName: String, repostID: Int?, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> Void) {
-    var parameters: [String: AnyObject] = ["board_name": groupName, "data": text]
-    if let repostID = repostID {
-      parameters["repost_id"] = repostID
-    }
-    if let title = title {
-      parameters["title"] = title
-    }
-    if let mediaID = mediaID {
-      parameters["media"] = mediaID
-    }
-    Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            println(swiftyJSON)
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
-              completion(error: cilloError, result: nil)
-            } else {
-              var post: Post
-              if swiftyJSON["repost"] != nil {
-                post = Repost(json: swiftyJSON)
-                completion(error: nil, result: post)
-              } else {
-                post = Post(json: swiftyJSON)
-                completion(error: nil, result: post)
-              }
-            }
+  /// :param: success If the request was successful, this will be true.
+  func boardUnfollow(boardID: Int, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.BoardUnfollow(boardID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardUnfollow(boardID))
+            completion(error: cilloError, success: false)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
+            completion(error: nil, success: true)
           }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardUnfollow(boardID)), success: false)
         }
-    })
+    }
   }
   
-  /// Attempts to create a new group made by the logged in user.
+  /// Attempts to retrieve a list of board names based on a search term.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
-  /// :param: name The name of the new group.
-  /// :param: description The description of the group.
-  ///
-  ///  Nil if the group has no description.
+  /// :param: name The name of the board that is being searched.
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Group.
-  func createGroup(#name: String, description: String?, mediaID: Int?, completion:(error: NSError?, result: Group?) -> Void) {
+  /// :param: result If the request was successful, this will be the array of board names.
+  func boardsAutocompleteByName(name: String, completion:(error: NSError?, result: [String]?) -> Void) {
+    Alamofire.request(.GET, Router.BoardAutocomplete, parameters: ["q": name], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardAutocomplete)
+            completion(error: cilloError, result: nil)
+          } else {
+            let boards = swiftyJSON["results"].arrayValue
+            var returnArray = [String]()
+            for board in boards {
+              let name = board["name"].stringValue
+              returnArray.append(name)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardAutocomplete), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to a list of boards based on a search term.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: name The name of the board that is being searched.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the array of Boards that were found.
+  func boardsSearchByName(name: String, completion:(error: NSError?, result: [Board]?) -> Void) {
+    Alamofire.request(.GET, Router.BoardSearch, parameters: ["q": name], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardSearch)
+            completion(error: cilloError, result: nil)
+          } else {
+            let boards = swiftyJSON["results"].arrayValue
+            var returnArray = [Board]()
+            for board in boards {
+              let item = Board(json: board)
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardSearch), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to downvote a comment.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: commentID The id of the comment that is being downvoted.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func commentDownvote(commentID: Int, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentDown(commentID))
+            completion(error: cilloError, success: false)
+          } else {
+            completion(error: nil, success: true)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to upvote a comment.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: commentID The id of the comment that is being upvoted.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func commentUpvote(commentID: Int, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentUp(commentID))
+            completion(error: cilloError, success: false)
+          } else {
+            completion(error: nil, success: true)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to create a new board made by the logged in user.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: name The name of the new board.
+  /// :param: description The description of the board.
+  ///
+  ///  Nil if the board has no description.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the created Board.
+  func createBoard(#name: String, description: String?, mediaID: Int?, completion:(error: NSError?, result: Board?) -> Void) {
     var parameters: [String: AnyObject] = ["name": name]
     if let description = description {
       parameters["description"] = description
@@ -825,27 +372,26 @@ class DataManager: NSObject {
     if let mediaID = mediaID {
       parameters["photo"] = mediaID
     }
-    Alamofire.request(.POST, Router.GroupCreate, parameters: parameters, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupCreate)
-              completion(error: cilloError, result: nil)
-            } else {
-              let group = Group(json: swiftyJSON)
-              completion(error: nil, result: group)
-            }
+    Alamofire.request(.POST, Router.BoardCreate, parameters: parameters, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardCreate)
+            completion(error: cilloError, result: nil)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupCreate), result: nil)
+            let board = Board(json: swiftyJSON)
+            completion(error: nil, result: board)
           }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardCreate), result: nil)
         }
-    })
+        
+    }
   }
   
-  /// Attempts to create a new group made by the logged in user.
+  /// Attempts to create a new board made by the logged in user.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
@@ -864,227 +410,119 @@ class DataManager: NSObject {
       parameters["parent_id"] = parentID
     }
     Alamofire.request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentCreate)
-              completion(error: cilloError, result: nil)
-            } else {
-              let comment = Comment(json: swiftyJSON, lengthToPost: lengthToPost)
-              completion(error: nil, result: comment)
-            }
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentCreate)
+            completion(error: cilloError, result: nil)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .CommentCreate), result: nil)
+            let comment = Comment(json: swiftyJSON, lengthToPost: lengthToPost)
+            completion(error: nil, result: comment)
           }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .CommentCreate), result: nil)
         }
-    })
+    }
   }
   
-  
-  /// Attempts to upvote a post.
+  /// Attempts to create a new post made by the logged in user.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
-  /// :param: postID The id of the post that is being upvoted.
+  /// :param: repostID The id of the original post that is being reposted.
+  ///
+  ///  Nil if the post being created is not a repost.
+  /// :param: boardID The id of the board that the new post is being posted in.
+  /// :param: text The content of the post.
+  /// :param: title The title of the post.
+  ///
+  ///  Nil if the post has no title.
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func postUpvote(postID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostUp(postID))
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
+  /// :param: result If the request was successful, this will be the created Post.
+  func createPostByBoardID(repostID: Int?, boardID: Int, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> Void) {
+    var parameters: [String: AnyObject] = ["board_id": boardID, "data": text]
+    if let repostID = repostID {
+      parameters["repost_id"] = repostID
+    }
+    if let title = title {
+      parameters["title"] = title
+    }
+    if let mediaID = mediaID {
+      parameters["media"] = mediaID
+    }
+    Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
+            completion(error: cilloError, result: nil)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
+            var post: Post
+            if swiftyJSON["repost"] != nil {
+              post = Repost(json: swiftyJSON)
+            } else {
+              post = Post(json: swiftyJSON)
+            }
+            completion(error: nil, result: post)
           }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
         }
-    })
+    }
   }
   
-  /// Attempts to downvote a post.
+  /// Attempts to create a new post made by the logged in user.
   ///
   /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
   ///
-  /// :param: postID The id of the post that is being downvoted.
+  /// :param: repostID The id of the original post that is being reposted.
+  ///
+  ///  Nil if the post being created is not a repost.
+  /// :param: boardName The name of the board that the new post is being posted in.
+  /// :param: text The content of the post.
+  /// :param: title The title of the post.
+  ///
+  ///  Nil if the post has no title.
   /// :param: completion A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func postDownvote(postID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostDown(postID))
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
+  /// :param: result If the request was successful, this will be the created Post.
+  func createPostByBoardName(boardName: String, repostID: Int?, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> Void) {
+    var parameters: [String: AnyObject] = ["board_name": boardName, "data": text]
+    if let repostID = repostID {
+      parameters["repost_id"] = repostID
+    }
+    if let title = title {
+      parameters["title"] = title
+    }
+    if let mediaID = mediaID {
+      parameters["media"] = mediaID
+    }
+    Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
+            completion(error: cilloError, result: nil)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to upvote a comment.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: commentID The id of the comment that is being upvoted.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func commentUpvote(commentID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentUp(commentID))
-              completion(error: cilloError, success: false)
+            var post: Post
+            if swiftyJSON["repost"] != nil {
+              post = Repost(json: swiftyJSON)
             } else {
-              completion(error: nil, success: true)
+              post = Post(json: swiftyJSON)
             }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
+            completion(error: nil, result: post)
           }
-        }
-    })
-  }
-  
-  /// Attempts to downvote a comment.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: commentID The id of the comment that is being downvoted.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func commentDownvote(commentID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
         } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentDown(commentID))
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
-          }
+          completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
         }
-    })
-  }
-  
-  /// Attempts to follow a group.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: groupID The id of the group that is being followed.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func groupFollow(groupID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.GroupFollow(groupID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupFollow(groupID))
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupFollow(groupID)), success: false)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to unfollow a group.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: groupID The id of the group that is being followed.
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func groupUnfollow(groupID: Int, completion:(error: NSError?, success: Bool) -> Void) {
-    Alamofire.request(.POST, Router.GroupUnfollow(groupID), parameters: nil, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .GroupUnfollow(groupID))
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .GroupUnfollow(groupID)), success: false)
-          }
-        }
-    })
-  }
-  
-  /// Attempts to upload an image.
-  ///
-  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
-  ///
-  /// :param: imageData The data containing the image to be uploaded.
-  ///
-  /// :param: * The data can be retrieved via UIImagePNGRepresentation(_:)
-  /// :param: completion A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
-  func imageUpload(imageData: NSData, completion:(error: NSError?, result: Int?) -> Void) {
-    let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
-    upload(urlRequest.0, urlRequest.1)
-      .progress(closure: { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-        println("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
-      })
-      .responseJSON(completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .MediaUpload)
-              completion(error: cilloError, result: nil)
-            } else {
-              let mediaID = swiftyJSON["media_id"].intValue
-              completion(error: nil, result: mediaID)
-            }
-          } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .MediaUpload), result: nil)
-          }
-        }
-    })
+    }
   }
   
   /// Attempts to update the settings of the logged in User.
@@ -1116,46 +554,566 @@ class DataManager: NSObject {
       parameters["bio"] = newBio
     }
     Alamofire.request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, result: nil)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfSettings)
-              completion(error: cilloError, result: nil)
-            } else {
-              let user = User(json: swiftyJSON)
-              completion(error: nil, result: user)
-            }
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfSettings)
+            completion(error: cilloError, result: nil)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .SelfSettings), result: nil)
+            let user = User(json: swiftyJSON)
+            completion(error: nil, result: user)
           }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .SelfSettings), result: nil)
         }
-    })
+    }
   }
   
+  /// Attempts to retrieve info about a board by id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: boardID The id of the board that the server is describing.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the Board object for the board with id boardID.
+  func getBoardByID(boardID: Int, completion:(error: NSError?, result: Board?) -> Void) {
+    Alamofire.request(.GET, Router.BoardInfo(boardID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardInfo(boardID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let board = Board(json: swiftyJSON)
+            completion(error: nil, result: board)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardInfo(boardID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve a board's feed from server.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: boardID The id of the board that the server is retrieving a feed for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the posts to be displayed on the board's feed page.
+  func getBoardFeed(#lastPostID: Int?, boardID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
+    Alamofire.request(.GET, Router.BoardFeed(boardID, lastPostID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardFeed(boardID, lastPostID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let posts = swiftyJSON["posts"].arrayValue
+            var returnArray: [Post] = []
+            for post in posts {
+              var item: Post
+              if post["repost"] != nil {
+                item = Repost(json: post)
+              } else {
+                item = Post(json: post)
+              }
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .BoardFeed(boardID, lastPostID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve home page from server for the logged in user. If successful, returns an array of posts on home page in completion block
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
+  func getHomePage(#lastPostID: Int?, completion:(error: NSError?, result: [Post]?) -> Void) {
+    Alamofire.request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Root(lastPostID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let posts = swiftyJSON["posts"].arrayValue
+            var returnArray = [Post]()
+            for post in posts {
+              var item: Post
+              if post["repost"] != nil {
+                item = Repost(json: post)
+              } else {
+                item = Post(json: post)
+              }
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .Root(lastPostID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve info about a post by id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: postID The id of the post that the server is describing.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the Post object for the post with id postID.
+  func getPostByID(postID: Int, completion:(error: NSError?, result: Post?) -> Void) {
+    Alamofire.request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostInfo(postID))
+            completion(error: cilloError, result: nil)
+          } else {
+            var post: Post
+            if swiftyJSON["repost"] != nil {
+              post = Repost(json: swiftyJSON)
+            } else {
+              post = Post(json: swiftyJSON) // pull out the array from the JSON
+            }
+            completion(error: nil, result: post)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .PostInfo(postID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve tree of comments that have replied to a post with the provided post id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: postID The id of the post that the server is retrieving comments for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the comment tree for the post.
+  func getPostCommentsByID(post: Post, completion:(error: NSError?, result: [Comment]?) -> Void) {
+    Alamofire.request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(post.postID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let comments = swiftyJSON["comments"].arrayValue
+            var rootComments: [Comment] = []
+            for comment in comments {
+              let item = Comment(json: comment, lengthToPost: 1)
+              item.post = post
+              rootComments.append(item)
+            }
+            var returnedTree: [Comment] = []
+            for comment in rootComments {
+              returnedTree += comment.makeCommentTree()
+            }
+            completion(error: nil, result: returnedTree)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .PostComments(post.postID)), result: nil)
+        }
+        
+    }
+  }
+  
+  /// Attempts to retrieve info about the logged in user.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the User object for the logged in user.
+  func getSelfInfo(completion:(error: NSError?, result: User?) -> Void) {
+    Alamofire.request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfInfo)
+            completion(error: cilloError, result: nil)
+          } else {
+            let user = User(json: swiftyJSON)
+            completion(error: nil, result: user)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .SelfInfo), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve list of boards that a user follows by user id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: userID The id of the user that the server is retrieving a following list for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the boards that the user follows.
+  func getUserBoardsByID(#lastBoardID: Int?, userID: Int, completion:(error: NSError?, result: [Board]?) -> Void) {
+    Alamofire.request(.GET, Router.UserBoards(userID, lastBoardID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserBoards(userID, lastBoardID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let boards = swiftyJSON["boards"].arrayValue
+            var returnArray = [Board]()
+            for board in boards {
+              let item = Board(json: board)
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .UserBoards(userID, lastBoardID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve info about a user by id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: userID The id of the user that the server is describing.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the User object for the user with id userID.
+  func getUserByID(userID: Int, completion:(error: NSError?, result: User?) -> Void) {
+    Alamofire.request(.GET, Router.UserInfo, parameters: ["user_id": userID], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
+            completion(error: cilloError, result: nil)
+          } else {
+            let user = User(json: swiftyJSON)
+            completion(error: nil, result: user)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve info about a user by unique username.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: username The unique username of the user that the server is describing.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the User object for the user with the given username.
+  func getUserByUsername(username: String, completion:(error: NSError?, result: User?) -> Void) {
+    Alamofire.request(.GET, Router.UserInfo, parameters: ["username": username], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
+            completion(error: cilloError, result: nil)
+          } else {
+            let user = User(json: swiftyJSON)
+            completion(error: nil, result: user)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve list of posts that a user has made by user id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: userID The id of the user that the server is retrieving comments for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the comments that the user has made.
+  func getUserCommentsByID(#lastCommentID: Int?, userID: Int, completion:(error: NSError?, result: [Comment]?) -> Void) {
+    Alamofire.request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID, lastCommentID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let comments = swiftyJSON["comments"].arrayValue
+            var returnArray = [Comment]()
+            for comment in comments {
+              let item = Comment(json: comment, lengthToPost: nil)
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID, lastCommentID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve list of posts that a user has made by user id.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: userID The id of the user that the server is retrieving posts for.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the posts that the user has made.
+  func getUserPostsByID(#lastPostID: Int?, userID: Int, completion:(error: NSError?, result: [Post]?) -> Void) {
+    Alamofire.request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserPosts(userID, lastPostID))
+            completion(error: cilloError, result: nil)
+          } else {
+            let posts = swiftyJSON["posts"].arrayValue
+            var returnArray = [Post]()
+            for post in posts {
+              var item: Post
+              if post["repost"] != nil {
+                item = Repost(json: post)
+              } else {
+                item = Post(json: post)
+              }
+              returnArray.append(item)
+            }
+            completion(error: nil, result: returnArray)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID, lastPostID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to upload an image.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: imageData The data containing the image to be uploaded.
+  ///
+  /// :param: * The data can be retrieved via UIImagePNGRepresentation(_:)
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
+  func imageUpload(imageData: NSData, completion:(error: NSError?, result: Int?) -> Void) {
+    let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
+    upload(urlRequest.0, urlRequest.1)
+      .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+        println("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
+      }
+      .responseJSON { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .MediaUpload)
+            completion(error: cilloError, result: nil)
+          } else {
+            let mediaID = swiftyJSON["media_id"].intValue
+            completion(error: nil, result: mediaID)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .MediaUpload), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to log into server and retrieve an Auth Token.
+  ///
+  /// **Note:** Set NSUserDefaults's .Auth key to the retrieved Auth Token.
+  ///
+  /// :param: username The username of the user attempting to login to the server.
+  /// :param: password The password of the user attempting to login to the server.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the login was unsuccessful, this will contain the error message.
+  /// :param: result If the login was successful, this will be the Auth Token.
+  func login(email: String, password: String, completion:(error: NSError?, result: String?) -> Void) {
+    Alamofire.request(.POST, Router.Login, parameters: ["email": email, "password": password], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, result: nil)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Login)
+            completion(error: cilloError, result: nil)
+          } else {
+            let authToken = swiftyJSON["auth_token"].stringValue
+            completion(error: nil, result: authToken)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .Login), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to logout of server.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the logout was unsuccessful, this will contain the error message.
+  /// :param: success If the logout was successful, this will be true.
+  func logout(completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.Logout, parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Logout)
+            completion(error: cilloError, success: false)
+          } else {
+            completion(error: nil, success: true)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to downvote a post.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: postID The id of the post that is being downvoted.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func postDownvote(postID: Int, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostDown(postID))
+            completion(error: cilloError, success: false)
+          } else {
+            completion(error: nil, success: true)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to upvote a post.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: postID The id of the post that is being upvoted.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func postUpvote(postID: Int, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostUp(postID))
+            completion(error: cilloError, success: false)
+          } else {
+            completion(error: nil, success: true)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to register user with server.
+  ///
+  /// :param: username The username of the user attempting to register with the server. This must be unique.
+  /// :param: name The display name of the user attempting to register with the server. This doesn't have to be unique.
+  /// :param: password The password of the user attempting to register with the server.
+  /// :param: email The email of the user attempting to register with the server. This must be unique.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the registration was unsuccessful, this will contain the error message.
+  /// :param: success If the registration was successful, this will be true.
+  func register(username: String, name: String, password: String, email: String, completion:(error: NSError?, success: Bool) -> Void) {
+    Alamofire.request(.POST, Router.Register, parameters: ["username": username, "name": name, "password": password, "email": email], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Register)
+            completion(error: cilloError, success: false)
+          } else {
+            completion(error: nil, success: true)
+          }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
+        }
+    }
+  }
+  /// Attempts to update the end user's password on the server.
+  ///
+  /// **Warning:** NSUserDefaults's .Auth key must have an Auth Token stored.
+  ///
+  /// :param: oldPassword The old password of the end user.
+  /// :param: newPassword The password that the end user wants to change to.
+  /// :param: completion A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
   func updatePassword(#oldPassword: String, newPassword: String, completion:(error: NSError?, success: Bool) -> Void) {
     Alamofire.request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL)
-      .responseJSON(completionHandler: { (request : NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-        if error != nil {
-          completion(error: error!, success: false)
-        } else {
-          if let swiftyJSON = JSON(rawValue: data!) {
-            if swiftyJSON["error"] != nil {
-              let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PasswordUpdate)
-              completion(error: cilloError, success: false)
-            } else {
-              completion(error: nil, success: true)
-            }
+      .responseJSON { request, response, data, error in
+        if let error = error {
+          completion(error: error, success: false)
+        } else if let swiftyJSON = JSON(rawValue: data!) {
+          if swiftyJSON["error"] != nil {
+            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PasswordUpdate)
+            completion(error: cilloError, success: false)
           } else {
-            completion(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)
+            completion(error: nil, success: true)
           }
+        } else {
+          completion(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)
         }
-      })
+    }
   }
   
-  // MARK: Helper Functions
+  // MARK: Upload Helper Functions
   
   /// This function creates the required URLRequestConvertible and NSData we need to use Alamofire.upload
   ///
@@ -1192,5 +1150,4 @@ class DataManager: NSObject {
     // return URLRequestConvertible and NSData
     return (ParameterEncoding.URL.encode(mutableURLRequest, parameters: nil).0, uploadData)
   }
-  
 }

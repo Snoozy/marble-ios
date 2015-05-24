@@ -3,89 +3,66 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 12/20/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
 
-/// Handles user login and signup actions.
+/// Handles end user login actions.
 ///
-/// **Note:** Present this UIViewController if NSUserDefaults does not have values for the .Auth and .User. keys.
-class LogInViewController: UIViewController {
+/// **Note:** Present this UIViewController if NSUserDefaults does not have values for the .Auth or .User. keys.
+class LogInViewController: CustomViewController {
   
   // MARK: IBOutlets
   
-  /// Space for user to enter their username for logging in.
+  /// Field for end user to enter email.
   @IBOutlet weak var emailTextField: UITextField!
   
-  /// Space for user to enter their password for logging in.
-  @IBOutlet weak var passwordTextField: UITextField!
-  
-  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
-  
-  @IBOutlet weak var registerButton: UIButton!
-  
+  /// Button allowing end user to login to their account.
   @IBOutlet weak var loginButton: UIButton!
   
-  // MARK: Constants
+  /// Field for end user to enter password.
+  @IBOutlet weak var passwordTextField: UITextField!
   
-  /// Segue Identifier in Storyboard for this UIViewController to TabViewController
-  var SegueIdentifierThisToTab: String {
-    get {
-      return "LoginToTab"
-    }
-  }
-  
-  /// Segue Identifier in Storyboard for this UIViewController to RegisterViewController
-  var SegueIdentifierThisToRegister: String {
-    get {
-      return "LoginToRegister"
-    }
-  }
+  /// Button allowing end user to create a new account through RegisterViewController.
+  @IBOutlet weak var registerButton: UIButton!
   
   // MARK: UIViewController
   
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Make Root VCs retrieve their data after user logged in.
+    if segue.identifier == SegueIdentifiers.loginToTab {
+      if let destination = segue.destinationViewController as? TabViewController {
+        destination.forceDataRetrievalUponUnwinding()
+      }
+    }
+  }
+  
   override func viewDidLoad() {
-    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
-    fakeNavigationBar.translucent = false
-    registerButton.tintColor = UIColor.cilloBlue()
-    loginButton.backgroundColor = UIColor.cilloBlue()
+    super.viewDidLoad()
+    setupColorScheme()
+    setupOutletDelegates()
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets up the colors of the Outlets according to the default scheme of the app.
+  private func setupColorScheme() {
+    let scheme = ColorScheme.defaultScheme
+    registerButton.tintColor = scheme.touchableTextColor()
+    loginButton.backgroundColor = scheme.solidButtonBackgroundColor()
+    loginButton.tintColor = scheme.solidButtonTextColor()
+    emailTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    passwordTextField.backgroundColor = scheme.textFieldBackgroundColor()
+  }
+  
+  /// Sets any delegates of Outlets that were not set in the storyboard.
+  private func setupOutletDelegates() {
     passwordTextField.delegate = self
     emailTextField.delegate = self
   }
   
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
-  }
-  
-  /// Make Root VCs retrieve their data after user logged in.
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == SegueIdentifierThisToTab {
-      if let destination = segue.destinationViewController as? TabViewController {
-        for vc in destination.viewControllers! {
-          if let vc = vc as? FormattedNavigationViewController {
-            if let visibleVC = vc.topViewController as? HomeTableViewController {
-              visibleVC.retrieveData()
-            } else if let visibleVC = vc.topViewController as? MyGroupsTableViewController {
-              visibleVC.retrieveData()
-            } else if let visibleVC = vc.topViewController as? MeTableViewController {
-              visibleVC.retrieveData()
-            }
-          } else if let vc = vc as? HomeTableViewController {
-            vc.retrieveData()
-          } else if let vc = vc as? MyGroupsTableViewController {
-            vc.retrieveData()
-          } else if let vc = vc as? MeTableViewController {
-            vc.retrieveData()
-          }
-        }
-      }
-    } else if segue.identifier == SegueIdentifierThisToRegister {
-      // do not need to pass any data
-    }
-  }
-  
-  // MARK: Helper Functions
+  // MARK: Networking Helper Functions
   
   /// Sends login request to Cillo Servers.
   ///
@@ -95,18 +72,17 @@ class LogInViewController: UIViewController {
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Logging in...")
-    DataManager.sharedInstance.login(emailTextField.text, password: passwordTextField.text, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.login(emailTextField.text, password: passwordTextField.text) { error, result in
       activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(success: false)
       } else {
-        println(result!)
         NSUserDefaults.standardUserDefaults().setValue(result!, forKey: NSUserDefaults.Auth)
         completion(success: true)
       }
-    })
+    }
   }
   
   /// Sends a request to describe the logged in User to Cillo Servers.
@@ -114,65 +90,51 @@ class LogInViewController: UIViewController {
   /// If successful, NSUserDefaults will contain a value for .User.
   ///
   /// :param: completion The completion block for the request.
-  /// :param: success True if desribe request was successful. If error was received, it is false.
+  /// :param: success True if describe request was successful. If error was received, it is false.
   func retrieveMe(completion: (success: Bool) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
-    DataManager.sharedInstance.getSelfInfo( { (error, user) -> Void in
+    DataManager.sharedInstance.getSelfInfo { error, user in
       activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(success: false)
       } else {
-        println(user!)
         NSUserDefaults.standardUserDefaults().setValue(user!.userID, forKey: NSUserDefaults.User)
         completion(success: true)
       }
-    })
+    }
   }
   
   // MARK: IBActions
   
   /// Triggers segue to RegisterViewController.
+  ///
   /// :param: sender The button that is touched to send this function is registerButton.
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToRegister, sender: sender)
+    performSegueWithIdentifier(SegueIdentifiers.loginToRegister, sender: sender)
   }
   
   /// Triggers segue to TabViewController when loginButton is pressed if a login attempt is successful.
   ///
   /// :param: sender The button that is touched to send this function is loginButton.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
-    login( { (loginSuccess) -> Void in
+    login { loginSuccess in
       if loginSuccess {
-        self.retrieveMe( { (retrieveMeSuccess) -> Void in
+        self.retrieveMe { retrieveMeSuccess in
           if retrieveMeSuccess {
             let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
             alert.show()
-            self.performSegueWithIdentifier(self.SegueIdentifierThisToTab, sender: sender)
+            self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: sender)
           }
-        })
+        }
       }
-    })
+    }
   }
   
   /// Allows RegisterViewController to unwind its modal segue.
   @IBAction func unwindToLogin(sender: UIStoryboardSegue) {
-    
-  }
-  
-}
-
-extension LogInViewController: UIBarPositioningDelegate {
-  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-    return .TopAttached
   }
 }
 
-extension LogInViewController: UITextFieldDelegate {
-  
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
-    return true
-  }
-}
+

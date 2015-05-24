@@ -11,8 +11,8 @@
 		9509E0001A55F60B00F5083B /* Repost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9509DFFF1A55F60B00F5083B /* Repost.swift */; };
 		9530E0831A075073001DB24E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0821A075073001DB24E /* Comment.swift */; };
 		9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0841A0754B3001DB24E /* CommentCell.swift */; };
-		954382961A5A7F8A0036C237 /* SingleGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954382951A5A7F8A0036C237 /* SingleGroupTableViewController.swift */; };
-		954382991A5A7FAA0036C237 /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954382981A5A7FAA0036C237 /* GroupTableViewController.swift */; };
+		954382961A5A7F8A0036C237 /* SingleBoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */; };
+		954382991A5A7FAA0036C237 /* BoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954382981A5A7FAA0036C237 /* BoardTableViewController.swift */; };
 		95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */; };
 		95468AF119F99B8A00F158DE /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF019F99B8A00F158DE /* PostCell.swift */; };
 		95468AF319F99D7A00F158DE /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AF219F99D7A00F158DE /* Post.swift */; };
@@ -23,21 +23,24 @@
 		958321CB1A462048003F2034 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321CA1A462048003F2034 /* DataManager.swift */; };
 		9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */; };
 		9587A7341A43E8F2003CDE64 /* SingleUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */; };
-		9587A7381A43F09E003CDE64 /* MultipleGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */; };
+		9587A7381A43F09E003CDE64 /* MultipleBoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7371A43F09E003CDE64 /* MultipleBoardsTableViewController.swift */; };
 		9598667A1A5F90E4003181BC /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959866791A5F90E4003181BC /* RegisterViewController.swift */; };
-		959E0F0D1A2538C7008B4D19 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0C1A2538C7008B4D19 /* GroupCell.swift */; };
-		959E0F0F1A2538D7008B4D19 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0E1A2538D7008B4D19 /* Group.swift */; };
-		959E0F111A253A1E008B4D19 /* MyGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */; };
+		959E0F0D1A2538C7008B4D19 /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0C1A2538C7008B4D19 /* BoardCell.swift */; };
+		959E0F0F1A2538D7008B4D19 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0E1A2538D7008B4D19 /* Board.swift */; };
+		959E0F111A253A1E008B4D19 /* MyBoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */; };
 		95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A0575D1A463F6B000F7142 /* LogInViewController.swift */; };
 		95A057611A4640F2000F7142 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A057601A4640F2000F7142 /* TabViewController.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
 		95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */; };
 		95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */; };
 		95B2B6391A5B22E500EAE822 /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */; };
-		95B2B63C1A5B3A7100EAE822 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B63B1A5B3A7100EAE822 /* GroupsTableViewController.swift */; };
+		95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */; };
 		95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */; };
 		95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9F81A71C954008AFDB9 /* WebViewController.swift */; };
 		95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */; };
+		95C86D941B052EEB00D37B7E /* Schemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D931B052EEB00D37B7E /* Schemes.swift */; };
+		95C86D961B0533F200D37B7E /* StoryboardIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D951B0533F200D37B7E /* StoryboardIdentifiers.swift */; };
+		95C86D981B053ECD00D37B7E /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D971B053ECD00D37B7E /* CustomViewController.swift */; };
 		95D37C371AE86873008B362D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D37C361AE86873008B362D /* SettingsViewController.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
@@ -47,7 +50,7 @@
 		95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B019F8D2B400086BAF /* Images.xcassets */; };
 		95EFD2B419F8D2B400086BAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */; };
 		95EFD2C019F8D2B400086BAF /* CilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2BF19F8D2B400086BAF /* CilloTests.swift */; };
-		95F935B11A5DE11100F65022 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F935B01A5DE11100F65022 /* NewGroupViewController.swift */; };
+		95F935B11A5DE11100F65022 /* NewBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F935B01A5DE11100F65022 /* NewBoardViewController.swift */; };
 		9C7D4DE5A51ED97759C1ABCF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4B14E410488646383B73EA /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -80,8 +83,8 @@
 		9509DFFF1A55F60B00F5083B /* Repost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Repost.swift; path = Model/Repost.swift; sourceTree = "<group>"; };
 		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Model/Comment.swift; sourceTree = "<group>"; };
 		9530E0841A0754B3001DB24E /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = Model/Cells/CommentCell.swift; sourceTree = "<group>"; };
-		954382951A5A7F8A0036C237 /* SingleGroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleGroupTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleGroupTableViewController.swift"; sourceTree = "<group>"; };
-		954382981A5A7FAA0036C237 /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/GroupTableViewController.swift"; sourceTree = "<group>"; };
+		954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleBoardTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleBoardTableViewController.swift"; sourceTree = "<group>"; };
+		954382981A5A7FAA0036C237 /* BoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/BoardTableViewController.swift"; sourceTree = "<group>"; };
 		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/HomeTableViewController.swift"; sourceTree = "<group>"; };
 		95468AF019F99B8A00F158DE /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCell.swift; path = Model/Cells/PostCell.swift; sourceTree = "<group>"; };
 		95468AF219F99D7A00F158DE /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = Model/Post.swift; sourceTree = "<group>"; };
@@ -93,21 +96,24 @@
 		958321CA1A462048003F2034 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = Data/DataManager.swift; sourceTree = "<group>"; };
 		9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiplePostsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultiplePostsTableViewController.swift"; sourceTree = "<group>"; };
 		9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleUserTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleUserTableViewController.swift"; sourceTree = "<group>"; };
-		9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleGroupsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultipleGroupsTableViewController.swift"; sourceTree = "<group>"; };
+		9587A7371A43F09E003CDE64 /* MultipleBoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleBoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultipleBoardsTableViewController.swift"; sourceTree = "<group>"; };
 		959866791A5F90E4003181BC /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterViewController.swift; path = "View Controllers/Standard View Controllers/RegisterViewController.swift"; sourceTree = "<group>"; };
-		959E0F0C1A2538C7008B4D19 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupCell.swift; path = Model/Cells/GroupCell.swift; sourceTree = "<group>"; };
-		959E0F0E1A2538D7008B4D19 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = Model/Group.swift; sourceTree = "<group>"; };
-		959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyGroupsTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MyGroupsTableViewController.swift"; sourceTree = "<group>"; };
+		959E0F0C1A2538C7008B4D19 /* BoardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCell.swift; path = Model/Cells/BoardCell.swift; sourceTree = "<group>"; };
+		959E0F0E1A2538D7008B4D19 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Board.swift; path = Model/Board.swift; sourceTree = "<group>"; };
+		959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyBoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MyBoardsTableViewController.swift"; sourceTree = "<group>"; };
 		95A0575D1A463F6B000F7142 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogInViewController.swift; path = "View Controllers/Standard View Controllers/LogInViewController.swift"; sourceTree = "<group>"; };
 		95A057601A4640F2000F7142 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabViewController.swift; path = "View Controllers/Tab Bar Controllers/TabViewController.swift"; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPostViewController.swift; path = "Cillo/View Controllers/Standard View Controllers/NewPostViewController.swift"; sourceTree = SOURCE_ROOT; };
 		95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Supporting Files/Default-568h@2x.png"; sourceTree = "<group>"; };
 		95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/UserTableViewController.swift"; sourceTree = "<group>"; };
-		95B2B63B1A5B3A7100EAE822 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupsTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/GroupsTableViewController.swift"; sourceTree = "<group>"; };
+		95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/BoardsTableViewController.swift"; sourceTree = "<group>"; };
 		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglePostTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SinglePostTableViewController.swift"; sourceTree = "<group>"; };
 		95BEF9F81A71C954008AFDB9 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewController.swift; path = "View Controllers/Standard View Controllers/WebViewController.swift"; sourceTree = "<group>"; };
 		95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/CustomTableViewController.swift"; sourceTree = "<group>"; };
+		95C86D931B052EEB00D37B7E /* Schemes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Schemes.swift; path = "Supporting Files/Schemes.swift"; sourceTree = "<group>"; };
+		95C86D951B0533F200D37B7E /* StoryboardIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryboardIdentifiers.swift; path = "Supporting Files/StoryboardIdentifiers.swift"; sourceTree = "<group>"; };
+		95C86D971B053ECD00D37B7E /* CustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomViewController.swift; path = "View Controllers/Standard View Controllers/CustomViewController.swift"; sourceTree = "<group>"; };
 		95D37C361AE86873008B362D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/Standard View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Model/Cells/UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MeTableViewController.swift"; sourceTree = "<group>"; };
@@ -121,7 +127,7 @@
 		95EFD2B919F8D2B400086BAF /* CilloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CilloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2BE19F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2BF19F8D2B400086BAF /* CilloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CilloTests.swift; sourceTree = "<group>"; };
-		95F935B01A5DE11100F65022 /* NewGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewGroupViewController.swift; path = "View Controllers/Standard View Controllers/NewGroupViewController.swift"; sourceTree = "<group>"; };
+		95F935B01A5DE11100F65022 /* NewBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewBoardViewController.swift; path = "View Controllers/Standard View Controllers/NewBoardViewController.swift"; sourceTree = "<group>"; };
 		BA4B14E410488646383B73EA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,7 +174,7 @@
 				95468AF019F99B8A00F158DE /* PostCell.swift */,
 				954A5DE51A4D00E50011DB1C /* RepostCell.swift */,
 				9530E0841A0754B3001DB24E /* CommentCell.swift */,
-				959E0F0C1A2538C7008B4D19 /* GroupCell.swift */,
+				959E0F0C1A2538C7008B4D19 /* BoardCell.swift */,
 				95E496911A15208500154864 /* UserCell.swift */,
 			);
 			name = Cells;
@@ -180,7 +186,7 @@
 				95468AF219F99D7A00F158DE /* Post.swift */,
 				9509DFFF1A55F60B00F5083B /* Repost.swift */,
 				9530E0821A075073001DB24E /* Comment.swift */,
-				959E0F0E1A2538D7008B4D19 /* Group.swift */,
+				959E0F0E1A2538D7008B4D19 /* Board.swift */,
 				95A1C9341A0BE95600914DB0 /* User.swift */,
 			);
 			name = Model;
@@ -190,7 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
-				959E0F101A253A1E008B4D19 /* MyGroupsTableViewController.swift */,
+				959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */,
 				95E496931A1520AB00154864 /* MeTableViewController.swift */,
 			);
 			name = "Root TVCs";
@@ -200,9 +206,9 @@
 			isa = PBXGroup;
 			children = (
 				954D99A91A04865D002490C4 /* PostTableViewController.swift */,
-				954382981A5A7FAA0036C237 /* GroupTableViewController.swift */,
+				954382981A5A7FAA0036C237 /* BoardTableViewController.swift */,
 				95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */,
-				95B2B63B1A5B3A7100EAE822 /* GroupsTableViewController.swift */,
+				95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */,
 			);
 			name = "Other TVCs";
 			sourceTree = "<group>";
@@ -252,10 +258,10 @@
 			children = (
 				95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */,
 				9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */,
-				9587A7371A43F09E003CDE64 /* MultipleGroupsTableViewController.swift */,
+				9587A7371A43F09E003CDE64 /* MultipleBoardsTableViewController.swift */,
 				9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */,
 				95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */,
-				954382951A5A7F8A0036C237 /* SingleGroupTableViewController.swift */,
+				954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */,
 			);
 			name = "Parent TVCs";
 			sourceTree = "<group>";
@@ -263,10 +269,11 @@
 		9587A73A1A43F256003CDE64 /* VCs */ = {
 			isa = PBXGroup;
 			children = (
+				95C86D971B053ECD00D37B7E /* CustomViewController.swift */,
 				95A0575D1A463F6B000F7142 /* LogInViewController.swift */,
 				95D37C361AE86873008B362D /* SettingsViewController.swift */,
 				959866791A5F90E4003181BC /* RegisterViewController.swift */,
-				95F935B01A5DE11100F65022 /* NewGroupViewController.swift */,
+				95F935B01A5DE11100F65022 /* NewBoardViewController.swift */,
 				95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */,
 				95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */,
 				95BEF9F81A71C954008AFDB9 /* WebViewController.swift */,
@@ -326,6 +333,8 @@
 			children = (
 				95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */,
 				95062D0A1A0D2A6200B4162D /* Extensions.swift */,
+				95C86D931B052EEB00D37B7E /* Schemes.swift */,
+				95C86D951B0533F200D37B7E /* StoryboardIdentifiers.swift */,
 				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
 				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
 				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
@@ -508,28 +517,31 @@
 			files = (
 				9587A7341A43E8F2003CDE64 /* SingleUserTableViewController.swift in Sources */,
 				95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */,
-				95B2B63C1A5B3A7100EAE822 /* GroupsTableViewController.swift in Sources */,
+				95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */,
+				95C86D961B0533F200D37B7E /* StoryboardIdentifiers.swift in Sources */,
 				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
+				95C86D981B053ECD00D37B7E /* CustomViewController.swift in Sources */,
 				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
+				95C86D941B052EEB00D37B7E /* Schemes.swift in Sources */,
 				9509E0001A55F60B00F5083B /* Repost.swift in Sources */,
 				95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */,
-				95F935B11A5DE11100F65022 /* NewGroupViewController.swift in Sources */,
+				95F935B11A5DE11100F65022 /* NewBoardViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
 				95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
-				954382991A5A7FAA0036C237 /* GroupTableViewController.swift in Sources */,
+				954382991A5A7FAA0036C237 /* BoardTableViewController.swift in Sources */,
 				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				954A5DE61A4D00E50011DB1C /* RepostCell.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
 				958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */,
-				954382961A5A7F8A0036C237 /* SingleGroupTableViewController.swift in Sources */,
+				954382961A5A7F8A0036C237 /* SingleBoardTableViewController.swift in Sources */,
 				954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */,
-				959E0F0F1A2538D7008B4D19 /* Group.swift in Sources */,
-				959E0F0D1A2538C7008B4D19 /* GroupCell.swift in Sources */,
+				959E0F0F1A2538D7008B4D19 /* Board.swift in Sources */,
+				959E0F0D1A2538C7008B4D19 /* BoardCell.swift in Sources */,
 				95B2B6391A5B22E500EAE822 /* UserTableViewController.swift in Sources */,
-				959E0F111A253A1E008B4D19 /* MyGroupsTableViewController.swift in Sources */,
+				959E0F111A253A1E008B4D19 /* MyBoardsTableViewController.swift in Sources */,
 				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,
 				95E496921A15208500154864 /* UserCell.swift in Sources */,
 				95468AF319F99D7A00F158DE /* Post.swift in Sources */,
@@ -539,7 +551,7 @@
 				9598667A1A5F90E4003181BC /* RegisterViewController.swift in Sources */,
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
-				9587A7381A43F09E003CDE64 /* MultipleGroupsTableViewController.swift in Sources */,
+				9587A7381A43F09E003CDE64 /* MultipleBoardsTableViewController.swift in Sources */,
 				95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */,
 				95D37C371AE86873008B362D /* SettingsViewController.swift in Sources */,
 			);

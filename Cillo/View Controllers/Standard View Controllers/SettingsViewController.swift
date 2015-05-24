@@ -8,36 +8,71 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+// TODO: Update Storyboard constraints
+
+/// Handles changing settings of end user.
+class SettingsViewController: CustomViewController {
   
-  var user: User = User()
+  // MARK: Properties
   
-  var photoChanged: Bool = false
+  /// Flag that stores whether the user has changed their photo.
+  var photoChanged = false
   
-  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
+  /// User that is having their settings changed.
+  var user = User()
   
-  @IBOutlet weak var nameTextView: UITextView!
+  // MARK: IBOutlets
   
-  @IBOutlet weak var usernameTextView: UITextView!
+  // FIXME: Make the textviews textfields
   
+  /// Field for end user to enter a new bio.
   @IBOutlet weak var bioTextView: UITextView!
   
+  /// Button allowing end user to change their password.
   @IBOutlet weak var changePasswordButton: UIButton!
   
-  @IBOutlet weak var updatePhotoButton: UIButton!
+  /// Field for end user to enter a new name.
+  @IBOutlet weak var nameTextView: UITextView!
   
+  /// Button used to display the end user's selected profile picture.
   @IBOutlet weak var photoButton: UIButton!
   
-  class var SegueIdentifierThisToTab: String {
-    return "SettingsToTab"
+  /// Button allowing end user to change their profile picture.
+  @IBOutlet weak var updatePhotoButton: UIButton!
+  
+  /// Field for end user to enter a new username.
+  @IBOutlet weak var usernameTextView: UITextView!
+  
+  // MARK: UIViewController
+  
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == SegueIdentifiers.settingsToTab {
+      if let destination = segue.destinationViewController as? TabViewController {
+        destination.forceDataRetrievalUponUnwinding()
+      }
+    }
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
-    fakeNavigationBar.translucent = false
-    changePasswordButton.tintColor = UIColor.cilloBlue()
-    updatePhotoButton.tintColor = UIColor.cilloBlue()
+    setupColorScheme()
+    setupOutletAppearances()
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets up the colors of the Outlets according to the default scheme of the app.
+  private func setupColorScheme() {
+    let scheme = ColorScheme.defaultScheme
+    changePasswordButton.tintColor = scheme.touchableTextColor()
+    updatePhotoButton.tintColor = scheme.touchableTextColor()
+    nameTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    usernameTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    bioTextView.backgroundColor = scheme.textFieldBackgroundColor()
+  }
+  
+  /// Sets up the appearance of Outlets that were not set in the storyboard.
+  private func setupOutletAppearances() {
     nameTextView.text = user.name
     usernameTextView.text = user.username
     bioTextView.text = user.bio
@@ -45,18 +80,63 @@ class SettingsViewController: UIViewController {
     photoButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
   }
   
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
+  // MARK: Network Helper Functions
+  
+  /// Updates the end user's password on the cillo servers.
+  ///
+  /// :param: old The old password of the end user.
+  /// :param: new The new password of the end user.
+  /// :param: completion The completion block for the server call.
+  /// :param: success True if this request was successful. If error was received, it is false.
+  func updatePasswordFrom(old: String, to new: String, completion: (success: Bool) -> Void) {
+    DataManager.sharedInstance.updatePassword(oldPassword: old, newPassword: new) { error, success in
+      if let error = error {
+        println(error)
+        error.showAlert()
+        completion(success: false)
+      } else {
+        completion(success: true)
+      }
+    }
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == SettingsViewController.SegueIdentifierThisToTab {
-      if let sender = sender as? User {
-        let destination = segue.destinationViewController as! TabViewController
-        if let navController = destination.viewControllers?[2] as? FormattedNavigationViewController {
-          if let meVC = navController.topViewController as? MeTableViewController {
-            meVC.retrieveData()
+  /// Updates the end user's settings on Cillo servers.
+  ///
+  /// :param: completion The completion block for the server call.
+  /// :param: user The updated user object after settings are updated.
+  /// :param: * Nil if there was an error in the server call.
+  func updateSettings(completion: (user: User?) -> Void) {
+    let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
+    let newName = nameTextView.text != user.name ? nameTextView.text : nil
+    let newUsername = usernameTextView.text != user.username ? usernameTextView.text : nil
+    let newBio = bioTextView.text != user.bio ? bioTextView.text : nil
+    if let photo = photoButton.backgroundImageForState(.Normal) where photoChanged {
+      uploadImage(photo) { mediaID in
+        if let mediaID = mediaID {
+          DataManager.sharedInstance.editSelfSettings(newName: newName, newUsername: newUsername, newMediaID: mediaID, newBio: newBio) { error, result in
+            activityIndicator.removeFromSuperview()
+            if let error = error {
+              println(error)
+              error.showAlert()
+              completion(user: nil)
+            } else {
+              completion(user: result!)
+            }
           }
+        } else {
+          activityIndicator.removeFromSuperview()
+          completion(user: nil)
+        }
+      }
+    } else {
+      DataManager.sharedInstance.editSelfSettings(newName: newName, newUsername: newUsername, newMediaID: nil, newBio: newBio) { error, result in
+        activityIndicator.removeFromSuperview()
+        if let error = error {
+          println(error)
+          error.showAlert()
+          completion(user: nil)
+        } else {
+          completion(user: result!)
         }
       }
     }
@@ -68,184 +148,123 @@ class SettingsViewController: UIViewController {
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
-    let imageData = UIImageJPEGRepresentation(image, 0.5)
+    let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.imageUpload(imageData, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.imageUpload(imageData) { error, result in
       activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(mediaID: nil)
       } else {
         completion(mediaID: result!)
       }
-    })
-  }
-  
-  func updateSettings(completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
-    let newName = nameTextView.text != user.name ? nameTextView.text : nil
-    let newUsername = usernameTextView.text != user.username ? usernameTextView.text : nil
-    let newBio = bioTextView.text != user.bio ? bioTextView.text : nil
-    if photoChanged {
-      uploadImage(photoButton.backgroundImageForState(.Normal)!, completion: { (mediaID) in
-        if mediaID == nil {
-          completion(user: nil)
-        } else {
-          DataManager.sharedInstance.editSelfSettings(newName: newName, newUsername: newUsername, newMediaID: mediaID!, newBio: newBio, completion: { (error, result) -> Void in
-            activityIndicator.removeFromSuperview()
-            if error != nil {
-              println(error!)
-              error!.showAlert()
-              completion(user: nil)
-            } else {
-              completion(user: result!)
-            }
-          })
-        }
-      })
-    } else {
-      DataManager.sharedInstance.editSelfSettings(newName: newName, newUsername: newUsername, newMediaID: nil, newBio: newBio, completion: { (error, result) -> Void in
-        activityIndicator.removeFromSuperview()
-        if error != nil {
-          println(error!)
-          error!.showAlert()
-          completion(user: nil)
-        } else {
-          completion(user: result!)
-        }
-      })
     }
-    
   }
   
-  func updatePassword(#old: String, new: String, completion: (success: Bool) -> Void) {
-    DataManager.sharedInstance.updatePassword(oldPassword: old, newPassword: new, completion: { (error, success) in
-      if error != nil {
-        println(error!)
-        error!.showAlert()
-        completion(success: false)
-      } else {
-        completion(success: true)
-      }
-    })
-  }
+  // MARK: Change Password Alert Related Helper Functions
   
-  @IBAction func saveChanges(sender: UIBarButtonItem) {
-    updateSettings( { (user) in
-      if user != nil {
-        self.performSegueWithIdentifier(SettingsViewController.SegueIdentifierThisToTab, sender: user!)
-      }
-    })
-  }
-  
-  
-  @IBAction func changePassword(sender: UIButton) {
+  /// Presents an AlertController that allows the end user to change their password.
+  private func presentChangePasswordAlert() {
     let alert = UIAlertController(title: "Change Password", message: nil, preferredStyle: .Alert)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
-    })
-    let okAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+    }
+    let okAction = UIAlertAction(title: "OK", style: .Default) { _ in
       let oldTextField = alert.textFields![0] as! UITextField
       let newTextField = alert.textFields![1] as! UITextField
       let verifyTextField = alert.textFields![2] as! UITextField
       if newTextField.text == verifyTextField.text {
-        self.updatePassword(old: oldTextField.text, new: newTextField.text, completion: { (success) in
+        self.updatePasswordFrom(oldTextField.text, to: newTextField.text) { success in
           if success {
-            let successAlert = UIAlertController(title: "Success", message: "Password successfully updated", preferredStyle: .Alert)
-            let successOkAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-            })
-            successAlert.addAction(successOkAction)
-            self.presentViewController(successAlert, animated: true, completion: nil)
+            self.presentSuccessfulPasswordUpdateAlert()
           } else {
-            let failureAlert = UIAlertController(title: "Failure", message: "Failed to update password", preferredStyle: .Alert)
-            let failureOkAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-            })
-            failureAlert.addAction(failureOkAction)
-            self.presentViewController(failureAlert, animated: true, completion: nil)
+            self.presentFailedPasswordUpdateAlert()
           }
-        })
+        }
       } else {
-        let failureAlert = UIAlertController(title: "Failure", message: "Failed to update password", preferredStyle: .Alert)
-        let failureOkAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-        })
-        failureAlert.addAction(failureOkAction)
-        self.presentViewController(failureAlert, animated: true, completion: nil)
+        self.presentFailedPasswordUpdateAlert()
       }
-    })
-    alert.addTextFieldWithConfigurationHandler( { (textField) in
+    }
+    alert.addTextFieldWithConfigurationHandler { textField in
       textField.placeholder = "Old Password"
-    })
-    alert.addTextFieldWithConfigurationHandler( { (textField) in
+    }
+    alert.addTextFieldWithConfigurationHandler { textField in
       textField.placeholder = "New Password"
-    })
-    alert.addTextFieldWithConfigurationHandler( { (textField) in
+    }
+    alert.addTextFieldWithConfigurationHandler { textField in
       textField.placeholder = "Verify New Password"
-    })
+    }
     alert.addAction(okAction)
     alert.addAction(cancelAction)
     presentViewController(alert, animated: true, completion: nil)
   }
   
-  @IBAction func changePhoto(sender: UIButton) {
-    let actionSheet = UIAlertController(title: "Change Profile Picture", message: nil, preferredStyle: .ActionSheet)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
-    })
-    let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default, handler:  { (action) in
-      let pickerController = UIImagePickerController()
-      pickerController.delegate = self
-      self.presentViewController(pickerController, animated: true, completion: nil)
-    })
-    let cameraAction = UIAlertAction(title: "Take Photo", style: .Default, handler: { (action) in
-      let pickerController = UIImagePickerController()
-      pickerController.delegate = self
-      if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-        pickerController.sourceType = .Camera
-      }
-      self.presentViewController(pickerController, animated: true, completion: nil)
-    })
-    actionSheet.addAction(cancelAction)
-    actionSheet.addAction(pickerAction)
-    actionSheet.addAction(cameraAction)
-    presentViewController(actionSheet, animated: true, completion: nil)
+  /// Presents an AlertController that tells the end user that their password was not updated successfully.
+  private func presentFailedPasswordUpdateAlert() {
+    let failureAlert = UIAlertController(title: "Failure", message: "Failed to update password", preferredStyle: .Alert)
+    let failureOkAction = UIAlertAction(title: "OK", style: .Default) { _ in
+    }
+    failureAlert.addAction(failureOkAction)
+    presentViewController(failureAlert, animated: true, completion: nil)
   }
-
+  
+  /// Presents an AlertController that tells the end user that they successfully updated their password.
+  private func presentSuccessfulPasswordUpdateAlert() {
+    let successAlert = UIAlertController(title: "Success", message: "Password successfully updated", preferredStyle: .Alert)
+    let successOkAction = UIAlertAction(title: "OK", style: .Default) { _ in
+    }
+    successAlert.addAction(successOkAction)
+    presentViewController(successAlert, animated: true, completion: nil)
+  }
+  
+  // MARK: IBActions
+  
+  /// Presents an AlertController with 3 textfields allowing the end user to change their password. Depending on the result, presents a success or error message.
+  ///
+  /// :param: sender The button that is touched to send this function is changePasswordButton
+  @IBAction func changePassword(sender: UIButton) {
+    presentChangePasswordAlert()
+  }
+  
+  /// Presents an AlertController with ActionSheet style that allows the user to choose a new profile picture.
+  ///
+  /// :param: sender The button that is touched to send this function is changePhotoButton
+  @IBAction func changePhoto(sender: UIButton) {
+    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
+  }
+  /// Saves new settings to server. If successful, unwinds this view controller back to the tab bar.
+  ///
+  /// :param: sender The bar button item that is labeled Save.
+  @IBAction func saveChanges(sender: UIBarButtonItem) {
+    updateSettings { user in
+      if let user = user {
+        self.performSegueWithIdentifier(SegueIdentifiers.settingsToTab, sender: user)
+      }
+    }
+  }
 }
+
+// MARK: - UIImagePickerControllerDelegate
 
 extension SettingsViewController: UIImagePickerControllerDelegate {
   
-  // MARK: UIImagePickerControllerDelegate
-  
-  /// Handles the instance in which an image was picked by a UIImagePickerController presented by this MeTableViewController.
-  ///
-  /// :param: picker The UIImagePickerController presented by this MeTableViewController.
-  /// :param: info The dictionary containing the selected image's data.
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       photoButton.setBackgroundImage(image, forState: .Normal)
       photoButton.setBackgroundImage(image, forState: .Highlighted)
       photoChanged = true
     }
-    self.dismissViewControllerAnimated(true, completion: nil)
+    dismissViewControllerAnimated(true, completion: nil)
   }
   
-  /// Handles the instance in which the user cancels the selection of an image by a UIImagePickerController presented by this MeTableViewController.
-  ///
-  /// :param: picker The UIImagePickerController presented by this MeTableViewController.
   func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+    dismissViewControllerAnimated(true, completion: nil)
   }
-  
 }
+
+// MARK: - UINavigationControllerDelegate
 
 // Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
 extension SettingsViewController: UINavigationControllerDelegate {
-  
-  // MARK: UINavigationControllerDelegate
-  
 }
 
-extension SettingsViewController: UIBarPositioningDelegate {
-  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-    return .TopAttached
-  }
-}

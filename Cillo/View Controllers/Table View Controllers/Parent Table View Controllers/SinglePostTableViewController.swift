@@ -8,20 +8,28 @@
 
 import UIKit
 
-// TODO: Image Posts
-
-/// Inherit this class for any UITableViewController that is a UserCell followed by PostCells and CommentCells.
+/// Inherit this class for any UITableViewController that is a PostCell followed by a comment tree of CommentCells.
 ///
-/// **Note:** Subclasses must override SegueIdentifierThisToGroup and SegueIdentifierThisToUser.
+/// **Note:** Subclasses must override segueIdentifierThisToBoard and segueIdentifierThisToUser.
 class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: Properties
   
-  /// Post that is shown in this UITableViewController.
-  var post: Post = Post()
+  /// Comment tree corresponding to `post`.
+  var commentTree = [Comment]()
   
-  /// Comment tree corresponding to post.
-  var commentTree: [Comment] = []
+  /// The `showImages` value of the post in the view controller under this view controller in the navigation stack.
+  var mainShowImages = false
+  
+  /// Post that is represented by this view controller.
+  var post = Post() {
+    didSet {
+      post.showImages = true
+      if let post = post as? Repost {
+        post.originalPost.showImages = true
+      }
+    }
+  }
   
   /// Index path of a selected Comment in tableView.
   /// 
@@ -30,55 +38,41 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Nil if no CommentCell is selected.
   var selectedPath: NSIndexPath?
   
-  var mainShowImages: Bool = false
-  
   // MARK: Constants
   
-  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
+  /// Tag of all buttons in the PostCell representing `post`
+  let postCellTag = 1000000
+  
+  /// Segue Identifier in Storyboard for segue to BoardTableViewController.
   ///
   /// **Note:** Subclasses must override this Constant.
-  var SegueIdentifierThisToGroup: String {
-    get {
-      return ""
-    }
+  var segueIdentifierThisToBoard: String {
+    fatalError("Subclasses of SinglePostTableViewController must override segue identifiers")
   }
   
-  /// Segue Identifier in Storyboard for this UITableViewController to UserTableViewController.
+  /// Segue Identifier in Storyboard for segue to UserTableViewController.
   ///
   /// **Note:** Subclasses must override this Constant.
-  var SegueIdentifierThisToUser: String {
-    get {
-      return ""
-    }
+  var segueIdentifierThisToUser: String {
+    fatalError("Subclasses of SinglePostTableViewController must override segue identifiers")
   }
   
   // MARK: UIViewController
   
-  /// Handles passing of data when navigation between UIViewControllers occur.
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == SegueIdentifierThisToGroup {
-      var destination = segue.destinationViewController as! GroupTableViewController
-      if let post = post as? Repost {
-        if let sender = sender as? UIButton {
-          if sender.tag > -1000000 {
-            destination.group = post.group
-          } else {
-            destination.group = post.originalPost.group
-          }
-        }
+    if segue.identifier == segueIdentifierThisToBoard {
+      var destination = segue.destinationViewController as! BoardTableViewController
+      if let post = post as? Repost, sender = sender as? UIButton where sender.tag == postCellTag + RepostCell.tagModifier {
+            destination.board = post.originalPost.board
       } else {
-        destination.group = post.group
+        destination.board = post.board
       }
-    } else if segue.identifier == SegueIdentifierThisToUser {
+    } else if segue.identifier == segueIdentifierThisToUser {
       var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
-        if sender.tag == -1 || sender.tag == -1000000 {
-          if let post = post as? Repost {
-            if sender.tag > -1000000 {
-              destination.user = post.user
-            } else {
+        if sender.tag >= postCellTag {
+          if let post = post as? Repost where sender.tag == postCellTag + RepostCell.tagModifier {
               destination.user = post.originalPost.user
-            }
           } else {
             destination.user = post.user
           }
@@ -99,79 +93,25 @@ class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: UITableViewDataSource
   
-  /// Assigns 2 sections in this UITableViewController.
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    // Placing the PostCell in the first section and the comment tree in the second section.
     return 2
   }
   
-  /// Assigns the number of rows in tableView based on the size of the commentTree.
+  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    if indexPath.section == 0 {
+      return dequeueAndSetupPostCellForIndexPath(indexPath)
+    } else {
+      return dequeueAndSetupCommentCellForIndexPath(indexPath)
+    }
+  }
+  
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return section == 0 ? 1 : commentTree.count
   }
   
-  /// Creates PostCell if row number is zero and CommentCell based on row number of indexPath.
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if indexPath.section == 0 { // Make a Post Cell for only first section
-      var cell: PostCell
-      if let post = post as? Repost {
-        cell = tableView.dequeueReusableCellWithIdentifier(RepostCell.ReuseIdentifier, forIndexPath: indexPath) as! RepostCell
-        post.originalPost.showImages = true
-      } else {
-        cell = tableView.dequeueReusableCellWithIdentifier(PostCell.ReuseIdentifier, forIndexPath: indexPath) as! PostCell
-      }
-      post.showImages = true
-      cell.makeCellFromPost(post, withButtonTag: -1)
-      cell.postTTTAttributedLabel.delegate = self
-      if let cell = cell as? RepostCell {
-        cell.originalPostTTTAttributedLabel.delegate = self
-      }
-      return cell
-    } else { // Make a CommentCell for all rows past the first section
-      let cell = tableView.dequeueReusableCellWithIdentifier(CommentCell.ReuseIdentifier, forIndexPath: indexPath) as! CommentCell
-      
-      let comment = commentTree[indexPath.row]
-      
-      comment.post = post
-      
-      cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row)
-      cell.commentTTTAttributedLabel.delegate = self
-      
-      // Makes separator indented
-      // UIEdgeInsetsMake(top, left, bottom, right)
-      if indexPath.row != commentTree.count - 1 {
-        if indexPath.row + 1 == selectedPath?.row {
-          cell.separatorInset = UIEdgeInsetsZero
-        } else if cell.indentationLevel < commentTree[indexPath.row].predictedIndentLevel(selected: false) {
-          cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
-        } else {
-          cell.separatorInset = UIEdgeInsetsMake(0, commentTree[indexPath.row + 1].predictedIndentSize(selected: false), 0, 0)
-        }
-      }
-      
-      return cell
-    }
-    
-  }
-  
   // MARK: UITableViewDelegate
   
-  /// Sets height of cell to appropriate value.
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 { // PostCell
-      return PostCell.heightOfPostCellForPost(post, withElementWidth: PrototypeTextViewWidth, maxContractedHeight: nil, andDividerHeight: 0)
-    }
-    // is a CommentCell
-    return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: PrototypeTextViewWidth, selectedState: selectedPath == indexPath, andDividerHeight: 0)
-  }
-  
-  /// Returns the indentationLevel for the indexPath.
-  ///
-  /// **Note:** Cannot exceed 5 to keep cells from getting too small
-  override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
-    return indexPath.section == 0 ? 0 : commentTree[indexPath.row].predictedIndentLevel(selected: indexPath == selectedPath)
-  }
-  
-  /// Updates selectedPath when a new cell is selected.
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     if selectedPath != indexPath {
       selectedPath = indexPath
@@ -181,26 +121,82 @@ class SinglePostTableViewController: CustomTableViewController {
     tableView.reloadData()
   }
   
+  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    if indexPath.section == 0 {
+      return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: nil, andDividerHeight: 0)
+    }
+    return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: selectedPath == indexPath, andDividerHeight: 0)
+  }
   
+  override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
+    return indexPath.section == 0 ? 0 : commentTree[indexPath.row].predictedIndentLevel(selected: indexPath == selectedPath)
+  }
   
-  // MARK: Helper Functions
+  // MARK: Setup Helper Functions
   
-  /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
+  /// Makes a CommentCell for the corresponding comment in `commentTree` based on the passed indexPath.
   ///
-  /// :param: completion The completion block for the upvote.
-  /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePost(completion: (success: Bool) -> Void) {
-    DataManager.sharedInstance.postUpvote(post.postID, completion: { (error, success) -> Void in
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created CommentCell.
+  func dequeueAndSetupCommentCellForIndexPath(indexPath: NSIndexPath) -> CommentCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.commentCell, forIndexPath: indexPath) as! CommentCell
+    let comment = commentTree[indexPath.row]
+    comment.post = post
+    cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row)
+    cell.assignDelegatesForCellTo(self)
+    
+    // Makes separator indented
+    // UIEdgeInsetsMake(top, left, bottom, right)
+    if indexPath.row != commentTree.count - 1 {
+      if indexPath.row + 1 == selectedPath?.row {
+        cell.separatorInset = UIEdgeInsetsZero
+      } else if cell.indentationLevel < commentTree[indexPath.row].predictedIndentLevel(selected: false) {
+        cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
+      } else {
+        cell.separatorInset = UIEdgeInsetsMake(0, commentTree[indexPath.row + 1].predictedIndentSize(selected: false), 0, 0)
+      }
+    }
+    
+    return cell
+  }
+  
+  /// Makes a PostCell for `post`.
+  ///
+  /// If the post is a Repost, the returned PostCell will be a RepostCell.
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created PostCell.
+  func dequeueAndSetupPostCellForIndexPath(indexPath: NSIndexPath) -> PostCell {
+    var cell: PostCell
+    if let post = post as? Repost {
+      cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
+    } else {
+      cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
+    }
+    cell.makeCellFromPost(post, withButtonTag: indexPath.row)
+    cell.assignDelegatesForCellTo(self)
+    return cell
+  }
+  
+  // MARK: Networking Helper Functions
+  
+  /// Sends downvote request to Cillo Servers for the comment at the specified index in commentTree.
+  ///
+  /// :param: index The index of the comment being downvoted in the commentTree array.
+  /// :param: completion The completion block for the downvote.
+  /// :param: success True if downvote request was successful. If error was received, it is false.
+  func downvoteCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    DataManager.sharedInstance.commentDownvote(commentTree[index].commentID) { error, success in
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(success: false)
       } else {
-        if success {
-          completion(success: true)
-        }
+        completion(success: success)
       }
-    })
+    }
   }
   
   /// Sends downvote request to Cillo Servers for the post that this UIViewController is representing.
@@ -208,17 +204,15 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completion The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePost(completion: (success: Bool) -> Void) {
-    DataManager.sharedInstance.postDownvote(post.postID, completion: { (error, success) -> Void in
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+    DataManager.sharedInstance.postDownvote(post.postID) { error, success in
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(success: false)
       } else {
-        if success {
-          completion(success: true)
-        }
+        completion(success: success)
       }
-    })
+    }
   }
   
   /// Sends upvote request to Cillo Servers for the comment at the specified index in commentTree.
@@ -227,80 +221,48 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completion The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvoteCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
-    DataManager.sharedInstance.commentUpvote(commentTree[index].commentID, completion: { (error, success) -> Void in
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+    DataManager.sharedInstance.commentUpvote(commentTree[index].commentID) { error, success in
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(success: false)
       } else {
-        if success {
-          completion(success: true)
-        }
+        completion(success: success)
       }
-    })
+    }
   }
   
-  /// Sends downvote request to Cillo Servers for the comment at the specified index in commentTree.
+  /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
-  /// :param: index The index of the comment being downvoted in the commentTree array.
-  /// :param: completion The completion block for the downvote.
-  /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvoteCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
-    DataManager.sharedInstance.commentDownvote(commentTree[index].commentID, completion: { (error, success) -> Void in
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+  /// :param: completion The completion block for the upvote.
+  /// :param: success True if upvote request was successful. If error was received, it is false.
+  func upvotePost(completion: (success: Bool) -> Void) {
+    DataManager.sharedInstance.postUpvote(post.postID) { error, success in
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(success: false)
       } else {
-        if success {
-          completion(success: true)
-        }
+        completion(success: success)
       }
-    })
+    }
   }
 
   // MARK: IBActions
   
-  /// Triggers segue to UserTableViewController.
+  /// Downvotes a comment.
   ///
-  /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a PostCell or a CommentCell.
-  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToUser, sender: sender)
-  }
-  
-  /// Triggers segue to GroupTableViewController.
-  ///
-  /// :param: sender The button that is touched to send this function is a groupButton in a PostCell or an originalGroupButton in a RepostCell.
-  @IBAction func triggerGroupSegueOnButton(sender: UIButton) {
-    self.performSegueWithIdentifier(SegueIdentifierThisToGroup, sender: sender)
-  }
-  
-  /// Reposts a post.
-  ///
-  /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
-  @IBAction func repostPressed(sender: UIButton) {
-    if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewRepost, sender: post)
-    }
-  }
-  
-  /// Upvotes a post.
-  ///
-  /// :param: sender The button that is touched to send this function is a upvoteButton in a PostCell.
-  @IBAction func upvotePostPressed(sender: UIButton) {
-    if post.voteValue != 1 {
-      upvotePost( { (success) -> Void in
+  /// :param: sender The button that is touched to send this function is a downvoteButton in a CommentCell.
+  @IBAction func downvoteCommentPressed(sender: UIButton) {
+    let comment = commentTree[sender.tag]
+    if comment.voteValue != -1 {
+      downvoteCommentAtIndex(sender.tag) { success in
         if success {
-          if self.post.voteValue == 0 {
-            self.post.rep++
-          } else if self.post.voteValue == -1 {
-            self.post.rep += 2
-          }
-          self.post.voteValue = 1
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          comment.downvote()
+          let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+          self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
         }
-      })
+      }
     }
   }
   
@@ -309,19 +271,50 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: sender The button that is touched to send this function is a downvoteButton in a PostCell.
   @IBAction func downvotePostPressed(sender: UIButton) {
     if post.voteValue != -1 {
-      downvotePost( { (success) -> Void in
+      downvotePost { success in
         if success {
-          if self.post.voteValue == 0 {
-            self.post.rep--
-          } else if self.post.voteValue == 1 {
-            self.post.rep -= 2
-          }
-          self.post.voteValue = -1
+          self.post.downvote()
           let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
-      })
+      }
     }
+  }
+  
+  /// Presents another instance of this ViewController representing the originalPost of `post` if `post` is a Repost.
+  ///
+  /// **Note:** The position of the Post is known via the tag of the button with the RepostCell.tagModifier taken into account.
+  ///
+  /// :param: sender The button that is touched to send this function is an originalPostButton in a RepostCell.
+  @IBAction func goToOriginalPost(sender: UIButton) {
+    if let post = post as? Repost {
+      let postViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
+      postViewController.post = post.originalPost
+      navigationController?.pushViewController(postViewController, animated: true)
+    }
+  }
+  
+  /// Reposts a post.
+  ///
+  /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
+  @IBAction func repostPressed(sender: UIButton) {
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewRepost, sender: post)
+    }
+  }
+  
+  /// Triggers segue to BoardTableViewController.
+  ///
+  /// :param: sender The button that is touched to send this function is a boardButton in a PostCell or an originalBoardButton in a RepostCell.
+  @IBAction func triggerBoardSegueOnButton(sender: UIButton) {
+    performSegueWithIdentifier(segueIdentifierThisToBoard, sender: sender)
+  }
+  
+  /// Triggers segue to UserTableViewController.
+  ///
+  /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a PostCell or a CommentCell.
+  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
+    performSegueWithIdentifier(segueIdentifierThisToUser, sender: sender)
   }
   
   /// Upvotes a comment.
@@ -330,48 +323,28 @@ class SinglePostTableViewController: CustomTableViewController {
   @IBAction func upvoteCommentPressed(sender: UIButton) {
     let comment = commentTree[sender.tag]
     if comment.voteValue != 1 {
-      upvoteCommentAtIndex(sender.tag, completion: { (success) -> Void in
+      upvoteCommentAtIndex(sender.tag) { success in
         if success {
-          if comment.voteValue == 0 {
-            comment.rep++
-          } else if comment.voteValue == -1 {
-            comment.rep += 2
-          }
-          comment.voteValue = 1
+          comment.upvote()
           let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
           self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
         }
-      })
+      }
     }
   }
   
-  /// Downvotes a comment.
+  /// Upvotes a post.
   ///
-  /// :param: sender The button that is touched to send this function is a downvoteButton in a CommentCell.
-  @IBAction func downvoteCommentPressed(sender: UIButton) {
-    let comment = commentTree[sender.tag]
-    if comment.voteValue != -1 {
-      downvoteCommentAtIndex(sender.tag, completion: { (success) -> Void in
+  /// :param: sender The button that is touched to send this function is a upvoteButton in a PostCell.
+  @IBAction func upvotePostPressed(sender: UIButton) {
+    if post.voteValue != 1 {
+      upvotePost { success in
         if success {
-          if comment.voteValue == 0 {
-            comment.rep--
-          } else if comment.voteValue == 1 {
-            comment.rep -= 2
-          }
-          comment.voteValue = -1
-          let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+          self.post.upvote()
+          let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
         }
-      })
+      }
     }
   }
-  
-  @IBAction func goToOriginalPost(sender: UIButton) {
-    if let post = post as? Repost {
-      let postViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(PostTableViewController.StoryboardIdentifier) as! PostTableViewController
-      postViewController.post = post.originalPost
-      navigationController?.pushViewController(postViewController, animated: true)
-    }
-  }
-  
 }

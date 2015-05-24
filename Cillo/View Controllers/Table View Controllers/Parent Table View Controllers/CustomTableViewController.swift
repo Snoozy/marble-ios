@@ -9,69 +9,64 @@
 import UIKit
 import TTTAttributedLabel
 
-// TODO: Document.
+/// Any UITableViewController in this app should subclass this class.
+///
+/// **Note:** Subclasses must override retrieveData(_:).
 class CustomTableViewController: UITableViewController {
+  
+  // MARK: Properties
+  
+  /// Flag to tell if a large amount of data is being retrieved from the server at this time.
+  var retrievingPage = false
   
   // MARK: Constants
   
-  /// Width of textView in UITableViewCell.
-  var PrototypeTextViewWidth: CGFloat {
-    get {
-      return tableView.frame.size.width - 16
-    }
+  /// Max height of postTextView in a PostCell before it is expanded by seeFullButton.
+  var maxContractedHeight: CGFloat {
+    return tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded
   }
   
-  /// Max height of postTextView in a PostCell before it is expanded by seeFullButton.
-  var MaxContractedHeight: CGFloat {
-    get {
-      return tableView.frame.height * 0.625 - PostCell.AdditionalVertSpaceNeeded
-    }
+  /// The width of the screen with 8px margins.
+  var tableViewWidthWithMargins: CGFloat {
+    return tableView.frame.size.width - 16
   }
   
   // MARK: UIViewController
   
-  /// Establishes a UIRefreshControl that is attached to the retrieveData() function.
   override func viewDidLoad() {
     super.viewDidLoad()
+    // Establishes a UIRefreshControl that responds to the retrieveData() function.
     refreshControl = UIRefreshControl()
     refreshControl!.addTarget(self, action: "retrieveData", forControlEvents: .ValueChanged)
     tableView.addSubview(refreshControl!)
   }
   
-  // MARK: Helper Functions
+  // MARK: Networking Helper Functions
   
-  /// Used to retrieve all necessary data to display UITableViewCells in this UITableViewController.
+  /// Used to retrieve all necessary data to display UITableViewCells in this CustomTableViewController.
   ///
   /// **Note:** This function does nothing unless overriden. Subclasses should override this function to retrieve data from the Cillo servers.
   ///
   /// **Note:** The overriden function should contain tableView.reloadData() and refreshControl?.endResfreshing()
   func retrieveData() {
+    fatalError("Subclasses of CustomTableViewController must override retrieveData()")
   }
+  
+  // MARK: IBActions
   
   /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
   @IBAction func triggerNewPostSegueOnButton(sender: UIBarButtonItem) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(TabViewController.SegueIdentifierThisToNewPost, sender: sender)
+      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewPost, sender: sender)
     }
   }
-
 }
 
-extension CustomTableViewController: UITabBarControllerDelegate {
-  
-//  // MARK: UITabBarControllerDelegate
-//  
-//  /// Scrolls tableView back to top if a tab that is already selected is pressed again.
-//  func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-//    if navigationController == viewController {
-//      tableView.setContentOffset(CGPointZero, animated: true)
-//    }
-//  }
-  
-}
+// MARK: - TTTAttributedLabelDelegate
 
 extension CustomTableViewController: TTTAttributedLabelDelegate {
 
+  /// Opens all links in WebViewControllers.
   func attributedLabel(label: TTTAttributedLabel, didSelectLinkWithURL url: NSURL) {
     let webViewController = WebViewController()
     webViewController.urlToLoad = url

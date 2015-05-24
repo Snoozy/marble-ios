@@ -11,26 +11,8 @@ import UIKit
 /// Defines all properties of a Repost on Cillo.
 class Repost: Post {
   
-  /// The original Post
-  var originalPost: Post = Post()
-  
-  /// Used to print properties in println statements.
-  override var description: String {
-    let none = "N/A"
-    var vote = "Has not voted"
-    if voteValue == 1 {
-      vote = "Upvoted"
-    } else if voteValue == -1 {
-      vote = "Downvoted"
-    }
-    var expanded = "Expanded by Default"
-    if seeFull != nil && seeFull! {
-      expanded = "Expanded"
-    } else if seeFull != nil && !seeFull! {
-      expanded = "Not Expanded Yet"
-    }
-    return "Repost {\n  Post ID: \(postID)\n  Title: \(title != nil ? title : none)\n  Text: \(text)\n  User: \(user)\n  Group: \(group)\n  Original Post: \(originalPost)\n  Time: \(time)\n  Number of Comments: \(numComments)\n  Reputation: \(rep)\n  Vote Value: \(vote)\n  Expansion Status: \(expanded)\n}\n"
-  }
+  /// The original Post that was reposted by this post.
+  var originalPost = Post()
   
   /// Creates Repost based on a swiftyJSON retrieved from a call to the Cillo servers.
   ///
@@ -58,5 +40,4 @@ class Repost: Post {
   override init() {
     super.init()
   }
-  
 }

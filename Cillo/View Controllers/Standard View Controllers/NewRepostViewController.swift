@@ -8,143 +8,176 @@
 
 import UIKit
 
-class NewRepostViewController: UIViewController {
+// TODO: Update Storyboard constraints
 
-  var postToRepost: Post = Post()
+/// Handles reposting of existing posts.
+class NewRepostViewController: CustomViewController {
+
+  // MARK: Properties
   
-  var SegueIdentifierThisToTab: String {
-    get {
-      return "NewRepostToTab"
-    }
-  }
-  
-  @IBOutlet weak var fakeNavigationBar: UINavigationBar!
-  
-  var scrollView: UIScrollView!
-  
+  /// The instance of the layout helper. This is needed because scrollView layout gets funky with autolayout.
   var contentView: RepostContentView!
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    fakeNavigationBar.barTintColor = UIColor.cilloBlue()
-    fakeNavigationBar.translucent = false
-  }
+  /// The original post that will be reposted.
+  var postToRepost: Post = Post()
+  
+  /// The scrollView used to display all the contents of this ViewController.
+  var scrollView: UIScrollView!
+  
+  // MARK: UIViewController
   
   override func viewWillAppear(animated: Bool) {
-    super.viewDidAppear(animated)
+    super.viewWillAppear(animated)
     contentView = RepostContentView(post: postToRepost, width: view.frame.width)
-    retrieveUser({ (user) in
-      if user != nil {
-        self.contentView.pictureButton.setBackgroundImageForState(.Disabled, withURL: user!.profilePicURL)
-        self.contentView.usernameLabel.text = user!.name
-      }
-    })
-    var scrollViewHeight: CGFloat
-    if contentView.frame.height > view.frame.height - fakeNavigationBar.frame.maxY {
-      scrollViewHeight = view.frame.height - fakeNavigationBar.frame.maxY
-    } else {
-      scrollViewHeight = contentView.frame.height
-    }
-    scrollView = UIScrollView(frame: CGRect(x: 0, y: fakeNavigationBar.frame.maxY, width: view.frame.width, height: scrollViewHeight))
-    scrollView.contentSize = contentView.frame.size
-    view.addSubview(scrollView)
-    scrollView.addSubview(contentView)
-    contentView.groupTextField.delegate = self
+    setupUserInfoInContentView()
+    setupScrollView()
+    setupUIDelegates()
+    contentView.setupColorScheme()
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == SegueIdentifierThisToTab {
-      if let sender = sender as? Post {
-        var destination = segue.destinationViewController as! TabViewController
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Post") as! PostTableViewController
-        if let nav = destination.selectedViewController as? UINavigationController {
-          postViewController.post = sender
-          nav.pushViewController(postViewController, animated: true)
-        }
+    if segue.identifier == SegueIdentifiers.newRepostToTab {
+      var destination = segue.destinationViewController as! TabViewController
+      if let sender = sender as? Post, navController = destination.selectedViewController as? UINavigationController {
+        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
+        postViewController.post = sender
+        navController.pushViewController(postViewController, animated: true)
       }
     }
   }
   
-  override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return .LightContent
+  // MARK: Setup Helper Functions
+  
+  /// Sets the user related fields of the contentView.
+  private func setupUserInfoInContentView() {
+    retrieveUser { (user) in
+      if let user = user {
+        self.contentView.pictureButton.setBackgroundImageForState(.Disabled, withURL: user.profilePicURL)
+        self.contentView.usernameLabel.text = user.name
+      }
+    }
   }
   
+  /// Sets up the scrollView to contain the contentView.
+  private func setupScrollView() {
+    var scrollViewHeight: CGFloat
+    if contentView.frame.height > view.frame.height - imitationNavigationBar.frame.maxY {
+      scrollViewHeight = view.frame.height - imitationNavigationBar.frame.maxY
+    } else {
+      scrollViewHeight = contentView.frame.height
+    }
+    scrollView = UIScrollView(frame: CGRect(x: 0, y: imitationNavigationBar.frame.maxY, width: view.frame.width, height: scrollViewHeight))
+    scrollView.contentSize = contentView.frame.size
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+  }
+  
+  /// Sets the delegates of the items in the contentView.
+  private func setupUIDelegates() {
+    contentView.boardTextField.delegate = self
+  }
+  
+  // MARK: Networking Helper Functions
+  
+  /// Reposts the post represented by the contentView to the Cillo Servers.
+  ///
+  /// :param: completion The completion block for this server call.
+  /// :param: post The repost after the server call.
+  /// :param: * Nil if the server call was unsuccessful.
   func repostPost(completion: (post: Post?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Reposting...")
-    DataManager.sharedInstance.createPostByGroupName(contentView.groupTextField.text, repostID: postToRepost.postID, text: contentView.saySomethingTextView.text, title: nil, mediaID: nil, completion: { (error, result) -> Void in
+    DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, repostID: postToRepost.postID, text: contentView.saySomethingTextView.text, title: nil, mediaID: nil) { error, result in
       activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(post: nil)
       } else {
         completion(post: result!)
       }
-    })
+    }
   }
   
+  /// Retrieves the end user's info from the Cillo Servers.
+  ///
+  /// :param: completion The completion block for the request.
+  /// :param: user The end user's info.
+  /// :param: * Nil if an error occurred in the server call.
   func retrieveUser(completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
-    DataManager.sharedInstance.getSelfInfo( { (error, result) -> Void in
+    DataManager.sharedInstance.getSelfInfo { error, result in
       activityIndicator.removeFromSuperview()
-      if error != nil {
-        println(error!)
-        error!.showAlert()
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(user: nil)
       } else {
         completion(user: result!)
       }
-    })
+    }
   }
   
+  // MARK: IBActions
+  
+  /// Reposts the post represented on the screen, and if successful, unwinds to the Tab Bar.
+  ///
+  /// :param: sender The bar button item that says Create.
   @IBAction func repostButtonPressed(sender: UIButton) {
-    repostPost( { (post) in
+    repostPost { post in
       if let post = post {
-        self.performSegueWithIdentifier(self.SegueIdentifierThisToTab, sender: post)
+        self.performSegueWithIdentifier(SegueIdentifiers.newRepostToTab, sender: post)
       }
-    })
-  }
-
-}
-
-extension NewRepostViewController: UIBarPositioningDelegate {
-  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-    return .TopAttached
+    }
   }
 }
 
-extension NewRepostViewController: UITextFieldDelegate {
-  
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
-    return true
-  }
-}
+// MARK: - Content View Layout Helper Class
 
+/// This class is used to get around the weird autolayout behavior of UIScrollView. All content of NewRepostViewController is displayed on screen through this contentView.
 class RepostContentView: UIView {
   
-  var saySomethingTextView: UITextView!
+  // MARK: Properties
   
-  var groupTextField: UITextField!
+  /// Field for the end user to enter the board that they want to repost the post to.
+  var boardTextField: UITextField!
   
-  var pictureButton: UIButton!
+  /// Label used to display the board of the original post.
+  var originalBoardLabel: UILabel!
   
-  var usernameLabel: UILabel!
-  
-  var commentLabel: UILabel!
-  
+  /// Button used to display the profile picture of the user that posted the original post.
   var originalPictureButton: UIButton!
   
-  var originalUsernameLabel: UILabel!
-  
-  var originalGroupLabel: UILabel!
-  
-  var originalTitleLabel: UILabel!
-  
-  var originalPostTextView: UITextView!
-  
+  /// Button used to display any images in the original post.
   var originalPostImagesButton: UIButton!
   
+  /// View used to display the text of the original post.
+  var originalPostTextView: UITextView!
+  
+  /// Label used to display the title of the original post.
+  var originalTitleLabel: UILabel!
+  
+  /// Label used to display the name of the user that posted the original post.
+  var originalUsernameLabel: UILabel!
+  
+  /// Button used to display the profile picture of the end user.
+  var pictureButton: UIButton!
+  
+  /// Field for the end user to say something about the post that they are reposting.
+  var saySomethingTextView: UITextView!
+  
+  /// Button used to display the name of the end user.
+  var usernameLabel: UILabel!
+  
+  // MARK: Initializers
+  
+  required init(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  /// Populates the contentView with all the User Interface elements depending on the original post provided.
+  ///
+  /// :param: post The original post that is supposed to be reposted.
+  /// :param: width The width of the screen.
   init(var post: Post, width: CGFloat) {
     if let repost = (post as? Repost)?.originalPost {
       post = repost
@@ -157,24 +190,24 @@ class RepostContentView: UIView {
     usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 17, width: 200, height: 21))
     usernameLabel.font = UIFont.boldSystemFontOfSize(17)
     
-    commentLabel = UILabel(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 3, width: 144, height: 15))
+    let commentLabel = UILabel(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 3, width: 144, height: 15))
     commentLabel.font = UIFont.systemFontOfSize(12)
     commentLabel.text = "Comment about the Post:"
     
-    let groupTextFieldLeadingEdge = commentLabel.frame.maxX + 40
+    let boardTextFieldLeadingEdge = commentLabel.frame.maxX + 40
     
-    let repostLabel = UILabel(frame: CGRect(x: groupTextFieldLeadingEdge, y: 10, width: 97, height: 15))
+    let repostLabel = UILabel(frame: CGRect(x: boardTextFieldLeadingEdge, y: 10, width: 97, height: 15))
     repostLabel.font = UIFont.systemFontOfSize(12)
-    repostLabel.text = "Repost to Group:"
+    repostLabel.text = "Repost to Board:"
     
-    groupTextField = UITextField(frame: CGRect(x: groupTextFieldLeadingEdge, y: repostLabel.frame.maxY + 5, width: width - groupTextFieldLeadingEdge - 8, height: 31))
-    groupTextField.placeholder = "Group"
-    groupTextField.backgroundColor = textEntryBackground
-    groupTextField.font = UIFont.systemFontOfSize(16)
-    groupTextField.spellCheckingType = .No
-    groupTextField.autocorrectionType = .No
+    boardTextField = UITextField(frame: CGRect(x: boardTextFieldLeadingEdge, y: repostLabel.frame.maxY + 5, width: width - boardTextFieldLeadingEdge - 8, height: 31))
+    boardTextField.placeholder = "Board"
+    boardTextField.backgroundColor = textEntryBackground
+    boardTextField.font = UIFont.systemFontOfSize(16)
+    boardTextField.spellCheckingType = .No
+    boardTextField.autocorrectionType = .No
     
-    saySomethingTextView = UITextView(frame: CGRect(x: 8, y: groupTextField.frame.maxY + 8, width: width - 16, height: 60))
+    saySomethingTextView = UITextView(frame: CGRect(x: 8, y: boardTextField.frame.maxY + 8, width: width - 16, height: 60))
     saySomethingTextView.font = UIFont.systemFontOfSize(14)
     saySomethingTextView.backgroundColor = textEntryBackground
     saySomethingTextView.spellCheckingType = .No
@@ -201,13 +234,13 @@ class RepostContentView: UIView {
     onLabel.font = UIFont.systemFontOfSize(13)
     onLabel.text = "on"
     
-    originalGroupLabel = UILabel(frame: CGRect(x: onLabel.frame.maxX + 5, y: originalUsernameLabel.frame.maxY + 2, width: 200, height: 16))
-    originalGroupLabel.font = UIFont.boldSystemFontOfSize(13)
-    originalGroupLabel.text = post.group.name
+    originalBoardLabel = UILabel(frame: CGRect(x: onLabel.frame.maxX + 5, y: originalUsernameLabel.frame.maxY + 2, width: 200, height: 16))
+    originalBoardLabel.font = UIFont.boldSystemFontOfSize(13)
+    originalBoardLabel.text = post.board.name
     
     if let title = post.title {
       
-      originalTitleLabel = UILabel(frame: CGRect(x: originalPostLeadingEdge, y: originalGroupLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: 23))
+      originalTitleLabel = UILabel(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: 23))
       originalTitleLabel.font = UIFont.boldSystemFontOfSize(20)
       originalTitleLabel.text = title
       originalTitleLabel.textAlignment = .Center
@@ -218,7 +251,7 @@ class RepostContentView: UIView {
       
       originalTitleLabel = UILabel()
       
-      originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalGroupLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
+      originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
       
     }
     
@@ -242,29 +275,34 @@ class RepostContentView: UIView {
       sideLine = UIView(frame: CGRect(x: vertLeadingEdge, y: originalPostTopEdge, width: vertWidth, height: originalPostTextView.frame.maxY - originalPostTopEdge))
     }
     
-    sideLine.backgroundColor = UIColor.lightGrayColor()
+    sideLine.backgroundColor = ColorScheme.defaultScheme.thinLineBackgroundColor()
 
     super.init(frame: CGRect(x: 0, y: 0, width: width, height: sideLine.frame.maxY + 8))
     
     addSubview(pictureButton)
     addSubview(usernameLabel)
     addSubview(repostLabel)
-    addSubview(groupTextField)
+    addSubview(boardTextField)
     addSubview(commentLabel)
     addSubview(saySomethingTextView)
     addSubview(originalPostLabel)
     addSubview(originalUsernameLabel)
     addSubview(originalPictureButton)
     addSubview(onLabel)
-    addSubview(originalGroupLabel)
+    addSubview(originalBoardLabel)
     addSubview(originalTitleLabel)
     addSubview(originalPostTextView)
     addSubview(originalPostImagesButton)
     addSubview(sideLine)
   }
-
-  required init(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets up the colors of the User Interface elements according to the default scheme of the app.
+  func setupColorScheme() {
+    let scheme = ColorScheme.defaultScheme
+    saySomethingTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    boardTextField.backgroundColor = scheme.textFieldBackgroundColor()
   }
 }
 

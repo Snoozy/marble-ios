@@ -15,73 +15,117 @@ import UIKit
 /// **Note:** Must assign user property of superclass a relevant value before displaying this SingleUserTableViewController.
 class UserTableViewController: SingleUserTableViewController {
 
-  var retrievingPage = false
   // MARK: Constants
   
-  /// Segue Identifier in Storyboard for this UITableViewController to PostTableViewController.
-  override var SegueIdentifierThisToPost: String {
-    get {
-      return "UserToPost"
-    }
+  /// Segue Identifier in Storyboard for segue to PostTableViewController.
+  override var segueIdentifierThisToPost: String {
+    return SegueIdentifiers.userToPost
   }
   
-  /// Segue Identifier in Storyboard for this UITableViewController to GroupTableViewController.
-  override var SegueIdentifierThisToGroup: String {
-    get {
-      return "UserToGroup"
-    }
+  /// Segue Identifier in Storyboard for segue to BoardTableViewController.
+  override var segueIdentifierThisToBoard: String {
+    return SegueIdentifiers.userToBoard
   }
   
-  /// Segue Identifier in Storyboard for this UITableViewController to GroupsTableViewController.
-  override var SegueIdentifierThisToGroups: String {
-    get {
-      return "UserToGroups"
-    }
+  /// Segue Identifier in Storyboard for segue to BoardsTableViewController.
+  override var segueIdentifierThisToBoards: String {
+    return SegueIdentifiers.userToBoards
   }
   
   // MARK: UIViewController 
   
-  /// Initializes posts and comments array.
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     if NSUserDefaults.hasAuthAndUser() && user != User(){
       retrieveData()
     }
   }
   
-  // MARK: Helper Functions
+  // MARK: UITableViewDelegate
+  
+  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    switch cellsShown {
+    case .Posts:
+      if !retrievingPage && indexPath.row > (postsPageNumber - 2) * 20 + 10 {
+        retrievingPage = true
+        retrievePosts { posts in
+          if let posts = posts {
+            for post in posts {
+              self.posts.append(post)
+            }
+            self.postsPageNumber++
+            self.tableView.reloadData()
+          }
+          self.retrievingPage = false
+        }
+      }
+    case .Comments:
+      if !retrievingPage && indexPath.row > (commentsPageNumber - 2) * 20 + 10 {
+        retrievingPage = true
+        retrieveComments { comments in
+          if let comments = comments {
+            for comment in comments {
+              self.comments.append(comment)
+            }
+            self.commentsPageNumber++
+            self.tableView.reloadData()
+          }
+          self.retrievingPage = false
+        }
+      }
+    }
+  }
+  
+  // MARK: Networking Helper Functions
+  
+  /// Used to retrieve the comments made by user from Cillo servers.
+  ///
+  /// :param: completion The completion block for the server call.
+  /// :param: comments The comments made by user.
+  /// :param: * Nil if there was an error in the server call.
+  func retrieveComments(completion: (comments: [Comment]?) -> Void) {
+    DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
+      if let error = error {
+        println(error)
+        error.showAlert()
+        completion(comments: nil)
+      } else {
+        completion(comments: result!)
+      }
+    }
+  }
   
   /// Used to retrieve all necessary data to display UITableViewCells in this UIViewController.
   ///
   /// Assigns posts and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
     var activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
-    self.posts = []
-    self.postsPageNumber = 1
     retrievingPage = true
-    retrievePosts( { (posts) -> Void in
+    posts = []
+    postsPageNumber = 1
+    retrievePosts { posts in
       activityIndicator.removeFromSuperview()
-      if posts != nil {
-        self.posts = posts!
+      if let posts = posts {
+        self.posts = posts
         self.postsPageNumber++
         activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Comments")
         self.comments = []
         self.commentsPageNumber = 1
-        self.retrieveComments( { (comments) -> Void in
+        self.retrieveComments { comments in
           activityIndicator.removeFromSuperview()
-          if comments != nil {
-            self.comments = comments!
-            self.refreshControl?.endRefreshing()
-            self.tableView.reloadData()
+          if let comments = comments {
+            self.comments = comments
             self.commentsPageNumber++
           }
+          self.tableView.reloadData()
+          self.refreshControl?.endRefreshing()
           self.retrievingPage = false
-        })
+        }
       } else {
+        self.refreshControl?.endRefreshing()
         self.retrievingPage = false
       }
-    })
+    }
   }
   
   /// Used to retrieve the posts made by user from Cillo servers.
@@ -90,65 +134,14 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
-    DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID, completion: { (error, result) -> Void in
-      if error != nil {
-        println(error!)
-        //error!.showAlert()
+    DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
+      if let error = error {
+        println(error)
+        error.showAlert()
         completion(posts: nil)
       } else {
         completion(posts: result!)
       }
-    })
-  }
-  
-  /// Used to retrieve the comments made by user from Cillo servers.
-  ///
-  /// :param: completion The completion block for the server call.
-  /// :param: comments The comments made by user.
-  /// :param: * Nil if there was an error in the server call.
-  func retrieveComments(completion: (comments: [Comment]?) -> Void) {
-    DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID, completion: { (error, result) -> Void in
-      if error != nil {
-        println(error!)
-        //error!.showAlert()
-        completion(comments: nil)
-      } else {
-        completion(comments: result!)
-      }
-    })
-  }
-  
-  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    switch cellsShown {
-    case .Posts:
-      if !retrievingPage && indexPath.row > (postsPageNumber - 2) * 20 + 10 {
-        retrievingPage = true
-        retrievePosts( { (posts) in
-          if posts != nil {
-            for post in posts! {
-              self.posts.append(post)
-            }
-            self.postsPageNumber++
-            self.tableView.reloadData()
-          }
-          self.retrievingPage = false
-        })
-      }
-    case .Comments:
-      if !retrievingPage && indexPath.row > (commentsPageNumber - 2) * 20 + 10 {
-        retrievingPage = true
-        retrieveComments( { (comments) in
-          if comments != nil {
-            for comment in comments! {
-              self.comments.append(comment)
-            }
-            self.commentsPageNumber++
-            self.tableView.reloadData()
-          }
-          self.retrievingPage = false
-        })
-      }
     }
   }
-
 }

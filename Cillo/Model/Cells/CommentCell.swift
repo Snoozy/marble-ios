@@ -59,55 +59,38 @@ class CommentCell: UITableViewCell {
   
   /// Controls height of separatorView.
   ///
-  /// Set constant to value of separatorHeight in the makeCellFromGroup(_:_:_:) function.
+  /// Set constant to value of separatorHeight in the makeCellFromBoard(_:_:_:) function.
   @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
   
   // MARK: Constants
   
   /// Font of the text contained within commentTextView.
-  class var CommentTTTAttributedLabelFont: UIFont {
-    get {
-      return UIFont.systemFontOfSize(15.0)
-    }
+  class var commentTTTAttributedLabelFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
   }
   
   /// Height needed for all components of a CommentCell excluding commentTextView in the Storyboard.
   ///
   /// **Note:** Height of commentTextView must be calculated based on it's text property.
-  class var AdditionalVertSpaceNeeded: CGFloat {
-    get {
-      return 89
-    }
+  class var additionalVertSpaceNeeded: CGFloat {
+    return 89
   }
   
   /// Height of buttons in expanded menu when CommentCell is selected.
-  class var ButtonHeight: CGFloat {
-    get {
-      return 32
-    }
+  class var buttonHeight: CGFloat {
+    return 32
   }
   
   /// Distance of commentTextView to right boundary of contentView.
   ///
   /// **Note:** Used to align commentTextView with nameLabel when cell is indented.
-  class var TTTAttributedLabelDistanceToIndent: CGFloat {
-    get {
-      return 32
-    }
+  class var commentTTTAttributedLabelDistanceToIndent: CGFloat {
+    return 32
   }
   
   /// Width of indent per indentationLevel of indented Comments.
-  class var IndentSize: CGFloat {
-    get {
-      return 30
-    }
-  }
-  
-  /// Reuse Identifier for this UITableViewCell.
-  class var ReuseIdentifier: String {
-    get {
-      return "Comment"
-    }
+  class var indentSize: CGFloat {
+    return 30
   }
   
   // MARK: Helper Methods
@@ -116,7 +99,7 @@ class CommentCell: UITableViewCell {
   ///
   /// :returns: True indent size for cell with current indentationLevel.
   func getIndentationSize() -> CGFloat {
-    return CGFloat(indentationLevel) * CommentCell.IndentSize + 8
+    return CGFloat(indentationLevel) * CommentCell.indentSize + 8
   }
   
   /// Makes this CommentCell's IBOutlets display the correct values of the corresponding Comment.
@@ -126,12 +109,13 @@ class CommentCell: UITableViewCell {
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the comment in its model array.
   func makeCellFromComment(comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+    let scheme = ColorScheme.defaultScheme
     
     var name = comment.user.name
     //add dots if CommentCell has reached max indent and cannot be indented more
     if let lengthToPost = comment.lengthToPost {
-      if lengthToPost > Comment.LongestLengthToPost {
-        let difference = lengthToPost - Comment.LongestLengthToPost
+      if lengthToPost > Comment.longestLengthToPost {
+        let difference = lengthToPost - Comment.longestLengthToPost
         for _ in 0..<difference {
           name = "· \(name)"
         }
@@ -152,7 +136,7 @@ class CommentCell: UITableViewCell {
     }
     
     commentTTTAttributedLabel.numberOfLines = 0
-    commentTTTAttributedLabel.font = CommentCell.CommentTTTAttributedLabelFont
+    commentTTTAttributedLabel.font = CommentCell.commentTTTAttributedLabelFont
     commentTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
     commentTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
     commentTTTAttributedLabel.text = comment.text
@@ -163,7 +147,7 @@ class CommentCell: UITableViewCell {
     }
     if selected {
       //Show button bar when selected
-      upvoteHeightConstraint?.constant = CommentCell.ButtonHeight
+      upvoteHeightConstraint?.constant = CommentCell.buttonHeight
       //Selected CommentCells show time next to rep
       repAndTimeLabel.text = "\(repText) · \(comment.time)"
       //Selected CommentCells need to clear vertical lines from the cell in order to expand cell
@@ -184,11 +168,11 @@ class CommentCell: UITableViewCell {
     replyButton?.tag = buttonTag
     
     if comment.isOP {
-      nameButton.setTitleColor(UIColor.orangeColor(), forState: .Normal)
-      nameButton.setTitleColor(UIColor.orangeColor(), forState: .Highlighted)
+      nameButton.setTitleColor(scheme.opTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.opTextColor(), forState: .Highlighted)
     } else if comment.user.isSelf {
-      nameButton.setTitleColor(UIColor.cilloBlue(), forState: .Normal)
-      nameButton.setTitleColor(UIColor.cilloBlue(), forState: .Highlighted)
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
     } else {
       nameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
       nameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
@@ -229,23 +213,27 @@ class CommentCell: UITableViewCell {
     
     //adds the vertical lines to the cells
     for i in 0...indentationLevel {
-      var line = UIView(frame: CGRect(x: CGFloat(i)*CommentCell.IndentSize, y: 0, width: 1, height: frame.size.height))
+      var line = UIView(frame: CGRect(x: CGFloat(i)*CommentCell.indentSize, y: 0, width: 1, height: frame.size.height))
       line.backgroundColor = UIColor.defaultTableViewDividerColor()
       lines.append(line)
       contentView.addSubview(line)
     }
     
     if let separatorView = separatorView {
-      separatorView.backgroundColor = UIColor.cilloBlue()
+      separatorView.backgroundColor = scheme.dividerBackgroundColor()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
     
     preservesSuperviewLayoutMargins = false
   }
   
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    commentTTTAttributedLabel.delegate = delegate
+  }
+  
   class func heightOfCommentCellForComment(comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    let height = comment.heightOfCommentWithWidth(width, selected: selected) + CommentCell.AdditionalVertSpaceNeeded + dividerHeight
-    return selected ? height : height - CommentCell.ButtonHeight
+    let height = comment.heightOfCommentWithWidth(width, selected: selected) + CommentCell.additionalVertSpaceNeeded + dividerHeight
+    return selected ? height : height - CommentCell.buttonHeight
   }
   
   override func prepareForReuse() {
