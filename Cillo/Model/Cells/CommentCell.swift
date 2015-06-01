@@ -125,8 +125,6 @@ class CommentCell: UITableViewCell {
     let nameTitle = "\(name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
-    nameButton.setTitle(nameTitle, forState: .Highlighted)
-    pictureButton.setBackgroundImageForState(.Highlighted, withURL: comment.user.profilePicURL)
     
     if comment.user.isAnon {
       nameButton.setTitle(nameTitle, forState: .Disabled)
@@ -169,39 +167,24 @@ class CommentCell: UITableViewCell {
     
     if comment.isOP {
       nameButton.setTitleColor(scheme.opTextColor(), forState: .Normal)
-      nameButton.setTitleColor(scheme.opTextColor(), forState: .Highlighted)
     } else if comment.user.isSelf {
       nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
     } else {
       nameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
-      nameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
     }
     
     // TODO: Handle voteValues changing colors of images
     if comment.voteValue == 1 {
       upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
-      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
-      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Disabled)
       downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
       repAndTimeLabel.textColor = UIColor.upvoteGreen()
     } else if comment.voteValue == -1 {
       upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
-      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
       downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
       repAndTimeLabel.textColor = UIColor.downvoteRed()
     } else {
       upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
-      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
       downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
     }
     
     //indents cell

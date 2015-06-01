@@ -16,13 +16,13 @@ class LogInViewController: CustomViewController {
   // MARK: IBOutlets
   
   /// Field for end user to enter email.
-  @IBOutlet weak var emailTextField: UITextField!
+  @IBOutlet weak var emailTextField: CustomTextField!
   
   /// Button allowing end user to login to their account.
   @IBOutlet weak var loginButton: UIButton!
   
   /// Field for end user to enter password.
-  @IBOutlet weak var passwordTextField: UITextField!
+  @IBOutlet weak var passwordTextField: CustomTextField!
   
   /// Button allowing end user to create a new account through RegisterViewController.
   @IBOutlet weak var registerButton: UIButton!
@@ -49,9 +49,9 @@ class LogInViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    registerButton.tintColor = scheme.touchableTextColor()
+    registerButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
     loginButton.backgroundColor = scheme.solidButtonBackgroundColor()
-    loginButton.tintColor = scheme.solidButtonTextColor()
+    loginButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
     emailTextField.backgroundColor = scheme.textFieldBackgroundColor()
     passwordTextField.backgroundColor = scheme.textFieldBackgroundColor()
   }

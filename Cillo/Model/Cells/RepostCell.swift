@@ -82,9 +82,6 @@ class RepostCell: PostCell {
       originalNameButton.setTitle(nameTitle, forState: .Normal)
       originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
       originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.profilePicURL)
-      originalNameButton.setTitle(nameTitle, forState: .Highlighted)
-      originalBoardButton.setTitle(post.originalPost.board.name, forState: .Highlighted)
-      originalPictureButton.setBackgroundImageForState(.Highlighted, withURL: post.originalPost.user.profilePicURL)
       
       originalPostTTTAttributedLabel.numberOfLines = 0
       originalPostTTTAttributedLabel.font = RepostCell.originalPostTTTAttributedLabelFont
@@ -117,10 +114,8 @@ class RepostCell: PostCell {
       
       if post.originalPost.user.isSelf {
         originalNameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
-        originalNameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
       } else {
         originalNameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        originalNameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
       }
       
       if let title = post.originalPost.title {
@@ -139,9 +134,7 @@ class RepostCell: PostCell {
       }
       if imagesButtonHeightConstraint.constant == 20 {
         imagesButton.setTitle("Show Images", forState: .Normal)
-        imagesButton.setTitle("Show Images", forState: .Highlighted)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
-        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Highlighted)
         imagesButton.enabled = true
       } else if post.originalPost.imageURLs != nil && post.originalPost.showImages {
         imagesButton.enabled = false

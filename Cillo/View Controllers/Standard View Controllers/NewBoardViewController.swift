@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Update Storyboard constraints
-
 /// Handles creating new Boards.
 class NewBoardViewController: CustomViewController {
   
@@ -19,8 +17,6 @@ class NewBoardViewController: CustomViewController {
   var image: UIImage?
 
   // MARK: IBOutlets
-  
-  // FIXME: Make the textviews textfields
   
   /// Button allowing end user to change their board photo.
   @IBOutlet weak var choosePictureButton: UIButton!
@@ -32,7 +28,7 @@ class NewBoardViewController: CustomViewController {
   @IBOutlet weak var descripTextViewHeightConstraint: NSLayoutConstraint!
   
   /// Field for end user to enter the name of the new Board.
-  @IBOutlet weak var nameTextView: UITextView!
+  @IBOutlet weak var nameTextField: CustomTextField!
   
   /// Button used to display the end user's selected board photo.
   @IBOutlet weak var pictureButton: UIButton!
@@ -50,7 +46,7 @@ class NewBoardViewController: CustomViewController {
   ///
   /// **Note:** Height of descripTextView must be calculated based on the frame size of the device.
   var vertSpaceExcludingDescripTextView: CGFloat {
-    return 187
+    return 188
   }
   
   // MARK: UIViewController
@@ -78,7 +74,7 @@ class NewBoardViewController: CustomViewController {
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
     choosePictureButton.tintColor = scheme.touchableTextColor()
-    nameTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
     descripTextView.backgroundColor = scheme.textFieldBackgroundColor()
   }
   
@@ -105,7 +101,7 @@ class NewBoardViewController: CustomViewController {
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.createBoard(name: self.nameTextView.text, description: descrip, mediaID: mediaID) { error, result in
+          DataManager.sharedInstance.createBoard(name: self.nameTextField.text, description: descrip, mediaID: mediaID) { error, result in
             activityIndicator.removeFromSuperview()
             if let error = error {
               println(error)
@@ -121,7 +117,7 @@ class NewBoardViewController: CustomViewController {
         }
       }
     } else {
-      DataManager.sharedInstance.createBoard(name: nameTextView.text, description: descrip, mediaID: nil) { error, result in
+      DataManager.sharedInstance.createBoard(name: nameTextField.text, description: descrip, mediaID: nil) { error, result in
         activityIndicator.removeFromSuperview()
         if let error = error {
           println(error)

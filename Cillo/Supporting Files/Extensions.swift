@@ -453,7 +453,7 @@ extension UITextView {
 extension UINavigationBar {
   
   func setupAttributesForColorScheme(scheme: ColorScheme) {
-    backgroundColor = scheme.navigationBarColor()
+    barTintColor = scheme.navigationBarColor()
     tintColor = scheme.barButtonItemColor()
     titleTextAttributes = [NSForegroundColorAttributeName: scheme.navigationBarTitleColor()]
   }

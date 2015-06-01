@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Update Storyboard constraints
-
 /// Handles changing settings of end user.
 class SettingsViewController: CustomViewController {
   
@@ -22,9 +20,7 @@ class SettingsViewController: CustomViewController {
   var user = User()
   
   // MARK: IBOutlets
-  
-  // FIXME: Make the textviews textfields
-  
+    
   /// Field for end user to enter a new bio.
   @IBOutlet weak var bioTextView: UITextView!
   
@@ -32,7 +28,7 @@ class SettingsViewController: CustomViewController {
   @IBOutlet weak var changePasswordButton: UIButton!
   
   /// Field for end user to enter a new name.
-  @IBOutlet weak var nameTextView: UITextView!
+  @IBOutlet weak var nameTextField: CustomTextField!
   
   /// Button used to display the end user's selected profile picture.
   @IBOutlet weak var photoButton: UIButton!
@@ -41,7 +37,7 @@ class SettingsViewController: CustomViewController {
   @IBOutlet weak var updatePhotoButton: UIButton!
   
   /// Field for end user to enter a new username.
-  @IBOutlet weak var usernameTextView: UITextView!
+  @IBOutlet weak var usernameTextField: CustomTextField!
   
   // MARK: UIViewController
   
@@ -64,17 +60,17 @@ class SettingsViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    changePasswordButton.tintColor = scheme.touchableTextColor()
-    updatePhotoButton.tintColor = scheme.touchableTextColor()
-    nameTextView.backgroundColor = scheme.textFieldBackgroundColor()
-    usernameTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    changePasswordButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    updatePhotoButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    usernameTextField.backgroundColor = scheme.textFieldBackgroundColor()
     bioTextView.backgroundColor = scheme.textFieldBackgroundColor()
   }
   
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
-    nameTextView.text = user.name
-    usernameTextView.text = user.username
+    nameTextField.text = user.name
+    usernameTextField.text = user.username
     bioTextView.text = user.bio
     photoButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
     photoButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
@@ -107,8 +103,8 @@ class SettingsViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func updateSettings(completion: (user: User?) -> Void) {
     let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
-    let newName = nameTextView.text != user.name ? nameTextView.text : nil
-    let newUsername = usernameTextView.text != user.username ? usernameTextView.text : nil
+    let newName = nameTextField.text != user.name ? nameTextField.text : nil
+    let newUsername = usernameTextField.text != user.username ? usernameTextField.text : nil
     let newBio = bioTextView.text != user.bio ? bioTextView.text : nil
     if let photo = photoButton.backgroundImageForState(.Normal) where photoChanged {
       uploadImage(photo) { mediaID in

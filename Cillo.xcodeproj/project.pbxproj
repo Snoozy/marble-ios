@@ -24,6 +24,7 @@
 		9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */; };
 		9587A7341A43E8F2003CDE64 /* SingleUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */; };
 		9587A7381A43F09E003CDE64 /* MultipleBoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7371A43F09E003CDE64 /* MultipleBoardsTableViewController.swift */; };
+		958ABA5E1B1BFD6600D00E5D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958ABA5D1B1BFD6600D00E5D /* CustomTextField.swift */; };
 		9598667A1A5F90E4003181BC /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959866791A5F90E4003181BC /* RegisterViewController.swift */; };
 		959E0F0D1A2538C7008B4D19 /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0C1A2538C7008B4D19 /* BoardCell.swift */; };
 		959E0F0F1A2538D7008B4D19 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F0E1A2538D7008B4D19 /* Board.swift */; };
@@ -97,6 +98,7 @@
 		9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiplePostsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultiplePostsTableViewController.swift"; sourceTree = "<group>"; };
 		9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleUserTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleUserTableViewController.swift"; sourceTree = "<group>"; };
 		9587A7371A43F09E003CDE64 /* MultipleBoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleBoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultipleBoardsTableViewController.swift"; sourceTree = "<group>"; };
+		958ABA5D1B1BFD6600D00E5D /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Views/CustomTextField.swift; sourceTree = "<group>"; };
 		959866791A5F90E4003181BC /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterViewController.swift; path = "View Controllers/Standard View Controllers/RegisterViewController.swift"; sourceTree = "<group>"; };
 		959E0F0C1A2538C7008B4D19 /* BoardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCell.swift; path = Model/Cells/BoardCell.swift; sourceTree = "<group>"; };
 		959E0F0E1A2538D7008B4D19 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Board.swift; path = Model/Board.swift; sourceTree = "<group>"; };
@@ -286,6 +288,14 @@
 			name = VCs;
 			sourceTree = "<group>";
 		};
+		958ABA5C1B1BFD3D00D00E5D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				958ABA5D1B1BFD6600D00E5D /* CustomTextField.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		95DB34321A54834B008A8DC0 /* TBCs */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +330,7 @@
 				958321C71A461F76003F2034 /* Storyboard */,
 				958321C21A461D28003F2034 /* Vendor */,
 				958321C91A462015003F2034 /* Data */,
+				958ABA5C1B1BFD3D00D00E5D /* Views */,
 				9587A73A1A43F256003CDE64 /* VCs */,
 				95352D6E1A155BF200874B0F /* Cells */,
 				95352D6F1A155C0E00874B0F /* Model */,
@@ -519,6 +530,7 @@
 				95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */,
 				95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */,
 				95C86D961B0533F200D37B7E /* StoryboardIdentifiers.swift in Sources */,
+				958ABA5E1B1BFD6600D00E5D /* CustomTextField.swift in Sources */,
 				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
 				95C86D981B053ECD00D37B7E /* CustomViewController.swift in Sources */,

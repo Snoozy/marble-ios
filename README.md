@@ -4,41 +4,31 @@ Figure out why oh why the stupid navigation animation is wrong on the home page 
 
 NSDate function convertToTimeString(time:) sometimes returns WTF.
 
-New Comment following the scroll of tableview
-
--- Images currently not loaded asynchronously. <<<<< IMPORTANT (Test)
-
-Tap Tab to top is still acting really weird (Figure out new implementation).
-
 **Feature TODOs:**
 
 Find way to do multiple image Posts.
 
--- Rename Groups to Boards. (Test)
-
--- Allow User to take a profile picture via the camera. (Test)
-
--- ^ Make new view to edit settings (Test)
-
--- Retrieve Posts from server 20 at a time. (Test)
-
--- ^ Still retrieve everything else 20 at a time. (Test)
-
--- Implement graphics that were not taken from the internet (Test)
-
--- Do 10 groups on MyGroupsVC with New Board button after them and Show All button. (Test)
+Comments 10 at a time
 
 Handle auth token expiration.
 
+Error Handling
+
+Tap tab to top
+
 Add a popup tableview when typing in a textfield involving Group names.
 
--- New Post UI (Test More)
+name & username to side of pic in usercell
 
--- New Repost UI < Redo everything (no longer popup now modal vc pushed) (Test More)
+change repost icon
 
--- Present New Group modally (Test)
+board field above user pic for new repost
 
--- Repost UI Revamp (Test more)
+placeholders for textviews
+
+bottom border text fields with white backgrounds
+
+finish code revamp for model, cells, and supporting files
 
 **Other:**
 

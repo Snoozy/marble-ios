@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Update Storyboard constraints
-
 /// Handles creating new Posts.
 class NewPostViewController: CustomViewController {
 
@@ -33,7 +31,7 @@ class NewPostViewController: CustomViewController {
   /// Field for end user to enter the name of the Board that they want to post this post to.
   ///
   /// **Note:** Text is automatically set if board is not nil.
-  @IBOutlet weak var boardTextField: UITextField!
+  @IBOutlet weak var boardTextField: CustomTextField!
   
   /// Button allowing end user to pick an image for their post.
   @IBOutlet weak var imageButton: UIButton!
@@ -45,7 +43,7 @@ class NewPostViewController: CustomViewController {
   @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
   
   /// Field for end user to enter the title of their post.
-  @IBOutlet weak var titleTextField: UITextField!
+  @IBOutlet weak var titleTextField: CustomTextField!
   
   /// ImageView used to display the end user's profile picture.
   @IBOutlet weak var userImageView: UIImageView!
@@ -66,7 +64,7 @@ class NewPostViewController: CustomViewController {
   ///
   /// **Note:** Height of postTextView must be calculated based on the frame size of the device.
   class var vertSpaceExcludingPostTextView: CGFloat {
-   return 230
+   return 246
   }
   
   // MARK: UIViewController
@@ -105,7 +103,7 @@ class NewPostViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    imageButton.tintColor = scheme.solidButtonTextColor()
+    imageButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
     imageButton.backgroundColor = scheme.solidButtonBackgroundColor()
     boardTextField.backgroundColor = scheme.textFieldBackgroundColor()
     titleTextField.backgroundColor = scheme.textFieldBackgroundColor()
@@ -146,7 +144,6 @@ class NewPostViewController: CustomViewController {
       imageView.contentMode = .ScaleAspectFill
       view.bringSubviewToFront(imageButton)
       imageButton.setTitle("Choose New Image", forState: .Normal)
-      imageButton.setTitle("Choose New Image", forState: .Highlighted)
       imageButton.alpha = 0.5
     }
   }

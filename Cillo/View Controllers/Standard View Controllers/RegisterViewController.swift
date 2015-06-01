@@ -14,19 +14,19 @@ class RegisterViewController: CustomViewController {
   // MARK: IBOutlets
   
   /// Field for end user to enter email.
-  @IBOutlet weak var emailTextField: UITextField!
+  @IBOutlet weak var emailTextField: CustomTextField!
   
   /// Field for end user to enter name.
-  @IBOutlet weak var nameTextField: UITextField!
+  @IBOutlet weak var nameTextField: CustomTextField!
   
   /// Field for end user to enter password
-  @IBOutlet weak var passwordTextField: UITextField!
+  @IBOutlet weak var passwordTextField: CustomTextField!
   
   /// Button allowing end user to create a new account.
   @IBOutlet weak var registerButton: UIButton!
   
   /// Field for end user to enter username
-  @IBOutlet weak var userTextField: UITextField!
+  @IBOutlet weak var userTextField: CustomTextField!
   
   // MARK: UIViewController
   
@@ -46,7 +46,7 @@ class RegisterViewController: CustomViewController {
     nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
     passwordTextField.backgroundColor = scheme.textFieldBackgroundColor()
     registerButton.backgroundColor = scheme.solidButtonBackgroundColor()
-    registerButton.tintColor = scheme.solidButtonTextColor()
+    registerButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
   }
   
   /// Sets any delegates of Outlets that were not set in the storyboard.

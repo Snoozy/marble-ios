@@ -86,9 +86,7 @@ class BoardCell: UITableViewCell {
     let scheme = ColorScheme.defaultScheme
     
     pictureButton.setBackgroundImageForState(.Normal, withURL: board.pictureURL)
-    pictureButton.setBackgroundImageForState(.Highlighted, withURL: board.pictureURL)
     nameButton.setTitle(board.name, forState: .Normal)
-    nameButton.setTitle(board.name, forState: .Highlighted)
     
     descripTTTAttributedLabel.numberOfLines = 0
     descripTTTAttributedLabel.font = BoardCell.descripTTTAttributedLabelFont

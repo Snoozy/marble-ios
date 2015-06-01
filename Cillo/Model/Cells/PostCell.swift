@@ -3,7 +3,7 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 10/23/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
@@ -152,27 +152,15 @@ class PostCell: UITableViewCell {
     
     if post.voteValue == 1 {
       upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
-      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Highlighted)
-      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Disabled)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
       repLabel.textColor = UIColor.upvoteGreen()
     } else if post.voteValue == -1 {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
       downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Disabled)
       repLabel.textColor = UIColor.downvoteRed()
     } else {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Highlighted)
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Disabled)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Highlighted)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Disabled)
       repLabel.textColor = UIColor.blackColor()
     }
     
@@ -200,7 +188,6 @@ class PostCell: UITableViewCell {
         seeFullButton.tag = buttonTag
         
         seeFullButton.setTitle("More", forState: .Normal)
-        seeFullButton.setTitle("More", forState: .Highlighted)
         
         // short posts and already expanded posts don't need to be expanded
         if let seeFull = post.seeFull where !seeFull {
@@ -226,9 +213,7 @@ class PostCell: UITableViewCell {
       }
       if imagesButtonHeightConstraint.constant == 20 {
         imagesButton.setTitle("Show Images", forState: .Normal)
-        imagesButton.setTitle("Show Images", forState: .Highlighted)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
-        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Highlighted)
         imagesButton.enabled = true
       } else if let imageURLs = post.imageURLs where post.showImages {
         imagesButton.enabled = false
@@ -254,7 +239,6 @@ class PostCell: UITableViewCell {
     imagesButtonHeightConstraint.constant = 0
     separatorViewHeightConstraint?.constant = 0
     imagesButton.setTitle("", forState: .Normal)
-    imagesButton.setTitle("", forState: .Highlighted)
     nameButton.enabled = true
     pictureButton.enabled = true
   }

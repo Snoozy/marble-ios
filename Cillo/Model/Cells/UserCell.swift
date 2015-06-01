@@ -89,11 +89,8 @@ class UserCell: UITableViewCell {
     let scheme = ColorScheme.defaultScheme
     
     pictureButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
-    pictureButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
     nameButton.setTitle(user.name, forState: .Normal)
-    nameButton.setTitle(user.name, forState: .Highlighted)
     usernameButton.setTitle("@\(user.username)", forState: .Normal)
-    usernameButton.setTitle("@\(user.username)", forState: .Highlighted)
     
     bioTTTAttributedLabel.numberOfLines = 0
     bioTTTAttributedLabel.font = UserCell.bioTTTAttributedLabelFont
@@ -107,7 +104,6 @@ class UserCell: UITableViewCell {
     
     if user.isSelf {
       nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
     }
     
     // Make only the number in repLabel bold

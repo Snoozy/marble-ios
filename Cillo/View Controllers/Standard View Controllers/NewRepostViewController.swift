@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Update Storyboard constraints
-
 /// Handles reposting of existing posts.
 class NewRepostViewController: CustomViewController {
 
@@ -139,7 +137,7 @@ class RepostContentView: UIView {
   // MARK: Properties
   
   /// Field for the end user to enter the board that they want to repost the post to.
-  var boardTextField: UITextField!
+  var boardTextField: CustomTextField!
   
   /// Label used to display the board of the original post.
   var originalBoardLabel: UILabel!
@@ -182,7 +180,7 @@ class RepostContentView: UIView {
     if let repost = (post as? Repost)?.originalPost {
       post = repost
     }
-    let textEntryBackground = UIColor(red: 16/255.0, green: 101/255.0, blue: 196/255.0, alpha: 0.08)
+    let textEntryBackground = ColorScheme.defaultScheme.textFieldBackgroundColor()
     
     pictureButton = UIButton(frame: CGRect(x: 8, y: 8, width: 40, height: 40))
     pictureButton.enabled = false
@@ -200,7 +198,7 @@ class RepostContentView: UIView {
     repostLabel.font = UIFont.systemFontOfSize(12)
     repostLabel.text = "Repost to Board:"
     
-    boardTextField = UITextField(frame: CGRect(x: boardTextFieldLeadingEdge, y: repostLabel.frame.maxY + 5, width: width - boardTextFieldLeadingEdge - 8, height: 31))
+    boardTextField = CustomTextField(frame: CGRect(x: boardTextFieldLeadingEdge, y: repostLabel.frame.maxY + 5, width: width - boardTextFieldLeadingEdge - 8, height: 31))
     boardTextField.placeholder = "Board"
     boardTextField.backgroundColor = textEntryBackground
     boardTextField.font = UIFont.systemFontOfSize(16)
@@ -239,20 +237,16 @@ class RepostContentView: UIView {
     originalBoardLabel.text = post.board.name
     
     if let title = post.title {
-      
       originalTitleLabel = UILabel(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: 23))
       originalTitleLabel.font = UIFont.boldSystemFontOfSize(20)
       originalTitleLabel.text = title
       originalTitleLabel.textAlignment = .Center
       
       originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalTitleLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
-      
     } else {
-      
       originalTitleLabel = UILabel()
       
       originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
-      
     }
     
     originalPostTextView.textContainer.lineFragmentPadding = 0

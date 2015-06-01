@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
-    //      application.keyWindow?.tintColor = UIColor.whiteColor()
     UITabBar.appearance().tintColor = UIColor.cilloBlue()
     return true
   }
