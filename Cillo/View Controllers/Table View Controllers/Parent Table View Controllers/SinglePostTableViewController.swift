@@ -92,6 +92,7 @@ class SinglePostTableViewController: CustomTableViewController {
     super.viewDidLoad()
     // removes extraneous dividers
     tableView.tableFooterView = UIView(frame: CGRect.zeroRect)
+    // gets rid of small gap in divider
     if tableView.respondsToSelector("setSeparatorInset:") {
       tableView.separatorInset = UIEdgeInsetsZero
     }
