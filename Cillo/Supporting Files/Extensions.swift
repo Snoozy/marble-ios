@@ -152,6 +152,10 @@ extension UIColor {
     return UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
   }
   
+  class func placeholderColor() -> UIColor {
+    return UIColor(red: 199/255.0, green: 199/255.0, blue: 205/255.0, alpha: 1.0)
+  }
+  
 }
 
 // MARK: -

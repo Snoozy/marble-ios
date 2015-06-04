@@ -16,13 +16,13 @@ class LogInViewController: CustomViewController {
   // MARK: IBOutlets
   
   /// Field for end user to enter email.
-  @IBOutlet weak var emailTextField: CustomTextField!
+  @IBOutlet weak var emailTextField: BottomBorderedTextField!
   
   /// Button allowing end user to login to their account.
   @IBOutlet weak var loginButton: UIButton!
   
   /// Field for end user to enter password.
-  @IBOutlet weak var passwordTextField: CustomTextField!
+  @IBOutlet weak var passwordTextField: BottomBorderedTextField!
   
   /// Button allowing end user to create a new account through RegisterViewController.
   @IBOutlet weak var registerButton: UIButton!
@@ -52,8 +52,8 @@ class LogInViewController: CustomViewController {
     registerButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
     loginButton.backgroundColor = scheme.solidButtonBackgroundColor()
     loginButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
-    emailTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    passwordTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    emailTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    passwordTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
   }
   
   /// Sets any delegates of Outlets that were not set in the storyboard.

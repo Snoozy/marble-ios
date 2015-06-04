@@ -22,7 +22,7 @@ class NewBoardViewController: CustomViewController {
   @IBOutlet weak var choosePictureButton: UIButton!
   
   /// Field for end user to enter the description of the new Board.
-  @IBOutlet weak var descripTextView: UITextView!
+  @IBOutlet weak var descripTextView: PlaceholderTextView!
   
   /// Set to DescripTextViewHeight after viewDidLayoutSubviews().
   @IBOutlet weak var descripTextViewHeightConstraint: NSLayoutConstraint!

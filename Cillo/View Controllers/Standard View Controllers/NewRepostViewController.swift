@@ -161,7 +161,7 @@ class RepostContentView: UIView {
   var pictureButton: UIButton!
   
   /// Field for the end user to say something about the post that they are reposting.
-  var saySomethingTextView: UITextView!
+  var saySomethingTextView: PlaceholderTextView!
   
   /// Button used to display the name of the end user.
   var usernameLabel: UILabel!
@@ -182,43 +182,30 @@ class RepostContentView: UIView {
     }
     let textEntryBackground = ColorScheme.defaultScheme.textFieldBackgroundColor()
     
-    pictureButton = UIButton(frame: CGRect(x: 8, y: 8, width: 40, height: 40))
-    pictureButton.enabled = false
-    
-    usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 17, width: 200, height: 21))
-    usernameLabel.font = UIFont.boldSystemFontOfSize(17)
-    
-    let commentLabel = UILabel(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 3, width: 144, height: 15))
-    commentLabel.font = UIFont.systemFontOfSize(12)
-    commentLabel.text = "Comment about the Post:"
-    
-    let boardTextFieldLeadingEdge = commentLabel.frame.maxX + 40
-    
-    let repostLabel = UILabel(frame: CGRect(x: boardTextFieldLeadingEdge, y: 10, width: 97, height: 15))
-    repostLabel.font = UIFont.systemFontOfSize(12)
-    repostLabel.text = "Repost to Board:"
-    
-    boardTextField = CustomTextField(frame: CGRect(x: boardTextFieldLeadingEdge, y: repostLabel.frame.maxY + 5, width: width - boardTextFieldLeadingEdge - 8, height: 31))
+    boardTextField = CustomTextField(frame: CGRect(x: 8, y: 8, width: width - 16, height: 40))
     boardTextField.placeholder = "Board"
     boardTextField.backgroundColor = textEntryBackground
     boardTextField.font = UIFont.systemFontOfSize(16)
     boardTextField.spellCheckingType = .No
     boardTextField.autocorrectionType = .No
     
-    saySomethingTextView = UITextView(frame: CGRect(x: 8, y: boardTextField.frame.maxY + 8, width: width - 16, height: 60))
+    pictureButton = UIButton(frame: CGRect(x: 8, y: 56, width: 40, height: 40))
+    pictureButton.enabled = false
+    
+    usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 65, width: width - pictureButton.frame.width - 24, height: 21))
+    usernameLabel.font = UIFont.boldSystemFontOfSize(17)
+    
+    saySomethingTextView = PlaceholderTextView(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 8, width: width - 16, height: 60))
+    saySomethingTextView.placeholder = "Say something about this post..."
     saySomethingTextView.font = UIFont.systemFontOfSize(14)
     saySomethingTextView.backgroundColor = textEntryBackground
     saySomethingTextView.spellCheckingType = .No
     saySomethingTextView.autocorrectionType = .No
     
-    let originalPostLabel = UILabel(frame: CGRect(x: 8, y: saySomethingTextView.frame.maxY + 8, width: 93, height: 18))
-    originalPostLabel.font = UIFont.systemFontOfSize(15)
-    originalPostLabel.text = "Original Post:"
-    
     let vertLeadingEdge = CGFloat(26)
     let vertWidth = CGFloat(3)
     let originalPostLeadingEdge = vertLeadingEdge + vertWidth + 27
-    let originalPostTopEdge = originalPostLabel.frame.maxY + 8
+    let originalPostTopEdge = saySomethingTextView.frame.maxY + 8
     
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
     originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
@@ -275,11 +262,8 @@ class RepostContentView: UIView {
     
     addSubview(pictureButton)
     addSubview(usernameLabel)
-    addSubview(repostLabel)
     addSubview(boardTextField)
-    addSubview(commentLabel)
     addSubview(saySomethingTextView)
-    addSubview(originalPostLabel)
     addSubview(originalUsernameLabel)
     addSubview(originalPictureButton)
     addSubview(onLabel)

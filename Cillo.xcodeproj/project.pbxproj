@@ -52,6 +52,8 @@
 		95EFD2B419F8D2B400086BAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */; };
 		95EFD2C019F8D2B400086BAF /* CilloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2BF19F8D2B400086BAF /* CilloTests.swift */; };
 		95F935B11A5DE11100F65022 /* NewBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F935B01A5DE11100F65022 /* NewBoardViewController.swift */; };
+		95FDCDE11B1FDFDC00DA0D09 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FDCDE01B1FDFDC00DA0D09 /* PlaceholderTextView.swift */; };
+		95FDCDE31B1FEE7100DA0D09 /* BottomBorderedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FDCDE21B1FEE7100DA0D09 /* BottomBorderedTextField.swift */; };
 		9C7D4DE5A51ED97759C1ABCF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4B14E410488646383B73EA /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -130,6 +132,8 @@
 		95EFD2BE19F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2BF19F8D2B400086BAF /* CilloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CilloTests.swift; sourceTree = "<group>"; };
 		95F935B01A5DE11100F65022 /* NewBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewBoardViewController.swift; path = "View Controllers/Standard View Controllers/NewBoardViewController.swift"; sourceTree = "<group>"; };
+		95FDCDE01B1FDFDC00DA0D09 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceholderTextView.swift; path = Views/PlaceholderTextView.swift; sourceTree = "<group>"; };
+		95FDCDE21B1FEE7100DA0D09 /* BottomBorderedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomBorderedTextField.swift; path = Views/BottomBorderedTextField.swift; sourceTree = "<group>"; };
 		BA4B14E410488646383B73EA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED9476B1619E1D66568D104A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -292,6 +296,8 @@
 			isa = PBXGroup;
 			children = (
 				958ABA5D1B1BFD6600D00E5D /* CustomTextField.swift */,
+				95FDCDE21B1FEE7100DA0D09 /* BottomBorderedTextField.swift */,
+				95FDCDE01B1FDFDC00DA0D09 /* PlaceholderTextView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -541,6 +547,7 @@
 				95F935B11A5DE11100F65022 /* NewBoardViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
 				95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */,
+				95FDCDE11B1FDFDC00DA0D09 /* PlaceholderTextView.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
 				954382991A5A7FAA0036C237 /* BoardTableViewController.swift in Sources */,
 				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,
@@ -552,6 +559,7 @@
 				954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */,
 				959E0F0F1A2538D7008B4D19 /* Board.swift in Sources */,
 				959E0F0D1A2538C7008B4D19 /* BoardCell.swift in Sources */,
+				95FDCDE31B1FEE7100DA0D09 /* BottomBorderedTextField.swift in Sources */,
 				95B2B6391A5B22E500EAE822 /* UserTableViewController.swift in Sources */,
 				959E0F111A253A1E008B4D19 /* MyBoardsTableViewController.swift in Sources */,
 				95468AF119F99B8A00F158DE /* PostCell.swift in Sources */,

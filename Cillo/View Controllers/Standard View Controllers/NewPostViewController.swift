@@ -37,7 +37,7 @@ class NewPostViewController: CustomViewController {
   @IBOutlet weak var imageButton: UIButton!
   
   /// Field for end user to enter the text of their post.
-  @IBOutlet weak var postTextView: UITextView!
+  @IBOutlet weak var postTextView: PlaceholderTextView!
   
   /// Set to PostTextViewHeight after viewDidLayoutSubviews().
   @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!

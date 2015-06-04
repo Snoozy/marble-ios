@@ -8,8 +8,7 @@
 
 import UIKit
 
-@IBDesignable
-class CustomTextField: UITextField {
+@IBDesignable class CustomTextField: UITextField {
 
   @IBInspectable var inset: CGFloat = 8
   

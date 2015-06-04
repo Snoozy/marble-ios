@@ -16,17 +16,7 @@ Error Handling
 
 Tap tab to top
 
-Add a popup tableview when typing in a textfield involving Group names.
-
-name & username to side of pic in usercell
-
-change repost icon
-
-board field above user pic for new repost
-
-placeholders for textviews
-
-bottom border text fields with white backgrounds
+Add a popup tableview when typing in a textfield involving board names.
 
 finish code revamp for model, cells, and supporting files
 

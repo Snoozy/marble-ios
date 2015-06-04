@@ -67,7 +67,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.cilloBlue()
     case .Gray:
-      return UIColor.cilloGray()
+      return UIColor.grayColor()
     }
   }
   
@@ -94,7 +94,16 @@ struct ColorScheme {
     case .Blue:
       return UIColor.cilloBlueWithAlpha(0.1)
     case .Gray:
-      return UIColor.cilloGrayWithAlpha(0.1)
+      return UIColor.cilloGrayWithAlpha(0.4)
+    }
+  }
+  
+  func bottomBorderedTextFieldBackgroundColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.whiteColor()
+    case .Gray:
+      return UIColor.whiteColor()
     }
   }
   
@@ -130,7 +139,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.grayColor()
     case .Gray:
-      return UIColor.cilloGray()
+      return UIColor.grayColor()
     }
   }
   

@@ -14,19 +14,19 @@ class RegisterViewController: CustomViewController {
   // MARK: IBOutlets
   
   /// Field for end user to enter email.
-  @IBOutlet weak var emailTextField: CustomTextField!
+  @IBOutlet weak var emailTextField: BottomBorderedTextField!
   
   /// Field for end user to enter name.
-  @IBOutlet weak var nameTextField: CustomTextField!
+  @IBOutlet weak var nameTextField: BottomBorderedTextField!
   
   /// Field for end user to enter password
-  @IBOutlet weak var passwordTextField: CustomTextField!
+  @IBOutlet weak var passwordTextField: BottomBorderedTextField!
   
   /// Button allowing end user to create a new account.
   @IBOutlet weak var registerButton: UIButton!
   
   /// Field for end user to enter username
-  @IBOutlet weak var userTextField: CustomTextField!
+  @IBOutlet weak var userTextField: BottomBorderedTextField!
   
   // MARK: UIViewController
   
@@ -41,10 +41,10 @@ class RegisterViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    emailTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    userTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    passwordTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    emailTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    userTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    nameTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    passwordTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     registerButton.backgroundColor = scheme.solidButtonBackgroundColor()
     registerButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
   }

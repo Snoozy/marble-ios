@@ -50,7 +50,7 @@ class UserCell: UITableViewCell {
   ///
   /// **Note:** Height of bioTextView must be calculated based on it's text property.
   class var additionalVertSpaceNeeded: CGFloat {
-    return 174
+    return 126
   }
   
   /// Font of the text contained within bioTextView.
