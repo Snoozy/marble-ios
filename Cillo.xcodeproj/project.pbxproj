@@ -352,9 +352,9 @@
 				95062D0A1A0D2A6200B4162D /* Extensions.swift */,
 				95C86D931B052EEB00D37B7E /* Schemes.swift */,
 				95C86D951B0533F200D37B7E /* StoryboardIdentifiers.swift */,
+				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
 				95EFD2B019F8D2B400086BAF /* Images.xcassets */,
 				95EFD2B219F8D2B400086BAF /* LaunchScreen.xib */,
-				95EFD2A919F8D2B400086BAF /* AppDelegate.swift */,
 				95EFD2A819F8D2B400086BAF /* Info.plist */,
 				957FE9AB1AE1993400CADE1B /* bridge.h */,
 			);

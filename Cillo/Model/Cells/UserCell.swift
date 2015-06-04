@@ -113,7 +113,7 @@ class UserCell: UITableViewCell {
     // Make only the number in boardsButton bold
     var boardsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.boardCount), firstFont: UserCell.boardsFontBold, secondHalf: " BOARDS", secondFont: UserCell.boardsFont)
     boardsButton.setAttributedTitle(boardsText, forState: .Normal)
-    boardsButton.tintColor = UIColor.blackColor()
+    boardsButton.tintColor = UIColor.darkTextColor()
   }
   
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {

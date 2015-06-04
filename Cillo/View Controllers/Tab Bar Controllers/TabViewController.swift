@@ -41,8 +41,14 @@ class TabViewController: UITabBarController {
     }
   }
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    delegate = UIApplication.sharedApplication().delegate as? UITabBarControllerDelegate
+  }
+  
   override func viewDidAppear(animated: Bool){
     // Modally presents LoginViewController if NSUserDefaults doesn't have an Auth Token stored.
+    super.viewDidAppear(animated)
     if !NSUserDefaults.hasAuthAndUser() {
       performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
     } else {

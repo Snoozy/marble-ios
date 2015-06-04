@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   
+  var previousViewController: FormattedNavigationViewController?
+  
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     UITabBar.appearance().tintColor = UIColor.cilloBlue()
@@ -40,7 +42,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationWillTerminate(application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
+}
+
+extension AppDelegate: UITabBarControllerDelegate {
   
-  
+  func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+    var shouldSelectVC = true
+    if let navigationController = viewController as? FormattedNavigationViewController, presentedController = navigationController.topViewController as? CustomTableViewController {
+      if let previousViewController = previousViewController where previousViewController == navigationController {
+        if presentedController.tableView.contentOffset.y > 10 {
+          presentedController.tableView.setContentOffset(CGPoint.zeroPoint, animated: true)
+          shouldSelectVC = false // stops popping to navigation root vc
+        }
+      }
+      previousViewController = navigationController
+    }
+    return shouldSelectVC
+  }
 }
 

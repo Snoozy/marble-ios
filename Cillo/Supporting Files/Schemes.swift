@@ -48,7 +48,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.whiteColor()
     case .Gray:
-      return UIColor.blackColor()
+      return UIColor.lighterBlack()
     }
     
   }
@@ -58,7 +58,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.whiteColor()
     case .Gray:
-      return UIColor.blackColor()
+      return UIColor.lighterBlack()
     }
   }
   
@@ -85,7 +85,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.whiteColor()
     case .Gray:
-      return UIColor.blackColor()
+      return UIColor.darkTextColor()
     }
   }
   
@@ -166,7 +166,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.whiteColor()
     case .Gray:
-      return UIColor.blackColor()
+      return UIColor.darkTextColor()
     }
   }
   
@@ -202,7 +202,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.whiteColor()
     case .Gray:
-      return UIColor.blackColor()
+      return UIColor.darkTextColor()
     }
   }
   

@@ -100,7 +100,7 @@ class BoardCell: UITableViewCell {
     
     if !board.following {
       followButton.setTitle("Follow", forState: .Normal)
-      followButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+      followButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
     } else {
       followButton.setTitle("Following", forState: .Normal)
       followButton.setTitleColor(UIColor.upvoteGreen(), forState: .Normal)

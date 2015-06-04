@@ -144,10 +144,8 @@ class PostCell: UITableViewCell {
     
     if post.user.isSelf {
       nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Highlighted)
     } else {
-      nameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
-      nameButton.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+      nameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
     }
     
     if post.voteValue == 1 {
@@ -161,7 +159,7 @@ class PostCell: UITableViewCell {
     } else {
       upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      repLabel.textColor = UIColor.blackColor()
+      repLabel.textColor = UIColor.darkTextColor()
     }
     
     commentLabel.text = String.formatNumberAsString(number: post.commentCount)

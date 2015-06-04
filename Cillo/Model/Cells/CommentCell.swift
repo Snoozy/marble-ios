@@ -170,7 +170,7 @@ class CommentCell: UITableViewCell {
     } else if comment.user.isSelf {
       nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
     } else {
-      nameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+      nameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
     }
     
     // TODO: Handle voteValues changing colors of images

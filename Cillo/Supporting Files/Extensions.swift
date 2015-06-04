@@ -156,6 +156,10 @@ extension UIColor {
     return UIColor(red: 199/255.0, green: 199/255.0, blue: 205/255.0, alpha: 1.0)
   }
   
+  class func lighterBlack() -> UIColor {
+    return UIColor(red: 78/255.0, green: 78/255.0, blue: 78/255.0, alpha: 1.0)
+  }
+  
 }
 
 // MARK: -

@@ -115,7 +115,7 @@ class RepostCell: PostCell {
       if post.originalPost.user.isSelf {
         originalNameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
       } else {
-        originalNameButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        originalNameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
       }
       
       if let title = post.originalPost.title {

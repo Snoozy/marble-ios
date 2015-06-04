@@ -3520,10 +3520,10 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="GOD-W4-9jA"/>
                                             <exclude reference="1zM-ck-MFW"/>
                                             <exclude reference="7aE-Ke-iz2"/>
                                             <exclude reference="fHd-YM-H1i"/>
-                                            <exclude reference="GOD-W4-9jA"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
