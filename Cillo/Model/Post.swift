@@ -21,6 +21,11 @@ class Post: NSObject {
   
   /// All of the URLs for the images that this post is displaying.
   var imageURLs: [NSURL]?
+ 
+  /// True if the post is an image post.
+  var isImagePost:Bool {
+    return imageURLs != nil
+  }
   
   /// ID of this Post.
   var postID = 0
@@ -108,7 +113,36 @@ class Post: NSObject {
     super.init()
   }
   
-  // MARK: Helper Functions
+  // MARK: Setup Helper Functions
+  
+  /// Calculates the height of the images corresponding to the imagesURL array.
+  ///
+  /// :param: width The width of the screen
+  /// :param: height Height of the images button when `showImages` is false.
+  /// :returns: The height of the button that will be displaying the images for this post.
+  func heightOfImagesInPostWithWidth(width: CGFloat, andButtonHeight height: CGFloat) -> CGFloat {
+    if let imageURLs = imageURLs {
+      if showImages {
+        var h: CGFloat = 0.0
+        for imageURL in imageURLs {
+          let button = UIButton()
+          button.setBackgroundImageForState(.Normal, withURL: imageURL, placeholderImage: UIImage(named: "Me"))
+          let image = button.backgroundImageForState(.Normal)
+          if let image = image where image != UIImage(named: "Me") {
+            h += width * image.size.height / image.size.width
+          } else {
+            h += height
+          }
+          break // TODO: Find way to make multiple images
+        }
+        return h
+      } else {
+        return height
+      }
+    } else {
+      return 0
+    }
+  }
   
   /// Used to find the height of postTextView in a PostCell displaying this Post.
   ///
@@ -134,48 +168,10 @@ class Post: NSObject {
       return height
     }
   }
+
+  // MARK: Mutating Helper Functions
   
-  func heightOfImagesInPostWithWidth(width: CGFloat, andButtonHeight height: CGFloat) -> CGFloat {
-    if let imageURLs = imageURLs {
-      if showImages {
-        var h: CGFloat = 0.0
-        for imageURL in imageURLs {
-          let button = UIButton()
-          button.setBackgroundImageForState(.Normal, withURL: imageURL, placeholderImage: UIImage(named: "Me"))
-          let image = button.backgroundImageForState(.Normal)
-          if let image = image where image != UIImage(named: "Me") {
-            h += width * image.size.height / image.size.width
-          } else {
-            h += height
-          }
-          break // TODO: Find way to make multiple images
-        }
-        return h
-      } else {
-        return height
-      }
-    } else {
-      return 0
-    }
-  }
-  
-  // TODO: Document
-  func isImagePost() -> Bool {
-    return imageURLs != nil
-  }
-  
-  func upvote() {
-    switch voteValue {
-    case 0:
-      rep++
-    case -1:
-      rep += 2
-    default:
-      break
-    }
-    voteValue = 1
-  }
-  
+  /// Updates the post model to be downvoted.
   func downvote() {
     switch voteValue {
     case 0:
@@ -188,4 +184,16 @@ class Post: NSObject {
     voteValue = -1
   }
   
+  /// Updates the post model to be upvoted
+  func upvote() {
+    switch voteValue {
+    case 0:
+      rep++
+    case -1:
+      rep += 2
+    default:
+      break
+    }
+    voteValue = 1
+  }
 }

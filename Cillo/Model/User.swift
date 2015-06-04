@@ -85,6 +85,4 @@ class User: NSObject {
   func heightOfBioWithWidth(width: CGFloat) -> CGFloat {
     return bio.heightOfTextWithWidth(width, andFont: UserCell.bioTTTAttributedLabelFont)
   }
-  
-  
 }

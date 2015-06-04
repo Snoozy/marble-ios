@@ -11,8 +11,12 @@ import UIKit
 /// Defines all properties of a Repost on Cillo.
 class Repost: Post {
   
+  // MARK: Properties
+  
   /// The original Post that was reposted by this post.
   var originalPost = Post()
+  
+  // MARK: Initializers
   
   /// Creates Repost based on a swiftyJSON retrieved from a call to the Cillo servers.
   ///

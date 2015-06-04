@@ -157,18 +157,9 @@ class Comment: NSObject {
     return CGFloat(predictedIndentLevel(selected: selected)) * CommentCell.indentSize
   }
   
-  func upvote() {
-    switch voteValue {
-    case 0:
-      rep++
-    case -1:
-      rep += 2
-    default:
-      break
-    }
-    voteValue = 1
-  }
+  // MARK: Mutating Helper Functions
   
+  /// Updates the comment model to be downvoted.
   func downvote() {
     switch voteValue {
     case 0:
@@ -181,4 +172,16 @@ class Comment: NSObject {
     voteValue = -1
   }
   
+  /// Updates the comment model to be upvoted.
+  func upvote() {
+    switch voteValue {
+    case 0:
+      rep++
+    case -1:
+      rep += 2
+    default:
+      break
+    }
+    voteValue = 1
+  }
 }
