@@ -52,7 +52,7 @@ struct ColorScheme {
     case .Blue:
       return .WhiteLarge
     case .Gray:
-      return .WhiteLarge
+      return .Gray
     }
   }
   

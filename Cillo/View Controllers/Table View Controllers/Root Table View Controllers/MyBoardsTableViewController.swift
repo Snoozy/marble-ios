@@ -134,7 +134,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: boards The boards that the logged in User follows.
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completion: (boards: [Board]?) -> Void) {
-    if let userID = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User) as? Int) {
+    if let userID = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.user) as? Int) {
       DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
         if let error = error {
           println(error)

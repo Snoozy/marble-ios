@@ -223,8 +223,9 @@ class CommentCell: UITableViewCell {
     imageIndentConstraint.constant = getIndentationSize()
     
     //gets rid of small gap in divider
-    layoutMargins = UIEdgeInsetsZero
-    preservesSuperviewLayoutMargins = false
+    if respondsToSelector("setLayoutMargins:") {
+      layoutMargins = UIEdgeInsetsZero
+    }
     
     //adds the vertical lines to the cells
     for i in 0...indentationLevel {

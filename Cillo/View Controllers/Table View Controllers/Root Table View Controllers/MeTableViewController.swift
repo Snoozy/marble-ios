@@ -82,8 +82,8 @@ class MeTableViewController: SingleUserTableViewController {
     let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
       self.logout { success in
         if success {
-          NSUserDefaults.standardUserDefaults().removeObjectForKey(NSUserDefaults.Auth)
-          NSUserDefaults.standardUserDefaults().removeObjectForKey(NSUserDefaults.User)
+          NSUserDefaults.standardUserDefaults().removeObjectForKey(NSUserDefaults.auth)
+          NSUserDefaults.standardUserDefaults().removeObjectForKey(NSUserDefaults.user)
           if let tabBarController = self.tabBarController as? TabViewController {
             tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
           }

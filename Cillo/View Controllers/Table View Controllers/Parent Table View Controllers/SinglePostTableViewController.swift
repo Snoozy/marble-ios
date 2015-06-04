@@ -40,6 +40,11 @@ class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: Constants
   
+  /// The height on screen of the cells containing only single labels
+  var heightOfSingleLabelCells: CGFloat {
+    return 40.0
+  }
+  
   /// Tag of all buttons in the PostCell representing `post`
   let postCellTag = 1000000
   
@@ -83,6 +88,18 @@ class SinglePostTableViewController: CustomTableViewController {
     }
   }
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    // removes extraneous dividers
+    tableView.tableFooterView = UIView(frame: CGRect.zeroRect)
+    if tableView.respondsToSelector("setSeparatorInset:") {
+      tableView.separatorInset = UIEdgeInsetsZero
+    }
+    if tableView.respondsToSelector("setLayoutMargins:") {
+      tableView.layoutMargins = UIEdgeInsetsZero
+    }
+  }
+  
   override func viewWillDisappear(animated: Bool) {
     super.viewWillDisappear(animated)
     post.showImages = mainShowImages
@@ -101,35 +118,50 @@ class SinglePostTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 {
       return dequeueAndSetupPostCellForIndexPath(indexPath)
+    } else if commentTree.count == 0 {
+      return dequeueAndSetupNoCommentsCellForIndexPath(indexPath)
     } else {
       return dequeueAndSetupCommentCellForIndexPath(indexPath)
     }
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return section == 0 ? 1 : commentTree.count
+    if section == 0 || commentTree.count == 0 {
+      return 1
+    } else {
+      return commentTree.count
+    }
   }
   
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: false)
     if selectedPath != indexPath {
       selectedPath = indexPath
+      tableView.reloadData()
     } else {
       selectedPath = nil
+      tableView.reloadData()
     }
-    tableView.reloadData()
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
       return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: nil, andDividerHeight: 0)
+    } else if commentTree.count == 0 {
+      return heightOfSingleLabelCells
+    } else {
+      return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: selectedPath == indexPath, andDividerHeight: 0)
     }
-    return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: selectedPath == indexPath, andDividerHeight: 0)
   }
   
   override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
-    return indexPath.section == 0 ? 0 : commentTree[indexPath.row].predictedIndentLevel(selected: indexPath == selectedPath)
+    if indexPath.section == 0  || commentTree.count == 0{
+      return 0
+    } else {
+      return commentTree[indexPath.row].predictedIndentLevel(selected: indexPath == selectedPath)
+    }
   }
   
   // MARK: Setup Helper Functions
@@ -158,6 +190,17 @@ class SinglePostTableViewController: CustomTableViewController {
       }
     }
     
+    return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "No comments..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created NoCommentsCell.
+  func dequeueAndSetupNoCommentsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noCommentsCell, forIndexPath: indexPath) as! UITableViewCell
+    cell.separatorInset = UIEdgeInsets(top: 0, left: cell.frame.size.width, bottom: 0, right: 0)
     return cell
   }
   

@@ -39,7 +39,7 @@ class NewBoardViewController: CustomViewController {
   
   /// Calculated height of descripTextView based on frame size of device.
   var descripTextViewHeight: CGFloat {
-    return view.frame.height - UITextView.KeyboardHeight - vertSpaceExcludingDescripTextView
+    return view.frame.height - UITextView.keyboardHeight - vertSpaceExcludingDescripTextView
   }
   
   /// Height needed for all components of a NewBoardViewController excluding descripTextView in the Storyboard.

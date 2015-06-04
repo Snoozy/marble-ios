@@ -79,7 +79,7 @@ class LogInViewController: CustomViewController {
         error.showAlert()
         completion(success: false)
       } else {
-        NSUserDefaults.standardUserDefaults().setValue(result!, forKey: NSUserDefaults.Auth)
+        NSUserDefaults.standardUserDefaults().setValue(result!, forKey: NSUserDefaults.auth)
         completion(success: true)
       }
     }
@@ -100,7 +100,7 @@ class LogInViewController: CustomViewController {
         error.showAlert()
         completion(success: false)
       } else {
-        NSUserDefaults.standardUserDefaults().setValue(user!.userID, forKey: NSUserDefaults.User)
+        NSUserDefaults.standardUserDefaults().setValue(user!.userID, forKey: NSUserDefaults.user)
         completion(success: true)
       }
     }

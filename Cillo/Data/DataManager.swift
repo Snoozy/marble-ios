@@ -85,7 +85,7 @@ enum Router: URLStringConvertible {
   
   /// URL of the server call.
   var URLString: String {
-    let auth = NSUserDefaults.standardUserDefaults().stringForKey(NSUserDefaults.Auth)
+    let auth = NSUserDefaults.standardUserDefaults().stringForKey(NSUserDefaults.auth)
     var authString: String = ""
     if let auth = auth {
       authString = "?auth_token=\(auth)"

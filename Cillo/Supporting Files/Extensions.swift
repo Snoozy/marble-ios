@@ -217,12 +217,12 @@ extension NSUserDefaults {
   
   /// Key to retrieve Auth_Token for the logged in User
   class var auth: String {
-    return "auth"
+    return "Auth"
   }
   
   /// Key to retrieve userID for the logged in User
   class var user: String {
-    return "user"
+    return "User"
   }
   
   // MARK: Setup Helper Functions

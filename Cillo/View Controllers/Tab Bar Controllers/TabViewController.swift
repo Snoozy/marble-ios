@@ -52,8 +52,8 @@ class TabViewController: UITabBarController {
     if !NSUserDefaults.hasAuthAndUser() {
       performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
     } else {
-      println(NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.Auth)! as! String)
-      println(NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.User)! as! Int)
+      println(NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.auth)! as! String)
+      println(NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.user)! as! Int)
     }
   }
   

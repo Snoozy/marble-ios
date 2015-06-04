@@ -57,7 +57,7 @@ class NewPostViewController: CustomViewController {
   
   /// Calculated height of postTextView based on frame size of device.
   var postTextViewHeight: CGFloat {
-    return view.frame.height - UITextView.KeyboardHeight - NewPostViewController.vertSpaceExcludingPostTextView
+    return view.frame.height - UITextView.keyboardHeight - NewPostViewController.vertSpaceExcludingPostTextView
   }
   
   /// Height needed for all components of a NewPostViewController excluding postTextView in the Storyboard.
@@ -137,7 +137,7 @@ class NewPostViewController: CustomViewController {
     if let image = image {
       scrollView?.removeFromSuperview()
       var height = imageButton.frame.width * image.size.height / image.size.width
-      scrollView = UIScrollView(frame: CGRect(x: imageButton.frame.minX, y: imageButton.frame.minY, width: imageButton.frame.width, height: UITextView.KeyboardHeight))
+      scrollView = UIScrollView(frame: CGRect(x: imageButton.frame.minX, y: imageButton.frame.minY, width: imageButton.frame.width, height: UITextView.keyboardHeight))
       view.addSubview(scrollView!)
       scrollView!.contentSize = CGSize(width: imageButton.frame.size.width, height: height)
       let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: scrollView!.contentSize.width, height: scrollView!.contentSize.height))

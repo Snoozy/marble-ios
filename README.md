@@ -14,8 +14,6 @@ Error Handling
 
 Add a popup tableview when typing in a textfield involving board names.
 
-finish code revamp for model, cells, and supporting files
-
 store auth token in keychain not nsuserdefaults
 
 **Other:**

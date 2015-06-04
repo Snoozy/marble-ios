@@ -975,10 +975,29 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
+                            <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoComments" rowHeight="40" id="aKi-Az-JxR" userLabel="No Comments">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="aKi-Az-JxR" id="obU-zP-zUJ">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7L-0B-hP7">
+                                            <rect key="frame" x="239.5" y="9.5" width="122.5" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="P7L-0B-hP7" secondAttribute="centerX" id="odE-Ej-Soi"/>
+                                        <constraint firstAttribute="centerY" secondItem="P7L-0B-hP7" secondAttribute="centerY" id="tg3-Ri-aG3"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Post" rowHeight="187" id="sam-C3-RSa" customClass="PostCell" customModule="Cillo" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sam-C3-RSa" id="FZr-ky-4Vh">
@@ -2705,7 +2724,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Board" title="Board Table" id="99g-h6-cT9" userLabel="Board Table" customClass="BoardTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3416,7 +3435,7 @@
             <objects>
                 <tableViewController id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -4440,7 +4459,7 @@
             <objects>
                 <tableViewController title="Boards Table" id="csT-b3-QYy" userLabel="Boards Table" customClass="BoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -5072,9 +5091,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="tpB-Dw-nh7"/>
-        <segue reference="162-n2-HAP"/>
-        <segue reference="Ndf-JY-QqC"/>
         <segue reference="Jl6-tW-uib"/>
+        <segue reference="syA-mT-UDy"/>
+        <segue reference="162-n2-HAP"/>
+        <segue reference="8tG-h2-T9M"/>
     </inferredMetricsTieBreakers>
 </document>

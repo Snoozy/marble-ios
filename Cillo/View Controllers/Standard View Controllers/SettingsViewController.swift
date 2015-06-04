@@ -74,7 +74,7 @@ class SettingsViewController: CustomViewController {
     bioTextView.text = user.bio
     photoButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
     photoButton.clipsToBounds = true
-    photoButton.layer.cornerRaidus = 5.0
+    photoButton.layer.cornerRadius = 5.0
   }
   
   // MARK: Network Helper Functions

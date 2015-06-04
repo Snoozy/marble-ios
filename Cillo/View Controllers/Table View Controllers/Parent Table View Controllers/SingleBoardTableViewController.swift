@@ -302,7 +302,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is an originalPostButton in a RepostCell.
   @IBAction func goToOriginalPost(sender: UIButton) {
-    if let post = posts[sender.tag] as? Repost {
+    if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
       performSegueWithIdentifier(segueIdentifierThisToPost, sender: sender)
     }
   }

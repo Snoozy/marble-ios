@@ -172,4 +172,9 @@ struct StoryboardIdentifiers {
   
   /// Reuse identifier for "New Board" UITableViewCell in MultipleBoardsTableViewController tableView.
   static let newBoardCell = "NewBoard"
+  
+  // MARK: SinglePostTableViewController Single Label Cells
+  
+  /// Reuse identifier for "No Comments" UITableViewCell in SinglePostTableViewController tableView.
+  static let noCommentsCell = "NoComments"
 }

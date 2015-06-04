@@ -112,7 +112,7 @@ class BoardCell: UITableViewCell {
     pictureButton.clipsToBounds = true
     pictureButton.layer.cornerRadius = 5.0
     
-    descripTTTAttributedLabel.setupWithText(board.description, andFont: BoardCell.descripTTTAttributedLabelFont)
+    descripTTTAttributedLabel.setupWithText(board.descrip, andFont: BoardCell.descripTTTAttributedLabelFont)
     
     pictureButton.tag = buttonTag
     nameButton.tag = buttonTag
