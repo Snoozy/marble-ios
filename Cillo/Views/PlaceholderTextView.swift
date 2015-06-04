@@ -16,7 +16,7 @@ import UIKit
   /// Label that displays `placeholder` in the actual text view.
   private var placeholderLabel: UILabel?
   
-  // IBInspectable Properties
+  // MARK: IBInspectable Properties
   
   /// Color of the placeholder.
   @IBInspectable var placeholderColor: UIColor = UIColor.placeholderColor()

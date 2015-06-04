@@ -16,64 +16,69 @@ class PostCell: UITableViewCell {
   
   // MARK: IBOutlets
   
+  /// Displays board.name property of Post.
+  @IBOutlet weak var boardButton: UIButton!
+  
+  /// Centers view on Comments Section of PostTableViewController.
+  @IBOutlet weak var commentButton: UIButton!
+  
+  /// Displays commentCount property of Post.
+  @IBOutlet weak var commentLabel: UILabel!
+  
+  /// Downvotes Post.
+  @IBOutlet weak var downvoteButton: UIButton!
+  
+  /// Loads images corresponding to imageURLs property of Post asynchronously.
+  @IBOutlet weak var imagesButton: UIButton!
+  
+  ///Controls height of imagesButton.
+  ///
+  /// Set constant to 20 if showImages is false, otherwise set it to the height of the image.
+  @IBOutlet weak var imagesButtonHeightConstraint: NSLayoutConstraint!
+  
   /// Displays user.name property of Post.
   @IBOutlet weak var nameButton: UIButton!
   
   /// Displays user.profilePic property of Post.
   @IBOutlet weak var pictureButton: UIButton!
   
-  /// Displays board.name property of Post.
-  @IBOutlet weak var boardButton: UIButton!
-  
+  /// Displays text property of Post.
   @IBOutlet weak var postTTTAttributedLabel: TTTAttributedLabel!
-  
-  /// Displays title property of Post.
-  @IBOutlet weak var titleLabel: UILabel!
-  
-  /// Displays time property of Post.
-  @IBOutlet weak var timeLabel: UILabel!
-  
-  /// Displays numComments property of Post.
-  @IBOutlet weak var commentLabel: UILabel!
   
   /// Displays rep property of Post.
   @IBOutlet weak var repLabel: UILabel!
   
-  /// Changes seeFull value of Post.
-  /// 
-  /// Posts with seeFull == nil do not have this UIButton.
-  @IBOutlet weak var seeFullButton: UIButton?
-  
-  /// Upvotes Post.
-  @IBOutlet weak var upvoteButton: UIButton!
-  
-  /// Downvotes Post.
-  @IBOutlet weak var downvoteButton: UIButton!
-  
-  /// Centers view on Comments Section of PostTableViewController.
-  @IBOutlet weak var commentButton: UIButton!
-  
   /// Reposts Post in a different Board.
   @IBOutlet weak var repostButton: UIButton!
   
+  /// Changes seeFull value of Post.
+  ///
+  /// Posts with seeFull == nil do not have this UIButton.
+  @IBOutlet weak var seeFullButton: UIButton?
+  
   /// Custom border between cells.
   ///
-  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants totuse default UITableView separators.
+  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants to use default UITableView separators.
   @IBOutlet weak var separatorView: UIView?
+  
+  /// Controls height of separatorView.
+  ///
+  /// Set constant to value of separatorHeight in the makeCellFromPost(_:withButtonTag:andSeparatorHeight:) function.
+  @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
+  
+  /// Displays time property of Post.
+  @IBOutlet weak var timeLabel: UILabel!
   
   /// Controls height of titleLabel.
   ///
   /// If title of Post is nil, set constant to 0.
   @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
   
-  /// Controls height of separatorView.
-  ///
-  /// Set constant to value of separatorHeight in the makeCellFromPost(_:_:_:) function.
-  @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
+  /// Displays title property of Post.
+  @IBOutlet weak var titleLabel: UILabel!
   
-  @IBOutlet weak var imagesButton: UIButton!
-  
-  @IBOutlet weak var imagesButtonHeightConstraint: NSLayoutConstraint!
+  /// Upvotes Post.
+  @IBOutlet weak var upvoteButton: UIButton!
 
   // MARK: Constants
   
@@ -83,23 +88,51 @@ class PostCell: UITableViewCell {
   class var additionalVertSpaceNeeded: CGFloat {
     return 140
   }
+  /// Font of the text contained within postTTTAttributedLabel.
+  class var postTTTAttributedLabelFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
+  }
   
   /// Height of titleLabel in Storyboard.
   class var titleHeight: CGFloat {
     return 26
   }
   
-  // TODO: Document
-  class var imageMargins: CGFloat {
-    return 3
+  // MARK: UITableViewCell
+  
+  override func prepareForReuse() {
+    imagesButtonHeightConstraint.constant = 0
+    separatorViewHeightConstraint?.constant = 0
+    imagesButton.setTitle("", forState: .Normal)
+    nameButton.enabled = true
+    pictureButton.enabled = true
   }
   
-  /// Font of the text contained within postTTTAttributedLabel.
-  class var postTTTAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+  // MARK: Setup Helper Functions
+  
+  /// Assigns all delegates of cell to the given parameter.
+  ///
+  /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    postTTTAttributedLabel.delegate = delegate
   }
   
-  // MARK: Helper Functions
+  /// Calculates the height of the cell given the properties of `post`.
+  ///
+  /// :param: post The post that this cell is based on.
+  /// :param: width The width of the cell in the tableView.
+  /// :param: maxHeight The maximum height of the cell when seeFull is false.
+  /// :param: dividerHeight The height of the `separatorView` in the tableView.
+  /// :returns: The height that the cell should be in the tableView.
+  class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    if let post = post as? Repost {
+      return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
+    }
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postTTTAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
+    height += post.heightOfImagesInPostWithWidth(width, andButtonHeight: 20)
+    height += dividerHeight
+    return post.title != nil ? height : height - PostCell.titleHeight
+  }
   
   /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
   ///
@@ -115,16 +148,12 @@ class PostCell: UITableViewCell {
     nameButton.setTitle(nameTitle, forState: .Normal)
     boardButton.setTitle(post.board.name, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: post.user.profilePicURL)
-    nameButton.setTitle(nameTitle, forState: .Highlighted)
-    boardButton.setTitle(post.board.name, forState: .Highlighted)
-    pictureButton.setBackgroundImageForState(.Highlighted, withURL: post.user.profilePicURL)
     timeLabel.text = post.time
     
-    postTTTAttributedLabel.numberOfLines = 0
-    postTTTAttributedLabel.font = PostCell.postTTTAttributedLabelFont
-    postTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
-    postTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
-    postTTTAttributedLabel.text = post.text
+    pictureButton.clipsToBounds = true
+    pictureButton.layer.cornerRadius = 5.0
+    
+    postTTTAttributedLabel.setupWithText(post.text, andFont: PostCell.postTTTAttributedLabelFont)
     
     if post.user.isAnon {
       nameButton.setTitle(nameTitle, forState: .Disabled)
@@ -164,7 +193,6 @@ class PostCell: UITableViewCell {
     
     commentLabel.text = String.formatNumberAsString(number: post.commentCount)
     commentLabel.textColor = UIColor.whiteColor()
-    contentView.bringSubviewToFront(commentLabel)
     repLabel.text = String.formatNumberAsString(number: post.rep)
     repLabel.font = UIFont.systemFontOfSize(24)
     
@@ -218,27 +246,4 @@ class PostCell: UITableViewCell {
       }
     }
   }
-  
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    postTTTAttributedLabel.delegate = delegate
-  }
-  
-  class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    if let post = post as? Repost {
-      return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
-    }
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postTTTAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
-    height += post.heightOfImagesInPostWithWidth(width, andButtonHeight: 20)
-    height += dividerHeight
-    return post.title != nil ? height : height - PostCell.titleHeight
-  }
-  
-  override func prepareForReuse() {
-    imagesButtonHeightConstraint.constant = 0
-    separatorViewHeightConstraint?.constant = 0
-    imagesButton.setTitle("", forState: .Normal)
-    nameButton.enabled = true
-    pictureButton.enabled = true
-  }
-  
 }

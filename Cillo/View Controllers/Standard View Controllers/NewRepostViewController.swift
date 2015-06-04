@@ -191,6 +191,8 @@ class RepostContentView: UIView {
     
     pictureButton = UIButton(frame: CGRect(x: 8, y: 56, width: 40, height: 40))
     pictureButton.enabled = false
+    pictureButton.clipsToBounds = true
+    pictureButton.layer.cornerRadius = 5.0
     
     usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 65, width: width - pictureButton.frame.width - 24, height: 21))
     usernameLabel.font = UIFont.boldSystemFontOfSize(17)
@@ -210,6 +212,8 @@ class RepostContentView: UIView {
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
     originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
     originalPictureButton.enabled = false
+    originalPictureButton.clipsToBounds = true
+    originalPictureButton.layer.cornerRadius = 5.0
     
     originalUsernameLabel = UILabel(frame: CGRect(x: originalPictureButton.frame.maxX + 8, y: originalPostTopEdge, width: 200, height: 18))
     originalUsernameLabel.font = UIFont.boldSystemFontOfSize(15)

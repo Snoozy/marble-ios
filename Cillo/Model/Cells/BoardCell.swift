@@ -3,13 +3,11 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 11/25/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
 import TTTAttributedLabel
-
-// TODO: Handle following property of Board
 
 /// Cell that corresponds to reuse identifier "Board".
 ///
@@ -18,16 +16,13 @@ class BoardCell: UITableViewCell {
   
   // MARK: IBOutlets
   
-  /// Displays picture property of Board.
-  @IBOutlet weak var pictureButton: UIButton!
-  
-  /// Displays name property of Board.
-  @IBOutlet weak var nameButton: UIButton!
-  
   /// Displays descrip property of Board.
   ///
   /// Height of this UITextView is calulated by heightOfDescripWithWidth(_:) in Board.
   @IBOutlet weak var descripTTTAttributedLabel: TTTAttributedLabel!
+  
+  /// Follows or unfollows Board.
+  @IBOutlet weak var followButton: UIButton!
   
   /// Displays numFollowers property of Board.
   ///
@@ -36,9 +31,12 @@ class BoardCell: UITableViewCell {
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var followersLabel: UILabel!
   
-  /// Follows or unfollows Board.
-  @IBOutlet weak var followButton: UIButton!
+  /// Displays name property of Board.
+  @IBOutlet weak var nameButton: UIButton!
   
+  /// Displays picture property of Board.
+  @IBOutlet weak var pictureButton: UIButton!
+
   /// Custom border between cells.
   ///
   /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants totuse default UITableView separators.
@@ -73,7 +71,30 @@ class BoardCell: UITableViewCell {
     return UIFont.boldSystemFontOfSize(18.0)
   }
   
-  // MARK: Helper Methods
+  // MARK: UITableViewCell
+  
+  override func prepareForReuse() {
+    separatorViewHeightConstraint?.constant = 0
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Assigns all delegates of cell to the given parameter.
+  ///
+  /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    descripTTTAttributedLabel.delegate = delegate
+  }
+  
+  /// Calculates the height of the cell given the properties of `board`.
+  ///
+  /// :param: board The board that this cell is based on.
+  /// :param: width The width of the cell in the tableView.
+  /// :param: dividerHeight The height of the `separatorView` in the tableView.
+  /// :returns: The height that the cell should be in the tableView.
+  class func heightOfBoardCellForBoard(board: Board, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    return board.heightOfDescripWithWidth(width) + BoardCell.additionalVertSpaceNeeded + dividerHeight
+  }
   
   /// Makes this BoardCell's IBOutlets display the correct values of the corresponding Board.
   ///
@@ -88,11 +109,10 @@ class BoardCell: UITableViewCell {
     pictureButton.setBackgroundImageForState(.Normal, withURL: board.pictureURL)
     nameButton.setTitle(board.name, forState: .Normal)
     
-    descripTTTAttributedLabel.numberOfLines = 0
-    descripTTTAttributedLabel.font = BoardCell.descripTTTAttributedLabelFont
-    descripTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
-    descripTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
-    descripTTTAttributedLabel.text = board.descrip
+    pictureButton.clipsToBounds = true
+    pictureButton.layer.cornerRadius = 5.0
+    
+    descripTTTAttributedLabel.setupWithText(board.description, andFont: BoardCell.descripTTTAttributedLabelFont)
     
     pictureButton.tag = buttonTag
     nameButton.tag = buttonTag
@@ -114,17 +134,5 @@ class BoardCell: UITableViewCell {
       separatorView.backgroundColor = scheme.dividerBackgroundColor()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
-  }
-  
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    descripTTTAttributedLabel.delegate = delegate
-  }
-  
-  class func heightOfBoardCellForBoard(board: Board, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    return board.heightOfDescripWithWidth(width) + BoardCell.additionalVertSpaceNeeded + dividerHeight
-  }
-  
-  override func prepareForReuse() {
-    separatorViewHeightConstraint?.constant = 0
   }
 }

@@ -3,7 +3,7 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 11/13/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
@@ -16,26 +16,10 @@ class UserCell: UITableViewCell {
   
   // MARK: IBOutlets
   
-  /// Displays profilePic property of User.
-  @IBOutlet weak var pictureButton: UIButton!
-  
-  /// Displays name property of User.
-  @IBOutlet weak var nameButton: UIButton!
-  
-  /// Displays username property of User.
-  @IBOutlet weak var usernameButton: UIButton!
-  
   /// Displays bio property of User.
   ///
   /// Height of this UITextView is calulated by heightOfBioWithWidth(_:) in User.
   @IBOutlet weak var bioTTTAttributedLabel: TTTAttributedLabel!
-  
-  /// Displays rep property of User.
-  ///
-  /// Text should display a bolded rep value followed by an unbolded " REP".
-  ///
-  /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
-  @IBOutlet weak var repLabel: UILabel!
   
   /// Displays numBoards propert of User.
   ///
@@ -43,6 +27,22 @@ class UserCell: UITableViewCell {
   ///
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var boardsButton: UIButton!
+
+  /// Displays name property of User.
+  @IBOutlet weak var nameButton: UIButton!
+  
+  /// Displays profilePic property of User.
+  @IBOutlet weak var pictureButton: UIButton!
+  
+  /// Displays rep property of User.
+  ///
+  /// Text should display a bolded rep value followed by an unbolded " REP".
+  ///
+  /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
+  @IBOutlet weak var repLabel: UILabel!
+
+  /// Displays username property of User.
+  @IBOutlet weak var usernameButton: UIButton!
 
   // MARK: Constants
   
@@ -58,16 +58,6 @@ class UserCell: UITableViewCell {
     return UIFont.systemFontOfSize(15.0)
   }
   
-  /// Font used for the word " REP" in repLabel.
-  class var repFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
-  }
-  
-  /// Font used for the rep value in repLabel.
-  class var repFontBold: UIFont {
-    return UIFont.boldSystemFontOfSize(18.0)
-  }
-  
   /// Font used for the word " GROUPS" in boardsButton.
   class var boardsFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
@@ -78,7 +68,17 @@ class UserCell: UITableViewCell {
     return UIFont.boldSystemFontOfSize(18.0)
   }
   
-  // MARK: Helper Methods
+  /// Font used for the word " REP" in repLabel.
+  class var repFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
+  }
+  
+  /// Font used for the rep value in repLabel.
+  class var repFontBold: UIFont {
+    return UIFont.boldSystemFontOfSize(18.0)
+  }
+
+  // MARK: Setup Helper Functions
   
   /// Makes this UserCell's IBOutlets display the correct values of the corresponding User.
   ///
@@ -92,11 +92,10 @@ class UserCell: UITableViewCell {
     nameButton.setTitle(user.name, forState: .Normal)
     usernameButton.setTitle("@\(user.username)", forState: .Normal)
     
-    bioTTTAttributedLabel.numberOfLines = 0
-    bioTTTAttributedLabel.font = UserCell.bioTTTAttributedLabelFont
-    bioTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
-    bioTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
-    bioTTTAttributedLabel.text = user.bio
+    pictureButton.clipsToBounds = true
+    pictureButton.layer.cornerRadius = 5.0
+    
+    bioTTTAttributedLabel.setupWithText(user.bio, andFont: UserCell.bioTTTAttributedLabelFont)
     
     pictureButton.tag = buttonTag
     nameButton.tag = buttonTag
@@ -116,10 +115,18 @@ class UserCell: UITableViewCell {
     boardsButton.tintColor = UIColor.darkTextColor()
   }
   
+  /// Assigns all delegates of cell to the given parameter.
+  ///
+  /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
     bioTTTAttributedLabel.delegate = delegate
   }
   
+  /// Calculates the height of the cell given the properties of `user`.
+  ///
+  /// :param: user The user that this cell is based on.
+  /// :param: width The width of the cell in the tableView.
+  /// :returns: The height that the cell should be in the tableView.
   class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {
     return user.heightOfBioWithWidth(width) + UserCell.additionalVertSpaceNeeded
   }

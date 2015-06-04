@@ -73,7 +73,8 @@ class SettingsViewController: CustomViewController {
     usernameTextField.text = user.username
     bioTextView.text = user.bio
     photoButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
-    photoButton.setBackgroundImageForState(.Highlighted, withURL: user.profilePicURL)
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRaidus = 5.0
   }
   
   // MARK: Network Helper Functions

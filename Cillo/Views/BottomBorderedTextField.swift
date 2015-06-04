@@ -8,12 +8,19 @@
 
 import UIKit
 
+/// Text field class that has only a border at the bottom of the field.
 @IBDesignable class BottomBorderedTextField: CustomTextField {
 
+  // MARK: IBInspectable Properties
+  
+  /// Width of the line at the bottom of the text field.
   @IBInspectable var bottomBorderWidth: CGFloat = 1.0
   
+  /// Color of the line at the bottom of the text field.
   @IBInspectable var bottomBorderColor: UIColor = ColorScheme.defaultScheme.thinLineBackgroundColor()
 
+  // MARK: UIView
+  
   override func drawRect(rect: CGRect) {
     super.drawRect(rect)
     var bottomBorder = CALayer();

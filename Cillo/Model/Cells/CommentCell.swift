@@ -3,14 +3,11 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 11/3/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
 import TTTAttributedLabel
-
-// TODO: Handle Original Poster tag
-// TODO: Implement a reply button.
 
 /// Cell that corresponds to reuse identifier "Comment".
 ///
@@ -26,31 +23,28 @@ class CommentCell: UITableViewCell {
   
   // MARK: IBOutlets
   
+  /// Displays text property of Comment.
+  @IBOutlet weak var commentTTTAttributedLabel: TTTAttributedLabel!
+  
+  /// Downvotes Comment.
+  @IBOutlet weak var downvoteButton: UIButton?
+  
+  /// Controls the indent of the elements of the cell.
+  ///
+  /// Set to .getIndentationSize().
+  @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
+  
   /// Displays user.name property of Comment.
   @IBOutlet weak var nameButton: UIButton!
   
   /// Displays user.profilePic property of Comment.
   @IBOutlet weak var pictureButton: UIButton!
   
-  /// Upvotes Comment.
-  @IBOutlet weak var upvoteButton: UIButton?
-  
-  /// Downvotes Comment.
-  @IBOutlet weak var downvoteButton: UIButton?
-  
   /// Replies to Comment.
   @IBOutlet weak var replyButton: UIButton?
   
-  @IBOutlet weak var commentTTTAttributedLabel: TTTAttributedLabel!
-  
   /// Displays rep and time of Comment
   @IBOutlet weak var repAndTimeLabel: UILabel!
-  
-  /// Set to 0 when cell is selected and ButtonHeight when selected.
-  @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint?
-  
-  /// Set to .getIndentationSize().
-  @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
   
   /// Custom border between cells.
   ///
@@ -62,12 +56,15 @@ class CommentCell: UITableViewCell {
   /// Set constant to value of separatorHeight in the makeCellFromBoard(_:_:_:) function.
   @IBOutlet weak var separatorViewHeightConstraint: NSLayoutConstraint?
   
-  // MARK: Constants
+  /// Upvotes Comment.
+  @IBOutlet weak var upvoteButton: UIButton?
   
-  /// Font of the text contained within commentTextView.
-  class var commentTTTAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
-  }
+  /// Controls height of the buttons in the cell.
+  ///
+  /// Set to 0 when cell is selected and ButtonHeight when selected.
+  @IBOutlet weak var upvoteHeightConstraint: NSLayoutConstraint?
+  
+  // MARK: Constants
   
   /// Height needed for all components of a CommentCell excluding commentTextView in the Storyboard.
   ///
@@ -88,18 +85,54 @@ class CommentCell: UITableViewCell {
     return 32
   }
   
+  /// Font of the text contained within commentTextView.
+  class var commentTTTAttributedLabelFont: UIFont {
+    return UIFont.systemFontOfSize(15.0)
+  }
+
   /// Width of indent per indentationLevel of indented Comments.
   class var indentSize: CGFloat {
     return 30
   }
   
-  // MARK: Helper Methods
+  // MARK: UITableViewCell
   
+  override func prepareForReuse() {
+    nameButton.enabled = true
+    pictureButton.enabled = true
+    upvoteHeightConstraint?.constant = 0.0
+    imageIndentConstraint.constant = 0.0
+    for line in lines {
+      line.removeFromSuperview()
+    }
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Assigns all delegates of cell to the given parameter.
+  ///
+  /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    commentTTTAttributedLabel.delegate = delegate
+  }
+
   /// Used to find how many pixels a CommentCell should be indented based on its indentationLevel.
   ///
   /// :returns: True indent size for cell with current indentationLevel.
   func getIndentationSize() -> CGFloat {
     return CGFloat(indentationLevel) * CommentCell.indentSize + 8
+  }
+  
+  /// Calculates the height of the cell given the properties of `comment`.
+  ///
+  /// :param: comment The comment that this cell is based on.
+  /// :param: width The width of the cell in the tableView.
+  /// :param: selected True if this cell is selected in the tableview, meaning it will show its button and have no indent.
+  /// :param: dividerHeight The height of the `separatorView` in the tableView.
+  /// :returns: The height that the cell should be in the tableView.
+  class func heightOfCommentCellForComment(comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    let height = comment.heightOfCommentWithWidth(width, selected: selected) + CommentCell.additionalVertSpaceNeeded + dividerHeight
+    return selected ? height : height - CommentCell.buttonHeight
   }
   
   /// Makes this CommentCell's IBOutlets display the correct values of the corresponding Comment.
@@ -126,6 +159,9 @@ class CommentCell: UITableViewCell {
     nameButton.setTitle(nameTitle, forState: .Normal)
     pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
     
+    pictureButton.clipsToBounds = true
+    pictureButton.layer.cornerRadius = 5.0
+    
     if comment.user.isAnon {
       nameButton.setTitle(nameTitle, forState: .Disabled)
       pictureButton.setBackgroundImageForState(.Disabled, withURL: comment.user.profilePicURL)
@@ -133,11 +169,7 @@ class CommentCell: UITableViewCell {
       pictureButton.enabled = false
     }
     
-    commentTTTAttributedLabel.numberOfLines = 0
-    commentTTTAttributedLabel.font = CommentCell.commentTTTAttributedLabelFont
-    commentTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
-    commentTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
-    commentTTTAttributedLabel.text = comment.text
+    commentTTTAttributedLabel.setupWithText(comment.text, andFont: CommentCell.commentTTTAttributedLabelFont)
     
     var repText = String.formatNumberAsString(number: comment.rep)
     if comment.rep > 0 {
@@ -209,25 +241,5 @@ class CommentCell: UITableViewCell {
     
     preservesSuperviewLayoutMargins = false
   }
-  
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    commentTTTAttributedLabel.delegate = delegate
-  }
-  
-  class func heightOfCommentCellForComment(comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    let height = comment.heightOfCommentWithWidth(width, selected: selected) + CommentCell.additionalVertSpaceNeeded + dividerHeight
-    return selected ? height : height - CommentCell.buttonHeight
-  }
-  
-  override func prepareForReuse() {
-    nameButton.enabled = true
-    pictureButton.enabled = true
-    upvoteHeightConstraint?.constant = 0.0
-    imageIndentConstraint.constant = 0.0
-    for line in lines {
-      line.removeFromSuperview()
-    }
-  }
-  
 }
 

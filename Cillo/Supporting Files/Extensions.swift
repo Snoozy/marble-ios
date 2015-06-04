@@ -7,6 +7,17 @@
 //
 
 import UIKit
+import TTTAttributedLabel
+
+extension TTTAttributedLabel {
+  func setupWithText(text: String, andFont font: UIFont) {
+    numberOfLines = 0
+    self.font = font
+    enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
+    self.text = text
+  }
+}
 
 extension String {
   

@@ -118,6 +118,8 @@ class NewPostViewController: CustomViewController {
     }
     retrieveUser { user in
       if let user = user {
+        self.userImageView.clipsToBounds = true
+        self.userImageView.layer.cornerRadius = 5.0
         self.userImageView.setImageWithURL(user.profilePicURL)
         self.usernameLabel.text = user.name
       }

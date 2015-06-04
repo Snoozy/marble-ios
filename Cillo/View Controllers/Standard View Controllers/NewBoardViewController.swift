@@ -81,6 +81,8 @@ class NewBoardViewController: CustomViewController {
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
     descripTextViewHeightConstraint.constant = descripTextViewHeight
+    pictureButton.clipsToBounds = true
+    pictureButton.layer.cornerRadius = 5.0
   }
   
   // MARK: Networking Helper Functions

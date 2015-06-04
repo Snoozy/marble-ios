@@ -3,63 +3,101 @@
 //  Cillo
 //
 //  Created by Andrew Daley on 12/25/14.
-//  Copyright (c) 2014 Cillo. All rights reserved.
+//  Copyright (c) 2015 Cillo. All rights reserved.
 //
 
 import UIKit
 import TTTAttributedLabel
 
-// TODO: Rephrase the "Reposted from Board" to better show that it takes the User to the original Post.
-
 /// Cell that corresponds to reuse identifier "Repost".
 ///
-/// Used to format Posts with (repost = true) in UITableViews.
+/// Used to format Posts with (`repost` == true) in UITableViews.
 class RepostCell: PostCell {
   
   // MARK: IBOutlets
   
-  @IBOutlet weak var originalPictureButton: UIButton!
-  
-  @IBOutlet weak var originalNameButton: UIButton!
-  
-  @IBOutlet weak var originalBoardButton: UIButton!
-  
+  /// Sends the user to the original post.
   @IBOutlet weak var goToOriginalPostButton: UIButton!
   
-  @IBOutlet weak var verticalLineView: UIView!
+  /// Displays board.name for originalPost.
+  @IBOutlet weak var originalBoardButton: UIButton!
   
-  @IBOutlet weak var postTTTAttributedLabelHeightConstraint: NSLayoutConstraint!
+  /// Displays user.name for orginalPost.
+  @IBOutlet weak var originalNameButton: UIButton!
   
+  /// Displays user.profilePic for originalPost.
+  @IBOutlet weak var originalPictureButton: UIButton!
+  
+  /// Displays text of originalPost.
   @IBOutlet weak var originalPostTTTAttributedLabel: TTTAttributedLabel!
   
+  /// Controls height of postTTTAttributedlabel.
+  ///
+  /// Allows both postTTTAtttibutedLabel and originalPostTTTAttributedLabel to have dynamic heights based on their text size.
+  @IBOutlet weak var postTTTAttributedLabelHeightConstraint: NSLayoutConstraint!
   
+  /// Vertical line next to repost components that shows the post is the repost.
+  @IBOutlet weak var verticalLineView: UIView!
   
   // MARK: Constants
   
-  // Height needed for all components of a RepostCell excluding postTextView in the Storyboard.
-  //
-  // **Note:** Height of postTextView must be calculated based on it's text property.
   override class var additionalVertSpaceNeeded: CGFloat {
     return 205
   }
   
+  /// Distance to originalPost related elements in the RepostCell.
   class var originalPostMargins: CGFloat {
     return 37
   }
   
+  /// Height of the titleLabel in a RepostCell.
   class var originalPostTitleHeight: CGFloat {
     return 23
   }
   
+  /// Font of originalPostTTTAttributedLabel.
   class var originalPostTTTAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(13.0)
   }
   
+  /// Tag modifier that is added to the tag of all buttons relating to the orginalPost in a RepostCell.
+  ///
+  /// Allows the ViewControllers to know what buttons are triggering segues in the applicaiton.
   class var tagModifier: Int {
     return 1000000
   }
   
-  // MARK: Helper Functions
+  // MARK: UITableViewCell
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    postTTTAttributedLabelHeightConstraint.constant = 20
+    originalNameButton.enabled = true
+    originalPictureButton.enabled = true
+  }
+  
+  // MARK: PostCell
+  
+  override func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+    super.assignDelegatesForCellTo(delegate)
+    originalPostTTTAttributedLabel.delegate = delegate
+  }
+  
+  // MARK: Setup Helper Functions
+
+  /// Calculates the height of the cell given the properties of `post`.
+  ///
+  /// :param: post The post that this cell is based on.
+  /// :param: width The width of the cell in the tableView.
+  /// :param: maxHeight The maximum height of the cell when seeFull is false.
+  /// :param: dividerHeight The height of the `separatorView` in the tableView.
+  /// :returns: The height that the cell should be in the tableView.
+  class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postTTTAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostTTTAttributedLabelFont)
+    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins, andButtonHeight: 20)
+    height += dividerHeight
+    return post.originalPost.title != nil ? height : height - RepostCell.titleHeight
+  }
   
   /// Makes this RepostCell's IBOutlets display the correct values of the corresponding Repost.
   ///
@@ -83,13 +121,12 @@ class RepostCell: PostCell {
       originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
       originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.profilePicURL)
       
-      originalPostTTTAttributedLabel.numberOfLines = 0
-      originalPostTTTAttributedLabel.font = RepostCell.originalPostTTTAttributedLabelFont
-      originalPostTTTAttributedLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
-      originalPostTTTAttributedLabel.linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
-      originalPostTTTAttributedLabel.text = post.originalPost.text
+      originalPictureButton.clipsToBounds = true
+      originalPictureButton.layer.cornerRadius = 5.0
       
-      goToOriginalPostButton.tintColor = scheme.touchableTextColor()
+      originalPostTTTAttributedLabel.setupWithText(post.originalPost.text, andFont: RepostCell.originalPostTTTAttributedLabelFont)
+      
+      goToOriginalPostButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       
       if post.originalPost.user.isAnon {
         originalNameButton.setTitle(nameTitle, forState: .Disabled)
@@ -98,12 +135,12 @@ class RepostCell: PostCell {
         originalPictureButton.enabled = false
       }
       
-      if seeFullButton != nil {
-        seeFullButton!.tag = buttonTag
-        if post.originalPost.seeFull == nil || post.originalPost.seeFull! {
-          seeFullButton!.hidden = true
+      if let seeFullButton = seeFullButton {
+        seeFullButton.tag = buttonTag
+        if let seeFull = post.originalPost.seeFull where !seeFull {
+          seeFullButton.hidden = false
         } else {
-          seeFullButton!.hidden = false
+          seeFullButton.hidden = true
         }
       }
       
@@ -142,24 +179,5 @@ class RepostCell: PostCell {
       
       verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
     }
-  }
-  
-  override func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    super.assignDelegatesForCellTo(delegate)
-    originalPostTTTAttributedLabel.delegate = delegate
-  }
-  
-  class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postTTTAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostTTTAttributedLabelFont)
-    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins, andButtonHeight: 20)
-    height += dividerHeight
-    return post.originalPost.title != nil ? height : height - RepostCell.titleHeight
-  }
-  
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    postTTTAttributedLabelHeightConstraint.constant = 20
-    originalNameButton.enabled = true
-    originalPictureButton.enabled = true
   }
 }
