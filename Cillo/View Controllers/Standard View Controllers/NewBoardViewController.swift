@@ -99,12 +99,13 @@ class NewBoardViewController: CustomViewController {
     if descripTextView.text != "" {
       descrip = descripTextView.text
     }
-    let activityIndicator = addActivityIndicatorToCenterWithText("Creating Board...")
+
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.createBoard(name: self.nameTextField.text, description: descrip, mediaID: mediaID) { error, result in
-            activityIndicator.removeFromSuperview()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
               println(error)
               error.showAlert()
@@ -114,13 +115,13 @@ class NewBoardViewController: CustomViewController {
             }
           }
         } else {
-          activityIndicator.removeFromSuperview()
+          UIApplication.sharedApplication().networkActivityIndicatorVisible = false
           completion(board: nil)
         }
       }
     } else {
       DataManager.sharedInstance.createBoard(name: nameTextField.text, description: descrip, mediaID: nil) { error, result in
-        activityIndicator.removeFromSuperview()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
           error.showAlert()
@@ -139,9 +140,11 @@ class NewBoardViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.imageUpload(imageData) { error, result in
       activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

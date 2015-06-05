@@ -44,6 +44,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -117,7 +118,9 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: names The board names returned from the server call.
   func autocompleteBoards(#search: String, completion: (names: [String]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardsAutocompleteByName(search) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -135,7 +138,9 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completion: (boards: [Board]?) -> Void) {
     if let userID = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.user) as? Int) {
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
           error.showAlert()
@@ -151,14 +156,12 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   ///
   /// Assigns boards property of MultipleBoardsTableViewController correct values from server calls.
   override func retrieveData() {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Boards")
     retrievingPage = true
     boards = []
     pageNumber = 1
     seeAll = false
     searched = false
     retrieveBoards { boards in
-      activityIndicator.removeFromSuperview()
       if let boards = boards {
         self.pageNumber++
         self.boards = boards
@@ -175,7 +178,9 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completion The completion block of the server call.
   /// :param: boards The boards returned from the server call matching the search text.
   func searchBoards(#search: String, completion: (boards: [Board]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardsSearchByName(search) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

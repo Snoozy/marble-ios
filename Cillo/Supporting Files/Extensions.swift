@@ -348,6 +348,36 @@ extension TTTAttributedLabel {
 
 // MARK: -
 
+extension UIButton {
+  
+  // MARK: Constants
+  
+  /// Standard border width of bordered buttons.
+  class var standardBorderWidth: Double {
+    return 1.0
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets up button to have a border with rounded corners.
+  ///
+  /// :param: width The width of the border.
+  /// :param: color The color of the border.
+  func setupWithRoundedBorderOfWidth(width: Double, andColor color: UIColor) {
+    clipsToBounds = true
+    layer.borderWidth = CGFloat(width)
+    layer.cornerRadius = 5
+    layer.borderColor = color.CGColor
+  }
+  
+  /// Sets up button to have a border with width `standardBorderWidth` and color `ColorScheme.defaultScheme.solidButtonTextColor()`.
+  func setupWithRoundedBorderOfStandardWidthAndColor() {
+    setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: ColorScheme.defaultScheme.solidButtonTextColor())
+  }
+}
+
+// MARK: -
+
 extension UIColor {
   
   // MARK: Custom Color Functions

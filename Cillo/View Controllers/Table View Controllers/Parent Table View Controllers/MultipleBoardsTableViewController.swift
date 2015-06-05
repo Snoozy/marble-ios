@@ -219,7 +219,9 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: completion The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
   func followBoardAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardFollow(boards[index].boardID) { error, success in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -236,7 +238,9 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: completion The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
   func unfollowBoardAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardUnfollow(boards[index].boardID) { error, success in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

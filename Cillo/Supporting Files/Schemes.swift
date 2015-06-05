@@ -52,7 +52,7 @@ struct ColorScheme {
     case .Blue:
       return .WhiteLarge
     case .Gray:
-      return .Gray
+      return .WhiteLarge
     }
   }
   
@@ -97,7 +97,6 @@ struct ColorScheme {
     case .Gray:
       return UIColor.lighterBlack()
     }
-    
   }
   
   /// :returns: The color to be displayed as the background color of the bottom bordered text fields.
@@ -188,7 +187,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.cilloBlue()
     case .Gray:
-      return UIColor.cilloGray()
+      return UIColor.whiteColor()
     }
   }
   
@@ -198,7 +197,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.whiteColor()
     case .Gray:
-      return UIColor.darkTextColor()
+      return UIColor.lighterBlack()
     }
   }
   

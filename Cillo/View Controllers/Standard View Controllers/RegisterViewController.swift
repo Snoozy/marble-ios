@@ -33,6 +33,7 @@ class RegisterViewController: CustomViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupColorScheme()
+    setupOutletAppearances()
     setupOutletDelegates()
   }
   
@@ -47,6 +48,11 @@ class RegisterViewController: CustomViewController {
     passwordTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     registerButton.backgroundColor = scheme.solidButtonBackgroundColor()
     registerButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
+  }
+  
+  /// Sets up the appearance of Outlets that were not set in the storyboard.
+  private func setupOutletAppearances() {
+    registerButton.setupWithRoundedBorderOfStandardWidthAndColor()
   }
   
   /// Sets any delegates of Outlets that were not set in the storyboard.
@@ -66,9 +72,9 @@ class RegisterViewController: CustomViewController {
   /// :param: completion The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completion: (success: Bool) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Registering...")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.register(userTextField.text, name: nameTextField.text, password: passwordTextField.text, email: emailTextField.text) { error, success in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

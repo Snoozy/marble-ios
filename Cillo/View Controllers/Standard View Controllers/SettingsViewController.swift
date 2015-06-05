@@ -86,7 +86,9 @@ class SettingsViewController: CustomViewController {
   /// :param: completion The completion block for the server call.
   /// :param: success True if this request was successful. If error was received, it is false.
   func updatePasswordFrom(old: String, to new: String, completion: (success: Bool) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.updatePassword(oldPassword: old, newPassword: new) { error, success in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -103,15 +105,15 @@ class SettingsViewController: CustomViewController {
   /// :param: user The updated user object after settings are updated.
   /// :param: * Nil if there was an error in the server call.
   func updateSettings(completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
     let newName = nameTextField.text != user.name ? nameTextField.text : nil
     let newUsername = usernameTextField.text != user.username ? usernameTextField.text : nil
     let newBio = bioTextView.text != user.bio ? bioTextView.text : nil
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     if let photo = photoButton.backgroundImageForState(.Normal) where photoChanged {
       uploadImage(photo) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.editSelfSettings(newName: newName, newUsername: newUsername, newMediaID: mediaID, newBio: newBio) { error, result in
-            activityIndicator.removeFromSuperview()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
               println(error)
               error.showAlert()
@@ -121,13 +123,13 @@ class SettingsViewController: CustomViewController {
             }
           }
         } else {
-          activityIndicator.removeFromSuperview()
+          UIApplication.sharedApplication().networkActivityIndicatorVisible = false
           completion(user: nil)
         }
       }
     } else {
       DataManager.sharedInstance.editSelfSettings(newName: newName, newUsername: newUsername, newMediaID: nil, newBio: newBio) { error, result in
-        activityIndicator.removeFromSuperview()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
           error.showAlert()
@@ -146,9 +148,11 @@ class SettingsViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.imageUpload(imageData) { error, result in
       activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

@@ -46,6 +46,7 @@ class PostTableViewController: SinglePostTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -71,9 +72,9 @@ class PostTableViewController: SinglePostTableViewController {
   func createComment(completion: (success: Bool) -> Void) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
-      let activityIndicator = addActivityIndicatorToCenterWithText("Making Comment...")
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       DataManager.sharedInstance.createComment(parentID: nil, postID: post.postID, text: textField.text, lengthToPost: 1) { error, comment in
-        activityIndicator.removeFromSuperview()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
           error.showAlert()
@@ -93,10 +94,10 @@ class PostTableViewController: SinglePostTableViewController {
   func replyToCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
-      let activityIndicator = addActivityIndicatorToCenterWithText("Replying to Comment...")
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       let commentReplyingTo = commentTree[index]
       DataManager.sharedInstance.createComment(parentID: commentReplyingTo.commentID, postID: post.postID, text: textField.text, lengthToPost: commentReplyingTo.lengthToPost! + 1) { error, comment in
-        activityIndicator.removeFromSuperview()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
           error.showAlert()
@@ -114,9 +115,9 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: comments The comment tree for this post.
   /// :param: * Nil if there was an error in the server call.
   func retrieveCommentTree(completion: (commentTree: [Comment]?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Comments")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getPostCommentsByID(post) { error, result in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

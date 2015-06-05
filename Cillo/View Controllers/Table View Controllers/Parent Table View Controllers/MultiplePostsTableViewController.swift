@@ -163,7 +163,9 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: completion The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, false.
   func downvotePostAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.postDownvote(posts[index].postID) { error, success in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -180,7 +182,9 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: completion The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, false.
   func upvotePostAtIndex(index: Int, completion: (success: Bool) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.postUpvote(posts[index].postID) { error, success in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

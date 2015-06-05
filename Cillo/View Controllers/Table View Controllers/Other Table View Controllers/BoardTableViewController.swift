@@ -37,6 +37,7 @@ class BoardTableViewController: SingleBoardTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -66,11 +67,9 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// Assigns posts property of SingleBoardTableViewController correct values from server calls.
   override func retrieveData() {
     retrievingPage = true
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
     posts = []
     pageNumber = 1
     retrievePosts { posts in
-      activityIndicator.removeFromSuperview()
       if let posts = posts {
         self.posts = posts
         self.tableView.reloadData()
@@ -87,7 +86,9 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getBoardFeed(lastPostID: posts.last?.postID, boardID: board.boardID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

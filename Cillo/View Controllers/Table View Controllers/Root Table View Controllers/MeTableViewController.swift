@@ -35,6 +35,7 @@ class MeTableViewController: SingleUserTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -104,9 +105,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: success True if there was no error in the server call. Otherwise, false.
   func logout(completion: (success: Bool) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Logging Out")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.logout { error, success in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -121,25 +122,19 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// Assigns user, posts, and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
-    var activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
     retrievingPage = true
     retrieveUser { user in
-      activityIndicator.removeFromSuperview()
       if let user = user {
         self.user = user
-        activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Posts...")
         self.posts = []
         self.postsPageNumber = 1
         self.retrievePosts { posts in
-          activityIndicator.removeFromSuperview()
           if let posts = posts {
             self.posts = posts
             self.postsPageNumber++
-            activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Comments...")
             self.comments = []
             self.commentsPageNumber = 1
             self.retrieveComments { comments in
-              activityIndicator.removeFromSuperview()
               if let comments = comments {
                 self.comments = comments
                 self.tableView.reloadData()
@@ -166,7 +161,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: comments The comments that the logged in User has made.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completion: (comments: [Comment]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -183,7 +180,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: posts The posts that the logged in User has made.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -200,7 +199,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: user The logged in User.
   /// :param: * Nil if there was an error in the server call.
   func retrieveUser(completion: (user: User?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -218,8 +219,10 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.imageUpload(imageData) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       activityIndicator.removeFromSuperview()
       if let error = error {
         println(error)
@@ -238,9 +241,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completion The completion block for the repost.
   /// :param: user The User object for the logged in User after being updated with a new profilePic. Nil if error was received.
   func updateProfilePic(mediaID: Int, completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Updating Profile...")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.editSelfSettings(newName: nil, newUsername: nil, newMediaID: mediaID, newBio: nil) { error, result in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

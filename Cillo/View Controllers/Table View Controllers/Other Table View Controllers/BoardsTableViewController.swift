@@ -31,6 +31,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   
   override func viewDidLoad() {
     if NSUserDefaults.hasAuthAndUser() && userID != 0 {
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -61,7 +62,9 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: boards The boards followed by user with userID.
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completion: (boards: [Board]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -76,13 +79,11 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   ///
   /// Assigns boards property of MultipleBoardsTableViewController correct values from server calls.
   override func retrieveData() {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Boards")
     retrievingPage = true
     boards = []
     pageNumber = 1
     seeAll = true
     retrieveBoards { boards in
-      activityIndicator.removeFromSuperview()
       if let boards = boards {
         self.boards = boards
         self.tableView.reloadData()

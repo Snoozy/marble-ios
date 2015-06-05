@@ -163,12 +163,12 @@ class NewPostViewController: CustomViewController {
     if titleTextField.text != "" {
       title = titleTextField.text
     }
-    let activityIndicator = addActivityIndicatorToCenterWithText("Creating Post...")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.createPostByBoardName(self.boardTextField.text, repostID: nil, text: self.postTextView.text, title: title, mediaID: mediaID) { error, result in
-            activityIndicator.removeFromSuperview()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
               println(error)
               error.showAlert()
@@ -178,13 +178,13 @@ class NewPostViewController: CustomViewController {
             }
           }
         } else {
-          activityIndicator.removeFromSuperview()
+          UIApplication.sharedApplication().networkActivityIndicatorVisible = false
           completion(post: nil)
         }
       }
     } else {
       DataManager.sharedInstance.createPostByBoardName(boardTextField.text, repostID: nil, text: postTextView.text, title: title, mediaID: nil) { error, result in
-        activityIndicator.removeFromSuperview()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
           error.showAlert()
@@ -202,9 +202,9 @@ class NewPostViewController: CustomViewController {
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
   func retrieveUser(completion: (user: User?) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, result in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -222,9 +222,11 @@ class NewPostViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.imageUpload(imageData) { error, result in
       activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

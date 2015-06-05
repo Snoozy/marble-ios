@@ -37,6 +37,7 @@ class UserTableViewController: SingleUserTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() && user != User(){
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -84,7 +85,9 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completion: (comments: [Comment]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -99,20 +102,16 @@ class UserTableViewController: SingleUserTableViewController {
   ///
   /// Assigns posts and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
-    var activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts")
     retrievingPage = true
     posts = []
     postsPageNumber = 1
     retrievePosts { posts in
-      activityIndicator.removeFromSuperview()
       if let posts = posts {
         self.posts = posts
         self.postsPageNumber++
-        activityIndicator = self.addActivityIndicatorToCenterWithText("Retrieving Comments")
         self.comments = []
         self.commentsPageNumber = 1
         self.retrieveComments { comments in
-          activityIndicator.removeFromSuperview()
           if let comments = comments {
             self.comments = comments
             self.commentsPageNumber++
@@ -134,7 +133,9 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

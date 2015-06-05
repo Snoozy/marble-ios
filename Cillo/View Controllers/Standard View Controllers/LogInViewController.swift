@@ -41,6 +41,7 @@ class LogInViewController: CustomViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupColorScheme()
+    setupOutletAppearances()
     setupOutletDelegates()
   }
   
@@ -54,6 +55,11 @@ class LogInViewController: CustomViewController {
     loginButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
     emailTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     passwordTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+  }
+  
+  /// Sets up the appearance of Outlets that were not set in the storyboard.
+  private func setupOutletAppearances() {
+    loginButton.setupWithRoundedBorderOfStandardWidthAndColor()
   }
   
   /// Sets any delegates of Outlets that were not set in the storyboard.
@@ -71,9 +77,9 @@ class LogInViewController: CustomViewController {
   /// :param: completion The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completion: (success: Bool) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Logging in...")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.login(emailTextField.text, password: passwordTextField.text) { error, result in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
@@ -92,9 +98,9 @@ class LogInViewController: CustomViewController {
   /// :param: completion The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
   func retrieveMe(completion: (success: Bool) -> Void) {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving User...")
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, user in
-      activityIndicator.removeFromSuperview()
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

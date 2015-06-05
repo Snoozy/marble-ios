@@ -40,6 +40,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
+      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -68,12 +69,10 @@ class HomeTableViewController: MultiplePostsTableViewController {
   ///
   /// Assigns `posts` correct values from server calls.
   override func retrieveData() {
-    let activityIndicator = addActivityIndicatorToCenterWithText("Retrieving Posts...")
     retrievingPage = true
     posts = []
     pageNumber = 1
     retrievePosts { posts in
-      activityIndicator.removeFromSuperview()
       if let posts = posts {
         self.pageNumber++
         self.posts = posts
@@ -90,7 +89,9 @@ class HomeTableViewController: MultiplePostsTableViewController {
   /// :param: posts The posts in the end user's home feed.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> Void) {
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getHomePage(lastPostID: posts.last?.postID) { error, result in
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()

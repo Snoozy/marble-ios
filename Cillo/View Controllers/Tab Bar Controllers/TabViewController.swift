@@ -8,10 +8,6 @@
 
 import UIKit
 
-// TODO: Make view scroll to top if tab button is pressed.
-
-// TODO: Maybe implement a way to get back to root vcs quickly
-
 /// Starting UIViewController of Cillo application.
 ///
 /// Has 3 tabs:
