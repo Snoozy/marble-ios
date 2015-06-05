@@ -90,7 +90,7 @@ class UserCell: UITableViewCell {
     
     pictureButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
     nameButton.setTitle(user.name, forState: .Normal)
-    usernameButton.setTitle("@\(user.username)", forState: .Normal)
+    usernameButton.setTitle(user.usernameDisplay, forState: .Normal)
     
     pictureButton.clipsToBounds = true
     pictureButton.layer.cornerRadius = 5.0

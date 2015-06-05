@@ -44,6 +44,11 @@ class User: NSObject {
   /// Unique to this User.
   var username = ""
   
+  /// A displayable username for the cell.
+  var usernameDisplay: String {
+    return username == "" ? "" : "@\(username)"
+  }
+  
   // MARK: Initializers
   
   /// Creates User based on a swiftyJSON retrieved from a call to the Cillo servers. 

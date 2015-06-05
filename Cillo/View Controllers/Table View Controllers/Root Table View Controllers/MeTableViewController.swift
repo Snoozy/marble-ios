@@ -135,6 +135,7 @@ class MeTableViewController: SingleUserTableViewController {
             self.comments = []
             self.commentsPageNumber = 1
             self.retrieveComments { comments in
+              self.dataRetrieved = true
               if let comments = comments {
                 self.comments = comments
                 self.tableView.reloadData()
@@ -144,11 +145,13 @@ class MeTableViewController: SingleUserTableViewController {
               self.retrievingPage = false
             }
           } else {
+            self.dataRetrieved = true
             self.refreshControl?.endRefreshing()
             self.retrievingPage = false
           }
         }
       } else {
+        self.dataRetrieved = true
         self.refreshControl?.endRefreshing()
         self.retrievingPage = false
       }

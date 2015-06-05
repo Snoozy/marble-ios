@@ -37,7 +37,6 @@ class UserTableViewController: SingleUserTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() && user != User(){
-      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -112,6 +111,7 @@ class UserTableViewController: SingleUserTableViewController {
         self.comments = []
         self.commentsPageNumber = 1
         self.retrieveComments { comments in
+          self.dataRetrieved = true
           if let comments = comments {
             self.comments = comments
             self.commentsPageNumber++
@@ -121,6 +121,7 @@ class UserTableViewController: SingleUserTableViewController {
           self.retrievingPage = false
         }
       } else {
+        self.dataRetrieved = true
         self.refreshControl?.endRefreshing()
         self.retrievingPage = false
       }

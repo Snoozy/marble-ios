@@ -24,10 +24,18 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Posts for this UITableViewController.
   var posts = [Post]()
   
+  /// Flag that is only false when posts have not attempted to be retrieved yet.
+  var postsRetrieved = false
+  
   // MARK: Constants 
   
   /// The standard dividerHeight between table view cells in tableView.
   let dividerHeight = DividerScheme.defaultScheme.singleBoardDividerHeight()
+  
+  /// The height on screen of the cells containing only single labels
+  var heightOfSingleLabelCells: CGFloat {
+    return 40.0
+  }
   
   /// Segue Identifier in Storyboard for segue to PostTableViewController.
   ///
@@ -101,29 +109,40 @@ class SingleBoardTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 {
       return dequeueAndSetupBoardCellForIndexPath(indexPath)
+    } else if !postsRetrieved {
+      return dequeueAndSetupRetrievingPostsCellForIndexPath(indexPath)
+    } else if posts.count == 0 {
+      return dequeueAndSetupNoPostsCellForIndexPath(indexPath)
     } else {
       return dequeueAndSetupPostCellForIndexPath(indexPath)
     }
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return section == 0 ? 1 : posts.count
+    if section == 0 || !postsRetrieved || posts.count == 0 {
+      return 1
+    } else {
+      return posts.count
+    }
   }
   
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if indexPath.section != 0 {
+    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    if indexPath.section != 0 && postsRetrieved && posts.count != 0 {
       performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
     }
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
       return BoardCell.heightOfBoardCellForBoard(board, withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
+    } else if !postsRetrieved || posts.count == 0 {
+      return heightOfSingleLabelCells
+    } else {
+      return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
     }
-    return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
   }
   
   // MARK: Setup Helper Functions
@@ -137,6 +156,16 @@ class SingleBoardTableViewController: CustomTableViewController {
     let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.boardCell, forIndexPath: indexPath) as! BoardCell
     cell.makeCellFromBoard(board, withButtonTag: 0, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
+    return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "No posts..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created NoPostsCell.
+  func dequeueAndSetupNoPostsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noPostsCell, forIndexPath: indexPath) as! UITableViewCell
     return cell
   }
   
@@ -157,6 +186,16 @@ class SingleBoardTableViewController: CustomTableViewController {
     }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
+    return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "Retrieving Posts..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created RetrieivingCommentsCell.
+  func dequeueAndSetupRetrievingPostsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.retrievingPostsCell, forIndexPath: indexPath) as! UITableViewCell
     return cell
   }
   

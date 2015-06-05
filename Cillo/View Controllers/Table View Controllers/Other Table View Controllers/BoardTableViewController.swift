@@ -37,7 +37,6 @@ class BoardTableViewController: SingleBoardTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
-      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -70,6 +69,7 @@ class BoardTableViewController: SingleBoardTableViewController {
     posts = []
     pageNumber = 1
     retrievePosts { posts in
+      self.postsRetrieved = true
       if let posts = posts {
         self.posts = posts
         self.tableView.reloadData()

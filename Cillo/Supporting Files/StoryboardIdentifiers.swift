@@ -165,7 +165,7 @@ struct StoryboardIdentifiers {
   /// Reuse identifier for UserCell.
   static let userCell = "User"
   
-  // MARK: MultipleBoardsTableViewController Single Button Cells
+  // MARK: Single Button Cells
   
   /// Reuse identifier for "See All" UITableViewCell in MultipleBoardsTableViewController tableView.
   static let seeAllCell = "SeeAll"
@@ -173,8 +173,20 @@ struct StoryboardIdentifiers {
   /// Reuse identifier for "New Board" UITableViewCell in MultipleBoardsTableViewController tableView.
   static let newBoardCell = "NewBoard"
   
-  // MARK: SinglePostTableViewController Single Label Cells
+  // MARK: Single Label Cells
   
-  /// Reuse identifier for "No Comments" UITableViewCell in SinglePostTableViewController tableView.
+  /// Reuse identifier for "No Comments" UITableViewCell in SinglePostTableViewController tableView and SingleUserTableViewController tableView.
   static let noCommentsCell = "NoComments"
+  
+  /// Reuse identifier for "Retrieving Comments" UITableViewCell in SinglePostTableViewController tableView.
+  static let retrievingCommentsCell = "RetrievingComments"
+  
+  /// Reuse identifier for "Retrieving Posts" UITableViewCell in SingleUserTableViewController tableView.
+  static let retrievingDataCell = "RetrievingData"
+  
+  /// Reuse identifier for "No Posts" UITableViewCell in SingleBoardTableViewController tableView and SingleUserTableViewController tableView.
+  static let noPostsCell = "NoPosts"
+  
+  /// Reuse identifier for "Retrieving Posts" UITableViewCell in SingleBoardTableViewController tableView.
+  static let retrievingPostsCell = "RetrievingPosts"
 }

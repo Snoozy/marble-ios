@@ -46,7 +46,6 @@ class PostTableViewController: SinglePostTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() {
-      refreshControl?.beginRefreshing()
       retrieveData()
     }
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -133,6 +132,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// Assigns commentTree property of SinglePostTableViewController correct values from server calls.
   override func retrieveData() {
     retrieveCommentTree { commentTree in
+      self.commentsRetrieved = true
       if let commentTree = commentTree {
         self.commentTree = commentTree
         self.tableView.reloadData()

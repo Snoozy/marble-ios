@@ -18,6 +18,9 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Comment tree corresponding to `post`.
   var commentTree = [Comment]()
   
+  /// Flag that is only false when comments have not attempted to be retrieved yet.
+  var commentsRetrieved = false
+  
   /// The `showImages` value of the post in the view controller under this view controller in the navigation stack.
   var mainShowImages = false
   
@@ -119,6 +122,8 @@ class SinglePostTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 {
       return dequeueAndSetupPostCellForIndexPath(indexPath)
+    } else if !commentsRetrieved {
+      return dequeueAndSetupRetrievingCommentsCellForIndexPath(indexPath)
     } else if commentTree.count == 0 {
       return dequeueAndSetupNoCommentsCellForIndexPath(indexPath)
     } else {
@@ -127,7 +132,7 @@ class SinglePostTableViewController: CustomTableViewController {
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if section == 0 || commentTree.count == 0 {
+    if section == 0 || !commentsRetrieved || commentTree.count == 0 {
       return 1
     } else {
       return commentTree.count
@@ -150,7 +155,7 @@ class SinglePostTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
       return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: nil, andDividerHeight: 0)
-    } else if commentTree.count == 0 {
+    } else if !commentsRetrieved || commentTree.count == 0 {
       return heightOfSingleLabelCells
     } else {
       return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: selectedPath == indexPath, andDividerHeight: 0)
@@ -158,7 +163,7 @@ class SinglePostTableViewController: CustomTableViewController {
   }
   
   override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
-    if indexPath.section == 0  || commentTree.count == 0{
+    if indexPath.section == 0 || !commentsRetrieved || commentTree.count == 0 {
       return 0
     } else {
       return commentTree[indexPath.row].predictedIndentLevel(selected: indexPath == selectedPath)
@@ -190,7 +195,6 @@ class SinglePostTableViewController: CustomTableViewController {
         cell.separatorInset = UIEdgeInsetsMake(0, commentTree[indexPath.row + 1].predictedIndentSize(selected: false), 0, 0)
       }
     }
-    
     return cell
   }
   
@@ -221,6 +225,17 @@ class SinglePostTableViewController: CustomTableViewController {
     }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row)
     cell.assignDelegatesForCellTo(self)
+    return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "Retrieving Comments..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created RetrieivingCommentsCell.
+  func dequeueAndSetupRetrievingCommentsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.retrievingCommentsCell, forIndexPath: indexPath) as! UITableViewCell
+    cell.separatorInset = UIEdgeInsets(top: 0, left: cell.frame.size.width, bottom: 0, right: 0)
     return cell
   }
   

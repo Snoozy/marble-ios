@@ -49,6 +49,9 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Page marker used to retrieve 20 comments from the server at a time.
   var commentsPageNumber = 1
   
+  /// Flag that is only false when comments and posts have not attempted to be retrieved yet.
+  var dataRetrieved = false
+  
   /// Posts made by `user`.
   var posts = [Post]()
   
@@ -60,11 +63,16 @@ class SingleUserTableViewController: CustomTableViewController {
   
   // MARK: Constants
   
-  /// The standard dividerHeight between PostCells in `tableView`.
-  let postDividerHeight = DividerScheme.defaultScheme.singleUserPostDividerHeight()
-  
   /// The standard dividerHeight between CommentCells in `tableView`.
   let commentDividerHeight = DividerScheme.defaultScheme.singleUserCommentDividerHeight()
+  
+  /// The height on screen of the cells containing only single labels
+  var heightOfSingleLabelCells: CGFloat {
+    return 40.0
+  }
+  
+  /// The standard dividerHeight between PostCells in `tableView`.
+  let postDividerHeight = DividerScheme.defaultScheme.singleUserPostDividerHeight()
   
   /// Segue Identifier in Storyboard for segue to PostTableViewController.
   ///
@@ -150,27 +158,45 @@ class SingleUserTableViewController: CustomTableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if indexPath.section == 0 {
       return dequeueAndSetupUserCellForIndexPath(indexPath)
+    } else if !dataRetrieved {
+      return dequeueAndSetupRetrievingDataCellForIndexPath(indexPath)
     } else {
       switch cellsShown {
       case .Posts:
-        return dequeueAndSetupPostCellForIndexPath(indexPath)
+        if posts.count == 0 {
+          return dequeueAndSetupNoPostsCellForIndexPath(indexPath)
+        } else {
+          return dequeueAndSetupPostCellForIndexPath(indexPath)
+        }
       case .Comments:
-        return dequeueAndSetupCommentCellForIndexPath(indexPath)
+        if comments.count == 0 {
+          return dequeueAndSetupNoCommentsCellForIndexPath(indexPath)
+        } else {
+          return dequeueAndSetupCommentCellForIndexPath(indexPath)
+        }
       }
     }
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     // UserCell section only has 1 cell
-    if section == 0 {
+    if section == 0  || !dataRetrieved {
       return 1
-    }
-    // Second section displays all the Post/CommentCells
-    switch cellsShown {
-    case .Posts:
-      return posts.count
-    case .Comments:
-      return comments.count
+    } else {
+      switch cellsShown {
+      case .Posts:
+        if posts.count == 0 {
+          return 1
+        } else {
+          return posts.count
+        }
+      case .Comments:
+        if comments.count == 0 {
+          return 1
+        } else {
+          return comments.count
+        }
+      }
     }
   }
 
@@ -178,30 +204,48 @@ class SingleUserTableViewController: CustomTableViewController {
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    if indexPath.section != 0 {
-      performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
+    if indexPath.section != 0 && dataRetrieved {
+      switch cellsShown {
+      case .Posts where posts.count != 0:
+        performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
+      case .Comments where comments.count != 0:
+        performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
+      default:
+        break
+      }
     }
   }
   
   override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return section == 0 ? 0 : SegControlConstants.height + SegControlConstants.margins * 2
+    return section == 0 || !dataRetrieved ? 0 : SegControlConstants.height + SegControlConstants.margins * 2
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
       return UserCell.heightOfUserCellForUser(user, withElementWidth: tableViewWidthWithMargins)
-    }
-    switch cellsShown {
-    case .Posts:
-      return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
-    case .Comments:
-      return CommentCell.heightOfCommentCellForComment(comments[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: false, andDividerHeight: separatorHeightForIndexPath(indexPath))
+    } else if !dataRetrieved {
+      return heightOfSingleLabelCells
+    } else {
+      switch cellsShown {
+      case .Posts:
+        if posts.count == 0 {
+          return heightOfSingleLabelCells
+        } else {
+          return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
+        }
+      case .Comments:
+        if comments.count == 0 {
+          return heightOfSingleLabelCells
+        } else {
+          return CommentCell.heightOfCommentCellForComment(comments[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: false, andDividerHeight: separatorHeightForIndexPath(indexPath))
+        }
+      }
     }
   }
   
   override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     // Segmented Control gets placed in header view to get a sticky segmented control effect.
-    if section == 1 {
+    if section == 1 && dataRetrieved {
       let view = UIView()
       view.backgroundColor = UIColor.whiteColor()
       
@@ -230,6 +274,27 @@ class SingleUserTableViewController: CustomTableViewController {
     return cell
   }
   
+  /// Makes a single label UITableViewCell that says "No comments..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created NoCommentsCell.
+  func dequeueAndSetupNoCommentsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noCommentsCell, forIndexPath: indexPath) as! UITableViewCell
+    cell.separatorInset = UIEdgeInsets(top: 0, left: cell.frame.size.width, bottom: 0, right: 0)
+    return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "No posts..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created NoPostsCell.
+  func dequeueAndSetupNoPostsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noPostsCell, forIndexPath: indexPath) as! UITableViewCell
+    return cell
+  }
+  
   /// Makes a PostCell for the corresponding post in `posts` based on the passed indexPath.
   ///
   /// If the post is a Repost, the returned PostCell will be a RepostCell.
@@ -250,6 +315,16 @@ class SingleUserTableViewController: CustomTableViewController {
     return cell
   }
   
+  /// Makes a single label UITableViewCell that says "Retrieving Posts and Comments..."
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created RetrieivingDataCell.
+  func dequeueAndSetupRetrievingDataCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.retrievingDataCell, forIndexPath: indexPath) as! UITableViewCell
+    return cell
+  }
+
   /// Makes a UserCell for `user` based on the passed indexPath.
   ///
   /// :param: indexPath The index path of the cell to be created in the table view.
