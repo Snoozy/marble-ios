@@ -225,7 +225,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :returns: The correct separator height, as specified by the `dividerHeight` constant.
   func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      return posts.count != 0 ? dividerHeight : 0
+      return dividerHeight
     }
     return indexPath.row != posts.count - 1 ? dividerHeight : 0
   }

@@ -30,6 +30,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   // MARK: UIViewController
   
   override func viewDidLoad() {
+    super.viewDidLoad()
     if NSUserDefaults.hasAuthAndUser() && userID != 0 {
       refreshControl?.beginRefreshing()
       retrieveData()

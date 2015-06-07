@@ -14,7 +14,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="8TD-LZ-f5A">
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="8TD-LZ-f5A">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
@@ -5283,9 +5283,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9nY-Wc-CQM"/>
-        <segue reference="DUk-kf-nGq"/>
-        <segue reference="txn-K4-4lh"/>
+        <segue reference="0fK-Cx-ysj"/>
         <segue reference="Ndf-JY-QqC"/>
+        <segue reference="162-n2-HAP"/>
+        <segue reference="DUk-kf-nGq"/>
     </inferredMetricsTieBreakers>
 </document>
