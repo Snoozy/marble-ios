@@ -61,6 +61,7 @@ class BoardCell: UITableViewCell {
     return UIFont.systemFontOfSize(15.0)
   }
   
+  /// Color of the border of `followButton`. Also is the color of the background when the button is filled (signifying that the user is following already).
   class var followButtonColor: UIColor {
     return UIColor.grayColor()
   }
