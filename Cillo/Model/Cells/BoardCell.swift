@@ -53,7 +53,7 @@ class BoardCell: UITableViewCell {
   ///
   /// **Note:** Height of descripTextView must be calculated based on it's text property.
   class var additionalVertSpaceNeeded: CGFloat {
-    return 154
+    return 90
   }
   
   /// Font of the text contained within descripTextView.
@@ -61,14 +61,18 @@ class BoardCell: UITableViewCell {
     return UIFont.systemFontOfSize(15.0)
   }
   
+  class var followButtonColor: UIColor {
+    return UIColor.grayColor()
+  }
+  
   /// Font used for the word " FOLLOWERS" in followersLabel.
   class var followerFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+    return UIFont.systemFontOfSize(12.0)
   }
   
   /// Font used for the numFollowers value in followersLabel.
   class var followerFontBold: UIFont {
-    return UIFont.boldSystemFontOfSize(18.0)
+    return UIFont.boldSystemFontOfSize(14.0)
   }
   
   // MARK: UITableViewCell
@@ -118,12 +122,14 @@ class BoardCell: UITableViewCell {
     nameButton.tag = buttonTag
     followButton.tag = buttonTag
     
+    followButton.setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: BoardCell.followButtonColor)
     if !board.following {
       followButton.setTitle("Follow", forState: .Normal)
-      followButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
+      followButton.setTitleColor(UIColor.lighterBlack(), forState: .Normal)
     } else {
       followButton.setTitle("Following", forState: .Normal)
-      followButton.setTitleColor(UIColor.upvoteGreen(), forState: .Normal)
+      followButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+      followButton.backgroundColor = BoardCell.followButtonColor
     }
     
     // Make only the number in followersLabel bold

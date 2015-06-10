@@ -91,13 +91,6 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if !seeAll && indexPath.row >= numberOfBoardsDisplayedBeforeSeeAll() {
-      return heightOfSingleButtonCells
-    }
-    return BoardCell.heightOfBoardCellForBoard(boards[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
-  }
-  
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     if seeAll || numberOfBoardsDisplayedBeforeSeeAll() > indexPath.row {
       self.performSegueWithIdentifier(segueIdentifierThisToBoard, sender: indexPath)
@@ -105,6 +98,13 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
   }
   
+  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    if !seeAll && indexPath.row >= numberOfBoardsDisplayedBeforeSeeAll() {
+      return heightOfSingleButtonCells
+    }
+    return BoardCell.heightOfBoardCellForBoard(boards[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
+  }
+
   // MARK: Setup Helper Functions
   
   /// Makes a BoardCell for the corresponding board in `boards` based on the passed indexPath.
