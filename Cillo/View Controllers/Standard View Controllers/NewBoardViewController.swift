@@ -87,14 +87,14 @@ class NewBoardViewController: CustomViewController {
   
   // MARK: Networking Helper Functions
   
-  /// Used to create and retrieve a new Board made by the logged in User from Cillo servers.
+  /// Used to create and retrieve a new Board made by the end user from Cillo servers.
   ///
   /// :param: mediaID The media id for the uploaded photo that resembles this board.
   /// :param: completion The completion block for the board creation.
   /// :param: board The new Board that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createBoard(completion: (board: Board?) -> Void) {
+  func createBoard(completion: (board: Board?) -> ()) {
     var descrip: String?
     if descripTextView.text != "" {
       descrip = descripTextView.text
@@ -138,7 +138,7 @@ class NewBoardViewController: CustomViewController {
   /// :param: completion The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
+  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -168,9 +168,12 @@ class NewBoardViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is createBoardButton.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
+    sender.enabled = false
     createBoard { board in
       if let board = board {
         self.performSegueWithIdentifier(SegueIdentifiers.newBoardToTab, sender: board)
+      } else {
+        sender.enabled = true
       }
     }
   }

@@ -152,13 +152,13 @@ class NewPostViewController: CustomViewController {
   
   // MARK: Networking Helper Functions
   
-  /// Used to create and retrieve a new Post made by the logged in User from Cillo servers.
+  /// Used to create and retrieve a new Post made by the end user from Cillo servers.
   ///
   /// :param: completion The completion block for the post creation.
   /// :param: post The new Post that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createPost(completion: (post: Post?) -> Void) {
+  func createPost(completion: (post: Post?) -> ()) {
     var title: String?
     if titleTextField.text != "" {
       title = titleTextField.text
@@ -201,7 +201,7 @@ class NewPostViewController: CustomViewController {
   /// :param: completion The completion block for the request.
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
-  func retrieveUser(completion: (user: User?) -> Void) {
+  func retrieveUser(completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -220,7 +220,7 @@ class NewPostViewController: CustomViewController {
   /// :param: completion The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
+  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -250,9 +250,12 @@ class NewPostViewController: CustomViewController {
   ///
   /// :param: sender The bar button item that says Create.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
+    sender.enabled = false
     createPost { post in
       if let post = post {
         self.performSegueWithIdentifier(SegueIdentifiers.newPostToTab, sender: post)
+      } else {
+        sender.enabled = true
       }
     }
   }

@@ -127,6 +127,7 @@ class BoardCell: UITableViewCell {
     if !board.following {
       followButton.setTitle("Follow", forState: .Normal)
       followButton.setTitleColor(UIColor.lighterBlack(), forState: .Normal)
+      followButton.backgroundColor = UIColor.whiteColor()
     } else {
       followButton.setTitle("Following", forState: .Normal)
       followButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -134,7 +135,8 @@ class BoardCell: UITableViewCell {
     }
     
     // Make only the number in followersLabel bold
-    var followersText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: board.followerCount), firstFont: BoardCell.followerFontBold, secondHalf: " FOLLOWERS", secondFont: BoardCell.followerFont)
+    let followersString = board.followerCount == 1 ? " FOLLOWER" : " FOLLOWERS"
+    var followersText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: board.followerCount), firstFont: BoardCell.followerFontBold, secondHalf: followersString, secondFont: BoardCell.followerFont)
     followersLabel.attributedText = followersText
     
     if let separatorView = separatorView {

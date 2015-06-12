@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
-/// Handles first view of Boards tab (Boards of logged in User).
+/// Handles first view of Boards tab (Boards of end user).
 ///
 /// Formats TableView to look appealing and be functional.
 class MyBoardsTableViewController: MultipleBoardsTableViewController {
@@ -43,7 +44,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() {
+    if KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
       retrieveData()
     }
@@ -117,7 +118,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: search The search text to be autocompleted.
   /// :param: completion The completion block for the server call.
   /// :param: names The board names returned from the server call.
-  func autocompleteBoards(#search: String, completion: (names: [String]?) -> Void) {
+  func autocompleteBoards(#search: String, completion: (names: [String]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardsAutocompleteByName(search) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -134,10 +135,10 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// Used to retrieve boards followed by end User from Cillo servers.
   ///
   /// :param: completion The completion block for the server call.
-  /// :param: boards The boards that the logged in User follows.
+  /// :param: boards The boards that the end user follows.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completion: (boards: [Board]?) -> Void) {
-    if let userID = (NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.user) as? Int) {
+  func retrieveBoards(completion: (boards: [Board]?) -> ()) {
+    if let userID = KeychainWrapper.userID() {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -177,7 +178,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: search The text of the search.
   /// :param: completion The completion block of the server call.
   /// :param: boards The boards returned from the server call matching the search text.
-  func searchBoards(#search: String, completion: (boards: [Board]?) -> Void) {
+  func searchBoards(#search: String, completion: (boards: [Board]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardsSearchByName(search) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

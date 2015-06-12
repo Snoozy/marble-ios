@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Handles view of expanded Post with Comments beneath it.
 ///
@@ -29,6 +30,13 @@ class PostTableViewController: SinglePostTableViewController {
   /// Index 1 of the tuple is the textfield that contains the text of the new comment.
   var newCommentView: (UIView, UITextField)?
   
+  // MARK: IBOutlets
+  
+  /// The button that the end user can press to make a new comment.
+  ///
+  /// This button will change to a Cancel button when newCommentView is not nil.
+  @IBOutlet weak var newCommentBarButton: UIBarButtonItem!
+  
   // MARK: Constants
   
   /// Segue Identifier in Storyboard for segue to BoardTableViewController.
@@ -45,7 +53,7 @@ class PostTableViewController: SinglePostTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() {
+    if KeychainWrapper.hasAuthAndUser() {
       retrieveData()
     }
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -68,7 +76,7 @@ class PostTableViewController: SinglePostTableViewController {
   ///
   /// :param: completion The completion block for the server call.
   /// :param: success True if the server call was successful. Otherwise, false.
-  func createComment(completion: (success: Bool) -> Void) {
+  func createComment(completion: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -90,7 +98,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: index The index of the comment to be replied to in the commentTree
   /// :param: completion The completion block for the server call.
   /// :param: success True if the server call was successful. Otherwise, false.
-  func replyToCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
+  func replyToCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -113,7 +121,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: comments The comment tree for this post.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveCommentTree(completion: (commentTree: [Comment]?) -> Void) {
+  func retrieveCommentTree(completion: (commentTree: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getPostCommentsByID(post) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -148,6 +156,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: notif The notification that called this selector.
   func keyboardWillHide(notif: NSNotification) {
     if let newCommentView = newCommentView {
+      setBarButtonToNewComment()
       newCommentView.0.removeFromSuperview()
       self.newCommentView = nil
       keyboardHeight = nil
@@ -164,6 +173,7 @@ class PostTableViewController: SinglePostTableViewController {
       let value = notif.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
       keyboardHeight = value.CGRectValue().height
       let duration = (notif.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+      setBarButtonToCancel()
       UIView.animateWithDuration(duration) {
         newCommentView.0.frame = CGRect(x: 0.0, y: self.tableView.contentOffset.y + self.tableView.frame.size.height - 46.0 - self.keyboardHeight! + self.tabBarController!.tabBar.frame.height, width: self.tableView.frame.size.width, height: 46.0)
       }
@@ -194,7 +204,7 @@ class PostTableViewController: SinglePostTableViewController {
   }
   
   // MARK: Setup Helper Functions
-  
+
   /// Formats `newCommentView` UI correctly.
   ///
   /// :param: tag The tag that is assigned to the elements of `newCommentView` that will be used to tell the position of the comment being replied to in `commentTree`.
@@ -205,9 +215,10 @@ class PostTableViewController: SinglePostTableViewController {
     textField.returnKeyType = .Done
     textField.autocorrectionType = .No
     textField.spellCheckingType = .No
+    textField.placeholder = "Write a comment..."
     textField.tag = tag
     let replyButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 58.0, y: 8.0, width: 50.0, height: 30.0))
-    replyButton.tintColor = ColorScheme.defaultScheme.barAboveKeyboardTouchableTextColor()
+    replyButton.setTitleColor(ColorScheme.defaultScheme.barAboveKeyboardTouchableTextColor(), forState: .Normal)
     replyButton.setTitle("Reply", forState: .Normal)
     replyButton.addTarget(self, action: "replyPressed:", forControlEvents: .TouchUpInside)
     replyButton.tag = tag
@@ -218,25 +229,45 @@ class PostTableViewController: SinglePostTableViewController {
     newCommentView = (view, textField)
   }
   
+  func setBarButtonToCancel() {
+    newCommentBarButton.image = nil
+    newCommentBarButton.title = "Cancel"
+  }
+  
+  ///
+  func setBarButtonToNewComment() {
+    newCommentBarButton.image = UIImage(named: "New Comment")
+    newCommentBarButton.title = nil
+  }
+
   // MARK: IBActions
   
   /// Presents a `newCommentView` above the keyboard that allows the end user to reply to `post`.
   ///
   /// :param: sender The button that is touched to send this function is the new comment bar button item.
   @IBAction func newCommentPressed(sender: UIButton) {
-    // tag of -1 signifies a direct reply to the post
-    makeNewCommentViewWithTag(-1)
-    view.addSubview(newCommentView!.0)
-    newCommentView!.1.becomeFirstResponder()
+    if let newCommentView = newCommentView {
+      newCommentView.1.resignFirstResponder()
+    } else {
+      // tag of -1 signifies a direct reply to the post
+      makeNewCommentViewWithTag(-1)
+      view.addSubview(newCommentView!.0)
+      newCommentView!.1.becomeFirstResponder()
+    }
   }
   
   /// Presents a `newCommentView` above the keyboard that allows the end user to reply to a comment.
   ///
   /// :param: sender The button that is touched to send this function is a replyButton is a CommentCell.
   @IBAction func replyToCommentPressed(sender: UIButton) {
-    makeNewCommentViewWithTag(sender.tag)
-    view.addSubview(newCommentView!.0)
-    newCommentView!.1.becomeFirstResponder()
+    if let newCommentView = newCommentView {
+      newCommentView.0.tag = sender.tag
+      newCommentView.1.tag = sender.tag
+    } else {
+      makeNewCommentViewWithTag(sender.tag)
+      view.addSubview(newCommentView!.0)
+      newCommentView!.1.becomeFirstResponder()
+    }
   }
 }
 
@@ -245,20 +276,24 @@ class PostTableViewController: SinglePostTableViewController {
 extension PostTableViewController: UITextFieldDelegate {
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
-    if textField.tag < 0 {
-      createComment { success in
-        if success {
-          self.newCommentView?.1.resignFirstResponder()
-          self.retrieveData()
+    if textField.text != "" {
+      if textField.tag < 0 {
+        createComment { success in
+          if success {
+            self.newCommentView?.1.resignFirstResponder()
+            self.retrieveData()
+          }
+        }
+      } else {
+        replyToCommentAtIndex(textField.tag) { success in
+          if success {
+            self.newCommentView?.1.resignFirstResponder()
+            self.retrieveData()
+          }
         }
       }
     } else {
-      replyToCommentAtIndex(textField.tag) { success in
-        if success {
-          self.newCommentView?.1.resignFirstResponder()
-          self.retrieveData()
-        }
-      }
+      newCommentView?.1.resignFirstResponder()
     }
     return true
   }

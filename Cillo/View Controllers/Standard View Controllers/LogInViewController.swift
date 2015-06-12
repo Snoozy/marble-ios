@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Handles end user login actions.
 ///
@@ -76,7 +77,7 @@ class LogInViewController: CustomViewController {
   ///
   /// :param: completion The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
-  func login(completion: (success: Bool) -> Void) {
+  func login(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.login(emailTextField.text, password: passwordTextField.text) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -85,19 +86,19 @@ class LogInViewController: CustomViewController {
         error.showAlert()
         completion(success: false)
       } else {
-        NSUserDefaults.standardUserDefaults().setValue(result!, forKey: NSUserDefaults.auth)
-        completion(success: true)
+        let success = KeychainWrapper.setAuthToken(result!)
+        completion(success: success)
       }
     }
   }
   
-  /// Sends a request to describe the logged in User to Cillo Servers.
+  /// Sends a request to describe the end user to Cillo Servers.
   ///
   /// If successful, NSUserDefaults will contain a value for .User.
   ///
   /// :param: completion The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
-  func retrieveMe(completion: (success: Bool) -> Void) {
+  func retrieveMe(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, user in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -106,8 +107,8 @@ class LogInViewController: CustomViewController {
         error.showAlert()
         completion(success: false)
       } else {
-        NSUserDefaults.standardUserDefaults().setValue(user!.userID, forKey: NSUserDefaults.user)
-        completion(success: true)
+        let success = KeychainWrapper.setUserID(user!.userID)
+        completion(success: success)
       }
     }
   }
@@ -125,6 +126,7 @@ class LogInViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is loginButton.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
+    sender.enabled = false
     login { loginSuccess in
       if loginSuccess {
         self.retrieveMe { retrieveMeSuccess in
@@ -132,8 +134,12 @@ class LogInViewController: CustomViewController {
             let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
             alert.show()
             self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: sender)
+          } else {
+            sender.enabled = true
           }
         }
+      } else {
+        sender.enabled = true
       }
     }
   }

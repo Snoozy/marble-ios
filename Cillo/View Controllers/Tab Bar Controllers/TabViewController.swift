@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Starting UIViewController of Cillo application.
 ///
@@ -42,14 +43,14 @@ class TabViewController: UITabBarController {
     delegate = UIApplication.sharedApplication().delegate as? UITabBarControllerDelegate
   }
   
-  override func viewDidAppear(animated: Bool){
+  override func viewDidAppear(animated: Bool) {
     // Modally presents LoginViewController if NSUserDefaults doesn't have an Auth Token stored.
     super.viewDidAppear(animated)
-    if !NSUserDefaults.hasAuthAndUser() {
+    if !KeychainWrapper.hasAuthAndUser() {
       performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
     } else {
-      println(NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.auth)! as! String)
-      println(NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.user)! as! Int)
+      println(KeychainWrapper.authToken()!)
+      println(KeychainWrapper.userID()!)
     }
   }
   

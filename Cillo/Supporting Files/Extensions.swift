@@ -8,6 +8,7 @@
 
 import UIKit
 import TTTAttributedLabel
+import SwiftKeychainWrapper
 
 extension NSDate {
   
@@ -85,7 +86,7 @@ extension NSError {
   /// * Comment: 2
   /// * Board: 3
   /// * User: 4
-  /// * Me: 5 (Me is the auth_token for the logged in User)
+  /// * Me: 5 (Me is the auth_token for the end user)
   /// * Nothing/Misc: 6
   /// * Search: 7
   /// * Autocomplete: 8
@@ -96,7 +97,7 @@ extension NSError {
   /// * Comment: 2
   /// * Board: 3
   /// * User: 4
-  /// * Me: 5 (Me is the auth_token for the logged in User)
+  /// * Me: 5 (Me is the auth_token for the end user)
   /// * Success Message: 6
   ///
   /// *Fourth Digit: Goal of the POST request (POST requests only)*
@@ -209,45 +210,71 @@ extension NSMutableAttributedString {
 
 // MARK: -
 
-// TODO: Store stuff in keychain, not nsuserdefualts
-
-extension NSUserDefaults {
+extension KeychainWrapper {
   
   // MARK: Constants
   
-  /// Key to retrieve Auth_Token for the logged in User
+  /// Key to retrieve Auth_Token for the end user
   class var auth: String {
     return "Auth"
   }
   
-  /// Key to retrieve userID for the logged in User
+  /// Key to retrieve userID for the end user
   class var user: String {
     return "User"
   }
   
   // MARK: Setup Helper Functions
   
-  /// Used to discover if NSUserDefaults has values for keys .Auth and .User
+  /// :returns: Auth token for end user. Nil if none stored in keychain or error.
+  class func authToken() -> String? {
+    return KeychainWrapper.stringForKey(KeychainWrapper.auth)
+  }
+  
+  /// Remove the stored auth token from the keychain.
   ///
-  /// :returns: True if there are values for both .Auth and .User.
+  /// :returns: True if the auth token was successfully cleared.
+  class func clearAuthToken() -> Bool {
+    return KeychainWrapper.removeObjectForKey(KeychainWrapper.auth)
+  }
+  
+  /// Remove the stored user ID from the keychain.
+  ///
+  /// :returns: True if the user ID was successfully cleared.
+  class func clearUserID() -> Bool {
+    return KeychainWrapper.removeObjectForKey(KeychainWrapper.user)
+  }
+  
+  /// Used to discover if keychain has values for keys .auth and .user
+  ///
+  /// :returns: True if there are values for both .auth and .user.
   class func hasAuthAndUser() -> Bool {
-    let auth: String? = NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.auth) as? String
-    let user: Int? = NSUserDefaults.standardUserDefaults().valueForKey(NSUserDefaults.user) as? Int
-    if let auth = auth {
-      if auth == "" {
-        return false
-      } else if let user = user {
-        if user != 0 {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return false
-      }
+    if let auth = KeychainWrapper.authToken(), user = KeychainWrapper.userID() where auth != "" && user != 0 {
+      return true
     } else {
       return false
     }
+  }
+  
+  /// Stores an auth token in the keychain.
+  ///
+  /// :param: token The auth token to be stored.
+  /// :returns: True if the storage was successful.
+  class func setAuthToken(token: String) -> Bool {
+    return KeychainWrapper.setString(token, forKey: KeychainWrapper.auth)
+  }
+  
+  /// Stores a user ID in the keychain.
+  ///
+  /// :param: id The id of the end user to be stored.
+  /// :returns: True if the storage was successful.
+  class func setUserID(id: Int) -> Bool {
+    return KeychainWrapper.setObject(id, forKey: KeychainWrapper.user)
+  }
+  
+  /// :returns: User ID of end user. Nil if none stored in keychain or error.
+  class func userID() -> Int? {
+    return KeychainWrapper.objectForKey(KeychainWrapper.user) as? Int
   }
 }
 

@@ -246,7 +246,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: index The index of the comment being downvoted in the commentTree array.
   /// :param: completion The completion block for the downvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvoteCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
+  func downvoteCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.commentDownvote(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -264,7 +264,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: completion The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvotePost(completion: (success: Bool) -> Void) {
+  func downvotePost(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.postDownvote(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -283,7 +283,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: index The index of the comment being upvoted in the commentTree array.
   /// :param: completion The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvoteCommentAtIndex(index: Int, completion: (success: Bool) -> Void) {
+  func upvoteCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.commentUpvote(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -301,7 +301,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: completion The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePost(completion: (success: Bool) -> Void) {
+  func upvotePost(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.postUpvote(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

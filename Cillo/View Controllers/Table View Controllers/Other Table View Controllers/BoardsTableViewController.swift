@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Handles view of many BoardCells corresponding to the followed Boards of a User.
 ///
@@ -31,7 +32,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() && userID != 0 {
+    if KeychainWrapper.hasAuthAndUser() && userID != 0 {
       refreshControl?.beginRefreshing()
       retrieveData()
     }
@@ -62,7 +63,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: boards The boards followed by user with userID.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completion: (boards: [Board]?) -> Void) {
+  func retrieveBoards(completion: (boards: [Board]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

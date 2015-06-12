@@ -50,7 +50,7 @@ class Comment: NSObject {
   /// User that posted this Comment.
   var user = User()
   
-  /// The voting status of the logged in User on this Comment.
+  /// The voting status of the end user on this Comment.
   ///
   /// * -1: This Comment has been downvoted by the User.
   /// * 0: This Comment has not been upvoted or downvoted by the User.

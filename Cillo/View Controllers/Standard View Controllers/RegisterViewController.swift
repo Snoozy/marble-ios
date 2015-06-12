@@ -71,7 +71,7 @@ class RegisterViewController: CustomViewController {
   ///
   /// :param: completion The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
-  func register(completion: (success: Bool) -> Void) {
+  func register(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.register(userTextField.text, name: nameTextField.text, password: passwordTextField.text, email: emailTextField.text) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -95,9 +95,12 @@ class RegisterViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is registerButton.
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
+    sender.enabled = false
     register { success in
       if success {
         self.performSegueWithIdentifier(SegueIdentifiers.registerToLogin, sender: sender)
+      } else {
+        sender.enabled = true
       }
     }
   }

@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_Alamofire 2
 #define COCOAPODS_VERSION_PATCH_Alamofire 0
 
+// SwiftKeychainWrapper
+#define COCOAPODS_POD_AVAILABLE_SwiftKeychainWrapper
+#define COCOAPODS_VERSION_MAJOR_SwiftKeychainWrapper 1
+#define COCOAPODS_VERSION_MINOR_SwiftKeychainWrapper 0
+#define COCOAPODS_VERSION_PATCH_SwiftKeychainWrapper 9
+
 // TTTAttributedLabel
 #define COCOAPODS_POD_AVAILABLE_TTTAttributedLabel
 #define COCOAPODS_VERSION_MAJOR_TTTAttributedLabel 1

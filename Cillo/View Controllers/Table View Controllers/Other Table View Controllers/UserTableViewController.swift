@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
-/// Handles view of User with Posts or Comments beneath it for any User that is not the logged in User.
+/// Handles view of User with Posts or Comments beneath it for any User that is not the end user.
 ///
 /// Formats TableView to look appealing and be functional.
 ///
@@ -36,7 +37,7 @@ class UserTableViewController: SingleUserTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() && user != User(){
+    if KeychainWrapper.hasAuthAndUser() && user != User(){
       retrieveData()
     }
   }
@@ -83,7 +84,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveComments(completion: (comments: [Comment]?) -> Void) {
+  func retrieveComments(completion: (comments: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -133,7 +134,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> Void) {
+  func retrievePosts(completion: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

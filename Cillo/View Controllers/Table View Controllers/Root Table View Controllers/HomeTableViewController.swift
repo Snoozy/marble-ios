@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Handles first view of Home tab (Front Page of Cillo). 
 ///
@@ -39,7 +40,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() {
+    if KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
       retrieveData()
     }
@@ -88,7 +89,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: posts The posts in the end user's home feed.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> Void) {
+  func retrievePosts(completion: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getHomePage(lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

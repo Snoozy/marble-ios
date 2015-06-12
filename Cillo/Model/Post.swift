@@ -61,7 +61,7 @@ class Post: NSObject {
   /// User that posted this Post.
   var user = User()
   
-  /// The voting status of the logged in User on this Post.
+  /// The voting status of the end user on this Post.
   ///
   /// * -1: This Post has been downvoted by the User.
   /// * 0: This Post has not been upvoted or downvoted by the User.

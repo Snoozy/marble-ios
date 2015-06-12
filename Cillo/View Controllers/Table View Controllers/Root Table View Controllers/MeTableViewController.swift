@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Handles first view of Me tab (Profile of end User).
 ///
@@ -34,7 +35,7 @@ class MeTableViewController: SingleUserTableViewController {
  
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() {
+    if KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
       retrieveData()
     }
@@ -83,8 +84,8 @@ class MeTableViewController: SingleUserTableViewController {
     let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
       self.logout { success in
         if success {
-          NSUserDefaults.standardUserDefaults().removeObjectForKey(NSUserDefaults.auth)
-          NSUserDefaults.standardUserDefaults().removeObjectForKey(NSUserDefaults.user)
+          KeychainWrapper.clearAuthToken()
+          KeychainWrapper.clearUserID()
           if let tabBarController = self.tabBarController as? TabViewController {
             tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
           }
@@ -104,7 +105,7 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// :param: completion The completion block for the server call.
   /// :param: success True if there was no error in the server call. Otherwise, false.
-  func logout(completion: (success: Bool) -> Void) {
+  func logout(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.logout { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -161,9 +162,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// Used to retrieve comments made by end User from Cillo servers.
   ///
   /// :param: completion The completion block for the server call.
-  /// :param: comments The comments that the logged in User has made.
+  /// :param: comments The comments that the end user has made.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveComments(completion: (comments: [Comment]?) -> Void) {
+  func retrieveComments(completion: (comments: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -180,9 +181,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// Used to retrieve posts made by end User from Cillo servers.
   ///
   /// :param: completion The completion block for the server call.
-  /// :param: posts The posts that the logged in User has made.
+  /// :param: posts The posts that the end user has made.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> Void) {
+  func retrievePosts(completion: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -199,9 +200,9 @@ class MeTableViewController: SingleUserTableViewController {
   /// Used to retrieve end User from Cillo servers.
   ///
   /// :param: completion The completion block for the server call.
-  /// :param: user The logged in User.
+  /// :param: user The end user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveUser(completion: (user: User?) -> Void) {
+  func retrieveUser(completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -220,7 +221,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> Void) {
+  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -237,13 +238,13 @@ class MeTableViewController: SingleUserTableViewController {
     }
   }
   
-  /// Sends edit settings request to Cillo Servers for the logged in User in order to change the profile picture of the logged in User.
+  /// Sends edit settings request to Cillo Servers for the end user in order to change the profile picture of the end user.
   ///
-  /// :param: mediaID The id of the uploaded picture that will be the new profile picture of the logged in User.
+  /// :param: mediaID The id of the uploaded picture that will be the new profile picture of the end user.
   /// :param: boardName The name of the board that the specified post is being reposted to.
   /// :param: completion The completion block for the repost.
-  /// :param: user The User object for the logged in User after being updated with a new profilePic. Nil if error was received.
-  func updateProfilePic(mediaID: Int, completion: (user: User?) -> Void) {
+  /// :param: user The User object for the end user after being updated with a new profilePic. Nil if error was received.
+  func updateProfilePic(mediaID: Int, completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.editSelfSettings(newName: nil, newUsername: nil, newMediaID: mediaID, newBio: nil) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

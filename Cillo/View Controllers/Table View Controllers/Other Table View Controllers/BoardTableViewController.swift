@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 /// Handles view of expanded Post with Comments beneath it.
 ///
@@ -36,7 +37,7 @@ class BoardTableViewController: SingleBoardTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if NSUserDefaults.hasAuthAndUser() {
+    if KeychainWrapper.hasAuthAndUser() {
       retrieveData()
     }
   }
@@ -85,7 +86,7 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// :param: completion The completion block for the server call.
   /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> Void) {
+  func retrievePosts(completion: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getBoardFeed(lastPostID: posts.last?.postID, boardID: board.boardID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

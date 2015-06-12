@@ -110,7 +110,8 @@ class UserCell: UITableViewCell {
     repLabel.attributedText = repText
     
     // Make only the number in boardsButton bold
-    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.boardCount), firstFont: UserCell.boardsFontBold, secondHalf: " BOARDS", secondFont: UserCell.boardsFont)
+    let boardString = user.boardCount == 1 ? " BOARD" : " BOARDS"
+    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.boardCount), firstFont: UserCell.boardsFontBold, secondHalf: boardString, secondFont: UserCell.boardsFont)
     boardsButton.setAttributedTitle(boardsText, forState: .Normal)
     boardsButton.tintColor = UIColor.darkTextColor()
   }

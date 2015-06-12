@@ -218,7 +218,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: index The index of the board being followed in the boards array.
   /// :param: completion The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
-  func followBoardAtIndex(index: Int, completion: (success: Bool) -> Void) {
+  func followBoardAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardFollow(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -237,7 +237,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: index The index of the board being unfollowed in the boards array.
   /// :param: completion The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
-  func unfollowBoardAtIndex(index: Int, completion: (success: Bool) -> Void) {
+  func unfollowBoardAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardUnfollow(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false

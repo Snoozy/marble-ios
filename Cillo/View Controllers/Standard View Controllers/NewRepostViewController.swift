@@ -82,7 +82,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: completion The completion block for this server call.
   /// :param: post The repost after the server call.
   /// :param: * Nil if the server call was unsuccessful.
-  func repostPost(completion: (post: Post?) -> Void) {
+  func repostPost(completion: (post: Post?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, repostID: postToRepost.postID, text: contentView.saySomethingTextView.text, title: nil, mediaID: nil) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -101,7 +101,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: completion The completion block for the request.
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
-  func retrieveUser(completion: (user: User?) -> Void) {
+  func retrieveUser(completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getSelfInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -121,9 +121,12 @@ class NewRepostViewController: CustomViewController {
   ///
   /// :param: sender The bar button item that says Create.
   @IBAction func repostButtonPressed(sender: UIButton) {
+    sender.enabled = false
     repostPost { post in
       if let post = post {
         self.performSegueWithIdentifier(SegueIdentifiers.newRepostToTab, sender: post)
+      } else {
+        sender.enabled = true
       }
     }
   }

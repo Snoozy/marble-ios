@@ -14,8 +14,6 @@ Error Handling
 
 Add a popup tableview when typing in a textfield involving board names.
 
-store auth token in keychain not nsuserdefaults
-
 **Other:**
 
 Test on devices.
