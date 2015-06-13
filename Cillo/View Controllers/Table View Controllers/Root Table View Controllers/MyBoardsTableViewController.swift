@@ -140,7 +140,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   func retrieveBoards(completion: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-      DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
+      DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)

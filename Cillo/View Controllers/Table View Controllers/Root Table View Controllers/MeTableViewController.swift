@@ -166,7 +166,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completion: (comments: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
+    DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -185,7 +185,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
+    DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -204,7 +204,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveUser(completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getSelfInfo { error, result in
+    DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -225,7 +225,7 @@ class MeTableViewController: SingleUserTableViewController {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.imageUpload(imageData) { error, result in
+    DataManager.sharedInstance.uploadImageData(imageData) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       activityIndicator.removeFromSuperview()
       if let error = error {
@@ -246,7 +246,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: user The User object for the end user after being updated with a new profilePic. Nil if error was received.
   func updateProfilePic(mediaID: Int, completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.editSelfSettings(newName: nil, newUsername: nil, newMediaID: mediaID, newBio: nil) { error, result in
+    DataManager.sharedInstance.updateEndUserSettingsTo(newMediaID: mediaID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

@@ -86,7 +86,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completion: (comments: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getUserCommentsByID(lastCommentID: comments.last?.commentID, userID: user.userID) { error, result in
+    DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -136,7 +136,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completion: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getUserPostsByID(lastPostID: posts.last?.postID, userID: user.userID) { error, result in
+    DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

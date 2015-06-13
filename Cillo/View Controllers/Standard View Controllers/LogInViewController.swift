@@ -79,7 +79,7 @@ class LogInViewController: CustomViewController {
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.login(emailTextField.text, password: passwordTextField.text) { error, result in
+    DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -100,7 +100,7 @@ class LogInViewController: CustomViewController {
   /// :param: success True if describe request was successful. If error was received, it is false.
   func retrieveMe(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getSelfInfo { error, user in
+    DataManager.sharedInstance.getEndUserInfo { error, user in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

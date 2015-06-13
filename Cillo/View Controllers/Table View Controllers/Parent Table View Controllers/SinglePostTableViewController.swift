@@ -248,7 +248,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvoteCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.commentDownvote(commentTree[index].commentID) { error, success in
+    DataManager.sharedInstance.downvoteCommentWithID(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -266,7 +266,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePost(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.postDownvote(post.postID) { error, success in
+    DataManager.sharedInstance.downvotePostWithID(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -285,7 +285,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvoteCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.commentUpvote(commentTree[index].commentID) { error, success in
+    DataManager.sharedInstance.upvoteCommentWithID(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -303,7 +303,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvotePost(completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.postUpvote(post.postID) { error, success in
+    DataManager.sharedInstance.upvotePostWithID(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

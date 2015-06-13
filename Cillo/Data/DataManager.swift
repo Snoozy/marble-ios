@@ -180,7 +180,7 @@ class DataManager: NSObject {
   
   /// Singleton network manager.
   ///
-  /// **Note:** each network call should start with DataManager.sharedInstance.method(_:).
+  /// **Note:** each network call should start with DataManager.sharedInstance.functionName(_:).
   class var sharedInstance: DataManager {
     struct Static {
       static var instance: DataManager = DataManager()
@@ -195,23 +195,23 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that is being followed.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func boardFollow(boardID: Int, completion:(error: NSError?, success: Bool) -> ()) {
+  func followBoardWithID(boardID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.BoardFollow(boardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardFollow(boardID))
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardFollow(boardID)), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardFollow(boardID)), success: false)
         }
     }
   }
@@ -221,23 +221,23 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that is being followed.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func boardUnfollow(boardID: Int, completion:(error: NSError?, success: Bool) -> ()) {
+  func unfollowBoardWithID(boardID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.BoardUnfollow(boardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardUnfollow(boardID))
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardUnfollow(boardID)), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardUnfollow(boardID)), success: false)
         }
     }
   }
@@ -247,18 +247,18 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: name The name of the board that is being searched.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the array of board names.
-  func boardsAutocompleteByName(name: String, completion:(error: NSError?, result: [String]?) -> ()) {
+  func boardsAutocompleteByName(name: String, completionHandler: (error: NSError?, result: [String]?) -> ()) {
     Alamofire.request(.GET, Router.BoardAutocomplete, parameters: ["q": name], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardAutocomplete)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let boards = swiftyJSON["results"].arrayValue
             var returnArray = [String]()
@@ -266,10 +266,10 @@ class DataManager: NSObject {
               let name = board["name"].stringValue
               returnArray.append(name)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardAutocomplete), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardAutocomplete), result: nil)
         }
     }
   }
@@ -279,18 +279,18 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: name The name of the board that is being searched.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the array of Boards that were found.
-  func boardsSearchByName(name: String, completion:(error: NSError?, result: [Board]?) -> ()) {
+  func boardsSearchByName(name: String, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
     Alamofire.request(.GET, Router.BoardSearch, parameters: ["q": name], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardSearch)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let boards = swiftyJSON["results"].arrayValue
             var returnArray = [Board]()
@@ -298,10 +298,10 @@ class DataManager: NSObject {
               let item = Board(json: board)
               returnArray.append(item)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardSearch), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardSearch), result: nil)
         }
     }
   }
@@ -311,23 +311,23 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: commentID The id of the comment that is being downvoted.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func commentDownvote(commentID: Int, completion:(error: NSError?, success: Bool) -> ()) {
+  func downvoteCommentWithID(commentID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentDown(commentID))
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
         }
     }
   }
@@ -337,23 +337,23 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: commentID The id of the comment that is being upvoted.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func commentUpvote(commentID: Int, completion:(error: NSError?, success: Bool) -> ()) {
+  func upvoteCommentWithID(commentID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentUp(commentID))
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
         }
     }
   }
@@ -364,33 +364,32 @@ class DataManager: NSObject {
   ///
   /// :param: name The name of the new board.
   /// :param: description The description of the board.
-  ///
-  ///  Nil if the board has no description.
-  /// :param: completion A completion block for the network request.
+  /// :param: * Optional parameter
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Board.
-  func createBoard(#name: String, description: String?, mediaID: Int?, completion:(error: NSError?, result: Board?) -> ()) {
+  func createBoardWithName(name: String, description: String = "", mediaID: Int = -1, completionHandler:(error: NSError?, result: Board?) -> ()) {
     var parameters: [String: AnyObject] = ["name": name]
-    if let description = description {
+    if description != "" {
       parameters["description"] = description
     }
-    if let mediaID = mediaID {
+    if mediaID != -1 {
       parameters["photo"] = mediaID
     }
     Alamofire.request(.POST, Router.BoardCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardCreate)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let board = Board(json: swiftyJSON)
-            completion(error: nil, result: board)
+            completionHandler(error: nil, result: board)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardCreate), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardCreate), result: nil)
         }
         
     }
@@ -400,34 +399,34 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: parentID The id of the comment that this comment is reply to.
-  /// :param: * Nil if the comment is replying to the post directly.
-  /// :param: postID The id of the post that this comment is associated with.
   /// :param: text The content of the comment.
+  /// :param: postID The id of the post that this comment is associated with.
   /// :param: lengthToPost The level of this comment in the comment tree.
   /// :param: * **Note:** Should be equal to parentComment.lengthToPost + 1.
-  /// :param: completion A completion block for the network request.
+  /// :param: parentID The id of the comment that this comment is reply to.
+  /// :param: * Optional Parameter
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Comment.
-  func createComment(#parentID: Int?, postID: Int, text: String, lengthToPost: Int, completion:(error: NSError?, result: Comment?) -> ()) {
+  func createCommentWithText(text: String, postID: Int, lengthToPost: Int, parentID: Int = -1, completionHandler: (error: NSError?, result: Comment?) -> ()) {
     var parameters: [String: AnyObject] = ["post_id": postID, "data": text]
-    if let parentID = parentID {
+    if parentID != -1 {
       parameters["parent_id"] = parentID
     }
     Alamofire.request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentCreate)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let comment = Comment(json: swiftyJSON, lengthToPost: lengthToPost)
-            completion(error: nil, result: comment)
+            completionHandler(error: nil, result: comment)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .CommentCreate), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentCreate), result: nil)
         }
     }
   }
@@ -436,36 +435,36 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: repostID The id of the original post that is being reposted.
-  ///
-  ///  Nil if the post being created is not a repost.
   /// :param: boardID The id of the board that the new post is being posted in.
   /// :param: text The content of the post.
   /// :param: title The title of the post.
-  ///
-  ///  Nil if the post has no title.
-  /// :param: completion A completion block for the network request.
+  /// :param: * Optional parameter
+  /// :param: mediaID The id of the image for this post.
+  /// :param: * Optional parameter. Only use if this post should be an image post.
+  /// :param: repostID The id of the original post that is being reposted.
+  /// :param: * Optional parameter. Only use if this post should be a repost.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
-  func createPostByBoardID(repostID: Int?, boardID: Int, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> ()) {
+  func createPostByBoardID(boardID: Int, text: String, title: String = "", mediaID: Int = -1,repostID: Int = -1,  completionHandler: (error: NSError?, result: Post?) -> ()) {
     var parameters: [String: AnyObject] = ["board_id": boardID, "data": text]
-    if let repostID = repostID {
+    if repostID != -1 {
       parameters["repost_id"] = repostID
     }
-    if let title = title {
+    if title != "" {
       parameters["title"] = title
     }
-    if let mediaID = mediaID {
+    if mediaID != -1 {
       parameters["media"] = mediaID
     }
     Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             var post: Post
             if swiftyJSON["repost"] != nil {
@@ -473,10 +472,10 @@ class DataManager: NSObject {
             } else {
               post = Post(json: swiftyJSON)
             }
-            completion(error: nil, result: post)
+            completionHandler(error: nil, result: post)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
         }
     }
   }
@@ -485,36 +484,36 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: repostID The id of the original post that is being reposted.
-  ///
-  ///  Nil if the post being created is not a repost.
   /// :param: boardName The name of the board that the new post is being posted in.
   /// :param: text The content of the post.
   /// :param: title The title of the post.
-  ///
-  ///  Nil if the post has no title.
-  /// :param: completion A completion block for the network request.
+  /// :param: * Optional parameter
+  /// :param: mediaID The id of the image for this post.
+  /// :param: * Optional parameter. Only use if this post should be an image post.
+  /// :param: repostID The id of the original post that is being reposted.
+  /// :param: * Optional parameter. Only use if this post should be a repost.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Post.
-  func createPostByBoardName(boardName: String, repostID: Int?, text: String, title: String?, mediaID: Int?, completion:(error: NSError?, result: Post?) -> ()) {
+  func createPostByBoardName(boardName: String, text: String, title: String = "", mediaID: Int = -1, repostID: Int = -1, completionHandler: (error: NSError?, result: Post?) -> ()) {
     var parameters: [String: AnyObject] = ["board_name": boardName, "data": text]
-    if let repostID = repostID {
+    if repostID != -1 {
       parameters["repost_id"] = repostID
     }
-    if let title = title {
+    if title != "" {
       parameters["title"] = title
     }
-    if let mediaID = mediaID {
+    if mediaID != -1 {
       parameters["media"] = mediaID
     }
     Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             var post: Post
             if swiftyJSON["repost"] != nil {
@@ -522,10 +521,10 @@ class DataManager: NSObject {
             } else {
               post = Post(json: swiftyJSON)
             }
-            completion(error: nil, result: post)
+            completionHandler(error: nil, result: post)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
         }
     }
   }
@@ -539,39 +538,40 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: newName The new name of the end user.
+  /// :param: newUsername The new username of the end user.
   /// :param: newMediaID The media ID of the new profile picture of the end user.
   /// :param: newBio The new bio of the end user.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the user object of the end user with the updated settings.
-  func editSelfSettings(#newName: String?, newUsername: String?, newMediaID: Int?, newBio: String?, completion:(error: NSError?, result: User?) -> ()) {
+  func updateEndUserSettingsTo(newName: String = "", newUsername: String = "", newBio: String = "", newMediaID: Int = -1, completionHandler: (error: NSError?, result: User?) -> ()) {
     var parameters: [String: AnyObject] = [:]
-    if let newName = newName {
+    if newName != "" {
       parameters["name"] = newName
     }
-    if let newUsername = newUsername {
+    if newUsername != "" {
       parameters["username"] = newUsername
     }
-    if let newMediaID = newMediaID {
+    if newMediaID != -1 {
       parameters["photo"] = newMediaID
     }
-    if let newBio = newBio {
+    if newBio != "" {
       parameters["bio"] = newBio
     }
     Alamofire.request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfSettings)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
-            completion(error: nil, result: user)
+            completionHandler(error: nil, result: user)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .SelfSettings), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .SelfSettings), result: nil)
         }
     }
   }
@@ -581,24 +581,24 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that the server is describing.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the Board object for the board with id boardID.
-  func getBoardByID(boardID: Int, completion:(error: NSError?, result: Board?) -> ()) {
+  func getBoardByID(boardID: Int, completionHandler: (error: NSError?, result: Board?) -> ()) {
     Alamofire.request(.GET, Router.BoardInfo(boardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardInfo(boardID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let board = Board(json: swiftyJSON)
-            completion(error: nil, result: board)
+            completionHandler(error: nil, result: board)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardInfo(boardID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardInfo(boardID)), result: nil)
         }
     }
   }
@@ -608,18 +608,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that the server is retrieving a feed for.
-  /// :param: completion A completion block for the network request.
+  /// :param: lastPostID The id of the last post retrieved by a previous call board feed call.
+  /// :param: * Nil if this is the first board feed call for a particular controller.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the board's feed page.
-  func getBoardFeed(#lastPostID: Int?, boardID: Int, completion:(error: NSError?, result: [Post]?) -> ()) {
+  func getBoardFeedByID(boardID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
     Alamofire.request(.GET, Router.BoardFeed(boardID, lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardFeed(boardID, lastPostID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let posts = swiftyJSON["posts"].arrayValue
             var returnArray: [Post] = []
@@ -632,10 +634,10 @@ class DataManager: NSObject {
               }
               returnArray.append(item)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .BoardFeed(boardID, lastPostID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardFeed(boardID, lastPostID)), result: nil)
         }
     }
   }
@@ -644,18 +646,20 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completion A completion block for the network request.
+  /// :param: lastPostID The id of the last post retrieved by a previous call home feed call.
+  /// :param: * Nil if this is the first board feed call for a particular controller.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
-  func getHomePage(#lastPostID: Int?, completion:(error: NSError?, result: [Post]?) -> ()) {
+  func getHomeFeed(#lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
     Alamofire.request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Root(lastPostID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let posts = swiftyJSON["posts"].arrayValue
             var returnArray = [Post]()
@@ -668,10 +672,10 @@ class DataManager: NSObject {
               }
               returnArray.append(item)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .Root(lastPostID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Root(lastPostID)), result: nil)
         }
     }
   }
@@ -681,18 +685,18 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: postID The id of the post that the server is describing.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the Post object for the post with id postID.
-  func getPostByID(postID: Int, completion:(error: NSError?, result: Post?) -> ()) {
+  func getPostByID(postID: Int, completionHandler: (error: NSError?, result: Post?) -> ()) {
     Alamofire.request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostInfo(postID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             var post: Post
             if swiftyJSON["repost"] != nil {
@@ -700,10 +704,10 @@ class DataManager: NSObject {
             } else {
               post = Post(json: swiftyJSON) // pull out the array from the JSON
             }
-            completion(error: nil, result: post)
+            completionHandler(error: nil, result: post)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PostInfo(postID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostInfo(postID)), result: nil)
         }
     }
   }
@@ -712,19 +716,19 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: postID The id of the post that the server is retrieving comments for.
-  /// :param: completion A completion block for the network request.
+  /// :param: post The post that the server is retrieving comments for.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comment tree for the post.
-  func getPostCommentsByID(post: Post, completion:(error: NSError?, result: [Comment]?) -> ()) {
+  func getCommentsForPost(post: Post, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
     Alamofire.request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(post.postID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let comments = swiftyJSON["comments"].arrayValue
             var rootComments: [Comment] = []
@@ -737,10 +741,10 @@ class DataManager: NSObject {
             for comment in rootComments {
               returnedTree += comment.makeCommentTree()
             }
-            completion(error: nil, result: returnedTree)
+            completionHandler(error: nil, result: returnedTree)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PostComments(post.postID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostComments(post.postID)), result: nil)
         }
         
     }
@@ -750,24 +754,24 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the end user.
-  func getSelfInfo(completion:(error: NSError?, result: User?) -> ()) {
+  func getEndUserInfo(completionHandler: (error: NSError?, result: User?) -> ()) {
     Alamofire.request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfInfo)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
-            completion(error: nil, result: user)
+            completionHandler(error: nil, result: user)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .SelfInfo), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .SelfInfo), result: nil)
         }
     }
   }
@@ -777,18 +781,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: userID The id of the user that the server is retrieving a following list for.
-  /// :param: completion A completion block for the network request.
+  /// :param: lastBoardID The id of the last board retrieved by a previous user boards call.
+  /// :param: * Nil if this is the first user boards call for a particular controller.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the boards that the user follows.
-  func getUserBoardsByID(#lastBoardID: Int?, userID: Int, completion:(error: NSError?, result: [Board]?) -> ()) {
+  func getUserBoardsByID(userID: Int, lastBoardID: Int?, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
     Alamofire.request(.GET, Router.UserBoards(userID, lastBoardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserBoards(userID, lastBoardID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let boards = swiftyJSON["boards"].arrayValue
             var returnArray = [Board]()
@@ -796,10 +802,10 @@ class DataManager: NSObject {
               let item = Board(json: board)
               returnArray.append(item)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .UserBoards(userID, lastBoardID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserBoards(userID, lastBoardID)), result: nil)
         }
     }
   }
@@ -809,24 +815,24 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: userID The id of the user that the server is describing.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the user with id userID.
-  func getUserByID(userID: Int, completion:(error: NSError?, result: User?) -> ()) {
+  func getUserByID(userID: Int, completionHandler: (error: NSError?, result: User?) -> ()) {
     Alamofire.request(.GET, Router.UserInfo, parameters: ["user_id": userID], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
-            completion(error: nil, result: user)
+            completionHandler(error: nil, result: user)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
         }
     }
   }
@@ -836,24 +842,24 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: username The unique username of the user that the server is describing.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the user with the given username.
-  func getUserByUsername(username: String, completion:(error: NSError?, result: User?) -> ()) {
+  func getUserByUsername(username: String, completionHandler: (error: NSError?, result: User?) -> ()) {
     Alamofire.request(.GET, Router.UserInfo, parameters: ["username": username], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
-            completion(error: nil, result: user)
+            completionHandler(error: nil, result: user)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
         }
     }
   }
@@ -863,18 +869,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: userID The id of the user that the server is retrieving comments for.
-  /// :param: completion A completion block for the network request.
+  /// :param: lastCommentID The id of the last comment retrieved by a previous user comments call.
+  /// :param: * Nil if this is the first user comments call for a particular controller.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comments that the user has made.
-  func getUserCommentsByID(#lastCommentID: Int?, userID: Int, completion:(error: NSError?, result: [Comment]?) -> ()) {
+  func getUserCommentsByID(userID: Int, lastCommentID: Int?, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
     Alamofire.request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID, lastCommentID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let comments = swiftyJSON["comments"].arrayValue
             var returnArray = [Comment]()
@@ -882,10 +890,10 @@ class DataManager: NSObject {
               let item = Comment(json: comment, lengthToPost: nil)
               returnArray.append(item)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .UserComments(userID, lastCommentID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserComments(userID, lastCommentID)), result: nil)
         }
     }
   }
@@ -895,18 +903,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: userID The id of the user that the server is retrieving posts for.
-  /// :param: completion A completion block for the network request.
+  /// :param: lastPostID The id of the last board retrieved by a previous user posts call.
+  /// :param: * Nil if this is the first user posts call for a particular controller.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts that the user has made.
-  func getUserPostsByID(#lastPostID: Int?, userID: Int, completion:(error: NSError?, result: [Post]?) -> ()) {
+  func getUserPostsByID(userID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
     Alamofire.request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserPosts(userID, lastPostID))
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let posts = swiftyJSON["posts"].arrayValue
             var returnArray = [Post]()
@@ -919,10 +929,10 @@ class DataManager: NSObject {
               }
               returnArray.append(item)
             }
-            completion(error: nil, result: returnArray)
+            completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID, lastPostID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID, lastPostID)), result: nil)
         }
     }
   }
@@ -932,12 +942,11 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: imageData The data containing the image to be uploaded.
-  ///
-  /// :param: * The data can be retrieved via UIImagePNGRepresentation(_:)
-  /// :param: completion A completion block for the network request.
+  /// :param: * The data can be retrieved via UIImageJPEGRepresentation(_:)
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
-  func imageUpload(imageData: NSData, completion:(error: NSError?, result: Int?) -> ()) {
+  func uploadImageData(imageData: NSData, completionHandler: (error: NSError?, result: Int?) -> ()) {
     let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
     upload(urlRequest.0, urlRequest.1)
       .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
@@ -945,17 +954,17 @@ class DataManager: NSObject {
       }
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .MediaUpload)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let mediaID = swiftyJSON["media_id"].intValue
-            completion(error: nil, result: mediaID)
+            completionHandler(error: nil, result: mediaID)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .MediaUpload), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .MediaUpload), result: nil)
         }
     }
   }
@@ -964,26 +973,26 @@ class DataManager: NSObject {
   ///
   /// **Note:** Set KeychainWrapper's .auth key to the retrieved Auth Token.
   ///
-  /// :param: username The username of the user attempting to login to the server.
+  /// :param: email The email of the user attempting to login to the server.
   /// :param: password The password of the user attempting to login to the server.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the login was unsuccessful, this will contain the error message.
   /// :param: result If the login was successful, this will be the Auth Token.
-  func login(email: String, password: String, completion:(error: NSError?, result: String?) -> ()) {
+  func loginWithEmail(email: String, andPassword password: String, completionHandler: (error: NSError?, result: String?) -> ()) {
     Alamofire.request(.POST, Router.Login, parameters: ["email": email, "password": password], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, result: nil)
+          completionHandler(error: error, result: nil)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Login)
-            completion(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil)
           } else {
             let authToken = swiftyJSON["auth_token"].stringValue
-            completion(error: nil, result: authToken)
+            completionHandler(error: nil, result: authToken)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .Login), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Login), result: nil)
         }
     }
   }
@@ -992,23 +1001,23 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the logout was unsuccessful, this will contain the error message.
   /// :param: success If the logout was successful, this will be true.
-  func logout(completion:(error: NSError?, success: Bool) -> ()) {
+  func logout(completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.Logout, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Logout)
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
         }
     }
   }
@@ -1018,23 +1027,23 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: postID The id of the post that is being downvoted.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func postDownvote(postID: Int, completion:(error: NSError?, success: Bool) -> ()) {
+  func downvotePostWithID(postID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostDown(postID))
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
         }
     }
   }
@@ -1044,76 +1053,77 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: postID The id of the post that is being upvoted.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func postUpvote(postID: Int, completion:(error: NSError?, success: Bool) -> ()) {
+  func upvotePostWithID(postID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostUp(postID))
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
         }
     }
   }
   
   /// Attempts to register user with server.
   ///
-  /// :param: username The username of the user attempting to register with the server. This must be unique.
   /// :param: name The display name of the user attempting to register with the server. This doesn't have to be unique.
+  /// :param: username The username of the user attempting to register with the server. This must be unique.
   /// :param: password The password of the user attempting to register with the server.
   /// :param: email The email of the user attempting to register with the server. This must be unique.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the registration was unsuccessful, this will contain the error message.
   /// :param: success If the registration was successful, this will be true.
-  func register(username: String, name: String, password: String, email: String, completion:(error: NSError?, success: Bool) -> ()) {
+  func registerUserWithName(name: String, username: String, password: String, andEmail email: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.Register, parameters: ["username": username, "name": name, "password": password, "email": email], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Register)
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
         }
     }
   }
+  
   /// Attempts to update the end user's password on the server.
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: oldPassword The old password of the end user.
   /// :param: newPassword The password that the end user wants to change to.
-  /// :param: completion A completion block for the network request.
+  /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func updatePassword(#oldPassword: String, newPassword: String, completion:(error: NSError?, success: Bool) -> ()) {
+  func updatePassword(oldPassword: String, toNewPassword newPassword: String, completionHandler:(error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {
-          completion(error: error, success: false)
+          completionHandler(error: error, success: false)
         } else if let swiftyJSON = JSON(rawValue: data!) {
           if swiftyJSON["error"] != nil {
             let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PasswordUpdate)
-            completion(error: cilloError, success: false)
+            completionHandler(error: cilloError, success: false)
           } else {
-            completion(error: nil, success: true)
+            completionHandler(error: nil, success: true)
           }
         } else {
-          completion(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)
         }
     }
   }

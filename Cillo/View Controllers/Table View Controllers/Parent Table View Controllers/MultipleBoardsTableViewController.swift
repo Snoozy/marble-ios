@@ -220,7 +220,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: success True if follow request was successful. If error was received, it is false.
   func followBoardAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.boardFollow(boards[index].boardID) { error, success in
+    DataManager.sharedInstance.followBoardWithID(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -239,7 +239,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
   func unfollowBoardAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.boardUnfollow(boards[index].boardID) { error, success in
+    DataManager.sharedInstance.unfollowBoardWithID(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

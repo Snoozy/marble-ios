@@ -65,7 +65,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completion: (boards: [Board]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getUserBoardsByID(lastBoardID: boards.last?.boardID, userID: userID) { error, result in
+    DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

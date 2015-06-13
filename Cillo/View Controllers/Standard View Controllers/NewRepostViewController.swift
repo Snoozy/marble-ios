@@ -84,7 +84,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: * Nil if the server call was unsuccessful.
   func repostPost(completion: (post: Post?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, repostID: postToRepost.postID, text: contentView.saySomethingTextView.text, title: nil, mediaID: nil) { error, result in
+    DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -103,7 +103,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: * Nil if an error occurred in the server call.
   func retrieveUser(completion: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getSelfInfo { error, result in
+    DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

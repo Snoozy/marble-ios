@@ -80,7 +80,7 @@ class PostTableViewController: SinglePostTableViewController {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-      DataManager.sharedInstance.createComment(parentID: nil, postID: post.postID, text: textField.text, lengthToPost: 1) { error, comment in
+      DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: 1) { error, comment in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
@@ -103,7 +103,7 @@ class PostTableViewController: SinglePostTableViewController {
       let textField = newCommentView.1
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       let commentReplyingTo = commentTree[index]
-      DataManager.sharedInstance.createComment(parentID: commentReplyingTo.commentID, postID: post.postID, text: textField.text, lengthToPost: commentReplyingTo.lengthToPost! + 1) { error, comment in
+      DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: commentReplyingTo.lengthToPost! + 1, parentID: commentReplyingTo.commentID) { error, comment in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
@@ -123,7 +123,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveCommentTree(completion: (commentTree: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.getPostCommentsByID(post) { error, result in
+    DataManager.sharedInstance.getCommentsForPost(post) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -229,12 +229,13 @@ class PostTableViewController: SinglePostTableViewController {
     newCommentView = (view, textField)
   }
   
+  /// Sets `newCommentBarButton` to say "Cancel".
   func setBarButtonToCancel() {
     newCommentBarButton.image = nil
     newCommentBarButton.title = "Cancel"
   }
   
-  ///
+  /// Sets `newCommentBarButton` to show the new comment icon.
   func setBarButtonToNewComment() {
     newCommentBarButton.image = UIImage(named: "New Comment")
     newCommentBarButton.title = nil

@@ -383,7 +383,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePostAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.postDownvote(posts[index].postID) { error, success in
+    DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
@@ -402,7 +402,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvotePostAtIndex(index: Int, completion: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.postUpvote(posts[index].postID) { error, success in
+    DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)

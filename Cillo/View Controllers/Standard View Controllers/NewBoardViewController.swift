@@ -95,16 +95,11 @@ class NewBoardViewController: CustomViewController {
   ///
   /// :param: * Nil if server call passed an error back.
   func createBoard(completion: (board: Board?) -> ()) {
-    var descrip: String?
-    if descripTextView.text != "" {
-      descrip = descripTextView.text
-    }
-
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.createBoard(name: self.nameTextField.text, description: descrip, mediaID: mediaID) { error, result in
+          DataManager.sharedInstance.createBoardWithName(self.nameTextField.text, description: self.descripTextView.text, mediaID: mediaID) { error, result in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
               println(error)
@@ -120,7 +115,7 @@ class NewBoardViewController: CustomViewController {
         }
       }
     } else {
-      DataManager.sharedInstance.createBoard(name: nameTextField.text, description: descrip, mediaID: nil) { error, result in
+      DataManager.sharedInstance.createBoardWithName(nameTextField.text, description: descripTextView.text) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
           println(error)
@@ -142,7 +137,7 @@ class NewBoardViewController: CustomViewController {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.imageUpload(imageData) { error, result in
+    DataManager.sharedInstance.uploadImageData(imageData) { error, result in
       activityIndicator.removeFromSuperview()
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
