@@ -83,19 +83,19 @@ class BoardTableViewController: SingleBoardTableViewController {
   
   /// Used to retrieve the feed for this board from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> ()) {
+  func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getBoardFeedByID(board.boardID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(posts: nil)
+        completionHandler(posts: nil)
       } else {
-        completion(posts: result!)
+        completionHandler(posts: result!)
       }
     }
   }

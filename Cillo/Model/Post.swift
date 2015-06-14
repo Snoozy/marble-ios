@@ -91,7 +91,7 @@ class Post: NSObject {
     board = Board(json: json["board"])
     user = User(json: json["user"])
     let time = json["time"].int64Value
-    self.time = NSDate.convertToTimeString(time: time)
+    self.time = time.compactTimeDisplay
     if json["title"] != nil {
       self.title = json["title"].stringValue
     }

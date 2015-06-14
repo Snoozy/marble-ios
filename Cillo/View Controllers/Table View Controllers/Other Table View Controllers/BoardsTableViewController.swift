@@ -60,19 +60,19 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   
   /// Used to retrieve the boards followed by user with userID from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: boards The boards followed by user with userID.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completion: (boards: [Board]?) -> ()) {
+  func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(boards: nil)
+        completionHandler(boards: nil)
       } else {
-        completion(boards: result!)
+        completionHandler(boards: result)
       }
     }
   }

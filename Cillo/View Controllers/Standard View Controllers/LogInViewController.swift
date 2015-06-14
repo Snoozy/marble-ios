@@ -75,19 +75,22 @@ class LogInViewController: CustomViewController {
   ///
   /// If successful, NSUserDefaults will contain a value for .Auth.
   ///
-  /// :param: completion The completion block for the login.
+  /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
-  func login(completion: (success: Bool) -> ()) {
+  func login(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        let success = KeychainWrapper.setAuthToken(result!)
-        completion(success: success)
+        var success = false
+        if let token = result {
+          success = KeychainWrapper.setAuthToken(token)
+        }
+        completionHandler(success: success)
       }
     }
   }
@@ -96,19 +99,19 @@ class LogInViewController: CustomViewController {
   ///
   /// If successful, NSUserDefaults will contain a value for .User.
   ///
-  /// :param: completion The completion block for the request.
+  /// :param: completionHandler The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
-  func retrieveMe(completion: (success: Bool) -> ()) {
+  func retrieveEndUser(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getEndUserInfo { error, user in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
         let success = KeychainWrapper.setUserID(user!.userID)
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
@@ -129,8 +132,8 @@ class LogInViewController: CustomViewController {
     sender.enabled = false
     login { loginSuccess in
       if loginSuccess {
-        self.retrieveMe { retrieveMeSuccess in
-          if retrieveMeSuccess {
+        self.retrieveEndUser { userSuccess in
+          if userSuccess {
             let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
             alert.show()
             self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: sender)

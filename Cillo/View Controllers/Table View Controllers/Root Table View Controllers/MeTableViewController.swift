@@ -103,18 +103,18 @@ class MeTableViewController: SingleUserTableViewController {
   
   /// Used to logout from Cillo servers, invalidating NSUSerDefaults.auth
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: success True if there was no error in the server call. Otherwise, false.
-  func logout(completion: (success: Bool) -> ()) {
+  func logout(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.logout { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
@@ -161,67 +161,67 @@ class MeTableViewController: SingleUserTableViewController {
   
   /// Used to retrieve comments made by end User from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: comments The comments that the end user has made.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveComments(completion: (comments: [Comment]?) -> ()) {
+  func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(comments: nil)
+        completionHandler(comments: nil)
       } else {
-        completion(comments: result!)
+        completionHandler(comments: result)
       }
     }
   }
   
   /// Used to retrieve posts made by end User from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: posts The posts that the end user has made.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> ()) {
+  func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(posts: nil)
+        completionHandler(posts: nil)
       } else {
-        completion(posts: result!)
+        completionHandler(posts: result)
       }
     }
   }
   
   /// Used to retrieve end User from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: user The end user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveUser(completion: (user: User?) -> ()) {
+  func retrieveUser(completionHandler: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(user: nil)
+        completionHandler(user: nil)
       } else {
-        completion(user: result!)
+        completionHandler(user: result)
       }
     }
   }
   
   /// Used to upload image to Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
+  func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -231,9 +231,9 @@ class MeTableViewController: SingleUserTableViewController {
       if let error = error {
         println(error)
         error.showAlert()
-        completion(mediaID: nil)
+        completionHandler(mediaID: nil)
       } else {
-        completion(mediaID: result!)
+        completionHandler(mediaID: result)
       }
     }
   }
@@ -242,18 +242,18 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// :param: mediaID The id of the uploaded picture that will be the new profile picture of the end user.
   /// :param: boardName The name of the board that the specified post is being reposted to.
-  /// :param: completion The completion block for the repost.
+  /// :param: completionHandler The completion block for the repost.
   /// :param: user The User object for the end user after being updated with a new profilePic. Nil if error was received.
-  func updateProfilePic(mediaID: Int, completion: (user: User?) -> ()) {
+  func updateEndUserPhoto(mediaID: Int, completionHandler: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.updateEndUserSettingsTo(newMediaID: mediaID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(user: nil)
+        completionHandler(user: nil)
       } else {
-        completion(user: result!)
+        completionHandler(user: result)
       }
     }
   }
@@ -293,7 +293,7 @@ extension MeTableViewController: UIImagePickerControllerDelegate {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          self.updateProfilePic(mediaID) { user in
+          self.updateEndUserPhoto(mediaID) { user in
             if let user = user {
               self.user = user
               let userIndexPath = NSIndexPath(forRow: 0, inSection: 0)

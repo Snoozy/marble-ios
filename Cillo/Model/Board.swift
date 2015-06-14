@@ -32,7 +32,7 @@ class Board: NSObject {
   var name = ""
   
   /// Picture of this Board.
-  var pictureURL = NSURL()
+  var photoURL = NSURL()
   
   // MARK: Initializers
   
@@ -58,7 +58,7 @@ class Board: NSObject {
     }
     following = json["following"].boolValue
     if let url = NSURL(string: json["photo"].stringValue) {
-      pictureURL = url
+      photoURL = url
     }
   }
   

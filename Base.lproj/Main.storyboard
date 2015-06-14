@@ -118,7 +118,7 @@
                                     <outlet property="followButton" destination="Mfa-VN-nW8" id="U6l-F6-uXN"/>
                                     <outlet property="followersLabel" destination="5BZ-Mn-CNE" id="Qct-Ox-H7t"/>
                                     <outlet property="nameButton" destination="CP2-4c-bdd" id="C4x-yA-ZvC"/>
-                                    <outlet property="pictureButton" destination="kbr-Od-Cxu" id="Wo1-3X-CDe"/>
+                                    <outlet property="photoButton" destination="kbr-Od-Cxu" id="xdp-Lj-Jld"/>
                                     <outlet property="separatorView" destination="40d-BU-8jg" id="Atf-7L-HQ0"/>
                                     <outlet property="separatorViewHeightConstraint" destination="6SL-P0-L7h" id="Ucz-Pv-gzS"/>
                                 </connections>
@@ -587,7 +587,7 @@
                                     <outlet property="imagesButton" destination="2dI-Lp-xKW" id="M8H-o7-TPG"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="mVo-n6-jyG" id="PJq-Lr-HTj"/>
                                     <outlet property="nameButton" destination="0x0-G0-4uj" id="yMm-jo-yp4"/>
-                                    <outlet property="pictureButton" destination="AuE-AR-hUK" id="wQ1-z0-zwH"/>
+                                    <outlet property="photoButton" destination="AuE-AR-hUK" id="AFu-Cw-bXO"/>
                                     <outlet property="postTTTAttributedLabel" destination="6KK-Sg-0jV" id="xGy-hF-Do1"/>
                                     <outlet property="repLabel" destination="Zkr-Mo-Mmv" id="BP6-Ma-ebJ"/>
                                     <outlet property="repostButton" destination="FTP-bw-ldZ" id="sqQ-9v-I5x"/>
@@ -931,9 +931,9 @@
                                     <outlet property="nameButton" destination="iKd-IM-EQ8" id="K5m-bZ-aaa"/>
                                     <outlet property="originalBoardButton" destination="YRN-XR-nCt" id="dek-a5-b6p"/>
                                     <outlet property="originalNameButton" destination="Q20-cx-mR0" id="4Wc-n6-9eK"/>
-                                    <outlet property="originalPictureButton" destination="Qcg-To-ZZ6" id="IM2-yW-LsY"/>
+                                    <outlet property="originalPhotoButton" destination="Qcg-To-ZZ6" id="KU5-qb-qZd"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="kQD-IO-TR1" id="Z6n-54-Rvq"/>
-                                    <outlet property="pictureButton" destination="Ger-9V-jch" id="KYB-wK-gij"/>
+                                    <outlet property="photoButton" destination="Ger-9V-jch" id="KDj-Ot-0Y9"/>
                                     <outlet property="postTTTAttributedLabel" destination="CoM-HP-nsO" id="p6m-cQ-zem"/>
                                     <outlet property="postTTTAttributedLabelHeightConstraint" destination="fZw-t6-77h" id="QEf-kd-fVI"/>
                                     <outlet property="repLabel" destination="D7Z-jn-oFx" id="7Ci-4h-iRw"/>
@@ -1237,7 +1237,7 @@
                                     <outlet property="imagesButton" destination="wYL-UQ-wND" id="8jr-jo-azH"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="9XB-vJ-mHz" id="7ep-xf-wjT"/>
                                     <outlet property="nameButton" destination="J4Y-Gj-Vzr" id="l4l-nV-vnR"/>
-                                    <outlet property="pictureButton" destination="VqW-IB-MvD" id="yDp-Wu-lJV"/>
+                                    <outlet property="photoButton" destination="VqW-IB-MvD" id="26j-BW-FlM"/>
                                     <outlet property="postTTTAttributedLabel" destination="3hB-0J-EvR" id="hq0-FH-lFP"/>
                                     <outlet property="repLabel" destination="yQf-4k-m6v" id="i7Y-22-VHQ"/>
                                     <outlet property="repostButton" destination="JIu-xe-YNM" id="SYT-8j-WQO"/>
@@ -1556,9 +1556,9 @@
                                     <outlet property="nameButton" destination="YuF-Xh-qUI" id="OAm-ms-cZA"/>
                                     <outlet property="originalBoardButton" destination="Got-Lc-g1c" id="NRz-ia-7Jd"/>
                                     <outlet property="originalNameButton" destination="qqh-YS-9JQ" id="SiB-3Y-kq2"/>
-                                    <outlet property="originalPictureButton" destination="N5a-Eb-Rm6" id="Bhg-0F-15i"/>
+                                    <outlet property="originalPhotoButton" destination="N5a-Eb-Rm6" id="n98-Wf-Rmm"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="DAn-fN-fae" id="7l5-is-s9l"/>
-                                    <outlet property="pictureButton" destination="r30-hR-OWa" id="j1E-9u-t29"/>
+                                    <outlet property="photoButton" destination="r30-hR-OWa" id="pii-wm-1UG"/>
                                     <outlet property="postTTTAttributedLabel" destination="qER-gh-TsX" id="vLu-At-Aty"/>
                                     <outlet property="postTTTAttributedLabelHeightConstraint" destination="BFR-3P-91V" id="cUt-9Q-BNu"/>
                                     <outlet property="repLabel" destination="B1j-Iq-1wx" id="2Bm-r5-Lxr"/>
@@ -1684,7 +1684,7 @@
                                     <outlet property="downvoteButton" destination="8pQ-tU-Dl9" id="OfX-OA-aZu"/>
                                     <outlet property="imageIndentConstraint" destination="Ee2-el-a9m" id="iiG-La-m7H"/>
                                     <outlet property="nameButton" destination="HZT-el-ks9" id="mCY-7v-MDv"/>
-                                    <outlet property="pictureButton" destination="00X-bS-pTz" id="j9R-aT-8CP"/>
+                                    <outlet property="photoButton" destination="00X-bS-pTz" id="ckw-2D-Uip"/>
                                     <outlet property="repAndTimeLabel" destination="Jub-eH-fEQ" id="pLo-TK-hkh"/>
                                     <outlet property="replyButton" destination="MAL-c5-ERl" id="DPi-Tw-5j4"/>
                                     <outlet property="upvoteButton" destination="XTC-1x-g9s" id="FW5-l1-bo9"/>
@@ -2084,7 +2084,7 @@
                                     <outlet property="bioTTTAttributedLabel" destination="Bdn-Ah-JyS" id="4ZQ-fQ-zUi"/>
                                     <outlet property="boardsButton" destination="lVq-zl-pqe" id="biN-hW-N2q"/>
                                     <outlet property="nameButton" destination="V9i-qf-fZm" id="YbJ-1x-QDu"/>
-                                    <outlet property="pictureButton" destination="rPM-ih-RYV" id="3BI-kh-of1"/>
+                                    <outlet property="photoButton" destination="rPM-ih-RYV" id="pE0-d3-rko"/>
                                     <outlet property="repLabel" destination="qvz-Jo-zIl" id="ubK-5R-zJM"/>
                                     <outlet property="usernameButton" destination="SE9-KF-amr" id="g9g-4y-xuf"/>
                                 </connections>
@@ -2314,7 +2314,7 @@
                                     <outlet property="imagesButton" destination="Vra-bA-5Yf" id="ght-b1-2nf"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="BK2-NY-BMp" id="MaQ-nG-1IX"/>
                                     <outlet property="nameButton" destination="YNQ-VQ-qs4" id="9CA-QU-wF7"/>
-                                    <outlet property="pictureButton" destination="RJu-X4-tmr" id="yVS-5Q-8I4"/>
+                                    <outlet property="photoButton" destination="RJu-X4-tmr" id="yQB-ER-bvj"/>
                                     <outlet property="postTTTAttributedLabel" destination="xwF-Ic-ypo" id="foS-nV-bUi"/>
                                     <outlet property="repLabel" destination="joh-EH-RJh" id="xAv-nq-9b2"/>
                                     <outlet property="repostButton" destination="e79-33-9BR" id="ANF-Xr-Or8"/>
@@ -2646,9 +2646,9 @@
                                     <outlet property="nameButton" destination="f67-Xw-PPf" id="vyh-aB-teJ"/>
                                     <outlet property="originalBoardButton" destination="ZYc-03-HhZ" id="EPU-aA-M7j"/>
                                     <outlet property="originalNameButton" destination="M8Y-Jw-mcQ" id="DLx-a6-1Wf"/>
-                                    <outlet property="originalPictureButton" destination="u8q-63-xDz" id="46x-Ya-8yb"/>
+                                    <outlet property="originalPhotoButton" destination="u8q-63-xDz" id="sQb-j3-Hjq"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="cX2-6O-YVd" id="qf4-O6-GKe"/>
-                                    <outlet property="pictureButton" destination="iAq-kv-yXU" id="gdS-j4-5vu"/>
+                                    <outlet property="photoButton" destination="iAq-kv-yXU" id="5lb-Bj-o0d"/>
                                     <outlet property="postTTTAttributedLabel" destination="csx-LM-MMc" id="UIU-S8-DkF"/>
                                     <outlet property="postTTTAttributedLabelHeightConstraint" destination="V0O-nQ-RW1" id="unR-it-jUf"/>
                                     <outlet property="repLabel" destination="oaE-AN-d7w" id="dVd-Nd-PfE"/>
@@ -2739,7 +2739,7 @@
                                     <outlet property="commentTTTAttributedLabel" destination="zu1-c4-yhp" id="JHd-Bi-sX1"/>
                                     <outlet property="imageIndentConstraint" destination="rhH-SD-ozP" id="i04-uO-njG"/>
                                     <outlet property="nameButton" destination="JRG-14-z4B" id="Yjs-GL-8vJ"/>
-                                    <outlet property="pictureButton" destination="6jh-gF-Ski" id="C4U-pb-pdD"/>
+                                    <outlet property="photoButton" destination="6jh-gF-Ski" id="mrZ-sN-Ik8"/>
                                     <outlet property="repAndTimeLabel" destination="kHg-XX-z20" id="RsE-cS-sZD"/>
                                     <outlet property="separatorView" destination="qu4-bv-FkU" id="shL-DJ-HJP"/>
                                     <outlet property="separatorViewHeightConstraint" destination="MyL-2J-JA5" id="4uc-3c-xFf"/>
@@ -2913,7 +2913,7 @@
                                     <outlet property="followButton" destination="Rsy-xH-GdP" id="K2E-Tc-EaG"/>
                                     <outlet property="followersLabel" destination="kMX-L1-X97" id="AIJ-yd-qT5"/>
                                     <outlet property="nameButton" destination="2JK-gh-ByR" id="qk9-EO-zbx"/>
-                                    <outlet property="pictureButton" destination="jiw-DC-0tG" id="YZQ-lH-b1f"/>
+                                    <outlet property="photoButton" destination="jiw-DC-0tG" id="DyP-pL-bas"/>
                                     <outlet property="separatorView" destination="Lck-5O-v7P" id="9n8-21-3Lo"/>
                                     <outlet property="separatorViewHeightConstraint" destination="dKU-b8-9r0" id="Rz8-69-q12"/>
                                 </connections>
@@ -3176,7 +3176,7 @@
                                     <outlet property="imagesButton" destination="qWR-PC-GBc" id="atd-eU-psN"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="h2z-bb-rJz" id="Iet-BP-mbP"/>
                                     <outlet property="nameButton" destination="GNc-tI-Tjn" id="T2I-wR-3gL"/>
-                                    <outlet property="pictureButton" destination="kvZ-kp-oRl" id="i7e-EQ-vE8"/>
+                                    <outlet property="photoButton" destination="kvZ-kp-oRl" id="yDx-4W-knQ"/>
                                     <outlet property="postTTTAttributedLabel" destination="cQN-Pu-xpl" id="VUb-6J-ifL"/>
                                     <outlet property="repLabel" destination="T0h-OR-oox" id="6PP-nA-QPS"/>
                                     <outlet property="repostButton" destination="MGx-Wz-MKz" id="gsI-xD-Djr"/>
@@ -3517,9 +3517,9 @@
                                     <outlet property="nameButton" destination="fp3-hj-Qv4" id="Ql3-Vr-4ET"/>
                                     <outlet property="originalBoardButton" destination="CbC-bu-77w" id="uaZ-8g-pvH"/>
                                     <outlet property="originalNameButton" destination="G30-Hz-vd9" id="Qkg-Mf-7Uq"/>
-                                    <outlet property="originalPictureButton" destination="04z-0e-Ydb" id="CKs-LY-KKp"/>
+                                    <outlet property="originalPhotoButton" destination="04z-0e-Ydb" id="DRG-u3-QoJ"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="A7I-yK-N0F" id="91N-Ti-IF4"/>
-                                    <outlet property="pictureButton" destination="ZVJ-Ht-3Ns" id="Jjy-eQ-6oq"/>
+                                    <outlet property="photoButton" destination="ZVJ-Ht-3Ns" id="I0y-Wc-6M3"/>
                                     <outlet property="postTTTAttributedLabel" destination="RmH-iK-7kD" id="dE7-R3-hA5"/>
                                     <outlet property="postTTTAttributedLabelHeightConstraint" destination="9af-2l-CPc" id="t5a-OL-Mvj"/>
                                     <outlet property="repLabel" destination="cre-G5-4UX" id="Yfv-oa-Plq"/>
@@ -3746,7 +3746,7 @@
                                     <outlet property="bioTTTAttributedLabel" destination="LhB-Aa-aQu" id="oke-4h-82S"/>
                                     <outlet property="boardsButton" destination="tyw-dO-8ts" id="KCN-GD-1V7"/>
                                     <outlet property="nameButton" destination="fcd-3a-iLT" id="2cR-bE-5c2"/>
-                                    <outlet property="pictureButton" destination="Edv-Gu-fAG" id="NrB-A2-rGQ"/>
+                                    <outlet property="photoButton" destination="Edv-Gu-fAG" id="nGr-Sh-iC1"/>
                                     <outlet property="repLabel" destination="hDO-q8-tfr" id="pbq-Kq-fLz"/>
                                     <outlet property="usernameButton" destination="vNq-eQ-whn" id="vxm-Ut-jNq"/>
                                 </connections>
@@ -3976,7 +3976,7 @@
                                     <outlet property="imagesButton" destination="7La-eh-OmY" id="wQt-kL-nnk"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="XtK-Qh-aPN" id="riH-8u-igP"/>
                                     <outlet property="nameButton" destination="eEc-ea-9AD" id="9oX-vi-DBc"/>
-                                    <outlet property="pictureButton" destination="a63-ky-osm" id="m6n-Lu-Wfw"/>
+                                    <outlet property="photoButton" destination="a63-ky-osm" id="VlH-eE-IBV"/>
                                     <outlet property="postTTTAttributedLabel" destination="hZn-1o-v39" id="0bZ-uJ-Sdi"/>
                                     <outlet property="repLabel" destination="WuJ-AT-cuE" id="ypp-mi-w24"/>
                                     <outlet property="repostButton" destination="Mj0-gh-KmZ" id="RCo-Xq-Nl1"/>
@@ -4308,9 +4308,9 @@
                                     <outlet property="nameButton" destination="Pyd-uh-lI6" id="pvf-F1-VyR"/>
                                     <outlet property="originalBoardButton" destination="oXQ-x0-bPH" id="fv7-OU-lUw"/>
                                     <outlet property="originalNameButton" destination="Fky-jg-tAb" id="0w4-3v-uxM"/>
-                                    <outlet property="originalPictureButton" destination="vox-IP-wvy" id="KBV-46-3mm"/>
+                                    <outlet property="originalPhotoButton" destination="vox-IP-wvy" id="9RT-cO-QN4"/>
                                     <outlet property="originalPostTTTAttributedLabel" destination="dpO-SK-TUt" id="wfP-C8-vJv"/>
-                                    <outlet property="pictureButton" destination="qJd-5g-tAK" id="U7F-0z-PiB"/>
+                                    <outlet property="photoButton" destination="qJd-5g-tAK" id="YCF-FG-n5r"/>
                                     <outlet property="postTTTAttributedLabel" destination="MOX-2C-Qlv" id="yGy-WW-9eH"/>
                                     <outlet property="postTTTAttributedLabelHeightConstraint" destination="2hf-gQ-LGv" id="gRq-An-Usu"/>
                                     <outlet property="repLabel" destination="bUV-5k-0wC" id="aSO-6b-Xv9"/>
@@ -4401,7 +4401,7 @@
                                     <outlet property="commentTTTAttributedLabel" destination="tx8-Rw-Mdt" id="cHV-Sg-ks8"/>
                                     <outlet property="imageIndentConstraint" destination="BJN-p1-Dc5" id="gfq-TZ-xwP"/>
                                     <outlet property="nameButton" destination="MX3-J3-WD9" id="EsE-ZU-Gsg"/>
-                                    <outlet property="pictureButton" destination="tae-4q-hxv" id="Mqo-ey-1pY"/>
+                                    <outlet property="photoButton" destination="tae-4q-hxv" id="ol8-BG-hyB"/>
                                     <outlet property="repAndTimeLabel" destination="MBT-kw-l0B" id="9qE-hW-8KB"/>
                                     <outlet property="separatorView" destination="T9l-Aa-vPm" id="WLs-0M-pmH"/>
                                     <outlet property="separatorViewHeightConstraint" destination="8f6-xc-Oi8" id="ilY-dr-iGi"/>
@@ -4753,7 +4753,7 @@
                                     <outlet property="followButton" destination="dSF-1j-qGN" id="umz-Ve-xzQ"/>
                                     <outlet property="followersLabel" destination="2xb-OK-ruP" id="aDW-Xk-n9g"/>
                                     <outlet property="nameButton" destination="cUH-12-eKa" id="s1D-0l-1o7"/>
-                                    <outlet property="pictureButton" destination="jGK-dQ-e02" id="fb1-8S-22o"/>
+                                    <outlet property="photoButton" destination="jGK-dQ-e02" id="LAv-a5-m1s"/>
                                     <outlet property="separatorView" destination="lp7-du-sOw" id="mYx-po-Muf"/>
                                     <outlet property="separatorViewHeightConstraint" destination="f2X-od-ruC" id="CoE-Zd-hUA"/>
                                 </connections>
@@ -4837,9 +4837,9 @@
                                     <action selector="imageButtonPressed:" destination="RL6-mp-tie" eventType="touchUpInside" id="kzL-gF-owq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bc0-n6-1F3" userLabel="Choose image">
-                                <rect key="frame" x="84" y="87" width="100" height="30"/>
-                                <state key="normal" title="Choose Image">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bc0-n6-1F3" userLabel="Choose Photo">
+                                <rect key="frame" x="84" y="87" width="98" height="30"/>
+                                <state key="normal" title="Choose Photo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -4875,12 +4875,12 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <outlet property="choosePictureButton" destination="Bc0-n6-1F3" id="mfr-20-0BU"/>
+                        <outlet property="choosePhotoButton" destination="Bc0-n6-1F3" id="lls-fm-O6b"/>
                         <outlet property="descripTextView" destination="kzF-VU-MfP" id="4TQ-NJ-Nuo"/>
                         <outlet property="descripTextViewHeightConstraint" destination="t4V-5M-FfU" id="iUR-sO-h1f"/>
                         <outlet property="imitationNavigationBar" destination="OZ4-lj-q7d" id="aNG-mT-yOv"/>
                         <outlet property="nameTextField" destination="0ca-5S-5AC" id="bNv-MN-4cX"/>
-                        <outlet property="pictureButton" destination="DYv-uN-Mnr" id="Rtq-xS-oqI"/>
+                        <outlet property="photoButton" destination="DYv-uN-Mnr" id="Y75-Ua-9fJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O6X-cM-uWU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5288,9 +5288,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0fK-Cx-ysj"/>
-        <segue reference="162-n2-HAP"/>
-        <segue reference="syA-mT-UDy"/>
+        <segue reference="X2k-fD-Ni0"/>
+        <segue reference="rwG-J9-MDJ"/>
         <segue reference="DUk-kf-nGq"/>
+        <segue reference="g7D-gS-UuW"/>
     </inferredMetricsTieBreakers>
 </document>

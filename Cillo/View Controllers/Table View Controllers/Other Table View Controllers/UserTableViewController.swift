@@ -81,19 +81,19 @@ class UserTableViewController: SingleUserTableViewController {
   
   /// Used to retrieve the comments made by user from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveComments(completion: (comments: [Comment]?) -> ()) {
+  func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(comments: nil)
+        completionHandler(comments: nil)
       } else {
-        completion(comments: result!)
+        completionHandler(comments: result)
       }
     }
   }
@@ -131,19 +131,19 @@ class UserTableViewController: SingleUserTableViewController {
   
   /// Used to retrieve the posts made by user from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completion: (posts: [Post]?) -> ()) {
+  func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(posts: nil)
+        completionHandler(posts: nil)
       } else {
-        completion(posts: result!)
+        completionHandler(posts: result)
       }
     }
   }

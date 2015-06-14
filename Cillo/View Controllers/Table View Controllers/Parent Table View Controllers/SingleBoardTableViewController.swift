@@ -235,36 +235,36 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Sends downvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
   /// :param: index The index of the post being upvoted in the posts array.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvotePostAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
   
   /// Sends follow request to Cillo Servers for board represented by this UIViewController.
   ///
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
-  func followBoard(completion: (success: Bool) -> ()) {
+  func followBoard(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.followBoardWithID(board.boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
@@ -272,36 +272,36 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
   /// :param: index The index of the post being upvoted in the posts array.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePostAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
   
   /// Sends unfollow request to Cillo Servers for board represented by this UIViewController.
   ///
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
-  func unfollowBoard(completion: (success: Bool) -> ()) {
+  func unfollowBoard(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.unfollowBoardWithID(board.boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }

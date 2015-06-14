@@ -38,7 +38,7 @@ class CommentCell: UITableViewCell {
   @IBOutlet weak var nameButton: UIButton!
   
   /// Displays user.profilePic property of Comment.
-  @IBOutlet weak var pictureButton: UIButton!
+  @IBOutlet weak var photoButton: UIButton!
   
   /// Replies to Comment.
   @IBOutlet weak var replyButton: UIButton?
@@ -99,7 +99,7 @@ class CommentCell: UITableViewCell {
   
   override func prepareForReuse() {
     nameButton.enabled = true
-    pictureButton.enabled = true
+    photoButton.enabled = true
     upvoteHeightConstraint?.constant = 0.0
     imageIndentConstraint.constant = 0.0
     for line in lines {
@@ -157,21 +157,21 @@ class CommentCell: UITableViewCell {
     
     let nameTitle = "\(name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
-    pictureButton.setBackgroundImageForState(.Normal, withURL: comment.user.profilePicURL)
+    photoButton.setBackgroundImageForState(.Normal, withURL: comment.user.photoURL)
     
-    pictureButton.clipsToBounds = true
-    pictureButton.layer.cornerRadius = 5.0
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRadius = 5.0
     
     if comment.user.isAnon {
       nameButton.setTitle(nameTitle, forState: .Disabled)
-      pictureButton.setBackgroundImageForState(.Disabled, withURL: comment.user.profilePicURL)
+      photoButton.setBackgroundImageForState(.Disabled, withURL: comment.user.photoURL)
       nameButton.enabled = false
-      pictureButton.enabled = false
+      photoButton.enabled = false
     }
     
     commentTTTAttributedLabel.setupWithText(comment.text, andFont: CommentCell.commentTTTAttributedLabelFont)
     
-    var repText = String.formatNumberAsString(number: comment.rep)
+    var repText = comment.rep.fiveCharacterDisplay
     if comment.rep > 0 {
       repText = "+\(repText)"
     }
@@ -192,7 +192,7 @@ class CommentCell: UITableViewCell {
     }
     
     nameButton.tag = buttonTag
-    pictureButton.tag = buttonTag
+    photoButton.tag = buttonTag
     upvoteButton?.tag = buttonTag
     downvoteButton?.tag = buttonTag
     replyButton?.tag = buttonTag

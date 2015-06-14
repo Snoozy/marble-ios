@@ -368,7 +368,7 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the created Board.
-  func createBoardWithName(name: String, description: String = "", mediaID: Int = -1, completionHandler:(error: NSError?, result: Board?) -> ()) {
+  func createBoardWithName(name: String, description: String = "", mediaID: Int = -1, completionHandler: (error: NSError?, result: Board?) -> ()) {
     var parameters: [String: AnyObject] = ["name": name]
     if description != "" {
       parameters["description"] = description
@@ -1110,7 +1110,7 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
-  func updatePassword(oldPassword: String, toNewPassword newPassword: String, completionHandler:(error: NSError?, success: Bool) -> ()) {
+  func updatePassword(oldPassword: String, toNewPassword newPassword: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
     Alamofire.request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL)
       .responseJSON { request, response, data, error in
         if let error = error {

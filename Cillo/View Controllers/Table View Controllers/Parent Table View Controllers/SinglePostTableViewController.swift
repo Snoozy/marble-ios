@@ -244,36 +244,36 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Sends downvote request to Cillo Servers for the comment at the specified index in commentTree.
   ///
   /// :param: index The index of the comment being downvoted in the commentTree array.
-  /// :param: completion The completion block for the downvote.
+  /// :param: completionHandler The completion block for the downvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvoteCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func downvoteCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.downvoteCommentWithID(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
   
   /// Sends downvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvotePost(completion: (success: Bool) -> ()) {
+  func downvotePost(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.downvotePostWithID(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
@@ -281,36 +281,36 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Sends upvote request to Cillo Servers for the comment at the specified index in commentTree.
   ///
   /// :param: index The index of the comment being upvoted in the commentTree array.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvoteCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func upvoteCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.upvoteCommentWithID(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
   
   /// Sends upvote request to Cillo Servers for the post that this UIViewController is representing.
   ///
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePost(completion: (success: Bool) -> ()) {
+  func upvotePost(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.upvotePostWithID(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }

@@ -32,7 +32,7 @@ class UserCell: UITableViewCell {
   @IBOutlet weak var nameButton: UIButton!
   
   /// Displays profilePic property of User.
-  @IBOutlet weak var pictureButton: UIButton!
+  @IBOutlet weak var photoButton: UIButton!
   
   /// Displays rep property of User.
   ///
@@ -88,16 +88,16 @@ class UserCell: UITableViewCell {
   func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
     let scheme = ColorScheme.defaultScheme
     
-    pictureButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
+    photoButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
     nameButton.setTitle(user.name, forState: .Normal)
     usernameButton.setTitle(user.usernameDisplay, forState: .Normal)
     
-    pictureButton.clipsToBounds = true
-    pictureButton.layer.cornerRadius = 5.0
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRadius = 5.0
     
     bioTTTAttributedLabel.setupWithText(user.bio, andFont: UserCell.bioTTTAttributedLabelFont)
     
-    pictureButton.tag = buttonTag
+    photoButton.tag = buttonTag
     nameButton.tag = buttonTag
     usernameButton.tag = buttonTag
     
@@ -106,12 +106,12 @@ class UserCell: UITableViewCell {
     }
     
     // Make only the number in repLabel bold
-    var repText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.rep), firstFont: UserCell.repFontBold, secondHalf: " REP", secondFont: UserCell.repFont)
+    var repText = NSMutableAttributedString.twoFontString(firstHalf: user.rep.fiveCharacterDisplay, firstFont: UserCell.repFontBold, secondHalf: " REP", secondFont: UserCell.repFont)
     repLabel.attributedText = repText
     
     // Make only the number in boardsButton bold
     let boardString = user.boardCount == 1 ? " BOARD" : " BOARDS"
-    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: user.boardCount), firstFont: UserCell.boardsFontBold, secondHalf: boardString, secondFont: UserCell.boardsFont)
+    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: user.boardCount.fiveCharacterDisplay, firstFont: UserCell.boardsFontBold, secondHalf: boardString, secondFont: UserCell.boardsFont)
     boardsButton.setAttributedTitle(boardsText, forState: .Normal)
     boardsButton.tintColor = UIColor.darkTextColor()
   }

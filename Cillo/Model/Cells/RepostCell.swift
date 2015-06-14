@@ -26,7 +26,7 @@ class RepostCell: PostCell {
   @IBOutlet weak var originalNameButton: UIButton!
   
   /// Displays user.profilePic for originalPost.
-  @IBOutlet weak var originalPictureButton: UIButton!
+  @IBOutlet weak var originalPhotoButton: UIButton!
   
   /// Displays text of originalPost.
   @IBOutlet weak var originalPostTTTAttributedLabel: TTTAttributedLabel!
@@ -73,7 +73,7 @@ class RepostCell: PostCell {
     super.prepareForReuse()
     postTTTAttributedLabelHeightConstraint.constant = 20
     originalNameButton.enabled = true
-    originalPictureButton.enabled = true
+    originalPhotoButton.enabled = true
   }
   
   // MARK: PostCell
@@ -119,10 +119,10 @@ class RepostCell: PostCell {
       let nameTitle = "\(post.originalPost.user.name)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
       originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
-      originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.profilePicURL)
+      originalPhotoButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.photoURL)
       
-      originalPictureButton.clipsToBounds = true
-      originalPictureButton.layer.cornerRadius = 5.0
+      originalPhotoButton.clipsToBounds = true
+      originalPhotoButton.layer.cornerRadius = 5.0
       
       originalPostTTTAttributedLabel.setupWithText(post.originalPost.text, andFont: RepostCell.originalPostTTTAttributedLabelFont)
       
@@ -130,9 +130,9 @@ class RepostCell: PostCell {
       
       if post.originalPost.user.isAnon {
         originalNameButton.setTitle(nameTitle, forState: .Disabled)
-        originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
+        originalPhotoButton.setBackgroundImageForState(.Disabled, withURL: post.user.photoURL)
         originalNameButton.enabled = false
-        originalPictureButton.enabled = false
+        originalPhotoButton.enabled = false
       }
       
       if let seeFullButton = seeFullButton {
@@ -146,7 +146,7 @@ class RepostCell: PostCell {
       
       originalNameButton.tag = buttonTag + RepostCell.tagModifier
       originalBoardButton.tag = buttonTag + RepostCell.tagModifier
-      originalPictureButton.tag = buttonTag + RepostCell.tagModifier
+      originalPhotoButton.tag = buttonTag + RepostCell.tagModifier
       goToOriginalPostButton.tag = buttonTag + RepostCell.tagModifier
       
       if post.originalPost.user.isSelf {
@@ -164,8 +164,8 @@ class RepostCell: PostCell {
       }
       
       imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins, andButtonHeight: 20)
-      if post.originalPost.imageURLs != nil {
-        imagesButton.setBackgroundImageForState(.Disabled, withURL: post.originalPost.imageURLs![0], placeholderImage: UIImage(named: "Me"))
+      if let imageURLs = post.originalPost.imageURLs {
+        imagesButton.setBackgroundImageForState(.Disabled, withURL: imageURLs[0], placeholderImage: UIImage(named: "Me"))
         imagesButton.setTitle("", forState: .Disabled)
         imagesButton.contentMode = .ScaleAspectFit
       }

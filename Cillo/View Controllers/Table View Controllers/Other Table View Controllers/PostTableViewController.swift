@@ -74,9 +74,9 @@ class PostTableViewController: SinglePostTableViewController {
   
   /// Replies to `post` directly.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: success True if the server call was successful. Otherwise, false.
-  func createComment(completion: (success: Bool) -> ()) {
+  func createComment(completionHandler: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -85,9 +85,9 @@ class PostTableViewController: SinglePostTableViewController {
         if let error = error {
           println(error)
           error.showAlert()
-          completion(success: false)
+          completionHandler(success: false)
         } else {
-          completion(success: comment != nil)
+          completionHandler(success: comment != nil)
         }
       }
     }
@@ -96,9 +96,9 @@ class PostTableViewController: SinglePostTableViewController {
   /// Replies to a comment in `commentTree` at the specified index.
   ///
   /// :param: index The index of the comment to be replied to in the commentTree
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: success True if the server call was successful. Otherwise, false.
-  func replyToCommentAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func replyToCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -108,9 +108,9 @@ class PostTableViewController: SinglePostTableViewController {
         if let error = error {
           println(error)
           error.showAlert()
-          completion(success: false)
+          completionHandler(success: false)
         } else {
-          completion(success: comment != nil)
+          completionHandler(success: comment != nil)
         }
       }
     }
@@ -118,19 +118,19 @@ class PostTableViewController: SinglePostTableViewController {
   
   /// Used to retrieve the comment tree for post from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: comments The comment tree for this post.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveCommentTree(completion: (commentTree: [Comment]?) -> ()) {
+  func retrieveCommentTree(completionHandler: (commentTree: [Comment]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getCommentsForPost(post) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(commentTree: nil)
+        completionHandler(commentTree: nil)
       } else {
-        completion(commentTree: result!)
+        completionHandler(commentTree: result!)
       }
     }
   }

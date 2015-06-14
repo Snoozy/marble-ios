@@ -10,9 +10,59 @@ import UIKit
 import TTTAttributedLabel
 import SwiftKeychainWrapper
 
-extension NSDate {
+extension Int {
   
-  // MARK: Setup Helper Functions
+  // MARK: Properties
+  
+  /// Used to display large numbers in a compact 1-5 character String.
+  ///
+  /// String is formatted in one of following formats:
+  ///
+  /// * 100 - any number less than 1000.
+  /// * 1.3k - any number in the order of thousands.
+  /// * 2.6m - any number in the order of millions.
+  /// * 6.8b - any number in the order of billions.
+  var fiveCharacterDisplay: String {
+      switch self {
+      case -999...999:
+        return "\(self)"
+      case 1_000...9_999:
+        var thousands = Double(self / 1_000)
+        thousands += Double(self % 1_000 / 100) * 0.1
+        return "\(thousands)k"
+      case -9_999...(-1_000):
+        var thousands = Double(self / 1_000)
+        thousands -= Double(self % 1_000 / 100) * 0.1
+        return "\(thousands)k"
+      case 10_000...999_999, -999_999...(-10_000):
+        return "\(self / 1_000)k"
+      case 1_000_000...9_999_999:
+        var millions = Double(self / 1_000_000)
+        millions += Double(self % 1_000_000 / 100_000) * 0.1
+        return "\(millions)m"
+      case -9_999_999...(-1_000_000):
+        var millions = Double(self / 1_000_000)
+        millions -= Double(self % 1_000_000 / 100_000) * 0.1
+        return "\(millions)m"
+      case 10_000_000...999_999_999, -999_999_999...(-10_000_000):
+        return "\(self / 1_000_000)m"
+      case 1_000_000_000...Int.max:
+        var billions = Double(self / 1_000_000_000)
+        billions += Double(self % 1_000_000_000 / 100_000_000) * 0.1
+        return "\(billions)b"
+      case Int.min...(-1_000_000_000):
+        var billions = Double(self / 1_000_000_000)
+        billions -= Double(self % 1_000_000_000 / 100_000_000) * 0.1
+        return "\(billions)b"
+      default:
+        return ""
+      }
+  }
+}
+
+extension Int64 {
+  
+  // MARK: Properties
   
   /// Used to convert a large integer that represents milliseconds since epoch to a compact String.
   ///
@@ -25,10 +75,10 @@ extension NSDate {
   ///
   /// :param: time The time of an instance's creation in milliseconds since epoch.
   /// :returns: A readable String representing the time since the instance's creation.
-  class func convertToTimeString(#time: Int64) -> String {
+  var compactTimeDisplay: String {
     let date = NSDate()
     let timeSince1970 = Int64(floor(date.timeIntervalSince1970 * 1000))
-    let millisSincePost = timeSince1970 - time
+    let millisSincePost = timeSince1970 - self
     switch millisSincePost {
     case -1_000_000...59_999:
       return "1m"
@@ -41,7 +91,7 @@ extension NSDate {
     case 31_536_000_000..<Int64.max:
       return "\(millisSincePost / 31_536_000_000)y"
     default:
-      return "ERROR"
+      return ""
     }
   }
 }
@@ -71,7 +121,7 @@ extension NSError {
   
   /// Used to retrieve the error code for identification of various cillo errors.
   ///
-  /// The error cod is used to recognize the Router that the error occurred in.
+  /// The error code is used to recognize the Router that the error occurred in.
   ///
   /// **Breakdown of error codes:**
   ///
@@ -110,7 +160,7 @@ extension NSError {
   /// * Password Change: 6
   ///
   /// :param: requestType The request that retrieved an error. See Router enum for full list.
-  /// :returns: The 3 (GET requests) or 4 (POST requests) digit code for an error with a speccific Router type.
+  /// :returns: The 3 (GET requests) or 4 (POST requests) digit code for an error with a specific Router type.
   class func getErrorCodeForRouter(requestType: Router) -> Int {
     var code = 0
     switch requestType {
@@ -283,57 +333,7 @@ extension KeychainWrapper {
 extension String {
   
   // MARK: Setup Helper Functions
-  
-  /// Used to display large numbers in a compact 1-5 character String.
-  ///
-  /// String is formatted in one of following formats:
-  ///
-  /// * 100 - any number less than 1000.
-  /// * 1.3k - any number in the order of thousands.
-  /// * 2.6m - any number in the order of millions.
-  /// * 6.8b - any number in the order of billions.
-  ///
-  /// **Note:** Does not display numbers in order of trillions or larger.
-  ///
-  /// :param: number The number that is formatted as a String.
-  /// :returns: The formatted String for the specified number.
-  static func formatNumberAsString(#number: Int) -> String {
-    switch number {
-    case -999...999:
-      return "\(number)"
-    case 1_000...9_999:
-      var thousands = Double(number / 1_000)
-      thousands += Double(number % 1_000 / 100) * 0.1
-      return "\(thousands)k"
-    case -9_999...(-1_000):
-      var thousands = Double(number / 1_000)
-      thousands -= Double(number % 1_000 / 100) * 0.1
-      return "\(thousands)k"
-    case 10_000...999_999, -999_999...(-10_000):
-      return "\(number / 1_000)k"
-    case 1_000_000...9_999_999:
-      var millions = Double(number / 1_000_000)
-      millions += Double(number % 1_000_000 / 100_000) * 0.1
-      return "\(millions)m"
-    case -9_999_999...(-1_000_000):
-      var millions = Double(number / 1_000_000)
-      millions -= Double(number % 1_000_000 / 100_000) * 0.1
-      return "\(millions)m"
-    case 10_000_000...999_999_999, -999_999_999...(-10_000_000):
-      return "\(number / 1_000_000)m"
-    case 1_000_000_000...Int.max:
-      var billions = Double(number / 1_000_000_000)
-      billions += Double(number % 1_000_000_000 / 100_000_000) * 0.1
-      return "\(billions)b"
-    case Int.min...(-1_000_000_000):
-      var billions = Double(number / 1_000_000_000)
-      billions -= Double(number % 1_000_000_000 / 100_000_000) * 0.1
-      return "\(billions)b"
-    default:
-      return "WTF"
-    }
-  }
-  
+
   /// Used to calculate the precise height of a UITextView so it fits this String.
   ///
   /// :param: width The width of the UITextView on the current screen.

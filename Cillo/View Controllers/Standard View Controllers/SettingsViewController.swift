@@ -72,7 +72,7 @@ class SettingsViewController: CustomViewController {
     nameTextField.text = user.name
     usernameTextField.text = user.username
     bioTextView.text = user.bio
-    photoButton.setBackgroundImageForState(.Normal, withURL: user.profilePicURL)
+    photoButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
   }
@@ -83,28 +83,28 @@ class SettingsViewController: CustomViewController {
   ///
   /// :param: old The old password of the end user.
   /// :param: new The new password of the end user.
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: success True if this request was successful. If error was received, it is false.
-  func updatePasswordFrom(old: String, to new: String, completion: (success: Bool) -> ()) {
+  func updatePasswordFrom(old: String, to new: String, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: true)
+        completionHandler(success: success)
       }
     }
   }
   
   /// Updates the end user's settings on Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: user The updated user object after settings are updated.
   /// :param: * Nil if there was an error in the server call.
-  func updateSettings(completion: (user: User?) -> ()) {
+  func updateSettings(completionHandler: (user: User?) -> ()) {
     let newName = nameTextField.text != user.name ? nameTextField.text : ""
     let newUsername = usernameTextField.text != user.username ? usernameTextField.text : ""
     let newBio = bioTextView.text != user.bio ? bioTextView.text : ""
@@ -117,14 +117,14 @@ class SettingsViewController: CustomViewController {
             if let error = error {
               println(error)
               error.showAlert()
-              completion(user: nil)
+              completionHandler(user: nil)
             } else {
-              completion(user: result!)
+              completionHandler(user: result)
             }
           }
         } else {
           UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-          completion(user: nil)
+          completionHandler(user: nil)
         }
       }
     } else {
@@ -133,9 +133,9 @@ class SettingsViewController: CustomViewController {
         if let error = error {
           println(error)
           error.showAlert()
-          completion(user: nil)
+          completionHandler(user: nil)
         } else {
-          completion(user: result!)
+          completionHandler(user: result)
         }
       }
     }
@@ -143,10 +143,10 @@ class SettingsViewController: CustomViewController {
   
   /// Used to upload image to Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
+  func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -156,9 +156,9 @@ class SettingsViewController: CustomViewController {
       if let error = error {
         println(error)
         error.showAlert()
-        completion(mediaID: nil)
+        completionHandler(mediaID: nil)
       } else {
-        completion(mediaID: result!)
+        completionHandler(mediaID: result)
       }
     }
   }

@@ -31,7 +31,7 @@ class User: NSObject {
   var name = ""
   
   /// Profile picture of this User.
-  var profilePicURL = NSURL()
+  var photoURL = NSURL()
   
   /// Total accumulated reputation of this User.
   var rep = 0
@@ -69,7 +69,7 @@ class User: NSObject {
     userID = json["user_id"].intValue
     rep = json["reputation"].intValue
     if let url = NSURL(string: json["photo"].stringValue) {
-      profilePicURL = url
+      photoURL = url
     }
     bio = json["bio"].stringValue
     boardCount = json["board_count"].intValue

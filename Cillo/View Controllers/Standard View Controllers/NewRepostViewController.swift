@@ -48,9 +48,9 @@ class NewRepostViewController: CustomViewController {
   
   /// Sets the user related fields of the contentView.
   private func setupUserInfoInContentView() {
-    retrieveUser { (user) in
+    retrieveEndUser { (user) in
       if let user = user {
-        self.contentView.pictureButton.setBackgroundImageForState(.Disabled, withURL: user.profilePicURL)
+        self.contentView.pictureButton.setBackgroundImageForState(.Disabled, withURL: user.photoURL)
         self.contentView.usernameLabel.text = user.name
       }
     }
@@ -79,38 +79,38 @@ class NewRepostViewController: CustomViewController {
   
   /// Reposts the post represented by the contentView to the Cillo Servers.
   ///
-  /// :param: completion The completion block for this server call.
+  /// :param: completionHandler The completion block for this server call.
   /// :param: post The repost after the server call.
   /// :param: * Nil if the server call was unsuccessful.
-  func repostPost(completion: (post: Post?) -> ()) {
+  func repostPost(completionHandler: (post: Post?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(post: nil)
+        completionHandler(post: nil)
       } else {
-        completion(post: result!)
+        completionHandler(post: result)
       }
     }
   }
   
   /// Retrieves the end user's info from the Cillo Servers.
   ///
-  /// :param: completion The completion block for the request.
+  /// :param: completionHandler The completion block for the request.
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
-  func retrieveUser(completion: (user: User?) -> ()) {
+  func retrieveEndUser(completionHandler: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(user: nil)
+        completionHandler(user: nil)
       } else {
-        completion(user: result!)
+        completionHandler(user: result)
       }
     }
   }
@@ -213,7 +213,7 @@ class RepostContentView: UIView {
     let originalPostTopEdge = saySomethingTextView.frame.maxY + 8
     
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
-    originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
+    originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.photoURL)
     originalPictureButton.enabled = false
     originalPictureButton.clipsToBounds = true
     originalPictureButton.layer.cornerRadius = 5.0

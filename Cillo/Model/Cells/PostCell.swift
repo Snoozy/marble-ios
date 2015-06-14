@@ -39,8 +39,8 @@ class PostCell: UITableViewCell {
   /// Displays user.name property of Post.
   @IBOutlet weak var nameButton: UIButton!
   
-  /// Displays user.profilePic property of Post.
-  @IBOutlet weak var pictureButton: UIButton!
+  /// Displays user.photo property of Post.
+  @IBOutlet weak var photoButton: UIButton!
   
   /// Displays text property of Post.
   @IBOutlet weak var postTTTAttributedLabel: TTTAttributedLabel!
@@ -105,7 +105,7 @@ class PostCell: UITableViewCell {
     separatorViewHeightConstraint?.constant = 0
     imagesButton.setTitle("", forState: .Normal)
     nameButton.enabled = true
-    pictureButton.enabled = true
+    photoButton.enabled = true
   }
   
   // MARK: Setup Helper Functions
@@ -147,24 +147,24 @@ class PostCell: UITableViewCell {
     let nameTitle = "\(post.user.name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     boardButton.setTitle(post.board.name, forState: .Normal)
-    pictureButton.setBackgroundImageForState(.Normal, withURL: post.user.profilePicURL)
+    photoButton.setBackgroundImageForState(.Normal, withURL: post.user.photoURL)
     timeLabel.text = post.time
     
-    pictureButton.clipsToBounds = true
-    pictureButton.layer.cornerRadius = 5.0
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRadius = 5.0
     
     postTTTAttributedLabel.setupWithText(post.text, andFont: PostCell.postTTTAttributedLabelFont)
     
     if post.user.isAnon {
       nameButton.setTitle(nameTitle, forState: .Disabled)
-      pictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.profilePicURL)
+      photoButton.setBackgroundImageForState(.Disabled, withURL: post.user.photoURL)
       nameButton.enabled = false
-      pictureButton.enabled = false
+      photoButton.enabled = false
     }
     
     nameButton.tag = buttonTag
     boardButton.tag = buttonTag
-    pictureButton.tag = buttonTag
+    photoButton.tag = buttonTag
     commentButton.tag = buttonTag
     upvoteButton.tag = buttonTag
     downvoteButton.tag = buttonTag
@@ -191,9 +191,9 @@ class PostCell: UITableViewCell {
       repLabel.textColor = UIColor.darkTextColor()
     }
     
-    commentLabel.text = String.formatNumberAsString(number: post.commentCount)
+    commentLabel.text = post.commentCount.fiveCharacterDisplay
     commentLabel.textColor = UIColor.whiteColor()
-    repLabel.text = String.formatNumberAsString(number: post.rep)
+    repLabel.text = post.rep.fiveCharacterDisplay
     repLabel.font = UIFont.systemFontOfSize(24)
     
     // gets rid of small gap in divider

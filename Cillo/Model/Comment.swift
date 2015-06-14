@@ -88,7 +88,7 @@ class Comment: NSObject {
     user = User(json: json["user"])
     text = json["content"].stringValue
     let time = json["time"].int64Value
-    self.time = NSDate.convertToTimeString(time: time)
+    self.time = time.compactTimeDisplay
     rep = json["votes"].intValue
     voteValue = json["vote_value"].intValue
     self.lengthToPost = lengthToPost

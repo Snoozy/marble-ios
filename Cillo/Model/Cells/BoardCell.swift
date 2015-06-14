@@ -35,7 +35,7 @@ class BoardCell: UITableViewCell {
   @IBOutlet weak var nameButton: UIButton!
   
   /// Displays picture property of Board.
-  @IBOutlet weak var pictureButton: UIButton!
+  @IBOutlet weak var photoButton: UIButton!
 
   /// Custom border between cells.
   ///
@@ -111,15 +111,15 @@ class BoardCell: UITableViewCell {
   func makeCellFromBoard(board: Board, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     let scheme = ColorScheme.defaultScheme
     
-    pictureButton.setBackgroundImageForState(.Normal, withURL: board.pictureURL)
+    photoButton.setBackgroundImageForState(.Normal, withURL: board.photoURL)
     nameButton.setTitle(board.name, forState: .Normal)
     
-    pictureButton.clipsToBounds = true
-    pictureButton.layer.cornerRadius = 5.0
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRadius = 5.0
     
     descripTTTAttributedLabel.setupWithText(board.descrip, andFont: BoardCell.descripTTTAttributedLabelFont)
     
-    pictureButton.tag = buttonTag
+    photoButton.tag = buttonTag
     nameButton.tag = buttonTag
     followButton.tag = buttonTag
     
@@ -136,7 +136,7 @@ class BoardCell: UITableViewCell {
     
     // Make only the number in followersLabel bold
     let followersString = board.followerCount == 1 ? " FOLLOWER" : " FOLLOWERS"
-    var followersText = NSMutableAttributedString.twoFontString(firstHalf: String.formatNumberAsString(number: board.followerCount), firstFont: BoardCell.followerFontBold, secondHalf: followersString, secondFont: BoardCell.followerFont)
+    var followersText = NSMutableAttributedString.twoFontString(firstHalf: board.followerCount.fiveCharacterDisplay, firstFont: BoardCell.followerFontBold, secondHalf: followersString, secondFont: BoardCell.followerFont)
     followersLabel.attributedText = followersText
     
     if let separatorView = separatorView {

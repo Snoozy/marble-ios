@@ -19,7 +19,7 @@ class NewBoardViewController: CustomViewController {
   // MARK: IBOutlets
   
   /// Button allowing end user to change their board photo.
-  @IBOutlet weak var choosePictureButton: UIButton!
+  @IBOutlet weak var choosePhotoButton: UIButton!
   
   /// Field for end user to enter the description of the new Board.
   @IBOutlet weak var descripTextView: PlaceholderTextView!
@@ -31,7 +31,7 @@ class NewBoardViewController: CustomViewController {
   @IBOutlet weak var nameTextField: CustomTextField!
   
   /// Button used to display the end user's selected board photo.
-  @IBOutlet weak var pictureButton: UIButton!
+  @IBOutlet weak var photoButton: UIButton!
   
   // MARK: Constants
   
@@ -73,7 +73,7 @@ class NewBoardViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    choosePictureButton.tintColor = scheme.touchableTextColor()
+    choosePhotoButton.tintColor = scheme.touchableTextColor()
     nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
     descripTextView.backgroundColor = scheme.textFieldBackgroundColor()
   }
@@ -81,8 +81,8 @@ class NewBoardViewController: CustomViewController {
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
     descripTextViewHeightConstraint.constant = descripTextViewHeight
-    pictureButton.clipsToBounds = true
-    pictureButton.layer.cornerRadius = 5.0
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRadius = 5.0
   }
   
   // MARK: Networking Helper Functions
@@ -90,11 +90,11 @@ class NewBoardViewController: CustomViewController {
   /// Used to create and retrieve a new Board made by the end user from Cillo servers.
   ///
   /// :param: mediaID The media id for the uploaded photo that resembles this board.
-  /// :param: completion The completion block for the board creation.
+  /// :param: completionHandler The completion block for the board creation.
   /// :param: board The new Board that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createBoard(completion: (board: Board?) -> ()) {
+  func createBoard(completionHandler: (board: Board?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     if let image = image {
       uploadImage(image) { mediaID in
@@ -104,14 +104,14 @@ class NewBoardViewController: CustomViewController {
             if let error = error {
               println(error)
               error.showAlert()
-              completion(board: nil)
+              completionHandler(board: nil)
             } else {
-              completion(board: result!)
+              completionHandler(board: result)
             }
           }
         } else {
           UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-          completion(board: nil)
+          completionHandler(board: nil)
         }
       }
     } else {
@@ -120,9 +120,9 @@ class NewBoardViewController: CustomViewController {
         if let error = error {
           println(error)
           error.showAlert()
-          completion(board: nil)
+          completionHandler(board: nil)
         } else {
-          completion(board: result!)
+          completionHandler(board: result)
         }
       }
     }
@@ -130,10 +130,10 @@ class NewBoardViewController: CustomViewController {
   
   /// Used to upload image to Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
+  func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -143,9 +143,9 @@ class NewBoardViewController: CustomViewController {
       if let error = error {
         println(error)
         error.showAlert()
-        completion(mediaID: nil)
+        completionHandler(mediaID: nil)
       } else {
-        completion(mediaID: result!)
+        completionHandler(mediaID: result)
       }
     }
   }
@@ -185,8 +185,7 @@ extension NewBoardViewController: UIImagePickerControllerDelegate {
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       self.image = image
-      pictureButton.setBackgroundImage(image, forState: .Normal)
-      pictureButton.setBackgroundImage(image, forState: .Highlighted)
+      photoButton.setBackgroundImage(image, forState: .Normal)
     }
     dismissViewControllerAnimated(true, completion: nil)
   }

@@ -216,18 +216,18 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Sends follow request to Cillo Servers for the board at index.
   ///
   /// :param: index The index of the board being followed in the boards array.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
-  func followBoardAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func followBoardAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.followBoardWithID(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
@@ -235,18 +235,18 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Sends unfollow request to Cillo Servers for the board at index.
   ///
   /// :param: index The index of the board being unfollowed in the boards array.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
-  func unfollowBoardAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func unfollowBoardAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.unfollowBoardWithID(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }

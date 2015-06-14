@@ -116,11 +116,11 @@ class NewPostViewController: CustomViewController {
     if let board = board {
       boardTextField.text = board.name
     }
-    retrieveUser { user in
+    retrieveEndUser { user in
       if let user = user {
         self.userImageView.clipsToBounds = true
         self.userImageView.layer.cornerRadius = 5.0
-        self.userImageView.setImageWithURL(user.profilePicURL)
+        self.userImageView.setImageWithURL(user.photoURL)
         self.usernameLabel.text = user.name
       }
     }
@@ -154,11 +154,11 @@ class NewPostViewController: CustomViewController {
   
   /// Used to create and retrieve a new Post made by the end user from Cillo servers.
   ///
-  /// :param: completion The completion block for the post creation.
+  /// :param: completionHandler The completion block for the post creation.
   /// :param: post The new Post that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createPost(completion: (post: Post?) -> ()) {
+  func createPost(completionHandler: (post: Post?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     if let image = image {
       uploadImage(image) { mediaID in
@@ -168,14 +168,14 @@ class NewPostViewController: CustomViewController {
             if let error = error {
               println(error)
               error.showAlert()
-              completion(post: nil)
+              completionHandler(post: nil)
             } else {
-              completion(post: result!)
+              completionHandler(post: result)
             }
           }
         } else {
           UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-          completion(post: nil)
+          completionHandler(post: nil)
         }
       }
     } else {
@@ -184,9 +184,9 @@ class NewPostViewController: CustomViewController {
         if let error = error {
           println(error)
           error.showAlert()
-          completion(post: nil)
+          completionHandler(post: nil)
         } else {
-          completion(post: result!)
+          completionHandler(post: result)
         }
       }
     }
@@ -194,29 +194,29 @@ class NewPostViewController: CustomViewController {
   
   /// Retrieves the end user's info from the Cillo Servers.
   ///
-  /// :param: completion The completion block for the request.
+  /// :param: completionHandler The completion block for the request.
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
-  func retrieveUser(completion: (user: User?) -> ()) {
+  func retrieveEndUser(completionHandler: (user: User?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(user: nil)
+        completionHandler(user: nil)
       } else {
-        completion(user: result!)
+        completionHandler(user: result)
       }
     }
   }
   
   /// Used to upload image to Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completion: (mediaID: Int?) -> ()) {
+  func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
@@ -226,9 +226,9 @@ class NewPostViewController: CustomViewController {
       if let error = error {
         println(error)
         error.showAlert()
-        completion(mediaID: nil)
+        completionHandler(mediaID: nil)
       } else {
-        completion(mediaID: result!)
+        completionHandler(mediaID: result)
       }
     }
   }

@@ -92,7 +92,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     if tableView == self.tableView {
       super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
     } else {
-      searchBoards(search: searchResults[indexPath.row]) { boards in
+      searchBoardsForName(searchResults[indexPath.row]) { boards in
         if let boards = boards {
           self.boards = boards
           self.searched = true
@@ -116,28 +116,28 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// Used to display autocomplete results for searches in `searchBar`.
   ///
   /// :param: search The search text to be autocompleted.
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: names The board names returned from the server call.
-  func autocompleteBoards(#search: String, completion: (names: [String]?) -> ()) {
+  func autocompleteBoardsSearch(search: String, completionHandler: (names: [String]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.boardsAutocompleteByName(search) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(names: nil)
+        completionHandler(names: nil)
       } else {
-        completion(names: result!)
+        completionHandler(names: result)
       }
     }
   }
   
   /// Used to retrieve boards followed by end User from Cillo servers.
   ///
-  /// :param: completion The completion block for the server call.
+  /// :param: completionHandler The completion block for the server call.
   /// :param: boards The boards that the end user follows.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completion: (boards: [Board]?) -> ()) {
+  func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
@@ -145,9 +145,9 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
         if let error = error {
           println(error)
           error.showAlert()
-          completion(boards: nil)
+          completionHandler(boards: nil)
         } else {
-          completion(boards: result!)
+          completionHandler(boards: result)
         }
       }
     }
@@ -175,19 +175,19 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   /// Used to search Cillo servers for boards matching the `search` text.
   ///
-  /// :param: search The text of the search.
-  /// :param: completion The completion block of the server call.
+  /// :param: name The text of the search.
+  /// :param: completionHandler The completion block of the server call.
   /// :param: boards The boards returned from the server call matching the search text.
-  func searchBoards(#search: String, completion: (boards: [Board]?) -> ()) {
+  func searchBoardsForName(name: String, completionHandler: (boards: [Board]?) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.boardsSearchByName(search) { error, result in
+    DataManager.sharedInstance.boardsSearchByName(name) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(boards: nil)
+        completionHandler(boards: nil)
       } else {
-        completion(boards: result!)
+        completionHandler(boards: result)
       }
     }
   }
@@ -199,7 +199,7 @@ extension MyBoardsTableViewController: UISearchControllerDelegate {
   
   func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text != "" {
-      autocompleteBoards(search: searchBar.text) { names in
+      autocompleteBoardsSearch(searchBar.text) { names in
         if let names = names {
           self.searchResults = names
           self.searchDisplayController?.searchResultsTableView.reloadData()
@@ -220,7 +220,7 @@ extension MyBoardsTableViewController: UISearchBarDelegate {
   
   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
     searchResults = []
-    searchBoards(search: searchBar.text) { boards in
+    searchBoardsForName(searchBar.text) { boards in
       if let boards = boards {
         self.boards = boards
         self.searched = true

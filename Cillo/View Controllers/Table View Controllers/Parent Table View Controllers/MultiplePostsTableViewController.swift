@@ -160,18 +160,18 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// Sends downvote request to Cillo Servers for the post at the specified index.
   ///
   /// :param: index The index of the post being upvoted in `posts`.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, false.
-  func downvotePostAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
@@ -179,18 +179,18 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// Sends upvote request to Cillo Servers for the post at the specified index.
   ///
   /// :param: index The index of the post being upvoted in `posts`.
-  /// :param: completion The completion block for the upvote.
+  /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, false.
-  func upvotePostAtIndex(index: Int, completion: (success: Bool) -> ()) {
+  func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }

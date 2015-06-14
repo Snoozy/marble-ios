@@ -69,22 +69,22 @@ class RegisterViewController: CustomViewController {
   ///
   /// **Note:** User must login after registering.
   ///
-  /// :param: completion The completion block for the registration.
+  /// :param: completionHandler The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
-  func register(completion: (success: Bool) -> ()) {
+  func register(completionHandler: (success: Bool) -> ()) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
         println(error)
         error.showAlert()
-        completion(success: false)
+        completionHandler(success: false)
       } else {
         if success {
           let alert = UIAlertView(title: "Registration Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
           alert.show()
         }
-        completion(success: success)
+        completionHandler(success: success)
       }
     }
   }
