@@ -43,6 +43,21 @@ class CustomTableViewController: UITableViewController {
   
   // MARK: Networking Helper Functions
   
+  /// Handles an error received from a network call within the app.
+  ///
+  /// :param: error The error to be handled
+  func handleError(error: NSError) {
+    println(error)
+    if error.domain == NSError.cilloErrorDomain {
+      switch error.code {
+      case NSError.CilloErrorCodes.userUnauthenticated:
+        handleUserUnauthenticatedError(error)
+      default:
+        error.showAlert()
+      }
+    }
+  }
+  
   /// Used to retrieve all necessary data to display UITableViewCells in this CustomTableViewController.
   ///
   /// **Note:** This function does nothing unless overriden. Subclasses should override this function to retrieve data from the Cillo servers.
@@ -50,6 +65,17 @@ class CustomTableViewController: UITableViewController {
   /// **Note:** The overriden function should contain tableView.reloadData() and refreshControl?.endResfreshing()
   func retrieveData() {
     fatalError("Subclasses of CustomTableViewController must override retrieveData()")
+  }
+
+  // MARK: Error Handling Helper Functions
+  
+  /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
+  ///
+  /// :param: error The error to be handled.
+  func handleUserUnauthenticatedError(error: NSError) {
+    if let tabBarController = tabBarController as? TabViewController {
+      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: error)
+    }
   }
   
   // MARK: IBActions

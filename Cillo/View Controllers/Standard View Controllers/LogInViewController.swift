@@ -82,8 +82,7 @@ class LogInViewController: CustomViewController {
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         var success = false
@@ -106,14 +105,22 @@ class LogInViewController: CustomViewController {
     DataManager.sharedInstance.getEndUserInfo { error, user in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
-        let success = KeychainWrapper.setUserID(user!.userID)
+        var success = false
+        if let user = user {
+          success = KeychainWrapper.setUserID(user.userID)
+        }
         completionHandler(success: success)
       }
     }
+  }
+  
+  // MARK: Error Handling Helper Functions
+  
+  override func handleUserUnauthenticatedError(error: NSError) {
+    error.showAlert()
   }
   
   // MARK: IBActions

@@ -89,8 +89,7 @@ class UserTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(comments: nil)
       } else {
         completionHandler(comments: result)
@@ -139,8 +138,7 @@ class UserTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(posts: nil)
       } else {
         completionHandler(posts: result)

@@ -102,8 +102,7 @@ class NewBoardViewController: CustomViewController {
           DataManager.sharedInstance.createBoardWithName(self.nameTextField.text, description: self.descripTextView.text, mediaID: mediaID) { error, result in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
-              println(error)
-              error.showAlert()
+              handleError(error)
               completionHandler(board: nil)
             } else {
               completionHandler(board: result)
@@ -118,8 +117,7 @@ class NewBoardViewController: CustomViewController {
       DataManager.sharedInstance.createBoardWithName(nameTextField.text, description: descripTextView.text) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          println(error)
-          error.showAlert()
+          handleError(error)
           completionHandler(board: nil)
         } else {
           completionHandler(board: result)
@@ -141,8 +139,7 @@ class NewBoardViewController: CustomViewController {
       activityIndicator.removeFromSuperview()
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(mediaID: nil)
       } else {
         completionHandler(mediaID: result)

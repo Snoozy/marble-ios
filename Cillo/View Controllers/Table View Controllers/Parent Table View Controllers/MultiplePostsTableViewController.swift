@@ -167,8 +167,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -186,8 +185,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)

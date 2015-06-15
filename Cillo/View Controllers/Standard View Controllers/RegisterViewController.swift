@@ -76,8 +76,7 @@ class RegisterViewController: CustomViewController {
     DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         if success {
@@ -88,6 +87,14 @@ class RegisterViewController: CustomViewController {
       }
     }
   }
+  
+  
+  // MARK: Error Handling Helper Functions
+  
+  override func handleUserUnauthenticatedError(error: NSError) {
+    error.showAlert()
+  }
+  
   
   // MARK: IBActions
   

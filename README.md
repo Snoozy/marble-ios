@@ -8,11 +8,13 @@ Find way to do multiple image Posts.
 
 Comments 10 at a time
 
-Handle auth token expiration.
+auth token expiration handling
 
-Error Handling
+Error Handling (besides user unauthenticated)
 
 Add a popup tableview when typing in a textfield involving board names.
+
+notification UI
 
 **Other:**
 

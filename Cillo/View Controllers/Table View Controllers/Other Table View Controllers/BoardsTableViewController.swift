@@ -68,8 +68,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
     DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(boards: nil)
       } else {
         completionHandler(boards: result)

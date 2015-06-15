@@ -110,8 +110,7 @@ class MeTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.logout { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -169,8 +168,7 @@ class MeTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(comments: nil)
       } else {
         completionHandler(comments: result)
@@ -188,8 +186,7 @@ class MeTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(posts: nil)
       } else {
         completionHandler(posts: result)
@@ -207,8 +204,7 @@ class MeTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(user: nil)
       } else {
         completionHandler(user: result)
@@ -229,8 +225,7 @@ class MeTableViewController: SingleUserTableViewController {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       activityIndicator.removeFromSuperview()
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(mediaID: nil)
       } else {
         completionHandler(mediaID: result)
@@ -249,8 +244,7 @@ class MeTableViewController: SingleUserTableViewController {
     DataManager.sharedInstance.updateEndUserSettingsTo(newMediaID: mediaID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(user: nil)
       } else {
         completionHandler(user: result)

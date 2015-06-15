@@ -170,6 +170,75 @@ enum Router: URLStringConvertible {
     return Router.baseURLString + path
   }
   
+  /// Description of the Router call.
+  var requestDescription: String {
+    switch self {
+      // GET
+    case .Root(let pgNum):
+      let page = pgNum ?? 1
+      return "Home Feed Page \(page)"
+    case .BoardFeed(let boardID, let pgNum):
+      let page = pgNum ?? 1
+      return "Board \(boardID) Feed Page \(page)"
+    case .BoardInfo(let boardID):
+      return "Board \(boardID) Info"
+    case .PostInfo(let postID):
+      return "Post \(postID) Info"
+    case .PostComments(let postID):
+      return "Post \(postID) Comments"
+    case .SelfInfo:
+      return "End User Info"
+    case .UserInfo:
+      return "User Info"
+    case .UserBoards(let userID, let pgNum):
+      let page = pgNum ?? 1
+      return "User \(userID) Boards Page \(page)"
+    case .UserPosts(let userID, let pgNum):
+      let page = pgNum ?? 1
+      return "User \(userID) Posts Page \(page)"
+    case .UserComments(let userID, let pgNum):
+      let page = pgNum ?? 1
+      return "User \(userID) Comments Page \(page)"
+    case .BoardSearch:
+      return "Board Search"
+    case .BoardAutocomplete:
+      return "Board Autocomplete"
+    case .Notifications:
+      return "End User Notifications"
+      
+      // POST
+    case .Register:
+      return "Registration"
+    case .BoardCreate:
+      return "Board Creation"
+    case .Login:
+      return "Login"
+    case .Logout:
+      return "Logout"
+    case .PostCreate:
+      return "Post Creation"
+    case .CommentCreate:
+      return "Comment Creation"
+    case .MediaUpload:
+      return "Media Upload"
+    case .CommentUp(let commentID):
+      return "Comment \(commentID) Upvote"
+    case .CommentDown(let commentID):
+      return "Comment \(commentID) Downvote"
+    case .PostUp(let postID):
+      return "Post \(postID) Upvote"
+    case .PostDown(let postID):
+      return "Post \(postID) Downvote"
+    case .BoardFollow(let boardID):
+      return "Board \(boardID) Follow"
+    case .BoardUnfollow(let boardID):
+      return "Board \(boardID) Unfollow"
+    case .SelfSettings:
+      return "Update End User Settings"
+    case .PasswordUpdate:
+      return "Update End User Password"
+    }
+  }
 }
 
 // MARK: - Classes
@@ -208,7 +277,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardFollow(boardID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardFollow(boardID))
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -234,7 +303,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardUnfollow(boardID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardUnfollow(boardID))
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -260,7 +329,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardAutocomplete)
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardAutocomplete)
             completionHandler(error: cilloError, result: nil)
           } else {
             let boards = swiftyJSON["results"].arrayValue
@@ -292,7 +361,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardSearch)
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardSearch)
             completionHandler(error: cilloError, result: nil)
           } else {
             let boards = swiftyJSON["results"].arrayValue
@@ -324,7 +393,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentDown(commentID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .CommentDown(commentID))
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -350,7 +419,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentUp(commentID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .CommentUp(commentID))
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -385,7 +454,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardCreate)
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardCreate)
             completionHandler(error: cilloError, result: nil)
           } else {
             let board = Board(json: swiftyJSON)
@@ -422,7 +491,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .CommentCreate)
+            let cilloError = NSError(json: swiftyJSON, requestType: .CommentCreate)
             completionHandler(error: cilloError, result: nil)
           } else {
             let comment = Comment(json: swiftyJSON, lengthToPost: lengthToPost)
@@ -466,7 +535,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
+            let cilloError = NSError(json: swiftyJSON, requestType: .PostCreate)
             completionHandler(error: cilloError, result: nil)
           } else {
             var post: Post
@@ -515,7 +584,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostCreate)
+            let cilloError = NSError(json: swiftyJSON, requestType: .PostCreate)
             completionHandler(error: cilloError, result: nil)
           } else {
             var post: Post
@@ -567,7 +636,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfSettings)
+            let cilloError = NSError(json: swiftyJSON, requestType: .SelfSettings)
             completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
@@ -594,7 +663,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardInfo(boardID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardInfo(boardID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let board = Board(json: swiftyJSON)
@@ -623,7 +692,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .BoardFeed(boardID, lastPostID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .BoardFeed(boardID, lastPostID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let posts = swiftyJSON["posts"].arrayValue
@@ -661,7 +730,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Root(lastPostID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .Root(lastPostID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let posts = swiftyJSON["posts"].arrayValue
@@ -698,7 +767,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostInfo(postID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .PostInfo(postID))
             completionHandler(error: cilloError, result: nil)
           } else {
             var post: Post
@@ -730,7 +799,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostComments(post.postID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .PostComments(post.postID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let comments = swiftyJSON["comments"].arrayValue
@@ -767,7 +836,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .SelfInfo)
+            let cilloError = NSError(json: swiftyJSON, requestType: .SelfInfo)
             completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
@@ -793,7 +862,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Notifications)
+            let cilloError = NSError(json: swiftyJSON, requestType: .Notifications)
             completionHandler(error: cilloError, result: nil)
           } else {
             let notifications = swiftyJSON["notifications"].arrayValue
@@ -827,7 +896,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserBoards(userID, lastBoardID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .UserBoards(userID, lastBoardID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let boards = swiftyJSON["boards"].arrayValue
@@ -859,7 +928,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
+            let cilloError = NSError(json: swiftyJSON, requestType: .UserInfo)
             completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
@@ -886,7 +955,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserInfo)
+            let cilloError = NSError(json: swiftyJSON, requestType: .UserInfo)
             completionHandler(error: cilloError, result: nil)
           } else {
             let user = User(json: swiftyJSON)
@@ -915,7 +984,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserComments(userID, lastCommentID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .UserComments(userID, lastCommentID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let comments = swiftyJSON["comments"].arrayValue
@@ -949,7 +1018,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .UserPosts(userID, lastPostID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .UserPosts(userID, lastPostID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let posts = swiftyJSON["posts"].arrayValue
@@ -991,7 +1060,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .MediaUpload)
+            let cilloError = NSError(json: swiftyJSON, requestType: .MediaUpload)
             completionHandler(error: cilloError, result: nil)
           } else {
             let mediaID = swiftyJSON["media_id"].intValue
@@ -1019,7 +1088,7 @@ class DataManager: NSObject {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Login)
+            let cilloError = NSError(json: swiftyJSON, requestType: .Login)
             completionHandler(error: cilloError, result: nil)
           } else {
             let authToken = swiftyJSON["auth_token"].stringValue
@@ -1045,7 +1114,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Logout)
+            let cilloError = NSError(json: swiftyJSON, requestType: .Logout)
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -1071,7 +1140,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostDown(postID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .PostDown(postID))
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -1097,7 +1166,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PostUp(postID))
+            let cilloError = NSError(json: swiftyJSON, requestType: .PostUp(postID))
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -1124,7 +1193,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .Register)
+            let cilloError = NSError(json: swiftyJSON, requestType: .Register)
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -1151,7 +1220,7 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, swiftyJSON = JSON(rawValue: data) {
           if swiftyJSON["error"] != nil {
-            let cilloError = NSError(cilloErrorString: swiftyJSON["error"].stringValue, requestType: .PasswordUpdate)
+            let cilloError = NSError(json: swiftyJSON, requestType: .PasswordUpdate)
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: true)
@@ -1199,4 +1268,5 @@ class DataManager: NSObject {
     // return URLRequestConvertible and NSData
     return (ParameterEncoding.URL.encode(mutableURLRequest, parameters: nil).0, uploadData)
   }
+  
 }

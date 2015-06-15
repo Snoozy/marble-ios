@@ -166,8 +166,7 @@ class NewPostViewController: CustomViewController {
           DataManager.sharedInstance.createPostByBoardName(self.boardTextField.text, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
-              println(error)
-              error.showAlert()
+              handleError(error)
               completionHandler(post: nil)
             } else {
               completionHandler(post: result)
@@ -182,8 +181,7 @@ class NewPostViewController: CustomViewController {
       DataManager.sharedInstance.createPostByBoardName(boardTextField.text, text: postTextView.text, title: self.titleTextField.text) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          println(error)
-          error.showAlert()
+          handleError(error)
           completionHandler(post: nil)
         } else {
           completionHandler(post: result)
@@ -202,8 +200,7 @@ class NewPostViewController: CustomViewController {
     DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(user: nil)
       } else {
         completionHandler(user: result)
@@ -224,8 +221,7 @@ class NewPostViewController: CustomViewController {
       activityIndicator.removeFromSuperview()
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(mediaID: nil)
       } else {
         completionHandler(mediaID: result)

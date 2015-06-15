@@ -130,6 +130,11 @@ struct SegueIdentifiers {
 /// Has constants for all cell identifiers and view controller identifiers in the storyboard.
 struct StoryboardIdentifiers {
   
+  // MARK: LogInViewController
+  
+  /// Storyboard identifier for LogInViewController
+  static let login = "Login"
+  
   // MARK: BoardTableViewController
   
   /// Storyboard identifier for BoardTableViewController.

@@ -27,6 +27,33 @@ class CustomViewController: UIViewController {
     imitationNavigationBar.setupAttributesForColorScheme(ColorScheme.defaultScheme)
     imitationNavigationBar.translucent = false
   }
+  
+  // MARK: Networking Helper Functions
+  
+  /// Handles an error received from a network call within the app.
+  ///
+  /// :param: error The error to be handled
+  func handleError(error: NSError) {
+    println(error)
+    if error.domain == NSError.cilloErrorDomain {
+      switch error.code {
+      case NSError.CilloErrorCodes.userUnauthenticated:
+        handleUserUnauthenticatedError(error)
+      default:
+        error.showAlert()
+      }
+    }
+  }
+  
+  // MARK: Error Handling Helper Functions
+  
+  /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
+  ///
+  /// :param: error The error to be handled.
+  func handleUserUnauthenticatedError(error: NSError) {
+    let loginViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.login) as! LogInViewController
+    presentViewController(loginViewController, animated: true, completion: nil)
+  }
 }
 
 // MARK: - UIBarPositioningDelegate

@@ -98,6 +98,11 @@ extension Int64 {
 
 // MARK: -
 
+// MARK: Error User Info Dictionary Keys
+
+/// Key to store request type of error in cillo servers
+let RequestTypeKey = "request_type"
+
 extension NSError {
   
   // MARK: Constants
@@ -107,134 +112,52 @@ extension NSError {
     return "CilloErrorDomain"
   }
   
+  /// Description of the value contained in `userInfo` for the RequestTypeKey
+  var requestTypeDescription: String {
+    if let userInfo = userInfo as? [String: AnyObject], descrip = userInfo[RequestTypeKey] as? String {
+      return descrip
+    } else {
+      return ""
+    }
+  }
+  
+  /// Contains all error codes for Cillo related errors
+  struct CilloErrorCodes {
+    
+    /// Error code for a user unauthenticated error.
+    let userUnauthenticated = 10
+  }
+
   // MARK: Initializers
   
   /// Initializer used to create custom errors retrieved from the cillo servers.
   ///
   /// :param: cilloErrorString The message that was given by the key "error" in the retrieved json.
   /// :param: requestType The request type that the error corresponds to. See Router enum for a full list.
-  convenience init(cilloErrorString: String, requestType: Router) {
-    self.init(domain: NSError.cilloErrorDomain, code: NSError.getErrorCodeForRouter(requestType), userInfo: [NSLocalizedDescriptionKey: cilloErrorString])
+  convenience init(json: JSON, requestType: Router) {
+    var error = ""
+    var code = 0
+    if json["error"] != nil {
+      error = json["error"].stringValue
+    }
+    if json["code"] != nil {
+      code = json["code"].intValue
+    }
+    self.init(domain: NSError.cilloErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: error, RequestTypeKey: requestType.requestDescription])
   }
   
   // MARK: Setup Helper Functions
-  
-  /// Used to retrieve the error code for identification of various cillo errors.
-  ///
-  /// The error code is used to recognize the Router that the error occurred in.
-  ///
-  /// **Breakdown of error codes:**
-  ///
-  /// *First Digit: Requst type*
-  ///
-  /// * GET Request: 1
-  /// * POST Request: 2
-  ///
-  /// *Second Digit: Data that requester has already*
-  ///
-  /// * Post: 1
-  /// * Comment: 2
-  /// * Board: 3
-  /// * User: 4
-  /// * Me: 5 (Me is the auth_token for the end user)
-  /// * Nothing/Misc: 6
-  /// * Search: 7
-  /// * Autocomplete: 8
-  ///
-  /// *Third Digit: Data that is needed from the server*
-  ///
-  /// * Post: 1
-  /// * Comment: 2
-  /// * Board: 3
-  /// * User: 4
-  /// * Me: 5 (Me is the auth_token for the end user)
-  /// * Success Message: 6
-  /// * Notification: 7
-  ///
-  /// *Fourth Digit: Goal of the POST request (POST requests only)*
-  ///
-  /// * Create: 1
-  /// * Upvote or Follow: 2
-  /// * Downvote or Unfollow: 3
-  /// * Account Related: 4
-  /// * Upload: 5
-  /// * Password Change: 6
-  ///
-  /// :param: requestType The request that retrieved an error. See Router enum for full list.
-  /// :returns: The 3 (GET requests) or 4 (POST requests) digit code for an error with a specific Router type.
-  class func getErrorCodeForRouter(requestType: Router) -> Int {
-    var code = 0
-    switch requestType {
-    case .Root:
-      code = 151
-    case .BoardFeed(let boardID):
-      code = 131
-    case .BoardInfo(let boardID):
-      code = 163
-    case .PostInfo(let postID):
-      code = 161
-    case .PostComments(let postID):
-      code = 112
-    case .SelfInfo:
-      code = 154
-    case .UserInfo:
-      code = 164
-    case .UserBoards(let userID):
-      code = 143
-    case .UserPosts(let userID):
-      code = 141
-    case .UserComments(let userID):
-      code = 142
-    case .BoardSearch:
-      code = 173
-    case .BoardAutocomplete:
-      code = 183
-    case .Notifications:
-      code = 157
-    case .Register:
-      code = 2664
-    case .BoardCreate:
-      code = 2631
-    case .Login:
-      code = 2654
-    case .Logout:
-      code = 2564
-    case .PostCreate:
-      code = 2611
-    case .CommentCreate:
-      code = 2621
-    case .MediaUpload:
-      code = 2665
-    case .CommentUp(let commentID):
-      code = 2262
-    case .CommentDown(let commentID):
-      code = 2263
-    case .PostUp(let postID):
-      code = 2162
-    case .PostDown(let postID):
-      code = 2163
-    case .BoardFollow(let boardID):
-      code = 2362
-    case .BoardUnfollow(let boardID):
-      code = 2363
-    case .SelfSettings:
-      code = 2544
-    case .PasswordUpdate:
-      code = 2556
-    }
-    return code
-  }
-  
+
   /// Creates an error for an instance where no data is given from alamofire.
   ///
   /// :param: requestType The request that this error occurred in.
   class func noJSONFromDataError(#requestType: Router) -> NSError {
-    return NSError(domain: "NoJSONErrorDomain", code: NSError.getErrorCodeForRouter(requestType), userInfo: [NSLocalizedDescriptionKey: "Problem making JSON from data retrieved by Alamofire"])
+    return NSError(domain: "NoJSONErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Problem making JSON from data retrieved by Alamofire", RequestTypeKey: requestType.requestDescription])
   }
   
   /// Shows this error's properties in a UIAlertView that pops up on the screen.
   func showAlert() {
-    let alert = UIAlertView(title: "Error \(self.domain) : \(self.code)", message: self.localizedDescription, delegate: nil, cancelButtonTitle: "OK")
+    let alert = UIAlertView(title: "\(domain) : \(code)", message: "\(localizedDescription)\n\(requestTypeDescription)", delegate: nil, cancelButtonTitle: "OK")
     alert.show()
   }
 }

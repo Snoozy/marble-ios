@@ -223,8 +223,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     DataManager.sharedInstance.followBoardWithID(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -242,8 +241,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     DataManager.sharedInstance.unfollowBoardWithID(boards[index].boardID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)

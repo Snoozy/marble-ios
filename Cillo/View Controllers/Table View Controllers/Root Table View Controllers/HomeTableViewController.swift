@@ -94,8 +94,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     DataManager.sharedInstance.getHomeFeed(lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(posts: nil)
       } else {
         completionHandler(posts: result)

@@ -90,8 +90,7 @@ class SettingsViewController: CustomViewController {
     DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -115,8 +114,7 @@ class SettingsViewController: CustomViewController {
           DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio, newMediaID: mediaID) { error, result in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
-              println(error)
-              error.showAlert()
+              handleError(error)
               completionHandler(user: nil)
             } else {
               completionHandler(user: result)
@@ -131,8 +129,7 @@ class SettingsViewController: CustomViewController {
       DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          println(error)
-          error.showAlert()
+          handleError(error)
           completionHandler(user: nil)
         } else {
           completionHandler(user: result)
@@ -154,15 +151,14 @@ class SettingsViewController: CustomViewController {
       activityIndicator.removeFromSuperview()
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(mediaID: nil)
       } else {
         completionHandler(mediaID: result)
       }
     }
   }
-  
+
   // MARK: Change Password Alert Related Helper Functions
   
   /// Presents an AlertController that allows the end user to change their password.

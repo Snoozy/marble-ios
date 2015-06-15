@@ -251,8 +251,7 @@ class SinglePostTableViewController: CustomTableViewController {
     DataManager.sharedInstance.downvoteCommentWithID(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -269,8 +268,7 @@ class SinglePostTableViewController: CustomTableViewController {
     DataManager.sharedInstance.downvotePostWithID(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -288,8 +286,7 @@ class SinglePostTableViewController: CustomTableViewController {
     DataManager.sharedInstance.upvoteCommentWithID(commentTree[index].commentID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -306,8 +303,7 @@ class SinglePostTableViewController: CustomTableViewController {
     DataManager.sharedInstance.upvotePostWithID(post.postID) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        println(error)
-        error.showAlert()
+        handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
