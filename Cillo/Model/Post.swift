@@ -50,7 +50,7 @@ class Post: NSObject {
   
   /// Time since this Post was posted.
   ///
-  /// String is properly formatted via NSDate.convertToTimeString(time:).
+  /// String is properly formatted via `compactTimeDisplay` property of UInt64.
   var time: String = ""
   
   /// Title of this Post.

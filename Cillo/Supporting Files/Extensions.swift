@@ -149,6 +149,7 @@ extension NSError {
   /// * User: 4
   /// * Me: 5 (Me is the auth_token for the end user)
   /// * Success Message: 6
+  /// * Notification: 7
   ///
   /// *Fourth Digit: Goal of the POST request (POST requests only)*
   ///
@@ -188,6 +189,8 @@ extension NSError {
       code = 173
     case .BoardAutocomplete:
       code = 183
+    case .Notifications:
+      code = 157
     case .Register:
       code = 2664
     case .BoardCreate:

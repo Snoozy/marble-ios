@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9501BDC11B2E911E00308AC4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501BDC01B2E911E00308AC4 /* Notification.swift */; };
 		95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95062D0A1A0D2A6200B4162D /* Extensions.swift */; };
 		9509E0001A55F60B00F5083B /* Repost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9509DFFF1A55F60B00F5083B /* Repost.swift */; };
 		9530E0831A075073001DB24E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530E0821A075073001DB24E /* Comment.swift */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		1D6EC5A94CF312F19585C6D1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		9501BDC01B2E911E00308AC4 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Notification.swift; path = Model/Notification.swift; sourceTree = "<group>"; };
 		95062D0A1A0D2A6200B4162D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = "Supporting Files/Extensions.swift"; sourceTree = "<group>"; };
 		9509DFFF1A55F60B00F5083B /* Repost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Repost.swift; path = Model/Repost.swift; sourceTree = "<group>"; };
 		9530E0821A075073001DB24E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Model/Comment.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				9530E0821A075073001DB24E /* Comment.swift */,
 				959E0F0E1A2538D7008B4D19 /* Board.swift */,
 				95A1C9341A0BE95600914DB0 /* User.swift */,
+				9501BDC01B2E911E00308AC4 /* Notification.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				9598667A1A5F90E4003181BC /* RegisterViewController.swift in Sources */,
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
+				9501BDC11B2E911E00308AC4 /* Notification.swift in Sources */,
 				9587A7381A43F09E003CDE64 /* MultipleBoardsTableViewController.swift in Sources */,
 				95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */,
 				95D37C371AE86873008B362D /* SettingsViewController.swift in Sources */,

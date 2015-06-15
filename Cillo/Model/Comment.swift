@@ -44,7 +44,7 @@ class Comment: NSObject {
   
   /// Time since this Comment was posted.
   ///
-  /// String is properly formatted via NSDate.convertToTimeString(time:).
+  /// String is properly formatted via `compactTimeDisplay` property of UInt64.
   var time = ""
   
   /// User that posted this Comment.
