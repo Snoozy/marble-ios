@@ -83,7 +83,7 @@ class PostTableViewController: SinglePostTableViewController {
       DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: 1) { error, comment in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          handleError(error)
+          self.handleError(error)
           completionHandler(success: false)
         } else {
           completionHandler(success: comment != nil)
@@ -105,7 +105,7 @@ class PostTableViewController: SinglePostTableViewController {
       DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: commentReplyingTo.lengthToPost! + 1, parentID: commentReplyingTo.commentID) { error, comment in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          handleError(error)
+          self.handleError(error)
           completionHandler(success: false)
         } else {
           completionHandler(success: comment != nil)
@@ -124,7 +124,7 @@ class PostTableViewController: SinglePostTableViewController {
     DataManager.sharedInstance.getCommentsForPost(post) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(commentTree: nil)
       } else {
         completionHandler(commentTree: result!)

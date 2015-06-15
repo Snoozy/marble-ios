@@ -125,7 +125,7 @@ extension NSError {
   struct CilloErrorCodes {
     
     /// Error code for a user unauthenticated error.
-    let userUnauthenticated = 10
+    static let userUnauthenticated = 10
   }
 
   // MARK: Initializers

@@ -123,7 +123,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     DataManager.sharedInstance.boardsAutocompleteByName(search) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(names: nil)
       } else {
         completionHandler(names: result)
@@ -142,7 +142,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
       DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          handleError(error)
+          self.handleError(error)
           completionHandler(boards: nil)
         } else {
           completionHandler(boards: result)
@@ -181,7 +181,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     DataManager.sharedInstance.boardsSearchByName(name) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(boards: nil)
       } else {
         completionHandler(boards: result)

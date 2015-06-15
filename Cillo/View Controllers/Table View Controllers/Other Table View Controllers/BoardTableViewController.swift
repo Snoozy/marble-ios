@@ -91,7 +91,7 @@ class BoardTableViewController: SingleBoardTableViewController {
     DataManager.sharedInstance.getBoardFeedByID(board.boardID, lastPostID: posts.last?.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(posts: nil)
       } else {
         completionHandler(posts: result!)

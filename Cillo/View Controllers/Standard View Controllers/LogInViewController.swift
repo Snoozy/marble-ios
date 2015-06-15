@@ -82,7 +82,7 @@ class LogInViewController: CustomViewController {
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(success: false)
       } else {
         var success = false
@@ -105,7 +105,7 @@ class LogInViewController: CustomViewController {
     DataManager.sharedInstance.getEndUserInfo { error, user in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(success: false)
       } else {
         var success = false

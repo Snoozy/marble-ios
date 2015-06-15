@@ -87,7 +87,7 @@ class NewRepostViewController: CustomViewController {
     DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(post: nil)
       } else {
         completionHandler(post: result)
@@ -105,7 +105,7 @@ class NewRepostViewController: CustomViewController {
     DataManager.sharedInstance.getEndUserInfo { error, result in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(user: nil)
       } else {
         completionHandler(user: result)

@@ -90,7 +90,7 @@ class SettingsViewController: CustomViewController {
     DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { error, success in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(success: false)
       } else {
         completionHandler(success: success)
@@ -114,7 +114,7 @@ class SettingsViewController: CustomViewController {
           DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio, newMediaID: mediaID) { error, result in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             if let error = error {
-              handleError(error)
+              self.handleError(error)
               completionHandler(user: nil)
             } else {
               completionHandler(user: result)
@@ -129,7 +129,7 @@ class SettingsViewController: CustomViewController {
       DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio) { error, result in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         if let error = error {
-          handleError(error)
+          self.handleError(error)
           completionHandler(user: nil)
         } else {
           completionHandler(user: result)
@@ -151,7 +151,7 @@ class SettingsViewController: CustomViewController {
       activityIndicator.removeFromSuperview()
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       if let error = error {
-        handleError(error)
+        self.handleError(error)
         completionHandler(mediaID: nil)
       } else {
         completionHandler(mediaID: result)
