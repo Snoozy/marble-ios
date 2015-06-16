@@ -60,7 +60,7 @@ class Notification: NSObject {
   var notificationID = 0
   
   /// Message encapsulating the properties of this Notification that will be displayed to the end user.
-  var notificationMessage: String {
+  var notificationMessage: NSAttributedString {
     let otherString: String = {
       if self.count == 0 {
         return ""
@@ -86,7 +86,12 @@ class Notification: NSObject {
         return "comment"
       }
     }()
-    return "\(titleUser.name) \(otherString)\(actionTypeString) your \(entityTypeString): \(preview)"
+    let boldTitleUserString = NSMutableAttributedString(string: titleUser.name, attributes: [NSFontAttributeName: NotificationCell.boldMessageTTTAttributedLabelFont])
+    let middleString = NSMutableAttributedString(string: " \(otherString)\(actionTypeString) your \(entityTypeString): ", attributes: [NSFontAttributeName: NotificationCell.messageTTTAttributedLabelFont])
+    let boldPreviewString = NSMutableAttributedString(string: preview, attributes: [NSFontAttributeName: NotificationCell.boldMessageTTTAttributedLabelFont])
+    boldTitleUserString.appendAttributedString(middleString)
+    boldTitleUserString.appendAttributedString(boldPreviewString)
+    return boldTitleUserString
   }
   
   /// Boolean flag to tell if the end user has read this notification yet.

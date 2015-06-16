@@ -17,7 +17,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   // MARK: Properties
   
   /// View shown under navigation bar when there are new notifications not present in the table view.
-  var newNotificationsView: UIView?
+  var newNotificationsButton: UIButton?
   
   // MARK: Constants
   
@@ -48,26 +48,31 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   
   override func scrollViewDidScroll(scrollView: UIScrollView) {
     // keeps newNotificationsView correctly positioned in scrollView
-    if let newNotificationsView = newNotificationsView {
+    if let newNotificationsButton = newNotificationsButton {
       let newY = tableView.contentOffset.y
-      newNotificationsView.frame = CGRect(x: 0.0, y: newY, width: tableView.frame.size.width, height: 46.0)
+      newNotificationsButton.frame = CGRect(x: 0.0, y: newY, width: tableView.frame.size.width, height: 46.0)
     }
+  }
+  
+  // MARK: Button Selectors
+  
+  /// Button event for `newNotificationsButton` that refreshes the notifications in the table when the button is pressed.
+  func refreshNotifications(sender: UIButton) {
+    refreshControl?.beginRefreshing()
+    retrieveData()
   }
   
   // MARK: Setup Helper Functions
   
-  /// Formats `newNotificationsView` UI correctly.
-  func makeNewNotificationsViewWithUnreadCount(count: Int) {
+  /// Formats `newNotificationsButton` UI correctly.
+  func makeNewNotificationsButtonWithUnreadCount(count: Int) {
     let scheme = ColorScheme.defaultScheme
-    newNotificationsView = UIView(frame: CGRect(x: 0.0, y: tableView.contentOffset.y, width: tableView.frame.size.width, height: 46.0))
-    newNotificationsView!.backgroundColor = scheme.barAboveKeyboardColor()
-    let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: newNotificationsView!.frame.width, height: 40.0))
-    label.center = newNotificationsView!.center
-    label.font = UIFont.systemFontOfSize(14)
-    label.text = "You have \(count) new notifications"
-    label.textColor = scheme.barAboveKeyboardTouchableTextColor()
-    label.textAlignment = .Center
-    newNotificationsView!.addSubview(label)
+    newNotificationsButton = UIButton(frame: CGRect(x: 0.0, y: tableView.contentOffset.y, width: tableView.frame.size.width, height: 46.0))
+    newNotificationsButton!.backgroundColor = scheme.barAboveKeyboardColor()
+    newNotificationsButton!.addTarget(self, action: "refreshNotifications:", forControlEvents: .TouchUpInside)
+    newNotificationsButton!.setTitle("You have \(count) new notifications", forState: .Normal)
+    newNotificationsButton!.setTitleColor(scheme.barAboveKeyboardTouchableTextColor(), forState: .Normal)
+    newNotificationsButton!.titleLabel?.font = UIFont.systemFontOfSize(14)
   }
   
   // MARK: Networking Helper Functions
@@ -93,9 +98,9 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   override func retrieveData() {
     if let tabBarController = tabBarController as? TabViewController {
       displayedNotifications = tabBarController.notifications
-      if let newNotificationsView = newNotificationsView {
-        newNotificationsView.removeFromSuperview()
-        self.newNotificationsView = nil
+      if let newNotificationsButton = newNotificationsButton {
+        newNotificationsButton.removeFromSuperview()
+        self.newNotificationsButton = nil
       }
       refreshControl?.endRefreshing()
       tableView.reloadData()
@@ -115,14 +120,14 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
 extension MyNotificationsTableViewController: NotificationsDataSource {
   
   func notificationsRefreshedTo(notifications: [Notification], withUnreadCount count: Int) {
-    if let newNotificationsView = newNotificationsView {
-      newNotificationsView.removeFromSuperview()
-      self.newNotificationsView = nil
+    if let newNotificationsButton = newNotificationsButton {
+      newNotificationsButton.removeFromSuperview()
+      self.newNotificationsButton = nil
     }
     if count != 0 {
-      makeNewNotificationsViewWithUnreadCount(count)
-      view.addSubview(newNotificationsView!)
-      view.bringSubviewToFront(newNotificationsView!)
+      makeNewNotificationsButtonWithUnreadCount(count)
+      view.addSubview(newNotificationsButton!)
+      view.bringSubviewToFront(newNotificationsButton!)
     }
   }
 }

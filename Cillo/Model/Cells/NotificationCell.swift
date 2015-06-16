@@ -34,6 +34,11 @@ class NotificationCell: UITableViewCell {
   
   // MARK: Constants
   
+  /// Bold font of messageTTTAttributedLabel.
+  class var boldMessageTTTAttributedLabelFont: UIFont {
+    return UIFont.boldSystemFontOfSize(15.0)
+  }
+  
   /// Font of messageTTTAttributedLabel.
   class var messageTTTAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
@@ -76,7 +81,7 @@ class NotificationCell: UITableViewCell {
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    messageTTTAttributedLabel.setupWithText(notification.notificationMessage, andFont: NotificationCell.messageTTTAttributedLabelFont)
+    messageTTTAttributedLabel.setupWithAttributedText(notification.notificationMessage)
 
     timeLabel.text = "\(notification.time) ago"
     timeLabel.textColor = scheme.touchableTextColor()
