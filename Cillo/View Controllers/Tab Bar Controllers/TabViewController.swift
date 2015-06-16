@@ -9,6 +9,13 @@
 import UIKit
 import SwiftKeychainWrapper
 
+/// Data source that allows the TabViewController to tell another controller that it has updated the end user's notifications.
+protocol NotificationsDataSource {
+  
+  /// Function that is called each time the notifications are retrieved via the `notificationRefresher` property of TabViewController.
+  func notificationsRefreshedTo(notifications: [Notification], withUnreadCount count: Int)
+}
+
 /// Starting UIViewController of Cillo application.
 ///
 /// Has 3 tabs:
@@ -19,6 +26,22 @@ import SwiftKeychainWrapper
 ///
 /// **Note:** Each tab has a FormattedNavigationController as the start of the tab.
 class TabViewController: UITabBarController {
+  
+  // MARK: Properties
+  
+  /// Cached notifications to display in the notifications screen
+  var notifications = [Notification]()
+  
+  /// Timer that is set to refresh the notifications every minute.
+  var notificationRefresher = NSTimer()
+  
+  /// Data source that will display the notifications cached by this TabViewController.
+  var notificationsDataSource: NotificationsDataSource?
+  
+  // MARK: Constants
+  
+  /// Index of the notifications tab in tab bar
+  let notificationTabIndex = 3
 
   // MARK: UIViewController
   
@@ -49,9 +72,88 @@ class TabViewController: UITabBarController {
     if !KeychainWrapper.hasAuthAndUser() {
       performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
     } else {
-      println(KeychainWrapper.authToken()!)
-      println(KeychainWrapper.userID()!)
+      println(KeychainWrapper.authToken() ?? "keychain failed to get auth token")
+      println(KeychainWrapper.userID() ?? -1)
+      notificationRefresher = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: "refreshNotifications:", userInfo: nil, repeats: true)
+      notificationRefresher.fire()
     }
+  }
+  
+  // MARK: Timer Selectors
+  
+  /// Refreshes the `notifications` array to an updated array.
+  ///
+  /// :param: The timer that calls this function every minute to refresh it.
+  func refreshNotifications(sender: NSTimer) {
+    println("called")
+    getNotifications { notifications in
+      if let notifications = notifications {
+        self.notifications = notifications
+        let unreadCount = notifications.filter { notification in
+          !notification.read
+        }.count
+        self.setNotificationsBadgeValueTo(unreadCount)
+        self.notificationsDataSource?.notificationsRefreshedTo(notifications, withUnreadCount: unreadCount)
+      }
+    }
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  /// Sets the red circle above the notifications tab to the specified value to signal that there are unread notifications.
+  ///
+  /// :param: value The value to set the notifcations to.
+  func setNotificationsBadgeValueTo(value: Int) {
+    if let notificationsTab = tabBar.items?[notificationTabIndex] as? UITabBarItem {
+      if value == 0 {
+        notificationsTab.badgeValue = nil
+      } else {
+        notificationsTab.badgeValue = "\(value)"
+      }
+    }
+  }
+  
+  // MARK: Networking Helper Functions
+  
+  /// Retrieves the notifications for the end user.
+  ///
+  /// TabViewController must retrieve notifications in order to display badge.
+  ///
+  /// :param: completionHandler The completion block for the network request.
+  /// :param: notifications The array of notifications retrieved from the server.
+  func getNotifications(completionHandler: (notifications: [Notification]?) -> ()) {
+    DataManager.sharedInstance.getEndUserNotifications { error, result in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(notifications: nil)
+      } else {
+        completionHandler(notifications: result)
+      }
+    }
+  }
+  
+  /// Handles an error received from a network call within the app.
+  ///
+  /// :param: error The error to be handled
+  func handleError(error: NSError) {
+    println(error)
+    if error.domain == NSError.cilloErrorDomain {
+      switch error.code {
+      case NSError.CilloErrorCodes.userUnauthenticated:
+        handleUserUnauthenticatedError(error)
+      default:
+        error.showAlert()
+      }
+    }
+  }
+  
+  // MARK: Error Handling Helper Functions
+  
+  /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
+  ///
+  /// :param: error The error to be handled.
+  func handleUserUnauthenticatedError(error: NSError) {
+    performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: error)
   }
   
   // MARK: Navigation Helper Functions

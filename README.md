@@ -14,8 +14,6 @@ Error Handling (besides user unauthenticated)
 
 Add a popup tableview when typing in a textfield involving board names.
 
-notification UI
-
 **Other:**
 
 Test on devices.

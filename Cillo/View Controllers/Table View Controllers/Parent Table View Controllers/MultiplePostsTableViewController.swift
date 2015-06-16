@@ -32,14 +32,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
   var segueIdentifierThisToBoard: String {
     fatalError("Subclasses of MultiplePostsTableViewController must override segue identifiers")
   }
-  
-  /// Segue Identifier in Storyboard for segue to NewPostViewController.
-  ///
-  /// **Note:** Subclasses must override this Constant.
-  var segueIdentifierThisToNewPost: String {
-    fatalError("Subclasses of MultiplePostsTableViewController must override segue identifiers")
-  }
-  
+
   /// Segue Identifier in Storyboard for segue to PostTableViewController.
   ///
   /// **Note:** Subclasses must override this Constant.
@@ -135,12 +128,13 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :returns: The created PostCell.
   func dequeueAndSetupPostCellForIndexPath(indexPath: NSIndexPath) -> PostCell {
     let post = posts[indexPath.row]
-    var cell: PostCell
-    if let post = post as? Repost {
-      cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
-    } else {
-      cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
-    }
+    let cell: PostCell = {
+      if let post = post as? Repost {
+        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
+      } else {
+        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
+      }
+    }()
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell

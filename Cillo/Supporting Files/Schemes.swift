@@ -290,6 +290,16 @@ struct DividerScheme {
     }
   }
   
+  /// :returns: The divider height for any MultipleNotificationsTableViewController.
+  func multipleNotificationsDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 5.0
+    case .Thin:
+      return 1.0
+    }
+  }
+  
   /// :returns: The divider height for any MultiplePostsTableViewController.
   func multiplePostsDividerHeight() -> CGFloat {
     switch scheme {

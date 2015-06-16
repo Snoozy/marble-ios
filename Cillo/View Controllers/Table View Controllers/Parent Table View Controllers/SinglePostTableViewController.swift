@@ -217,12 +217,13 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :returns: The created PostCell.
   func dequeueAndSetupPostCellForIndexPath(indexPath: NSIndexPath) -> PostCell {
-    var cell: PostCell
-    if let post = post as? Repost {
-      cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
-    } else {
-      cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
-    }
+    let cell: PostCell = {
+      if let post = self.post as? Repost {
+        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
+      } else {
+        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
+      }
+    }()
     cell.makeCellFromPost(post, withButtonTag: indexPath.row)
     cell.assignDelegatesForCellTo(self)
     return cell

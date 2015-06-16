@@ -30,11 +30,6 @@ class HomeTableViewController: MultiplePostsTableViewController {
   override var segueIdentifierThisToUser: String {
     return SegueIdentifiers.homeToUser
   }
-  
-  /// Segue Identifier in Storyboard for segue to NewPostViewController.
-  override var segueIdentifierThisToNewPost: String {
-    return SegueIdentifiers.homeToNewPost
-  }
 
   // MARK: UIViewController
   

@@ -47,6 +47,9 @@
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
 		95EAA84E1AD19C7600DCE1E8 /* NewRepostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */; };
+		95ECD13F1B2FA1C00041CA5F /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECD13E1B2FA1C00041CA5F /* NotificationCell.swift */; };
+		95ECD1411B2FCB660041CA5F /* MultipleNotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECD1401B2FCB660041CA5F /* MultipleNotificationTableViewController.swift */; };
+		95ECD1431B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECD1421B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift */; };
 		95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFD2A919F8D2B400086BAF /* AppDelegate.swift */; };
 		95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2AD19F8D2B400086BAF /* Main.storyboard */; };
 		95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95EFD2B019F8D2B400086BAF /* Images.xcassets */; };
@@ -124,6 +127,9 @@
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Model/Cells/UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MeTableViewController.swift"; sourceTree = "<group>"; };
 		95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewRepostViewController.swift; path = "View Controllers/Standard View Controllers/NewRepostViewController.swift"; sourceTree = "<group>"; };
+		95ECD13E1B2FA1C00041CA5F /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationCell.swift; path = Model/Cells/NotificationCell.swift; sourceTree = "<group>"; };
+		95ECD1401B2FCB660041CA5F /* MultipleNotificationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleNotificationTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultipleNotificationTableViewController.swift"; sourceTree = "<group>"; };
+		95ECD1421B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyNotificationsTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MyNotificationsTableViewController.swift"; sourceTree = "<group>"; };
 		95EFD2A419F8D2B400086BAF /* Cillo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cillo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EFD2A819F8D2B400086BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95EFD2A919F8D2B400086BAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Supporting Files/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 				9530E0841A0754B3001DB24E /* CommentCell.swift */,
 				959E0F0C1A2538C7008B4D19 /* BoardCell.swift */,
 				95E496911A15208500154864 /* UserCell.swift */,
+				95ECD13E1B2FA1C00041CA5F /* NotificationCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -207,6 +214,7 @@
 				95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */,
 				959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */,
 				95E496931A1520AB00154864 /* MeTableViewController.swift */,
+				95ECD1421B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift */,
 			);
 			name = "Root TVCs";
 			sourceTree = "<group>";
@@ -271,6 +279,7 @@
 				9587A7331A43E8F2003CDE64 /* SingleUserTableViewController.swift */,
 				95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */,
 				954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */,
+				95ECD1401B2FCB660041CA5F /* MultipleNotificationTableViewController.swift */,
 			);
 			name = "Parent TVCs";
 			sourceTree = "<group>";
@@ -547,8 +556,11 @@
 				95C86D941B052EEB00D37B7E /* Schemes.swift in Sources */,
 				9509E0001A55F60B00F5083B /* Repost.swift in Sources */,
 				95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */,
+				95ECD1431B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift in Sources */,
+				95ECD13F1B2FA1C00041CA5F /* NotificationCell.swift in Sources */,
 				95F935B11A5DE11100F65022 /* NewBoardViewController.swift in Sources */,
 				95EFD2AA19F8D2B400086BAF /* AppDelegate.swift in Sources */,
+				95ECD1411B2FCB660041CA5F /* MultipleNotificationTableViewController.swift in Sources */,
 				95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */,
 				95FDCDE11B1FDFDC00DA0D09 /* PlaceholderTextView.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,

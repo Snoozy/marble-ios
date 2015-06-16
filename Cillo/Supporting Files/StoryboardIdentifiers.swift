@@ -66,9 +66,6 @@ struct SegueIdentifiers {
   /// Segue from HomeTableViewController to BoardTableViewController.
   static let homeToBoard = "HomeToBoard"
   
-  /// Segue from HomeTableViewController to NewPostViewController.
-  static let homeToNewPost = "HomeToNewPost"
-  
   /// Segue from HomeTableViewController to PostTableViewController.
   static let homeToPost = "HomeToPost"
   
@@ -90,6 +87,14 @@ struct SegueIdentifiers {
   
   /// Segue from MeTableViewController to PostTableViewController.
   static let meToPost = "MeToPost"
+  
+  // MARK: MyNotificationsViewController
+  
+  /// Segue from MyNotificationsViewController to PostTableViewController.
+  static let myNotificationsToPost = "MyNotifsToPost"
+  
+  /// Segue from MyNotificationsViewController to UserTableViewController.
+  static let myNotificationsToUser = "MyNotifsToUser"
   
   // MARK: PostTableViewController
   
@@ -169,6 +174,11 @@ struct StoryboardIdentifiers {
   
   /// Reuse identifier for UserCell.
   static let userCell = "User"
+  
+  // MARK: NotificationCell
+  
+  /// Reuse identifier for NotificationCell.
+  static let notificationCell = "Notification"
   
   // MARK: Single Button Cells
   
