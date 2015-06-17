@@ -62,13 +62,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
     if segue.identifier == segueIdentifierThisToPost {
       var destination = segue.destinationViewController as! PostTableViewController
       // "Original Post" button sends the end user to the originalPost, not the post
-      if let repost = post as? Repost {
-        destination.mainShowImages = repost.originalPost.showImages
-        if let sender = sender as? UIButton, title = sender.titleForState(.Normal) where title == "Original Post" {
-          post = repost.originalPost
-        }
-      } else {
-        destination.mainShowImages = post.showImages
+      if let repost = post as? Repost, sender = sender as? UIButton, title = sender.titleForState(.Normal) where title == "Original Post" {
+        post = repost.originalPost
       }
       destination.post = post
     } else if segue.identifier == segueIdentifierThisToBoard {
@@ -135,6 +130,17 @@ class MultiplePostsTableViewController: CustomTableViewController {
         return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
       }
     }()
+    if let post = post as? Repost where post.originalPost.loadedImage == nil {
+      cell.loadImagesForPost(post) { image in
+        post.originalPost.loadedImage = image
+        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      }
+    } else if !(post is Repost) && post.loadedImage == nil {
+      cell.loadImagesForPost(post) { image in
+        post.loadedImage = image
+        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      }
+    }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
@@ -241,20 +247,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     }
     tableView.reloadData()
   }
-  
-  /// Expands `imagesButton` in a PostCell to its full image size.
-  ///
-  /// :param: sender The button that is touched to send this function is a `imagesButton` in a PostCell.
-  @IBAction func showImagesPressed(sender: UIButton) {
-    let post = posts[sender.tag]
-    if let post = post as? Repost where !post.originalPost.showImages {
-        post.originalPost.showImages = !post.originalPost.showImages
-    } else if !post.showImages {
-      post.showImages = !post.showImages
-    }
-    tableView.reloadData()
-  }
-  
+
   /// Triggers segue with identifier segueIdentifierThisToBoard.
   ///
   /// :param: sender The button that is touched to send this function is a boardButton in a PostCell or an originalBoardButton in a RepostCell.

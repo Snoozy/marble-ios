@@ -436,9 +436,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="7IH-SU-8XG"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6KK-Sg-0jV" userLabel="Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="88" width="584" height="49"/>
@@ -748,9 +745,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="RwT-ZR-1fG"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQD-IO-TR1" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
@@ -2156,9 +2150,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="18Z-Li-Vyl"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xwF-Ic-ypo" userLabel="Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="88" width="584" height="49"/>
@@ -2456,9 +2447,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="aLU-Qu-NOM"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cX2-6O-YVd" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
@@ -3018,9 +3006,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="CkR-e3-2dz"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cQN-Pu-xpl" userLabel="Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="88" width="584" height="49"/>
@@ -3327,9 +3312,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="RnF-H8-aJ4"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7I-yK-N0F" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
@@ -3818,9 +3800,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="JJq-dE-XzN"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZn-1o-v39" userLabel="Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="8" y="88" width="584" height="49"/>
@@ -4118,9 +4097,6 @@
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showImagesPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="yya-vy-A0V"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpO-SK-TUt" userLabel="Original Post Text" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="45" y="149" width="547" height="27"/>
@@ -5395,9 +5371,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="X2j-Oo-Px4"/>
-        <segue reference="ADx-3F-GNr"/>
-        <segue reference="Jl6-tW-uib"/>
         <segue reference="g7D-gS-UuW"/>
+        <segue reference="Jl6-tW-uib"/>
+        <segue reference="ADx-3F-GNr"/>
+        <segue reference="X2j-Oo-Px4"/>
     </inferredMetricsTieBreakers>
 </document>

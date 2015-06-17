@@ -23,9 +23,12 @@ class Post: NSObject {
   var imageURLs: [NSURL]?
  
   /// True if the post is an image post.
-  var isImagePost:Bool {
+  var isImagePost: Bool {
     return imageURLs != nil
   }
+  
+  /// Stores image after it is loaded asynchronously
+  var loadedImage: UIImage?
   
   /// ID of this Post.
   var postID = 0
@@ -41,9 +44,6 @@ class Post: NSObject {
   /// * False - Post is contracted. Only text that fits in MaxContractedHeight of UITableViewController is shown.
   /// * Nil - Post is expanded by default.
   var seeFull: Bool?
-  
-  /// True if the images should be displayed in a PostCell.
-  var showImages: Bool = false
   
   /// Content of this Post.
   var text: String = ""
@@ -118,27 +118,13 @@ class Post: NSObject {
   /// Calculates the height of the images corresponding to the imagesURL array.
   ///
   /// :param: width The width of the screen
-  /// :param: height Height of the images button when `showImages` is false.
   /// :returns: The height of the button that will be displaying the images for this post.
-  func heightOfImagesInPostWithWidth(width: CGFloat, andButtonHeight height: CGFloat) -> CGFloat {
-    if let imageURLs = imageURLs {
-      if showImages {
-        var h: CGFloat = 0.0
-        for imageURL in imageURLs {
-          let button = UIButton()
-          button.setBackgroundImageForState(.Normal, withURL: imageURL, placeholderImage: UIImage(named: "Me"))
-          let image = button.backgroundImageForState(.Normal)
-          if let image = image where image != UIImage(named: "Me") {
-            h += width * image.size.height / image.size.width
-          } else {
-            h += height
-          }
-          break // TODO: Find way to make multiple images
-        }
-        return h
-      } else {
-        return height
-      }
+  func heightOfImagesInPostWithWidth(width: CGFloat) -> CGFloat {
+    if let loadedImage = loadedImage {
+      var h: CGFloat = width * loadedImage.size.height / loadedImage.size.width
+      return h
+    } else if isImagePost {
+      return 20
     } else {
       return 0
     }

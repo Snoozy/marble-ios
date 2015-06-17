@@ -77,9 +77,6 @@ class NewPostViewController: CustomViewController {
         let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
         if let nav = destination.selectedViewController as? UINavigationController {
           postViewController.post = sender
-          if image != nil {
-            sender.showImages = true
-          }
           nav.pushViewController(postViewController, animated: true)
         }
       }

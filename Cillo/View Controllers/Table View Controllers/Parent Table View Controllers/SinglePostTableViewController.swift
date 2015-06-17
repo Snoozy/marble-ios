@@ -21,18 +21,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Flag that is only false when comments have not attempted to be retrieved yet.
   var commentsRetrieved = false
   
-  /// The `showImages` value of the post in the view controller under this view controller in the navigation stack.
-  var mainShowImages = false
-  
   /// Post that is represented by this view controller.
-  var post = Post() {
-    didSet {
-      post.showImages = true
-      if let post = post as? Repost {
-        post.originalPost.showImages = true
-      }
-    }
-  }
+  var post = Post()
   
   /// Index path of a selected Comment in tableView.
   /// 
@@ -103,15 +93,7 @@ class SinglePostTableViewController: CustomTableViewController {
       tableView.layoutMargins = UIEdgeInsetsZero
     }
   }
-  
-  override func viewWillDisappear(animated: Bool) {
-    super.viewWillDisappear(animated)
-    post.showImages = mainShowImages
-    if let post = post as? Repost {
-      post.originalPost.showImages = mainShowImages
-    }
-  }
-  
+
   // MARK: UITableViewDataSource
   
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -224,6 +206,17 @@ class SinglePostTableViewController: CustomTableViewController {
         return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
       }
     }()
+    if let post = post as? Repost where post.originalPost.loadedImage == nil {
+      cell.loadImagesForPost(post) { image in
+        post.originalPost.loadedImage = image
+        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      }
+    } else if !(post is Repost) && post.loadedImage == nil {
+      cell.loadImagesForPost(post) { image in
+        self.post.loadedImage = image
+        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      }
+    }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row)
     cell.assignDelegatesForCellTo(self)
     return cell

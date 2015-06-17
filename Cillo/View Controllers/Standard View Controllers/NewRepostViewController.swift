@@ -250,7 +250,7 @@ class RepostContentView: UIView {
     
     var sideLine: UIView
     if let imageURLs = post.imageURLs {
-      originalPostImagesButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTextView.frame.maxY, width: width - originalPostLeadingEdge - 8, height: post.heightOfImagesInPostWithWidth(width - originalPostLeadingEdge - 8, andButtonHeight: 0)))
+      originalPostImagesButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTextView.frame.maxY, width: width - originalPostLeadingEdge - 8, height: post.heightOfImagesInPostWithWidth(width - originalPostLeadingEdge - 8)))
       originalPostImagesButton.setBackgroundImageForState(.Disabled, withURL: imageURLs[0])
       originalPostImagesButton.enabled = false
       

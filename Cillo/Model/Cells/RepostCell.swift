@@ -94,7 +94,7 @@ class RepostCell: PostCell {
   /// :returns: The height that the cell should be in the tableView.
   class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postTTTAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostTTTAttributedLabelFont)
-    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins, andButtonHeight: 20)
+    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins)
     height += dividerHeight
     return post.originalPost.title != nil ? height : height - RepostCell.titleHeight
   }
@@ -163,21 +163,27 @@ class RepostCell: PostCell {
         titleHeightConstraint.constant = 0.0
       }
       
-      imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins, andButtonHeight: 20)
-      if let imageURLs = post.originalPost.imageURLs {
-        imagesButton.setBackgroundImageForState(.Disabled, withURL: imageURLs[0], placeholderImage: UIImage(named: "Me"))
-        imagesButton.setTitle("", forState: .Disabled)
+      imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins)
+      if let loadedImage = post.originalPost.loadedImage {
+        imagesButton.setBackgroundImage(loadedImage, forState: .Normal)
+        imagesButton.setTitle("", forState: .Normal)
         imagesButton.contentMode = .ScaleAspectFit
-      }
-      if imagesButtonHeightConstraint.constant == 20 {
-        imagesButton.setTitle("Show Images", forState: .Normal)
-        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
-        imagesButton.enabled = true
-      } else if post.originalPost.imageURLs != nil && post.originalPost.showImages {
-        imagesButton.enabled = false
+      } else if post.originalPost.isImagePost {
+        imagesButton.setTitle("Loading...", forState: .Normal)
       }
       
       verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
+    }
+  }
+  
+  // MARK: Networking Helper Functions
+  
+  // TODO:
+  override func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
+    if let post = post as? Repost, imageURLs = post.originalPost.imageURLs {
+      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil, success: { request, response, image in
+          completionHandler(image: image)
+        }, failure: nil)
     }
   }
 }

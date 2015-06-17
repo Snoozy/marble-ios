@@ -102,6 +102,8 @@ class PostCell: UITableViewCell {
   
   override func prepareForReuse() {
     imagesButtonHeightConstraint.constant = 0
+    imagesButton.setBackgroundImage(nil, forState: .Normal)
+    imagesButton.setBackgroundImage(nil, forState: .Highlighted)
     separatorViewHeightConstraint?.constant = 0
     imagesButton.setTitle("", forState: .Normal)
     nameButton.enabled = true
@@ -129,7 +131,7 @@ class PostCell: UITableViewCell {
       return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
     }
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postTTTAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
-    height += post.heightOfImagesInPostWithWidth(width, andButtonHeight: 20)
+    height += post.heightOfImagesInPostWithWidth(width)
     height += dividerHeight
     return post.title != nil ? height : height - PostCell.titleHeight
   }
@@ -204,7 +206,7 @@ class PostCell: UITableViewCell {
     separatorViewHeightConstraint?.constant = separatorHeight
     
     separatorView?.backgroundColor = scheme.dividerBackgroundColor()
-    
+
     if !(post is Repost) {
       if let seeFullButton = seeFullButton {
         // tag acts as way for button to know it's position in data array
@@ -228,19 +230,25 @@ class PostCell: UITableViewCell {
         titleHeightConstraint.constant = 0.0
       }
       
-      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andButtonHeight: 20)
-      if let imageURLs = post.imageURLs {
-        imagesButton.setBackgroundImageForState(.Disabled, withURL: imageURLs[0], placeholderImage: UIImage(named: "Me"))
-        imagesButton.setTitle("", forState: .Disabled)
+      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16)
+      if let loadedImage = post.loadedImage {
+        imagesButton.setBackgroundImage(loadedImage, forState: .Normal)
+        imagesButton.setTitle("", forState: .Normal)
         imagesButton.contentMode = .ScaleAspectFit
+      } else if post.isImagePost {
+        imagesButton.setTitle("Loading...", forState: .Normal)
       }
-      if imagesButtonHeightConstraint.constant == 20 {
-        imagesButton.setTitle("Show Images", forState: .Normal)
-        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
-        imagesButton.enabled = true
-      } else if let imageURLs = post.imageURLs where post.showImages {
-        imagesButton.enabled = false
-      }
+    }
+  }
+  
+  // MARK: Networking Helper Functions
+  
+  // TODO:
+  func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
+    if let imageURLs = post.imageURLs {
+      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil, success: { request, response, image in
+        completionHandler(image: image)
+      }, failure: nil)
     }
   }
 }
