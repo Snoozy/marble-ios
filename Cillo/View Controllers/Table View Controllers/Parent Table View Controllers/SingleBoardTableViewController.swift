@@ -312,6 +312,12 @@ class SingleBoardTableViewController: CustomTableViewController {
   
   // MARK: IBActions
   
+  @IBAction func boardPhotoPressed(sender: UIButton) {
+    if let photo = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
+  
   /// Downvotes a post.
   ///
   /// **Note:** The position of the Post to be downvoted is known via the tag of the button.

@@ -547,4 +547,13 @@ class SingleUserTableViewController: CustomTableViewController {
       }
     }
   }
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is a `photoButton` in a UserCell, PostCell, CommentCell.
+  @IBAction func userPhotoPressed(sender: UIButton) {
+    if let photo = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
 }

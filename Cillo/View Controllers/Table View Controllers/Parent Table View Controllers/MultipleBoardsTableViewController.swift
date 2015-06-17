@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is only a table of BoardCells.
 ///
@@ -250,6 +251,12 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   }
   
   // MARK: IBActions
+  
+  @IBAction func boardPhotoPressed(sender: UIButton) {
+    if let photo = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
   
   /// Either follows the board at index sender.tag or presents an ActionSheet to unfollow the board.
   ///

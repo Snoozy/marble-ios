@@ -40,7 +40,7 @@
                                             </state>
                                             <state key="highlighted" backgroundImage="Groups"/>
                                             <connections>
-                                                <action selector="triggerBoardSegueOnButton:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="Swk-9K-pFy"/>
+                                                <action selector="boardPhotoPressed:" destination="vM0-Cn-CkN" eventType="touchUpInside" id="YoI-33-e07"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CP2-4c-bdd" userLabel="Name">
@@ -1756,15 +1756,15 @@
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="3D0-tO-Etl" kind="relationship" relationship="viewControllers" id="vlk-nC-2bA"/>
-                        <segue destination="PgO-Td-VjA" kind="relationship" relationship="viewControllers" id="pqy-7c-lFW"/>
-                        <segue destination="8g1-Vs-kdU" kind="relationship" relationship="viewControllers" id="zaJ-Dv-ySB"/>
                         <segue destination="Grp-u8-wvc" kind="presentation" identifier="TabToLogin" id="0l7-qC-B7p"/>
                         <segue destination="nzy-ZD-gBV" kind="presentation" identifier="TabToNewPost" id="j17-6e-rWe"/>
                         <segue destination="A5M-A6-FxW" kind="presentation" identifier="TabToNewRepost" id="Fia-TA-lJj"/>
                         <segue destination="OOk-WO-h23" kind="presentation" identifier="TabToSettings" id="wJN-wH-slB"/>
                         <segue destination="RL6-mp-tie" kind="presentation" identifier="TabToNewBoard" id="9YX-8n-VK3"/>
+                        <segue destination="3D0-tO-Etl" kind="relationship" relationship="viewControllers" id="vlk-nC-2bA"/>
+                        <segue destination="PgO-Td-VjA" kind="relationship" relationship="viewControllers" id="pqy-7c-lFW"/>
                         <segue destination="NQn-2t-BtT" kind="relationship" relationship="viewControllers" id="h6X-Qg-egp"/>
+                        <segue destination="8g1-Vs-kdU" kind="relationship" relationship="viewControllers" id="zaJ-Dv-ySB"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vl-FJ-IpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1971,6 +1971,7 @@
                                             <state key="highlighted" backgroundImage="Me"/>
                                             <connections>
                                                 <action selector="pictureButtonPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="5Bl-1H-VlY"/>
+                                                <action selector="userPhotoPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="qcs-sa-XXk"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZb-jG-q1n" userLabel="Cog">
@@ -2103,6 +2104,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="userPhotoPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="FIl-ai-5Or"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNQ-VQ-qs4" userLabel="Name">
                                             <rect key="frame" x="62" y="8" width="95" height="24"/>
@@ -2341,6 +2345,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="userPhotoPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="vty-Qw-QxY"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f67-Xw-PPf" userLabel="Name">
                                             <rect key="frame" x="62" y="8" width="95" height="24"/>
@@ -2678,6 +2685,7 @@
                                             </state>
                                             <connections>
                                                 <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="cWr-du-9Mp"/>
+                                                <action selector="userPhotoPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="fgB-Z6-cuM"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRG-14-z4B" userLabel="Name">
@@ -2839,6 +2847,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Groups"/>
+                                            <connections>
+                                                <action selector="boardPhotoPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="Gwv-mv-u1o"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JK-gh-ByR" userLabel="Name">
                                             <rect key="frame" x="85" y="18" width="110" height="24"/>
@@ -3649,6 +3660,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="userPhotoPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="ZiP-eW-Siu"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-3a-iLT" userLabel="Name">
                                             <rect key="frame" x="85" y="8" width="95" height="24"/>
@@ -3765,6 +3779,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="userPhotoPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="ZEf-Xw-5wd"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEc-ea-9AD" userLabel="Name">
                                             <rect key="frame" x="62" y="8" width="95" height="24"/>
@@ -4003,6 +4020,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="userPhotoPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="wcz-wx-WXU"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pyd-uh-lI6" userLabel="Name">
                                             <rect key="frame" x="62" y="8" width="95" height="24"/>
@@ -4340,6 +4360,7 @@
                                             </state>
                                             <connections>
                                                 <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="FzN-SW-dhA"/>
+                                                <action selector="userPhotoPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="0nO-I4-DHD"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MX3-J3-WD9" userLabel="Name">
@@ -4674,6 +4695,7 @@
                                             </state>
                                             <state key="highlighted" backgroundImage="Groups"/>
                                             <connections>
+                                                <action selector="boardPhotoPressed:" destination="csT-b3-QYy" eventType="touchUpInside" id="5Oq-r1-oc5"/>
                                                 <action selector="triggerBoardSegueOnButton:" destination="csT-b3-QYy" eventType="touchUpInside" id="lOL-zk-LF3"/>
                                             </connections>
                                         </button>
@@ -5401,9 +5423,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lj2-2c-ePA"/>
-        <segue reference="Ndf-JY-QqC"/>
         <segue reference="Jl6-tW-uib"/>
+        <segue reference="Ndf-JY-QqC"/>
+        <segue reference="g7D-gS-UuW"/>
         <segue reference="ErJ-Pf-JZ7"/>
     </inferredMetricsTieBreakers>
 </document>
