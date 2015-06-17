@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_Alamofire 2
 #define COCOAPODS_VERSION_PATCH_Alamofire 0
 
+// JTSImageViewController
+#define COCOAPODS_POD_AVAILABLE_JTSImageViewController
+#define COCOAPODS_VERSION_MAJOR_JTSImageViewController 1
+#define COCOAPODS_VERSION_MINOR_JTSImageViewController 4
+#define COCOAPODS_VERSION_PATCH_JTSImageViewController 0
+
 // SwiftKeychainWrapper
 #define COCOAPODS_POD_AVAILABLE_SwiftKeychainWrapper
 #define COCOAPODS_VERSION_MAJOR_SwiftKeychainWrapper 1

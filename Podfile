@@ -10,4 +10,6 @@ pod 'Alamofire', '~> 1.2'
 
 pod 'TTTAttributedLabel'
 
+pod 'JTSImageViewController'
+
 pod 'SwiftKeychainWrapper', :git => 'https://github.com/jrendel/SwiftKeychainWrapper', :branch => 'master'

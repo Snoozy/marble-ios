@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is a PostCell followed by a comment tree of CommentCells.
 ///
@@ -348,6 +349,22 @@ class SinglePostTableViewController: CustomTableViewController {
       let postViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
       postViewController.post = post.originalPost
       navigationController?.pushViewController(postViewController, animated: true)
+    }
+  }
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
+  @IBAction func imageButtonPressed(sender: UIButton) {
+    let loadedImage: UIImage? = {
+      if let post = self.post as? Repost {
+        return post.originalPost.loadedImage
+      } else {
+        return self.post.loadedImage
+      }
+      }()
+    if let loadedImage = loadedImage {
+      JTSImageViewController.expandImage(loadedImage, toFullScreenFromRoot: self, withSender: sender)
     }
   }
   

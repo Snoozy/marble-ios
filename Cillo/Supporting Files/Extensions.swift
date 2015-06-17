@@ -9,6 +9,7 @@
 import UIKit
 import TTTAttributedLabel
 import SwiftKeychainWrapper
+import JTSImageViewController
 
 extension Int {
   
@@ -181,6 +182,27 @@ extension NSMutableAttributedString {
     let second = NSMutableAttributedString(string: secondHalf, attributes: [NSFontAttributeName:secondFont])
     first.appendAttributedString(second)
     return first
+  }
+}
+
+// MARK: -
+
+extension JTSImageViewController {
+  
+  /// Presents a JTSImageViewController over the provided viewController that expands the provided image to full screen.
+  ///
+  /// :param: image The image to be expanded to full screen.
+  /// :param: viewController The controller that will be blurred behind the image.
+  /// :param: sender The view that was pressed containing the image to expand.
+  class func expandImage(image: UIImage, toFullScreenFromRoot viewController: UIViewController, withSender sender: UIView) {
+    let imageInfo = JTSImageInfo()
+    imageInfo.image = image
+    imageInfo.referenceRect = sender.frame
+    imageInfo.referenceView = sender.superview
+    imageInfo.referenceContentMode = sender.contentMode
+    imageInfo.referenceCornerRadius = sender.layer.cornerRadius
+    let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: .Image, backgroundStyle: .Blurred)
+    imageViewer.showFromViewController(viewController, transition: ._FromOriginalPosition)
   }
 }
 

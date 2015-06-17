@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is a BoardCell followed by PostCells.
 ///
@@ -354,6 +355,23 @@ class SingleBoardTableViewController: CustomTableViewController {
   @IBAction func goToOriginalPost(sender: UIButton) {
     if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
       performSegueWithIdentifier(segueIdentifierThisToPost, sender: sender)
+    }
+  }
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
+  @IBAction func imageButtonPressed(sender: UIButton) {
+    let loadedImage: UIImage? = {
+      let post = self.posts[sender.tag]
+      if let post = post as? Repost {
+        return post.originalPost.loadedImage
+      } else {
+        return post.loadedImage
+      }
+      }()
+    if let loadedImage = loadedImage {
+      JTSImageViewController.expandImage(loadedImage, toFullScreenFromRoot: self, withSender: sender)
     }
   }
   

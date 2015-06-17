@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is only a table of PostCells.
 ///
@@ -224,6 +225,23 @@ class MultiplePostsTableViewController: CustomTableViewController {
     }
   }
   
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
+  @IBAction func imageButtonPressed(sender: UIButton) {
+    let loadedImage: UIImage? = {
+      let post = self.posts[sender.tag]
+      if let post = post as? Repost {
+        return post.originalPost.loadedImage
+      } else {
+        return post.loadedImage
+      }
+      }()
+    if let loadedImage = loadedImage {
+      JTSImageViewController.expandImage(loadedImage, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
+  
   /// Reposts a post.
   ///
   /// **Note:** The position of the Post to be reposted is known via the tag of the button.
@@ -268,7 +286,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
   @IBAction func triggerUserSegueOnButton(sender: UIButton) {
     performSegueWithIdentifier(segueIdentifierThisToUser, sender: sender)
   }
- 
+
   /// Upvotes a post.
   ///
   /// **Note:** The position of the Post to be upvoted is known via the tag of the button.

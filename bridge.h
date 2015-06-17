@@ -8,3 +8,4 @@
 
 #import "AFNetworking/AFNetworking.h"
 #import "TTTAttributedLabel/TTTAttributedLabel.h"
+#import "JTSImageViewController/JTSImageViewController.h"

@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-JTSImageViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SwiftKeychainWrapper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>238E4A678D830D2C1BFB598F</key>
+		<key>25C93BFFCEAA0695B6F6435F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2EA237332AF0F92D651AAF93</key>
+		<key>736B0106A82BA7F24346733C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>426A2CD107F27281E83C8681</key>
+		<key>76C8AC5B60BBCD8AB196624E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6A03856751009276D2347D46</key>
+		<key>87EB1765D24143E37FA12B63</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BF8A9C9EC6015DE2FDF2826C</key>
+		<key>A87A51CA823AA1E46E524565</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C366EC97946E9AC9716EF281</key>
 		<dict>
 			<key>primary</key>
 			<true/>
