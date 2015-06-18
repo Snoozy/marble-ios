@@ -252,6 +252,9 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   
   // MARK: IBActions
   
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is a `photoButton` in a BoardCell.
   @IBAction func boardPhotoPressed(sender: UIButton) {
     if let photo = sender.backgroundImageForState(.Normal) {
       JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)

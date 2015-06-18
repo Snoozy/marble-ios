@@ -41,7 +41,10 @@ class TabViewController: UITabBarController {
   // MARK: Constants
   
   /// Index of the notifications tab in tab bar
-  let notificationTabIndex = 3
+  let notificationTabIndex = 2
+  
+  /// Interval that `notificationRefresher` will retrieve notifications at in seconds
+  let timerInterval = NSTimeInterval(60)
 
   // MARK: UIViewController
   
@@ -74,7 +77,7 @@ class TabViewController: UITabBarController {
     } else {
       println(KeychainWrapper.authToken() ?? "keychain failed to get auth token")
       println(KeychainWrapper.userID() ?? -1)
-      notificationRefresher = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: "refreshNotifications:", userInfo: nil, repeats: true)
+      notificationRefresher = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: "refreshNotifications:", userInfo: nil, repeats: true)
       notificationRefresher.fire()
     }
   }
@@ -85,7 +88,6 @@ class TabViewController: UITabBarController {
   ///
   /// :param: The timer that calls this function every minute to refresh it.
   func refreshNotifications(sender: NSTimer) {
-    println("called")
     getNotifications { notifications in
       if let notifications = notifications {
         self.notifications = notifications
