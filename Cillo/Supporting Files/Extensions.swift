@@ -194,14 +194,15 @@ extension JTSImageViewController {
   /// :param: image The image to be expanded to full screen.
   /// :param: viewController The controller that will be blurred behind the image.
   /// :param: sender The view that was pressed containing the image to expand.
-  class func expandImage(image: UIImage, toFullScreenFromRoot viewController: UIViewController, withSender sender: UIView) {
+  class func expandImage<T: UIViewController where T: JTSImageViewControllerOptionsDelegate>(image: UIImage, toFullScreenFromRoot viewController: T, withSender sender: UIView) {
     let imageInfo = JTSImageInfo()
     imageInfo.image = image
     imageInfo.referenceRect = sender.frame
     imageInfo.referenceView = sender.superview
     imageInfo.referenceContentMode = sender.contentMode
     imageInfo.referenceCornerRadius = sender.layer.cornerRadius
-    let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: .Image, backgroundStyle: .Blurred)
+    let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: .Image, backgroundStyle: .None)
+    imageViewer.optionsDelegate = viewController
     imageViewer.showFromViewController(viewController, transition: ._FromOriginalPosition)
   }
 }

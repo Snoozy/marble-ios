@@ -8,6 +8,7 @@
 
 import UIKit
 import TTTAttributedLabel
+import JTSImageViewController
 
 /// Any UITableViewController in this app should subclass this class.
 ///
@@ -97,5 +98,12 @@ extension CustomTableViewController: TTTAttributedLabelDelegate {
     let webViewController = WebViewController()
     webViewController.urlToLoad = url
     navigationController?.pushViewController(webViewController, animated: true)
+  }
+}
+
+extension CustomTableViewController: JTSImageViewControllerOptionsDelegate {
+  
+  func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
+    return 1.0
   }
 }
