@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Handles reposting of existing posts.
 class NewRepostViewController: CustomViewController {
@@ -30,6 +31,7 @@ class NewRepostViewController: CustomViewController {
     setupUserInfoInContentView()
     setupScrollView()
     setupUIDelegates()
+    setupButtonSelectors()
     contentView.setupColorScheme()
   }
   
@@ -46,11 +48,18 @@ class NewRepostViewController: CustomViewController {
   
   // MARK: Setup Helper Functions
   
+  /// Sets the buttons to have image expanding events on touch
+  private func setupButtonSelectors() {
+    contentView.pictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView.originalPictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView.originalPostImagesButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+  }
+  
   /// Sets the user related fields of the contentView.
   private func setupUserInfoInContentView() {
     retrieveEndUser { (user) in
       if let user = user {
-        self.contentView.pictureButton.setBackgroundImageForState(.Disabled, withURL: user.photoURL)
+        self.contentView.pictureButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
         self.contentView.usernameLabel.text = user.name
       }
     }
@@ -112,6 +121,19 @@ class NewRepostViewController: CustomViewController {
       }
     }
   }
+  
+  // MARK: Button Selectors
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is a `photoButton`.
+  func photoButtonPressed(sender: UIButton) {
+    println("called")
+    if let image = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
+  
   
   // MARK: IBActions
   
@@ -191,7 +213,6 @@ class RepostContentView: UIView {
     boardTextField.autocorrectionType = .No
     
     pictureButton = UIButton(frame: CGRect(x: 8, y: 56, width: 40, height: 40))
-    pictureButton.enabled = false
     pictureButton.clipsToBounds = true
     pictureButton.layer.cornerRadius = 5.0
     
@@ -211,8 +232,7 @@ class RepostContentView: UIView {
     let originalPostTopEdge = saySomethingTextView.frame.maxY + 8
     
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
-    originalPictureButton.setBackgroundImageForState(.Disabled, withURL: post.user.photoURL)
-    originalPictureButton.enabled = false
+    originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.user.photoURL)
     originalPictureButton.clipsToBounds = true
     originalPictureButton.layer.cornerRadius = 5.0
     
@@ -251,8 +271,7 @@ class RepostContentView: UIView {
     var sideLine: UIView
     if let imageURLs = post.imageURLs {
       originalPostImagesButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTextView.frame.maxY, width: width - originalPostLeadingEdge - 8, height: post.heightOfImagesInPostWithWidth(width - originalPostLeadingEdge - 8)))
-      originalPostImagesButton.setBackgroundImageForState(.Disabled, withURL: imageURLs[0])
-      originalPostImagesButton.enabled = false
+      originalPostImagesButton.setBackgroundImageForState(.Normal, withURL: imageURLs[0])
       
       sideLine = UIView(frame: CGRect(x: vertLeadingEdge, y: originalPostTopEdge, width: vertWidth, height: originalPostImagesButton.frame.maxY - originalPostTopEdge))
     } else {

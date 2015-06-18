@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Handles changing settings of end user.
 class SettingsViewController: CustomViewController {
@@ -240,6 +241,15 @@ class SettingsViewController: CustomViewController {
       } else {
         sender.enabled = true
       }
+    }
+  }
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is a `photoButton`.
+  @IBAction func userPhotoButtonPressed(sender: UIButton) {
+    if let image = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }
   }
 }

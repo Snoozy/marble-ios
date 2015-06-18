@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Handles creating new Posts.
 class NewPostViewController: CustomViewController {
@@ -45,8 +46,8 @@ class NewPostViewController: CustomViewController {
   /// Field for end user to enter the title of their post.
   @IBOutlet weak var titleTextField: CustomTextField!
   
-  /// ImageView used to display the end user's profile picture.
-  @IBOutlet weak var userImageView: UIImageView!
+  /// Button used to display the end user's profile picture.
+  @IBOutlet weak var userPhotoButton: UIButton!
   
   /// Label used to display the end user's name.
   @IBOutlet weak var usernameLabel: UILabel!
@@ -115,9 +116,9 @@ class NewPostViewController: CustomViewController {
     }
     retrieveEndUser { user in
       if let user = user {
-        self.userImageView.clipsToBounds = true
-        self.userImageView.layer.cornerRadius = 5.0
-        self.userImageView.setImageWithURL(user.photoURL)
+        self.userPhotoButton.clipsToBounds = true
+        self.userPhotoButton.layer.cornerRadius = 5.0
+        self.userPhotoButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
         self.usernameLabel.text = user.name
       }
     }
@@ -248,6 +249,16 @@ class NewPostViewController: CustomViewController {
       }
     }
   }
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is a `photoButton`.
+  @IBAction func userPhotoButtonPressed(sender: UIButton) {
+    if let image = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
+  
 }
 
 // MARK: - UIImagePickerControllerDelegate

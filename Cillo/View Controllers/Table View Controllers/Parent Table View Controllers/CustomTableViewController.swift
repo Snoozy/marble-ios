@@ -101,8 +101,11 @@ extension CustomTableViewController: TTTAttributedLabelDelegate {
   }
 }
 
-extension CustomTableViewController: JTSImageViewControllerOptionsDelegate {
+// MARK: - JTSImageViewControllerOptionsDelegate
+
+extension CustomViewController: JTSImageViewControllerOptionsDelegate {
   
+  /// Makes the screen black behind the image
   func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
     return 1.0
   }

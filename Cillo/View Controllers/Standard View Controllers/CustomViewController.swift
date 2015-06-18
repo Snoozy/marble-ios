@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Any UIViewController that is presented modally that still needs a navigation bar should subclass this class.
 class CustomViewController: UIViewController {
@@ -72,5 +73,15 @@ extension CustomViewController: UITextFieldDelegate {
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     textField.resignFirstResponder()
     return true
+  }
+}
+
+// MARK: - JTSImageViewControllerOptionsDelegate
+
+extension CustomTableViewController: JTSImageViewControllerOptionsDelegate {
+  
+  /// Makes the screen black behind the image
+  func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
+    return 1.0
   }
 }

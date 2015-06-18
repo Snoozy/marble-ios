@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTSImageViewController
 
 /// Handles creating new Boards.
 class NewBoardViewController: CustomViewController {
@@ -148,6 +149,15 @@ class NewBoardViewController: CustomViewController {
   }
   
   // MARK: IBActions
+  
+  /// Expands the image displayed in the button to full screen.
+  ///
+  /// :param: sender The button that is touched to send this function is a `photoButton`.
+  @IBAction func boardPhotoButtonPressed(sender: UIButton) {
+    if let image = sender.backgroundImageForState(.Normal) {
+      JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
+    }
+  }
   
   /// Presents an AlertController with ActionSheet style that allows the user to choose a new profile picture.
   ///

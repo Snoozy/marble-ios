@@ -2,6 +2,8 @@
 
 NSDate function convertToTimeString(time:) sometimes returns WTF.
 
+figure out how to make flick to dismiss on images not turn
+
 **Feature TODOs:**
 
 Find way to do multiple image Posts.
@@ -13,8 +15,6 @@ auth token expiration handling
 Error Handling (besides user unauthenticated)
 
 Add a popup tableview when typing in a textfield involving board names.
-
-Expand images in vcs
 
 repost original user in singleuservc -> uservc
 
