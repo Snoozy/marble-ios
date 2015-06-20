@@ -30,6 +30,12 @@ class RegisterViewController: CustomViewController {
   
   // MARK: UIViewController
   
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    if segue.identifier == SegueIdentifiers.registerToLogin {
+      resignTextFieldResponders()
+    }
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupColorScheme()
@@ -38,6 +44,14 @@ class RegisterViewController: CustomViewController {
   }
   
   // MARK: Setup Helper Functions
+  
+  /// Hides the keyboard of all textfields.
+  private func resignTextFieldResponders() {
+    emailTextField.resignFirstResponder()
+    nameTextField.resignFirstResponder()
+    passwordTextField.resignFirstResponder()
+    userTextField.resignFirstResponder()
+  }
   
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {

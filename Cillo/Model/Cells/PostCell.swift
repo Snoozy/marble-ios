@@ -237,13 +237,18 @@ class PostCell: UITableViewCell {
         imagesButton.contentMode = .ScaleAspectFit
       } else if post.isImagePost {
         imagesButton.setTitle("Loading...", forState: .Normal)
+        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }
     }
   }
   
   // MARK: Networking Helper Functions
   
-  // TODO:
+  /// Loads the image for `post.imageURLs[0]` into `imagesButton`.
+  ///
+  /// :param: post The post that contains the correct image url.
+  /// :param: completionHandler The completion block for the network request.
+  /// :param: image The image that was loaded into the button.
   func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
     if let imageURLs = post.imageURLs {
       imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil, success: { request, response, image in

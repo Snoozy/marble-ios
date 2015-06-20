@@ -45,6 +45,7 @@ class SettingsViewController: CustomViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.settingsToTab {
       if let destination = segue.destinationViewController as? TabViewController {
+        resignTextFieldResponders()
         destination.forceDataRetrievalUponUnwinding()
       }
     }
@@ -57,6 +58,13 @@ class SettingsViewController: CustomViewController {
   }
   
   // MARK: Setup Helper Functions
+  
+  /// Hides the keyboard of all textfields.
+  private func resignTextFieldResponders() {
+    bioTextView.resignFirstResponder()
+    nameTextField.resignFirstResponder()
+    usernameTextField.resignFirstResponder()
+  }
   
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
@@ -230,6 +238,7 @@ class SettingsViewController: CustomViewController {
   @IBAction func changePhoto(sender: UIButton) {
     UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
   }
+  
   /// Saves new settings to server. If successful, unwinds this view controller back to the tab bar.
   ///
   /// :param: sender The bar button item that is labeled Save.

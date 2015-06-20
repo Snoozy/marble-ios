@@ -74,6 +74,7 @@ class NewPostViewController: CustomViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.newPostToTab {
       var destination = segue.destinationViewController as! TabViewController
+      resignTextFieldResponders()
       if let sender = sender as? Post {
         let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
         if let nav = destination.selectedViewController as? UINavigationController {
@@ -97,6 +98,13 @@ class NewPostViewController: CustomViewController {
   }
   
   // MARK: Setup Helper Functions
+  
+  /// Hides the keyboard of all textfields.
+  private func resignTextFieldResponders() {
+    postTextView.resignFirstResponder()
+    boardTextField.resignFirstResponder()
+    titleTextField.resignFirstResponder()
+  }
   
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {

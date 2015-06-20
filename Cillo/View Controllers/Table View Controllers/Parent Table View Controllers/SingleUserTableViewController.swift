@@ -529,7 +529,18 @@ class SingleUserTableViewController: CustomTableViewController {
   @IBAction func triggerBoardsSegueOnButton(sender: UIButton) {
     performSegueWithIdentifier(segueIdentifierThisToBoards, sender: sender)
   }
-
+  
+  /// Presents another instance of UserViewController representing the user of an `oringialPost` if a `post` is a Repost.
+  ///
+  /// :param: sender The button that is touched to send this function is an originalUserButton in a RepostCell.
+  @IBAction func triggerOriginalUserTransitionOnButton(sender: UIButton) {
+    if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
+      let userViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.user) as! UserTableViewController
+      userViewController.user = post.originalPost.user
+      navigationController?.pushViewController(userViewController, animated: true)
+    }
+  }
+  
   /// Upvotes a post.
   ///
   /// **Note:** The position of the Post to be upvoted is known via the tag of the button.

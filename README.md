@@ -10,13 +10,9 @@ Find way to do multiple image Posts.
 
 Comments 10 at a time
 
-auth token expiration handling
-
 Error Handling (besides user unauthenticated)
 
 Add a popup tableview when typing in a textfield involving board names.
-
-repost original user in singleuservc -> uservc
 
 **Other:**
 

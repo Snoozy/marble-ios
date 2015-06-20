@@ -75,16 +75,14 @@ class RepostCell: PostCell {
     originalNameButton.enabled = true
     originalPhotoButton.enabled = true
   }
-  
-  // MARK: PostCell
+
+  // MARK: Setup Helper Functions
   
   override func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
     super.assignDelegatesForCellTo(delegate)
     originalPostTTTAttributedLabel.delegate = delegate
   }
   
-  // MARK: Setup Helper Functions
-
   /// Calculates the height of the cell given the properties of `post`.
   ///
   /// :param: post The post that this cell is based on.
@@ -170,6 +168,7 @@ class RepostCell: PostCell {
         imagesButton.contentMode = .ScaleAspectFit
       } else if post.originalPost.isImagePost {
         imagesButton.setTitle("Loading...", forState: .Normal)
+        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }
       
       verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
@@ -178,7 +177,6 @@ class RepostCell: PostCell {
   
   // MARK: Networking Helper Functions
   
-  // TODO:
   override func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
     if let post = post as? Repost, imageURLs = post.originalPost.imageURLs {
       imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil, success: { request, response, image in

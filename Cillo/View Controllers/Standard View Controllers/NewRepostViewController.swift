@@ -15,7 +15,7 @@ class NewRepostViewController: CustomViewController {
   // MARK: Properties
   
   /// The instance of the layout helper. This is needed because scrollView layout gets funky with autolayout.
-  var contentView: RepostContentView!
+  var contentView: RepostContentView?
   
   /// The original post that will be reposted.
   var postToRepost: Post = Post()
@@ -27,12 +27,14 @@ class NewRepostViewController: CustomViewController {
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    contentView = RepostContentView(post: postToRepost, width: view.frame.width)
-    setupUserInfoInContentView()
-    setupScrollView()
-    setupUIDelegates()
-    setupButtonSelectors()
-    contentView.setupColorScheme()
+    if contentView == nil {
+      contentView = RepostContentView(post: postToRepost, width: view.frame.width)
+      setupUserInfoInContentView()
+      setupScrollView()
+      setupUIDelegates()
+      setupButtonSelectors()
+      contentView!.setupColorScheme()
+    }
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -48,40 +50,51 @@ class NewRepostViewController: CustomViewController {
   
   // MARK: Setup Helper Functions
   
+  /// Hides the keyboard of all textfields.
+  private func resignTextFieldResponders() {
+    if let contentView = contentView {
+      contentView.boardTextField.resignFirstResponder()
+      contentView.saySomethingTextView.resignFirstResponder()
+    }
+  }
+  
   /// Sets the buttons to have image expanding events on touch
   private func setupButtonSelectors() {
-    contentView.pictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
-    contentView.originalPictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
-    contentView.originalPostImagesButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView?.pictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView?.originalPictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView?.originalPostImagesButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
   }
   
   /// Sets the user related fields of the contentView.
   private func setupUserInfoInContentView() {
     retrieveEndUser { (user) in
       if let user = user {
-        self.contentView.pictureButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
-        self.contentView.usernameLabel.text = user.name
+        self.contentView?.pictureButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
+        self.contentView?.usernameLabel.text = user.name
       }
     }
   }
   
   /// Sets up the scrollView to contain the contentView.
   private func setupScrollView() {
-    var scrollViewHeight: CGFloat
-    if contentView.frame.height > view.frame.height - imitationNavigationBar.frame.maxY {
-      scrollViewHeight = view.frame.height - imitationNavigationBar.frame.maxY
-    } else {
-      scrollViewHeight = contentView.frame.height
+    if let contentView = contentView {
+      let scrollViewHeight: CGFloat = {
+        if contentView.frame.height > self.view.frame.height - self.imitationNavigationBar.frame.maxY {
+          return self.view.frame.height - self.imitationNavigationBar.frame.maxY
+        } else {
+          return contentView.frame.height
+        }
+      }()
+      scrollView = UIScrollView(frame: CGRect(x: 0, y: imitationNavigationBar.frame.maxY, width: view.frame.width, height: scrollViewHeight))
+      scrollView.contentSize = contentView.frame.size
+      view.addSubview(scrollView)
+      scrollView.addSubview(contentView)
     }
-    scrollView = UIScrollView(frame: CGRect(x: 0, y: imitationNavigationBar.frame.maxY, width: view.frame.width, height: scrollViewHeight))
-    scrollView.contentSize = contentView.frame.size
-    view.addSubview(scrollView)
-    scrollView.addSubview(contentView)
   }
   
   /// Sets the delegates of the items in the contentView.
   private func setupUIDelegates() {
-    contentView.boardTextField.delegate = self
+    contentView?.boardTextField.delegate = self
   }
   
   // MARK: Networking Helper Functions
@@ -92,15 +105,19 @@ class NewRepostViewController: CustomViewController {
   /// :param: post The repost after the server call.
   /// :param: * Nil if the server call was unsuccessful.
   func repostPost(completionHandler: (post: Post?) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-      if let error = error {
-        self.handleError(error)
-        completionHandler(post: nil)
-      } else {
-        completionHandler(post: result)
+    if let contentView = contentView {
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+      DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        if let error = error {
+          self.handleError(error)
+          completionHandler(post: nil)
+        } else {
+          completionHandler(post: result)
+        }
       }
+    } else {
+      completionHandler(post: nil)
     }
   }
   
@@ -128,7 +145,6 @@ class NewRepostViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton`.
   func photoButtonPressed(sender: UIButton) {
-    println("called")
     if let image = sender.backgroundImageForState(.Normal) {
       JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }

@@ -150,6 +150,11 @@ struct StoryboardIdentifiers {
   /// Storyboard identifier for PostTableViewController.
   static let post = "Post"
   
+  // MARK: UserTableViewController
+  
+  /// Storyboard identifier for UserTableViewController.
+  static let user = "User"
+  
   // MARK: PostCell
   
   /// Reuse identifier for PostCell.

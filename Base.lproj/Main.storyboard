@@ -993,7 +993,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2432,6 +2432,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="triggerOriginalUserTransitionOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="KbQ-nu-f6E"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8Y-Jw-mcQ" userLabel="Original Name">
                                             <rect key="frame" x="87" y="82" width="86" height="19"/>
@@ -2443,6 +2446,9 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="triggerOriginalUserTransitionOnButton:" destination="RHX-4q-5ga" eventType="touchUpInside" id="XvO-lU-3HZ"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="on" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1F-XA-hGa" userLabel="Original &quot;on&quot;">
                                             <rect key="frame" x="87" y="102" width="20" height="16"/>
@@ -2825,7 +2831,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Board" title="Board Table" id="99g-h6-cT9" userLabel="Board Table" customClass="BoardTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3587,9 +3593,9 @@
         <!--User Table-->
         <scene sceneID="JLw-EP-Xhs">
             <objects>
-                <tableViewController id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="User" id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -4107,6 +4113,9 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted" backgroundImage="Me"/>
+                                            <connections>
+                                                <action selector="triggerOriginalUserTransitionOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="d63-64-a3r"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fky-jg-tAb" userLabel="Original Name">
                                             <rect key="frame" x="87" y="82" width="86" height="19"/>
@@ -4118,6 +4127,9 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="triggerOriginalUserTransitionOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="xmQ-F5-lmc"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="on" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmt-C7-zag" userLabel="Original &quot;on&quot;">
                                             <rect key="frame" x="87" y="102" width="20" height="16"/>
@@ -4691,7 +4703,7 @@
             <objects>
                 <tableViewController title="Boards Table" id="csT-b3-QYy" userLabel="Boards Table" customClass="BoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -5439,9 +5451,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ndf-JY-QqC"/>
-        <segue reference="0fK-Cx-ysj"/>
-        <segue reference="Jl6-tW-uib"/>
         <segue reference="ErJ-Pf-JZ7"/>
+        <segue reference="Ndf-JY-QqC"/>
+        <segue reference="lj2-2c-ePA"/>
+        <segue reference="Jl6-tW-uib"/>
     </inferredMetricsTieBreakers>
 </document>
