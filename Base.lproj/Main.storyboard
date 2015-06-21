@@ -86,7 +86,7 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BZ-Mn-CNE" userLabel="Followers Count">
-                                            <rect key="frame" x="85" y="46" width="77.5" height="22"/>
+                                            <rect key="frame" x="85" y="46" width="78" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="oKa-V3-bX5"/>
                                             </constraints>
@@ -254,7 +254,7 @@
                                 </connections>
                             </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAT-iQ-egI" userLabel="Display Name">
-                                <rect key="frame" x="64" y="82" width="80.5" height="20.5"/>
+                                <rect key="frame" x="64" y="82" width="81" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -406,7 +406,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E84-Bc-RzA" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -478,12 +478,12 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkr-Mo-Mmv" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvH-LG-ily" userLabel="Upvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvH-LG-ily" userLabel="Upvote">
                                             <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="hvH-LG-ily" secondAttribute="height" multiplier="1:1" id="YzO-mq-tlA"/>
@@ -496,7 +496,7 @@
                                                 <action selector="upvotePostPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="tft-s0-rkP"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKS-gR-T7c" userLabel="Downvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKS-gR-T7c" userLabel="Downvote">
                                             <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="SKS-gR-T7c" secondAttribute="height" multiplier="1:1" id="U7q-5b-qxh"/>
@@ -650,7 +650,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3d-Id-v5v" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -804,13 +804,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7Z-jn-oFx" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1z-Jm-C6m" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="pXT-w2-M8p"/>
                                             </constraints>
@@ -822,7 +822,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wjw-MX-srS" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="wjw-MX-srS" secondAttribute="height" multiplier="1:1" id="RE8-84-Teb"/>
                                             </constraints>
@@ -1003,8 +1003,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="aKi-Az-JxR" id="obU-zP-zUJ">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7L-0B-hP7" userLabel="&quot;No comments...&quot;">
-                                            <rect key="frame" x="239.5" y="9.5" width="122.5" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7L-0B-hP7" userLabel="&quot;No comments...&quot;">
+                                            <rect key="frame" x="240" y="10" width="123" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1023,13 +1023,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retrieving comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlG-cw-4Qf" userLabel="&quot;Retrieving comments...&quot;">
-                                            <rect key="frame" x="229" y="9" width="177" height="20.5"/>
+                                            <rect key="frame" x="229" y="9" width="177" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zmt-wX-ONG">
-                                            <rect key="frame" x="193.5" y="10" width="20" height="20"/>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zmt-wX-ONG">
+                                            <rect key="frame" x="194" y="10" width="20" height="20"/>
                                         </activityIndicatorView>
                                     </subviews>
                                     <constraints>
@@ -1080,7 +1080,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbV-f6-8mW" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1137,13 +1137,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQf-4k-m6v" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cB0-Nl-BS6" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="Asq-Xl-uSK"/>
                                                 <constraint firstAttribute="width" secondItem="cB0-Nl-BS6" secondAttribute="height" multiplier="1:1" id="cTZ-Am-xit"/>
@@ -1156,7 +1156,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JlG-fF-eoR" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="JlG-fF-eoR" secondAttribute="height" multiplier="1:1" id="2Il-m9-clu"/>
                                             </constraints>
@@ -1302,7 +1302,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCE-PT-VFy" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1441,13 +1441,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1j-Iq-1wx" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mx-68-4O1" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="Lrb-a3-xdN"/>
                                             </constraints>
@@ -1459,7 +1459,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8Y-b1-9pb" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="h8Y-b1-9pb" secondAttribute="height" multiplier="1:1" id="6Xc-HH-X0C"/>
                                             </constraints>
@@ -1939,7 +1939,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0s-56-lzP" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="239" y="9" width="123" height="20.5"/>
+                                            <rect key="frame" x="239" y="9" width="123" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1957,8 +1957,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="LST-ss-pew" id="HMi-MP-9If">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmC-Gq-r4h" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="258.5" y="9" width="84" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmC-Gq-r4h" userLabel="&quot;No posts...&quot;">
+                                            <rect key="frame" x="259" y="9" width="84" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2015,7 +2015,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k REP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qvz-Jo-zIl" userLabel="Rep">
-                                            <rect key="frame" x="8" y="175" width="69.5" height="22"/>
+                                            <rect key="frame" x="8" y="175" width="70" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="F1h-9N-NQB"/>
                                             </constraints>
@@ -2136,7 +2136,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrQ-eR-2RL" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2208,12 +2208,12 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joh-EH-RJh" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mf5-XV-f40" userLabel="Upvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mf5-XV-f40" userLabel="Upvote">
                                             <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="mf5-XV-f40" secondAttribute="height" multiplier="1:1" id="AFs-AC-ygy"/>
@@ -2226,7 +2226,7 @@
                                                 <action selector="upvotePostPressed:" destination="RHX-4q-5ga" eventType="touchUpInside" id="SaV-4z-Ezm"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7bI-Qb-9xC" userLabel="Downvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7bI-Qb-9xC" userLabel="Downvote">
                                             <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="7bI-Qb-9xC" secondAttribute="height" multiplier="1:1" id="AGs-d0-G6R"/>
@@ -2377,7 +2377,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRA-Ve-fl4" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2531,13 +2531,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oaE-AN-d7w" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFM-zB-Hpb" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="WIh-gT-iKs"/>
                                             </constraints>
@@ -2549,7 +2549,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5W-Ho-xOL" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="q5W-Ho-xOL" secondAttribute="height" multiplier="1:1" id="78s-2X-KXx"/>
                                             </constraints>
@@ -2841,8 +2841,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="D4J-Ou-5XH" id="5V0-PC-Rhg">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WP8-gN-29W" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="258.5" y="9" width="84" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WP8-gN-29W" userLabel="&quot;No posts...&quot;">
+                                            <rect key="frame" x="259" y="9" width="84" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2913,7 +2913,7 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMX-L1-X97" userLabel="Followers Count">
-                                            <rect key="frame" x="85" y="46" width="77.5" height="22"/>
+                                            <rect key="frame" x="85" y="46" width="78" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="FIy-0S-X1x"/>
                                             </constraints>
@@ -2957,7 +2957,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retrieving posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyU-gy-d3a" userLabel="&quot;Retrieving posts...&quot;">
-                                            <rect key="frame" x="248" y="9" width="139" height="20.5"/>
+                                            <rect key="frame" x="248" y="9" width="139" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3014,7 +3014,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Tb-dW-ed9" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3083,12 +3083,12 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0h-OR-oox" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-X5-W1a" userLabel="Upvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-X5-W1a" userLabel="Upvote">
                                             <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="6HE-X5-W1a" secondAttribute="height" multiplier="1:1" id="0dL-VC-tSQ"/>
@@ -3101,7 +3101,7 @@
                                                 <action selector="upvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="WqQ-29-ttd"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-IX-2mO" userLabel="Downvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-IX-2mO" userLabel="Downvote">
                                             <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="6ge-IX-2mO" secondAttribute="height" multiplier="1:1" id="LEY-fW-BOt"/>
@@ -3255,7 +3255,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2W7-2J-eQd" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3406,13 +3406,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cre-G5-4UX" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdp-E7-8a7" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="kD8-HF-ppR"/>
                                             </constraints>
@@ -3424,7 +3424,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jmb-jh-ww3" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="208" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="jmb-jh-ww3" secondAttribute="height" multiplier="1:1" id="K93-zi-Kdf"/>
                                             </constraints>
@@ -3605,8 +3605,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="JZi-1l-Kg7" id="4y4-NH-14W">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymL-1y-p9g" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="258.5" y="9" width="84" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymL-1y-p9g" userLabel="&quot;No posts...&quot;">
+                                            <rect key="frame" x="259" y="9" width="84" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3625,7 +3625,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retrieving posts and comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCY-Nm-eKf" userLabel="&quot;Retrieving posts...&quot;">
-                                            <rect key="frame" x="189" y="9" width="258" height="20.5"/>
+                                            <rect key="frame" x="189" y="9" width="258" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3655,7 +3655,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jM-Po-HCU" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="239" y="9" width="123" height="20.5"/>
+                                            <rect key="frame" x="239" y="9" width="123" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3704,7 +3704,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k REP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDO-q8-tfr" userLabel="Rep">
-                                            <rect key="frame" x="8" y="175" width="69.5" height="22"/>
+                                            <rect key="frame" x="8" y="175" width="70" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="KgE-LE-sKE"/>
                                             </constraints>
@@ -3817,7 +3817,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VP0-yS-7ZP" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3889,13 +3889,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WuJ-AT-cuE" userLabel="Rep">
-                                            <rect key="frame" x="8" y="152" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="152" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTg-cg-NaM" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="46" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="CTg-cg-NaM" secondAttribute="height" multiplier="1:1" id="6us-bF-KbZ"/>
                                                 <constraint firstAttribute="height" constant="32" id="cEK-3K-6yM"/>
@@ -3908,7 +3908,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PXq-gc-LRG" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="86" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="PXq-gc-LRG" secondAttribute="height" multiplier="1:1" id="IQn-EV-mm2"/>
                                             </constraints>
@@ -4058,7 +4058,7 @@
                                             </state>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fm-Ph-4Bz" userLabel="Time">
-                                            <rect key="frame" x="563" y="8" width="29" height="20.5"/>
+                                            <rect key="frame" x="563" y="8" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -4212,12 +4212,12 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5k" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUV-5k-0wC" userLabel="Rep">
-                                            <rect key="frame" x="8" y="215" width="29.5" height="18"/>
+                                            <rect key="frame" x="8" y="215" width="30" height="18"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psu-cc-hM1" userLabel="Upvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psu-cc-hM1" userLabel="Upvote">
                                             <rect key="frame" x="45" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="pRy-Eb-Gq7"/>
@@ -4229,7 +4229,7 @@
                                                 <action selector="upvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="MyA-CO-agV"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFb-8j-gIz" userLabel="Downvote">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFb-8j-gIz" userLabel="Downvote">
                                             <rect key="frame" x="85" y="208" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="KFb-8j-gIz" secondAttribute="height" multiplier="1:1" id="IgU-Ti-WO8"/>
@@ -4511,11 +4511,11 @@
                                     <outlet property="delegate" destination="OOk-WO-h23" id="LZf-pL-Rlk"/>
                                 </connections>
                             </navigationBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bs6-9z-4E4" userLabel="Content View">
-                                <rect key="frame" x="16" y="72" width="568" height="308.5"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bs6-9z-4E4" userLabel="Content View">
+                                <rect key="frame" x="16" y="72" width="568" height="309"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qub-KO-OLt" userLabel="&quot;Name&quot;">
-                                        <rect key="frame" x="8" y="17" width="45.5" height="20.5"/>
+                                        <rect key="frame" x="8" y="17" width="46" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -4535,7 +4535,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvV-cm-JVp" userLabel="&quot;Username&quot;">
-                                        <rect key="frame" x="8" y="75" width="79" height="20.5"/>
+                                        <rect key="frame" x="8" y="75" width="79" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -4551,7 +4551,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EV3-5z-4Qr" userLabel="&quot;Password&quot;">
-                                        <rect key="frame" x="8" y="126" width="76" height="20.5"/>
+                                        <rect key="frame" x="8" y="126" width="76" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -4563,14 +4563,14 @@
                                             <constraint firstAttribute="height" constant="1" id="tPg-V1-Yu6"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZy-B7-qOL" userLabel="&quot;Bio&quot;">
-                                        <rect key="frame" x="8" y="194.5" width="25.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZy-B7-qOL" userLabel="&quot;Bio&quot;">
+                                        <rect key="frame" x="8" y="195" width="26" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ats-b4-Dc0" userLabel="Bio">
-                                        <rect key="frame" x="112" y="167" width="447.5" height="74"/>
+                                        <rect key="frame" x="112" y="167" width="448" height="74"/>
                                         <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="74" id="YlC-i6-klx"/>
@@ -4586,7 +4586,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2LY-dY-RBC" userLabel="&quot;Photo&quot;">
-                                        <rect key="frame" x="8" y="273" width="46" height="20.5"/>
+                                        <rect key="frame" x="8" y="273" width="46" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -4770,7 +4770,7 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xb-OK-ruP" userLabel="Followers Count">
-                                            <rect key="frame" x="85" y="46" width="77.5" height="22"/>
+                                            <rect key="frame" x="85" y="46" width="78" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="bxL-yp-5lo"/>
                                             </constraints>
@@ -5125,8 +5125,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="agu-ST-xUw" id="Prh-5N-htW">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dt2-K3-pms" userLabel="Separator">
-                                            <rect key="frame" x="0.0" y="70" width="600" height="0.5"/>
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dt2-K3-pms" userLabel="Separator">
+                                            <rect key="frame" x="0.0" y="70" width="600" height="1"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujd-dJ-tA3" userLabel="Photo">
@@ -5451,9 +5451,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ErJ-Pf-JZ7"/>
-        <segue reference="Ndf-JY-QqC"/>
         <segue reference="lj2-2c-ePA"/>
+        <segue reference="Ndf-JY-QqC"/>
         <segue reference="Jl6-tW-uib"/>
+        <segue reference="162-n2-HAP"/>
     </inferredMetricsTieBreakers>
 </document>

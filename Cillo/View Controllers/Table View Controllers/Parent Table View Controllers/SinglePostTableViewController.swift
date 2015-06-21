@@ -70,6 +70,9 @@ class SinglePostTableViewController: CustomTableViewController {
       var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
         if sender.tag >= postCellTag {
+          println("here")
+          println(sender.tag)
+          println(postCellTag)
           if let post = post as? Repost where sender.tag == postCellTag + RepostCell.tagModifier {
               destination.user = post.originalPost.user
           } else {
@@ -218,7 +221,7 @@ class SinglePostTableViewController: CustomTableViewController {
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
       }
     }
-    cell.makeCellFromPost(post, withButtonTag: indexPath.row)
+    cell.makeCellFromPost(post, withButtonTag: postCellTag)
     cell.assignDelegatesForCellTo(self)
     return cell
   }
