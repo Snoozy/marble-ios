@@ -119,6 +119,11 @@ class LogInViewController: CustomViewController {
   
   // MARK: Error Handling Helper Functions
   
+  override func handlePasswordIncorrectError(error: NSError) {
+    let alert = UIAlertController(title: "Error", message: "Username and password do not match.", preferredStyle: .Alert)
+    presentViewController(alert, animated: true, completion: nil)
+  }
+  
   override func handleUserUnauthenticatedError(error: NSError) {
     error.showAlert()
   }

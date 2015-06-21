@@ -86,6 +86,8 @@ class Post: NSObject {
   ///
   /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
   init(json: JSON) {
+    println(json["time"].int64Value)
+    println(NSDate().timeIntervalSince1970)
     postID = json["post_id"].intValue
     text = json["content"].stringValue
     board = Board(json: json["board"])

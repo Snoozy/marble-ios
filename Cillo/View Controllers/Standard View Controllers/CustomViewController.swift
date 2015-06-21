@@ -40,6 +40,10 @@ class CustomViewController: UIViewController {
       switch error.code {
       case NSError.CilloErrorCodes.userUnauthenticated:
         handleUserUnauthenticatedError(error)
+      case NSError.CilloErrorCodes.usernameTaken:
+        handleUsernameTakenError(error)
+      case NSError.CilloErrorCodes.passwordIncorrect:
+        handlePasswordIncorrectError(error)
       default:
         error.showAlert()
       }
@@ -48,7 +52,25 @@ class CustomViewController: UIViewController {
   
   // MARK: Error Handling Helper Functions
   
+  /// Handles a cillo error with code `NSError.CilloErrorCodes.passwordIncorrect`.
+  ///
+  /// **Note:** Default implementation does nothing.
+  ///
+  /// :param: error The error to be handled.
+  func handlePasswordIncorrectError(error: NSError) {
+  }
+  
+  /// Handles a cillo error with code `NSError.CilloErrorCodes.usernameTaken`.
+  ///
+  /// **Note:** Default implementation does nothing.
+  ///
+  /// :param: error The error to be handled.
+  func handleUsernameTakenError(error: NSError) {
+  }
+  
   /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
+  ///
+  /// **Note:** Default implementation presents a LoginVC.
   ///
   /// :param: error The error to be handled.
   func handleUserUnauthenticatedError(error: NSError) {

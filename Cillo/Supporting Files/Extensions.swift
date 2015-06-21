@@ -125,6 +125,12 @@ extension NSError {
   /// Contains all error codes for Cillo related errors
   struct CilloErrorCodes {
     
+    /// Error code for a password incorrect error on a login attempt.
+    static let passwordIncorrect = 20
+    
+    /// Error code for a username taken error on a registration attempt.
+    static let usernameTaken = 30
+    
     /// Error code for a user unauthenticated error.
     static let userUnauthenticated = 10
   }
