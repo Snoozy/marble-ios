@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import Alamofire
 import SwiftKeychainWrapper
 
@@ -35,6 +36,12 @@ import SwiftKeychainWrapper
 /// * UserComments(Int, Int?): Request to retrieve the comments that a specific user has made. parameter is a user id and the page number in the list of comments.
 /// * BoardSearch: Request to retrieve the boards that match a specific search string.
 /// * BoardAutocomplete: Request to retrieve board names that autocomplete a specific search string.
+/// * Notifications: Request to retrieve the notifications for the end user.
+/// * Conversations: Request to retrieve the conversations for the end user.
+/// * ConversationMessages(Int): Request to retrieve the last 20 messages of a conversation. Parameter is the id of the conversation.
+/// * ConversationPaged(Int, Int): Request to retrieve earlier messages than what is retrieved by ConversationMessages. First parameter is the conversation id. Second parameter is the id of the oldest message already retrieved.
+/// * ConversationPoll(Int, Int): Request to retrieve new messages and check if there are any new messages. First parameter is the conversation id. Second parameter is the id of the newest message already retrieved.
+///
 ///
 /// POST Requests:
 ///
@@ -54,6 +61,7 @@ import SwiftKeychainWrapper
 /// * SelfSettings: Request to update the settings of the end user.
 /// * PasswordUpdate: Reuqest to update the password of the end user.
 /// * ReadNotifications: Request to read the notifications of the end user.
+/// * SendMessage(Int): Request to send a message to a user. Parameter is the id of the user that the end user is sending to.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
   static let baseURLString = "http://api.cillo.co"
@@ -72,6 +80,10 @@ enum Router: URLStringConvertible {
   case BoardSearch
   case BoardAutocomplete
   case Notifications
+  case Conversations
+  case ConversationMessages(Int)
+  case ConversationPaged(Int, Int)
+  case ConversationPoll(Int, Int)
   
   //POST
   case Register
@@ -90,6 +102,7 @@ enum Router: URLStringConvertible {
   case SelfSettings
   case PasswordUpdate
   case ReadNotifications
+  case SendMessage(Int)
   
   /// URL of the server call.
   var URLString: String {
@@ -134,6 +147,14 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/boards/autocomplete\(authString)"
       case .Notifications:
         return "/\(vNum)/me/notifications\(authString)"
+      case .Conversations:
+        return "/\(vNum)/me/conversations\(authString)"
+      case .ConversationMessages(let conversationID):
+        return "/\(vNum)/conversations/\(conversationID)/messages\(authString)"
+      case .ConversationPaged(let conversationID, let beforeMessageID):
+        return "/\(vNum)/conversations/\(conversationID)/paged\(authString)&before=\(beforeMessageID)"
+      case .ConversationPoll(let conversationID, let afterMessageID):
+        return "/\(vNum)/conversations/\(conversationID)/poll\(authString)&after=\(afterMessageID)"
         
         // POST
       case .Register:
@@ -168,6 +189,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/me/settings/password\(authString)"
       case .ReadNotifications:
         return "/\(vNum)/me/notifications/read\(authString)"
+      case .SendMessage(let userID):
+        return "/\(vNum)/user/\(userID)/message\(authString)"
       }
     }()
     
@@ -209,6 +232,14 @@ enum Router: URLStringConvertible {
       return "Board Autocomplete"
     case .Notifications:
       return "End User Notifications"
+    case .Conversations:
+      return "End User Conversations"
+    case .ConversationMessages(let conversationID):
+      return "Conversation \(conversationID) Messages"
+    case .ConversationPaged(let conversationID, let beforeMessageID):
+      return "Conversation \(conversationID) Paged Before \(beforeMessageID)"
+    case .ConversationPoll(let conversationID, let afterMessageID):
+      return "Conversation \(conversationID) Polled After \(afterMessageID)"
       
       // POST
     case .Register:
@@ -243,6 +274,8 @@ enum Router: URLStringConvertible {
       return "Update End User Password"
     case .ReadNotifications:
       return "Read End User Notifications"
+    case .SendMessage(let userID):
+      return "End User Send Message to User \(userID)"
     }
   }
 }
@@ -254,7 +287,7 @@ enum Router: URLStringConvertible {
 /// **Warning:** Always call this class's methods through the sharedInstance.
 class DataManager: NSObject {
   
-  // MARK: Constants
+  // MARK: Singleton
   
   /// Singleton network manager.
   ///
@@ -264,6 +297,21 @@ class DataManager: NSObject {
       static var instance: DataManager = DataManager()
     }
     return Static.instance
+  }
+  
+  // MARK: Properties
+  
+  /// Property used to keep track of the number of active requests happening in the server at a time.
+  ///
+  /// Property manages the visibility of the network activity indicator in the status bar.
+  var activeRequests = 0 {
+    didSet {
+      if activeRequests > 0 {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+      } else {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      }
+    }
   }
   
   // MARK: Networking Functions

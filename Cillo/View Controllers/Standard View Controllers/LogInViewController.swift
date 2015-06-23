@@ -78,9 +78,9 @@ class LogInViewController: CustomViewController {
   /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -101,9 +101,9 @@ class LogInViewController: CustomViewController {
   /// :param: completionHandler The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
   func retrieveEndUser(completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getEndUserInfo { error, user in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)

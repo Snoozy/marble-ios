@@ -163,8 +163,6 @@ class CommentCell: UITableViewCell {
     photoButton.layer.cornerRadius = 5.0
     
     if comment.user.isAnon {
-      nameButton.setTitle(nameTitle, forState: .Disabled)
-      photoButton.setBackgroundImageForState(.Disabled, withURL: comment.user.photoURL)
       nameButton.enabled = false
       photoButton.enabled = false
     }

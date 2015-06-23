@@ -149,6 +149,7 @@ class PostCell: UITableViewCell {
     let nameTitle = "\(post.user.name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     boardButton.setTitle(post.board.name, forState: .Normal)
+    DataManager.sharedInstance.activeRequests++
     photoButton.setBackgroundImageForState(.Normal, withURL: post.user.photoURL)
     timeLabel.text = post.time
     
@@ -158,8 +159,6 @@ class PostCell: UITableViewCell {
     postTTTAttributedLabel.setupWithText(post.text, andFont: PostCell.postTTTAttributedLabelFont)
     
     if post.user.isAnon {
-      nameButton.setTitle(nameTitle, forState: .Disabled)
-      photoButton.setBackgroundImageForState(.Disabled, withURL: post.user.photoURL)
       nameButton.enabled = false
       photoButton.enabled = false
     }
@@ -251,9 +250,11 @@ class PostCell: UITableViewCell {
   /// :param: image The image that was loaded into the button.
   func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
     if let imageURLs = post.imageURLs {
-      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil, success: { request, response, image in
-        completionHandler(image: image)
-      }, failure: nil)
+      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil,
+        success: { request, response, image in
+          completionHandler(image: image)
+        },
+        failure: nil)
     }
   }
 }

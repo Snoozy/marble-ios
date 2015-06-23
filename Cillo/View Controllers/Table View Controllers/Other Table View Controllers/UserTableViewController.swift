@@ -85,9 +85,9 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(comments: nil)
@@ -134,9 +134,9 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(posts: nil)

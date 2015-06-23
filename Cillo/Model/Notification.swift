@@ -88,9 +88,9 @@ class Notification: NSObject {
     }()
     let boldTitleUserString = NSMutableAttributedString(string: titleUser.name, attributes: [NSFontAttributeName: NotificationCell.boldMessageTTTAttributedLabelFont])
     let middleString = NSMutableAttributedString(string: " \(otherString)\(actionTypeString) your \(entityTypeString): ", attributes: [NSFontAttributeName: NotificationCell.messageTTTAttributedLabelFont])
-    let boldPreviewString = NSMutableAttributedString(string: preview, attributes: [NSFontAttributeName: NotificationCell.boldMessageTTTAttributedLabelFont])
+    let italicPreviewString = NSMutableAttributedString(string: preview, attributes: [NSFontAttributeName: NotificationCell.italicMessageTTTAttributedLabelFont])
     boldTitleUserString.appendAttributedString(middleString)
-    boldTitleUserString.appendAttributedString(boldPreviewString)
+    boldTitleUserString.appendAttributedString(italicPreviewString)
     return boldTitleUserString
   }
   
@@ -149,5 +149,4 @@ class Notification: NSObject {
   override init() {
     super.init()
   }
-  
 }

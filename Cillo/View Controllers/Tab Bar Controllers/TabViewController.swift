@@ -124,7 +124,9 @@ class TabViewController: UITabBarController {
   /// :param: completionHandler The completion block for the network request.
   /// :param: notifications The array of notifications retrieved from the server.
   func getNotifications(completionHandler: (notifications: [Notification]?) -> ()) {
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getEndUserNotifications { error, result in
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(notifications: nil)

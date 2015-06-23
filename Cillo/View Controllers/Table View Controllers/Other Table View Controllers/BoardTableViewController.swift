@@ -87,9 +87,9 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getBoardFeedByID(board.boardID, lastPostID: posts.last?.postID) { error, result in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(posts: nil)

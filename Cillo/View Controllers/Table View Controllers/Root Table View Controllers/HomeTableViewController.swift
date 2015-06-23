@@ -85,9 +85,9 @@ class HomeTableViewController: MultiplePostsTableViewController {
   /// :param: posts The posts in the end user's home feed.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getHomeFeed(lastPostID: posts.last?.postID) { error, result in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(posts: nil)

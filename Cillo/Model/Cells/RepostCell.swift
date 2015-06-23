@@ -127,8 +127,6 @@ class RepostCell: PostCell {
       goToOriginalPostButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       
       if post.originalPost.user.isAnon {
-        originalNameButton.setTitle(nameTitle, forState: .Disabled)
-        originalPhotoButton.setBackgroundImageForState(.Disabled, withURL: post.user.photoURL)
         originalNameButton.enabled = false
         originalPhotoButton.enabled = false
       }
@@ -179,9 +177,12 @@ class RepostCell: PostCell {
   
   override func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
     if let post = post as? Repost, imageURLs = post.originalPost.imageURLs {
-      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil, success: { request, response, image in
+      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil,
+        success: { request, response, image in
           completionHandler(image: image)
-        }, failure: nil)
+        },
+        failure: nil)
+      
     }
   }
 }

@@ -95,9 +95,9 @@ class SettingsViewController: CustomViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if this request was successful. If error was received, it is false.
   func updatePasswordFrom(old: String, to new: String, completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { error, success in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -116,12 +116,12 @@ class SettingsViewController: CustomViewController {
     let newName = nameTextField.text != user.name ? nameTextField.text : ""
     let newUsername = usernameTextField.text != user.username ? usernameTextField.text : ""
     let newBio = bioTextView.text != user.bio ? bioTextView.text : ""
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     if let photo = photoButton.backgroundImageForState(.Normal) where photoChanged {
       uploadImage(photo) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio, newMediaID: mediaID) { error, result in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            DataManager.sharedInstance.activeRequests--
             if let error = error {
               self.handleError(error)
               completionHandler(user: nil)
@@ -130,13 +130,13 @@ class SettingsViewController: CustomViewController {
             }
           }
         } else {
-          UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+          DataManager.sharedInstance.activeRequests--
           completionHandler(user: nil)
         }
       }
     } else {
       DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio) { error, result in
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(user: nil)
@@ -154,11 +154,11 @@ class SettingsViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { error, result in
       activityIndicator.removeFromSuperview()
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(mediaID: nil)
@@ -270,7 +270,6 @@ extension SettingsViewController: UIImagePickerControllerDelegate {
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       photoButton.setBackgroundImage(image, forState: .Normal)
-      photoButton.setBackgroundImage(image, forState: .Highlighted)
       photoChanged = true
     }
     dismissViewControllerAnimated(true, completion: nil)

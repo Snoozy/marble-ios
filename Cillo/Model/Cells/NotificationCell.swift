@@ -39,6 +39,11 @@ class NotificationCell: UITableViewCell {
     return UIFont.boldSystemFontOfSize(15.0)
   }
   
+  /// Italic font of messageTTTAttributedLabel.
+  class var italicMessageTTTAttributedLabelFont: UIFont {
+    return UIFont.italicSystemFontOfSize(15.0)
+  }
+  
   /// Font of messageTTTAttributedLabel.
   class var messageTTTAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)

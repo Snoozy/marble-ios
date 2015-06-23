@@ -246,9 +246,9 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -263,9 +263,9 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
   func followBoard(completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.followBoardWithID(board.boardID) { error, success in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -281,9 +281,9 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -298,9 +298,9 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
   func unfollowBoard(completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.unfollowBoardWithID(board.boardID) { error, success in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)

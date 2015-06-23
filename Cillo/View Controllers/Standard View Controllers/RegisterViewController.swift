@@ -86,9 +86,9 @@ class RegisterViewController: CustomViewController {
   /// :param: completionHandler The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completionHandler: (success: Bool) -> ()) {
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { error, success in
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)

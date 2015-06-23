@@ -32,6 +32,8 @@
 		959E0F111A253A1E008B4D19 /* MyBoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */; };
 		95A0575E1A463F6B000F7142 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A0575D1A463F6B000F7142 /* LogInViewController.swift */; };
 		95A057611A4640F2000F7142 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A057601A4640F2000F7142 /* TabViewController.swift */; };
+		95A14A401B3A008700C40936 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A14A3F1B3A008700C40936 /* Message.swift */; };
+		95A14A421B3A01F300C40936 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A14A411B3A01F300C40936 /* Conversation.swift */; };
 		95A1C9351A0BE95600914DB0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1C9341A0BE95600914DB0 /* User.swift */; };
 		95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */; };
 		95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */; };
@@ -112,6 +114,8 @@
 		959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyBoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MyBoardsTableViewController.swift"; sourceTree = "<group>"; };
 		95A0575D1A463F6B000F7142 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogInViewController.swift; path = "View Controllers/Standard View Controllers/LogInViewController.swift"; sourceTree = "<group>"; };
 		95A057601A4640F2000F7142 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabViewController.swift; path = "View Controllers/Tab Bar Controllers/TabViewController.swift"; sourceTree = "<group>"; };
+		95A14A3F1B3A008700C40936 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Model/Message.swift; sourceTree = "<group>"; };
+		95A14A411B3A01F300C40936 /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Conversation.swift; path = Model/Conversation.swift; sourceTree = "<group>"; };
 		95A1C9341A0BE95600914DB0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPostViewController.swift; path = "Cillo/View Controllers/Standard View Controllers/NewPostViewController.swift"; sourceTree = SOURCE_ROOT; };
 		95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Supporting Files/Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 				959E0F0E1A2538D7008B4D19 /* Board.swift */,
 				95A1C9341A0BE95600914DB0 /* User.swift */,
 				9501BDC01B2E911E00308AC4 /* Notification.swift */,
+				95A14A3F1B3A008700C40936 /* Message.swift */,
+				95A14A411B3A01F300C40936 /* Conversation.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				954A5DE61A4D00E50011DB1C /* RepostCell.swift in Sources */,
+				95A14A421B3A01F300C40936 /* Conversation.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
 				958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */,
 				954382961A5A7F8A0036C237 /* SingleBoardTableViewController.swift in Sources */,
@@ -588,6 +595,7 @@
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
 				9501BDC11B2E911E00308AC4 /* Notification.swift in Sources */,
 				9587A7381A43F09E003CDE64 /* MultipleBoardsTableViewController.swift in Sources */,
+				95A14A401B3A008700C40936 /* Message.swift in Sources */,
 				95A4BD7C1A5C885900CFD4DA /* NewPostViewController.swift in Sources */,
 				95D37C371AE86873008B362D /* SettingsViewController.swift in Sources */,
 			);
