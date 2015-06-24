@@ -82,9 +82,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   /// :param: completionHandler The completion block for the repost.
   /// :param: success True if the request was successful.
   func readNotifications(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.readEndUserNotifications { error, success in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)

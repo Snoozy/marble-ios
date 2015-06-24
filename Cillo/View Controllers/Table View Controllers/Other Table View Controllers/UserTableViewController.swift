@@ -85,9 +85,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(comments: nil)
@@ -134,9 +132,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(posts: nil)

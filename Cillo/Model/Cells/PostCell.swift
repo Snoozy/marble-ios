@@ -149,8 +149,7 @@ class PostCell: UITableViewCell {
     let nameTitle = "\(post.user.name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
     boardButton.setTitle(post.board.name, forState: .Normal)
-    DataManager.sharedInstance.activeRequests++
-    photoButton.setBackgroundImageForState(.Normal, withURL: post.user.photoURL)
+    photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
     timeLabel.text = post.time
     
     photoButton.clipsToBounds = true
@@ -250,11 +249,16 @@ class PostCell: UITableViewCell {
   /// :param: image The image that was loaded into the button.
   func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
     if let imageURLs = post.imageURLs {
+      DataManager.sharedInstance.activeRequests++
       imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil,
-        success: { request, response, image in
+        success: { _, _, image in
+          DataManager.sharedInstance.activeRequests--
           completionHandler(image: image)
         },
-        failure: nil)
+        failure:{ _ in
+          DataManager.sharedInstance.activeRequests--
+        }
+      )
     }
   }
 }

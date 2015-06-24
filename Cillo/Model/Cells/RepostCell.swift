@@ -117,7 +117,7 @@ class RepostCell: PostCell {
       let nameTitle = "\(post.originalPost.user.name)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
       originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
-      originalPhotoButton.setBackgroundImageForState(.Normal, withURL: post.originalPost.user.photoURL)
+      originalPhotoButton.setBackgroundImageToImageWithURL(post.originalPost.user.photoURL, forState: .Normal)
       
       originalPhotoButton.clipsToBounds = true
       originalPhotoButton.layer.cornerRadius = 5.0
@@ -177,11 +177,16 @@ class RepostCell: PostCell {
   
   override func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
     if let post = post as? Repost, imageURLs = post.originalPost.imageURLs {
+      DataManager.sharedInstance.activeRequests++
       imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil,
-        success: { request, response, image in
+        success: { _, _, image in
+          DataManager.sharedInstance.activeRequests--
           completionHandler(image: image)
         },
-        failure: nil)
+        failure: { _ in
+          DataManager.sharedInstance.activeRequests--
+        }
+      )
       
     }
   }

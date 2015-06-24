@@ -111,7 +111,7 @@ class BoardCell: UITableViewCell {
   func makeCellFromBoard(board: Board, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     let scheme = ColorScheme.defaultScheme
     
-    photoButton.setBackgroundImageForState(.Normal, withURL: board.photoURL)
+    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
     nameButton.setTitle(board.name, forState: .Normal)
     
     photoButton.clipsToBounds = true

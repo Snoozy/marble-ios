@@ -126,7 +126,7 @@ class NewPostViewController: CustomViewController {
       if let user = user {
         self.userPhotoButton.clipsToBounds = true
         self.userPhotoButton.layer.cornerRadius = 5.0
-        self.userPhotoButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
+        self.userPhotoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
         self.usernameLabel.text = user.name
       }
     }
@@ -165,12 +165,10 @@ class NewPostViewController: CustomViewController {
   ///
   /// :param: * Nil if server call passed an error back.
   func createPost(completionHandler: (post: Post?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.createPostByBoardName(self.boardTextField.text, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
-            DataManager.sharedInstance.activeRequests--
             if let error = error {
               self.handleError(error)
               completionHandler(post: nil)
@@ -179,13 +177,11 @@ class NewPostViewController: CustomViewController {
             }
           }
         } else {
-          DataManager.sharedInstance.activeRequests--
           completionHandler(post: nil)
         }
       }
     } else {
       DataManager.sharedInstance.createPostByBoardName(boardTextField.text, text: postTextView.text, title: self.titleTextField.text) { error, result in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(post: nil)
@@ -202,9 +198,7 @@ class NewPostViewController: CustomViewController {
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
   func retrieveEndUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getEndUserInfo { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(user: nil)
@@ -221,11 +215,9 @@ class NewPostViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
-    DataManager.sharedInstance.activeRequests++
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { error, result in
       activityIndicator.removeFromSuperview()
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(mediaID: nil)

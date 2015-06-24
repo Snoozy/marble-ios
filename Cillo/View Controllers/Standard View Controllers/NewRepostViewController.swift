@@ -69,7 +69,7 @@ class NewRepostViewController: CustomViewController {
   private func setupUserInfoInContentView() {
     retrieveEndUser { (user) in
       if let user = user {
-        self.contentView?.pictureButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
+        self.contentView?.pictureButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
         self.contentView?.usernameLabel.text = user.name
       }
     }
@@ -106,9 +106,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: * Nil if the server call was unsuccessful.
   func repostPost(completionHandler: (post: Post?) -> ()) {
     if let contentView = contentView {
-      DataManager.sharedInstance.activeRequests++
       DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(post: nil)
@@ -127,9 +125,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
   func retrieveEndUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getEndUserInfo { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(user: nil)
@@ -248,7 +244,7 @@ class RepostContentView: UIView {
     let originalPostTopEdge = saySomethingTextView.frame.maxY + 8
     
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
-    originalPictureButton.setBackgroundImageForState(.Normal, withURL: post.user.photoURL)
+    originalPictureButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
     originalPictureButton.clipsToBounds = true
     originalPictureButton.layer.cornerRadius = 5.0
     
@@ -287,8 +283,7 @@ class RepostContentView: UIView {
     var sideLine: UIView
     if let imageURLs = post.imageURLs {
       originalPostImagesButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTextView.frame.maxY, width: width - originalPostLeadingEdge - 8, height: post.heightOfImagesInPostWithWidth(width - originalPostLeadingEdge - 8)))
-      originalPostImagesButton.setBackgroundImageForState(.Normal, withURL: imageURLs[0])
-      
+      originalPostImagesButton.setBackgroundImageToImageWithURL(imageURLs[0], forState: .Normal)
       sideLine = UIView(frame: CGRect(x: vertLeadingEdge, y: originalPostTopEdge, width: vertWidth, height: originalPostImagesButton.frame.maxY - originalPostTopEdge))
     } else {
       originalPostImagesButton = UIButton()

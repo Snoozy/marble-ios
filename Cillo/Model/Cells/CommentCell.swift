@@ -157,7 +157,7 @@ class CommentCell: UITableViewCell {
     
     let nameTitle = "\(name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
-    photoButton.setBackgroundImageForState(.Normal, withURL: comment.user.photoURL)
+    photoButton.setBackgroundImageToImageWithURL(comment.user.photoURL, forState: .Normal)
     
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0

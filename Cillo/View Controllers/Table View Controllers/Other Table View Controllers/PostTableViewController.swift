@@ -79,9 +79,7 @@ class PostTableViewController: SinglePostTableViewController {
   func createComment(completionHandler: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
-      DataManager.sharedInstance.activeRequests++
       DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: 1) { error, comment in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(success: false)
@@ -100,10 +98,8 @@ class PostTableViewController: SinglePostTableViewController {
   func replyToCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
-      DataManager.sharedInstance.activeRequests++
       let commentReplyingTo = commentTree[index]
       DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: commentReplyingTo.lengthToPost! + 1, parentID: commentReplyingTo.commentID) { error, comment in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(success: false)
@@ -120,9 +116,7 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: comments The comment tree for this post.
   /// :param: * Nil if there was an error in the server call.
   func retrieveCommentTree(completionHandler: (commentTree: [Comment]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getCommentsForPost(post) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(commentTree: nil)

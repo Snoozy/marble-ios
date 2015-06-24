@@ -103,12 +103,10 @@ class NewBoardViewController: CustomViewController {
   ///
   /// :param: * Nil if server call passed an error back.
   func createBoard(completionHandler: (board: Board?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.createBoardWithName(self.nameTextField.text, description: self.descripTextView.text, mediaID: mediaID) { error, result in
-            DataManager.sharedInstance.activeRequests--
             if let error = error {
               self.handleError(error)
               completionHandler(board: nil)
@@ -117,13 +115,11 @@ class NewBoardViewController: CustomViewController {
             }
           }
         } else {
-          DataManager.sharedInstance.activeRequests--
           completionHandler(board: nil)
         }
       }
     } else {
       DataManager.sharedInstance.createBoardWithName(nameTextField.text, description: descripTextView.text) { error, result in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(board: nil)
@@ -141,11 +137,9 @@ class NewBoardViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
-    DataManager.sharedInstance.activeRequests++
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { error, result in
       activityIndicator.removeFromSuperview()
-      DataManager.sharedInstance.activeRequests++
       if let error = error {
         self.handleError(error)
         completionHandler(mediaID: nil)

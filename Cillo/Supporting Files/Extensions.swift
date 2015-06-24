@@ -366,6 +366,24 @@ extension UIButton {
   func setupWithRoundedBorderOfStandardWidthAndColor() {
     setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: ColorScheme.defaultScheme.solidButtonTextColor())
   }
+  
+  /// Uses asynchronous image loading to set the background image to the image retrieved from the provided url.
+  ///
+  /// **Note:** This functions handles incrementing and decrementing `DataManager.sharedInstance.activeRequests`
+  ///
+  /// :param: url The url of the image to be retrieved
+  /// :param: state The state to set the background image for
+  func setBackgroundImageToImageWithURL(url: NSURL, forState state: UIControlState) {
+    DataManager.sharedInstance.activeRequests++
+    setBackgroundImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
+      success: { _, _, _ in
+        DataManager.sharedInstance.activeRequests--
+      },
+      failure: { _ in
+        DataManager.sharedInstance.activeRequests--
+      }
+    )
+  }
 }
 
 // MARK: -

@@ -81,7 +81,7 @@ class SettingsViewController: CustomViewController {
     nameTextField.text = user.name
     usernameTextField.text = user.username
     bioTextView.text = user.bio
-    photoButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
+    photoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
   }
@@ -95,9 +95,7 @@ class SettingsViewController: CustomViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if this request was successful. If error was received, it is false.
   func updatePasswordFrom(old: String, to new: String, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { error, success in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -116,12 +114,10 @@ class SettingsViewController: CustomViewController {
     let newName = nameTextField.text != user.name ? nameTextField.text : ""
     let newUsername = usernameTextField.text != user.username ? usernameTextField.text : ""
     let newBio = bioTextView.text != user.bio ? bioTextView.text : ""
-    DataManager.sharedInstance.activeRequests++
     if let photo = photoButton.backgroundImageForState(.Normal) where photoChanged {
       uploadImage(photo) { mediaID in
         if let mediaID = mediaID {
           DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio, newMediaID: mediaID) { error, result in
-            DataManager.sharedInstance.activeRequests--
             if let error = error {
               self.handleError(error)
               completionHandler(user: nil)
@@ -130,13 +126,11 @@ class SettingsViewController: CustomViewController {
             }
           }
         } else {
-          DataManager.sharedInstance.activeRequests--
           completionHandler(user: nil)
         }
       }
     } else {
       DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio) { error, result in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(user: nil)
@@ -154,11 +148,9 @@ class SettingsViewController: CustomViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
-    DataManager.sharedInstance.activeRequests++
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { error, result in
       activityIndicator.removeFromSuperview()
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(mediaID: nil)

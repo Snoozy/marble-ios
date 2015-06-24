@@ -316,6 +316,186 @@ class DataManager: NSObject {
   
   // MARK: Networking Functions
   
+  /// Attempts to retrieve the end user's conversations.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the end user's conversations.
+  func getEndUserConversations(completionHandler: (error: NSError?, result: [Conversation]?) -> ()) {
+    activeRequests++
+    Alamofire.request(.GET, Router.Conversations, parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, result: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .Conversations)
+            completionHandler(error: cilloError, result: nil)
+          } else {
+            let conversations = json["conversations"].arrayValue
+            var returnArray = [Conversation]()
+            for conversation in conversations {
+              let item = Conversation(json: conversation)
+              returnArray.append(item)
+            }
+            completionHandler(error: nil, result: returnArray)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Conversations), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve the messages for a specific conversation with the provided id.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: conversationID The id of the conversation that messages are being retrieved for.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the conversation's messages.
+  func getMessagesByConversationID(conversationID: Int, completionHandler: (error: NSError?, result: [Message]?) -> ()) {
+    activeRequests++
+    Alamofire.request(.GET, Router.ConversationMessages(conversationID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, result: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .ConversationMessages(conversationID))
+            completionHandler(error: cilloError, result: nil)
+          } else {
+            let messages = json["messages"].arrayValue
+            var returnArray = [Message]()
+            for message in messages {
+              let item = Message(json: message)
+              returnArray.append(item)
+            }
+            completionHandler(error: nil, result: returnArray)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationMessages(conversationID)), result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve the new messages for a specific conversation with the provided id.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: conversationID The id of the conversation that messages are being retrieved for.
+  /// :param: messageID The id of the most recent message in the conversation that has been retrieved already.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: empty True if there are no new messages in the conversation.
+  /// :param: result If the request was successful, this will be the conversation's new messages.
+  func pollConversationByID(conversationID: Int, withMostRecentMessageID messageID: Int, completionHandler: (error: NSError?, empty: Bool, result: [Message]?) -> ()) {
+    activeRequests++
+    Alamofire.request(.GET, Router.ConversationPoll(conversationID, messageID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, empty: false, result: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .ConversationPoll(conversationID, messageID))
+            completionHandler(error: cilloError, empty: false, result: nil)
+          } else if json["status"].stringValue == "empty" {
+            completionHandler(error: nil, empty: true, result: nil)
+          } else {
+            let messages = json["messages"].arrayValue
+            var returnArray = [Message]()
+            for message in messages {
+              let item = Message(json: message)
+              returnArray.append(item)
+            }
+            completionHandler(error: nil, empty: false, result: returnArray)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationPoll(conversationID, messageID)), empty: false, result: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve the old messages for a specific conversation with the provided id that were not given by `getMessagesByConversationID:completionHandler:`.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: conversationID The id of the conversation that messages are being retrieved for.
+  /// :param: messageID The id of the oldest message in the conversation that has been retrieved already.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: done True if there are no older messages in the conversation.
+  /// :param: result If the request was successful, this will be the conversation's next set of older messages.
+  func pageConversationByID(conversationID: Int, withOldestMessageID messageID: Int, completionHandler: (error: NSError?, done: Bool, result: [Message]?) -> ()) {
+    activeRequests++
+    Alamofire.request(.GET, Router.ConversationPaged(conversationID, messageID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, done: false, result: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .ConversationPaged(conversationID, messageID))
+            completionHandler(error: cilloError, done: false, result: nil)
+          } else if json["done"].boolValue {
+            completionHandler(error: nil, done: true, result: nil)
+          } else {
+            let messages = json["messages"].arrayValue
+            var returnArray = [Message]()
+            for message in messages {
+              let item = Message(json: message)
+              returnArray.append(item)
+            }
+            completionHandler(error: nil, done: false, result: returnArray)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationPaged(conversationID, messageID)), done: false, result: nil)
+        }
+    }
+  }
+
+  // TODO: Send Message
+//  /// Attempts to retrieve the messages for a specific conversation with the provided id.
+//  ///
+//  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+//  ///
+//  /// :param: conversationID The id of the conversation that messages are being retrieved for.
+//  /// :param: completionHandler A completion block for the network request.
+//  /// :param: error If the request was unsuccessful, this will contain the error message.
+//  /// :param: result If the request was successful, this will be the conversation's messages.
+//  func sendMessageToUserWithID(userID: Int, completionHandler: (error: NSError?, message: [Message]?) -> ()) {
+//    activeRequests++
+//    Alamofire.request(.POST, Router.SendMessage(userID), parameters: nil, encoding: .URL)
+//      .responseJSON { request, response, data, error in
+//        self.activeRequests--
+//        if let error = error {
+//          completionHandler(error: error, result: nil)
+//        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+//          if json["error"] != nil {
+//            let cilloError = NSError(json: json, requestType: .ConversationMessages(conversationID))
+//            completionHandler(error: cilloError, result: nil)
+//          } else if json["status"].stringValue == "empty" {
+//            completionHandler(error: nil, result: [Message]())
+//          } else {
+//            let messages = json["messages"].arrayValue
+//            var returnArray = [Message]()
+//            for message in messages {
+//              let item = Message(json: message)
+//              returnArray.append(item)
+//            }
+//            completionHandler(error: nil, result: returnArray)
+//          }
+//        } else {
+//          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationMessages(conversationID)), result: nil)
+//        }
+//    }
+//  }
+  
   /// Attempts to follow a board.
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
@@ -325,8 +505,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func followBoardWithID(boardID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.BoardFollow(boardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -351,8 +533,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func unfollowBoardWithID(boardID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.BoardUnfollow(boardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -377,8 +561,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the array of board names.
   func boardsAutocompleteByName(name: String, completionHandler: (error: NSError?, result: [String]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.BoardAutocomplete, parameters: ["q": name], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -409,8 +595,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the array of Boards that were found.
   func boardsSearchByName(name: String, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.BoardSearch, parameters: ["q": name], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -441,8 +629,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func downvoteCommentWithID(commentID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -467,8 +657,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func upvoteCommentWithID(commentID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -502,8 +694,10 @@ class DataManager: NSObject {
     if mediaID != -1 {
       parameters["photo"] = mediaID
     }
+    activeRequests++
     Alamofire.request(.POST, Router.BoardCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -539,8 +733,10 @@ class DataManager: NSObject {
     if parentID != -1 {
       parameters["parent_id"] = parentID
     }
+    activeRequests++
     Alamofire.request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -583,8 +779,10 @@ class DataManager: NSObject {
     if mediaID != -1 {
       parameters["media"] = mediaID
     }
+    activeRequests++
     Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -633,8 +831,10 @@ class DataManager: NSObject {
     if mediaID != -1 {
       parameters["media"] = mediaID
     }
+    activeRequests++
     Alamofire.request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -686,8 +886,10 @@ class DataManager: NSObject {
     if newBio != "" {
       parameters["bio"] = newBio
     }
+    activeRequests++
     Alamofire.request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -713,8 +915,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the Board object for the board with id boardID.
   func getBoardByID(boardID: Int, completionHandler: (error: NSError?, result: Board?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.BoardInfo(boardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -742,8 +946,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the board's feed page.
   func getBoardFeedByID(boardID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.BoardFeed(boardID, lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -781,8 +987,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
   func getHomeFeed(#lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -819,8 +1027,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the Post object for the post with id postID.
   func getPostByID(postID: Int, completionHandler: (error: NSError?, result: Post?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -852,8 +1062,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comment tree for the post.
   func getCommentsForPost(post: Post, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -889,8 +1101,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the end user.
   func getEndUserInfo(completionHandler: (error: NSError?, result: User?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -915,8 +1129,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the array of Notification objects for the end user.
   func getEndUserNotifications(completionHandler: (error: NSError?, result: [Notification]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.Notifications, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -949,8 +1165,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the boards that the user follows.
   func getUserBoardsByID(userID: Int, lastBoardID: Int?, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.UserBoards(userID, lastBoardID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -981,8 +1199,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the user with id userID.
   func getUserByID(userID: Int, completionHandler: (error: NSError?, result: User?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.UserInfo, parameters: ["user_id": userID], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1008,8 +1228,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the user with the given username.
   func getUserByUsername(username: String, completionHandler: (error: NSError?, result: User?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.UserInfo, parameters: ["username": username], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1037,8 +1259,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comments that the user has made.
   func getUserCommentsByID(userID: Int, lastCommentID: Int?, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1071,8 +1295,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts that the user has made.
   func getUserPostsByID(userID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
+    activeRequests++
     Alamofire.request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1111,11 +1337,13 @@ class DataManager: NSObject {
   /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
   func uploadImageData(imageData: NSData, completionHandler: (error: NSError?, result: Int?) -> ()) {
     let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
+    activeRequests++
     upload(urlRequest.0, urlRequest.1)
       .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
         println("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
       }
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1142,8 +1370,10 @@ class DataManager: NSObject {
   /// :param: error If the login was unsuccessful, this will contain the error message.
   /// :param: result If the login was successful, this will be the Auth Token.
   func loginWithEmail(email: String, andPassword password: String, completionHandler: (error: NSError?, result: String?) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.Login, parameters: ["email": email, "password": password], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1168,8 +1398,10 @@ class DataManager: NSObject {
   /// :param: error If the logout was unsuccessful, this will contain the error message.
   /// :param: success If the logout was successful, this will be true.
   func logout(completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.Logout, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1194,8 +1426,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func downvotePostWithID(postID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1220,8 +1454,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func upvotePostWithID(postID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1247,8 +1483,10 @@ class DataManager: NSObject {
   /// :param: error If the registration was unsuccessful, this will contain the error message.
   /// :param: success If the registration was successful, this will be true.
   func registerUserWithName(name: String, username: String, password: String, andEmail email: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.Register, parameters: ["username": username, "name": name, "password": password, "email": email], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1272,8 +1510,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func readEndUserNotifications(completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.ReadNotifications, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
@@ -1299,8 +1539,10 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: success If the request was successful, this will be true.
   func updatePassword(oldPassword: String, toNewPassword newPassword: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
     Alamofire.request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL)
       .responseJSON { request, response, data, error in
+        self.activeRequests--
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {

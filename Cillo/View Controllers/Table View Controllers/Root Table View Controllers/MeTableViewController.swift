@@ -106,9 +106,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if there was no error in the server call. Otherwise, false.
   func logout(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.logout { error, success in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -164,9 +162,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: comments The comments that the end user has made.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(comments: nil)
@@ -182,9 +178,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: posts The posts that the end user has made.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(posts: nil)
@@ -200,9 +194,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: user The end user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getEndUserInfo { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(user: nil)
@@ -219,10 +211,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
-    DataManager.sharedInstance.activeRequests++
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { error, result in
-      DataManager.sharedInstance.activeRequests--
       activityIndicator.removeFromSuperview()
       if let error = error {
         self.handleError(error)
@@ -240,9 +230,7 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the repost.
   /// :param: user The User object for the end user after being updated with a new profilePic. Nil if error was received.
   func updateEndUserPhoto(mediaID: Int, completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.updateEndUserSettingsTo(newMediaID: mediaID) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(user: nil)

@@ -78,9 +78,7 @@ class LogInViewController: CustomViewController {
   /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -101,9 +99,7 @@ class LogInViewController: CustomViewController {
   /// :param: completionHandler The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
   func retrieveEndUser(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getEndUserInfo { error, user in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)

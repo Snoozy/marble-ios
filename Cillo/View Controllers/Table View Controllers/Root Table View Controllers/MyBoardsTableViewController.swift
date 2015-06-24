@@ -119,9 +119,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: names The board names returned from the server call.
   func autocompleteBoardsSearch(search: String, completionHandler: (names: [String]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.boardsAutocompleteByName(search) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(names: nil)
@@ -138,9 +136,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
-      DataManager.sharedInstance.activeRequests++
       DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
-        DataManager.sharedInstance.activeRequests--
         if let error = error {
           self.handleError(error)
           completionHandler(boards: nil)
@@ -177,9 +173,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block of the server call.
   /// :param: boards The boards returned from the server call matching the search text.
   func searchBoardsForName(name: String, completionHandler: (boards: [Board]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.boardsSearchByName(name) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(boards: nil)

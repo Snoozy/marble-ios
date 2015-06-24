@@ -88,8 +88,7 @@ class UserCell: UITableViewCell {
   func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
     let scheme = ColorScheme.defaultScheme
     
-    DataManager.sharedInstance.activeRequests++
-    photoButton.setBackgroundImageForState(.Normal, withURL: user.photoURL)
+    photoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
     nameButton.setTitle(user.name, forState: .Normal)
     usernameButton.setTitle(user.usernameDisplay, forState: .Normal)
     

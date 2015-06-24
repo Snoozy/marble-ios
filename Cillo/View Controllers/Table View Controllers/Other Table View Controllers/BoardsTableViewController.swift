@@ -64,9 +64,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: boards The boards followed by user with userID.
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
-    DataManager.sharedInstance.activeRequests++
     DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
-      DataManager.sharedInstance.activeRequests--
       if let error = error {
         self.handleError(error)
         completionHandler(boards: nil)
