@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
 /// Data source that allows the TabViewController to tell another controller that it has updated the end user's notifications.
 protocol NotificationsDataSource {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
 /// Handles view of User with Posts or Comments beneath it for any User that is not the end user.
 ///

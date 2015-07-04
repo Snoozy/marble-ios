@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Handles creating new Posts.
 class NewPostViewController: CustomViewController {
@@ -233,7 +232,7 @@ class NewPostViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is imageButton.
   @IBAction func imageButtonPressed(sender: UIButton) {
-    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
+    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Select Image", iPadReference: sender)
   }
   
   /// Creates a post. If the creation is successful, presents a PostTableViewController and removes self from navigationController's stack.
@@ -288,4 +287,13 @@ extension NewPostViewController: UIImagePickerControllerDelegate {
 
 // Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
 extension NewPostViewController: UINavigationControllerDelegate {
+}
+
+// MARK: - UIActionSheetDelegate
+
+extension NewPostViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+  }
 }

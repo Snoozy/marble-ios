@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Handles creating new Boards.
 class NewBoardViewController: CustomViewController {
@@ -164,7 +163,7 @@ class NewBoardViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is choosePictureButton
   @IBAction func imageButtonPressed(sender: UIButton) {
-    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
+    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Select Board Photo", iPadReference: sender)
   }
   
   /// Creates a board. If the creation is successful, presents a BoardTableViewController and removes self from navigationController's stack.
@@ -210,4 +209,13 @@ extension NewBoardViewController: UIImagePickerControllerDelegate {
 
 // Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
 extension NewBoardViewController: UINavigationControllerDelegate {
+}
+
+// MARK: - UIActionSheetDelegate
+
+extension NewBoardViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+  }
 }

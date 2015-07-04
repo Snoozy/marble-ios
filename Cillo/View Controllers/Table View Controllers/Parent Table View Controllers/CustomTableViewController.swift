@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import TTTAttributedLabel
-import JTSImageViewController
 
 /// Any UITableViewController in this app should subclass this class.
 ///

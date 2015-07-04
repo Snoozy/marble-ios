@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JSQMessagesViewController
 
 /// Defines all properties of a Message on Cillo
 class Message: NSObject {

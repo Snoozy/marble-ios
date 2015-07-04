@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
 /// Handles first view of Home tab (Front Page of Cillo). 
 ///

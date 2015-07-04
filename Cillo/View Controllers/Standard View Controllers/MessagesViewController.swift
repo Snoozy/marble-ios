@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import JSQMessagesViewController
-import SwiftKeychainWrapper
 
 /// Handles chatting on Cillo.
 class MessagesViewController: JSQMessagesViewController {

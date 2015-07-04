@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import TTTAttributedLabel
-import SwiftKeychainWrapper
-import JTSImageViewController
 
 extension Int {
   
@@ -466,30 +463,65 @@ extension UIImage {
 
 extension UIImagePickerController {
   
-  /// Presents an action sheet that allows the user to choose a photo from library or take a photo with the camera.
-  ///
-  /// :param: source The view controller that will be the source of the modal presentation of the action sheet and the image picker onto it.
-  class func presentActionSheetForPhotoSelectionFromSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate>(source: T) {
-    let actionSheet = UIAlertController(title: "Change Profile Picture", message: nil, preferredStyle: .ActionSheet)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
-    }
-    let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default) { _ in
+  class func defaultActionSheetDelegateImplementationForSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate, T: UIActionSheetDelegate>(source: T, withSelectedIndex index: Int) {
+    switch index {
+    case 0:
       let pickerController = UIImagePickerController()
       pickerController.delegate = source
       source.presentViewController(pickerController, animated: true, completion: nil)
-    }
-    let cameraAction = UIAlertAction(title: "Take Photo", style: .Default) { _ in
+    case 1:
       let pickerController = UIImagePickerController()
       pickerController.delegate = source
       if UIImagePickerController.isSourceTypeAvailable(.Camera) {
         pickerController.sourceType = .Camera
       }
       source.presentViewController(pickerController, animated: true, completion: nil)
+    default:
+      break
     }
-    actionSheet.addAction(cancelAction)
-    actionSheet.addAction(pickerAction)
-    actionSheet.addAction(cameraAction)
-    source.presentViewController(actionSheet, animated: true, completion: nil)
+  }
+  
+  /// Presents an action sheet that allows the user to choose a photo from library or take a photo with the camera.
+  ///
+  /// :param: source The view controller that will be the source of the modal presentation of the action sheet and the image picker onto it.
+  class func presentActionSheetForPhotoSelectionFromSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate, T: UIActionSheetDelegate>(source: T, withTitle title: String, iPadReference: UIButton?) {
+    
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: title, message: nil, preferredStyle: .ActionSheet)
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default) { _ in
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = source
+        source.presentViewController(pickerController, animated: true, completion: nil)
+      }
+      let cameraAction = UIAlertAction(title: "Take Photo", style: .Default) { _ in
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = source
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+          pickerController.sourceType = .Camera
+        }
+        source.presentViewController(pickerController, animated: true, completion: nil)
+      }
+      actionSheet.addAction(cancelAction)
+      actionSheet.addAction(pickerAction)
+      actionSheet.addAction(cameraAction)
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = iPadReference
+        popPresenter?.sourceRect = iPadReference.bounds
+      }
+      source.presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: title, delegate: source, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Choose Photo from Library", "Take Photo", "Cancel")
+      actionSheet.cancelButtonIndex = 2
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(iPadReference.bounds, inView: iPadReference, animated: true)
+      } else {
+        actionSheet.showInView(source.view)
+      }
+    }
   }
 }
 

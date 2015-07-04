@@ -7,6 +7,7 @@
 //
 
 #import "AFNetworking/AFNetworking.h"
+#import "AFnetworking/UIKit+AFNetworking.h"
 #import "TTTAttributedLabel/TTTAttributedLabel.h"
 #import "JTSImageViewController/JTSImageViewController.h"
 #import <JSQMessagesViewController/JSQMessages.h>

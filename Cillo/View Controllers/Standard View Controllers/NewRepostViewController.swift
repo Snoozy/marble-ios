@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Handles reposting of existing posts.
 class NewRepostViewController: CustomViewController {

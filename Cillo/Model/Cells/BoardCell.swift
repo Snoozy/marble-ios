@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TTTAttributedLabel
 
 /// Cell that corresponds to reuse identifier "Board".
 ///
@@ -122,6 +121,13 @@ class BoardCell: UITableViewCell {
     photoButton.tag = buttonTag
     nameButton.tag = buttonTag
     followButton.tag = buttonTag
+    
+    println(followButton.titleLabel?.font.fontName)
+    if let font = UIFont(name: "HelveticaNeue-Medium", size: 14) {
+      followButton.titleLabel?.font = font
+    } else {
+      followButton.titleLabel?.font = UIFont.boldSystemFontOfSize(14)
+    }
     
     followButton.setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: BoardCell.followButtonColor)
     if !board.following {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TTTAttributedLabel
 
 /// Cell that corresponds to reuse identifier "Post".
 ///

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Handles changing settings of end user.
 class SettingsViewController: CustomViewController {
@@ -221,14 +220,18 @@ class SettingsViewController: CustomViewController {
   ///
   /// :param: sender The button that is touched to send this function is changePasswordButton
   @IBAction func changePassword(sender: UIButton) {
-    presentChangePasswordAlert()
+    if objc_getClass("UIAlertController") != nil {
+      presentChangePasswordAlert()
+    } else {
+      UIAlertView(title: "Sorry", message: "This feature is only available on iOS 8. Visit www.cillo.co/settings to change your password.", delegate: nil, cancelButtonTitle: "Ok").show()
+    }
   }
   
   /// Presents an AlertController with ActionSheet style that allows the user to choose a new profile picture.
   ///
   /// :param: sender The button that is touched to send this function is changePhotoButton
   @IBAction func changePhoto(sender: UIButton) {
-    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
+    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Change Profile Picture", iPadReference: sender)
   }
   
   /// Saves new settings to server. If successful, unwinds this view controller back to the tab bar.
@@ -276,5 +279,14 @@ extension SettingsViewController: UIImagePickerControllerDelegate {
 
 // Required to implement UINavigationControllerDelegate in order to present UIImagePickerControllers.
 extension SettingsViewController: UINavigationControllerDelegate {
+}
+
+// MARK: - UIActionSheetDelegate
+
+extension SettingsViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+  }
 }
 

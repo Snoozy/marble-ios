@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is only a table of BoardCells.
 ///
@@ -172,22 +171,42 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   ///
   /// :param: board The board that is being unfollowed.
   /// :param: index The index of the board being unfollowed in the `boards` array.
-  func presentUnfollowConfirmationActionSheetForBoard(board: Board, atIndex index: Int) {
-    let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
-    let unfollowAction = UIAlertAction(title: "Unfollow", style: .Default) { _ in
-      self.unfollowBoardAtIndex(index) { success in
-        if success {
-          board.following = false
-          let boardIndexPath = NSIndexPath(forRow: index, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+  func presentUnfollowConfirmationActionSheetForBoard(board: Board, atIndex index: Int, iPadReference: UIButton?) {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
+      let unfollowAction = UIAlertAction(title: "Unfollow", style: .Default) { _ in
+        self.unfollowBoardAtIndex(index) { success in
+          if success {
+            board.following = false
+            let boardIndexPath = NSIndexPath(forRow: index, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          }
+        }
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(unfollowAction)
+      actionSheet.addAction(cancelAction)
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = iPadReference
+        popPresenter?.sourceRect = iPadReference.bounds
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: board.name, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Unfollow", "Cancel")
+      actionSheet.cancelButtonIndex = 1
+      actionSheet.tag = index
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(iPadReference.bounds, inView: iPadReference, animated: true)
+      } else {
+        if let tabBar = tabBarController?.tabBar {
+          actionSheet.showFromTabBar(tabBar)
         }
       }
     }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
-    }
-    actionSheet.addAction(unfollowAction)
-    actionSheet.addAction(cancelAction)
-    presentViewController(actionSheet, animated: true, completion: nil)
+    
   }
   
   /// Calculates whether the see all single button cell is necessary. If there are no additional boards to be shown, than see all is clearly not necessary.
@@ -271,7 +290,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
         }
       }
     } else {
-      presentUnfollowConfirmationActionSheetForBoard(board, atIndex: sender.tag)
+      presentUnfollowConfirmationActionSheetForBoard(board, atIndex: sender.tag, iPadReference: sender)
     }
   }
   
@@ -296,6 +315,21 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   @IBAction func triggerNewBoardSegueOnButton(sender: UIButton) {
     if let tabBarController = tabBarController as? TabViewController {
       tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewBoard, sender: sender)
+    }
+  }
+}
+
+extension MultipleBoardsTableViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    if buttonIndex == 0 {
+      unfollowBoardAtIndex(actionSheet.tag) { success in
+        if success {
+          self.boards[actionSheet.tag].following = false
+          let boardIndexPath = NSIndexPath(forRow: actionSheet.tag, inSection: 0)
+          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+        }
+      }
     }
   }
 }

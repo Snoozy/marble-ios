@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is a PostCell followed by a comment tree of CommentCells.
 ///

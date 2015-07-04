@@ -48,12 +48,6 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 4
 
-// Alamofire
-#define COCOAPODS_POD_AVAILABLE_Alamofire
-#define COCOAPODS_VERSION_MAJOR_Alamofire 1
-#define COCOAPODS_VERSION_MINOR_Alamofire 2
-#define COCOAPODS_VERSION_PATCH_Alamofire 3
-
 // JSQMessagesViewController
 #define COCOAPODS_POD_AVAILABLE_JSQMessagesViewController
 #define COCOAPODS_VERSION_MAJOR_JSQMessagesViewController 7
@@ -71,12 +65,6 @@
 #define COCOAPODS_VERSION_MAJOR_JTSImageViewController 1
 #define COCOAPODS_VERSION_MINOR_JTSImageViewController 4
 #define COCOAPODS_VERSION_PATCH_JTSImageViewController 0
-
-// SwiftKeychainWrapper
-#define COCOAPODS_POD_AVAILABLE_SwiftKeychainWrapper
-#define COCOAPODS_VERSION_MAJOR_SwiftKeychainWrapper 1
-#define COCOAPODS_VERSION_MINOR_SwiftKeychainWrapper 0
-#define COCOAPODS_VERSION_PATCH_SwiftKeychainWrapper 9
 
 // TTTAttributedLabel
 #define COCOAPODS_POD_AVAILABLE_TTTAttributedLabel

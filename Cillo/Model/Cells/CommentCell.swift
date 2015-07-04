@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TTTAttributedLabel
 
 /// Cell that corresponds to reuse identifier "Comment".
 ///
@@ -238,7 +237,9 @@ class CommentCell: UITableViewCell {
       separatorViewHeightConstraint!.constant = separatorHeight
     }
     
-    preservesSuperviewLayoutMargins = false
+    if respondsToSelector("setPreservesSuperviewLayoutMargins:") {
+      preservesSuperviewLayoutMargins = false
+    }
   }
 }
 

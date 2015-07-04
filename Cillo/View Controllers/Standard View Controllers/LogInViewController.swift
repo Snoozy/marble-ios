@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
 /// Handles end user login actions.
 ///
@@ -116,8 +115,14 @@ class LogInViewController: CustomViewController {
   // MARK: Error Handling Helper Functions
   
   override func handlePasswordIncorrectError(error: NSError) {
-    let alert = UIAlertController(title: "Error", message: "Username and password do not match.", preferredStyle: .Alert)
-    presentViewController(alert, animated: true, completion: nil)
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Error", message: "Username and password do not match.", preferredStyle: .Alert)
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Error", message: "Username and password do not match.", delegate: nil, cancelButtonTitle: "Ok")
+      alert.show()
+    }
+    
   }
   
   override func handleUserUnauthenticatedError(error: NSError) {

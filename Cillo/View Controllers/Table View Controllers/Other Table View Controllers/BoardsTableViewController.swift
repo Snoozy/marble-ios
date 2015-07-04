@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
 /// Handles view of many BoardCells corresponding to the followed Boards of a User.
 ///

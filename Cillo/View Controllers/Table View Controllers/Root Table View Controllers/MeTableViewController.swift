@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
 /// Handles first view of Me tab (Profile of end User).
 ///
@@ -80,23 +79,29 @@ class MeTableViewController: SingleUserTableViewController {
   
   /// Presents an AlertController with style `.ActionSheet` that asks the user for confirmation of logging out.
   func presentLogoutConfirmationActionSheet() {
-    let alert = UIAlertController(title: "Logout", message: "Are you sure you want to Logout?", preferredStyle: .Alert)
-    let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
-      self.logout { success in
-        if success {
-          KeychainWrapper.clearAuthToken()
-          KeychainWrapper.clearUserID()
-          if let tabBarController = self.tabBarController as? TabViewController {
-            tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Logout", message: "Are you sure you want to Logout?", preferredStyle: .Alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+        self.logout { success in
+          if success {
+            KeychainWrapper.clearAuthToken()
+            KeychainWrapper.clearUserID()
+            if let tabBarController = self.tabBarController as? TabViewController {
+              tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+            }
           }
         }
       }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      alert.addAction(yesAction)
+      alert.addAction(cancelAction)
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Logout", message: "Are you sure you want to Logout?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
+      alert.cancelButtonIndex = 1
+      alert.show()
     }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
-    }
-    alert.addAction(yesAction)
-    alert.addAction(cancelAction)
-    presentViewController(alert, animated: true, completion: nil)
   }
   
   // MARK: Networking Helper Functions
@@ -263,7 +268,7 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is a pictureButton in a UserCell.
   @IBAction func pictureButtonPressed(sender: UIButton) {
-    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self)
+    UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Change Profile Picture", iPadReference: sender)
   }
 
 }
@@ -298,4 +303,30 @@ extension MeTableViewController: UIImagePickerControllerDelegate {
 // MARK: - UINavigationControllerDelegate
 
 extension MeTableViewController: UINavigationControllerDelegate {
+}
+
+// MARK: - UIActionSheetDelegate
+
+extension MeTableViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+  }
+}
+
+extension MeTableViewController: UIAlertViewDelegate {
+  
+  func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    if buttonIndex == 0 {
+      logout { success in
+        if success {
+          KeychainWrapper.clearAuthToken()
+          KeychainWrapper.clearUserID()
+          if let tabBarController = self.tabBarController as? TabViewController {
+            tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+          }
+        }
+      }
+    }
+  }
 }

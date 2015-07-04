@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JTSImageViewController
 
 /// Any UIViewController that is presented modally that still needs a navigation bar should subclass this class.
 class CustomViewController: UIViewController {
