@@ -104,6 +104,7 @@ enum Router: URLStringConvertible {
   case PasswordUpdate
   case ReadNotifications
   case SendMessage(Int)
+  case ReadInbox
   
   /// URL of the server call.
   var URLString: String {
@@ -194,6 +195,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/me/notifications/read\(authString)"
       case .SendMessage(let userID):
         return "/\(vNum)/user/\(userID)/message\(authString)"
+      case .ReadInbox:
+        return "/\(vNum)/me/inbox/read\(authString)"
       }
     }()
     
@@ -281,6 +284,8 @@ enum Router: URLStringConvertible {
       return "Read End User Notifications"
     case .SendMessage(let userID):
       return "End User Send Message to User \(userID)"
+    case .ReadInbox:
+      return "Read End User Inbox"
     }
   }
 }
@@ -320,6 +325,8 @@ class DataManager: NSObject {
   }
   
   // MARK: Networking Functions
+  
+  
   
   /// Attempts to retrieve the end user's messages with another specified user.
   ///
@@ -1538,6 +1545,33 @@ class DataManager: NSObject {
     }
   }
   
+  /// Attempts to read the end user's inbox on the server.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func readEndUserInbox(completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
+    Alamofire.request(.POST, Router.ReadInbox, parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, success: false)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .ReadInbox)
+            completionHandler(error: cilloError, success: false)
+          } else {
+            completionHandler(error: nil, success: json["success"] != nil)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadInbox), success: false)
+        }
+    }
+  }
+  
   /// Attempts to read the end user's notifications on the server.
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
@@ -1554,13 +1588,13 @@ class DataManager: NSObject {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
           if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Register)
+            let cilloError = NSError(json: json, requestType: .ReadNotifications)
             completionHandler(error: cilloError, success: false)
           } else {
             completionHandler(error: nil, success: json["success"] != nil)
           }
         } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadNotifications), success: false)
         }
     }
   }

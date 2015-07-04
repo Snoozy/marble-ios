@@ -40,6 +40,21 @@ class MyConversationTableViewController: MultipleConversationTableViewController
   }
   // MARK: Networking Helper Functions
   
+  /// Sends read inbox request to Cillo Servers for the end user.
+  ///
+  /// :param: completionHandler The completion block for the repost.
+  /// :param: success True if the request was successful.
+  func readInbox(completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.readEndUserInbox { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
+  
   /// Used to retrieve all necessary data to display UITableViewCells in this view controller.
   ///
   /// Assigns `conversations` correct values from server calls.
@@ -48,6 +63,11 @@ class MyConversationTableViewController: MultipleConversationTableViewController
       displayedConversations = tabBarController.conversations
       refreshControl?.endRefreshing()
       tableView.reloadData()
+      readInbox { success in
+        if success {
+          tabBarController.setMessagesBadgeValueTo(0)
+        }
+      }
     } else {
       refreshControl?.endRefreshing()
     }

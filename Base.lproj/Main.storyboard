@@ -5615,8 +5615,20 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgi-vK-Edw" userLabel="Message" customClass="TTTAttributedLabel">
+                                            <rect key="frame" x="93" y="38" width="499" height="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWR-O9-8gm">
+                                            <rect key="frame" x="66" y="8" width="13" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNs-fY-TII">
-                                            <rect key="frame" x="70" y="8" width="72" height="30"/>
+                                            <rect key="frame" x="83" y="8" width="72" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="PHC-HH-fgY"/>
                                             </constraints>
@@ -5629,16 +5641,11 @@
                                                 <action selector="triggerUserSegueOnButton:" destination="cAL-jc-MpN" eventType="touchUpInside" id="JsR-cC-8OZ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgi-vK-Edw" userLabel="Message" customClass="TTTAttributedLabel">
-                                            <rect key="frame" x="82" y="38" width="510" height="24"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="WBa-CM-5pJ" secondAttribute="trailing" id="0N1-GS-DBD"/>
                                         <constraint firstItem="wgi-vK-Edw" firstAttribute="trailing" secondItem="Wac-Gc-TwA" secondAttribute="trailing" id="2dm-xx-qr7"/>
+                                        <constraint firstItem="TWR-O9-8gm" firstAttribute="top" secondItem="Ura-YI-7tH" secondAttribute="topMargin" id="2pK-aI-NVI"/>
                                         <constraint firstItem="Wac-Gc-TwA" firstAttribute="top" secondItem="wgi-vK-Edw" secondAttribute="bottom" constant="4" id="4Z6-FC-14t"/>
                                         <constraint firstItem="WBa-CM-5pJ" firstAttribute="top" secondItem="buX-6L-RFa" secondAttribute="bottom" constant="8" id="8xG-Hl-CJD"/>
                                         <constraint firstItem="buX-6L-RFa" firstAttribute="height" secondItem="wgi-vK-Edw" secondAttribute="height" id="90h-Aw-Fm1"/>
@@ -5647,15 +5654,20 @@
                                         <constraint firstItem="wgi-vK-Edw" firstAttribute="leading" secondItem="JNs-fY-TII" secondAttribute="leading" constant="12" id="Ci2-Te-cE3"/>
                                         <constraint firstItem="wgi-vK-Edw" firstAttribute="top" secondItem="JNs-fY-TII" secondAttribute="bottom" id="CiI-jc-OEQ"/>
                                         <constraint firstItem="JNs-fY-TII" firstAttribute="leading" secondItem="buX-6L-RFa" secondAttribute="trailing" constant="8" id="GWB-QU-rZd"/>
+                                        <constraint firstItem="wgi-vK-Edw" firstAttribute="leading" secondItem="JNs-fY-TII" secondAttribute="leading" priority="750" constant="10" id="NwD-fD-zHh"/>
                                         <constraint firstItem="JNs-fY-TII" firstAttribute="centerY" secondItem="Wac-Gc-TwA" secondAttribute="centerY" id="O4K-ZL-CX4"/>
+                                        <constraint firstItem="TWR-O9-8gm" firstAttribute="leading" secondItem="buX-6L-RFa" secondAttribute="trailing" constant="4" id="TnY-qT-gGd"/>
                                         <constraint firstAttribute="bottom" secondItem="WBa-CM-5pJ" secondAttribute="bottom" id="UPa-cZ-eTK"/>
                                         <constraint firstAttribute="trailing" secondItem="Wac-Gc-TwA" secondAttribute="trailing" constant="8" id="Uba-0H-G2e"/>
                                         <constraint firstItem="WBa-CM-5pJ" firstAttribute="leading" secondItem="Ura-YI-7tH" secondAttribute="leading" id="V65-Lm-MBf"/>
+                                        <constraint firstItem="JNs-fY-TII" firstAttribute="height" secondItem="TWR-O9-8gm" secondAttribute="height" id="Wez-Fc-FAZ"/>
                                         <constraint firstItem="WBa-CM-5pJ" firstAttribute="top" secondItem="Wac-Gc-TwA" secondAttribute="bottom" constant="3" id="Ye2-Wy-LW1"/>
+                                        <constraint firstItem="JNs-fY-TII" firstAttribute="leading" secondItem="TWR-O9-8gm" secondAttribute="trailing" constant="4" id="cPr-Sa-QOj"/>
                                         <constraint firstItem="wgi-vK-Edw" firstAttribute="bottom" secondItem="buX-6L-RFa" secondAttribute="bottom" id="cXG-b3-idV"/>
                                         <constraint firstItem="buX-6L-RFa" firstAttribute="leading" secondItem="Ura-YI-7tH" secondAttribute="leading" constant="8" id="dnE-Ie-3H5"/>
                                         <constraint firstItem="buX-6L-RFa" firstAttribute="bottom" secondItem="Wac-Gc-TwA" secondAttribute="bottom" id="jFj-oE-x3c"/>
                                         <constraint firstItem="wgi-vK-Edw" firstAttribute="leading" secondItem="Wac-Gc-TwA" secondAttribute="leading" id="lq4-Wu-rmb"/>
+                                        <constraint firstItem="wgi-vK-Edw" firstAttribute="leading" secondItem="buX-6L-RFa" secondAttribute="trailing" constant="32" id="ndz-YV-Ulh"/>
                                         <constraint firstAttribute="trailing" secondItem="wgi-vK-Edw" secondAttribute="trailing" constant="8" id="pU5-4X-1Qj"/>
                                         <constraint firstItem="buX-6L-RFa" firstAttribute="top" secondItem="Ura-YI-7tH" secondAttribute="top" constant="8" id="q3w-PU-n27"/>
                                         <constraint firstItem="buX-6L-RFa" firstAttribute="top" secondItem="wgi-vK-Edw" secondAttribute="top" id="qOH-pQ-UfB"/>
@@ -5666,14 +5678,18 @@
                                             <exclude reference="jFj-oE-x3c"/>
                                             <exclude reference="qOH-pQ-UfB"/>
                                             <exclude reference="Ye2-Wy-LW1"/>
+                                            <exclude reference="GWB-QU-rZd"/>
                                             <exclude reference="AcA-lJ-6mO"/>
+                                            <exclude reference="Ci2-Te-cE3"/>
                                             <exclude reference="lq4-Wu-rmb"/>
+                                            <exclude reference="ndz-YV-Ulh"/>
                                             <exclude reference="pU5-4X-1Qj"/>
                                             <exclude reference="4Z6-FC-14t"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="dotLabel" destination="TWR-O9-8gm" id="gI1-jl-ySF"/>
                                     <outlet property="nameButton" destination="JNs-fY-TII" id="20J-gD-kYd"/>
                                     <outlet property="photoButton" destination="buX-6L-RFa" id="b05-kO-LDW"/>
                                     <outlet property="previewTTTAttributedLabel" destination="wgi-vK-Edw" id="iF7-HR-cAC"/>
@@ -5704,7 +5720,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5pU-dZ-Nsd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="399" y="-317"/>
+            <point key="canvasLocation" x="399" y="-316"/>
         </scene>
         <!--Messages-->
         <scene sceneID="Kfo-Yv-hFN">

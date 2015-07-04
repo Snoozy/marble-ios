@@ -16,6 +16,9 @@ class ConversationCell: UITableViewCell {
   
   // MARK: IBOutlets
   
+  /// Displays a dot if the conversation is unread.
+  @IBOutlet weak var dotLabel: UILabel!
+  
   /// Displays `conversation.preview`
   @IBOutlet weak var previewTTTAttributedLabel: TTTAttributedLabel!
   
@@ -39,7 +42,7 @@ class ConversationCell: UITableViewCell {
   class var previewTTTAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
-  
+
   /// Vertical space needed besides `separatorView`.
   class var vertSpaceNeeded: CGFloat {
     return 70.0
@@ -85,13 +88,10 @@ class ConversationCell: UITableViewCell {
     
     photoButton.tag = buttonTag
     
-    var name = NSMutableAttributedString(string: conversation.otherUser.name, attributes: [NSForegroundColorAttributeName: UIColor.darkTextColor()])
-    var unreadDot = NSMutableAttributedString(string: "·", attributes: [NSForegroundColorAttributeName: UIColor.blueColor()])
-    if !conversation.read {
-      unreadDot.appendAttributedString(name)
-      name = unreadDot
+    if conversation.read {
+      dotLabel.text = ""
     }
-    nameButton.setAttributedTitle(name, forState: .Normal)
+    nameButton.setTitle(conversation.otherUser.name, forState: .Normal)
     
     separatorView?.backgroundColor = scheme.dividerBackgroundColor()
   }
