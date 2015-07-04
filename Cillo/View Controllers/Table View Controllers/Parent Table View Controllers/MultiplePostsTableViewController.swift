@@ -11,7 +11,7 @@ import JTSImageViewController
 
 /// Inherit this class for any UITableViewController that is only a table of PostCells.
 ///
-/// **Note:** Subclasses must override segueIdentifierThisToPost, segueIdentifierThisToBoard, segueIdentifierThisToUser, and segueIdentifierThisToNewPost.
+/// **Note:** Subclasses must override segueIdentifierThisToPost, segueIdentifierThisToBoard, and segueIdentifierThisToUser.
 class MultiplePostsTableViewController: CustomTableViewController {
   
   // MARK: Properties

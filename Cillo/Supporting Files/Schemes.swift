@@ -119,6 +119,16 @@ struct ColorScheme {
     }
   }
   
+  /// :returns: The color to be displayed as the background color of the incoming message bubbles in chat.
+  func incomingMessageBubbleColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.jsq_messageBubbleLightGrayColor()
+    case .Gray:
+      return UIColor.jsq_messageBubbleLightGrayColor()
+    }
+  }
+  
   /// :returns: The color of the name in any cell that represents a user that is the end user.
   func meTextColor() -> UIColor {
     switch scheme {
@@ -158,6 +168,16 @@ struct ColorScheme {
       return UIColor.orangeColor()
     case .Gray:
       return UIColor.orangeColor()
+    }
+  }
+  
+  /// :returns: The color to be displayed as the background color of the outgoing message bubbles in chat.
+  func outgoingMessageBubbleColor() -> UIColor {
+    switch scheme {
+    case .Blue:
+      return UIColor.jsq_messageBubbleBlueColor()
+    case .Gray:
+      return UIColor.jsq_messageBubbleBlueColor()
     }
   }
   
@@ -282,6 +302,16 @@ struct DividerScheme {
 
   /// :returns: The divider height for any MultipleBoardsTableViewController.
   func multipleBoardsDividerHeight() -> CGFloat {
+    switch scheme {
+    case .Thick:
+      return 10.0
+    case .Thin:
+      return 1.0
+    }
+  }
+  
+  /// :returns: The divider height between ConversationCells for any MultipleConversationTableViewController.
+  func multipleConversationDividerHeight() -> CGFloat {
     switch scheme {
     case .Thick:
       return 10.0

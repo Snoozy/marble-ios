@@ -27,6 +27,9 @@ class UserCell: UITableViewCell {
   ///
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var boardsButton: UIButton!
+  
+  /// Used to transition to message view controller.
+  @IBOutlet weak var messageButton: UIButton?
 
   /// Displays name property of User.
   @IBOutlet weak var nameButton: UIButton!
@@ -103,6 +106,7 @@ class UserCell: UITableViewCell {
     
     if user.isSelf {
       nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      messageButton?.hidden = true
     }
     
     // Make only the number in repLabel bold

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JSQMessagesViewController
 
 /// Defines all properties of a Message on Cillo
 class Message: NSObject {
@@ -23,12 +24,12 @@ class Message: NSObject {
   var senderID = 0
   
   /// Text of this message.
-  var text = ""
+  var content = ""
   
   /// Time that this message was sent.
   ///
   /// String is properly formatted via `compactTimeDisplay` property of UInt64.
-  var time = ""
+  var time = NSDate()
   
   // MARK: Initializers
   
@@ -46,13 +47,40 @@ class Message: NSObject {
     messageID = json["message_id"].intValue
     conversationID = json["conversation_id"].intValue
     senderID = json["user_id"].intValue
-    text = json["content"].stringValue
+    content = json["content"].stringValue
     let time = json["time"].int64Value
-    self.time = time.compactTimeDisplay
+    self.time = NSDate(timeIntervalSince1970: NSTimeInterval(time))
   }
   
   /// Creates empty Message.
   override init() {
     super.init()
+  }
+}
+
+extension Message: JSQMessageData {
+  
+  func senderId() -> String! {
+    return "\(senderID)"
+  }
+  
+  func senderDisplayName() -> String! {
+    return ""
+  }
+  
+  func date() -> NSDate! {
+    return time
+  }
+  
+  func isMediaMessage() -> Bool {
+    return false
+  }
+  
+  func messageHash() -> UInt {
+    return UInt(messageID)
+  }
+  
+  func text() -> String! {
+    return content
   }
 }

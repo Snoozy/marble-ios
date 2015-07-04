@@ -14,7 +14,7 @@ class Conversation: NSObject {
   // MARK: Properties
   
   /// ID of this Conversation.
-  var conversationID = 0
+  var conversationID = -1
 
   /// Time that this conversation was created.
   ///

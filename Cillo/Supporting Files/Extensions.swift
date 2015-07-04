@@ -376,7 +376,8 @@ extension UIButton {
   func setBackgroundImageToImageWithURL(url: NSURL, forState state: UIControlState) {
     DataManager.sharedInstance.activeRequests++
     setBackgroundImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
-      success: { _, _, _ in
+      success: { _, _, image in
+        self.setBackgroundImage(image, forState: .Normal)
         DataManager.sharedInstance.activeRequests--
       },
       failure: { _ in

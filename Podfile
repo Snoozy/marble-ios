@@ -13,3 +13,5 @@ pod 'TTTAttributedLabel'
 pod 'JTSImageViewController'
 
 pod 'SwiftKeychainWrapper', :git => 'https://github.com/jrendel/SwiftKeychainWrapper', :branch => 'master'
+
+pod 'JSQMessagesViewController'

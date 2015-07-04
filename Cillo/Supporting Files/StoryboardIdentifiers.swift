@@ -88,13 +88,21 @@ struct SegueIdentifiers {
   /// Segue from MeTableViewController to PostTableViewController.
   static let meToPost = "MeToPost"
   
-  // MARK: MyNotificationsViewController
+  // MARK: MyNotificationsTableViewController
   
   /// Segue from MyNotificationsViewController to PostTableViewController.
   static let myNotificationsToPost = "MyNotifsToPost"
   
   /// Segue from MyNotificationsViewController to UserTableViewController.
   static let myNotificationsToUser = "MyNotifsToUser"
+  
+  // MARK: MyConversationTableViewController
+  
+  /// Segue from MyConversationViewController to MessagesViewController.
+  static let myConversationsToMessages = "MyConvosToMessages"
+  
+  /// Segue from MyConversationViewController to UserTableViewController.
+  static let myConversationsToUser = "MyConvosToUser"
   
   // MARK: PostTableViewController
   
@@ -122,6 +130,9 @@ struct SegueIdentifiers {
   
   /// Segue from UserTableViewController to BoardsTableViewController.
   static let userToBoards = "UserToBoards"
+  
+  /// Segue from UserTableViewController to MessagesViewController.
+  static let userToMessages = "UserToMessages"
   
   /// Segue from UserTableViewController to PostTableViewController.
   static let userToPost = "UserToPost"
@@ -184,6 +195,11 @@ struct StoryboardIdentifiers {
   
   /// Reuse identifier for NotificationCell.
   static let notificationCell = "Notification"
+  
+  // MARK: ConversationCell
+  
+  /// Reuse identifier for ConversationCell.
+  static let conversationCell = "Conversation"
   
   // MARK: Single Button Cells
   

@@ -21,6 +21,8 @@
 		954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954D99A91A04865D002490C4 /* PostTableViewController.swift */; };
 		954E48061A035AB600598B6D /* FormattedNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */; };
 		955D5ACF1B3B05E400AE613F /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955D5ACE1B3B05E400AE613F /* ConversationCell.swift */; };
+		957F34011B471A2800E28FD9 /* MultipleConversationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957F34001B471A2800E28FD9 /* MultipleConversationTableViewController.swift */; };
+		957F34031B471DBA00E28FD9 /* MyConversationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957F34021B471DBA00E28FD9 /* MyConversationTableViewController.swift */; };
 		958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321C51A461DC5003F2034 /* SwiftyJSON.swift */; };
 		958321CB1A462048003F2034 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958321CA1A462048003F2034 /* DataManager.swift */; };
 		9587A7311A43E74E003CDE64 /* MultiplePostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9587A7301A43E74E003CDE64 /* MultiplePostsTableViewController.swift */; };
@@ -46,6 +48,7 @@
 		95C86D941B052EEB00D37B7E /* Schemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D931B052EEB00D37B7E /* Schemes.swift */; };
 		95C86D961B0533F200D37B7E /* StoryboardIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D951B0533F200D37B7E /* StoryboardIdentifiers.swift */; };
 		95C86D981B053ECD00D37B7E /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D971B053ECD00D37B7E /* CustomViewController.swift */; };
+		95CF1CE01B473BEA0086A930 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CF1CDF1B473BEA0086A930 /* MessagesViewController.swift */; };
 		95D37C371AE86873008B362D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D37C361AE86873008B362D /* SettingsViewController.swift */; };
 		95E496921A15208500154864 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496911A15208500154864 /* UserCell.swift */; };
 		95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E496931A1520AB00154864 /* MeTableViewController.swift */; };
@@ -103,6 +106,8 @@
 		954D99A91A04865D002490C4 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/PostTableViewController.swift"; sourceTree = "<group>"; };
 		954E48051A035AB600598B6D /* FormattedNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormattedNavigationViewController.swift; path = "View Controllers/Navigation Controllers/FormattedNavigationViewController.swift"; sourceTree = "<group>"; };
 		955D5ACE1B3B05E400AE613F /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationCell.swift; path = Model/Cells/ConversationCell.swift; sourceTree = "<group>"; };
+		957F34001B471A2800E28FD9 /* MultipleConversationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipleConversationTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/MultipleConversationTableViewController.swift"; sourceTree = "<group>"; };
+		957F34021B471DBA00E28FD9 /* MyConversationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyConversationTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MyConversationTableViewController.swift"; sourceTree = "<group>"; };
 		957FE9AB1AE1993400CADE1B /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = ../bridge.h; sourceTree = "<group>"; };
 		958321C51A461DC5003F2034 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Data/Vendor/SwiftyJSON.swift; sourceTree = "<group>"; };
 		958321CA1A462048003F2034 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = Data/DataManager.swift; sourceTree = "<group>"; };
@@ -129,6 +134,7 @@
 		95C86D931B052EEB00D37B7E /* Schemes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Schemes.swift; path = "Supporting Files/Schemes.swift"; sourceTree = "<group>"; };
 		95C86D951B0533F200D37B7E /* StoryboardIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryboardIdentifiers.swift; path = "Supporting Files/StoryboardIdentifiers.swift"; sourceTree = "<group>"; };
 		95C86D971B053ECD00D37B7E /* CustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomViewController.swift; path = "View Controllers/Standard View Controllers/CustomViewController.swift"; sourceTree = "<group>"; };
+		95CF1CDF1B473BEA0086A930 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesViewController.swift; path = "View Controllers/Standard View Controllers/MessagesViewController.swift"; sourceTree = "<group>"; };
 		95D37C361AE86873008B362D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/Standard View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
 		95E496911A15208500154864 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Model/Cells/UserCell.swift; sourceTree = "<group>"; };
 		95E496931A1520AB00154864 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/MeTableViewController.swift"; sourceTree = "<group>"; };
@@ -224,6 +230,7 @@
 				959E0F101A253A1E008B4D19 /* MyBoardsTableViewController.swift */,
 				95E496931A1520AB00154864 /* MeTableViewController.swift */,
 				95ECD1421B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift */,
+				957F34021B471DBA00E28FD9 /* MyConversationTableViewController.swift */,
 			);
 			name = "Root TVCs";
 			sourceTree = "<group>";
@@ -289,6 +296,7 @@
 				95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */,
 				954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */,
 				95ECD1401B2FCB660041CA5F /* MultipleNotificationTableViewController.swift */,
+				957F34001B471A2800E28FD9 /* MultipleConversationTableViewController.swift */,
 			);
 			name = "Parent TVCs";
 			sourceTree = "<group>";
@@ -304,6 +312,7 @@
 				95A4BD7B1A5C885900CFD4DA /* NewPostViewController.swift */,
 				95EAA84D1AD19C7600DCE1E8 /* NewRepostViewController.swift */,
 				95BEF9F81A71C954008AFDB9 /* WebViewController.swift */,
+				95CF1CDF1B473BEA0086A930 /* MessagesViewController.swift */,
 				95DB34321A54834B008A8DC0 /* TBCs */,
 				95352D721A155C4D00874B0F /* NCs */,
 				9587A7321A43E855003CDE64 /* Parent TVCs */,
@@ -555,12 +564,14 @@
 			files = (
 				9587A7341A43E8F2003CDE64 /* SingleUserTableViewController.swift in Sources */,
 				95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */,
+				95CF1CE01B473BEA0086A930 /* MessagesViewController.swift in Sources */,
 				95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */,
 				95C86D961B0533F200D37B7E /* StoryboardIdentifiers.swift in Sources */,
 				958ABA5E1B1BFD6600D00E5D /* CustomTextField.swift in Sources */,
 				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
 				95C86D981B053ECD00D37B7E /* CustomViewController.swift in Sources */,
+				957F34011B471A2800E28FD9 /* MultipleConversationTableViewController.swift in Sources */,
 				95E496941A1520AB00154864 /* MeTableViewController.swift in Sources */,
 				95C86D941B052EEB00D37B7E /* Schemes.swift in Sources */,
 				9509E0001A55F60B00F5083B /* Repost.swift in Sources */,
@@ -579,6 +590,7 @@
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				954A5DE61A4D00E50011DB1C /* RepostCell.swift in Sources */,
 				95A14A421B3A01F300C40936 /* Conversation.swift in Sources */,
+				957F34031B471DBA00E28FD9 /* MyConversationTableViewController.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
 				958321C61A461DC5003F2034 /* SwiftyJSON.swift in Sources */,
 				954382961A5A7F8A0036C237 /* SingleBoardTableViewController.swift in Sources */,

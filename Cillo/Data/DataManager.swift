@@ -84,6 +84,7 @@ enum Router: URLStringConvertible {
   case ConversationMessages(Int)
   case ConversationPaged(Int, Int)
   case ConversationPoll(Int, Int)
+  case UserMessages(Int)
   
   //POST
   case Register
@@ -155,6 +156,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/conversations/\(conversationID)/paged\(authString)&before=\(beforeMessageID)"
       case .ConversationPoll(let conversationID, let afterMessageID):
         return "/\(vNum)/conversations/\(conversationID)/poll\(authString)&after=\(afterMessageID)"
+      case .UserMessages(let userID):
+        return "/\(vNum)/user/\(userID)/messages\(authString)"
         
         // POST
       case .Register:
@@ -240,6 +243,8 @@ enum Router: URLStringConvertible {
       return "Conversation \(conversationID) Paged Before \(beforeMessageID)"
     case .ConversationPoll(let conversationID, let afterMessageID):
       return "Conversation \(conversationID) Polled After \(afterMessageID)"
+    case .UserMessages(let userID):
+      return "End User Messages with User \(userID)"
       
       // POST
     case .Register:
@@ -316,6 +321,43 @@ class DataManager: NSObject {
   
   // MARK: Networking Functions
   
+  /// Attempts to retrieve the end user's messages with another specified user.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: user The user that the messages are being retrieved for.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the end user's messages with `user`.
+  func getEndUserMessagesWithUser(user: User, completionHandler: (error: NSError?, hasConversation: Bool, result: [Message]?) -> ()) {
+    activeRequests++
+    Alamofire.request(.GET, Router.UserMessages(user.userID), parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, hasConversation: false, result: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .UserMessages(user.userID))
+            completionHandler(error: cilloError, hasConversation: false, result: nil)
+          } else {
+            let messages = json["messages"].arrayValue
+            if messages.count == 0 {
+              completionHandler(error: nil, hasConversation: false, result: nil)
+            } else {
+              var returnArray = [Message]()
+              for message in messages {
+                returnArray.append(Message(json: message))
+              }
+              completionHandler(error: nil, hasConversation: true, result: returnArray)
+            }
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserMessages(user.userID)), hasConversation: false, result: nil)
+        }
+    }
+  }
+
   /// Attempts to retrieve the end user's conversations.
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
@@ -323,17 +365,18 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the end user's conversations.
-  func getEndUserConversations(completionHandler: (error: NSError?, result: [Conversation]?) -> ()) {
+  /// :param: inboxCount If the request was successful this will be the end user's inbox count.
+  func getEndUserConversations(completionHandler: (error: NSError?, result: [Conversation]?, inboxCount: Int?) -> ()) {
     activeRequests++
     Alamofire.request(.GET, Router.Conversations, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         self.activeRequests--
         if let error = error {
-          completionHandler(error: error, result: nil)
+          completionHandler(error: error, result: nil, inboxCount: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Conversations)
-            completionHandler(error: cilloError, result: nil)
+            completionHandler(error: cilloError, result: nil, inboxCount: nil)
           } else {
             let conversations = json["conversations"].arrayValue
             var returnArray = [Conversation]()
@@ -341,10 +384,11 @@ class DataManager: NSObject {
               let item = Conversation(json: conversation)
               returnArray.append(item)
             }
-            completionHandler(error: nil, result: returnArray)
+            let count = json["inbox_count"].intValue
+            completionHandler(error: nil, result: returnArray, inboxCount: count)
           }
         } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Conversations), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Conversations), result: nil, inboxCount: nil)
         }
     }
   }
@@ -459,42 +503,34 @@ class DataManager: NSObject {
     }
   }
 
-  // TODO: Send Message
-//  /// Attempts to retrieve the messages for a specific conversation with the provided id.
-//  ///
-//  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
-//  ///
-//  /// :param: conversationID The id of the conversation that messages are being retrieved for.
-//  /// :param: completionHandler A completion block for the network request.
-//  /// :param: error If the request was unsuccessful, this will contain the error message.
-//  /// :param: result If the request was successful, this will be the conversation's messages.
-//  func sendMessageToUserWithID(userID: Int, completionHandler: (error: NSError?, message: [Message]?) -> ()) {
-//    activeRequests++
-//    Alamofire.request(.POST, Router.SendMessage(userID), parameters: nil, encoding: .URL)
-//      .responseJSON { request, response, data, error in
-//        self.activeRequests--
-//        if let error = error {
-//          completionHandler(error: error, result: nil)
-//        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-//          if json["error"] != nil {
-//            let cilloError = NSError(json: json, requestType: .ConversationMessages(conversationID))
-//            completionHandler(error: cilloError, result: nil)
-//          } else if json["status"].stringValue == "empty" {
-//            completionHandler(error: nil, result: [Message]())
-//          } else {
-//            let messages = json["messages"].arrayValue
-//            var returnArray = [Message]()
-//            for message in messages {
-//              let item = Message(json: message)
-//              returnArray.append(item)
-//            }
-//            completionHandler(error: nil, result: returnArray)
-//          }
-//        } else {
-//          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationMessages(conversationID)), result: nil)
-//        }
-//    }
-//  }
+  /// Attempts to send a message to a specific user with the provided id.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: message The text of the message to send.
+  /// :param: userID The id of the user that the message is being sent to.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success True if the request was successful.
+  func sendMessage(message: String, toUserWithID userID: Int, completionHandler: (error: NSError?, message: Message?) -> ()) {
+    activeRequests++
+    Alamofire.request(.POST, Router.SendMessage(userID), parameters: ["content": message], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, message: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .SendMessage(userID))
+            completionHandler(error: cilloError, message: nil)
+          } else {
+            completionHandler(error: nil, message: Message(json: json["message"]))
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .SendMessage(userID)), message: nil)
+        }
+    }
+  }
   
   /// Attempts to follow a board.
   ///

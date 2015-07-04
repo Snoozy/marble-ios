@@ -33,12 +33,29 @@ class UserTableViewController: SingleUserTableViewController {
     return SegueIdentifiers.userToBoards
   }
   
+  var segueIdentifierThisToMessages: String {
+    return SegueIdentifiers.userToMessages
+  }
+  
   // MARK: UIViewController 
   
   override func viewDidLoad() {
     super.viewDidLoad()
     if KeychainWrapper.hasAuthAndUser() && user != User(){
       retrieveData()
+    }
+  }
+  
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    super.prepareForSegue(segue, sender: sender)
+    if segue.identifier == segueIdentifierThisToMessages {
+      let destination = segue.destinationViewController as! MessagesViewController
+      if let sender = sender as? [String: AnyObject] {
+        if let messages = sender["0"] as? [Message], conversation = sender["1"] as? Conversation {
+          destination.messages = messages
+          destination.conversation = conversation
+        }
+      }
     }
   }
   
@@ -95,6 +112,24 @@ class UserTableViewController: SingleUserTableViewController {
     }
   }
   
+  func retrieveConversation(completionHandler: (messages: [Message]?, conversation: Conversation?) -> ()) {
+    DataManager.sharedInstance.getEndUserMessagesWithUser(user) { error, hasConversation, messages in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(messages: nil, conversation: nil)
+      } else if !hasConversation {
+        let conversation = Conversation()
+        conversation.otherUser = self.user
+        completionHandler(messages: [], conversation: conversation)
+      } else if let messages = messages {
+        let conversation = Conversation()
+        conversation.conversationID = messages[0].conversationID
+        conversation.otherUser = self.user
+        completionHandler(messages: messages, conversation: conversation)
+      }
+    }
+  }
+  
   /// Used to retrieve all necessary data to display UITableViewCells in this UIViewController.
   ///
   /// Assigns posts and comments properties of SingleUserTableViewController correct values from server calls.
@@ -138,6 +173,20 @@ class UserTableViewController: SingleUserTableViewController {
         completionHandler(posts: nil)
       } else {
         completionHandler(posts: result)
+      }
+    }
+  }
+  
+  // MARK: IBActions
+  
+  /// Triggers segue to MessagesViewController.
+  ///
+  /// :param: sender The button that is touched to send this function is a messageButton in a UserCell.
+  @IBAction func messagePressed(sender: UIButton) {
+    retrieveConversation { messages, conversation in
+      if let messages = messages, conversation = conversation {
+        let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
+        self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
       }
     }
   }

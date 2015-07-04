@@ -85,6 +85,14 @@ class ConversationCell: UITableViewCell {
     
     photoButton.tag = buttonTag
     
+    var name = NSMutableAttributedString(string: conversation.otherUser.name, attributes: [NSForegroundColorAttributeName: UIColor.darkTextColor()])
+    var unreadDot = NSMutableAttributedString(string: "·", attributes: [NSForegroundColorAttributeName: UIColor.blueColor()])
+    if !conversation.read {
+      unreadDot.appendAttributedString(name)
+      name = unreadDot
+    }
+    nameButton.setAttributedTitle(name, forState: .Normal)
+    
     separatorView?.backgroundColor = scheme.dividerBackgroundColor()
   }
   

@@ -9,7 +9,7 @@
 import UIKit
 import SwiftKeychainWrapper
 
-/// Handles first view of Notifcations tab.
+/// Handles first view of Notifications tab.
 ///
 /// Formats TableView to look appealing and be functional.
 class MyNotificationsTableViewController: MultipleNotificationTableViewController {

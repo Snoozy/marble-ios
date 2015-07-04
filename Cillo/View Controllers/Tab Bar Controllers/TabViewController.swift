@@ -16,6 +16,13 @@ protocol NotificationsDataSource {
   func notificationsRefreshedTo(notifications: [Notification], withUnreadCount count: Int)
 }
 
+/// Data source that allows the TabViewController to tell another controller that it has updated the end user's conversations.
+protocol ConversationsDataSource {
+  
+  /// Function that is called each time the notifications are retrieved via the `notificationRefresher` property of TabViewController.
+  func conversationsRefreshedTo(conversations: [Conversation], withUnreadCount count: Int)
+}
+
 /// Starting UIViewController of Cillo application.
 ///
 /// Has 3 tabs:
@@ -29,16 +36,25 @@ class TabViewController: UITabBarController {
   
   // MARK: Properties
   
-  /// Cached notifications to display in the notifications screen
+  /// Cached conversations to display in the messages screen.
+  var conversations = [Conversation]()
+  
+  /// Data source that will display the conversations cached by this TabViewController.
+  var conversationsDataSource: ConversationsDataSource?
+  
+  /// Cached notifications to display in the notifications screen.
   var notifications = [Notification]()
   
-  /// Timer that is set to refresh the notifications every minute.
+  /// Timer that is set to refresh the notifications and conversations every minute.
   var notificationRefresher = NSTimer()
   
   /// Data source that will display the notifications cached by this TabViewController.
   var notificationsDataSource: NotificationsDataSource?
   
   // MARK: Constants
+  
+  /// Index of the messages tab in tab bar
+  let messageTabIndex = 3
   
   /// Index of the notifications tab in tab bar
   let notificationTabIndex = 2
@@ -96,11 +112,31 @@ class TabViewController: UITabBarController {
         }.count
         self.setNotificationsBadgeValueTo(unreadCount)
         self.notificationsDataSource?.notificationsRefreshedTo(notifications, withUnreadCount: unreadCount)
+        self.getConversations { conversations, inboxCount in
+          if let conversations = conversations, inboxCount = inboxCount {
+            self.conversations = conversations
+            self.setMessagesBadgeValueTo(inboxCount)
+            self.conversationsDataSource?.conversationsRefreshedTo(conversations, withUnreadCount: inboxCount)
+          }
+        }
       }
     }
   }
   
   // MARK: Setup Helper Functions
+  
+  /// Sets the red circle above the messages tab to the specified value to signal that there are unread messages.
+  ///
+  /// :param: value The value to set the unread messages to.
+  func setMessagesBadgeValueTo(value: Int) {
+    if let messagesTab = tabBar.items?[messageTabIndex] as? UITabBarItem {
+      if value == 0 {
+        messagesTab.badgeValue = nil
+      } else {
+        messagesTab.badgeValue = "\(value)"
+      }
+    }
+  }
   
   /// Sets the red circle above the notifications tab to the specified value to signal that there are unread notifications.
   ///
@@ -116,6 +152,24 @@ class TabViewController: UITabBarController {
   }
   
   // MARK: Networking Helper Functions
+  
+  /// Retrieves the conversations for the end user.
+  ///
+  /// TabViewController must retrieve conversations in order to display badge.
+  ///
+  /// :param: completionHandler The completion block for the network request.
+  /// :param: conversations The array of conversations retrieved from the server.
+  /// :param: inboxCount The count of unread messages in the end user's inbox retrieved from the server.
+  func getConversations(completionHandler: (conversations: [Conversation]?, inboxCount: Int?) -> ()) {
+    DataManager.sharedInstance.getEndUserConversations { error, result, inboxCount in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(conversations: nil, inboxCount: nil)
+      } else {
+        completionHandler(conversations: result, inboxCount: inboxCount)
+      }
+    }
+  }
   
   /// Retrieves the notifications for the end user.
   ///

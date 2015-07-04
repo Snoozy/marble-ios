@@ -20,7 +20,7 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   
   // MARK: Constants
   
-  /// The standard dividerHeight between PostCells in `tableView`.
+  /// The standard dividerHeight between NotificaitonCells in `tableView`.
   let notificationDividerHeight = DividerScheme.defaultScheme.multipleNotificationsDividerHeight()
 
   /// Segue Identifier in Storyboard for segue to PostTableViewController.
