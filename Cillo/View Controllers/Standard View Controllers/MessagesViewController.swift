@@ -51,6 +51,11 @@ class MessagesViewController: JSQMessagesViewController {
     navigationItem.title = conversation.otherUser.name
     messageRefresher = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(15), target: self, selector: "loadEarlierMessages:", userInfo: nil, repeats: true)
   }
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    messageRefresher.invalidate()
+  }
 
   // MARK: JSQMessagesViewController
 

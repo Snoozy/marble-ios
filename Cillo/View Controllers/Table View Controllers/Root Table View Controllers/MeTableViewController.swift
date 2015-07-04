@@ -246,6 +246,7 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is a cogButton in a UserCell.
   @IBAction func cogPressed(sender: UIButton) {
+    println(DataManager.sharedInstance.activeRequests)
     if let tabBarController = tabBarController as? TabViewController {
       tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToSettings, sender: user)
     }
