@@ -39,6 +39,7 @@ import UIKit
 /// * ConversationMessages(Int): Request to retrieve the last 20 messages of a conversation. Parameter is the id of the conversation.
 /// * ConversationPaged(Int, Int): Request to retrieve earlier messages than what is retrieved by ConversationMessages. First parameter is the conversation id. Second parameter is the id of the oldest message already retrieved.
 /// * ConversationPoll(Int, Int): Request to retrieve new messages and check if there are any new messages. First parameter is the conversation id. Second parameter is the id of the newest message already retrieved.
+/// * UserMessages(Int): Request to retrieve the messages with a specific user. Parameter is the user id of the user that the messages are being retrieved for.
 ///
 ///
 /// POST Requests:
@@ -60,6 +61,7 @@ import UIKit
 /// * PasswordUpdate: Reuqest to update the password of the end user.
 /// * ReadNotifications: Request to read the notifications of the end user.
 /// * SendMessage(Int): Request to send a message to a user. Parameter is the id of the user that the end user is sending to.
+/// * ReadInbox: Request to read the new messages in the inbox of the end user.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
   static let baseURLString = "http://api.cillo.co"
@@ -557,7 +559,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .BoardFollow(boardID))
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardFollow(boardID)), success: false)
@@ -585,7 +587,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .BoardUnfollow(boardID))
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardUnfollow(boardID)), success: false)
@@ -681,7 +683,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .CommentDown(commentID))
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
@@ -709,7 +711,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .CommentUp(commentID))
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
@@ -1450,7 +1452,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .Logout)
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
@@ -1478,7 +1480,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .PostDown(postID))
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
@@ -1506,7 +1508,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .PostUp(postID))
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
@@ -1531,11 +1533,12 @@ class DataManager: NSObject {
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          println(json)
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Register)
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
@@ -1562,7 +1565,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .ReadInbox)
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadInbox), success: false)
@@ -1589,7 +1592,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .ReadNotifications)
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadNotifications), success: false)
@@ -1618,7 +1621,7 @@ class DataManager: NSObject {
             let cilloError = NSError(json: json, requestType: .PasswordUpdate)
             completionHandler(error: cilloError, success: false)
           } else {
-            completionHandler(error: nil, success: json["success"] != nil)
+            completionHandler(error: nil, success: true)
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)

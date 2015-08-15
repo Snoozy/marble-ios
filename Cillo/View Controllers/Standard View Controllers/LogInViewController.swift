@@ -117,6 +117,8 @@ class LogInViewController: CustomViewController {
   override func handlePasswordIncorrectError(error: NSError) {
     if objc_getClass("UIAlertController") != nil {
       let alert = UIAlertController(title: "Error", message: "Username and password do not match.", preferredStyle: .Alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { _ in
+      })
       presentViewController(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Error", message: "Username and password do not match.", delegate: nil, cancelButtonTitle: "Ok")

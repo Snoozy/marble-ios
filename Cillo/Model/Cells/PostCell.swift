@@ -151,6 +151,8 @@ class PostCell: UITableViewCell {
     photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
     timeLabel.text = post.time
     
+    timeLabel.textColor = UIColor.lightGrayColor()
+    
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
@@ -193,7 +195,7 @@ class PostCell: UITableViewCell {
     commentLabel.text = post.commentCount.fiveCharacterDisplay
     commentLabel.textColor = UIColor.whiteColor()
     repLabel.text = post.rep.fiveCharacterDisplay
-    repLabel.font = UIFont.systemFontOfSize(24)
+    repLabel.font = UIFont.boldSystemFontOfSize(18)
     
     // gets rid of small gap in divider
     if seeFullButton == nil && respondsToSelector("setLayoutMargins:") {
@@ -233,7 +235,7 @@ class PostCell: UITableViewCell {
         imagesButton.setTitle("", forState: .Normal)
         imagesButton.contentMode = .ScaleAspectFit
       } else if post.isImagePost {
-        imagesButton.setTitle("Loading...", forState: .Normal)
+        imagesButton.setTitle("Loading Image...", forState: .Normal)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }
     }

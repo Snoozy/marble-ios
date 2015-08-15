@@ -104,8 +104,15 @@ class RegisterViewController: CustomViewController {
   // MARK: Error Handling Helper Functions
   
   override func handleUsernameTakenError(error: NSError) {
-    let alert = UIAlertController(title: "Error", message: "Username already taken.", preferredStyle: .Alert)
-    presentViewController(alert, animated: true, completion: nil)
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Error", message: "Username already taken.", preferredStyle: .Alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { _ in
+        })
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Error", message: "Username already taken.", delegate: nil, cancelButtonTitle: "Ok")
+      alert.show()
+    }
   }
   
   override func handleUserUnauthenticatedError(error: NSError) {

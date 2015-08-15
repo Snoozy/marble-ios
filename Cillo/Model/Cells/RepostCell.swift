@@ -164,7 +164,7 @@ class RepostCell: PostCell {
         imagesButton.setTitle("", forState: .Normal)
         imagesButton.contentMode = .ScaleAspectFit
       } else if post.originalPost.isImagePost {
-        imagesButton.setTitle("Loading...", forState: .Normal)
+        imagesButton.setTitle("Loading Image...", forState: .Normal)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }
       

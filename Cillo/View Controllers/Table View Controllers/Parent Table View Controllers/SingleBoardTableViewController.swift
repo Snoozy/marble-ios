@@ -207,22 +207,40 @@ class SingleBoardTableViewController: CustomTableViewController {
   }
   
   /// Presents an AlertController with style `.ActionSheet` that asks the user for confirmation of unfollowing a board.
-  func presentUnfollowConfirmationActionSheet() {
-    let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
-    let unfollowAction = UIAlertAction(title: "Unfollow", style: .Default) { _ in
-      self.unfollowBoard { success in
-        if success {
-          self.board.following = false
-          let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+  func presentUnfollowConfirmationActionSheet(#iPadReference: UIButton?) {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
+      let unfollowAction = UIAlertAction(title: "Unfollow", style: .Default) { _ in
+        self.unfollowBoard { success in
+          if success {
+            self.board.following = false
+            let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          }
+        }
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(unfollowAction)
+      actionSheet.addAction(cancelAction)
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = iPadReference
+        popPresenter?.sourceRect = iPadReference.bounds
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: board.name, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Unfollow", "Cancel")
+      actionSheet.cancelButtonIndex = 1
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(iPadReference.bounds, inView: iPadReference, animated: true)
+      } else {
+        if let tabBar = tabBarController?.tabBar {
+          actionSheet.showFromTabBar(tabBar)
         }
       }
     }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
-    }
-    actionSheet.addAction(unfollowAction)
-    actionSheet.addAction(cancelAction)
-    presentViewController(actionSheet, animated: true, completion: nil)
   }
   
   /// Calculates the correct separator height inbetween cells of `tableView`.
@@ -343,7 +361,7 @@ class SingleBoardTableViewController: CustomTableViewController {
         }
       }
     } else {
-      presentUnfollowConfirmationActionSheet()
+      presentUnfollowConfirmationActionSheet(iPadReference: sender)
     }
   }
   
@@ -437,6 +455,21 @@ class SingleBoardTableViewController: CustomTableViewController {
           post.upvote()
           let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
           self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+        }
+      }
+    }
+  }
+}
+
+extension SingleBoardTableViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    if buttonIndex == 0 {
+      unfollowBoard { success in
+        if success {
+          self.board.following = false
+          let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
         }
       }
     }

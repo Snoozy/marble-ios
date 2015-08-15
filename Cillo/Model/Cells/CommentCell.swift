@@ -214,6 +214,7 @@ class CommentCell: UITableViewCell {
     } else {
       upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
       downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      repAndTimeLabel.textColor = UIColor.lightGrayColor()
     }
     
     //indents cell

@@ -182,7 +182,9 @@ class UserTableViewController: SingleUserTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is a messageButton in a UserCell.
   @IBAction func messagePressed(sender: UIButton) {
+    sender.enabled = false
     retrieveConversation { messages, conversation in
+      sender.enabled = true
       if let messages = messages, conversation = conversation {
         let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
         self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)

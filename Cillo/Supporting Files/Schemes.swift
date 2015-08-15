@@ -135,7 +135,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.cilloBlue()
     case .Gray:
-      return UIColor.cilloBlue()
+      return UIColor.darkTextColor()
     }
   }
   
@@ -167,7 +167,7 @@ struct ColorScheme {
     case .Blue:
       return UIColor.orangeColor()
     case .Gray:
-      return UIColor.orangeColor()
+      return UIColor.cilloBlue()
     }
   }
   

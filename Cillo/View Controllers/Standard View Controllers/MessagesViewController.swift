@@ -28,7 +28,7 @@ class MessagesViewController: JSQMessagesViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if conversation.conversationID != -1 && messages == [] { // no messages have been passed to this view controller and the conversation is a valid conversation.
+    if conversation.conversationID != -1 && messages.isEmpty { // no messages have been passed to this view controller and the conversation is a valid conversation.
       getMessages { messages in
         if let messages = messages {
           if messages.count >= 30 {
