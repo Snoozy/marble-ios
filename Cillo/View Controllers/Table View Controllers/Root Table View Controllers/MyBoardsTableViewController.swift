@@ -71,22 +71,6 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if tableView == self.tableView && !searched && !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
-      retrievingPage = true
-      retrieveBoards { boards in
-        if let boards = boards {
-          for board in boards {
-            self.boards.append(board)
-          }
-          self.pageNumber++
-          self.tableView.reloadData()
-        }
-        self.retrievingPage = false
-      }
-    }
-  }
-  
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     if tableView == self.tableView {
       super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
@@ -135,7 +119,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
-      DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
+      DataManager.sharedInstance.getUserBoardsByID(userID) { error, result in
         if let error = error {
           self.handleError(error)
           completionHandler(boards: nil)
@@ -152,12 +136,10 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   override func retrieveData() {
     retrievingPage = true
     boards = []
-    pageNumber = 1
     seeAll = false
     searched = false
     retrieveBoards { boards in
       if let boards = boards {
-        self.pageNumber++
         self.boards = boards
         self.tableView.reloadData()
       }

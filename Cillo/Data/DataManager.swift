@@ -29,7 +29,7 @@ import UIKit
 /// * PostComments(Int): Request to retrieve all comments for a specific post. Parameter is a post id.
 /// * SelfInfo: Request to retrieve info about the end user.
 /// * UserInfo: Request to retrieve info about a specific user. No Parameter is present because either a user id or username may be passed when the request is performed.
-/// * UserBoards(Int, Int?): Request to retrieve the boards that a specific user follows. Parameter is a user id and the page number on the list of boards.
+/// * UserBoards(Int): Request to retrieve the boards that a specific user follows. Parameter is a user id.
 /// * UserPosts(Int, Int?): Request to retrieve the posts that a specific user has made. Parameter is a user id and the page number in the list of posts.
 /// * UserComments(Int, Int?): Request to retrieve the comments that a specific user has made. parameter is a user id and the page number in the list of comments.
 /// * BoardSearch: Request to retrieve the boards that match a specific search string.
@@ -74,7 +74,7 @@ enum Router: URLStringConvertible {
   case PostComments(Int)
   case SelfInfo
   case UserInfo
-  case UserBoards(Int, Int?)
+  case UserBoards(Int)
   case UserPosts(Int, Int?)
   case UserComments(Int, Int?)
   case BoardSearch
@@ -134,9 +134,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/me/describe\(authString)"
       case .UserInfo:
         return "/\(vNum)/users/describe\(authString)"
-      case .UserBoards(let userID, let pgNum):
-        let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
-        return "/\(vNum)/users/\(userID)/boards\(authString)\(page)"
+      case .UserBoards(let userID):
+        return "/\(vNum)/users/\(userID)/boards\(authString)"
       case .UserPosts(let userID, let pgNum):
         let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
         return "/\(vNum)/users/\(userID)/posts\(authString)\(page)"
@@ -223,9 +222,8 @@ enum Router: URLStringConvertible {
       return "End User Info"
     case .UserInfo:
       return "User Info"
-    case .UserBoards(let userID, let pgNum):
-      let page = pgNum ?? 1
-      return "User \(userID) Boards Page \(page)"
+    case .UserBoards(let userID):
+      return "User \(userID) Boards"
     case .UserPosts(let userID, let pgNum):
       let page = pgNum ?? 1
       return "User \(userID) Posts Page \(page)"
@@ -1031,6 +1029,7 @@ class DataManager: NSObject {
   /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
   func getHomeFeed(#lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
     activeRequests++
+    println(lastPostID)
     request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         self.activeRequests--
@@ -1207,16 +1206,16 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the boards that the user follows.
-  func getUserBoardsByID(userID: Int, lastBoardID: Int?, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+  func getUserBoardsByID(userID: Int, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
     activeRequests++
-    request(.GET, Router.UserBoards(userID, lastBoardID), parameters: nil, encoding: .URL)
+    request(.GET, Router.UserBoards(userID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
           if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserBoards(userID, lastBoardID))
+            let cilloError = NSError(json: json, requestType: .UserBoards(userID))
             completionHandler(error: cilloError, result: nil)
           } else {
             let boards = json["boards"].arrayValue
@@ -1228,7 +1227,7 @@ class DataManager: NSObject {
             completionHandler(error: nil, result: returnArray)
           }
         } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserBoards(userID, lastBoardID)), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserBoards(userID)), result: nil)
         }
     }
   }

@@ -18,9 +18,6 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Boards for this UITableViewController.
   var boards = [Board]()
   
-  /// Page marker used to retrieve 20 boards from the server at a time.
-  var pageNumber = 1
-  
   /// True if all followed boards should be shown. If false, only `numberBoardsShownBeforeSeeAll` boards will be shown, in addition to a cell for a SeeAll button and a New Board button.
   var seeAll = false
   

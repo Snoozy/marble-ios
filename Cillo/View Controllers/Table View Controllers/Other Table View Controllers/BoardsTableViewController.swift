@@ -37,24 +37,6 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
     }
   }
   
-  // MARK: UITableViewDelegate
-  
-  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
-      retrievingPage = true
-      retrieveBoards { boards in
-        if let boards = boards {
-          for board in boards {
-            self.boards.append(board)
-          }
-          self.pageNumber++
-          self.tableView.reloadData()
-        }
-        self.retrievingPage = false
-      }
-    }
-  }
-  
   // MARK: Networking Helper Functions
   
   /// Used to retrieve the boards followed by user with userID from Cillo servers.
@@ -63,7 +45,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: boards The boards followed by user with userID.
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
-    DataManager.sharedInstance.getUserBoardsByID(userID, lastBoardID: boards.last?.boardID) { error, result in
+    DataManager.sharedInstance.getUserBoardsByID(userID) { error, result in
       if let error = error {
         self.handleError(error)
         completionHandler(boards: nil)
@@ -79,13 +61,11 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   override func retrieveData() {
     retrievingPage = true
     boards = []
-    pageNumber = 1
     seeAll = true
     retrieveBoards { boards in
       if let boards = boards {
         self.boards = boards
         self.tableView.reloadData()
-        self.pageNumber++
       }
       self.refreshControl?.endRefreshing()
       self.retrievingPage = false

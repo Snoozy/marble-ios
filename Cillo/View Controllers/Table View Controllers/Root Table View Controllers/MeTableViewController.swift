@@ -45,7 +45,7 @@ class MeTableViewController: SingleUserTableViewController {
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     switch cellsShown {
     case .Posts:
-      if !retrievingPage && indexPath.row > (postsPageNumber - 2) * 20 + 10 {
+      if !retrievingPage && indexPath.row > posts.count - 10 {
         retrievingPage = true
         retrievePosts { posts in
           if let posts = posts {
@@ -59,7 +59,7 @@ class MeTableViewController: SingleUserTableViewController {
         }
       }
     case .Comments:
-      if !retrievingPage && indexPath.row > (commentsPageNumber - 2) * 20 + 10 {
+      if !retrievingPage && indexPath.row > comments.count - 10 {
         retrievingPage = true
         retrieveComments { comments in
           if let comments = comments {

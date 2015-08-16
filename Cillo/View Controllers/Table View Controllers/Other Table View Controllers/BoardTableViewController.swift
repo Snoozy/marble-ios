@@ -44,7 +44,7 @@ class BoardTableViewController: SingleBoardTableViewController {
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !retrievingPage && indexPath.row > (pageNumber - 1) * 10 + 10 {
+    if !retrievingPage && indexPath.row > posts.count - 10 {
       retrievingPage = true
       retrievePosts { posts in
         if let posts = posts {

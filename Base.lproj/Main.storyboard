@@ -260,7 +260,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="98A-za-pfE" userLabel="Post Text" customClass="PlaceholderTextView" customModule="Cillo" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="98A-za-pfE" userLabel="Post Text" customClass="PlaceholderTextView" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="8" y="162" width="584" height="120"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -272,7 +272,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Say something..."/>
                                 </userDefinedRuntimeAttributes>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOs-i2-uFI" userLabel="Select Image">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOs-i2-uFI" userLabel="Select Image">
                                 <rect key="frame" x="8" y="326" width="584" height="40"/>
                                 <state key="normal" title="Choose Image (optional)">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -281,7 +281,7 @@
                                     <action selector="imageButtonPressed:" destination="nzy-ZD-gBV" eventType="touchUpInside" id="aIu-GL-enL"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wuw-93-5Ae" userLabel="Title" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wuw-93-5Ae" userLabel="Title" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="8" y="120" width="584" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -290,7 +290,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Board" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sBN-iM-X7a" userLabel="Board" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Board" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sBN-iM-X7a" userLabel="Board" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="8" y="284" width="584" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -3713,7 +3713,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0N-H3-imC">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0N-H3-imC">
                                             <rect key="frame" x="495" y="35" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="32" id="A7W-sY-WBl"/>

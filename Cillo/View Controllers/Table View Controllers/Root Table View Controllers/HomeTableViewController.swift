@@ -43,13 +43,17 @@ class HomeTableViewController: MultiplePostsTableViewController {
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !retrievingPage && indexPath.row > (pageNumber - 2) * 20 + 10 {
+    if !retrievingPage && indexPath.row > posts.count - 10 {
       retrievingPage = true
       retrievePosts { posts in
         if let posts = posts {
+          print("Next 10:")
+          println(posts.map({$0.time}))
           for post in posts {
             self.posts.append(post)
           }
+          print("Updated to \(self.posts.count):")
+          println(self.posts.map({$0.time}))
           self.pageNumber++
           self.tableView.reloadData()
         }
@@ -69,6 +73,8 @@ class HomeTableViewController: MultiplePostsTableViewController {
     pageNumber = 1
     retrievePosts { posts in
       if let posts = posts {
+        print("Original 10:")
+        println(posts.map({$0.time}))
         self.pageNumber++
         self.posts = posts
         self.tableView.reloadData()
