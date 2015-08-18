@@ -41,17 +41,12 @@ class RepostCell: PostCell {
   // MARK: Constants
   
   override class var additionalVertSpaceNeeded: CGFloat {
-    return 205
+    return 182
   }
   
   /// Distance to originalPost related elements in the RepostCell.
   class var originalPostMargins: CGFloat {
     return 37
-  }
-  
-  /// Height of the titleLabel in a RepostCell.
-  class var originalPostTitleHeight: CGFloat {
-    return 23
   }
   
   /// Font of originalPostTTTAttributedLabel.
@@ -93,7 +88,7 @@ class RepostCell: PostCell {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postTTTAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostTTTAttributedLabelFont)
     height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins)
     height += dividerHeight
-    return post.originalPost.title != nil ? height : height - RepostCell.titleHeight
+    return height + post.originalPost.heightOfTitleWithWidth(width - RepostCell.originalPostMargins, andFont: UIFont.boldSystemFontOfSize(20.0))
   }
   
   /// Makes this RepostCell's IBOutlets display the correct values of the corresponding Repost.
@@ -115,6 +110,7 @@ class RepostCell: PostCell {
       
       let nameTitle = "\(post.originalPost.user.name)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
+      originalNameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(13.0)
       originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
       originalPhotoButton.setBackgroundImageToImageWithURL(post.originalPost.user.photoURL, forState: .Normal)
       
@@ -150,9 +146,11 @@ class RepostCell: PostCell {
         originalNameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
       }
       
+      titleLabel.numberOfLines = 0
+      titleLabel.textAlignment = .Left
       if let title = post.originalPost.title {
         titleLabel.text = title
-        titleHeightConstraint.constant = RepostCell.titleHeight
+        titleHeightConstraint.constant = post.originalPost.heightOfTitleWithWidth(contentView.frame.width - 16 - RepostCell.originalPostMargins, andFont: UIFont.boldSystemFontOfSize(20.0))
       } else {
         titleLabel.text = ""
         titleHeightConstraint.constant = 0.0

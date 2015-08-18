@@ -136,6 +136,7 @@ class Post: NSObject {
   /// :param: maxHeight The maximum height of the postTextView before it is expanded.
   /// :param: * Nil if post is unexpandable (seeFull is nil).
   ///  * Usually set to MaxContracted height constant of UITableViewController.
+  /// :param: font The font of the text in postTextView.
   /// :returns: Predicted height of postTextView in a PostCell.
   func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?, andFont font: UIFont) -> CGFloat {
     let height = text.heightOfTextWithWidth(width, andFont: font)
@@ -153,6 +154,15 @@ class Post: NSObject {
     } else {
       return height
     }
+  }
+  
+  /// Used to find the height of titleLabel in a PostCell displaying this Post.
+  ///
+  /// :param: width The current width of titleLabel.
+  /// :param: font The font of the text in titleLabel.
+  /// :returns: Predicted height of titleLabel in a PostCell.
+  func heightOfTitleWithWidth(width: CGFloat, andFont font: UIFont) -> CGFloat {
+    return title != nil ? (title! as NSString).boundingRectWithSize(CGSize(width: width - 16, height: 200), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: NSStringDrawingContext()).size.height + 4 : 0.0
   }
 
   // MARK: Mutating Helper Functions

@@ -85,16 +85,12 @@ class PostCell: UITableViewCell {
   ///
   /// **Note:** Height of postTTTAttributedLabel must be calculated based on it's text property.
   class var additionalVertSpaceNeeded: CGFloat {
-    return 140
+    return 114
   }
+  
   /// Font of the text contained within postTTTAttributedLabel.
   class var postTTTAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
-  }
-  
-  /// Height of titleLabel in Storyboard.
-  class var titleHeight: CGFloat {
-    return 26
   }
   
   // MARK: UITableViewCell
@@ -102,11 +98,11 @@ class PostCell: UITableViewCell {
   override func prepareForReuse() {
     imagesButtonHeightConstraint.constant = 0
     imagesButton.setBackgroundImage(nil, forState: .Normal)
-    imagesButton.setBackgroundImage(nil, forState: .Highlighted)
     separatorViewHeightConstraint?.constant = 0
     imagesButton.setTitle("", forState: .Normal)
     nameButton.enabled = true
     photoButton.enabled = true
+    nameButton.setTitle("", forState: .Normal)
   }
   
   // MARK: Setup Helper Functions
@@ -132,7 +128,7 @@ class PostCell: UITableViewCell {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postTTTAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
     height += post.heightOfImagesInPostWithWidth(width)
     height += dividerHeight
-    return post.title != nil ? height : height - PostCell.titleHeight
+    return height + post.heightOfTitleWithWidth(width, andFont: UIFont.boldSystemFontOfSize(22.0))
   }
   
   /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
@@ -146,6 +142,7 @@ class PostCell: UITableViewCell {
     let scheme = ColorScheme.defaultScheme
     
     let nameTitle = "\(post.user.name)"
+    nameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(17)
     nameButton.setTitle(nameTitle, forState: .Normal)
     boardButton.setTitle(post.board.name, forState: .Normal)
     photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
@@ -221,9 +218,11 @@ class PostCell: UITableViewCell {
         }
       }
       
+      titleLabel.numberOfLines = 0
+      titleLabel.textAlignment = .Left
       if let title = post.title {
         titleLabel.text = title
-        titleHeightConstraint.constant = PostCell.titleHeight
+        titleHeightConstraint.constant = post.heightOfTitleWithWidth(contentView.frame.width - 16, andFont: UIFont.boldSystemFontOfSize(22.0))
       } else {
         titleLabel.text = ""
         titleHeightConstraint.constant = 0.0
@@ -256,7 +255,8 @@ class PostCell: UITableViewCell {
           DataManager.sharedInstance.activeRequests--
           completionHandler(image: image)
         },
-        failure:{ _ in
+        failure: { error in
+          println(error)
           DataManager.sharedInstance.activeRequests--
         }
       )

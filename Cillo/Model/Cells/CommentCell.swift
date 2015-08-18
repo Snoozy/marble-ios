@@ -156,6 +156,7 @@ class CommentCell: UITableViewCell {
     
     let nameTitle = "\(name)"
     nameButton.setTitle(nameTitle, forState: .Normal)
+    nameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(15.0)
     photoButton.setBackgroundImageToImageWithURL(comment.user.photoURL, forState: .Normal)
     
     photoButton.clipsToBounds = true
