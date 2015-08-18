@@ -1036,6 +1036,7 @@ class DataManager: NSObject {
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          println(json)
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Root(lastPostID))
             completionHandler(error: cilloError, result: nil)

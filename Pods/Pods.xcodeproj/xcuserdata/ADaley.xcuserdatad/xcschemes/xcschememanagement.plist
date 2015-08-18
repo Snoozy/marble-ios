@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-AnimatedGIFImageSerialization.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-JSQMessagesViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>05F1257AE645E16AB5CE29A3</key>
+		<key>0B8E01A90B85A39B4C784935</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>07C75A0BFEC5439067A63391</key>
+		<key>20E67E4C1B1271BAFA62B1A2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3559F13128A9634EFE490A1F</key>
+		<key>5F215AAF9B73ACE858822689</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9DD6E98D46EF9A959CC686A8</key>
+		<key>CE7CFC053CA9B2D92CFDE8E1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B28CE140297B082EE11393E3</key>
+		<key>D69C83522A65528AD25146FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F27E43827FAB3736F4049F35</key>
+		<key>E2AE09387E765DEA385ECF57</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB1C4F7F17EBD21D1B91DF3B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
