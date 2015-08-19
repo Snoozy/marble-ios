@@ -256,7 +256,6 @@ class PostCell: UITableViewCell {
           completionHandler(image: image)
         },
         failure: { error in
-          println(error)
           DataManager.sharedInstance.activeRequests--
         }
       )

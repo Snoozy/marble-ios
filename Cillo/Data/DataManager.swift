@@ -1029,14 +1029,12 @@ class DataManager: NSObject {
   /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
   func getHomeFeed(#lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
     activeRequests++
-    println(lastPostID)
     request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
         self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          println(json)
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Root(lastPostID))
             completionHandler(error: cilloError, result: nil)
