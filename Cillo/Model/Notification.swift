@@ -86,9 +86,9 @@ class Notification: NSObject {
         return "comment"
       }
     }()
-    let boldTitleUserString = NSMutableAttributedString(string: titleUser.name, attributes: [NSFontAttributeName: NotificationCell.boldMessageAttributedLabelFont])
-    let middleString = NSMutableAttributedString(string: " \(otherString)\(actionTypeString) your \(entityTypeString): ", attributes: [NSFontAttributeName: NotificationCell.messageAttributedLabelFont])
-    let italicPreviewString = NSMutableAttributedString(string: preview, attributes: [NSFontAttributeName: NotificationCell.italicMessageAttributedLabelFont])
+    let boldTitleUserString = NSMutableAttributedString(string: titleUser.name, attributes: [NSFontAttributeName: NotificationCell.NotificationFonts.boldMessageAttributedLabelFont])
+    let middleString = NSMutableAttributedString(string: " \(otherString)\(actionTypeString) your \(entityTypeString): ", attributes: [NSFontAttributeName: NotificationCell.NotificationFonts.messageAttributedLabelFont])
+    let italicPreviewString = NSMutableAttributedString(string: preview, attributes: [NSFontAttributeName: NotificationCell.NotificationFonts.italicMessageAttributedLabelFont])
     boldTitleUserString.appendAttributedString(middleString)
     boldTitleUserString.appendAttributedString(italicPreviewString)
     return boldTitleUserString

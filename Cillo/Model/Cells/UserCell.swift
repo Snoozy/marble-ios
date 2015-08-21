@@ -55,69 +55,32 @@ class UserCell: UITableViewCell {
     return 126
   }
   
-  /// Font of the text contained within bioTextView.
-  class var bioAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
-  }
-  
-  /// Font used for the word " GROUPS" in boardsButton.
-  class var boardsFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
-  }
-  
-  /// Font used for the numBoards value in boardsButton.
-  class var boardsFontBold: UIFont {
-    return UIFont.boldSystemFontOfSize(18.0)
-  }
-  
-  /// Font used for the word " REP" in repLabel.
-  class var repFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
-  }
-  
-  /// Font used for the rep value in repLabel.
-  class var repFontBold: UIFont {
-    return UIFont.boldSystemFontOfSize(18.0)
+  /// Struct containing all relevent fonts for the elements of a UserCell.
+  struct UserFonts {
+    
+    /// Font of the text contained within bioAttributedLabelFont.
+    static let bioAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font used for the word " BOARDS" in boardsButton.
+    static let boardsButtonFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font used for the boardCount value in boardsButton.
+    static let boardsCountFont = UIFont.boldSystemFontOfSize(18.0)
+    
+    /// Font used for the word " REP" in repLabel.
+    static let repLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font used for the rep value in repLabel.
+    static let repCountFont = UIFont.boldSystemFontOfSize(18.0)
+    
+    /// Font of the text contained within nameButton.
+    static let nameButtonFont = UIFont.boldSystemFontOfSize(20.0)
+    
+    /// Font of the text contained within usernameButton.
+    static let usernameButtonFont = UIFont.systemFontOfSize(16.0)
   }
 
   // MARK: Setup Helper Functions
-  
-  /// Makes this UserCell's IBOutlets display the correct values of the corresponding User.
-  ///
-  /// :param: user The corresponding User to be displayed by this UserCell.
-  /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
-  /// :param: * Pass the precise index of the post in its model array.
-  func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
-    let scheme = ColorScheme.defaultScheme
-    
-    photoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
-    nameButton.setTitle(user.name, forState: .Normal)
-    usernameButton.setTitle(user.usernameDisplay, forState: .Normal)
-    
-    photoButton.clipsToBounds = true
-    photoButton.layer.cornerRadius = 5.0
-    
-    bioAttributedLabel.setupWithText(user.bio, andFont: UserCell.bioAttributedLabelFont)
-    
-    photoButton.tag = buttonTag
-    nameButton.tag = buttonTag
-    usernameButton.tag = buttonTag
-    
-    if user.isSelf {
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
-      messageButton?.hidden = true
-    }
-    
-    // Make only the number in repLabel bold
-    var repText = NSMutableAttributedString.twoFontString(firstHalf: user.rep.fiveCharacterDisplay, firstFont: UserCell.repFontBold, secondHalf: " REP", secondFont: UserCell.repFont)
-    repLabel.attributedText = repText
-    
-    // Make only the number in boardsButton bold
-    let boardString = user.boardCount == 1 ? " BOARD" : " BOARDS"
-    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: user.boardCount.fiveCharacterDisplay, firstFont: UserCell.boardsFontBold, secondHalf: boardString, secondFont: UserCell.boardsFont)
-    boardsButton.setAttributedTitle(boardsText, forState: .Normal)
-    boardsButton.tintColor = UIColor.darkTextColor()
-  }
   
   /// Assigns all delegates of cell to the given parameter.
   ///
@@ -133,5 +96,56 @@ class UserCell: UITableViewCell {
   /// :returns: The height that the cell should be in the tableView.
   class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {
     return user.heightOfBioWithWidth(width) + UserCell.additionalVertSpaceNeeded
+  }
+  
+  /// Makes this UserCell's IBOutlets display the correct values of the corresponding User.
+  ///
+  /// :param: user The corresponding User to be displayed by this UserCell.
+  /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
+  /// :param: * Pass the precise index of the post in its model array.
+  func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
+    let scheme = ColorScheme.defaultScheme
+    
+    setupUserOutletFonts()
+    setOutletTagsTo(buttonTag)
+    
+    photoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
+    nameButton.setTitle(user.name, forState: .Normal)
+    usernameButton.setTitle(user.usernameDisplay, forState: .Normal)
+    
+    photoButton.clipsToBounds = true
+    photoButton.layer.cornerRadius = 5.0
+    
+    bioAttributedLabel.setupWithText(user.bio, andFont: UserCell.UserFonts.bioAttributedLabelFont)
+    
+    if user.isSelf {
+      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      messageButton?.hidden = true
+    }
+    
+    // Make only the number in repLabel bold
+    var repText = NSMutableAttributedString.twoFontString(firstHalf: user.rep.fiveCharacterDisplay, firstFont: UserCell.UserFonts.repCountFont, secondHalf: " REP", secondFont: UserCell.UserFonts.repLabelFont)
+    repLabel.attributedText = repText
+    
+    // Make only the number in boardsButton bold
+    let boardString = user.boardCount == 1 ? " BOARD" : " BOARDS"
+    var boardsText = NSMutableAttributedString.twoFontString(firstHalf: user.boardCount.fiveCharacterDisplay, firstFont: UserCell.UserFonts.boardsCountFont, secondHalf: boardString, secondFont: UserCell.UserFonts.boardsButtonFont)
+    boardsButton.setAttributedTitle(boardsText, forState: .Normal)
+    boardsButton.tintColor = UIColor.darkTextColor()
+  }
+  
+  /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
+  ///
+  /// :param: tag The tag that the outlet's `tag` property is set to.
+  private func setOutletTagsTo(tag: Int) {
+    photoButton.tag = tag
+    nameButton.tag = tag
+    usernameButton.tag = tag
+  }
+  
+  /// Sets fonts of all IBOutlets to the fonts specified in the `UserCell.UserFonts` struct.
+  private func setupUserOutletFonts() {
+    nameButton.titleLabel?.font = UserCell.UserFonts.nameButtonFont
+    usernameButton.titleLabel?.font = UserCell.UserFonts.usernameButtonFont
   }
 }

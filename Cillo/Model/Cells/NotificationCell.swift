@@ -31,19 +31,20 @@ class NotificationCell: UITableViewCell {
   
   // MARK: Constants
   
-  /// Bold font of messageAttributedLabel.
-  class var boldMessageAttributedLabelFont: UIFont {
-    return UIFont.boldSystemFontOfSize(15.0)
-  }
-  
-  /// Italic font of messageAttributedLabel.
-  class var italicMessageAttributedLabelFont: UIFont {
-    return UIFont.italicSystemFontOfSize(15.0)
-  }
-  
-  /// Font of messageAttributedLabel.
-  class var messageAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+  /// Struct containing all relevent fonts for the elements of a NotificationCell.
+  struct NotificationFonts {
+    
+    /// Bold font of the text contained within messageAttributedLabel.
+    static let boldMessageAttributedLabelFont = UIFont.boldSystemFontOfSize(15.0)
+    
+    /// Italic font of the text contained within messageAttributedLabel.
+    static let italicMessageAttributedLabelFont = UIFont.italicSystemFontOfSize(15.0)
+    
+    /// Font of the text contained within messageAttributedLabel.
+    static let messageAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font of the text contained within timeLabel.
+    static let timeLabelFont = UIFont.systemFontOfSize(12.0)
   }
   
   /// Vertical space needed besides `separatorView`
@@ -79,13 +80,13 @@ class NotificationCell: UITableViewCell {
     let scheme = ColorScheme.defaultScheme
     
     photoButton.setBackgroundImageToImageWithURL(notification.titleUser.photoURL, forState: .Normal)
-    
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
     messageAttributedLabel.setupWithAttributedText(notification.notificationMessage)
 
     timeLabel.text = "\(notification.time) ago"
+    timeLabel.font = NotificationCell.NotificationFonts.timeLabelFont
     timeLabel.textColor = scheme.touchableTextColor()
     
     photoButton.tag = buttonTag

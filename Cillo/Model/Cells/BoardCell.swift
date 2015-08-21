@@ -55,26 +55,35 @@ class BoardCell: UITableViewCell {
     return 90
   }
   
-  /// Font of the text contained within descripTextView.
-  class var descripAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+  /// Struct containing all relevent fonts for the elements of a BoardCell.
+  struct BoardFonts {
+    
+    /// Font of the text contained within descripAttributedLabelFont.
+    static let descripAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    static let followButtonFont: UIFont = {
+      if let font = UIFont(name: "HelveticaNeue-Medium", size: 14) {
+        return font
+      } else {
+        return UIFont.boldSystemFontOfSize(14.0)
+      }
+    }()
+    
+    /// Font used for the word " FOLLOWERS" in followersLabel.
+    static let followerLabelFont = UIFont.systemFontOfSize(12.0)
+    
+    /// Font used for the followerCount value in followersLabel.
+    static let followerCountFont = UIFont.boldSystemFontOfSize(14.0)
+    
+    /// Font of the text contained within nameButton.
+    static let nameButtonFont = UIFont.boldSystemFontOfSize(20.0)
   }
   
   /// Color of the border of `followButton`. Also is the color of the background when the button is filled (signifying that the user is following already).
   class var followButtonColor: UIColor {
     return UIColor.grayColor()
   }
-  
-  /// Font used for the word " FOLLOWERS" in followersLabel.
-  class var followerFont: UIFont {
-    return UIFont.systemFontOfSize(12.0)
-  }
-  
-  /// Font used for the numFollowers value in followersLabel.
-  class var followerFontBold: UIFont {
-    return UIFont.boldSystemFontOfSize(14.0)
-  }
-  
+
   // MARK: UITableViewCell
   
   override func prepareForReuse() {
@@ -110,25 +119,17 @@ class BoardCell: UITableViewCell {
   func makeCellFromBoard(board: Board, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     let scheme = ColorScheme.defaultScheme
     
-    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+    setupBoardOutletFonts()
+    setOutletTagsTo(buttonTag)
+    
     nameButton.setTitle(board.name, forState: .Normal)
     
+    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    descripAttributedLabel.setupWithText(board.descrip, andFont: BoardCell.descripAttributedLabelFont)
-    
-    photoButton.tag = buttonTag
-    nameButton.tag = buttonTag
-    followButton.tag = buttonTag
-    
-    println(followButton.titleLabel?.font.fontName)
-    if let font = UIFont(name: "HelveticaNeue-Medium", size: 14) {
-      followButton.titleLabel?.font = font
-    } else {
-      followButton.titleLabel?.font = UIFont.boldSystemFontOfSize(14)
-    }
-    
+    descripAttributedLabel.setupWithText(board.descrip, andFont: BoardCell.BoardFonts.descripAttributedLabelFont)
+
     followButton.setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: BoardCell.followButtonColor)
     if !board.following {
       followButton.setTitle("Follow", forState: .Normal)
@@ -142,12 +143,27 @@ class BoardCell: UITableViewCell {
     
     // Make only the number in followersLabel bold
     let followersString = board.followerCount == 1 ? " FOLLOWER" : " FOLLOWERS"
-    var followersText = NSMutableAttributedString.twoFontString(firstHalf: board.followerCount.fiveCharacterDisplay, firstFont: BoardCell.followerFontBold, secondHalf: followersString, secondFont: BoardCell.followerFont)
+    var followersText = NSMutableAttributedString.twoFontString(firstHalf: board.followerCount.fiveCharacterDisplay, firstFont: BoardCell.BoardFonts.followerCountFont, secondHalf: followersString, secondFont: BoardCell.BoardFonts.followerLabelFont)
     followersLabel.attributedText = followersText
     
     if let separatorView = separatorView {
       separatorView.backgroundColor = scheme.dividerBackgroundColor()
       separatorViewHeightConstraint!.constant = separatorHeight
     }
+  }
+  
+  /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
+  ///
+  /// :param: tag The tag that the outlet's `tag` property is set to.
+  private func setOutletTagsTo(tag: Int) {
+    photoButton.tag = tag
+    nameButton.tag = tag
+    followButton.tag = tag
+  }
+  
+  /// Sets fonts of all IBOutlets to the fonts specified in the `BoardCell.BoardFonts` struct.
+  private func setupBoardOutletFonts() {
+    nameButton.titleLabel?.font = BoardCell.BoardFonts.nameButtonFont
+    followButton.titleLabel?.font = BoardCell.BoardFonts.followButtonFont
   }
 }

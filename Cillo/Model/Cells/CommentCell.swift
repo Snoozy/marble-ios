@@ -84,9 +84,17 @@ class CommentCell: UITableViewCell {
     return 32
   }
   
-  /// Font of the text contained within commentTextView.
-  class var commentAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+  /// Struct containing all relevent fonts for the elements of a CommentCell.
+  struct CommentFonts {
+    
+    /// Font of the text contained within commentAttributedLabel.
+    static let commentAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font of the text contained within nameButton.
+    static let nameButtonFont = UIFont.boldSystemFontOfSize(15.0)
+    
+    /// Font of the text contained within repAnTimeLabel.
+    static let repAndTimeLabelFont = UIFont.systemFontOfSize(15.0)
   }
 
   /// Width of indent per indentationLevel of indented Comments.
@@ -143,6 +151,9 @@ class CommentCell: UITableViewCell {
   func makeCellFromComment(comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     let scheme = ColorScheme.defaultScheme
     
+    setupCommentOutletFonts()
+    setOutletTagsTo(buttonTag)
+    
     var name = comment.user.name
     //add dots if CommentCell has reached max indent and cannot be indented more
     if let lengthToPost = comment.lengthToPost {
@@ -154,25 +165,20 @@ class CommentCell: UITableViewCell {
       }
     }
     
-    let nameTitle = "\(name)"
-    nameButton.setTitle(nameTitle, forState: .Normal)
+    nameButton.setTitle(name, forState: .Normal)
     nameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(15.0)
-    photoButton.setBackgroundImageToImageWithURL(comment.user.photoURL, forState: .Normal)
     
+    photoButton.setBackgroundImageToImageWithURL(comment.user.photoURL, forState: .Normal)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    if comment.user.isAnon {
-      nameButton.enabled = false
-      photoButton.enabled = false
-    }
-    
-    commentAttributedLabel.setupWithText(comment.text, andFont: CommentCell.commentAttributedLabelFont)
+    commentAttributedLabel.setupWithText(comment.text, andFont: CommentCell.CommentFonts.commentAttributedLabelFont)
     
     var repText = comment.rep.fiveCharacterDisplay
     if comment.rep > 0 {
       repText = "+\(repText)"
     }
+    
     if selected {
       //Show button bar when selected
       upvoteHeightConstraint?.constant = CommentCell.buttonHeight
@@ -189,11 +195,10 @@ class CommentCell: UITableViewCell {
       repAndTimeLabel.text = repText
     }
     
-    nameButton.tag = buttonTag
-    photoButton.tag = buttonTag
-    upvoteButton?.tag = buttonTag
-    downvoteButton?.tag = buttonTag
-    replyButton?.tag = buttonTag
+    if comment.user.isAnon {
+      nameButton.enabled = false
+      photoButton.enabled = false
+    }
     
     if comment.isOP {
       nameButton.setTitleColor(scheme.opTextColor(), forState: .Normal)
@@ -203,7 +208,6 @@ class CommentCell: UITableViewCell {
       nameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
     }
     
-    // TODO: Handle voteValues changing colors of images
     if comment.voteValue == 1 {
       upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
       downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
@@ -218,15 +222,15 @@ class CommentCell: UITableViewCell {
       repAndTimeLabel.textColor = UIColor.lightGrayColor()
     }
     
-    //indents cell
+    // indents cell
     imageIndentConstraint.constant = getIndentationSize()
     
-    //gets rid of small gap in divider
+    // gets rid of small gap in divider
     if respondsToSelector("setLayoutMargins:") {
       layoutMargins = UIEdgeInsetsZero
     }
     
-    //adds the vertical lines to the cells
+    // adds the vertical lines to the cells
     for i in 0...indentationLevel {
       var line = UIView(frame: CGRect(x: CGFloat(i)*CommentCell.indentSize, y: 0, width: 1, height: frame.size.height))
       line.backgroundColor = UIColor.defaultTableViewDividerColor()
@@ -242,6 +246,23 @@ class CommentCell: UITableViewCell {
     if respondsToSelector("setPreservesSuperviewLayoutMargins:") {
       preservesSuperviewLayoutMargins = false
     }
+  }
+  
+  /// Sets fonts of all IBOutlets to the fonts specified in the `CommentCell.CommentFonts` struct.
+  private func setupCommentOutletFonts() {
+    nameButton.titleLabel?.font = CommentCell.CommentFonts.nameButtonFont
+    repAndTimeLabel.font = CommentCell.CommentFonts.repAndTimeLabelFont
+  }
+  
+  /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
+  ///
+  /// :param: tag The tag that the outlet's `tag` property is set to.
+  private func setOutletTagsTo(tag: Int) {
+    nameButton.tag = tag
+    photoButton.tag = tag
+    upvoteButton?.tag = tag
+    downvoteButton?.tag = tag
+    replyButton?.tag = tag
   }
 }
 

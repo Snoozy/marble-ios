@@ -36,10 +36,18 @@ class ConversationCell: UITableViewCell {
   @IBOutlet weak var separatorView: UIView?
   
   // MARK: Constants
-
-  /// Font of previewAttributedLabel.
-  class var previewAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+  
+  /// Struct containing all relevent fonts for the elements of a ConversationCell.
+  struct ConversationFonts {
+    
+    /// Italic font of the text contained within nameButton.
+    static let nameButtonFont = UIFont.boldSystemFontOfSize(15.0)
+    
+    /// Font of the text contained within previewAttributedLabel.
+    static let previewAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font of the text contained within timeLabel.
+    static let timeLabelFont = UIFont.systemFontOfSize(12.0)
   }
 
   /// Vertical space needed besides `separatorView`.
@@ -75,12 +83,13 @@ class ConversationCell: UITableViewCell {
   func makeCellFromConversation(conversation: Conversation, withButtonTag buttonTag: Int) {
     let scheme = ColorScheme.defaultScheme
     
-    photoButton.setBackgroundImageToImageWithURL(conversation.otherUser.photoURL, forState: .Normal)
+    setupConversationOutletFonts()
     
+    photoButton.setBackgroundImageToImageWithURL(conversation.otherUser.photoURL, forState: .Normal)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    previewAttributedLabel.setupWithText(conversation.preview, andFont: ConversationCell.previewAttributedLabelFont)
+    previewAttributedLabel.setupWithText(conversation.preview, andFont: ConversationCell.ConversationFonts.previewAttributedLabelFont)
     
     timeLabel.text = "\(conversation.updateTime) ago"
     timeLabel.textColor = scheme.touchableTextColor()
@@ -95,4 +104,9 @@ class ConversationCell: UITableViewCell {
     separatorView?.backgroundColor = scheme.dividerBackgroundColor()
   }
   
+  /// Sets fonts of all IBOutlets to the fonts specified in the `ConversationCell.ConversationFonts` struct.
+  private func setupConversationOutletFonts() {
+    nameButton.titleLabel?.font = ConversationCell.ConversationFonts.nameButtonFont
+    timeLabel.font = ConversationCell.ConversationFonts.timeLabelFont
+  }
 }

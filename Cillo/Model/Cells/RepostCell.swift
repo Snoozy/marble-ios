@@ -49,9 +49,20 @@ class RepostCell: PostCell {
     return 37
   }
   
-  /// Font of originalPostAttributedLabel.
-  class var originalPostAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(13.0)
+  /// Struct containing all relevent fonts for the elements of a RepostCell.
+  struct RepostFonts {
+    
+    /// Font of the text contained within originalPostAttributedLabel.
+    static let originalPostAttributedLabelFont = UIFont.systemFontOfSize(13.0)
+    
+    /// Font of the text contained within titleLabel.
+    static let titleLabelFont = UIFont.boldSystemFontOfSize(20.0)
+    
+    /// Font of the text contained within originalNameButton.
+    static let originalNameButtonFont = UIFont.boldSystemFontOfSize(15.0)
+    
+    /// Font of the text contained within originalBoardButton.
+    static let originalBoardButtonFont = UIFont.boldSystemFontOfSize(15.0)
   }
   
   /// Tag modifier that is added to the tag of all buttons relating to the orginalPost in a RepostCell.
@@ -85,7 +96,7 @@ class RepostCell: PostCell {
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
   class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostAttributedLabelFont)
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.PostFonts.postAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.RepostFonts.originalPostAttributedLabelFont)
     height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins)
     height += dividerHeight
     return height + post.originalPost.heightOfTitleWithWidth(width - RepostCell.originalPostMargins, andFont: UIFont.boldSystemFontOfSize(20.0))
@@ -106,18 +117,21 @@ class RepostCell: PostCell {
     let scheme = ColorScheme.defaultScheme
     
     if let post = post as? Repost {
-      postAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil, andFont: PostCell.postAttributedLabelFont)
       
-      let nameTitle = "\(post.originalPost.user.name)"
-      originalNameButton.setTitle(nameTitle, forState: .Normal)
-      originalNameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(13.0)
+      setupRepostOutletFonts()
+      setRepostOutletTagsTo(tag + RepostCell.tagModifier)
+    
+      postAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil, andFont: PostCell.PostFonts.postAttributedLabelFont)
+      
+      originalNameButton.setTitle(post.originalPost.user.name, forState: .Normal)
+      
       originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
-      originalPhotoButton.setBackgroundImageToImageWithURL(post.originalPost.user.photoURL, forState: .Normal)
       
+      originalPhotoButton.setBackgroundImageToImageWithURL(post.originalPost.user.photoURL, forState: .Normal)
       originalPhotoButton.clipsToBounds = true
       originalPhotoButton.layer.cornerRadius = 5.0
       
-      originalPostAttributedLabel.setupWithText(post.originalPost.text, andFont: RepostCell.originalPostAttributedLabelFont)
+      originalPostAttributedLabel.setupWithText(post.originalPost.text, andFont: RepostCell.RepostFonts.originalPostAttributedLabelFont)
       
       goToOriginalPostButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       
@@ -135,11 +149,6 @@ class RepostCell: PostCell {
         }
       }
       
-      originalNameButton.tag = buttonTag + RepostCell.tagModifier
-      originalBoardButton.tag = buttonTag + RepostCell.tagModifier
-      originalPhotoButton.tag = buttonTag + RepostCell.tagModifier
-      goToOriginalPostButton.tag = buttonTag + RepostCell.tagModifier
-      
       if post.originalPost.user.isSelf {
         originalNameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
       } else {
@@ -150,7 +159,7 @@ class RepostCell: PostCell {
       titleLabel.textAlignment = .Left
       if let title = post.originalPost.title {
         titleLabel.text = title
-        titleHeightConstraint.constant = post.originalPost.heightOfTitleWithWidth(contentView.frame.width - 16 - RepostCell.originalPostMargins, andFont: UIFont.boldSystemFontOfSize(20.0))
+        titleHeightConstraint.constant = post.originalPost.heightOfTitleWithWidth(contentView.frame.width - 16 - RepostCell.originalPostMargins, andFont: RepostCell.RepostFonts.titleLabelFont)
       } else {
         titleLabel.text = ""
         titleHeightConstraint.constant = 0.0
@@ -168,6 +177,22 @@ class RepostCell: PostCell {
       
       verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
     }
+  }
+  
+  /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`. The tag also notifies transition segues of the sender of transitions.
+  ///
+  /// :param: tag The tag that the outlet's `tag` property is set to.
+  private func setRepostOutletTagsTo(tag: Int) {
+    originalNameButton.tag = tag
+    originalBoardButton.tag = tag
+    originalPhotoButton.tag = tag
+    goToOriginalPostButton.tag = tag
+  }
+  
+  private func setupRepostOutletFonts() {
+    titleLabel.font = RepostCell.RepostFonts.titleLabelFont
+    originalNameButton.titleLabel?.font = RepostCell.RepostFonts.originalNameButtonFont
+    originalBoardButton.titleLabel?.font = RepostCell.RepostFonts.originalBoardButtonFont
   }
   
   // MARK: Networking Helper Functions

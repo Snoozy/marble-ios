@@ -88,9 +88,29 @@ class PostCell: UITableViewCell {
     return 114
   }
   
-  /// Font of the text contained within postAttributedLabel.
-  class var postAttributedLabelFont: UIFont {
-    return UIFont.systemFontOfSize(15.0)
+  /// Struct containing all relevent fonts for the elements of a PostCell.
+  struct PostFonts {
+    
+    /// Font of the text contained within postAttributedLabel.
+    static let postAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    
+    /// Font of the text contained within titleLabel.
+    static let titleLabelFont = UIFont.boldSystemFontOfSize(22.0)
+    
+    /// Font of the text contained within repLabel.
+    static let repLabelFont = UIFont.boldSystemFontOfSize(18.0)
+    
+    /// Font of the text contained within nameButton.
+    static let nameButtonFont = UIFont.boldSystemFontOfSize(17.0)
+    
+    /// Font of the text contained within boardButton.
+    static let boardButtonFont = UIFont.boldSystemFontOfSize(17.0)
+    
+    /// Font of the text contained within timeLabel.
+    static let timeLabelFont = UIFont.systemFontOfSize(17.0)
+    
+    /// Font of the text contained within commentLabel.
+    static let commentLabelFont = UIFont.systemFontOfSize(9.0)
   }
   
   // MARK: UITableViewCell
@@ -125,10 +145,10 @@ class PostCell: UITableViewCell {
     if let post = post as? Repost {
       return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
     }
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.PostFonts.postAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
     height += post.heightOfImagesInPostWithWidth(width)
     height += dividerHeight
-    return height + post.heightOfTitleWithWidth(width, andFont: UIFont.boldSystemFontOfSize(22.0))
+    return height + post.heightOfTitleWithWidth(width, andFont: PostCell.PostFonts.titleLabelFont)
   }
   
   /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
@@ -139,42 +159,44 @@ class PostCell: UITableViewCell {
   /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
   func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
-    let scheme = ColorScheme.defaultScheme
     
-    let nameTitle = "\(post.user.name)"
-    nameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(17)
-    nameButton.setTitle(nameTitle, forState: .Normal)
+    setupPostOutletFonts()
+    setOutletTagsTo(tag)
+
+    nameButton.setTitle(post.user.name, forState: .Normal)
+    
     boardButton.setTitle(post.board.name, forState: .Normal)
-    photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
-    timeLabel.text = post.time
     
+    timeLabel.text = post.time
     timeLabel.textColor = UIColor.lightGrayColor()
     
+    photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    postAttributedLabel.setupWithText(post.text, andFont: PostCell.postAttributedLabelFont)
+    postAttributedLabel.setupWithText(post.text, andFont: PostCell.PostFonts.postAttributedLabelFont)
     
+    commentLabel.text = post.commentCount.fiveCharacterDisplay
+    commentLabel.textColor = UIColor.whiteColor()
+    
+    repLabel.text = post.rep.fiveCharacterDisplay
+    
+    // handle anonymous boards
     if post.user.isAnon {
       nameButton.enabled = false
       photoButton.enabled = false
     }
     
-    nameButton.tag = buttonTag
-    boardButton.tag = buttonTag
-    photoButton.tag = buttonTag
-    commentButton.tag = buttonTag
-    upvoteButton.tag = buttonTag
-    downvoteButton.tag = buttonTag
-    repostButton.tag = buttonTag
-    imagesButton.tag = buttonTag
+    let scheme = ColorScheme.defaultScheme
     
+    // handle recoloring of the end user's posts.
     if post.user.isSelf {
       nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
     } else {
       nameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
     }
     
+    // handle upvoted and downvoted posts.
     if post.voteValue == 1 {
       upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
       downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
@@ -189,20 +211,16 @@ class PostCell: UITableViewCell {
       repLabel.textColor = UIColor.darkTextColor()
     }
     
-    commentLabel.text = post.commentCount.fiveCharacterDisplay
-    commentLabel.textColor = UIColor.whiteColor()
-    repLabel.text = post.rep.fiveCharacterDisplay
-    repLabel.font = UIFont.boldSystemFontOfSize(18)
-    
     // gets rid of small gap in divider
     if seeFullButton == nil && respondsToSelector("setLayoutMargins:") {
-        layoutMargins = UIEdgeInsetsZero
+      layoutMargins = UIEdgeInsetsZero
     }
     
     separatorViewHeightConstraint?.constant = separatorHeight
-    
     separatorView?.backgroundColor = scheme.dividerBackgroundColor()
 
+    // perform additional setup when post is not a Repost.
+    // this setup would be redundant if post is a Repost.
     if !(post is Repost) {
       if let seeFullButton = seeFullButton {
         // tag acts as way for button to know it's position in data array
@@ -220,9 +238,10 @@ class PostCell: UITableViewCell {
       
       titleLabel.numberOfLines = 0
       titleLabel.textAlignment = .Left
+      titleLabel.font = PostCell.PostFonts.titleLabelFont
       if let title = post.title {
         titleLabel.text = title
-        titleHeightConstraint.constant = post.heightOfTitleWithWidth(contentView.frame.width - 16, andFont: UIFont.boldSystemFontOfSize(22.0))
+        titleHeightConstraint.constant = post.heightOfTitleWithWidth(contentView.frame.width - 16, andFont: PostCell.PostFonts.titleLabelFont)
       } else {
         titleLabel.text = ""
         titleHeightConstraint.constant = 0.0
@@ -241,6 +260,29 @@ class PostCell: UITableViewCell {
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }
     }
+  }
+  
+  /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
+  ///
+  /// :param: tag The tag that the outlet's `tag` property is set to.
+  private func setOutletTagsTo(tag: Int) {
+    nameButton.tag = tag
+    boardButton.tag = tag
+    photoButton.tag = tag
+    commentButton.tag = tag
+    upvoteButton.tag = tag
+    downvoteButton.tag = tag
+    repostButton.tag = tag
+    imagesButton.tag = tag
+  }
+  
+  /// Sets fonts of all IBOutlets to the fonts specified in the `PostCell.PostFonts` struct.
+  private func setupPostOutletFonts() {
+    nameButton.titleLabel?.font = PostCell.PostFonts.nameButtonFont
+    boardButton.titleLabel?.font = PostCell.PostFonts.boardButtonFont
+    timeLabel.font = PostCell.PostFonts.timeLabelFont
+    commentLabel.font = PostCell.PostFonts.commentLabelFont
+    repLabel.font = PostCell.PostFonts.repLabelFont
   }
   
   // MARK: Networking Helper Functions
