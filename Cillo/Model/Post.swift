@@ -122,6 +122,7 @@ class Post: NSObject {
   func heightOfImagesInPostWithWidth(width: CGFloat) -> CGFloat {
     if let loadedImage = loadedImage {
       var h: CGFloat = width * loadedImage.size.height / loadedImage.size.width
+//      return h > 200 ? 200 : h
       return h
     } else if isImagePost {
       return 20

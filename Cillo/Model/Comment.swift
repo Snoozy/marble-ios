@@ -115,8 +115,8 @@ class Comment: NSObject {
   /// :param: selected Describes if CommentCell is selected.
   /// :returns: Predicted height of commentTextView in a CommentCell.
   func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
-    let trueWidth = width - CommentCell.commentTTTAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
-    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.commentTTTAttributedLabelFont)
+    let trueWidth = width - CommentCell.commentAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
+    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.commentAttributedLabelFont)
   }
   
   /// Used to retrieve a Comment tree containing this Comment and all of its children.

@@ -115,7 +115,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="descripTTTAttributedLabel" destination="YQ8-xB-e6l" id="D5q-GT-YcC"/>
+                                    <outlet property="descripAttributedLabel" destination="YQ8-xB-e6l" id="2zQ-1h-Mpr"/>
                                     <outlet property="followButton" destination="Mfa-VN-nW8" id="U6l-F6-uXN"/>
                                     <outlet property="followersLabel" destination="5BZ-Mn-CNE" id="Qct-Ox-H7t"/>
                                     <outlet property="nameButton" destination="CP2-4c-bdd" id="C4x-yA-ZvC"/>
@@ -255,13 +255,13 @@
                                 </connections>
                             </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAT-iQ-egI" userLabel="Display Name">
-                                <rect key="frame" x="56" y="82" width="81" height="21"/>
+                                <rect key="frame" x="56" y="82.5" width="80.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="98A-za-pfE" userLabel="Post Text" customClass="PlaceholderTextView" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="8" y="162" width="584" height="120"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="98A-za-pfE" userLabel="Post Text" customClass="PlaceholderTextView" customModule="Cillo" customModuleProvider="target">
+                                <rect key="frame" x="8" y="162" width="600" height="120"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="2um-KD-jTn"/>
@@ -272,8 +272,8 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Say something..."/>
                                 </userDefinedRuntimeAttributes>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOs-i2-uFI" userLabel="Select Image">
-                                <rect key="frame" x="8" y="326" width="584" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOs-i2-uFI" userLabel="Select Image">
+                                <rect key="frame" x="8" y="326" width="600" height="40"/>
                                 <state key="normal" title="Choose Image (optional)">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -281,8 +281,8 @@
                                     <action selector="imageButtonPressed:" destination="nzy-ZD-gBV" eventType="touchUpInside" id="aIu-GL-enL"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wuw-93-5Ae" userLabel="Title" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="8" y="120" width="584" height="40"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wuw-93-5Ae" userLabel="Title" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
+                                <rect key="frame" x="8" y="120" width="600" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="fgB-xj-IhO"/>
@@ -290,8 +290,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Board" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sBN-iM-X7a" userLabel="Board" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="8" y="284" width="584" height="40"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Board" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sBN-iM-X7a" userLabel="Board" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
+                                <rect key="frame" x="8" y="284" width="600" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -436,7 +436,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dI-Lp-xKW" userLabel="Post Images">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dI-Lp-xKW" userLabel="Post Images">
                                             <rect key="frame" x="8" y="86" width="584" height="0.0"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" id="mVo-n6-jyG"/>
@@ -476,7 +476,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvH-LG-ily" userLabel="Upvote">
-                                            <rect key="frame" x="45.5" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="45" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="hvH-LG-ily" secondAttribute="height" multiplier="1:1" id="YzO-mq-tlA"/>
                                                 <constraint firstAttribute="height" constant="32" id="hi6-MK-BZp"/>
@@ -489,7 +489,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKS-gR-T7c" userLabel="Downvote">
-                                            <rect key="frame" x="85.5" y="145" width="32" height="32"/>
+                                            <rect key="frame" x="85" y="145" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="SKS-gR-T7c" secondAttribute="height" multiplier="1:1" id="U7q-5b-qxh"/>
                                             </constraints>
@@ -596,7 +596,7 @@
                                     <outlet property="imagesButtonHeightConstraint" destination="mVo-n6-jyG" id="PJq-Lr-HTj"/>
                                     <outlet property="nameButton" destination="0x0-G0-4uj" id="yMm-jo-yp4"/>
                                     <outlet property="photoButton" destination="AuE-AR-hUK" id="AFu-Cw-bXO"/>
-                                    <outlet property="postTTTAttributedLabel" destination="6KK-Sg-0jV" id="xGy-hF-Do1"/>
+                                    <outlet property="postAttributedLabel" destination="6KK-Sg-0jV" id="8qa-v1-1Qs"/>
                                     <outlet property="repLabel" destination="Zkr-Mo-Mmv" id="BP6-Ma-ebJ"/>
                                     <outlet property="repostButton" destination="FTP-bw-ldZ" id="sqQ-9v-I5x"/>
                                     <outlet property="seeFullButton" destination="eVz-lE-HEo" id="8gz-L0-O2U"/>
@@ -940,10 +940,10 @@
                                     <outlet property="originalBoardButton" destination="YRN-XR-nCt" id="dek-a5-b6p"/>
                                     <outlet property="originalNameButton" destination="Q20-cx-mR0" id="4Wc-n6-9eK"/>
                                     <outlet property="originalPhotoButton" destination="Qcg-To-ZZ6" id="KU5-qb-qZd"/>
-                                    <outlet property="originalPostTTTAttributedLabel" destination="kQD-IO-TR1" id="Z6n-54-Rvq"/>
+                                    <outlet property="originalPostAttributedLabel" destination="kQD-IO-TR1" id="kjC-uF-Geb"/>
                                     <outlet property="photoButton" destination="Ger-9V-jch" id="KDj-Ot-0Y9"/>
-                                    <outlet property="postTTTAttributedLabel" destination="CoM-HP-nsO" id="p6m-cQ-zem"/>
-                                    <outlet property="postTTTAttributedLabelHeightConstraint" destination="fZw-t6-77h" id="QEf-kd-fVI"/>
+                                    <outlet property="postAttributedLabel" destination="CoM-HP-nsO" id="5Wv-tl-ICy"/>
+                                    <outlet property="postAttributedLabelHeightConstraint" destination="fZw-t6-77h" id="1uX-Cc-ghD"/>
                                     <outlet property="repLabel" destination="D7Z-jn-oFx" id="7Ci-4h-iRw"/>
                                     <outlet property="repostButton" destination="50a-Sv-TXM" id="51n-N0-x2y"/>
                                     <outlet property="seeFullButton" destination="EcB-G9-mFN" id="aLc-Ne-zux"/>
@@ -995,8 +995,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="aKi-Az-JxR" id="obU-zP-zUJ">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7L-0B-hP7" userLabel="&quot;No comments...&quot;">
-                                            <rect key="frame" x="240" y="10" width="123" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7L-0B-hP7" userLabel="&quot;No comments...&quot;">
+                                            <rect key="frame" x="239" y="9.5" width="122.5" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1015,13 +1015,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retrieving comments..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlG-cw-4Qf" userLabel="&quot;Retrieving comments...&quot;">
-                                            <rect key="frame" x="229" y="9" width="177" height="21"/>
+                                            <rect key="frame" x="229" y="9" width="177" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zmt-wX-ONG">
-                                            <rect key="frame" x="194" y="10" width="20" height="20"/>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zmt-wX-ONG">
+                                            <rect key="frame" x="193" y="10" width="20" height="20"/>
                                         </activityIndicatorView>
                                     </subviews>
                                     <constraints>
@@ -1243,7 +1243,7 @@
                                     <outlet property="imagesButtonHeightConstraint" destination="9XB-vJ-mHz" id="7ep-xf-wjT"/>
                                     <outlet property="nameButton" destination="J4Y-Gj-Vzr" id="l4l-nV-vnR"/>
                                     <outlet property="photoButton" destination="VqW-IB-MvD" id="26j-BW-FlM"/>
-                                    <outlet property="postTTTAttributedLabel" destination="3hB-0J-EvR" id="hq0-FH-lFP"/>
+                                    <outlet property="postAttributedLabel" destination="3hB-0J-EvR" id="UFd-Ky-Nj2"/>
                                     <outlet property="repLabel" destination="yQf-4k-m6v" id="i7Y-22-VHQ"/>
                                     <outlet property="repostButton" destination="JIu-xe-YNM" id="SYT-8j-WQO"/>
                                     <outlet property="separatorView" destination="2zt-5z-Xyk" id="Qd2-iS-YRf"/>
@@ -1565,10 +1565,10 @@
                                     <outlet property="originalBoardButton" destination="Got-Lc-g1c" id="NRz-ia-7Jd"/>
                                     <outlet property="originalNameButton" destination="qqh-YS-9JQ" id="SiB-3Y-kq2"/>
                                     <outlet property="originalPhotoButton" destination="N5a-Eb-Rm6" id="n98-Wf-Rmm"/>
-                                    <outlet property="originalPostTTTAttributedLabel" destination="DAn-fN-fae" id="7l5-is-s9l"/>
+                                    <outlet property="originalPostAttributedLabel" destination="DAn-fN-fae" id="FUn-Z9-Vuw"/>
                                     <outlet property="photoButton" destination="r30-hR-OWa" id="pii-wm-1UG"/>
-                                    <outlet property="postTTTAttributedLabel" destination="qER-gh-TsX" id="vLu-At-Aty"/>
-                                    <outlet property="postTTTAttributedLabelHeightConstraint" destination="BFR-3P-91V" id="cUt-9Q-BNu"/>
+                                    <outlet property="postAttributedLabel" destination="qER-gh-TsX" id="ZA2-Rz-A8S"/>
+                                    <outlet property="postAttributedLabelHeightConstraint" destination="BFR-3P-91V" id="BXu-Ab-bpo"/>
                                     <outlet property="repLabel" destination="B1j-Iq-1wx" id="2Bm-r5-Lxr"/>
                                     <outlet property="repostButton" destination="LVT-Xn-Kjs" id="coP-jK-LGc"/>
                                     <outlet property="separatorView" destination="mAQ-z2-whu" id="sk8-Jl-53P"/>
@@ -1688,7 +1688,7 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
-                                    <outlet property="commentTTTAttributedLabel" destination="0Dn-Of-mKr" id="fUl-DL-n0d"/>
+                                    <outlet property="commentAttributedLabel" destination="0Dn-Of-mKr" id="jaA-Jl-BCF"/>
                                     <outlet property="downvoteButton" destination="8pQ-tU-Dl9" id="OfX-OA-aZu"/>
                                     <outlet property="imageIndentConstraint" destination="Ee2-el-a9m" id="iiG-La-m7H"/>
                                     <outlet property="nameButton" destination="HZT-el-ks9" id="mCY-7v-MDv"/>
@@ -1944,8 +1944,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="LST-ss-pew" id="HMi-MP-9If">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmC-Gq-r4h" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="259" y="9" width="84" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmC-Gq-r4h" userLabel="&quot;No posts...&quot;">
+                                            <rect key="frame" x="258" y="9.5" width="84" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2072,7 +2072,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="bioTTTAttributedLabel" destination="Bdn-Ah-JyS" id="4ZQ-fQ-zUi"/>
+                                    <outlet property="bioAttributedLabel" destination="Bdn-Ah-JyS" id="AZJ-FM-ogL"/>
                                     <outlet property="boardsButton" destination="lVq-zl-pqe" id="biN-hW-N2q"/>
                                     <outlet property="nameButton" destination="V9i-qf-fZm" id="YbJ-1x-QDu"/>
                                     <outlet property="photoButton" destination="rPM-ih-RYV" id="pE0-d3-rko"/>
@@ -2309,7 +2309,7 @@
                                     <outlet property="imagesButtonHeightConstraint" destination="BK2-NY-BMp" id="MaQ-nG-1IX"/>
                                     <outlet property="nameButton" destination="YNQ-VQ-qs4" id="9CA-QU-wF7"/>
                                     <outlet property="photoButton" destination="RJu-X4-tmr" id="yQB-ER-bvj"/>
-                                    <outlet property="postTTTAttributedLabel" destination="xwF-Ic-ypo" id="foS-nV-bUi"/>
+                                    <outlet property="postAttributedLabel" destination="xwF-Ic-ypo" id="a3W-Gb-mdP"/>
                                     <outlet property="repLabel" destination="joh-EH-RJh" id="xAv-nq-9b2"/>
                                     <outlet property="repostButton" destination="e79-33-9BR" id="ANF-Xr-Or8"/>
                                     <outlet property="seeFullButton" destination="XEP-AT-xsR" id="FgT-uO-zBf"/>
@@ -2650,10 +2650,10 @@
                                     <outlet property="originalBoardButton" destination="ZYc-03-HhZ" id="EPU-aA-M7j"/>
                                     <outlet property="originalNameButton" destination="M8Y-Jw-mcQ" id="DLx-a6-1Wf"/>
                                     <outlet property="originalPhotoButton" destination="u8q-63-xDz" id="sQb-j3-Hjq"/>
-                                    <outlet property="originalPostTTTAttributedLabel" destination="cX2-6O-YVd" id="qf4-O6-GKe"/>
+                                    <outlet property="originalPostAttributedLabel" destination="cX2-6O-YVd" id="dy1-ec-hxS"/>
                                     <outlet property="photoButton" destination="iAq-kv-yXU" id="5lb-Bj-o0d"/>
-                                    <outlet property="postTTTAttributedLabel" destination="csx-LM-MMc" id="UIU-S8-DkF"/>
-                                    <outlet property="postTTTAttributedLabelHeightConstraint" destination="V0O-nQ-RW1" id="unR-it-jUf"/>
+                                    <outlet property="postAttributedLabel" destination="csx-LM-MMc" id="fOG-X3-JjC"/>
+                                    <outlet property="postAttributedLabelHeightConstraint" destination="V0O-nQ-RW1" id="NKC-La-np6"/>
                                     <outlet property="repLabel" destination="oaE-AN-d7w" id="dVd-Nd-PfE"/>
                                     <outlet property="repostButton" destination="JGr-xf-el9" id="s6F-eM-eCn"/>
                                     <outlet property="seeFullButton" destination="Aw3-bf-xsG" id="nFY-Mq-tmg"/>
@@ -2740,7 +2740,7 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
-                                    <outlet property="commentTTTAttributedLabel" destination="zu1-c4-yhp" id="JHd-Bi-sX1"/>
+                                    <outlet property="commentAttributedLabel" destination="zu1-c4-yhp" id="Kej-Yq-93L"/>
                                     <outlet property="imageIndentConstraint" destination="rhH-SD-ozP" id="i04-uO-njG"/>
                                     <outlet property="nameButton" destination="JRG-14-z4B" id="Yjs-GL-8vJ"/>
                                     <outlet property="photoButton" destination="6jh-gF-Ski" id="mrZ-sN-Ik8"/>
@@ -2806,7 +2806,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Board" title="Board Table" id="99g-h6-cT9" userLabel="Board Table" customClass="BoardTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2816,8 +2816,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="D4J-Ou-5XH" id="5V0-PC-Rhg">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WP8-gN-29W" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="259" y="9" width="84" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WP8-gN-29W" userLabel="&quot;No posts...&quot;">
+                                            <rect key="frame" x="258" y="9.5" width="84" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2916,7 +2916,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="descripTTTAttributedLabel" destination="UVC-5W-uNH" id="RGf-D2-WFa"/>
+                                    <outlet property="descripAttributedLabel" destination="UVC-5W-uNH" id="3Xb-vb-zTs"/>
                                     <outlet property="followButton" destination="Rsy-xH-GdP" id="K2E-Tc-EaG"/>
                                     <outlet property="followersLabel" destination="kMX-L1-X97" id="AIJ-yd-qT5"/>
                                     <outlet property="nameButton" destination="2JK-gh-ByR" id="qk9-EO-zbx"/>
@@ -3178,7 +3178,7 @@
                                     <outlet property="imagesButtonHeightConstraint" destination="h2z-bb-rJz" id="Iet-BP-mbP"/>
                                     <outlet property="nameButton" destination="GNc-tI-Tjn" id="T2I-wR-3gL"/>
                                     <outlet property="photoButton" destination="kvZ-kp-oRl" id="yDx-4W-knQ"/>
-                                    <outlet property="postTTTAttributedLabel" destination="cQN-Pu-xpl" id="VUb-6J-ifL"/>
+                                    <outlet property="postAttributedLabel" destination="cQN-Pu-xpl" id="VbW-id-rgC"/>
                                     <outlet property="repLabel" destination="T0h-OR-oox" id="6PP-nA-QPS"/>
                                     <outlet property="repostButton" destination="MGx-Wz-MKz" id="gsI-xD-Djr"/>
                                     <outlet property="seeFullButton" destination="Pj6-3a-UBm" id="77A-8l-hVY"/>
@@ -3519,10 +3519,10 @@
                                     <outlet property="originalBoardButton" destination="CbC-bu-77w" id="uaZ-8g-pvH"/>
                                     <outlet property="originalNameButton" destination="G30-Hz-vd9" id="Qkg-Mf-7Uq"/>
                                     <outlet property="originalPhotoButton" destination="04z-0e-Ydb" id="DRG-u3-QoJ"/>
-                                    <outlet property="originalPostTTTAttributedLabel" destination="A7I-yK-N0F" id="91N-Ti-IF4"/>
+                                    <outlet property="originalPostAttributedLabel" destination="A7I-yK-N0F" id="aMy-k9-m1o"/>
                                     <outlet property="photoButton" destination="ZVJ-Ht-3Ns" id="I0y-Wc-6M3"/>
-                                    <outlet property="postTTTAttributedLabel" destination="RmH-iK-7kD" id="dE7-R3-hA5"/>
-                                    <outlet property="postTTTAttributedLabelHeightConstraint" destination="9af-2l-CPc" id="t5a-OL-Mvj"/>
+                                    <outlet property="postAttributedLabel" destination="RmH-iK-7kD" id="QtT-Q8-VTL"/>
+                                    <outlet property="postAttributedLabelHeightConstraint" destination="9af-2l-CPc" id="LHQ-9a-CTf"/>
                                     <outlet property="repLabel" destination="cre-G5-4UX" id="Yfv-oa-Plq"/>
                                     <outlet property="repostButton" destination="RiJ-P4-89V" id="xag-KH-CxT"/>
                                     <outlet property="seeFullButton" destination="GYe-Rv-QIJ" id="Uib-zj-ihW"/>
@@ -3574,8 +3574,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="JZi-1l-Kg7" id="4y4-NH-14W">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymL-1y-p9g" userLabel="&quot;No posts...&quot;">
-                                            <rect key="frame" x="259" y="9" width="84" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymL-1y-p9g" userLabel="&quot;No posts...&quot;">
+                                            <rect key="frame" x="258" y="9.5" width="84" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -3713,7 +3713,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0N-H3-imC">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0N-H3-imC">
                                             <rect key="frame" x="495" y="35" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="32" id="A7W-sY-WBl"/>
@@ -3762,7 +3762,7 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="bioTTTAttributedLabel" destination="LhB-Aa-aQu" id="oke-4h-82S"/>
+                                    <outlet property="bioAttributedLabel" destination="LhB-Aa-aQu" id="hNC-R4-Zmi"/>
                                     <outlet property="boardsButton" destination="tyw-dO-8ts" id="KCN-GD-1V7"/>
                                     <outlet property="messageButton" destination="j0N-H3-imC" id="zgO-Qd-i3U"/>
                                     <outlet property="nameButton" destination="fcd-3a-iLT" id="2cR-bE-5c2"/>
@@ -4000,7 +4000,7 @@
                                     <outlet property="imagesButtonHeightConstraint" destination="XtK-Qh-aPN" id="riH-8u-igP"/>
                                     <outlet property="nameButton" destination="eEc-ea-9AD" id="9oX-vi-DBc"/>
                                     <outlet property="photoButton" destination="a63-ky-osm" id="VlH-eE-IBV"/>
-                                    <outlet property="postTTTAttributedLabel" destination="hZn-1o-v39" id="0bZ-uJ-Sdi"/>
+                                    <outlet property="postAttributedLabel" destination="hZn-1o-v39" id="jO2-Z4-cUX"/>
                                     <outlet property="repLabel" destination="WuJ-AT-cuE" id="ypp-mi-w24"/>
                                     <outlet property="repostButton" destination="Mj0-gh-KmZ" id="RCo-Xq-Nl1"/>
                                     <outlet property="seeFullButton" destination="Jb4-jf-Sgs" id="aWr-cU-7MN"/>
@@ -4341,10 +4341,10 @@
                                     <outlet property="originalBoardButton" destination="oXQ-x0-bPH" id="fv7-OU-lUw"/>
                                     <outlet property="originalNameButton" destination="Fky-jg-tAb" id="0w4-3v-uxM"/>
                                     <outlet property="originalPhotoButton" destination="vox-IP-wvy" id="9RT-cO-QN4"/>
-                                    <outlet property="originalPostTTTAttributedLabel" destination="dpO-SK-TUt" id="wfP-C8-vJv"/>
+                                    <outlet property="originalPostAttributedLabel" destination="dpO-SK-TUt" id="LVK-6s-2TK"/>
                                     <outlet property="photoButton" destination="qJd-5g-tAK" id="YCF-FG-n5r"/>
-                                    <outlet property="postTTTAttributedLabel" destination="MOX-2C-Qlv" id="yGy-WW-9eH"/>
-                                    <outlet property="postTTTAttributedLabelHeightConstraint" destination="2hf-gQ-LGv" id="gRq-An-Usu"/>
+                                    <outlet property="postAttributedLabel" destination="MOX-2C-Qlv" id="DGC-Wd-wka"/>
+                                    <outlet property="postAttributedLabelHeightConstraint" destination="2hf-gQ-LGv" id="EC3-rw-lbR"/>
                                     <outlet property="repLabel" destination="bUV-5k-0wC" id="aSO-6b-Xv9"/>
                                     <outlet property="repostButton" destination="bIL-Cm-aUP" id="kXK-a4-S8T"/>
                                     <outlet property="seeFullButton" destination="ATe-kQ-gwg" id="Kac-Bq-XXM"/>
@@ -4431,7 +4431,7 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
-                                    <outlet property="commentTTTAttributedLabel" destination="tx8-Rw-Mdt" id="cHV-Sg-ks8"/>
+                                    <outlet property="commentAttributedLabel" destination="tx8-Rw-Mdt" id="nT7-KA-gjS"/>
                                     <outlet property="imageIndentConstraint" destination="BJN-p1-Dc5" id="gfq-TZ-xwP"/>
                                     <outlet property="nameButton" destination="MX3-J3-WD9" id="EsE-ZU-Gsg"/>
                                     <outlet property="photoButton" destination="tae-4q-hxv" id="ol8-BG-hyB"/>
@@ -4689,7 +4689,7 @@
             <objects>
                 <tableViewController title="Boards Table" id="csT-b3-QYy" userLabel="Boards Table" customClass="BoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -4784,7 +4784,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="descripTTTAttributedLabel" destination="Pbg-Sl-q4a" id="PEM-Kh-baz"/>
+                                    <outlet property="descripAttributedLabel" destination="Pbg-Sl-q4a" id="tyM-iE-dnM"/>
                                     <outlet property="followButton" destination="dSF-1j-qGN" id="umz-Ve-xzQ"/>
                                     <outlet property="followersLabel" destination="2xb-OK-ruP" id="aDW-Xk-n9g"/>
                                     <outlet property="nameButton" destination="cUH-12-eKa" id="s1D-0l-1o7"/>
@@ -5114,7 +5114,7 @@
                                                 <action selector="triggerUserSegueOnButton:" destination="k1z-hK-H4X" eventType="touchUpInside" id="jIE-bp-02L"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-zd-2yk" userLabel="Message" customClass="TTTAttributedLabel">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-zd-2yk" userLabel="Message" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="70" y="8" width="522" height="34"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -5146,7 +5146,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="messageTTTAttributedLabel" destination="ttH-zd-2yk" id="gJD-YN-SnH"/>
+                                    <outlet property="messageAttributedLabel" destination="ttH-zd-2yk" id="ZWU-MI-JRt"/>
                                     <outlet property="photoButton" destination="Ujd-dJ-tA3" id="AXq-Wg-QY8"/>
                                     <outlet property="separatorView" destination="dt2-K3-pms" id="TTE-SL-nYO"/>
                                     <outlet property="timeLabel" destination="KOa-jC-gfB" id="5mf-uz-N92"/>
@@ -5459,7 +5459,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgi-vK-Edw" userLabel="Message" customClass="TTTAttributedLabel">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgi-vK-Edw" userLabel="Message" customClass="TTTAttributedLabel">
                                             <rect key="frame" x="93" y="38" width="499" height="24"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -5510,7 +5510,7 @@
                                     <outlet property="dotLabel" destination="TWR-O9-8gm" id="gI1-jl-ySF"/>
                                     <outlet property="nameButton" destination="JNs-fY-TII" id="20J-gD-kYd"/>
                                     <outlet property="photoButton" destination="buX-6L-RFa" id="b05-kO-LDW"/>
-                                    <outlet property="previewTTTAttributedLabel" destination="wgi-vK-Edw" id="iF7-HR-cAC"/>
+                                    <outlet property="previewAttributedLabel" destination="wgi-vK-Edw" id="W5D-1p-eDH"/>
                                     <outlet property="separatorView" destination="WBa-CM-5pJ" id="uE1-d1-ZYF"/>
                                     <outlet property="timeLabel" destination="Wac-Gc-TwA" id="Wfk-7U-YpC"/>
                                 </connections>
@@ -5579,10 +5579,10 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jh2-YM-tXJ"/>
-        <segue reference="syA-mT-UDy"/>
-        <segue reference="ErJ-Pf-JZ7"/>
-        <segue reference="8tG-h2-T9M"/>
-        <segue reference="Jl6-tW-uib"/>
+        <segue reference="DUk-kf-nGq"/>
+        <segue reference="9nY-Wc-CQM"/>
+        <segue reference="hRP-Ry-OWh"/>
+        <segue reference="fa8-bg-0Pt"/>
+        <segue reference="X2j-Oo-Px4"/>
     </inferredMetricsTieBreakers>
 </document>

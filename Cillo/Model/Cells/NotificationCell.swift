@@ -16,7 +16,7 @@ class NotificationCell: UITableViewCell {
   // MARK: IBOutlets
   
   /// Displays `notification.notificationMessage`
-  @IBOutlet weak var messageTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var messageAttributedLabel: TTTAttributedLabel!
   
   /// Displays `notification.titleUser.photoURL` asynchronously
   @IBOutlet weak var photoButton: UIButton!
@@ -31,18 +31,18 @@ class NotificationCell: UITableViewCell {
   
   // MARK: Constants
   
-  /// Bold font of messageTTTAttributedLabel.
-  class var boldMessageTTTAttributedLabelFont: UIFont {
+  /// Bold font of messageAttributedLabel.
+  class var boldMessageAttributedLabelFont: UIFont {
     return UIFont.boldSystemFontOfSize(15.0)
   }
   
-  /// Italic font of messageTTTAttributedLabel.
-  class var italicMessageTTTAttributedLabelFont: UIFont {
+  /// Italic font of messageAttributedLabel.
+  class var italicMessageAttributedLabelFont: UIFont {
     return UIFont.italicSystemFontOfSize(15.0)
   }
   
-  /// Font of messageTTTAttributedLabel.
-  class var messageTTTAttributedLabelFont: UIFont {
+  /// Font of messageAttributedLabel.
+  class var messageAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
   
@@ -57,7 +57,7 @@ class NotificationCell: UITableViewCell {
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    messageTTTAttributedLabel.delegate = delegate
+    messageAttributedLabel.delegate = delegate
   }
   
   /// Calculates the height of the cell given the properties of `notification`.
@@ -83,7 +83,7 @@ class NotificationCell: UITableViewCell {
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    messageTTTAttributedLabel.setupWithAttributedText(notification.notificationMessage)
+    messageAttributedLabel.setupWithAttributedText(notification.notificationMessage)
 
     timeLabel.text = "\(notification.time) ago"
     timeLabel.textColor = scheme.touchableTextColor()

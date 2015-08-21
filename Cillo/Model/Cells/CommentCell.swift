@@ -23,7 +23,7 @@ class CommentCell: UITableViewCell {
   // MARK: IBOutlets
   
   /// Displays text property of Comment.
-  @IBOutlet weak var commentTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var commentAttributedLabel: TTTAttributedLabel!
   
   /// Downvotes Comment.
   @IBOutlet weak var downvoteButton: UIButton?
@@ -80,12 +80,12 @@ class CommentCell: UITableViewCell {
   /// Distance of commentTextView to right boundary of contentView.
   ///
   /// **Note:** Used to align commentTextView with nameLabel when cell is indented.
-  class var commentTTTAttributedLabelDistanceToIndent: CGFloat {
+  class var commentAttributedLabelDistanceToIndent: CGFloat {
     return 32
   }
   
   /// Font of the text contained within commentTextView.
-  class var commentTTTAttributedLabelFont: UIFont {
+  class var commentAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
 
@@ -112,7 +112,7 @@ class CommentCell: UITableViewCell {
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    commentTTTAttributedLabel.delegate = delegate
+    commentAttributedLabel.delegate = delegate
   }
 
   /// Used to find how many pixels a CommentCell should be indented based on its indentationLevel.
@@ -167,7 +167,7 @@ class CommentCell: UITableViewCell {
       photoButton.enabled = false
     }
     
-    commentTTTAttributedLabel.setupWithText(comment.text, andFont: CommentCell.commentTTTAttributedLabelFont)
+    commentAttributedLabel.setupWithText(comment.text, andFont: CommentCell.commentAttributedLabelFont)
     
     var repText = comment.rep.fiveCharacterDisplay
     if comment.rep > 0 {

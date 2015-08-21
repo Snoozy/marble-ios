@@ -18,7 +18,7 @@ class BoardCell: UITableViewCell {
   /// Displays descrip property of Board.
   ///
   /// Height of this UITextView is calulated by heightOfDescripWithWidth(_:) in Board.
-  @IBOutlet weak var descripTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var descripAttributedLabel: TTTAttributedLabel!
   
   /// Follows or unfollows Board.
   @IBOutlet weak var followButton: UIButton!
@@ -56,7 +56,7 @@ class BoardCell: UITableViewCell {
   }
   
   /// Font of the text contained within descripTextView.
-  class var descripTTTAttributedLabelFont: UIFont {
+  class var descripAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
   
@@ -87,7 +87,7 @@ class BoardCell: UITableViewCell {
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    descripTTTAttributedLabel.delegate = delegate
+    descripAttributedLabel.delegate = delegate
   }
   
   /// Calculates the height of the cell given the properties of `board`.
@@ -116,7 +116,7 @@ class BoardCell: UITableViewCell {
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    descripTTTAttributedLabel.setupWithText(board.descrip, andFont: BoardCell.descripTTTAttributedLabelFont)
+    descripAttributedLabel.setupWithText(board.descrip, andFont: BoardCell.descripAttributedLabelFont)
     
     photoButton.tag = buttonTag
     nameButton.tag = buttonTag

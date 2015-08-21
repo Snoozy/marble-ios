@@ -42,7 +42,7 @@ class PostCell: UITableViewCell {
   @IBOutlet weak var photoButton: UIButton!
   
   /// Displays text property of Post.
-  @IBOutlet weak var postTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var postAttributedLabel: TTTAttributedLabel!
   
   /// Displays rep property of Post.
   @IBOutlet weak var repLabel: UILabel!
@@ -81,15 +81,15 @@ class PostCell: UITableViewCell {
 
   // MARK: Constants
   
-  /// Height needed for all components of a PostCell excluding postTTTAttributedLabel in the Storyboard.
+  /// Height needed for all components of a PostCell excluding postAttributedLabel in the Storyboard.
   ///
-  /// **Note:** Height of postTTTAttributedLabel must be calculated based on it's text property.
+  /// **Note:** Height of postAttributedLabel must be calculated based on it's text property.
   class var additionalVertSpaceNeeded: CGFloat {
     return 114
   }
   
-  /// Font of the text contained within postTTTAttributedLabel.
-  class var postTTTAttributedLabelFont: UIFont {
+  /// Font of the text contained within postAttributedLabel.
+  class var postAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
   
@@ -111,7 +111,7 @@ class PostCell: UITableViewCell {
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    postTTTAttributedLabel.delegate = delegate
+    postAttributedLabel.delegate = delegate
   }
   
   /// Calculates the height of the cell given the properties of `post`.
@@ -125,7 +125,7 @@ class PostCell: UITableViewCell {
     if let post = post as? Repost {
       return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
     }
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postTTTAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.postAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
     height += post.heightOfImagesInPostWithWidth(width)
     height += dividerHeight
     return height + post.heightOfTitleWithWidth(width, andFont: UIFont.boldSystemFontOfSize(22.0))
@@ -153,7 +153,7 @@ class PostCell: UITableViewCell {
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    postTTTAttributedLabel.setupWithText(post.text, andFont: PostCell.postTTTAttributedLabelFont)
+    postAttributedLabel.setupWithText(post.text, andFont: PostCell.postAttributedLabelFont)
     
     if post.user.isAnon {
       nameButton.enabled = false
@@ -230,9 +230,12 @@ class PostCell: UITableViewCell {
       
       imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16)
       if let loadedImage = post.loadedImage {
+//        imagesButton.imageView?.contentMode = .ScaleAspectFill
+//        imagesButton.imageEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: -20, right: 0)
+//        imagesButton.clipsToBounds = true
+//        imagesButton.contentHorizontalAlignment = .Fill
         imagesButton.setBackgroundImage(loadedImage, forState: .Normal)
         imagesButton.setTitle("", forState: .Normal)
-        imagesButton.contentMode = .ScaleAspectFit
       } else if post.isImagePost {
         imagesButton.setTitle("Loading Image...", forState: .Normal)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)

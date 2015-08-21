@@ -19,7 +19,7 @@ class ConversationCell: UITableViewCell {
   @IBOutlet weak var dotLabel: UILabel!
   
   /// Displays `conversation.preview`
-  @IBOutlet weak var previewTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var previewAttributedLabel: TTTAttributedLabel!
   
   /// Displays `conversation.otherUser.name`
   @IBOutlet weak var nameButton: UIButton!
@@ -37,8 +37,8 @@ class ConversationCell: UITableViewCell {
   
   // MARK: Constants
 
-  /// Font of previewTTTAttributedLabel.
-  class var previewTTTAttributedLabelFont: UIFont {
+  /// Font of previewAttributedLabel.
+  class var previewAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
 
@@ -53,7 +53,7 @@ class ConversationCell: UITableViewCell {
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    previewTTTAttributedLabel.delegate = delegate
+    previewAttributedLabel.delegate = delegate
   }
   
   /// Calculates the height of the cell given the properties of `notification`.
@@ -80,7 +80,7 @@ class ConversationCell: UITableViewCell {
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    previewTTTAttributedLabel.setupWithText(conversation.preview, andFont: ConversationCell.previewTTTAttributedLabelFont)
+    previewAttributedLabel.setupWithText(conversation.preview, andFont: ConversationCell.previewAttributedLabelFont)
     
     timeLabel.text = "\(conversation.updateTime) ago"
     timeLabel.textColor = scheme.touchableTextColor()

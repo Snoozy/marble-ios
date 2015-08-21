@@ -74,6 +74,6 @@ class Board: NSObject {
   /// :param: width The current width of descripTextView.
   /// :returns: Predicted height of descripTextView in a BoardCell.
   func heightOfDescripWithWidth(width: CGFloat) -> CGFloat {
-    return descrip.heightOfTextWithWidth(width, andFont: BoardCell.descripTTTAttributedLabelFont)
+    return descrip.heightOfTextWithWidth(width, andFont: BoardCell.descripAttributedLabelFont)
   }
 }

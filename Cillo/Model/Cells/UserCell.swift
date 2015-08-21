@@ -18,7 +18,7 @@ class UserCell: UITableViewCell {
   /// Displays bio property of User.
   ///
   /// Height of this UITextView is calulated by heightOfBioWithWidth(_:) in User.
-  @IBOutlet weak var bioTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var bioAttributedLabel: TTTAttributedLabel!
   
   /// Displays numBoards propert of User.
   ///
@@ -56,7 +56,7 @@ class UserCell: UITableViewCell {
   }
   
   /// Font of the text contained within bioTextView.
-  class var bioTTTAttributedLabelFont: UIFont {
+  class var bioAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(15.0)
   }
   
@@ -97,7 +97,7 @@ class UserCell: UITableViewCell {
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    bioTTTAttributedLabel.setupWithText(user.bio, andFont: UserCell.bioTTTAttributedLabelFont)
+    bioAttributedLabel.setupWithText(user.bio, andFont: UserCell.bioAttributedLabelFont)
     
     photoButton.tag = buttonTag
     nameButton.tag = buttonTag
@@ -123,7 +123,7 @@ class UserCell: UITableViewCell {
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
   func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
-    bioTTTAttributedLabel.delegate = delegate
+    bioAttributedLabel.delegate = delegate
   }
   
   /// Calculates the height of the cell given the properties of `user`.

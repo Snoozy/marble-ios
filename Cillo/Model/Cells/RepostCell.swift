@@ -28,12 +28,12 @@ class RepostCell: PostCell {
   @IBOutlet weak var originalPhotoButton: UIButton!
   
   /// Displays text of originalPost.
-  @IBOutlet weak var originalPostTTTAttributedLabel: TTTAttributedLabel!
+  @IBOutlet weak var originalPostAttributedLabel: TTTAttributedLabel!
   
-  /// Controls height of postTTTAttributedlabel.
+  /// Controls height of postAttributedLabel.
   ///
-  /// Allows both postTTTAtttibutedLabel and originalPostTTTAttributedLabel to have dynamic heights based on their text size.
-  @IBOutlet weak var postTTTAttributedLabelHeightConstraint: NSLayoutConstraint!
+  /// Allows both postTTTAtttibutedLabel and originalPostAttributedLabel to have dynamic heights based on their text size.
+  @IBOutlet weak var postAttributedLabelHeightConstraint: NSLayoutConstraint!
   
   /// Vertical line next to repost components that shows the post is the repost.
   @IBOutlet weak var verticalLineView: UIView!
@@ -49,8 +49,8 @@ class RepostCell: PostCell {
     return 37
   }
   
-  /// Font of originalPostTTTAttributedLabel.
-  class var originalPostTTTAttributedLabelFont: UIFont {
+  /// Font of originalPostAttributedLabel.
+  class var originalPostAttributedLabelFont: UIFont {
     return UIFont.systemFontOfSize(13.0)
   }
   
@@ -65,7 +65,7 @@ class RepostCell: PostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    postTTTAttributedLabelHeightConstraint.constant = 20
+    postAttributedLabelHeightConstraint.constant = 20
     originalNameButton.enabled = true
     originalPhotoButton.enabled = true
   }
@@ -74,7 +74,7 @@ class RepostCell: PostCell {
   
   override func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
     super.assignDelegatesForCellTo(delegate)
-    originalPostTTTAttributedLabel.delegate = delegate
+    originalPostAttributedLabel.delegate = delegate
   }
   
   /// Calculates the height of the cell given the properties of `post`.
@@ -85,7 +85,7 @@ class RepostCell: PostCell {
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
   class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postTTTAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostTTTAttributedLabelFont)
+    var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.postAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.originalPostAttributedLabelFont)
     height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins)
     height += dividerHeight
     return height + post.originalPost.heightOfTitleWithWidth(width - RepostCell.originalPostMargins, andFont: UIFont.boldSystemFontOfSize(20.0))
@@ -106,7 +106,7 @@ class RepostCell: PostCell {
     let scheme = ColorScheme.defaultScheme
     
     if let post = post as? Repost {
-      postTTTAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil, andFont: PostCell.postTTTAttributedLabelFont)
+      postAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil, andFont: PostCell.postAttributedLabelFont)
       
       let nameTitle = "\(post.originalPost.user.name)"
       originalNameButton.setTitle(nameTitle, forState: .Normal)
@@ -117,7 +117,7 @@ class RepostCell: PostCell {
       originalPhotoButton.clipsToBounds = true
       originalPhotoButton.layer.cornerRadius = 5.0
       
-      originalPostTTTAttributedLabel.setupWithText(post.originalPost.text, andFont: RepostCell.originalPostTTTAttributedLabelFont)
+      originalPostAttributedLabel.setupWithText(post.originalPost.text, andFont: RepostCell.originalPostAttributedLabelFont)
       
       goToOriginalPostButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       

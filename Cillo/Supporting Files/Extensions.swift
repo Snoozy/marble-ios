@@ -374,10 +374,11 @@ extension UIButton {
     DataManager.sharedInstance.activeRequests++
     setBackgroundImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
       success: { _, _, image in
-        self.setBackgroundImage(image, forState: .Normal)
+        self.setBackgroundImage(image, forState: state)
         DataManager.sharedInstance.activeRequests--
       },
-      failure: { _ in
+      failure: { error in
+        println(error)
         DataManager.sharedInstance.activeRequests--
       }
     )
