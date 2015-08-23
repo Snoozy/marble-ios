@@ -1143,11 +1143,9 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the end user.
   func getEndUserInfo(completionHandler: (error: NSError?, result: User?) -> ()) {
-    println("end user")
     activeRequests++
     request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
-        println("end user end")
         self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
@@ -1303,11 +1301,9 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the comments that the user has made.
   func getUserCommentsByID(userID: Int, lastCommentID: Int?, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
-    println("user comments")
     activeRequests++
     request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
-        println("user comments end")
         self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
@@ -1341,11 +1337,9 @@ class DataManager: NSObject {
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will contain the posts that the user has made.
   func getUserPostsByID(userID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
-    println("user posts")
     activeRequests++
     request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
       .responseJSON { request, response, data, error in
-        println("user posts end")
         self.activeRequests--
         if let error = error {
           completionHandler(error: error, result: nil)
