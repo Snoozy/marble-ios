@@ -117,7 +117,7 @@ class PostCell: UITableViewCell {
   
   override func prepareForReuse() {
     imagesButtonHeightConstraint.constant = 0
-    imagesButton.setBackgroundImage(nil, forState: .Normal)
+    imagesButton.setImage(nil, forState: .Normal)
     separatorViewHeightConstraint?.constant = 0
     imagesButton.setTitle("", forState: .Normal)
     nameButton.enabled = true
@@ -139,14 +139,15 @@ class PostCell: UITableViewCell {
   /// :param: post The post that this cell is based on.
   /// :param: width The width of the cell in the tableView.
   /// :param: maxHeight The maximum height of the cell when seeFull is false.
+  /// :param: maxImageHeight The maximum height of the image in the cell.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, maxContractedImageHeight maxImageHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     if let post = post as? Repost {
-      return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, andDividerHeight: dividerHeight)
+      return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, maxContractedImageHeight: maxImageHeight, andDividerHeight: dividerHeight)
     }
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.PostFonts.postAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
-    height += post.heightOfImagesInPostWithWidth(width)
+    height += post.heightOfImagesInPostWithWidth(width, andMaxImageHeight: maxImageHeight ?? .max)
     height += dividerHeight
     return height + post.heightOfTitleWithWidth(width, andFont: PostCell.PostFonts.titleLabelFont)
   }
@@ -156,12 +157,13 @@ class PostCell: UITableViewCell {
   /// :param: post The corresponding Post to be displayed by this PostCell.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the post in its model array.
+  /// :param: maxImageHeight The maximum height of the image in the cell.
   /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
-  func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+  func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, maxContractedImageHeight maxImageHeight: CGFloat?, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     
     setupPostOutletFonts()
-    setOutletTagsTo(tag)
+    setOutletTagsTo(buttonTag)
 
     nameButton.setTitle(post.user.name, forState: .Normal)
     
@@ -247,15 +249,17 @@ class PostCell: UITableViewCell {
         titleHeightConstraint.constant = 0.0
       }
       
-      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16)
+      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andMaxImageHeight: maxImageHeight ?? .max)
       if let loadedImage = post.loadedImage {
-//        imagesButton.imageView?.contentMode = .ScaleAspectFill
-//        imagesButton.imageEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: -20, right: 0)
-//        imagesButton.clipsToBounds = true
-//        imagesButton.contentHorizontalAlignment = .Fill
-        imagesButton.setBackgroundImage(loadedImage, forState: .Normal)
+        imagesButton.imageView?.contentMode = .ScaleAspectFill
+        imagesButton.clipsToBounds = true
+        imagesButton.contentHorizontalAlignment = .Fill
+        imagesButton.contentVerticalAlignment = .Fill
+        imagesButton.setImage(loadedImage, forState: .Normal)
         imagesButton.setTitle("", forState: .Normal)
       } else if post.isImagePost {
+        imagesButton.contentVerticalAlignment = .Center
+        imagesButton.contentHorizontalAlignment = .Center
         imagesButton.setTitle("Loading Image...", forState: .Normal)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }

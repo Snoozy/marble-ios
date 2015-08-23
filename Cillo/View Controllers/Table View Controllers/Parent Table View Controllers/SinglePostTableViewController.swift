@@ -139,7 +139,7 @@ class SinglePostTableViewController: CustomTableViewController {
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: nil, andDividerHeight: 0)
+      return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: nil, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: 0)
     } else if !commentsRetrieved || commentTree.count == 0 {
       return heightOfSingleLabelCells
     } else {
@@ -220,7 +220,7 @@ class SinglePostTableViewController: CustomTableViewController {
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
       }
     }
-    cell.makeCellFromPost(post, withButtonTag: postCellTag)
+    cell.makeCellFromPost(post, withButtonTag: postCellTag, maxContractedImageHeight: maxContractedImageHeight)
     cell.assignDelegatesForCellTo(self)
     return cell
   }

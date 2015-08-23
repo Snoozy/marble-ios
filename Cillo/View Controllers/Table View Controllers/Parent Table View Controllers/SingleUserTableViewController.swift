@@ -226,7 +226,7 @@ class SingleUserTableViewController: CustomTableViewController {
         if posts.count == 0 {
           return heightOfSingleLabelCells
         } else {
-          return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
+          return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
         }
       case .Comments:
         if comments.count == 0 {
@@ -317,7 +317,7 @@ class SingleUserTableViewController: CustomTableViewController {
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
       }
     }
-    cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+    cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }

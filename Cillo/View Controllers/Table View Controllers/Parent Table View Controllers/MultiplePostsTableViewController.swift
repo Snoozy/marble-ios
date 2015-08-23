@@ -109,7 +109,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     let post = posts[indexPath.row]
-    return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
+    return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
   }
   
   // MARK: Setup Helper Functions
@@ -141,7 +141,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
       }
     }
-    cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+    cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }

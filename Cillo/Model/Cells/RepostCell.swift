@@ -93,13 +93,14 @@ class RepostCell: PostCell {
   /// :param: post The post that this cell is based on.
   /// :param: width The width of the cell in the tableView.
   /// :param: maxHeight The maximum height of the cell when seeFull is false.
+  /// :param: maxImageHeight The maximum height of the image in the cell.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfRepostCellForRepost(post: Repost, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, maxContractedImageHeight maxImageHeight: CGFloat?,andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.PostFonts.postAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.RepostFonts.originalPostAttributedLabelFont)
-    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins)
+    height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins, andMaxImageHeight: maxImageHeight ?? .max)
     height += dividerHeight
-    return height + post.originalPost.heightOfTitleWithWidth(width - RepostCell.originalPostMargins, andFont: UIFont.boldSystemFontOfSize(20.0))
+    return height + post.originalPost.heightOfTitleWithWidth(width - RepostCell.originalPostMargins, andFont: RepostCell.RepostFonts.titleLabelFont)
   }
   
   /// Makes this RepostCell's IBOutlets display the correct values of the corresponding Repost.
@@ -109,17 +110,18 @@ class RepostCell: PostCell {
   /// :param: post The corresponding Post to be displayed by this RepostCell.
   /// :param: buttonTag The tags of all buttons in this RepostCell.
   /// :param: * Pass the precise index of the post in its model array.
+  /// :param: maxImageHeight The maximum height of the image in the cell.
   /// :param: separatorHeight The height of the custom separators at the bottom of this Post Cell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
-  override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
-    super.makeCellFromPost(post, withButtonTag: buttonTag, andSeparatorHeight: separatorHeight)
+  override func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, maxContractedImageHeight maxImageHeight: CGFloat?, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+    super.makeCellFromPost(post, withButtonTag: buttonTag, maxContractedImageHeight: maxImageHeight, andSeparatorHeight: separatorHeight)
     
     let scheme = ColorScheme.defaultScheme
     
     if let post = post as? Repost {
       
       setupRepostOutletFonts()
-      setRepostOutletTagsTo(tag + RepostCell.tagModifier)
+      setRepostOutletTagsTo(buttonTag + RepostCell.tagModifier)
     
       postAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil, andFont: PostCell.PostFonts.postAttributedLabelFont)
       
@@ -165,12 +167,17 @@ class RepostCell: PostCell {
         titleHeightConstraint.constant = 0.0
       }
       
-      imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins)
+      imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins, andMaxImageHeight: maxImageHeight ?? .max)
       if let loadedImage = post.originalPost.loadedImage {
-        imagesButton.setBackgroundImage(loadedImage, forState: .Normal)
+        imagesButton.imageView?.contentMode = .ScaleAspectFill
+        imagesButton.clipsToBounds = true
+        imagesButton.contentHorizontalAlignment = .Fill
+        imagesButton.contentVerticalAlignment = .Fill
+        imagesButton.setImage(loadedImage, forState: .Normal)
         imagesButton.setTitle("", forState: .Normal)
-        imagesButton.contentMode = .ScaleAspectFit
       } else if post.originalPost.isImagePost {
+        imagesButton.contentVerticalAlignment = .Center
+        imagesButton.contentHorizontalAlignment = .Center
         imagesButton.setTitle("Loading Image...", forState: .Normal)
         imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
       }

@@ -117,13 +117,13 @@ class Post: NSObject {
   
   /// Calculates the height of the images corresponding to the imagesURL array.
   ///
-  /// :param: width The width of the screen
+  /// :param: width The width of the screen.
+  /// :param: imageHeight The max height that the image can be.
   /// :returns: The height of the button that will be displaying the images for this post.
-  func heightOfImagesInPostWithWidth(width: CGFloat) -> CGFloat {
+  func heightOfImagesInPostWithWidth(width: CGFloat, andMaxImageHeight imageHeight: CGFloat) -> CGFloat {
     if let loadedImage = loadedImage {
-      var h: CGFloat = width * loadedImage.size.height / loadedImage.size.width
-//      return h > 200 ? 200 : h
-      return h
+      var height: CGFloat = width * loadedImage.size.height / loadedImage.size.width
+      return height > imageHeight ? imageHeight : height
     } else if isImagePost {
       return 20
     } else {

@@ -25,6 +25,10 @@ class CustomTableViewController: UITableViewController {
     return tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded
   }
   
+  var maxContractedImageHeight: CGFloat {
+    return tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded
+  }
+  
   /// The width of the screen with 8px margins.
   var tableViewWidthWithMargins: CGFloat {
     return tableView.frame.size.width - 16

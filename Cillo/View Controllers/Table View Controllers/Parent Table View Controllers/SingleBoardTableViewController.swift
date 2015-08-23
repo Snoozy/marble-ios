@@ -136,7 +136,7 @@ class SingleBoardTableViewController: CustomTableViewController {
     } else if !postsRetrieved || posts.count == 0 {
       return heightOfSingleLabelCells
     } else {
-      return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
+      return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
     }
   }
   
@@ -191,7 +191,7 @@ class SingleBoardTableViewController: CustomTableViewController {
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
       }
     }
-    cell.makeCellFromPost(post, withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+    cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }
