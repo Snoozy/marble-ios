@@ -63,29 +63,37 @@ class UserTableViewController: SingleUserTableViewController {
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     switch cellsShown {
     case .Posts:
-      if !retrievingPage && indexPath.row > posts.count - 10 {
+      if !postsFinishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
         retrievingPage = true
         retrievePosts { posts in
           if let posts = posts {
-            for post in posts {
-              self.posts.append(post)
+            if posts.isEmpty {
+              self.postsFinishedPaging = true
+            } else {
+              for post in posts {
+                self.posts.append(post)
+              }
+              self.postsPageNumber++
+              self.tableView.reloadData()
             }
-            self.postsPageNumber++
-            self.tableView.reloadData()
           }
           self.retrievingPage = false
         }
       }
     case .Comments:
-      if !retrievingPage && indexPath.row > comments.count - 10 {
+      if !commentsFinishedPaging && !retrievingPage && indexPath.row > comments.count - 10 {
         retrievingPage = true
         retrieveComments { comments in
           if let comments = comments {
-            for comment in comments {
-              self.comments.append(comment)
+            if comments.isEmpty {
+              self.commentsFinishedPaging = true
+            } else {
+              for comment in comments {
+                self.comments.append(comment)
+              }
+              self.commentsPageNumber++
+              self.tableView.reloadData()
             }
-            self.commentsPageNumber++
-            self.tableView.reloadData()
           }
           self.retrievingPage = false
         }
@@ -134,17 +142,25 @@ class UserTableViewController: SingleUserTableViewController {
   /// Assigns posts and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
     retrievingPage = true
+    postsFinishedPaging = false
     posts = []
     postsPageNumber = 1
     retrievePosts { posts in
       if let posts = posts {
+        if posts.isEmpty {
+          self.postsFinishedPaging = true
+        }
         self.posts = posts
         self.postsPageNumber++
+        self.commentsFinishedPaging = false
         self.comments = []
         self.commentsPageNumber = 1
         self.retrieveComments { comments in
           self.dataRetrieved = true
           if let comments = comments {
+            if comments.isEmpty {
+              self.commentsFinishedPaging = true
+            }
             self.comments = comments
             self.commentsPageNumber++
           }

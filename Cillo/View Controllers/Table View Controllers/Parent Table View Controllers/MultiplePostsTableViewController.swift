@@ -15,6 +15,9 @@ class MultiplePostsTableViewController: CustomTableViewController {
   
   // MARK: Properties
   
+  /// Flag to tell if paged calls are completed (reached the end of the feed).
+  var finishedPaging = false
+  
   /// Page marker used to retrieve 20 posts from the server at a time.
   var pageNumber = 1
   

@@ -46,6 +46,9 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Comments made by `user`.
   var comments = [Comment]()
   
+  /// Flag to tell if comments paged call are completed (reached the end of the feed).
+  var commentsFinishedPaging = false
+  
   /// Page marker used to retrieve 20 comments from the server at a time.
   var commentsPageNumber = 1
   
@@ -54,6 +57,9 @@ class SingleUserTableViewController: CustomTableViewController {
   
   /// Posts made by `user`.
   var posts = [Post]()
+  
+  /// Flag to tell if posts paged call are completed (reached the end of the feed).
+  var postsFinishedPaging = false
   
   /// Page marker used to retrieve 20 posts from the server at a time.
   var postsPageNumber = 1

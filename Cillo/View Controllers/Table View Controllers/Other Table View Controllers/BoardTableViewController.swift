@@ -44,15 +44,19 @@ class BoardTableViewController: SingleBoardTableViewController {
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !retrievingPage && indexPath.row > posts.count - 10 {
+    if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
       retrievingPage = true
       retrievePosts { posts in
         if let posts = posts {
-          for post in posts {
-            self.posts.append(post)
+          if posts.isEmpty {
+            self.finishedPaging = true
+          } else {
+            for post in posts {
+              self.posts.append(post)
+            }
+            self.tableView.reloadData()
+            self.pageNumber++
           }
-          self.tableView.reloadData()
-          self.pageNumber++
         }
         self.retrievingPage = false
       }
@@ -66,11 +70,15 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// Assigns posts property of SingleBoardTableViewController correct values from server calls.
   override func retrieveData() {
     retrievingPage = true
+    finishedPaging = false
     posts = []
     pageNumber = 1
     retrievePosts { posts in
       self.postsRetrieved = true
       if let posts = posts {
+        if posts.isEmpty {
+          self.finishedPaging = true
+        }
         self.posts = posts
         self.tableView.reloadData()
         self.pageNumber++

@@ -18,6 +18,9 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Board that is shown in this UITableViewController.
   var board = Board()
   
+  /// Flag to tell if paged calls are completed (reached the end of the feed).
+  var finishedPaging = false
+  
   /// Page marker used to retrieve 20 boards from the server at a time.
   var pageNumber = 1
   
