@@ -314,7 +314,6 @@ class DataManager: NSObject {
   /// Property manages the visibility of the network activity indicator in the status bar.
   var activeRequests = 0 {
     didSet {
-      println(activeRequests)
       if activeRequests > 0 {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       } else {
@@ -1532,7 +1531,6 @@ class DataManager: NSObject {
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          println(json)
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Register)
             completionHandler(error: cilloError, success: false)

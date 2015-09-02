@@ -35,17 +35,17 @@ class CustomViewController: UIViewController {
   /// :param: error The error to be handled
   func handleError(error: NSError) {
     println(error)
-    if error.domain == NSError.cilloErrorDomain {
-      switch error.code {
-      case NSError.CilloErrorCodes.userUnauthenticated:
-        handleUserUnauthenticatedError(error)
-      case NSError.CilloErrorCodes.usernameTaken:
-        handleUsernameTakenError(error)
-      case NSError.CilloErrorCodes.passwordIncorrect:
-        handlePasswordIncorrectError(error)
-      default:
+    switch error.cilloErrorCode() {
+    case .UserUnauthenticated:
+      handleUserUnauthenticatedError(error)
+    case .UsernameTaken:
+      handleUsernameTakenError(error)
+    case .PasswordIncorrect:
+      handlePasswordIncorrectError(error)
+    case .NotCilloDomain:
+      break
+    default:
         error.showAlert()
-      }
     }
   }
   

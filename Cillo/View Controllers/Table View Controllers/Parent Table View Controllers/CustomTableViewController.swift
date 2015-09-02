@@ -51,13 +51,13 @@ class CustomTableViewController: UITableViewController {
   /// :param: error The error to be handled
   func handleError(error: NSError) {
     println(error)
-    if error.domain == NSError.cilloErrorDomain {
-      switch error.code {
-      case NSError.CilloErrorCodes.userUnauthenticated:
-        handleUserUnauthenticatedError(error)
-      default:
-        error.showAlert()
-      }
+    switch error.cilloErrorCode() {
+    case .UserUnauthenticated:
+      handleUserUnauthenticatedError(error)
+    case .NotCilloDomain:
+      break
+    default:
+      error.showAlert()
     }
   }
   

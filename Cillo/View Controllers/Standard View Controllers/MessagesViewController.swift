@@ -200,7 +200,6 @@ class MessagesViewController: JSQMessagesViewController {
           self.handleError(error)
           completionHandler(empty: false, messages: nil)
         } else {
-          println(messages)
           completionHandler(empty: empty, messages: messages)
         }
       }
@@ -260,13 +259,13 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: error The error to be handled
   func handleError(error: NSError) {
     println(error)
-    if error.domain == NSError.cilloErrorDomain {
-      switch error.code {
-      case NSError.CilloErrorCodes.userUnauthenticated:
-        handleUserUnauthenticatedError(error)
-      default:
-        error.showAlert()
-      }
+    switch error.cilloErrorCode() {
+    case .UserUnauthenticated:
+      handleUserUnauthenticatedError(error)
+    case .NotCilloDomain:
+      break
+    default:
+      error.showAlert()
     }
   }
   

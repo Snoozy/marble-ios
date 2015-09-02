@@ -107,7 +107,7 @@ class PostCell: UITableViewCell {
     static let boardButtonFont = UIFont.boldSystemFontOfSize(17.0)
     
     /// Font of the text contained within timeLabel.
-    static let timeLabelFont = UIFont.systemFontOfSize(17.0)
+    static let timeLabelFont = UIFont.systemFontOfSize(16.0)
     
     /// Font of the text contained within commentLabel.
     static let commentLabelFont = UIFont.systemFontOfSize(9.0)

@@ -171,7 +171,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   func presentUnfollowConfirmationActionSheetForBoard(board: Board, atIndex index: Int, iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
       let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
-      let unfollowAction = UIAlertAction(title: "Unfollow", style: .Default) { _ in
+      let unfollowAction = UIAlertAction(title: "Leave", style: .Default) { _ in
         self.unfollowBoardAtIndex(index) { success in
           if success {
             board.following = false
@@ -192,7 +192,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
       }
       presentViewController(actionSheet, animated: true, completion: nil)
     } else {
-      let actionSheet = UIActionSheet(title: board.name, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Unfollow", "Cancel")
+      let actionSheet = UIActionSheet(title: board.name, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Leave", "Cancel")
       actionSheet.cancelButtonIndex = 1
       actionSheet.tag = index
       if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {

@@ -132,17 +132,17 @@ class BoardCell: UITableViewCell {
 
     followButton.setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: BoardCell.followButtonColor)
     if !board.following {
-      followButton.setTitle("Follow", forState: .Normal)
+      followButton.setTitle("Join", forState: .Normal)
       followButton.setTitleColor(UIColor.lighterBlack(), forState: .Normal)
       followButton.backgroundColor = UIColor.whiteColor()
     } else {
-      followButton.setTitle("Following", forState: .Normal)
+      followButton.setTitle("Joined", forState: .Normal)
       followButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
       followButton.backgroundColor = BoardCell.followButtonColor
     }
     
     // Make only the number in followersLabel bold
-    let followersString = board.followerCount == 1 ? " FOLLOWER" : " FOLLOWERS"
+    let followersString = board.followerCount == 1 ? " MEMBER" : " MEMBERS"
     var followersText = NSMutableAttributedString.twoFontString(firstHalf: board.followerCount.fiveCharacterDisplay, firstFont: BoardCell.BoardFonts.followerCountFont, secondHalf: followersString, secondFont: BoardCell.BoardFonts.followerLabelFont)
     followersLabel.attributedText = followersText
     

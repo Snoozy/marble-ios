@@ -119,17 +119,25 @@ extension NSError {
     }
   }
   
+  // MARK: Enums
+  
   /// Contains all error codes for Cillo related errors
-  struct CilloErrorCodes {
+  enum CilloErrorCodes: Int {
     
     /// Error code for a password incorrect error on a login attempt.
-    static let passwordIncorrect = 20
+    case PasswordIncorrect = 20
     
     /// Error code for a username taken error on a registration attempt.
-    static let usernameTaken = 30
+    case UsernameTaken = 30
     
     /// Error code for a user unauthenticated error.
-    static let userUnauthenticated = 10
+    case UserUnauthenticated = 10
+    
+    /// Cillo returned an unrecognized error code.
+    case UndefinedError = 2147483647
+    
+    /// Error is not in `cilloErrorDomain`
+    case NotCilloDomain = -2147483648
   }
 
   // MARK: Initializers
@@ -157,6 +165,14 @@ extension NSError {
   /// :param: requestType The request that this error occurred in.
   class func noJSONFromDataError(#requestType: Router) -> NSError {
     return NSError(domain: "NoJSONErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Problem making JSON from data retrieved by Alamofire", RequestTypeKey: requestType.requestDescription])
+  }
+  
+  func cilloErrorCode() -> CilloErrorCodes {
+    if domain == NSError.cilloErrorDomain {
+      return CilloErrorCodes(rawValue: code) ?? .UndefinedError
+    } else {
+      return .NotCilloDomain
+    }
   }
   
   /// Shows this error's properties in a UIAlertView that pops up on the screen.
@@ -371,7 +387,7 @@ extension UIButton {
   /// :param: url The url of the image to be retrieved
   /// :param: state The state to set the background image for
   func setBackgroundImageToImageWithURL(url: NSURL, forState state: UIControlState) {
-    if url.absoluteString != nil { // without this check -> permanent activieRequests count increase
+    if url.absoluteString != nil { // without this check -> permanent activeRequests count increase
       DataManager.sharedInstance.activeRequests++
       setBackgroundImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
         success: { _, _, image in

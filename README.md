@@ -12,10 +12,6 @@ Error Handling (besides user unauthenticated, password incorrect, and username t
 
 Add a popup tableview when typing in a textfield involving board names.
 
-Messages
-
-notif post preview in italics
-
 **Other:**
 
 Test on devices.

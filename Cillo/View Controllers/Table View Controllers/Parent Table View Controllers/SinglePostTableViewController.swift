@@ -69,9 +69,6 @@ class SinglePostTableViewController: CustomTableViewController {
       var destination = segue.destinationViewController as! UserTableViewController
       if let sender = sender as? UIButton {
         if sender.tag >= postCellTag {
-          println("here")
-          println(sender.tag)
-          println(postCellTag)
           if let post = post as? Repost where sender.tag == postCellTag + RepostCell.tagModifier {
               destination.user = post.originalPost.user
           } else {

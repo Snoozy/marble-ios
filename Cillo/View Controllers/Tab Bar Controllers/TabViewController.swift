@@ -90,8 +90,8 @@ class TabViewController: UITabBarController {
     if !KeychainWrapper.hasAuthAndUser() {
       performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
     } else {
-      println(KeychainWrapper.authToken() ?? "keychain failed to get auth token")
-      println(KeychainWrapper.userID() ?? -1)
+      println("Auth token: " + (KeychainWrapper.authToken() ?? "keychain failed to get auth token"))
+      println("User ID: \(KeychainWrapper.userID() ?? -1)")
       notificationRefresher = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: "refreshNotifications:", userInfo: nil, repeats: true)
       notificationRefresher.fire()
     }
@@ -192,13 +192,13 @@ class TabViewController: UITabBarController {
   /// :param: error The error to be handled
   func handleError(error: NSError) {
     println(error)
-    if error.domain == NSError.cilloErrorDomain {
-      switch error.code {
-      case NSError.CilloErrorCodes.userUnauthenticated:
-        handleUserUnauthenticatedError(error)
-      default:
-        error.showAlert()
-      }
+    switch error.cilloErrorCode() {
+    case .UserUnauthenticated:
+      handleUserUnauthenticatedError(error)
+    case .NotCilloDomain:
+      break
+    default:
+      error.showAlert()
     }
   }
   
