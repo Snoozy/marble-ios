@@ -4,6 +4,8 @@ figure out how to make flick to dismiss on images not turn
 
 **Feature TODOs:**
 
+Refactor follow -> join, followers -> members
+
 Find way to do multiple image Posts.
 
 Comments 10 at a time (no backend implementation yet)

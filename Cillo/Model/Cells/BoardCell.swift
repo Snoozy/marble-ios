@@ -25,7 +25,7 @@ class BoardCell: UITableViewCell {
   
   /// Displays numFollowers property of Board.
   ///
-  /// Text should display a bolded numFollowers value followed by an unbolded " FOLLOWERS".
+  /// Text should display a bolded numFollowers value followed by an unbolded " MEMBERS".
   ///
   /// **Note:** Use NSMutableAttributedString.twoFontString(firstHalf:firstFont:secondHalf:secondFont:) to format text properly.
   @IBOutlet weak var followersLabel: UILabel!
@@ -69,7 +69,7 @@ class BoardCell: UITableViewCell {
       }
     }()
     
-    /// Font used for the word " FOLLOWERS" in followersLabel.
+    /// Font used for the word " MEMBERS" in followersLabel.
     static let followerLabelFont = UIFont.systemFontOfSize(12.0)
     
     /// Font used for the followerCount value in followersLabel.
