@@ -53,7 +53,11 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if tableView == self.tableView {
-      return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+      if indexPath.row == boards.count {
+        return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
+      } else {
+        return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+      }
     } else {
       let cell = UITableViewCell()
       cell.textLabel?.text = searchResults[indexPath.row]
@@ -63,7 +67,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if tableView == self.tableView {
-      return super.tableView(tableView, numberOfRowsInSection: section)
+      return super.tableView(tableView, numberOfRowsInSection: section) + 1
     } else {
       return searchResults.count
     }
@@ -73,7 +77,13 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     if tableView == self.tableView {
-      super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+      if indexPath.row == boards.count {
+        if let tabBarController = tabBarController as? TabViewController {
+          tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewBoard, sender: indexPath)
+        }
+      } else {
+        super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+      }
     } else {
       searchBoardsForName(searchResults[indexPath.row]) { boards in
         if let boards = boards {
@@ -88,10 +98,18 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if tableView == self.tableView {
-      return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+      if indexPath.row == boards.count {
+        return heightOfSingleButtonCells
+      } else {
+        return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+      }
     } else {
       return 44
     }
+  }
+  
+  override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return searched ? "Search Results" : "Trending Boards"
   }
   
   // MARK: Networking Helper Functions
@@ -130,15 +148,33 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     }
   }
   
+  /// Used to retrieve trending boards for the end User from Cillo servers.
+  ///
+  /// :param: completionHandler The completion block for the server call.
+  /// :param: boards The trending boards for the end user.
+  /// :param: * Nil if there was an error in the server call.
+  func retrieveTrendingBoards(completionHandler: (boards: [Board]?) -> ()) {
+    if let userID = KeychainWrapper.userID() {
+      DataManager.sharedInstance.getEndUserTrendingBoards { error, result in
+        if let error = error {
+          self.handleError(error)
+          completionHandler(boards: nil)
+        } else {
+          completionHandler(boards: result)
+        }
+      }
+    }
+  }
+  
   /// Used to retrieve all necessary data to display UITableViewCells in this view controller.
   ///
   /// Assigns boards property of MultipleBoardsTableViewController correct values from server calls.
   override func retrieveData() {
     retrievingPage = true
     boards = []
-    seeAll = false
+    seeAll = true
     searched = false
-    retrieveBoards { boards in
+    retrieveTrendingBoards { boards in
       if let boards = boards {
         self.boards = boards
         self.tableView.reloadData()

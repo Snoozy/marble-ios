@@ -40,6 +40,7 @@ import UIKit
 /// * ConversationPaged(Int, Int): Request to retrieve earlier messages than what is retrieved by ConversationMessages. First parameter is the conversation id. Second parameter is the id of the oldest message already retrieved.
 /// * ConversationPoll(Int, Int): Request to retrieve new messages and check if there are any new messages. First parameter is the conversation id. Second parameter is the id of the newest message already retrieved.
 /// * UserMessages(Int): Request to retrieve the messages with a specific user. Parameter is the user id of the user that the messages are being retrieved for.
+/// * TrendingBoards: Request to retrieve the current list of trending boards for the end user.
 ///
 ///
 /// POST Requests:
@@ -85,6 +86,7 @@ enum Router: URLStringConvertible {
   case ConversationPaged(Int, Int)
   case ConversationPoll(Int, Int)
   case UserMessages(Int)
+  case TrendingBoards
   
   //POST
   case Register
@@ -158,6 +160,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/conversations/\(conversationID)/poll\(authString)&after=\(afterMessageID)"
       case .UserMessages(let userID):
         return "/\(vNum)/user/\(userID)/messages\(authString)"
+      case .TrendingBoards:
+        return "/\(vNum)/me/boards/trending\(authString)"
         
         // POST
       case .Register:
@@ -246,6 +250,8 @@ enum Router: URLStringConvertible {
       return "Conversation \(conversationID) Polled After \(afterMessageID)"
     case .UserMessages(let userID):
       return "End User Messages with User \(userID)"
+    case .TrendingBoards:
+      return "End User Trending Boards"
       
       // POST
     case .Register:
@@ -394,6 +400,37 @@ class DataManager: NSObject {
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .Conversations), result: nil, inboxCount: nil)
+        }
+    }
+  }
+  
+  /// Attempts to retrieve the end user's trending boards.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: result If the request was successful, this will be the end user's trending boards.
+  func getEndUserTrendingBoards(completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+    activeRequests++
+    request(.GET, Router.TrendingBoards, parameters: nil, encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, result: nil)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .TrendingBoards)
+            completionHandler(error: cilloError, result: nil)
+          } else {
+            let boards = json["trending"].arrayValue
+            var returnArray = [Board]()
+            for board in boards {
+              let item = Board(json: board)
+              returnArray.append(item)
+            }
+            completionHandler(error: nil, result: returnArray)
+          }
         }
     }
   }
