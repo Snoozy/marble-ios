@@ -8,8 +8,6 @@ Refactor follow -> join, followers -> members
 
 Trending Boards
 
-Add a popup tableview when typing in a textfield involving board names.
-
 Find way to do multiple image Posts.
 
 Comments 10 at a time (no backend implementation yet)

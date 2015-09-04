@@ -401,6 +401,28 @@ extension UIButton {
       )
     }
   }
+  
+  /// Uses asynchronous image loading to set the image to the image retrieved from the provided url.
+  ///
+  /// **Note:** This functions handles incrementing and decrementing `DataManager.sharedInstance.activeRequests`
+  ///
+  /// :param: url The url of the image to be retrieved
+  /// :param: state The state to set the background image for
+  func setImageToImageWithURL(url: NSURL, forState state: UIControlState) {
+    if url.absoluteString != nil { // without this check -> permanent activeRequests count increase
+      DataManager.sharedInstance.activeRequests++
+      setImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
+        success: { _, _, image in
+          self.setImage(image, forState: state)
+          DataManager.sharedInstance.activeRequests--
+        },
+        failure: { error in
+          println(error)
+          DataManager.sharedInstance.activeRequests--
+        }
+      )
+    }
+  }
 }
 
 // MARK: -

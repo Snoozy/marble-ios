@@ -156,6 +156,11 @@ struct StoryboardIdentifiers {
   /// Storyboard identifier for BoardTableViewController.
   static let board = "Board"
   
+  // MARK: BoardOverlayTableViewController
+  
+  /// Storyboard identifier for BoardOverlayTableViewController.
+  static let boardOverlay = "BoardOverlay"
+  
   // MARK: PostTableViewController
   
   /// Storyboard identifier for PostTableViewController.
@@ -200,6 +205,11 @@ struct StoryboardIdentifiers {
   
   /// Reuse identifier for ConversationCell.
   static let conversationCell = "Conversation"
+  
+  // MARK: SimpleBoardCell
+  
+  /// Reuse identifier for SimpleBoardCell.
+  static let simpleBoardCell = "SimpleBoard"
   
   // MARK: Single Button Cells
   

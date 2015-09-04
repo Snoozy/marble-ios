@@ -49,6 +49,13 @@ class NewRepostViewController: CustomViewController {
   
   // MARK: Setup Helper Functions
   
+  /// Presents a popup overlay allowing the end user to select a board from the list of boards that they are following.
+  func presentOverlay() {
+    let overlayView = SelectBoardOverlayView(frame: view.frame)
+    overlayView.delegate = self
+    overlayView.animateInto(view)
+  }
+  
   /// Hides the keyboard of all textfields.
   private func resignTextFieldResponders() {
     if let contentView = contentView {
@@ -142,6 +149,8 @@ class NewRepostViewController: CustomViewController {
   func photoButtonPressed(sender: UIButton) {
     if let image = sender.backgroundImageForState(.Normal) {
       JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
+    } else if let image = sender.imageForState(.Normal) {
+      JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }
   }
   
@@ -160,6 +169,43 @@ class NewRepostViewController: CustomViewController {
         sender.enabled = true
       }
     }
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension NewRepostViewController: UITextFieldDelegate {
+  
+  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    if textField == contentView?.boardTextField {
+      presentOverlay()
+      return false
+    } else {
+      return true
+    }
+  }
+  
+}
+
+// MARK: - SelectBoardOverlayViewDelegate
+
+extension NewRepostViewController: SelectBoardOverlayViewDelegate {
+  
+  /// Called when a board is selected on a popup overlay.
+  ///
+  /// :param: overlay The overlay that the board was selected from.
+  /// :param: board THe board that was selected.
+  func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board) {
+    overlay.animateOut()
+    contentView?.boardTextField.text = board.name
+  }
+  
+  
+  /// Called when a popup overlay is dismissed
+  ///
+  /// :param: overlay The overlay that was dismissed.
+  func overlayDismissed(overlay: SelectBoardOverlayView) {
+    overlay.animateOut()
   }
 }
 
@@ -282,7 +328,11 @@ class RepostContentView: UIView {
     var sideLine: UIView
     if let imageURLs = post.imageURLs {
       originalPostImagesButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTextView.frame.maxY, width: width - originalPostLeadingEdge - 8, height: post.heightOfImagesInPostWithWidth(width - originalPostLeadingEdge - 8, andMaxImageHeight: 300)))
-      originalPostImagesButton.setBackgroundImageToImageWithURL(imageURLs[0], forState: .Normal)
+      originalPostImagesButton.imageView?.contentMode = .ScaleAspectFill
+      originalPostImagesButton.clipsToBounds = true
+      originalPostImagesButton.contentHorizontalAlignment = .Fill
+      originalPostImagesButton.contentVerticalAlignment = .Fill
+      originalPostImagesButton.setImageToImageWithURL(imageURLs[0], forState: .Normal)
       sideLine = UIView(frame: CGRect(x: vertLeadingEdge, y: originalPostTopEdge, width: vertWidth, height: originalPostImagesButton.frame.maxY - originalPostTopEdge))
     } else {
       originalPostImagesButton = UIButton()

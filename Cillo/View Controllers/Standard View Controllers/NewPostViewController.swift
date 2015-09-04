@@ -98,6 +98,13 @@ class NewPostViewController: CustomViewController {
   
   // MARK: Setup Helper Functions
   
+  /// Presents a popup overlay allowing the end user to select a board from the list of boards that they are following.
+  func presentOverlay() {
+    let overlayView = SelectBoardOverlayView(frame: view.frame)
+    overlayView.delegate = self
+    overlayView.animateInto(view)
+  }
+  
   /// Hides the keyboard of all textfields.
   private func resignTextFieldResponders() {
     postTextView.resignFirstResponder()
@@ -118,7 +125,7 @@ class NewPostViewController: CustomViewController {
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
     postTextViewHeightConstraint.constant = postTextViewHeight
-    if let board = board {
+    if let board = board where board.following {
       boardTextField.text = board.name
     }
     retrieveEndUser { user in
@@ -295,5 +302,42 @@ extension NewPostViewController: UIActionSheetDelegate {
   
   func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
     UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension NewPostViewController: UITextFieldDelegate {
+  
+  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    if textField == boardTextField {
+      presentOverlay()
+      return false
+    } else {
+      return true
+    }
+  }
+  
+}
+
+// MARK: - SelectBoardOverlayViewDelegate
+
+extension NewPostViewController: SelectBoardOverlayViewDelegate {
+  
+  /// Called when a board is selected on a popup overlay.
+  ///
+  /// :param: overlay The overlay that the board was selected from.
+  /// :param: board THe board that was selected.
+  func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board) {
+    overlay.animateOut()
+    boardTextField.text = board.name
+  }
+  
+  
+  /// Called when a popup overlay is dismissed
+  ///
+  /// :param: overlay The overlay that was dismissed.
+  func overlayDismissed(overlay: SelectBoardOverlayView) {
+    overlay.animateOut()
   }
 }
