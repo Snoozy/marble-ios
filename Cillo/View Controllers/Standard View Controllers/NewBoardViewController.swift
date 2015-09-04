@@ -22,13 +22,16 @@ class NewBoardViewController: CustomViewController {
   @IBOutlet weak var choosePhotoButton: UIButton!
   
   /// Field for end user to enter the description of the new Board.
-  @IBOutlet weak var descripTextView: PlaceholderTextView!
+  @IBOutlet weak var descripTextView: BottomBorderedTextView!
   
   /// Set to DescripTextViewHeight after viewDidLayoutSubviews().
   @IBOutlet weak var descripTextViewHeightConstraint: NSLayoutConstraint!
   
   /// Field for end user to enter the name of the new Board.
-  @IBOutlet weak var nameTextField: CustomTextField!
+  @IBOutlet weak var nameTextField: BottomBorderedTextField!
+  
+  /// 1px view that divides the choose photo section with the name section.
+  @IBOutlet weak var photoToNameDividerView: UIView!
   
   /// Button used to display the end user's selected board photo.
   @IBOutlet weak var photoButton: UIButton!
@@ -81,8 +84,9 @@ class NewBoardViewController: CustomViewController {
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
     choosePhotoButton.tintColor = scheme.touchableTextColor()
-    nameTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    descripTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    nameTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    descripTextView.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    photoToNameDividerView.backgroundColor = scheme.thinLineBackgroundColor()
   }
   
   /// Sets up the appearance of Outlets that were not set in the storyboard.

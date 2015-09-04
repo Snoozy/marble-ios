@@ -4919,18 +4919,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzF-VU-MfP" userLabel="Description Text" customClass="PlaceholderTextView" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="8" y="188" width="584" height="133"/>
-                                <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="133" id="t4V-5M-FfU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Description"/>
-                                </userDefinedRuntimeAttributes>
-                            </textView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OZ4-lj-q7d">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
@@ -4964,8 +4952,8 @@
                                     <action selector="boardPhotoButtonPressed:" destination="RL6-mp-tie" eventType="touchUpInside" id="0V6-wu-fIY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bc0-n6-1F3" userLabel="Choose Photo">
-                                <rect key="frame" x="76" y="87" width="98" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bc0-n6-1F3" userLabel="Choose Photo">
+                                <rect key="frame" x="76" y="87" width="508" height="30"/>
                                 <state key="normal" title="Choose Photo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4973,7 +4961,7 @@
                                     <action selector="imageButtonPressed:" destination="RL6-mp-tie" eventType="touchUpInside" id="AaT-Jh-7CV"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-5S-5AC" userLabel="Name" customClass="CustomTextField" customModule="Cillo" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-5S-5AC" userLabel="Name" customClass="BottomBorderedTextField" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="8" y="140" width="584" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -4982,19 +4970,42 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yjn-nK-ulf" userLabel="Photo and Name Separator">
+                                <rect key="frame" x="16" y="125" width="300" height="2"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="3tG-vp-qR5"/>
+                                </constraints>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kzF-VU-MfP" userLabel="Description Text" customClass="BottomBorderedTextView" customModule="Cillo" customModuleProvider="target">
+                                <rect key="frame" x="8" y="188" width="584" height="133"/>
+                                <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="133" id="t4V-5M-FfU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Description"/>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="OZ4-lj-q7d" secondAttribute="trailing" id="3ed-e8-9w2"/>
+                            <constraint firstItem="kzF-VU-MfP" firstAttribute="trailing" secondItem="Yjn-nK-ulf" secondAttribute="trailing" id="CUW-za-BTq"/>
                             <constraint firstItem="0ca-5S-5AC" firstAttribute="leading" secondItem="DYv-uN-Mnr" secondAttribute="leading" id="DXe-Wv-IyQ"/>
+                            <constraint firstItem="Yjn-nK-ulf" firstAttribute="trailing" secondItem="Bc0-n6-1F3" secondAttribute="trailing" id="LX2-1N-RCk"/>
                             <constraint firstAttribute="trailing" secondItem="0ca-5S-5AC" secondAttribute="trailing" constant="8" id="MAb-Mf-LAS"/>
+                            <constraint firstItem="Yjn-nK-ulf" firstAttribute="leading" secondItem="DYv-uN-Mnr" secondAttribute="leading" id="WGO-FY-k9T"/>
                             <constraint firstItem="OZ4-lj-q7d" firstAttribute="leading" secondItem="Z5j-fU-M5s" secondAttribute="leading" id="X9s-v7-1AO"/>
                             <constraint firstItem="DYv-uN-Mnr" firstAttribute="leading" secondItem="Z5j-fU-M5s" secondAttribute="leading" constant="8" id="Xkf-bK-fKi"/>
+                            <constraint firstItem="Yjn-nK-ulf" firstAttribute="top" secondItem="DYv-uN-Mnr" secondAttribute="bottom" constant="4" id="aQN-2i-id7"/>
                             <constraint firstItem="Bc0-n6-1F3" firstAttribute="centerY" secondItem="DYv-uN-Mnr" secondAttribute="centerY" id="bhK-w7-z23"/>
                             <constraint firstItem="kzF-VU-MfP" firstAttribute="top" secondItem="0ca-5S-5AC" secondAttribute="bottom" constant="8" id="btz-3b-PNU"/>
+                            <constraint firstItem="0ca-5S-5AC" firstAttribute="top" secondItem="Yjn-nK-ulf" secondAttribute="bottom" constant="4" id="fYO-A2-PMe"/>
                             <constraint firstItem="Bc0-n6-1F3" firstAttribute="leading" secondItem="DYv-uN-Mnr" secondAttribute="trailing" constant="8" id="fsP-Np-JyN"/>
                             <constraint firstItem="DYv-uN-Mnr" firstAttribute="top" secondItem="OZ4-lj-q7d" secondAttribute="bottom" constant="8" id="lUv-yW-BEE"/>
-                            <constraint firstItem="0ca-5S-5AC" firstAttribute="top" secondItem="DYv-uN-Mnr" secondAttribute="bottom" constant="8" id="nuT-Ty-BMd"/>
                             <constraint firstItem="kzF-VU-MfP" firstAttribute="leading" secondItem="0ca-5S-5AC" secondAttribute="leading" id="ptY-ZF-n9a"/>
                             <constraint firstItem="OZ4-lj-q7d" firstAttribute="top" secondItem="Rze-OA-mWC" secondAttribute="bottom" id="qTx-eC-vSs"/>
                             <constraint firstItem="kzF-VU-MfP" firstAttribute="trailing" secondItem="0ca-5S-5AC" secondAttribute="trailing" id="qsk-MT-Ioa"/>
@@ -5008,6 +5019,7 @@
                         <outlet property="imitationNavigationBar" destination="OZ4-lj-q7d" id="aNG-mT-yOv"/>
                         <outlet property="nameTextField" destination="0ca-5S-5AC" id="bNv-MN-4cX"/>
                         <outlet property="photoButton" destination="DYv-uN-Mnr" id="Y75-Ua-9fJ"/>
+                        <outlet property="photoToNameDividerView" destination="Yjn-nK-ulf" id="g80-Cg-FXD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O6X-cM-uWU" userLabel="First Responder" sceneMemberID="firstResponder"/>
