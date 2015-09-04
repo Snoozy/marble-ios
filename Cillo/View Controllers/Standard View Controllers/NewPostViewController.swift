@@ -28,22 +28,29 @@ class NewPostViewController: CustomViewController {
   
   // MARK: IBOutlets
   
-  /// Field for end user to enter the name of the Board that they want to post this post to.
-  ///
-  /// **Note:** Text is automatically set if board is not nil.
-  @IBOutlet weak var boardTextField: CustomTextField!
+  /// Button that presents a popup for the end user to select a board to post their new post on.
+  @IBOutlet weak var selectBoardButton: UIButton!
+  
+  /// Button that displays the board photo after the user has selected a board to post on.
+  @IBOutlet weak var boardPhotoButton: UIButton!
+  
+  /// Set to boardPhotoWidth after the user has selected a board
+  @IBOutlet weak var boardPhotoButtonWidthConstraint: NSLayoutConstraint!
+  
+  /// 1px view that divides the select board section with the add image section.
+  @IBOutlet weak var boardToImageDividerView: UIView!
   
   /// Button allowing end user to pick an image for their post.
   @IBOutlet weak var imageButton: UIButton!
   
   /// Field for end user to enter the text of their post.
-  @IBOutlet weak var postTextView: PlaceholderTextView!
+  @IBOutlet weak var postTextView: BottomBorderedTextView!
   
-  /// Set to PostTextViewHeight after viewDidLayoutSubviews().
+  /// Set to postTextViewHeight after viewDidLayoutSubviews().
   @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
   
   /// Field for end user to enter the title of their post.
-  @IBOutlet weak var titleTextField: CustomTextField!
+  @IBOutlet weak var titleTextField: BottomBorderedTextField!
   
   /// Button used to display the end user's profile picture.
   @IBOutlet weak var userPhotoButton: UIButton!
@@ -52,6 +59,9 @@ class NewPostViewController: CustomViewController {
   @IBOutlet weak var usernameLabel: UILabel!
   
   // MARK: Constants
+  
+  /// Width of a board photo after a board has been selected.
+  let boardPhotoWidth = CGFloat(40.0)
   
   // FIXME: Implement this with notification center to get keyboard height correctly
   
@@ -108,26 +118,30 @@ class NewPostViewController: CustomViewController {
   /// Hides the keyboard of all textfields.
   private func resignTextFieldResponders() {
     postTextView.resignFirstResponder()
-    boardTextField.resignFirstResponder()
     titleTextField.resignFirstResponder()
   }
   
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    imageButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
+    imageButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
     imageButton.backgroundColor = scheme.solidButtonBackgroundColor()
-    boardTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    titleTextField.backgroundColor = scheme.textFieldBackgroundColor()
-    postTextView.backgroundColor = scheme.textFieldBackgroundColor()
+    selectBoardButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    titleTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    postTextView.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    boardToImageDividerView.backgroundColor = scheme.thinLineBackgroundColor()
   }
   
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
     postTextViewHeightConstraint.constant = postTextViewHeight
     if let board = board where board.following {
-      boardTextField.text = board.name
+      selectBoardButton.setTitle(board.name, forState: .Normal)
+      boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+      boardPhotoButtonWidthConstraint.constant = boardPhotoWidth
     }
+    boardPhotoButton.clipsToBounds = true
+    boardPhotoButton.layer.cornerRadius = 5.0
     retrieveEndUser { user in
       if let user = user {
         self.userPhotoButton.clipsToBounds = true
@@ -140,7 +154,6 @@ class NewPostViewController: CustomViewController {
   
   /// Sets any delegates of Outlets that were not set in the storyboard.
   private func setupOutletDelegates() {
-    boardTextField.delegate = self
     titleTextField.delegate = self
   }
   
@@ -171,30 +184,34 @@ class NewPostViewController: CustomViewController {
   ///
   /// :param: * Nil if server call passed an error back.
   func createPost(completionHandler: (post: Post?) -> ()) {
-    if let image = image {
-      uploadImage(image) { mediaID in
-        if let mediaID = mediaID {
-          DataManager.sharedInstance.createPostByBoardName(self.boardTextField.text, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
-            if let error = error {
-              self.handleError(error)
-              completionHandler(post: nil)
-            } else {
-              completionHandler(post: result)
+    if let board = selectBoardButton.titleForState(.Normal) where board != "Select Board" {
+      if let image = image {
+        uploadImage(image) { mediaID in
+          if let mediaID = mediaID {
+            DataManager.sharedInstance.createPostByBoardName(board, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
+              if let error = error {
+                self.handleError(error)
+                completionHandler(post: nil)
+              } else {
+                completionHandler(post: result)
+              }
             }
+          } else {
+            completionHandler(post: nil)
           }
-        } else {
-          completionHandler(post: nil)
+        }
+      } else {
+        DataManager.sharedInstance.createPostByBoardName(board, text: postTextView.text, title: self.titleTextField.text) { error, result in
+          if let error = error {
+            self.handleError(error)
+            completionHandler(post: nil)
+          } else {
+            completionHandler(post: result)
+          }
         }
       }
     } else {
-      DataManager.sharedInstance.createPostByBoardName(boardTextField.text, text: postTextView.text, title: self.titleTextField.text) { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(post: nil)
-        } else {
-          completionHandler(post: result)
-        }
-      }
+      UIAlertView(title: "Error", message: "Please select a board.", delegate: nil, cancelButtonTitle: "Ok").show()
     }
   }
   
@@ -240,6 +257,13 @@ class NewPostViewController: CustomViewController {
   /// :param: sender The button that is touched to send this function is imageButton.
   @IBAction func imageButtonPressed(sender: UIButton) {
     UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Select Image", iPadReference: sender)
+  }
+  
+  /// Presents a popup overlay table to select a board to post on when a button is pressed.
+  ///
+  /// :param: sender The button that is touched to send this function is selecctBoardButton.
+  @IBAction func selectBoardPressed(sender: UIButton) {
+    presentOverlay()
   }
   
   /// Creates a post. If the creation is successful, presents a PostTableViewController and removes self from navigationController's stack.
@@ -305,21 +329,6 @@ extension NewPostViewController: UIActionSheetDelegate {
   }
 }
 
-// MARK: - UITextFieldDelegate
-
-extension NewPostViewController: UITextFieldDelegate {
-  
-  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    if textField == boardTextField {
-      presentOverlay()
-      return false
-    } else {
-      return true
-    }
-  }
-  
-}
-
 // MARK: - SelectBoardOverlayViewDelegate
 
 extension NewPostViewController: SelectBoardOverlayViewDelegate {
@@ -330,7 +339,9 @@ extension NewPostViewController: SelectBoardOverlayViewDelegate {
   /// :param: board THe board that was selected.
   func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board) {
     overlay.animateOut()
-    boardTextField.text = board.name
+    selectBoardButton.setTitle(board.name, forState: .Normal)
+    boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+    boardPhotoButtonWidthConstraint.constant = boardPhotoWidth
   }
   
   

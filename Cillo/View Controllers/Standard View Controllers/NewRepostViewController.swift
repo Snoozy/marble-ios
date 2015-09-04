@@ -30,7 +30,6 @@ class NewRepostViewController: CustomViewController {
       contentView = RepostContentView(post: postToRepost, width: view.frame.width)
       setupUserInfoInContentView()
       setupScrollView()
-      setupUIDelegates()
       setupButtonSelectors()
       contentView!.setupColorScheme()
     }
@@ -59,7 +58,6 @@ class NewRepostViewController: CustomViewController {
   /// Hides the keyboard of all textfields.
   private func resignTextFieldResponders() {
     if let contentView = contentView {
-      contentView.boardTextField.resignFirstResponder()
       contentView.saySomethingTextView.resignFirstResponder()
     }
   }
@@ -69,6 +67,8 @@ class NewRepostViewController: CustomViewController {
     contentView?.pictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
     contentView?.originalPictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
     contentView?.originalPostImagesButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView?.boardPhotoButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
+    contentView?.selectBoardButton.addTarget(self, action: "presentOverlay", forControlEvents: .TouchUpInside)
   }
   
   /// Sets the user related fields of the contentView.
@@ -98,11 +98,6 @@ class NewRepostViewController: CustomViewController {
     }
   }
   
-  /// Sets the delegates of the items in the contentView.
-  private func setupUIDelegates() {
-    contentView?.boardTextField.delegate = self
-  }
-  
   // MARK: Networking Helper Functions
   
   /// Reposts the post represented by the contentView to the Cillo Servers.
@@ -112,7 +107,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: * Nil if the server call was unsuccessful.
   func repostPost(completionHandler: (post: Post?) -> ()) {
     if let contentView = contentView {
-      DataManager.sharedInstance.createPostByBoardName(contentView.boardTextField.text, text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
+      DataManager.sharedInstance.createPostByBoardName(contentView.selectBoardButton.titleForState(.Normal) ?? "", text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
         if let error = error {
           self.handleError(error)
           completionHandler(post: nil)
@@ -162,29 +157,18 @@ class NewRepostViewController: CustomViewController {
   /// :param: sender The bar button item that says Create.
   @IBAction func repostButtonPressed(sender: UIButton) {
     sender.enabled = false
-    repostPost { post in
-      if let post = post {
-        self.performSegueWithIdentifier(SegueIdentifiers.newRepostToTab, sender: post)
-      } else {
-        sender.enabled = true
+    if let board = contentView?.selectBoardButton.titleForState(.Normal) where board != "Select Board" {
+      repostPost { post in
+        if let post = post {
+          self.performSegueWithIdentifier(SegueIdentifiers.newRepostToTab, sender: post)
+        } else {
+          sender.enabled = true
+        }
       }
-    }
-  }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension NewRepostViewController: UITextFieldDelegate {
-  
-  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    if textField == contentView?.boardTextField {
-      presentOverlay()
-      return false
     } else {
-      return true
+      UIAlertView(title: "Error", message: "Please select a board.", delegate: nil, cancelButtonTitle: "Ok").show()
     }
   }
-  
 }
 
 // MARK: - SelectBoardOverlayViewDelegate
@@ -197,7 +181,14 @@ extension NewRepostViewController: SelectBoardOverlayViewDelegate {
   /// :param: board THe board that was selected.
   func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board) {
     overlay.animateOut()
-    contentView?.boardTextField.text = board.name
+    if let boardPhotoButton = contentView?.boardPhotoButton, selectBoardButton = contentView?.selectBoardButton {
+      if boardPhotoButton.frame.width < 1 {
+        boardPhotoButton.frame = CGRect(x: boardPhotoButton.frame.minX, y: boardPhotoButton.frame.minY, width: boardPhotoButton.frame.height, height: boardPhotoButton.frame.height)
+        selectBoardButton.frame = CGRect(x: selectBoardButton.frame.minX + boardPhotoButton.frame.height, y: selectBoardButton.frame.minY, width: selectBoardButton.frame.width - boardPhotoButton.frame.height, height: selectBoardButton.frame.height)
+      }
+      selectBoardButton.setTitle(board.name, forState: .Normal)
+      boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+    }
   }
   
   
@@ -216,8 +207,11 @@ class RepostContentView: UIView {
   
   // MARK: Properties
   
-  /// Field for the end user to enter the board that they want to repost the post to.
-  var boardTextField: CustomTextField!
+  /// Button that presents a popup for the end user to select a board to repost on.
+  var selectBoardButton: UIButton!
+  
+  /// Button that displays the board photo after the user has selected a board to repost on.
+  var boardPhotoButton: UIButton!
   
   /// Label used to display the board of the original post.
   var originalBoardLabel: UILabel!
@@ -241,13 +235,14 @@ class RepostContentView: UIView {
   var pictureButton: UIButton!
   
   /// Field for the end user to say something about the post that they are reposting.
-  var saySomethingTextView: PlaceholderTextView!
+  var saySomethingTextView: BottomBorderedTextView!
   
   /// Button used to display the name of the end user.
   var usernameLabel: UILabel!
   
   // MARK: Initializers
   
+  /// **Warning:** Do not use this initializer.
   required init(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -262,31 +257,36 @@ class RepostContentView: UIView {
     }
     let textEntryBackground = ColorScheme.defaultScheme.textFieldBackgroundColor()
     
-    boardTextField = CustomTextField(frame: CGRect(x: 8, y: 8, width: width - 16, height: 40))
-    boardTextField.placeholder = "Board"
-    boardTextField.backgroundColor = textEntryBackground
-    boardTextField.font = UIFont.systemFontOfSize(16)
-    boardTextField.spellCheckingType = .No
-    boardTextField.autocorrectionType = .No
-    
-    pictureButton = UIButton(frame: CGRect(x: 8, y: 56, width: 40, height: 40))
+    pictureButton = UIButton(frame: CGRect(x: 8, y: 8, width: 40, height: 40))
     pictureButton.clipsToBounds = true
     pictureButton.layer.cornerRadius = 5.0
     
-    usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 65, width: width - pictureButton.frame.width - 24, height: 21))
+    usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 17, width: width - pictureButton.frame.width - 24, height: 21))
     usernameLabel.font = UIFont.boldSystemFontOfSize(17)
     
-    saySomethingTextView = PlaceholderTextView(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 8, width: width - 16, height: 60))
+    saySomethingTextView = BottomBorderedTextView(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 8, width: width - 16, height: 60))
     saySomethingTextView.placeholder = "Say something about this post..."
     saySomethingTextView.font = UIFont.systemFontOfSize(14)
     saySomethingTextView.backgroundColor = textEntryBackground
     saySomethingTextView.spellCheckingType = .No
     saySomethingTextView.autocorrectionType = .No
     
+    boardPhotoButton = UIButton(frame: CGRect(x: 8, y: saySomethingTextView.frame.maxY + 4, width: 0, height: 40))
+    boardPhotoButton.clipsToBounds = true
+    boardPhotoButton.layer.cornerRadius = 5.0
+    
+    selectBoardButton = UIButton(frame: CGRect(x: boardPhotoButton.frame.maxX + 8, y: saySomethingTextView.frame.maxY + 9, width: width - 16 - boardPhotoButton.frame.width, height: 30))
+    selectBoardButton.contentHorizontalAlignment = .Left
+    selectBoardButton.titleLabel?.font = UIFont.systemFontOfSize(15)
+    selectBoardButton.setTitle("Select Board", forState: .Normal)
+    
+    let horizontalBoardDivider = UIView(frame: CGRect(x: 8, y: boardPhotoButton.frame.maxY + 4, width: width - 16, height: 1))
+    horizontalBoardDivider.backgroundColor = ColorScheme.defaultScheme.thinLineBackgroundColor()
+    
     let vertLeadingEdge = CGFloat(26)
     let vertWidth = CGFloat(3)
     let originalPostLeadingEdge = vertLeadingEdge + vertWidth + 27
-    let originalPostTopEdge = saySomethingTextView.frame.maxY + 8
+    let originalPostTopEdge = boardPhotoButton.frame.maxY + 9
     
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
     originalPictureButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
@@ -306,10 +306,11 @@ class RepostContentView: UIView {
     originalBoardLabel.text = post.board.name
     
     if let title = post.title {
-      originalTitleLabel = UILabel(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: 23))
+      originalTitleLabel = UILabel(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.heightOfTitleWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.boldSystemFontOfSize(20))))
       originalTitleLabel.font = UIFont.boldSystemFontOfSize(20)
+      originalTitleLabel.textAlignment = .Left
+      originalTitleLabel.numberOfLines = 0
       originalTitleLabel.text = title
-      originalTitleLabel.textAlignment = .Center
       
       originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalTitleLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
     } else {
@@ -346,7 +347,9 @@ class RepostContentView: UIView {
     
     addSubview(pictureButton)
     addSubview(usernameLabel)
-    addSubview(boardTextField)
+    addSubview(boardPhotoButton)
+    addSubview(selectBoardButton)
+    addSubview(horizontalBoardDivider)
     addSubview(saySomethingTextView)
     addSubview(originalUsernameLabel)
     addSubview(originalPictureButton)
@@ -363,8 +366,8 @@ class RepostContentView: UIView {
   /// Sets up the colors of the User Interface elements according to the default scheme of the app.
   func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    saySomethingTextView.backgroundColor = scheme.textFieldBackgroundColor()
-    boardTextField.backgroundColor = scheme.textFieldBackgroundColor()
+    saySomethingTextView.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
+    selectBoardButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
   }
 }
 

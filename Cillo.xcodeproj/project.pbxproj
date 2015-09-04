@@ -46,6 +46,7 @@
 		95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */; };
 		95B2B6391A5B22E500EAE822 /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */; };
 		95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */; };
+		95B5A6A71B9A1265000BF626 /* BottomBorderedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B5A6A61B9A1265000BF626 /* BottomBorderedTextView.swift */; };
 		95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */; };
 		95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9F81A71C954008AFDB9 /* WebViewController.swift */; };
 		95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */; };
@@ -144,6 +145,7 @@
 		95A4BD881A5CBDFF00CFD4DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Supporting Files/Default-568h@2x.png"; sourceTree = "<group>"; };
 		95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/UserTableViewController.swift"; sourceTree = "<group>"; };
 		95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/BoardsTableViewController.swift"; sourceTree = "<group>"; };
+		95B5A6A61B9A1265000BF626 /* BottomBorderedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomBorderedTextView.swift; path = Views/BottomBorderedTextView.swift; sourceTree = "<group>"; };
 		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglePostTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SinglePostTableViewController.swift"; sourceTree = "<group>"; };
 		95BEF9F81A71C954008AFDB9 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewController.swift; path = "View Controllers/Standard View Controllers/WebViewController.swift"; sourceTree = "<group>"; };
 		95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/CustomTableViewController.swift"; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 			children = (
 				958ABA5D1B1BFD6600D00E5D /* CustomTextField.swift */,
 				95FDCDE21B1FEE7100DA0D09 /* BottomBorderedTextField.swift */,
+				95B5A6A61B9A1265000BF626 /* BottomBorderedTextView.swift */,
 				9581B7BA1B996B0200D75703 /* SelectBoardOverlayView.swift */,
 				95FDCDE01B1FDFDC00DA0D09 /* PlaceholderTextView.swift */,
 			);
@@ -612,6 +615,7 @@
 				95DD9F6F1B484BD300FA2714 /* Alamofire.swift in Sources */,
 				95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */,
 				95C86D961B0533F200D37B7E /* StoryboardIdentifiers.swift in Sources */,
+				95B5A6A71B9A1265000BF626 /* BottomBorderedTextView.swift in Sources */,
 				958ABA5E1B1BFD6600D00E5D /* CustomTextField.swift in Sources */,
 				958321CB1A462048003F2034 /* DataManager.swift in Sources */,
 				95062D0B1A0D2A6200B4162D /* Extensions.swift in Sources */,
