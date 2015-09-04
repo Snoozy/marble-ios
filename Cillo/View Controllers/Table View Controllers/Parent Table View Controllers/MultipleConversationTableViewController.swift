@@ -49,6 +49,8 @@ class MultipleConversationTableViewController: CustomTableViewController {
       let destination = segue.destinationViewController as! MessagesViewController
       if let sender = sender as? NSIndexPath {
         destination.conversation = displayedConversations[sender.row]
+      } else if let sender = sender as? UIButton {
+        destination.conversation = displayedConversations[sender.tag]
       }
     }
   }
@@ -109,11 +111,13 @@ class MultipleConversationTableViewController: CustomTableViewController {
   }
 
   // MARK: IBActions
-
-  /// Triggers segue with identifier segueIdentifierThisToUser.
+  
+  /// Triggers segue with identifier segueIdentifierThisToMessage.
   ///
   /// :param: sender The button that is touched to send this function is a nameButton or a photoButton in a ConversationCell.
-  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToUser, sender: sender)
+  @IBAction func triggerMessagesSegueOnButton(sender: UIButton) {
+    displayedConversations[sender.tag].read = true
+    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 0)], withRowAnimation: .None)
+    performSegueWithIdentifier(segueIdentifierThisToMessages, sender: sender)
   }
 }

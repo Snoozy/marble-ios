@@ -5447,7 +5447,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerUserSegueOnButton:" destination="cAL-jc-MpN" eventType="touchUpInside" id="v4q-jj-B9D"/>
+                                                <action selector="triggerMessagesSegueOnButton:" destination="cAL-jc-MpN" eventType="touchUpInside" id="Art-71-R4s"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wac-Gc-TwA" userLabel="Time">
@@ -5482,7 +5482,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="triggerUserSegueOnButton:" destination="cAL-jc-MpN" eventType="touchUpInside" id="JsR-cC-8OZ"/>
+                                                <action selector="triggerMessagesSegueOnButton:" destination="cAL-jc-MpN" eventType="touchUpInside" id="Z9P-oi-fvq"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -5579,10 +5579,10 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="fa8-bg-0Pt"/>
+        <segue reference="hRP-Ry-OWh"/>
         <segue reference="ErJ-Pf-JZ7"/>
-        <segue reference="Ndf-JY-QqC"/>
         <segue reference="lj2-2c-ePA"/>
-        <segue reference="jh2-YM-tXJ"/>
         <segue reference="Jl6-tW-uib"/>
     </inferredMetricsTieBreakers>
 </document>

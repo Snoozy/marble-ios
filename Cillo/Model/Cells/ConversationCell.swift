@@ -94,6 +94,7 @@ class ConversationCell: UITableViewCell {
     timeLabel.text = "\(conversation.updateTime) ago"
     timeLabel.textColor = scheme.touchableTextColor()
     
+    nameButton.tag = buttonTag
     photoButton.tag = buttonTag
     
     if conversation.read {
