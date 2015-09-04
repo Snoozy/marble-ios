@@ -6,7 +6,7 @@ figure out how to make flick to dismiss on images not turn
 
 Refactor follow -> join, followers -> members
 
-Trending Boards
+Refactor some code in multipleboardstvc
 
 Find way to do multiple image Posts.
 
