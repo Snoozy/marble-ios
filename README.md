@@ -2,10 +2,6 @@
 
 figure out how to make flick to dismiss on images not turn
 
-no notifs and no msgs need cell saying that
-
-cant resign respoind on textviews in new post
-
 **Feature TODOs:**
 
 Refactor follow -> join, followers -> members
