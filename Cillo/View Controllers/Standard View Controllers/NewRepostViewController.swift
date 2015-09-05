@@ -50,6 +50,7 @@ class NewRepostViewController: CustomViewController {
   
   /// Presents a popup overlay allowing the end user to select a board from the list of boards that they are following.
   func presentOverlay() {
+    resignTextFieldResponders()
     let overlayView = SelectBoardOverlayView(frame: view.frame)
     overlayView.delegate = self
     overlayView.animateInto(view)
