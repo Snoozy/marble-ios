@@ -224,6 +224,12 @@ struct StoryboardIdentifiers {
   /// Reuse identifier for "No Comments" UITableViewCell in SinglePostTableViewController tableView and SingleUserTableViewController tableView.
   static let noCommentsCell = "NoComments"
   
+  /// Reuse identifier for "No Messages" UITableViewCell in MultipleConversationsTableViewController tableView.
+  static let noMessagesCell = "NoMessages"
+  
+  /// Reuse identifier for "No Notifications" UITableViewCell in MultipleNotificationsTableViewController tableView.
+  static let noNotificationsCell = "NoNotifications"
+  
   /// Reuse identifier for "Retrieving Comments" UITableViewCell in SinglePostTableViewController tableView.
   static let retrievingCommentsCell = "RetrievingComments"
   

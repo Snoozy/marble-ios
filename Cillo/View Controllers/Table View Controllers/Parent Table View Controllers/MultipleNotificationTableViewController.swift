@@ -20,6 +20,11 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   
   // MARK: Constants
   
+  /// The height on screen of the cells containing only single labels
+  var heightOfSingleLabelCells: CGFloat {
+    return 40.0
+  }
+  
   /// The standard dividerHeight between NotificaitonCells in `tableView`.
   let notificationDividerHeight = DividerScheme.defaultScheme.multipleNotificationsDividerHeight()
 
@@ -65,28 +70,38 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    return dequeueAndSetupNotificationCellForIndexPath(indexPath)
+    if displayedNotifications.count != 0 {
+      return dequeueAndSetupNotificationCellForIndexPath(indexPath)
+    } else {
+      return dequeueAndSetupNoNotificationsCellForIndexPath(indexPath)
+    }
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return displayedNotifications.count
+    return displayedNotifications.count != 0 ? displayedNotifications.count : 1
   }
   
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    tableView.userInteractionEnabled = false
-    getPostForNotification(displayedNotifications[indexPath.row]) { post in
-      tableView.userInteractionEnabled = true
-      if let post = post {
-        self.performSegueWithIdentifier(self.segueIdentifierThisToPost, sender: post)
+    if displayedNotifications.count != 0 {
+      tableView.userInteractionEnabled = false
+      getPostForNotification(displayedNotifications[indexPath.row]) { post in
+        tableView.userInteractionEnabled = true
+        if let post = post {
+          self.performSegueWithIdentifier(self.segueIdentifierThisToPost, sender: post)
+        }
       }
     }
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return NotificationCell.heightOfNotificationCellForNotification(displayedNotifications[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: notificationDividerHeight)
+    if displayedNotifications.count != 0 {
+      return NotificationCell.heightOfNotificationCellForNotification(displayedNotifications[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: notificationDividerHeight)
+    } else {
+      return heightOfSingleLabelCells
+    }
   }
   
   // MARK: Setup Helper Functions
@@ -101,6 +116,15 @@ class MultipleNotificationTableViewController: CustomTableViewController {
     cell.makeCellFromNotification(displayedNotifications[indexPath.row], withButtonTag: indexPath.row)
     cell.assignDelegatesForCellTo(self)
     return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "You have no notifications"
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created NoNotificationsCell.
+  func dequeueAndSetupNoNotificationsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+     return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noNotificationsCell, forIndexPath: indexPath) as! UITableViewCell
   }
   
   // MARK: Networking Helper Functions

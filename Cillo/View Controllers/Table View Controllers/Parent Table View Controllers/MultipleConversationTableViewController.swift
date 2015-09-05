@@ -23,6 +23,11 @@ class MultipleConversationTableViewController: CustomTableViewController {
   /// The standard dividerHeight between table view cells in tableView.
   let dividerHeight = DividerScheme.defaultScheme.multipleConversationDividerHeight()
 
+  /// The height on screen of the cells containing only single labels
+  var heightOfSingleLabelCells: CGFloat {
+    return 40.0
+  }
+  
   /// Segue Identifier in Storyboard for segue to UserTableViewController.
   ///
   /// **Note:** Subclasses must override this Constant.
@@ -67,24 +72,34 @@ class MultipleConversationTableViewController: CustomTableViewController {
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    return dequeueAndSetupConversationCellForIndexPath(indexPath)
+    if displayedConversations.count != 0 {
+      return dequeueAndSetupConversationCellForIndexPath(indexPath)
+    } else {
+      return dequeueAndSetupNoMessagesCellForIndexPath(indexPath)
+    }
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return displayedConversations.count
+    return displayedConversations.count != 0 ? displayedConversations.count : 1
   }
   
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    displayedConversations[indexPath.row].read = true
-    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-    performSegueWithIdentifier(segueIdentifierThisToMessages, sender: indexPath)
+    if displayedConversations.count != 0 {
+      displayedConversations[indexPath.row].read = true
+      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      performSegueWithIdentifier(segueIdentifierThisToMessages, sender: indexPath)
+    }
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return ConversationCell.heightOfConversationCellForConversation(displayedConversations[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
+    if displayedConversations.count != 0 {
+      return ConversationCell.heightOfConversationCellForConversation(displayedConversations[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
+    } else {
+      return heightOfSingleLabelCells
+    }
   }
   
   // MARK: Setup Helper Functions
@@ -99,6 +114,15 @@ class MultipleConversationTableViewController: CustomTableViewController {
     cell.makeCellFromConversation(displayedConversations[indexPath.row], withButtonTag: indexPath.row)
     cell.assignDelegatesForCellTo(self)
     return cell
+  }
+  
+  /// Makes a single label UITableViewCell that says "You have no messages"
+  ///
+  /// :param: indexPath The index path of the cell to be created in the table view.
+  ///
+  /// :returns: The created NoMessagesCell.
+  func dequeueAndSetupNoMessagesCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+    return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noMessagesCell, forIndexPath: indexPath) as! UITableViewCell
   }
   
   /// Calculates the correct separator height inbetween cells of `tableView`.
