@@ -56,6 +56,18 @@ class SettingsViewController: CustomViewController {
     setupOutletAppearances()
   }
   
+  // MARK: UIResponder
+  
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    if bioTextView.isFirstResponder() {
+      bioTextView.resignFirstResponder()
+    } else if nameTextField.isFirstResponder() {
+      nameTextField.resignFirstResponder()
+    } else if usernameTextField.isFirstResponder() {
+      usernameTextField.resignFirstResponder()
+    }
+  }
+  
   // MARK: Setup Helper Functions
   
   /// Hides the keyboard of all textfields.

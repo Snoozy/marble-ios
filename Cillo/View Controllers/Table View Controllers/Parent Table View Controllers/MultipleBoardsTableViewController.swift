@@ -222,7 +222,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     if !seeAll && indexPath.row == numberOfBoardsDisplayedBeforeSeeAll() - 1 {
       return 1.0
     } else if seeAll && indexPath.row == boards.count - 1 {
-      return 0.0
+      return 1.0
     } else {
       return dividerHeight
     }

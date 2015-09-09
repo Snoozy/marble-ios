@@ -45,6 +45,16 @@ class LogInViewController: CustomViewController {
     setupOutletDelegates()
   }
   
+  // MARK: UIResponder
+  
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    if emailTextField.isFirstResponder() {
+      emailTextField.resignFirstResponder()
+    } else if passwordTextField.isFirstResponder() {
+      passwordTextField.resignFirstResponder()
+    }
+  }
+  
   // MARK: Setup Helper Functions
   
   /// Sets up the colors of the Outlets according to the default scheme of the app.

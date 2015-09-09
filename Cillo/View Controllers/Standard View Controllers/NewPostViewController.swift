@@ -106,6 +106,16 @@ class NewPostViewController: CustomViewController {
     setupOutletDelegates()
   }
   
+  // MARK: UIResponder
+  
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    if postTextView.isFirstResponder() {
+      postTextView.resignFirstResponder()
+    } else if titleTextField.isFirstResponder() {
+      titleTextField.resignFirstResponder()
+    }
+  }
+  
   // MARK: Setup Helper Functions
   
   /// Presents a popup overlay allowing the end user to select a board from the list of boards that they are following.
@@ -135,7 +145,7 @@ class NewPostViewController: CustomViewController {
   
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
-    postTextViewHeightConstraint.constant = postTextViewHeight
+    postTextViewHeightConstraint.constant = postTextViewHeight > 100 ? postTextViewHeight : 100
     if let board = board where board.following {
       selectBoardButton.setTitle(board.name, forState: .Normal)
       boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)

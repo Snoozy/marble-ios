@@ -72,6 +72,16 @@ class NewBoardViewController: CustomViewController {
     setupOutletAppearances()
   }
   
+  // MARK: UIResponder 
+  
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    if descripTextView.isFirstResponder() {
+      descripTextView.resignFirstResponder()
+    } else if nameTextField.isFirstResponder() {
+      nameTextField.resignFirstResponder()
+    }
+  }
+  
   // MARK: Setup Helper Functions
   
   /// Hides the keyboard of all textfields.
@@ -91,7 +101,7 @@ class NewBoardViewController: CustomViewController {
   
   /// Sets up the appearance of Outlets that were not set in the storyboard.
   private func setupOutletAppearances() {
-    descripTextViewHeightConstraint.constant = descripTextViewHeight
+    descripTextViewHeightConstraint.constant = descripTextViewHeight < 100 ? 100 : descripTextViewHeight
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
   }

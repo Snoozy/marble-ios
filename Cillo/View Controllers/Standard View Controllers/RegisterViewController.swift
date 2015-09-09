@@ -43,6 +43,20 @@ class RegisterViewController: CustomViewController {
     setupOutletDelegates()
   }
   
+  // MARK: UIResponder
+  
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    if nameTextField.isFirstResponder() {
+      nameTextField.resignFirstResponder()
+    } else if emailTextField.isFirstResponder() {
+      emailTextField.resignFirstResponder()
+    } else if passwordTextField.isFirstResponder() {
+      passwordTextField.resignFirstResponder()
+    } else if userTextField.isFirstResponder() {
+      userTextField.resignFirstResponder()
+    }
+  }
+  
   // MARK: Setup Helper Functions
   
   /// Hides the keyboard of all textfields.

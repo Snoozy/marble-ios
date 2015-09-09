@@ -362,6 +362,14 @@ class RepostContentView: UIView {
     addSubview(sideLine)
   }
   
+  // MARK: UIResponder
+  
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    if saySomethingTextView.isFirstResponder() {
+      saySomethingTextView.resignFirstResponder()
+    }
+  }
+  
   // MARK: Setup Helper Functions
   
   /// Sets up the colors of the User Interface elements according to the default scheme of the app.

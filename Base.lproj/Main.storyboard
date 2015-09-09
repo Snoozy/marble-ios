@@ -8,10 +8,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--My Boards Table-->
+        <!--Discover Table-->
         <scene sceneID="3JI-4x-LKO">
             <objects>
-                <tableViewController title="Groups Table" id="vM0-Cn-CkN" userLabel="My Boards Table" customClass="MyBoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Groups Table" id="vM0-Cn-CkN" userLabel="Discover Table" customClass="MyBoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="2SV-vX-Mzr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -194,7 +194,7 @@
                             <outlet property="delegate" destination="vM0-Cn-CkN" id="fE2-qH-fgv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Boards" id="2cT-4l-Mfz">
+                    <navigationItem key="navigationItem" title="Discover" id="2cT-4l-Mfz">
                         <barButtonItem key="backBarButtonItem" title="Back" id="7jc-pf-jpS"/>
                         <barButtonItem key="rightBarButtonItem" image="Create Post" id="qSp-o4-igl">
                             <connections>
@@ -4952,7 +4952,7 @@
                                     <action selector="boardPhotoButtonPressed:" destination="RL6-mp-tie" eventType="touchUpInside" id="0V6-wu-fIY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bc0-n6-1F3" userLabel="Choose Photo">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bc0-n6-1F3" userLabel="Choose Photo">
                                 <rect key="frame" x="76" y="87" width="508" height="30"/>
                                 <state key="normal" title="Choose Photo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -4961,7 +4961,7 @@
                                     <action selector="imageButtonPressed:" destination="RL6-mp-tie" eventType="touchUpInside" id="AaT-Jh-7CV"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-5S-5AC" userLabel="Name" customClass="BottomBorderedTextField" customModule="Cillo" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-5S-5AC" userLabel="Name" customClass="BottomBorderedTextField" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="8" y="140" width="584" height="40"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -4970,14 +4970,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjn-nK-ulf" userLabel="Photo and Name Separator">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yjn-nK-ulf" userLabel="Photo and Name Separator">
                                 <rect key="frame" x="16" y="125" width="300" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="3tG-vp-qR5"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzF-VU-MfP" userLabel="Description Text" customClass="BottomBorderedTextView" customModule="Cillo" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kzF-VU-MfP" userLabel="Description Text" customClass="BottomBorderedTextView" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="8" y="188" width="584" height="133"/>
                                 <color key="backgroundColor" red="0.062745098040000002" green="0.39607843139999999" blue="0.76862745099999996" alpha="0.080000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -5721,10 +5721,10 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DUk-kf-nGq"/>
-        <segue reference="X2j-Oo-Px4"/>
-        <segue reference="fa8-bg-0Pt"/>
         <segue reference="hRP-Ry-OWh"/>
-        <segue reference="9nY-Wc-CQM"/>
+        <segue reference="fa8-bg-0Pt"/>
+        <segue reference="0fK-Cx-ysj"/>
+        <segue reference="X2j-Oo-Px4"/>
+        <segue reference="DUk-kf-nGq"/>
     </inferredMetricsTieBreakers>
 </document>
