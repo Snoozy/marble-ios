@@ -18,9 +18,6 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Boards for this UITableViewController.
   var boards = [Board]()
   
-  /// True if all followed boards should be shown. If false, only `numberBoardsShownBeforeSeeAll` boards will be shown, in addition to a cell for a SeeAll button and a New Board button.
-  var seeAll = false
-  
   // MARK: Constants
   
   /// The standard dividerHeight between table view cells in tableView.
@@ -31,11 +28,6 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// These cells are the newBoardCell and seeAllCell.
   var heightOfSingleButtonCells: CGFloat {
     return 40.0
-  }
-  
-  /// The quantity of boards that will be shown before `seeAll` is set to be true.
-  var numberBoardsShownBeforeSeeAll: Int {
-    return 10
   }
   
   /// Segue Identifier in Storyboard for segue to BoardTableViewController.
@@ -70,37 +62,21 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if !seeAll {
-      if indexPath.row == numberOfBoardsDisplayedBeforeSeeAll() && seeAllNecessary() {
-        return dequeueAndSetupSeeAllCellForIndexPath(indexPath)
-      } else if indexPath.row >= numberOfBoardsDisplayedBeforeSeeAll() {
-        return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
-      }
-    } else if indexPath.row >= boards.count {
-      return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
-    }
     return dequeueAndSetupBoardCellForIndexPath(indexPath)
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    // Should show all boards when seeAll is true.
-    // Otherwise we must add the number of single button cells to the number of boards to be displayed before the single button cells.
-    return seeAll ? boards.count : numberOfBoardsDisplayedBeforeSeeAll() + numberOfExtraCellsBeforeSeeAll()
+    return boards.count
   }
   
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if seeAll || numberOfBoardsDisplayedBeforeSeeAll() > indexPath.row {
-      self.performSegueWithIdentifier(segueIdentifierThisToBoard, sender: indexPath)
-    }
+    self.performSegueWithIdentifier(segueIdentifierThisToBoard, sender: indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.row >= boards.count {
-      return heightOfSingleButtonCells
-    }
     return BoardCell.heightOfBoardCellForBoard(boards[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
   }
 
@@ -131,39 +107,6 @@ class MultipleBoardsTableViewController: CustomTableViewController {
       }
     }
     return cell
-  }
-  
-  /// Makes a single button UITableViewCell that has a button that responds to `seeAllBoardsPress(_:)`.
-  ///
-  /// :param: indexPath The index path of the cell to be created in the table view.
-  ///
-  /// :returns: The created SeeAllCell.
-  func dequeueAndSetupSeeAllCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.seeAllCell, forIndexPath: indexPath) as! UITableViewCell
-    for view in cell.contentView.subviews {
-      if let button = view as? UIButton {
-        button.tintColor = ColorScheme.defaultScheme.touchableTextColor()
-      } else if let view = view as? UIView {
-        view.backgroundColor = ColorScheme.defaultScheme.dividerBackgroundColor()
-      }
-    }
-    return cell
-  }
-  
-  /// Calculates the number of rows that should be displayed before the single button cells.
-  ///
-  /// :returns: The number of rows before the single button cells, in the range of 0 to `numberBoardsShownBeforeSeeAll`.
-  func numberOfBoardsDisplayedBeforeSeeAll() -> Int {
-    return boards.count < numberBoardsShownBeforeSeeAll ? boards.count : numberBoardsShownBeforeSeeAll
-  }
-  
-  /// Calculates the number of single button cells displayed before `seeAll` is true.
-  ///
-  /// **Note:** NewBaordCell is always necessary, but SeeAllCell is only necessary when `seeAllNecessary()` returns true.
-  ///
-  /// :returns: The number of single button cells, in the range of 1 to 2.
-  func numberOfExtraCellsBeforeSeeAll() -> Int {
-    return seeAllNecessary() ? 2 : 1
   }
   
   /// Presents an AlertController with style `.ActionSheet` that asks the user for confirmation of unfollowing a board.
@@ -208,25 +151,16 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     
   }
   
-  /// Calculates whether the see all single button cell is necessary. If there are no additional boards to be shown, than see all is clearly not necessary.
-  ///
-  /// :returns: True only if there are more boards than `numberBoardsShownBeforeSeeAll`.
-  func seeAllNecessary() -> Bool {
-    return boards.count > numberBoardsShownBeforeSeeAll
-  }
-  
   /// Calculates the correct separator height inbetween cells of `tableView`.
   ///
   /// :param: indexPath The index path of the cell in the `tableView`.
   ///
   /// :returns: The correct separator height, as specified by the `dividerHeight` constant.
   func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
-    if !seeAll && indexPath.row == numberOfBoardsDisplayedBeforeSeeAll() - 1 {
-      return 1.0
-    } else if seeAll && indexPath.row == boards.count - 1 {
-      return 1.0
-    } else {
+    if indexPath.row < boards.count - 1 {
       return dividerHeight
+    } else {
+      return 0
     }
   }
   
@@ -291,14 +225,6 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     } else {
       presentUnfollowConfirmationActionSheetForBoard(board, atIndex: sender.tag, iPadReference: sender)
     }
-  }
-  
-  /// Shows all boards in the `boards` array in `tableView`.
-  ///
-  /// :param: sender The button tha tis touched to send this function is the button in the SeeAllCell.
-  @IBAction func seeAllBoardsPressed(sender: UIButton) {
-    seeAll = true
-    tableView.reloadData()
   }
   
   /// Triggers segue to BoardTableViewController.

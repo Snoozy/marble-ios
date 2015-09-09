@@ -61,7 +61,6 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   override func retrieveData() {
     retrievingPage = true
     boards = []
-    seeAll = true
     retrieveBoards { boards in
       if let boards = boards {
         self.boards = boards

@@ -16,13 +16,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   // MARK: Properties
   
   /// True if `tableView` is currently displaying boards from search results.
-  var searched = false {
-    didSet {
-      if searched {
-        seeAll = true
-      }
-    }
-  }
+  var searched = false
   
   /// Array of board names that are returned from autocompletion on `searchBar`.
   var searchResults = [String]()
@@ -53,7 +47,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if tableView == self.tableView {
-      if indexPath.row == boards.count {
+      if indexPath.row >= boards.count {
         return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
       } else {
         return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
@@ -77,7 +71,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     if tableView == self.tableView {
-      if indexPath.row == boards.count {
+      if indexPath.row >= boards.count {
         if let tabBarController = tabBarController as? TabViewController {
           tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewBoard, sender: indexPath)
         }
@@ -98,7 +92,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if tableView == self.tableView {
-      if indexPath.row == boards.count {
+      if indexPath.row >= boards.count {
         return heightOfSingleButtonCells
       } else {
         return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
@@ -110,6 +104,16 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return searched ? "Search Results" : "Trending Boards"
+  }
+  
+  // MARK: Setup Helper Functions
+  
+  override func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
+    if indexPath.row == boards.count - 1 {
+      return dividerHeight
+    } else {
+      return super.separatorHeightForIndexPath(indexPath)
+    }
   }
   
   // MARK: Networking Helper Functions
@@ -172,7 +176,6 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   override func retrieveData() {
     retrievingPage = true
     boards = []
-    seeAll = true
     searched = false
     retrieveTrendingBoards { boards in
       if let boards = boards {
