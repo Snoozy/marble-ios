@@ -50,6 +50,9 @@ class TabViewController: UITabBarController {
   /// Data source that will display the notifications cached by this TabViewController.
   var notificationsDataSource: NotificationsDataSource?
   
+  /// Cached user object representing the end user.
+  var endUser: User?
+  
   // MARK: Constants
   
   /// Index of the messages tab in tab bar
@@ -92,6 +95,15 @@ class TabViewController: UITabBarController {
     } else {
       println("Auth token: " + (KeychainWrapper.authToken() ?? "keychain failed to get auth token"))
       println("User ID: \(KeychainWrapper.userID() ?? -1)")
+      if endUser == nil {
+        retrieveEndUser { user in
+          if let user = user {
+            if self.endUser == nil {
+              self.endUser = user
+            }
+          }
+        }
+      }
       notificationRefresher = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: "refreshNotifications:", userInfo: nil, repeats: true)
       notificationRefresher.fire()
     }
@@ -183,6 +195,22 @@ class TabViewController: UITabBarController {
         completionHandler(notifications: nil)
       } else {
         completionHandler(notifications: result)
+      }
+    }
+  }
+  
+  /// Used to retrieve end User from Cillo servers.
+  ///
+  /// :param: completionHandler The completion block for the server call.
+  /// :param: user The end user.
+  /// :param: * Nil if there was an error in the server call.
+  func retrieveEndUser(completionHandler: (user: User?) -> ()) {
+    DataManager.sharedInstance.getEndUserInfo { error, result in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(user: nil)
+      } else {
+        completionHandler(user: result)
       }
     }
   }

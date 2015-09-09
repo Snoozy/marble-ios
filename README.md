@@ -4,6 +4,8 @@ figure out how to make flick to dismiss on images not turn
 
 **Feature TODOs:**
 
+Use cached end user in transition to newpost and newrepost vcs
+
 Refactor follow -> join, followers -> members
 
 Refactor some code in multipleboardstvc

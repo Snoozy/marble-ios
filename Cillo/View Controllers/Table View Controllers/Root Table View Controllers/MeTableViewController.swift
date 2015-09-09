@@ -35,7 +35,6 @@ class MeTableViewController: SingleUserTableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     if KeychainWrapper.hasAuthAndUser() {
-      refreshControl?.beginRefreshing()
       retrieveData()
     }
   }
@@ -133,46 +132,51 @@ class MeTableViewController: SingleUserTableViewController {
   ///
   /// Assigns user, posts, and comments properties of SingleUserTableViewController correct values from server calls.
   override func retrieveData() {
-    retrievingPage = true
-    retrieveUser { user in
-      if let user = user {
-        self.user = user
-        self.posts = []
-        self.postsFinishedPaging = false
-        self.postsPageNumber = 1
-        self.retrievePosts { posts in
-          if let posts = posts {
-            if posts.isEmpty {
-              self.postsFinishedPaging = true
-            }
-            self.posts = posts
-            self.postsPageNumber++
-            self.comments = []
-            self.commentsFinishedPaging = false
-            self.commentsPageNumber = 1
-            self.retrieveComments { comments in
-              self.dataRetrieved = true
-              if let comments = comments {
-                if comments.isEmpty {
-                  self.commentsFinishedPaging = true
-                }
-                self.comments = comments
-                self.tableView.reloadData()
-                self.commentsPageNumber++
-              }
-              self.refreshControl?.endRefreshing()
-              self.retrievingPage = false
-            }
-          } else {
-            self.dataRetrieved = true
-            self.refreshControl?.endRefreshing()
-            self.retrievingPage = false
+    if let tabBarController = tabBarController as? TabViewController, me = tabBarController.endUser where user != me {
+      user = me
+      tableView.reloadData()
+    } else {
+      retrieveUser { user in
+        if let user = user {
+          self.user = user
+          if let tabBarController = self.tabBarController as? TabViewController {
+            tabBarController.endUser = user
           }
+        }
+      }
+    }
+    retrievingPage = true
+    self.posts = []
+    self.postsFinishedPaging = false
+    self.postsPageNumber = 1
+    self.retrievePosts { posts in
+      if let posts = posts {
+        if posts.isEmpty {
+          self.postsFinishedPaging = true
+        }
+        self.posts = posts
+        self.postsPageNumber++
+        self.comments = []
+        self.commentsFinishedPaging = false
+        self.commentsPageNumber = 1
+        self.retrieveComments { comments in
+          self.dataRetrieved = true
+          if let comments = comments {
+            if comments.isEmpty {
+              self.commentsFinishedPaging = true
+            }
+            self.comments = comments
+            self.commentsPageNumber++
+          }
+          self.refreshControl?.endRefreshing()
+          self.retrievingPage = false
+          self.tableView.reloadData()
         }
       } else {
         self.dataRetrieved = true
         self.refreshControl?.endRefreshing()
         self.retrievingPage = false
+        self.tableView.reloadData()
       }
     }
   }
