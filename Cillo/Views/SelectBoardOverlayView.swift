@@ -38,7 +38,7 @@ class SelectBoardOverlayView: UIView {
   
   override init(frame: CGRect) {
     tableController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(StoryboardIdentifiers.boardOverlay) as! BoardOverlayTableViewController
-    tableController.tableView.frame = frame.rectByInsetting(dx: frame.width / 16, dy: frame.height / 3.7)
+    tableController.tableView.frame = frame.rectByInsetting(dx: frame.width / 16, dy: frame.height * 0.28)
     tableController.tableView.layer.cornerRadius = 8.0
     super.init(frame: frame)
     tableController.delegate = self
@@ -132,14 +132,18 @@ extension SelectBoardOverlayView: BoardOverlayTableViewControllerDelegate {
   }
   
   func overlayTableViewController(table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar) {
+    let center = (frame.height - UITextView.keyboardHeight + 30) / 2
+    let offset = center - tableController.tableView.frame.midY
     UIView.animateWithDuration(0.1) {
-      self.tableController.tableView.frame.offset(dx: 0, dy: -(self.frame.height / 5.5))
+      self.tableController.tableView.frame.offset(dx: 0, dy: offset)
     }
   }
   
   func overlayTableViewController(table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar) {
+    let center = frame.height / 2
+    let offset = center - tableController.tableView.frame.midY
     UIView.animateWithDuration(0.1) {
-      self.tableController.tableView.frame.offset(dx: 0, dy: self.frame.height / 5.5)
+      self.tableController.tableView.frame.offset(dx: 0, dy: offset)
     }
   }
   

@@ -76,6 +76,8 @@ class MultipleBoardsTableViewController: CustomTableViewController {
       } else if indexPath.row >= numberOfBoardsDisplayedBeforeSeeAll() {
         return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
       }
+    } else if indexPath.row >= boards.count {
+      return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
     }
     return dequeueAndSetupBoardCellForIndexPath(indexPath)
   }
@@ -96,7 +98,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   }
   
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if !seeAll && indexPath.row >= numberOfBoardsDisplayedBeforeSeeAll() {
+    if indexPath.row >= boards.count {
       return heightOfSingleButtonCells
     }
     return BoardCell.heightOfBoardCellForBoard(boards[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
