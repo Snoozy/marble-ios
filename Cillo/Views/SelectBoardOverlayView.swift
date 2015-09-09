@@ -38,7 +38,7 @@ class SelectBoardOverlayView: UIView {
   
   override init(frame: CGRect) {
     tableController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(StoryboardIdentifiers.boardOverlay) as! BoardOverlayTableViewController
-    tableController.tableView.frame = frame.rectByInsetting(dx: frame.width / 16, dy: frame.height / 4)
+    tableController.tableView.frame = frame.rectByInsetting(dx: frame.width / 16, dy: frame.height / 3.7)
     tableController.tableView.layer.cornerRadius = 8.0
     super.init(frame: frame)
     tableController.delegate = self
@@ -130,6 +130,19 @@ extension SelectBoardOverlayView: BoardOverlayTableViewControllerDelegate {
   func overlayTableViewController(table: BoardOverlayTableViewController, didSelectBoard board: Board) {
     delegate?.overlay(self, selectedBoard: board)
   }
+  
+  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar) {
+    UIView.animateWithDuration(0.1) {
+      self.tableController.tableView.frame.offset(dx: 0, dy: -(self.frame.height / 5.5))
+    }
+  }
+  
+  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar) {
+    UIView.animateWithDuration(0.1) {
+      self.tableController.tableView.frame.offset(dx: 0, dy: self.frame.height / 5.5)
+    }
+  }
+  
 }
 
 // MARK: UIGestureRecognizerDelegate

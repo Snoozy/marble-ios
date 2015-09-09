@@ -13,6 +13,8 @@ import UIKit
 /// Delegate for an overlay table that allows the controller to pass back a selected board.
 protocol BoardOverlayTableViewControllerDelegate {
   func overlayTableViewController(table: BoardOverlayTableViewController, didSelectBoard board: Board)
+  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar)
+  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar)
 }
 
 // MARK: - Classes
@@ -147,6 +149,7 @@ extension BoardOverlayTableViewController: UISearchBarDelegate {
   
   func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
     searchBar.showsCancelButton = true
+    delegate?.overlayTableViewController(self, searchBarBecameFirstResponder: searchBar)
     return true
   }
   
@@ -154,6 +157,7 @@ extension BoardOverlayTableViewController: UISearchBarDelegate {
     if searchResults == nil {
       searchBar.showsCancelButton = false
     }
+    delegate?.overlayTableViewController(self, searchBarResignedFirstResponder: searchBar)
     return true
   }
 }

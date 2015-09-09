@@ -27,10 +27,7 @@ class CustomTableViewController: UITableViewController {
   
   var maxContractedImageHeight: CGFloat {
     let checkImageHeight = tableView.frame.height * 0.625 - PostCell.additionalVertSpaceNeeded
-    if (checkImageHeight < 600) {
-        return 600
-    }
-    return checkImageHeight
+    return checkImageHeight < 600 ? 600 : checkImageHeight
   }
   
   /// The width of the screen with 8px margins.
