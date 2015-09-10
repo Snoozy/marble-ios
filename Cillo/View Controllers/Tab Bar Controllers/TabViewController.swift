@@ -74,11 +74,15 @@ class TabViewController: UITabBarController {
       } else if let sender = sender as? Post {
           destination.postToRepost = sender
       }
+      destination.endUser = endUser
     } else if segue.identifier == SegueIdentifiers.tabToSettings {
       let destination = segue.destinationViewController as! SettingsViewController
       if let sender = sender as? User {
         destination.user = sender
       }
+    } else if segue.identifier == SegueIdentifiers.tabToNewPost {
+      let destination = segue.destinationViewController as! NewPostViewController
+      destination.endUser = endUser
     }
   }
   

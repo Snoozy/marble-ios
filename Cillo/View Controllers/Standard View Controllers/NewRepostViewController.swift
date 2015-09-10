@@ -16,6 +16,11 @@ class NewRepostViewController: CustomViewController {
   /// The instance of the layout helper. This is needed because scrollView layout gets funky with autolayout.
   var contentView: RepostContentView?
   
+  /// End User representation to be shown at the top of the screen.
+  ///
+  /// Set this property to pass an end user name to this UIViewController from another UIViewController.
+  var endUser: User?
+  
   /// The original post that will be reposted.
   var postToRepost: Post = Post()
   
@@ -74,10 +79,15 @@ class NewRepostViewController: CustomViewController {
   
   /// Sets the user related fields of the contentView.
   private func setupUserInfoInContentView() {
-    retrieveEndUser { (user) in
-      if let user = user {
-        self.contentView?.pictureButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
-        self.contentView?.usernameLabel.text = user.name
+    if let endUser = endUser {
+      contentView?.pictureButton.setBackgroundImageToImageWithURL(endUser.photoURL, forState: .Normal)
+      contentView?.usernameLabel.text = endUser.name
+    } else {
+      retrieveEndUser { (user) in
+        if let user = user {
+          self.contentView?.pictureButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
+          self.contentView?.usernameLabel.text = user.name
+        }
       }
     }
   }

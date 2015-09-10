@@ -20,6 +20,11 @@ class NewPostViewController: CustomViewController {
   
   /// Stores the chosen image for this post, if the post is an image post.
   var image: UIImage?
+  
+  /// End User representation to be shown at the top of the screen.
+  ///
+  /// Set this property to pass an end user name to this UIViewController from another UIViewController.
+  var endUser: User?
  
   /// Displays a scrollable image to fit `image` on the screen.
   ///
@@ -153,12 +158,19 @@ class NewPostViewController: CustomViewController {
     }
     boardPhotoButton.clipsToBounds = true
     boardPhotoButton.layer.cornerRadius = 5.0
-    retrieveEndUser { user in
-      if let user = user {
-        self.userPhotoButton.clipsToBounds = true
-        self.userPhotoButton.layer.cornerRadius = 5.0
-        self.userPhotoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
-        self.usernameLabel.text = user.name
+    if let endUser = endUser {
+      userPhotoButton.clipsToBounds = true
+      userPhotoButton.layer.cornerRadius = 5.0
+      userPhotoButton.setBackgroundImageToImageWithURL(endUser.photoURL, forState: .Normal)
+      usernameLabel.text = endUser.name
+    } else {
+      retrieveEndUser { user in
+        if let user = user {
+          self.userPhotoButton.clipsToBounds = true
+          self.userPhotoButton.layer.cornerRadius = 5.0
+          self.userPhotoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
+          self.usernameLabel.text = user.name
+        }
       }
     }
   }
