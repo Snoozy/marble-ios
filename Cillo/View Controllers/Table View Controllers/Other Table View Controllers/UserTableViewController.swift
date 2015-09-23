@@ -101,6 +101,46 @@ class UserTableViewController: SingleUserTableViewController {
     }
   }
   
+  // MARK: Setup Helper Functions
+  
+  /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
+  func presentMenuActionSheet() {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
+      let messageAction = UIAlertAction(title: "Message", style: .Default) { _ in
+        self.retrieveConversation { messages, conversation in
+          if let messages = messages, conversation = conversation {
+            let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
+            self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+          }
+        }
+      }
+      let blockAction = UIAlertAction(title: "Block", style: .Default) { _ in
+        // TODO: implement blocking
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(messageAction)
+      actionSheet.addAction(blockAction)
+      actionSheet.addAction(cancelAction)
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = navigationController.navigationBar
+        popPresenter?.sourceRect = navigationController.navigationBar.frame
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Block")
+      actionSheet.cancelButtonIndex = 2
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      } else {
+        actionSheet.showInView(view)
+      }
+    }
+  }
+  
   // MARK: Networking Helper Functions
   
   /// Used to retrieve the comments made by user from Cillo servers.
@@ -194,17 +234,33 @@ class UserTableViewController: SingleUserTableViewController {
   
   // MARK: IBActions
   
-  /// Triggers segue to MessagesViewController.
+  /// Presents action sheet to logout or edit settings.
   ///
-  /// :param: sender The button that is touched to send this function is a messageButton in a UserCell.
-  @IBAction func messagePressed(sender: UIButton) {
-    sender.enabled = false
-    retrieveConversation { messages, conversation in
-      sender.enabled = true
-      if let messages = messages, conversation = conversation {
-        let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
-        self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+  /// :param: sender The button that is touched to send this function is the right bar button.
+  @IBAction func menuPressed(sender: UIBarButtonItem) {
+    presentMenuActionSheet()
+  }
+}
+
+// MARK: - UIActionSheetDelegate
+
+extension UserTableViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    switch buttonIndex {
+    case 0:
+      self.retrieveConversation { messages, conversation in
+        if let messages = messages, conversation = conversation {
+          let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
+          self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+        }
       }
+    case 1:
+      // TODO: Implement blocking
+      break
+    default:
+      break
     }
   }
 }
+

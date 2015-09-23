@@ -15,6 +15,9 @@ class MeTableViewController: SingleUserTableViewController {
   
   // MARK: Constants
   
+  /// Tag for the menu UIActionSheet to differentiate with the picture UIActionSheet
+  let menuActionSheetTag = 1234
+  
   /// Segue Identifier in Storyboard for segue to BoardTableViewController.
   override var segueIdentifierThisToBoard: String {
     return SegueIdentifiers.meToBoard
@@ -84,8 +87,8 @@ class MeTableViewController: SingleUserTableViewController {
   
   // MARK: Setup Helper Functions
   
-  /// Presents an AlertController with style `.ActionSheet` that asks the user for confirmation of logging out.
-  func presentLogoutConfirmationActionSheet() {
+  /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
+  func presentLogoutConfirmationAlertView() {
     if objc_getClass("UIAlertController") != nil {
       let alert = UIAlertController(title: "Logout", message: "Are you sure you want to Logout?", preferredStyle: .Alert)
       let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
@@ -106,8 +109,43 @@ class MeTableViewController: SingleUserTableViewController {
       presentViewController(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Logout", message: "Are you sure you want to Logout?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
-      alert.cancelButtonIndex = 1
       alert.show()
+    }
+  }
+  
+  /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
+  func presentMenuActionSheet() {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
+      let settingsAction = UIAlertAction(title: "Settings", style: .Default) { _ in
+        if let tabBarController = self.tabBarController as? TabViewController {
+          tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToSettings, sender: self.user)
+        }
+      }
+      let logoutAction = UIAlertAction(title: "Logout", style: .Default) { _ in
+        self.presentLogoutConfirmationAlertView()
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(settingsAction)
+      actionSheet.addAction(logoutAction)
+      actionSheet.addAction(cancelAction)
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = navigationController.navigationBar
+        popPresenter?.sourceRect = navigationController.navigationBar.frame
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Settings", "Logout")
+      actionSheet.cancelButtonIndex = 2
+      actionSheet.tag = menuActionSheetTag
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      } else {
+        actionSheet.showInView(view)
+      }
     }
   }
   
@@ -267,20 +305,11 @@ class MeTableViewController: SingleUserTableViewController {
   
   // MARK: IBActions
   
-  /// Triggers segue to SettingsViewController.
+  /// Presents action sheet to logout or edit settings.
   ///
-  /// :param: sender The button that is touched to send this function is a cogButton in a UserCell.
-  @IBAction func cogPressed(sender: UIButton) {
-    if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToSettings, sender: user)
-    }
-  }
-  
-  /// Presents AlertController with style `.ActionSheet` that asks if the end user wants to logout. If yes is selected, presents the login screen.
-  ///
-  /// :param: sender The button that is touched to send this function is the Logout bar button item.
-  @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
-    presentLogoutConfirmationActionSheet()
+  /// :param: sender The button that is touched to send this function is the right bar button.
+  @IBAction func menuPressed(sender: UIBarButtonItem) {
+    presentMenuActionSheet()
   }
   
   /// Presents action sheet to take a photo or retrieve a photo from the device's library.
@@ -329,14 +358,27 @@ extension MeTableViewController: UINavigationControllerDelegate {
 extension MeTableViewController: UIActionSheetDelegate {
   
   func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-    UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+    if actionSheet.tag == menuActionSheetTag {
+      switch buttonIndex {
+      case 0:
+        if let tabBarController = self.tabBarController as? TabViewController {
+          tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToSettings, sender: self.user)
+        }
+      case 1:
+        self.presentLogoutConfirmationAlertView()
+      default:
+        break
+      }
+    } else {
+      UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
+    }
   }
 }
 
 extension MeTableViewController: UIAlertViewDelegate {
   
   func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-    if buttonIndex == 0 {
+    if buttonIndex == 1 {
       logout { success in
         if success {
           KeychainWrapper.clearAuthToken()

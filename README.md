@@ -15,14 +15,6 @@ Comments 10 at a time (no backend implementation yet)
 Error Handling (besides user unauthenticated, password incorrect, and username taken)
 
 
-**Other:**
-
-Test on devices.
-
-Figure out submission process.
-
-Submit to AppStore.
-
 
 
 
