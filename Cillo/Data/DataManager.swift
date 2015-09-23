@@ -107,6 +107,9 @@ enum Router: URLStringConvertible {
   case ReadNotifications
   case SendMessage(Int)
   case ReadInbox
+  case FlagPost
+  case FlagComment
+  case BlockUser
   
   /// URL of the server call.
   var URLString: String {
@@ -200,6 +203,12 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/user/\(userID)/message\(authString)"
       case .ReadInbox:
         return "/\(vNum)/me/inbox/read\(authString)"
+      case .FlagPost:
+        return "/\(vNum)/report/post\(authString)"
+      case .FlagComment:
+        return "/\(vNum)/report/comment\(authString)"
+      case .BlockUser:
+        return "/\(vNum)/block/user\(authString)"
       }
     }()
     
@@ -290,6 +299,12 @@ enum Router: URLStringConvertible {
       return "End User Send Message to User \(userID)"
     case .ReadInbox:
       return "Read End User Inbox"
+    case .FlagPost:
+      return "Flag Post"
+    case .FlagComment:
+      return "Flag Comment"
+    case .BlockUser:
+      return "Block User"
     }
   }
 }
@@ -330,7 +345,89 @@ class DataManager: NSObject {
   
   // MARK: Networking Functions
   
+  /// Attempts to block the specified user.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: user The user that is to be blocked.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func blockUser(user: User, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
+    request(.POST, Router.BlockUser, parameters: ["user_id": user.userID], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, success: false)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .BlockUser)
+            completionHandler(error: cilloError, success: false)
+          } else {
+            completionHandler(error: nil, success: true)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .BlockUser), success: false)
+        }
+    }
+  }
   
+  /// Attempts to flag the specified comment.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: comment The comment that is to be flagged.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func flagComment(comment: Comment, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
+    request(.POST, Router.FlagComment, parameters: ["comment_id": comment.commentID], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, success: false)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .FlagComment)
+            completionHandler(error: cilloError, success: false)
+          } else {
+            completionHandler(error: nil, success: true)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .FlagComment), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to flag the specified post.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: post The post that is to be flagged.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func flagPost(post: Post, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
+    request(.POST, Router.FlagPost, parameters: ["post_id": post.postID], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, success: false)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .FlagPost)
+            completionHandler(error: cilloError, success: false)
+          } else {
+            completionHandler(error: nil, success: true)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .FlagPost), success: false)
+        }
+    }
+  }
   
   /// Attempts to retrieve the end user's messages with another specified user.
   ///

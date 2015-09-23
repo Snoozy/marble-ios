@@ -234,7 +234,7 @@ class UserTableViewController: SingleUserTableViewController {
   
   // MARK: IBActions
   
-  /// Presents action sheet to logout or edit settings.
+  /// Presents action sheet to block message user.
   ///
   /// :param: sender The button that is touched to send this function is the right bar button.
   @IBAction func menuPressed(sender: UIBarButtonItem) {
