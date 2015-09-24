@@ -62,12 +62,14 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
     retrievingPage = true
     boards = []
     retrieveBoards { boards in
-      if let boards = boards {
-        self.boards = boards
-        self.tableView.reloadData()
+      dispatch_async(dispatch_get_main_queue()) {
+        if let boards = boards {
+          self.boards = boards
+          self.tableView.reloadData()
+        }
+        self.refreshControl?.endRefreshing()
+        self.retrievingPage = false
       }
-      self.refreshControl?.endRefreshing()
-      self.retrievingPage = false
     }
   }
 }

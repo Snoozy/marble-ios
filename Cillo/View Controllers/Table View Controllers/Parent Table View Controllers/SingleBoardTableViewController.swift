@@ -216,9 +216,11 @@ class SingleBoardTableViewController: CustomTableViewController {
       let unfollowAction = UIAlertAction(title: "Leave", style: .Default) { _ in
         self.unfollowBoard { success in
           if success {
-            self.board.following = false
-            let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            dispatch_async(dispatch_get_main_queue()) {
+              self.board.following = false
+              let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+              self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            }
           }
         }
       }
@@ -343,9 +345,11 @@ class SingleBoardTableViewController: CustomTableViewController {
     if post.voteValue != -1 {
       downvotePostAtIndex(sender.tag) { success in
         if success {
-          post.downvote()
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            post.downvote()
+            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }
@@ -358,9 +362,11 @@ class SingleBoardTableViewController: CustomTableViewController {
     if !board.following {
       followBoard { success in
         if success {
-          self.board.following = true
-          let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.board.following = true
+            let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          }
         }
       }
     } else {
@@ -417,7 +423,7 @@ class SingleBoardTableViewController: CustomTableViewController {
     } else if let seeFull = post.seeFull {
       post.seeFull! = !seeFull
     }
-    tableView.reloadData()
+    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 0)], withRowAnimation: .None)
   }
 
   /// Triggers segue to PostTableViewController.
@@ -455,9 +461,11 @@ class SingleBoardTableViewController: CustomTableViewController {
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag) { success in
         if success {
-          post.upvote()
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            post.upvote()
+            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }
@@ -470,9 +478,11 @@ extension SingleBoardTableViewController: UIActionSheetDelegate {
     if buttonIndex == 0 {
       unfollowBoard { success in
         if success {
-          self.board.following = false
-          let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.board.following = false
+            let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }

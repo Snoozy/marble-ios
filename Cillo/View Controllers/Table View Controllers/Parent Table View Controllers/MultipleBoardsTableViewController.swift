@@ -119,9 +119,11 @@ class MultipleBoardsTableViewController: CustomTableViewController {
       let unfollowAction = UIAlertAction(title: "Leave", style: .Default) { _ in
         self.unfollowBoardAtIndex(index) { success in
           if success {
-            board.following = false
-            let boardIndexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            dispatch_async(dispatch_get_main_queue()) {
+              board.following = false
+              let boardIndexPath = NSIndexPath(forRow: index, inSection: 0)
+              self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            }
           }
         }
       }
@@ -217,9 +219,12 @@ class MultipleBoardsTableViewController: CustomTableViewController {
     if !board.following {
       followBoardAtIndex(sender.tag) { success in
         if success {
-          board.following = true
-          let boardIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            board.following = true
+            let boardIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          }
+          
         }
       }
     } else {
@@ -250,9 +255,12 @@ extension MultipleBoardsTableViewController: UIActionSheetDelegate {
     if buttonIndex == 0 {
       unfollowBoardAtIndex(actionSheet.tag) { success in
         if success {
-          self.boards[actionSheet.tag].following = false
-          let boardIndexPath = NSIndexPath(forRow: actionSheet.tag, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.boards[actionSheet.tag].following = false
+            let boardIndexPath = NSIndexPath(forRow: actionSheet.tag, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+          }
+          
         }
       }
     }

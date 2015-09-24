@@ -47,18 +47,20 @@ class BoardTableViewController: SingleBoardTableViewController {
     if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
       retrievingPage = true
       retrievePosts { posts in
-        if let posts = posts {
-          if posts.isEmpty {
-            self.finishedPaging = true
-          } else {
-            for post in posts {
-              self.posts.append(post)
+        dispatch_async(dispatch_get_main_queue()) {
+          if let posts = posts {
+            if posts.isEmpty {
+              self.finishedPaging = true
+            } else {
+              for post in posts {
+                self.posts.append(post)
+              }
+              self.tableView.reloadData()
+              self.pageNumber++
             }
-            self.tableView.reloadData()
-            self.pageNumber++
           }
+          self.retrievingPage = false
         }
-        self.retrievingPage = false
       }
     }
   }
@@ -74,17 +76,19 @@ class BoardTableViewController: SingleBoardTableViewController {
     posts = []
     pageNumber = 1
     retrievePosts { posts in
-      self.postsRetrieved = true
-      if let posts = posts {
-        if posts.isEmpty {
-          self.finishedPaging = true
+      dispatch_async(dispatch_get_main_queue()) {
+        self.postsRetrieved = true
+        if let posts = posts {
+          if posts.isEmpty {
+            self.finishedPaging = true
+          }
+          self.posts = posts
+          self.tableView.reloadData()
+          self.pageNumber++
         }
-        self.posts = posts
-        self.tableView.reloadData()
-        self.pageNumber++
+        self.refreshControl?.endRefreshing()
+        self.retrievingPage = false
       }
-      self.refreshControl?.endRefreshing()
-      self.retrievingPage = false
     }
   }
   

@@ -127,10 +127,10 @@ class SinglePostTableViewController: CustomTableViewController {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
     if selectedPath != indexPath {
       selectedPath = indexPath
-      tableView.reloadData()
+      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
     } else {
       selectedPath = nil
-      tableView.reloadData()
+      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
     }
   }
   
@@ -307,9 +307,12 @@ class SinglePostTableViewController: CustomTableViewController {
     if comment.voteValue != -1 {
       downvoteCommentAtIndex(sender.tag) { success in
         if success {
-          comment.downvote()
-          let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            comment.downvote()
+            let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+            self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+          }
+          
         }
       }
     }
@@ -322,9 +325,11 @@ class SinglePostTableViewController: CustomTableViewController {
     if post.voteValue != -1 {
       downvotePost { success in
         if success {
-          self.post.downvote()
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.post.downvote()
+            let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }
@@ -390,9 +395,11 @@ class SinglePostTableViewController: CustomTableViewController {
     if comment.voteValue != 1 {
       upvoteCommentAtIndex(sender.tag) { success in
         if success {
-          comment.upvote()
-          let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            comment.upvote()
+            let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+            self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }
@@ -405,9 +412,11 @@ class SinglePostTableViewController: CustomTableViewController {
     if post.voteValue != 1 {
       upvotePost { success in
         if success {
-          self.post.upvote()
-          let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.post.upvote()
+            let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }

@@ -66,36 +66,40 @@ class UserTableViewController: SingleUserTableViewController {
       if !postsFinishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
         retrievingPage = true
         retrievePosts { posts in
-          if let posts = posts {
-            if posts.isEmpty {
-              self.postsFinishedPaging = true
-            } else {
-              for post in posts {
-                self.posts.append(post)
+          dispatch_async(dispatch_get_main_queue()) {
+            if let posts = posts {
+              if posts.isEmpty {
+                self.postsFinishedPaging = true
+              } else {
+                for post in posts {
+                  self.posts.append(post)
+                }
+                self.postsPageNumber++
+                self.tableView.reloadData()
               }
-              self.postsPageNumber++
-              self.tableView.reloadData()
             }
+            self.retrievingPage = false
           }
-          self.retrievingPage = false
         }
       }
     case .Comments:
       if !commentsFinishedPaging && !retrievingPage && indexPath.row > comments.count - 10 {
         retrievingPage = true
         retrieveComments { comments in
-          if let comments = comments {
-            if comments.isEmpty {
-              self.commentsFinishedPaging = true
-            } else {
-              for comment in comments {
-                self.comments.append(comment)
+          dispatch_async(dispatch_get_main_queue()) {
+            if let comments = comments {
+              if comments.isEmpty {
+                self.commentsFinishedPaging = true
+              } else {
+                for comment in comments {
+                  self.comments.append(comment)
+                }
+                self.commentsPageNumber++
+                self.tableView.reloadData()
               }
-              self.commentsPageNumber++
-              self.tableView.reloadData()
             }
+            self.retrievingPage = false
           }
-          self.retrievingPage = false
         }
       }
     }
@@ -111,12 +115,24 @@ class UserTableViewController: SingleUserTableViewController {
         self.retrieveConversation { messages, conversation in
           if let messages = messages, conversation = conversation {
             let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
-            self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+            dispatch_async(dispatch_get_main_queue()) {
+              self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+            }
           }
         }
       }
       let blockAction = UIAlertAction(title: "Block", style: .Default) { _ in
-        // TODO: implement blocking
+        self.blockUser { success in
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              UIAlertView(title: "\(self.user.name) is now blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+              self.navigationController?.popToRootViewControllerAnimated(true)
+              if let vc = self.navigationController?.presentedViewController as? CustomTableViewController {
+                vc.retrieveData()
+              }
+            }
+          }
+        }
       }
       let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
       }
@@ -142,6 +158,21 @@ class UserTableViewController: SingleUserTableViewController {
   }
   
   // MARK: Networking Helper Functions
+  
+  /// Used to block the user.
+  ///
+  /// :param: completionHandler The completion block for the server call.
+  /// :param: success True if the call was successful.
+  func blockUser(completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.blockUser(user) { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
   
   /// Used to retrieve the comments made by user from Cillo servers.
   ///
@@ -187,31 +218,37 @@ class UserTableViewController: SingleUserTableViewController {
     postsPageNumber = 1
     retrievePosts { posts in
       if let posts = posts {
-        if posts.isEmpty {
-          self.postsFinishedPaging = true
-        }
-        self.posts = posts
-        self.postsPageNumber++
-        self.commentsFinishedPaging = false
-        self.comments = []
-        self.commentsPageNumber = 1
-        self.retrieveComments { comments in
-          self.dataRetrieved = true
-          if let comments = comments {
-            if comments.isEmpty {
-              self.commentsFinishedPaging = true
-            }
-            self.comments = comments
-            self.commentsPageNumber++
+        dispatch_async(dispatch_get_main_queue()) {
+          if posts.isEmpty {
+            self.postsFinishedPaging = true
           }
-          self.tableView.reloadData()
+          self.posts = posts
+          self.postsPageNumber++
+          self.commentsFinishedPaging = false
+          self.comments = []
+          self.commentsPageNumber = 1
+        }
+        self.retrieveComments { comments in
+          dispatch_async(dispatch_get_main_queue()) {
+            self.dataRetrieved = true
+            if let comments = comments {
+              if comments.isEmpty {
+                self.commentsFinishedPaging = true
+              }
+              self.comments = comments
+              self.commentsPageNumber++
+            }
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+            self.retrievingPage = false
+          }
+        }
+      } else {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.dataRetrieved = true
           self.refreshControl?.endRefreshing()
           self.retrievingPage = false
         }
-      } else {
-        self.dataRetrieved = true
-        self.refreshControl?.endRefreshing()
-        self.retrievingPage = false
       }
     }
   }
@@ -252,12 +289,23 @@ extension UserTableViewController: UIActionSheetDelegate {
       self.retrieveConversation { messages, conversation in
         if let messages = messages, conversation = conversation {
           let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
-          self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+          }
         }
       }
     case 1:
-      // TODO: Implement blocking
-      break
+      self.blockUser { success in
+        if success {
+          dispatch_async(dispatch_get_main_queue()) {
+            UIAlertView(title: "\(self.user.name) is now blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            if let vc = self.navigationController?.presentedViewController as? CustomTableViewController {
+              vc.retrieveData()
+            }
+          }
+        }
+      }
     default:
       break
     }

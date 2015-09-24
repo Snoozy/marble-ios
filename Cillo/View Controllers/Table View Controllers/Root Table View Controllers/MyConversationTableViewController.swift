@@ -64,7 +64,9 @@ class MyConversationTableViewController: MultipleConversationTableViewController
       tableView.reloadData()
       readInbox { success in
         if success {
-          tabBarController.setMessagesBadgeValueTo(0)
+          dispatch_async(dispatch_get_main_queue()) {
+            tabBarController.setMessagesBadgeValueTo(0)
+          }
         }
       }
     } else {

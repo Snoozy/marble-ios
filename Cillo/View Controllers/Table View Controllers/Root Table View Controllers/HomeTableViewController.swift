@@ -46,18 +46,20 @@ class HomeTableViewController: MultiplePostsTableViewController {
     if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
       retrievingPage = true
       retrievePosts { posts in
-        if let posts = posts {
-          if posts.isEmpty {
-            self.finishedPaging = true
-          } else {
-            for post in posts {
-              self.posts.append(post)
+        dispatch_async(dispatch_get_main_queue()) {
+          if let posts = posts {
+            if posts.isEmpty {
+              self.finishedPaging = true
+            } else {
+              for post in posts {
+                self.posts.append(post)
+              }
+              self.pageNumber++
+              self.tableView.reloadData()
             }
-            self.pageNumber++
-            self.tableView.reloadData()
           }
+          self.retrievingPage = false
         }
-        self.retrievingPage = false
       }
     }
   }
@@ -73,16 +75,19 @@ class HomeTableViewController: MultiplePostsTableViewController {
     pageNumber = 1
     finishedPaging = false
     retrievePosts { posts in
-      if let posts = posts {
-        if posts.isEmpty {
-          self.finishedPaging = true
+      dispatch_async(dispatch_get_main_queue()) {
+        if let posts = posts {
+          if posts.isEmpty {
+            self.finishedPaging = true
+          }
+          self.pageNumber++
+          self.posts = posts
+          self.tableView.reloadData()
         }
-        self.pageNumber++
-        self.posts = posts
-        self.tableView.reloadData()
+        self.refreshControl?.endRefreshing()
+        self.retrievingPage = false
       }
-      self.refreshControl?.endRefreshing()
-      self.retrievingPage = false
+      
     }
   }
   

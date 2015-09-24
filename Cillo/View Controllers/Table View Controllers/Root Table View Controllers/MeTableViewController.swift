@@ -50,36 +50,40 @@ class MeTableViewController: SingleUserTableViewController {
       if !postsFinishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
         retrievingPage = true
         retrievePosts { posts in
-          if let posts = posts {
-            if posts.isEmpty {
-              self.postsFinishedPaging = true
-            } else {
-              for post in posts {
-                self.posts.append(post)
+          dispatch_async(dispatch_get_main_queue()) {
+            if let posts = posts {
+              if posts.isEmpty {
+                self.postsFinishedPaging = true
+              } else {
+                for post in posts {
+                  self.posts.append(post)
+                }
+                self.postsPageNumber++
+                self.tableView.reloadData()
               }
-              self.postsPageNumber++
-              self.tableView.reloadData()
             }
+            self.retrievingPage = false
           }
-          self.retrievingPage = false
         }
       }
     case .Comments:
       if !commentsFinishedPaging && !retrievingPage && indexPath.row > comments.count - 10 {
         retrievingPage = true
         retrieveComments { comments in
-          if let comments = comments {
-            if comments.isEmpty {
-              self.commentsFinishedPaging = true
-            } else {
-              for comment in comments {
-                self.comments.append(comment)
+          dispatch_async(dispatch_get_main_queue()) {
+            if let comments = comments {
+              if comments.isEmpty {
+                self.commentsFinishedPaging = true
+              } else {
+                for comment in comments {
+                  self.comments.append(comment)
+                }
+                self.commentsPageNumber++
+                self.tableView.reloadData()
               }
-              self.commentsPageNumber++
-              self.tableView.reloadData()
             }
+            self.retrievingPage = false
           }
-          self.retrievingPage = false
         }
       }
     }
@@ -96,8 +100,10 @@ class MeTableViewController: SingleUserTableViewController {
           if success {
             KeychainWrapper.clearAuthToken()
             KeychainWrapper.clearUserID()
-            if let tabBarController = self.tabBarController as? TabViewController {
-              tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+            dispatch_async(dispatch_get_main_queue()) {
+              if let tabBarController = self.tabBarController as? TabViewController {
+                tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+              }
             }
           }
         }
@@ -189,32 +195,38 @@ class MeTableViewController: SingleUserTableViewController {
     self.postsPageNumber = 1
     self.retrievePosts { posts in
       if let posts = posts {
-        if posts.isEmpty {
-          self.postsFinishedPaging = true
-        }
-        self.posts = posts
-        self.postsPageNumber++
-        self.comments = []
-        self.commentsFinishedPaging = false
-        self.commentsPageNumber = 1
-        self.retrieveComments { comments in
-          self.dataRetrieved = true
-          if let comments = comments {
-            if comments.isEmpty {
-              self.commentsFinishedPaging = true
-            }
-            self.comments = comments
-            self.commentsPageNumber++
+        dispatch_async(dispatch_get_main_queue()) {
+          if posts.isEmpty {
+            self.postsFinishedPaging = true
           }
+          self.posts = posts
+          self.postsPageNumber++
+          self.comments = []
+          self.commentsFinishedPaging = false
+          self.commentsPageNumber = 1
+        }
+        self.retrieveComments { comments in
+          dispatch_async(dispatch_get_main_queue()) {
+            self.dataRetrieved = true
+            if let comments = comments {
+              if comments.isEmpty {
+                self.commentsFinishedPaging = true
+              }
+              self.comments = comments
+              self.commentsPageNumber++
+            }
+            self.refreshControl?.endRefreshing()
+            self.retrievingPage = false
+            self.tableView.reloadData()
+          }
+        }
+      } else {
+        dispatch_async(dispatch_get_main_queue()) {
+          self.dataRetrieved = true
           self.refreshControl?.endRefreshing()
           self.retrievingPage = false
           self.tableView.reloadData()
         }
-      } else {
-        self.dataRetrieved = true
-        self.refreshControl?.endRefreshing()
-        self.retrievingPage = false
-        self.tableView.reloadData()
       }
     }
   }
@@ -331,9 +343,11 @@ extension MeTableViewController: UIImagePickerControllerDelegate {
         if let mediaID = mediaID {
           self.updateEndUserPhoto(mediaID) { user in
             if let user = user {
-              self.user = user
-              let userIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-              self.tableView.reloadRowsAtIndexPaths([userIndexPath], withRowAnimation: .None)
+              dispatch_async(dispatch_get_main_queue()) {
+                self.user = user
+                let userIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+                self.tableView.reloadRowsAtIndexPaths([userIndexPath], withRowAnimation: .None)
+              }
             }
           }
         }
@@ -383,8 +397,10 @@ extension MeTableViewController: UIAlertViewDelegate {
         if success {
           KeychainWrapper.clearAuthToken()
           KeychainWrapper.clearUserID()
-          if let tabBarController = self.tabBarController as? TabViewController {
-            tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+          dispatch_async(dispatch_get_main_queue()) {
+            if let tabBarController = self.tabBarController as? TabViewController {
+              tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+            }
           }
         }
       }

@@ -130,12 +130,14 @@ class PostTableViewController: SinglePostTableViewController {
   /// Assigns commentTree property of SinglePostTableViewController correct values from server calls.
   override func retrieveData() {
     retrieveCommentTree { commentTree in
-      self.commentsRetrieved = true
-      if let commentTree = commentTree {
-        self.commentTree = commentTree
-        self.tableView.reloadData()
+      dispatch_async(dispatch_get_main_queue()) {
+        self.commentsRetrieved = true
+        if let commentTree = commentTree {
+          self.commentTree = commentTree
+          self.tableView.reloadData()
+        }
+        self.refreshControl?.endRefreshing()
       }
-      self.refreshControl?.endRefreshing()
     }
   }
 
@@ -179,15 +181,19 @@ class PostTableViewController: SinglePostTableViewController {
     if sender.tag < 0 { // direct reply to post
       createComment { success in
         if success {
-          self.newCommentView?.1.resignFirstResponder()
-          self.retrieveData()
+          dispatch_async(dispatch_get_main_queue()) {
+            self.newCommentView?.1.resignFirstResponder()
+            self.retrieveData()
+          }
         }
       }
     } else {
       replyToCommentAtIndex(sender.tag) { success in
         if success {
-          self.newCommentView?.1.resignFirstResponder()
-          self.retrieveData()
+          dispatch_async(dispatch_get_main_queue()) {
+            self.newCommentView?.1.resignFirstResponder()
+            self.retrieveData()
+          }
         }
       }
     }
@@ -271,15 +277,19 @@ extension PostTableViewController: UITextFieldDelegate {
       if textField.tag < 0 {
         createComment { success in
           if success {
-            self.newCommentView?.1.resignFirstResponder()
-            self.retrieveData()
+            dispatch_async(dispatch_get_main_queue()) {
+              self.newCommentView?.1.resignFirstResponder()
+              self.retrieveData()
+            }
           }
         }
       } else {
         replyToCommentAtIndex(textField.tag) { success in
           if success {
-            self.newCommentView?.1.resignFirstResponder()
-            self.retrieveData()
+            dispatch_async(dispatch_get_main_queue()) {
+              self.newCommentView?.1.resignFirstResponder()
+              self.retrieveData()
+            }
           }
         }
       }

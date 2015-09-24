@@ -81,10 +81,12 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     } else {
       searchBoardsForName(searchResults[indexPath.row]) { boards in
         if let boards = boards {
-          self.boards = boards
-          self.searched = true
-          self.tableView.reloadData()
-          self.searchDisplayController?.setActive(false, animated: true)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.boards = boards
+            self.searched = true
+            self.tableView.reloadData()
+            self.searchDisplayController?.setActive(false, animated: true)
+          }
         }
       }
     }
@@ -178,12 +180,14 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     boards = []
     searched = false
     retrieveTrendingBoards { boards in
-      if let boards = boards {
-        self.boards = boards
-        self.tableView.reloadData()
+      dispatch_async(dispatch_get_main_queue()) {
+        if let boards = boards {
+          self.boards = boards
+          self.tableView.reloadData()
+        }
+        self.refreshControl?.endRefreshing()
+        self.retrievingPage = false
       }
-      self.refreshControl?.endRefreshing()
-      self.retrievingPage = false
     }
   }
   
@@ -212,8 +216,10 @@ extension MyBoardsTableViewController: UISearchControllerDelegate {
     if searchBar.text != "" {
       autocompleteBoardsSearch(searchBar.text) { names in
         if let names = names {
-          self.searchResults = names
-          self.searchDisplayController?.searchResultsTableView.reloadData()
+          dispatch_async(dispatch_get_main_queue()) {
+            self.searchResults = names
+            self.searchDisplayController?.searchResultsTableView.reloadData()
+          }
         }
       }
     }
@@ -233,10 +239,12 @@ extension MyBoardsTableViewController: UISearchBarDelegate {
     searchResults = []
     searchBoardsForName(searchBar.text) { boards in
       if let boards = boards {
-        self.boards = boards
-        self.searched = true
-        self.tableView.reloadData()
-        self.searchDisplayController?.setActive(false, animated: true)
+        dispatch_async(dispatch_get_main_queue()) {
+          self.boards = boards
+          self.searched = true
+          self.tableView.reloadData()
+          self.searchDisplayController?.setActive(false, animated: true)
+        }
       }
     }
   }

@@ -321,12 +321,7 @@ class DataManager: NSObject {
   /// Singleton network manager.
   ///
   /// **Note:** each network call should start with DataManager.sharedInstance.functionName(_:).
-  class var sharedInstance: DataManager {
-    struct Static {
-      static var instance: DataManager = DataManager()
-    }
-    return Static.instance
-  }
+  static let sharedInstance = DataManager()
   
   // MARK: Properties
   

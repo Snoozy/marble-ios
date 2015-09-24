@@ -103,7 +103,9 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
       tableView.reloadData()
       readNotifications { success in
         if success {
-          tabBarController.setNotificationsBadgeValueTo(0)
+          dispatch_async(dispatch_get_main_queue()) {
+            tabBarController.setNotificationsBadgeValueTo(0)
+          }
         }
       }
     } else {

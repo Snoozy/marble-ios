@@ -135,13 +135,17 @@ class MultiplePostsTableViewController: CustomTableViewController {
     }()
     if let post = post as? Repost where post.originalPost.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        post.originalPost.loadedImage = image
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue()) {
+          post.originalPost.loadedImage = image
+          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        }
       }
     } else if !(post is Repost) && post.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        post.loadedImage = image
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue()) {
+          post.loadedImage = image
+          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        }
       }
     }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
@@ -204,9 +208,11 @@ class MultiplePostsTableViewController: CustomTableViewController {
     if post.voteValue != -1 {
       downvotePostAtIndex(sender.tag) { success in
         if success {
-          post.downvote()
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            post.downvote()
+            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }
@@ -261,7 +267,7 @@ class MultiplePostsTableViewController: CustomTableViewController {
     } else if let seeFull = post.seeFull {
       post.seeFull! = !seeFull
     }
-    tableView.reloadData()
+    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 0)], withRowAnimation: .None)
   }
 
   /// Triggers segue with identifier segueIdentifierThisToBoard.
@@ -295,9 +301,11 @@ class MultiplePostsTableViewController: CustomTableViewController {
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag) { success in
         if success {
-          post.upvote()
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            post.upvote()
+            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
         }
       }
     }

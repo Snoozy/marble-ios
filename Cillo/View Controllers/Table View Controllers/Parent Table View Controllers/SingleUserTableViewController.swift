@@ -450,9 +450,12 @@ class SingleUserTableViewController: CustomTableViewController {
     if post.voteValue != -1 {
       downvotePostAtIndex(sender.tag) { success in
         if success {
-          post.downvote()
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            post.downvote()
+            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
+          
         }
       }
     }
@@ -507,7 +510,7 @@ class SingleUserTableViewController: CustomTableViewController {
     } else if let seeFull = post.seeFull {
       post.seeFull! = !seeFull
     }
-    tableView.reloadData()
+    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 1)], withRowAnimation: .None)
   }
   
   /// Triggers segue to PostTableViewController.
@@ -552,9 +555,12 @@ class SingleUserTableViewController: CustomTableViewController {
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag) { success in
         if success {
-          post.upvote()
-          let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-          self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          dispatch_async(dispatch_get_main_queue()) {
+            post.upvote()
+            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
+            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
+          
         }
       }
     }
