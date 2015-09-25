@@ -107,6 +107,34 @@ class UserTableViewController: SingleUserTableViewController {
   
   // MARK: Setup Helper Functions
   
+  /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
+  func presentBlockConfirmationAlertView() {
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(user.name)?", preferredStyle: .Alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+        self.blockUser { success in
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              UIAlertView(title: "\(self.user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+              self.navigationController?.popToRootViewControllerAnimated(true)
+              if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
+                topVC.retrieveData()
+              }
+            }
+          }
+        }
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      alert.addAction(yesAction)
+      alert.addAction(cancelAction)
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(user.name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
+      alert.show()
+    }
+  }
+  
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   func presentMenuActionSheet() {
     if objc_getClass("UIAlertController") != nil {
@@ -122,17 +150,7 @@ class UserTableViewController: SingleUserTableViewController {
         }
       }
       let blockAction = UIAlertAction(title: "Block", style: .Default) { _ in
-        self.blockUser { success in
-          if success {
-            dispatch_async(dispatch_get_main_queue()) {
-              UIAlertView(title: "\(self.user.name) is now blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
-              self.navigationController?.popToRootViewControllerAnimated(true)
-              if let vc = self.navigationController?.presentedViewController as? CustomTableViewController {
-                vc.retrieveData()
-              }
-            }
-          }
-        }
+        self.presentBlockConfirmationAlertView()
       }
       let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
       }
@@ -286,7 +304,7 @@ extension UserTableViewController: UIActionSheetDelegate {
   func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
     switch buttonIndex {
     case 0:
-      self.retrieveConversation { messages, conversation in
+      retrieveConversation { messages, conversation in
         if let messages = messages, conversation = conversation {
           let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
           dispatch_async(dispatch_get_main_queue()) {
@@ -295,20 +313,27 @@ extension UserTableViewController: UIActionSheetDelegate {
         }
       }
     case 1:
-      self.blockUser { success in
-        if success {
-          dispatch_async(dispatch_get_main_queue()) {
-            UIAlertView(title: "\(self.user.name) is now blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            if let vc = self.navigationController?.presentedViewController as? CustomTableViewController {
-              vc.retrieveData()
-            }
-          }
-        }
-      }
+      presentBlockConfirmationAlertView()
     default:
       break
     }
   }
 }
 
+extension UserTableViewController: UIAlertViewDelegate {
+  
+  func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    if buttonIndex == 1 {
+      blockUser { success in
+        if success {
+          dispatch_async(dispatch_get_main_queue()) {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
+              topVC.retrieveData()
+            }
+          }
+        }
+      }
+    }
+  }
+}
