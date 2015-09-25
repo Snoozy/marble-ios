@@ -2,6 +2,14 @@
 
 figure out how to make flick to dismiss on images not turn
 
+**Apple Being Retards Stuff:**
+
+Flagging Posts/Comments
+
+Blocking Users
+
+Terms on Signup
+
 **Feature TODOs:**
 
 Refactor follow -> join, followers -> members
