@@ -389,6 +389,8 @@ extension MeTableViewController: UIActionSheetDelegate {
   }
 }
 
+// MARK: - UIAlertViewDelegate
+
 extension MeTableViewController: UIAlertViewDelegate {
   
   func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {

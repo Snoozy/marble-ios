@@ -30,10 +30,14 @@ class PostCell: UITableViewCell {
   /// Loads images corresponding to imageURLs property of Post asynchronously.
   @IBOutlet weak var imagesButton: UIButton!
   
-  ///Controls height of imagesButton.
+  /// Controls height of imagesButton.
   ///
   /// Set constant to 20 if showImages is false, otherwise set it to the height of the image.
   @IBOutlet weak var imagesButtonHeightConstraint: NSLayoutConstraint!
+  
+  
+  /// Displays a menu with more actions on the Post.
+  @IBOutlet weak var moreButton: UIButton?
   
   /// Displays user.name property of Post.
   @IBOutlet weak var nameButton: UIButton!
@@ -278,6 +282,7 @@ class PostCell: UITableViewCell {
     downvoteButton.tag = tag
     repostButton.tag = tag
     imagesButton.tag = tag
+    moreButton?.tag = tag
   }
   
   /// Sets fonts of all IBOutlets to the fonts specified in the `PostCell.PostFonts` struct.

@@ -152,6 +152,93 @@ class MultiplePostsTableViewController: CustomTableViewController {
     cell.assignDelegatesForCellTo(self)
     return cell
   }
+ 
+  func updateUIAfterUserBlockedAtIndex(index: Int) {
+    dispatch_async(dispatch_get_main_queue()) {
+      let id = self.posts[index].user.userID
+      var indexPaths = [NSIndexPath]()
+      for (index,post) in enumerate(self.posts) {
+        if post.user.userID == id {
+          indexPaths.append(NSIndexPath(forRow: index, inSection: 0))
+        }
+      }
+      self.posts = self.posts.filter { element in
+        element.user.userID != id
+      }
+      self.tableView.beginUpdates()
+      self.tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+      self.tableView.endUpdates()
+    }
+  }
+  
+  /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
+  ///
+  /// :param: index The index of the post that triggered this alert.
+  func presentBlockConfirmationAlertViewForIndex(index: Int) {
+    let name = posts[index].user.name
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .Alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+        self.blockUserAtIndex(index) { success in
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              UIAlertView(title: "\(name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+              self.updateUIAfterUserBlockedAtIndex(index)
+            }
+          }
+        }
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      alert.addAction(yesAction)
+      alert.addAction(cancelAction)
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
+      alert.tag = index
+      alert.show()
+    }
+  }
+  
+  /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
+  ///
+  /// :param: index The index of the post that triggered this action sheet.
+  func presentMenuActionSheetForIndex(index: Int) {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+        self.flagPostAtIndex(index) { success in
+          if success {
+            UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+          }
+        }
+      }
+      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+        self.presentBlockConfirmationAlertViewForIndex(index)
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(flagAction)
+      actionSheet.addAction(blockAction)
+      actionSheet.addAction(cancelAction)
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = navigationController.navigationBar
+        popPresenter?.sourceRect = navigationController.navigationBar.frame
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
+      actionSheet.cancelButtonIndex = 2
+      actionSheet.tag = index
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      } else {
+        actionSheet.showInView(view)
+      }
+    }
+  }
   
   /// Calculates the correct separator height inbetween cells of `tableView`.
   ///
@@ -164,6 +251,22 @@ class MultiplePostsTableViewController: CustomTableViewController {
   
   // MARK: Networking Helper Functions
   
+  /// Sends block user request to Cillo Servers for the post at the specified index.
+  ///
+  /// :param: index The index of the post being upvoted in `posts`.
+  /// :param: completionHandler The completion block for the upvote.
+  /// :param: success True if block request was successful. If error was received, false.
+  func blockUserAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.blockUser(posts[index].user) { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
+  
   /// Sends downvote request to Cillo Servers for the post at the specified index.
   ///
   /// :param: index The index of the post being upvoted in `posts`.
@@ -171,6 +274,22 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: success True if downvote request was successful. If error was received, false.
   func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
+  
+  /// Sends flag post request to Cillo Servers for the post at the specified index.
+  ///
+  /// :param: index The index of the post being upvoted in `posts`.
+  /// :param: completionHandler The completion block for the upvote.
+  /// :param: success True if flag request was successful. If error was received, false.
+  func flagPostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.flagPost(posts[index]) { error, success in
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -246,6 +365,15 @@ class MultiplePostsTableViewController: CustomTableViewController {
     }
   }
   
+  /// Triggers an action sheet with a more actions menu.
+  ///
+  /// **Note:** The position of the Post to show menu for is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
+  @IBAction func morePressed(sender: UIButton) {
+    presentMenuActionSheetForIndex(sender.tag)
+  }
+  
   /// Reposts a post.
   ///
   /// **Note:** The position of the Post to be reposted is known via the tag of the button.
@@ -305,6 +433,44 @@ class MultiplePostsTableViewController: CustomTableViewController {
             post.upvote()
             let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
             self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+          }
+        }
+      }
+    }
+  }
+}
+
+// MARK: - UIActionSheetDelegate
+
+extension MultiplePostsTableViewController: UIActionSheetDelegate {
+  
+  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    switch buttonIndex {
+    case 0:
+      self.flagPostAtIndex(actionSheet.tag) { success in
+        if success {
+          UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+        }
+      }
+    case 1:
+      presentBlockConfirmationAlertViewForIndex(actionSheet.tag)
+    default:
+      break
+    }
+  }
+}
+
+// MARK: - UIAlertViewDelegate
+
+extension MultiplePostsTableViewController: UIAlertViewDelegate {
+  
+  func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    if buttonIndex == 1 {
+      blockUserAtIndex(alertView.tag) { success in
+        if success {
+          dispatch_async(dispatch_get_main_queue()) {
+            UIAlertView(title: "\(self.posts[alertView.tag].user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+            self.updateUIAfterUserBlockedAtIndex(alertView.tag)
           }
         }
       }

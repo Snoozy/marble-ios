@@ -17,6 +17,9 @@ class UserTableViewController: SingleUserTableViewController {
 
   // MARK: Constants
   
+  /// Tag for the menu UIActionSheet to differentiate with the post UIActionSheet
+  let menuActionSheetTag = Int.max
+  
   /// Segue Identifier in Storyboard for segue to PostTableViewController.
   override var segueIdentifierThisToPost: String {
     return SegueIdentifiers.userToPost
@@ -167,6 +170,47 @@ class UserTableViewController: SingleUserTableViewController {
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Block")
       actionSheet.cancelButtonIndex = 2
+      actionSheet.tag = menuActionSheetTag
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      } else {
+        actionSheet.showInView(view)
+      }
+    }
+  }
+  
+  /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
+  ///
+  /// :param: index The index of the post that triggered this action sheet.
+  func presentMenuActionSheetForIndex(index: Int) {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+        self.flagPostAtIndex(index) { success in
+          if success {
+            UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+          }
+        }
+      }
+      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+        self.presentBlockConfirmationAlertView()
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(flagAction)
+      actionSheet.addAction(blockAction)
+      actionSheet.addAction(cancelAction)
+      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = navigationController.navigationBar
+        popPresenter?.sourceRect = navigationController.navigationBar.frame
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
+      actionSheet.cancelButtonIndex = 2
+      actionSheet.tag = index
       if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
         actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
       } else {
@@ -183,6 +227,22 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: success True if the call was successful.
   func blockUser(completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.blockUser(user) { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
+  
+  /// Sends flag post request to Cillo Servers for the post at the specified index.
+  ///
+  /// :param: index The index of the post being upvoted in `posts`.
+  /// :param: completionHandler The completion block for the upvote.
+  /// :param: success True if flag request was successful. If error was received, false.
+  func flagPostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.flagPost(posts[index]) { error, success in
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -295,6 +355,15 @@ class UserTableViewController: SingleUserTableViewController {
   @IBAction func menuPressed(sender: UIBarButtonItem) {
     presentMenuActionSheet()
   }
+  
+  /// Triggers an action sheet with a more actions menu.
+  ///
+  /// **Note:** The position of the Post to show menu for is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
+  @IBAction func morePressed(sender: UIButton) {
+    presentMenuActionSheetForIndex(sender.tag)
+  }
 }
 
 // MARK: - UIActionSheetDelegate
@@ -302,23 +371,40 @@ class UserTableViewController: SingleUserTableViewController {
 extension UserTableViewController: UIActionSheetDelegate {
   
   func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-    switch buttonIndex {
-    case 0:
-      retrieveConversation { messages, conversation in
-        if let messages = messages, conversation = conversation {
-          let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
-          dispatch_async(dispatch_get_main_queue()) {
-            self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+    if actionSheet.tag ==  menuActionSheetTag {
+      switch buttonIndex {
+      case 0:
+        retrieveConversation { messages, conversation in
+          if let messages = messages, conversation = conversation {
+            let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
+            dispatch_async(dispatch_get_main_queue()) {
+              self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+            }
           }
         }
+      case 1:
+        presentBlockConfirmationAlertView()
+      default:
+        break
       }
-    case 1:
-      presentBlockConfirmationAlertView()
-    default:
-      break
+    } else {
+      switch buttonIndex {
+      case 0:
+        self.flagPostAtIndex(actionSheet.tag) { success in
+          if success {
+            UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+          }
+        }
+      case 1:
+        presentBlockConfirmationAlertView()
+      default:
+        break
+      }
     }
   }
 }
+
+// MARK: - UIAlertViewDelegate
 
 extension UserTableViewController: UIAlertViewDelegate {
   
