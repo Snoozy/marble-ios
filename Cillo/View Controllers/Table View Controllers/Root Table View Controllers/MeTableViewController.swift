@@ -16,7 +16,7 @@ class MeTableViewController: SingleUserTableViewController {
   // MARK: Constants
   
   /// Tag for the menu UIActionSheet to differentiate with the picture UIActionSheet
-  let menuActionSheetTag = 1234
+  let menuActionSheetTag = Int.max
   
   /// Segue Identifier in Storyboard for segue to BoardTableViewController.
   override var segueIdentifierThisToBoard: String {

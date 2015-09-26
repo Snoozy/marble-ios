@@ -1005,7 +1005,7 @@
                                                 <action selector="downvotePostPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="IkN-8k-PGr"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-Xh-5mK" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-Xh-5mK" userLabel="Comment">
                                             <rect key="frame" x="482" y="212" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1018,7 +1018,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="3Oc-wH-gmZ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-jK-bJL" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-jK-bJL" userLabel="Comment Count">
                                             <rect key="frame" x="485" y="220" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1049,7 +1049,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="WzC-oQ-fRH"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgW-YJ-92z" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgW-YJ-92z" userLabel="More">
                                             <rect key="frame" x="562" y="209" width="30" height="30"/>
                                             <animations/>
                                             <constraints>
@@ -1216,7 +1216,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Post" id="cWZ-ps-xcO" customClass="PostTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uqW-KX-1EF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1407,7 +1407,7 @@
                                                 <action selector="downvotePostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="AMZ-Ul-dSA"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rw3-7r-R5c" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rw3-7r-R5c" userLabel="Comment">
                                             <rect key="frame" x="482" y="149" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1417,7 +1417,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-h4-uQn" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-h4-uQn" userLabel="Comment Count">
                                             <rect key="frame" x="485" y="158" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1427,7 +1427,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-xe-YNM" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-xe-YNM" userLabel="Repost">
                                             <rect key="frame" x="522" y="146" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1448,7 +1448,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="hnM-ct-hN7"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5N-DA-H7B" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5N-DA-H7B" userLabel="More">
                                             <rect key="frame" x="560" y="148" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1765,7 +1765,7 @@
                                                 <action selector="downvotePostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="lEc-kJ-bw5"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-5r-yuY" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-5r-yuY" userLabel="Comment">
                                             <rect key="frame" x="493" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1775,7 +1775,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-dC-G7W" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-dC-G7W" userLabel="Comment Count">
                                             <rect key="frame" x="496" y="217" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1793,7 +1793,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="Pxt-NJ-GHw"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIW-Rr-mpF" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIW-Rr-mpF" userLabel="More">
                                             <rect key="frame" x="560" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1811,7 +1811,7 @@
                                                 <action selector="morePressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="7Jt-Aj-6fJ"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVT-Xn-Kjs" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVT-Xn-Kjs" userLabel="Repost">
                                             <rect key="frame" x="525" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3230,7 +3230,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Board" title="Board Table" id="99g-h6-cT9" userLabel="Board Table" customClass="BoardTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nn9-E7-7JH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3540,8 +3540,8 @@
                                                 <action selector="downvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="npY-Vx-6z7"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Ei-mCZ" userLabel="Comment">
-                                            <rect key="frame" x="520" y="148" width="32" height="32"/>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Ei-mCZ" userLabel="Comment">
+                                            <rect key="frame" x="476" y="149" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Vgb-Ei-mCZ" secondAttribute="height" multiplier="1:1" id="sly-nz-f3M"/>
@@ -3553,8 +3553,8 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="htu-g0-DVe"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-3j-7Rg" userLabel="Comment Count">
-                                            <rect key="frame" x="523" y="157" width="26" height="11"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-3j-7Rg" userLabel="Comment Count">
+                                            <rect key="frame" x="479" y="158" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="26" id="HvC-BF-HWs"/>
@@ -3563,8 +3563,8 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-Wz-MKz" userLabel="Repost">
-                                            <rect key="frame" x="560" y="145" width="32" height="32"/>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-Wz-MKz" userLabel="Repost">
+                                            <rect key="frame" x="516" y="145" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="MGx-Wz-MKz" secondAttribute="height" multiplier="1:1" id="Ovd-fY-m5W"/>
@@ -3584,6 +3584,24 @@
                                                 <constraint firstAttribute="height" constant="1" id="0ym-2X-UKe"/>
                                             </constraints>
                                         </view>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gq-Hn-TUl" userLabel="More">
+                                            <rect key="frame" x="556" y="144" width="32" height="32"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="2gq-Hn-TUl" secondAttribute="height" multiplier="1:1" id="Rze-Vp-elb"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="More Button">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Rze-Vp-elb"/>
+                                                </mask>
+                                            </variation>
+                                            <connections>
+                                                <action selector="morePressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="qhI-II-kkD"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <animations/>
                                     <gestureRecognizers/>
@@ -3600,6 +3618,7 @@
                                         <constraint firstItem="6ge-IX-2mO" firstAttribute="top" secondItem="cQN-Pu-xpl" secondAttribute="bottom" constant="8" id="APR-YG-tcu"/>
                                         <constraint firstItem="kvZ-kp-oRl" firstAttribute="top" secondItem="huP-eE-7fO" secondAttribute="top" constant="8" id="AeC-Hl-hMw"/>
                                         <constraint firstItem="6HE-X5-W1a" firstAttribute="leading" secondItem="T0h-OR-oox" secondAttribute="trailing" constant="8" id="Az9-k0-wMz"/>
+                                        <constraint firstItem="2gq-Hn-TUl" firstAttribute="leading" secondItem="MGx-Wz-MKz" secondAttribute="trailing" constant="8" id="CTe-Hu-P3D"/>
                                         <constraint firstAttribute="trailing" secondItem="1Tb-dW-ed9" secondAttribute="trailing" constant="8" id="DRh-PZ-e7D"/>
                                         <constraint firstItem="qWR-PC-GBc" firstAttribute="leading" secondItem="kvZ-kp-oRl" secondAttribute="leading" id="FsX-GN-wV3"/>
                                         <constraint firstItem="6ge-IX-2mO" firstAttribute="leading" secondItem="6HE-X5-W1a" secondAttribute="trailing" constant="8" id="JA0-sx-tq4"/>
@@ -3616,8 +3635,12 @@
                                         <constraint firstItem="3Gn-ER-yBn" firstAttribute="top" secondItem="6ge-IX-2mO" secondAttribute="bottom" constant="7" id="eLN-tm-3zb"/>
                                         <constraint firstItem="kvZ-kp-oRl" firstAttribute="leading" secondItem="cQN-Pu-xpl" secondAttribute="leading" id="f9p-t9-iJm"/>
                                         <constraint firstItem="1Tb-dW-ed9" firstAttribute="trailing" secondItem="cQN-Pu-xpl" secondAttribute="trailing" id="gMO-PR-cxk"/>
+                                        <constraint firstItem="2gq-Hn-TUl" firstAttribute="width" secondItem="2gq-Hn-TUl" secondAttribute="height" multiplier="1:1" id="gYj-2f-kdZ"/>
                                         <constraint firstItem="2XG-3j-7Rg" firstAttribute="centerY" secondItem="Vgb-Ei-mCZ" secondAttribute="centerY" constant="-2" id="gzM-E7-ooS"/>
+                                        <constraint firstItem="6ge-IX-2mO" firstAttribute="top" secondItem="2gq-Hn-TUl" secondAttribute="top" id="h4j-yu-njY"/>
                                         <constraint firstItem="jqA-on-nxG" firstAttribute="top" secondItem="JZW-Qs-byl" secondAttribute="top" constant="1" id="hFu-Vr-H2I"/>
+                                        <constraint firstItem="2gq-Hn-TUl" firstAttribute="trailing" secondItem="1Tb-dW-ed9" secondAttribute="trailing" id="hXq-ur-u8p"/>
+                                        <constraint firstItem="2gq-Hn-TUl" firstAttribute="height" secondItem="6HE-X5-W1a" secondAttribute="height" id="i9A-jq-YSC"/>
                                         <constraint firstItem="Yqt-zZ-QfK" firstAttribute="leading" secondItem="kvZ-kp-oRl" secondAttribute="leading" id="k6F-ze-1Zg"/>
                                         <constraint firstItem="kvZ-kp-oRl" firstAttribute="leading" secondItem="huP-eE-7fO" secondAttribute="leading" constant="8" id="mVI-9O-iP2"/>
                                         <constraint firstItem="6HE-X5-W1a" firstAttribute="height" secondItem="Vgb-Ei-mCZ" secondAttribute="height" id="mzj-Hf-g5u"/>
@@ -3630,6 +3653,11 @@
                                         <constraint firstItem="1Tb-dW-ed9" firstAttribute="trailing" secondItem="Pj6-3a-UBm" secondAttribute="trailing" id="yyg-X6-SoE"/>
                                         <constraint firstItem="kvZ-kp-oRl" firstAttribute="leading" secondItem="Pj6-3a-UBm" secondAttribute="leading" id="z2W-d0-cRF"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="vOs-rr-IAd"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <animations/>
                                 <gestureRecognizers/>
@@ -3640,6 +3668,7 @@
                                     <outlet property="downvoteButton" destination="6ge-IX-2mO" id="mrK-vY-9bu"/>
                                     <outlet property="imagesButton" destination="qWR-PC-GBc" id="atd-eU-psN"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="h2z-bb-rJz" id="Iet-BP-mbP"/>
+                                    <outlet property="moreButton" destination="2gq-Hn-TUl" id="9Ar-6q-cAy"/>
                                     <outlet property="nameButton" destination="GNc-tI-Tjn" id="T2I-wR-3gL"/>
                                     <outlet property="photoButton" destination="kvZ-kp-oRl" id="yDx-4W-knQ"/>
                                     <outlet property="postAttributedLabel" destination="cQN-Pu-xpl" id="VbW-id-rgC"/>
@@ -3889,8 +3918,8 @@
                                                 <action selector="downvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="DCf-qJ-AJv"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEk-Rx-fm4" userLabel="Comment">
-                                            <rect key="frame" x="520" y="211" width="32" height="32"/>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEk-Rx-fm4" userLabel="Comment">
+                                            <rect key="frame" x="466" y="213" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="iEk-Rx-fm4" secondAttribute="height" multiplier="1:1" id="LbQ-Ho-MEB"/>
@@ -3902,8 +3931,8 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="igK-GP-hQA"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-oe-DCf" userLabel="Comment Count">
-                                            <rect key="frame" x="523" y="219" width="26" height="11"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-oe-DCf" userLabel="Comment Count">
+                                            <rect key="frame" x="469" y="221" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="26" id="aZ0-Am-Ime"/>
@@ -3912,8 +3941,8 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiJ-P4-89V" userLabel="Repost">
-                                            <rect key="frame" x="560" y="208" width="32" height="32"/>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiJ-P4-89V" userLabel="Repost">
+                                            <rect key="frame" x="522" y="213" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="RiJ-P4-89V" secondAttribute="height" multiplier="1:1" id="sTw-hb-cjp"/>
@@ -3933,6 +3962,24 @@
                                                 <constraint firstAttribute="height" constant="1" id="Fe5-9x-LIy"/>
                                             </constraints>
                                         </view>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOU-Vc-VEK" userLabel="More">
+                                            <rect key="frame" x="562" y="208" width="30" height="31"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="BOU-Vc-VEK" secondAttribute="height" multiplier="1:1" id="b0j-Oo-9Id"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="More Button">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="b0j-Oo-9Id"/>
+                                                </mask>
+                                            </variation>
+                                            <connections>
+                                                <action selector="morePressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="Kvj-JO-jIi"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <animations/>
                                     <gestureRecognizers/>
@@ -3973,6 +4020,7 @@
                                         <constraint firstItem="2W7-2J-eQd" firstAttribute="trailing" secondItem="GYe-Rv-QIJ" secondAttribute="trailing" id="ch3-Yb-euu"/>
                                         <constraint firstItem="2W7-2J-eQd" firstAttribute="top" secondItem="CgE-dB-voQ" secondAttribute="top" constant="8" id="deF-bU-ILQ"/>
                                         <constraint firstItem="jmb-jh-ww3" firstAttribute="top" secondItem="iEk-Rx-fm4" secondAttribute="top" constant="-3" id="egt-Ji-yL6"/>
+                                        <constraint firstItem="BOU-Vc-VEK" firstAttribute="leading" secondItem="RiJ-P4-89V" secondAttribute="trailing" constant="8" id="fbR-5C-x3b"/>
                                         <constraint firstItem="cGz-T5-0UY" firstAttribute="leading" secondItem="ZVJ-Ht-3Ns" secondAttribute="leading" constant="23" id="gXb-rO-8a2"/>
                                         <constraint firstItem="fdp-E7-8a7" firstAttribute="leading" secondItem="cre-G5-4UX" secondAttribute="trailing" constant="8" id="gvW-Rb-40a"/>
                                         <constraint firstItem="04z-0e-Ydb" firstAttribute="leading" secondItem="A7I-yK-N0F" secondAttribute="leading" id="iku-P8-QJs"/>
@@ -3981,6 +4029,7 @@
                                         <constraint firstItem="CbC-bu-77w" firstAttribute="leading" secondItem="s1W-t9-oqR" secondAttribute="trailing" constant="3" id="ms6-Cj-08D"/>
                                         <constraint firstItem="ZVJ-Ht-3Ns" firstAttribute="leading" secondItem="RmH-iK-7kD" secondAttribute="leading" id="n0a-z2-OqQ"/>
                                         <constraint firstItem="04z-0e-Ydb" firstAttribute="top" secondItem="cGz-T5-0UY" secondAttribute="top" id="ngZ-38-t9e"/>
+                                        <constraint firstItem="BOU-Vc-VEK" firstAttribute="width" secondItem="BOU-Vc-VEK" secondAttribute="height" multiplier="1:1" id="o4J-0c-67J"/>
                                         <constraint firstItem="G30-Hz-vd9" firstAttribute="top" secondItem="04z-0e-Ydb" secondAttribute="top" id="qAv-Yd-kJT"/>
                                         <constraint firstItem="04z-0e-Ydb" firstAttribute="leading" secondItem="YaM-aM-7qb" secondAttribute="leading" id="qa0-pn-Hgq"/>
                                         <constraint firstItem="Kh2-Er-Tf3" firstAttribute="top" secondItem="04z-0e-Ydb" secondAttribute="bottom" constant="4" id="rW7-x3-W5e"/>
@@ -3990,11 +4039,19 @@
                                         <constraint firstItem="jmb-jh-ww3" firstAttribute="leading" secondItem="fdp-E7-8a7" secondAttribute="trailing" constant="8" id="srA-xu-bYT"/>
                                         <constraint firstItem="CbC-bu-77w" firstAttribute="top" secondItem="G30-Hz-vd9" secondAttribute="bottom" constant="1" id="t7c-9w-fHc"/>
                                         <constraint firstItem="PYC-qU-jjY" firstAttribute="leading" secondItem="fp3-hj-Qv4" secondAttribute="leading" id="uis-ly-oim"/>
+                                        <constraint firstItem="BOU-Vc-VEK" firstAttribute="top" secondItem="jmb-jh-ww3" secondAttribute="top" id="uxN-xV-S3F"/>
                                         <constraint firstItem="jmb-jh-ww3" firstAttribute="top" secondItem="RiJ-P4-89V" secondAttribute="top" id="vEA-ZZ-cNK"/>
                                         <constraint firstItem="jmb-jh-ww3" firstAttribute="height" secondItem="fdp-E7-8a7" secondAttribute="height" id="vyr-r4-cYz"/>
                                         <constraint firstItem="jmb-jh-ww3" firstAttribute="top" secondItem="fdp-E7-8a7" secondAttribute="top" id="wCp-3h-Bf5"/>
                                         <constraint firstItem="A7I-yK-N0F" firstAttribute="trailing" secondItem="2W7-2J-eQd" secondAttribute="trailing" id="yU5-6P-UJL"/>
+                                        <constraint firstItem="BOU-Vc-VEK" firstAttribute="height" secondItem="fdp-E7-8a7" secondAttribute="height" id="z99-d3-hQc"/>
+                                        <constraint firstItem="BOU-Vc-VEK" firstAttribute="trailing" secondItem="2W7-2J-eQd" secondAttribute="trailing" id="zlJ-66-qIl"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="SbZ-sT-obr"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <animations/>
                                 <gestureRecognizers/>
@@ -4006,6 +4063,7 @@
                                     <outlet property="goToOriginalPostButton" destination="Dad-t7-Y0t" id="XyM-Xy-Em1"/>
                                     <outlet property="imagesButton" destination="YaM-aM-7qb" id="aA2-6a-BnZ"/>
                                     <outlet property="imagesButtonHeightConstraint" destination="zW5-c3-vYj" id="Bty-aA-IVA"/>
+                                    <outlet property="moreButton" destination="BOU-Vc-VEK" id="yMV-me-Tp9"/>
                                     <outlet property="nameButton" destination="fp3-hj-Qv4" id="Ql3-Vr-4ET"/>
                                     <outlet property="originalBoardButton" destination="CbC-bu-77w" id="uaZ-8g-pvH"/>
                                     <outlet property="originalNameButton" destination="G30-Hz-vd9" id="Qkg-Mf-7Uq"/>
@@ -4055,7 +4113,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="User" id="KG3-Ho-FcM" userLabel="User Table" customClass="UserTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O2a-Wb-L0e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4418,7 +4476,7 @@
                                                 <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="oEA-9e-e59"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvS-xm-oco" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvS-xm-oco" userLabel="Comment">
                                             <rect key="frame" x="475" y="146" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4431,7 +4489,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="L1r-Tj-3QC"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-sf-uGp" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-sf-uGp" userLabel="Comment Count">
                                             <rect key="frame" x="478" y="155" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -4441,7 +4499,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mj0-gh-KmZ" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mj0-gh-KmZ" userLabel="Repost">
                                             <rect key="frame" x="515" y="145" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4462,7 +4520,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="7oa-27-Noi"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrX-5t-98B" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrX-5t-98B" userLabel="More">
                                             <rect key="frame" x="560" y="138" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4792,7 +4850,7 @@
                                                 <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="fYb-JF-FQC"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-o0-pNn" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-o0-pNn" userLabel="Comment">
                                             <rect key="frame" x="491" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4805,7 +4863,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="H9n-i6-v08"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybf-vZ-2B2" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybf-vZ-2B2" userLabel="Comment Count">
                                             <rect key="frame" x="494" y="217" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -4815,7 +4873,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIL-Cm-aUP" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIL-Cm-aUP" userLabel="Repost">
                                             <rect key="frame" x="522" y="208" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4836,7 +4894,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="D5K-Ye-Ak1"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-O1-n2o" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-O1-n2o" userLabel="More">
                                             <rect key="frame" x="560" y="207" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -5310,7 +5368,7 @@
             <objects>
                 <tableViewController title="Boards Table" id="csT-b3-QYy" userLabel="Boards Table" customClass="BoardsTableViewController" customModule="Cillo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="22" sectionFooterHeight="22" id="VlI-Od-Iat">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6110,7 +6168,7 @@
                         <viewControllerLayoutGuide type="bottom" id="dkh-49-yEy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0jN-qr-eX9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6323,9 +6381,9 @@
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rwG-J9-MDJ"/>
+        <segue reference="162-n2-HAP"/>
         <segue reference="8tG-h2-T9M"/>
-        <segue reference="syA-mT-UDy"/>
+        <segue reference="Ndf-JY-QqC"/>
         <segue reference="Jl6-tW-uib"/>
         <segue reference="jh2-YM-tXJ"/>
     </inferredMetricsTieBreakers>

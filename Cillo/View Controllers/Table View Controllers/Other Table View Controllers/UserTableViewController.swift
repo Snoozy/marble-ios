@@ -182,7 +182,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   ///
   /// :param: index The index of the post that triggered this action sheet.
-  func presentMenuActionSheetForIndex(index: Int) {
+  func presentMenuActionSheetForIndex(index: Int, iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
       let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
       let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
@@ -200,19 +200,19 @@ class UserTableViewController: SingleUserTableViewController {
       actionSheet.addAction(flagAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
         actionSheet.modalPresentationStyle = .Popover
         let popPresenter = actionSheet.popoverPresentationController
-        popPresenter?.sourceView = navigationController.navigationBar
-        popPresenter?.sourceRect = navigationController.navigationBar.frame
+        popPresenter?.sourceView = iPadReference
+        popPresenter?.sourceRect = iPadReference.bounds
       }
       presentViewController(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
       actionSheet.tag = index
-      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
       } else {
         actionSheet.showInView(view)
       }
@@ -362,7 +362,7 @@ class UserTableViewController: SingleUserTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
   @IBAction func morePressed(sender: UIButton) {
-    presentMenuActionSheetForIndex(sender.tag)
+    presentMenuActionSheetForIndex(sender.tag, iPadReference: sender)
   }
 }
 

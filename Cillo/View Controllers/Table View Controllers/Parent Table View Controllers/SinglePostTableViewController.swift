@@ -208,13 +208,17 @@ class SinglePostTableViewController: CustomTableViewController {
     }()
     if let post = post as? Repost where post.originalPost.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        post.originalPost.loadedImage = image
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue()) {
+          post.originalPost.loadedImage = image
+          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        }
       }
     } else if !(post is Repost) && post.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        self.post.loadedImage = image
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue()) {
+          self.post.loadedImage = image
+          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        }
       }
     }
     cell.makeCellFromPost(post, withButtonTag: postCellTag, maxContractedImageHeight: maxContractedImageHeight)
@@ -234,7 +238,7 @@ class SinglePostTableViewController: CustomTableViewController {
   }
   
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
-  func presentPostMenuActionSheet() {
+  func presentPostMenuActionSheet(#iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
       let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
       let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
@@ -252,18 +256,18 @@ class SinglePostTableViewController: CustomTableViewController {
       actionSheet.addAction(flagAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
         actionSheet.modalPresentationStyle = .Popover
         let popPresenter = actionSheet.popoverPresentationController
-        popPresenter?.sourceView = navigationController.navigationBar
-        popPresenter?.sourceRect = navigationController.navigationBar.frame
+        popPresenter?.sourceView = iPadReference
+        popPresenter?.sourceRect = iPadReference.bounds
       }
       presentViewController(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
-      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
       } else {
         actionSheet.showInView(view)
       }
@@ -466,7 +470,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
   @IBAction func morePressed(sender: UIButton) {
-    presentPostMenuActionSheet()
+    presentPostMenuActionSheet(iPadReference: sender)
   }
   
   /// Reposts a post.
@@ -527,7 +531,6 @@ class SinglePostTableViewController: CustomTableViewController {
     }
   }
 }
-
 
 // MARK: - UIActionSheetDelegate
 

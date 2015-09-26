@@ -314,13 +314,17 @@ class SingleUserTableViewController: CustomTableViewController {
     }()
     if let post = post as? Repost where post.originalPost.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        post.originalPost.loadedImage = image
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue()) {
+          post.originalPost.loadedImage = image
+          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        }
       }
     } else if !(post is Repost) && post.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        post.loadedImage = image
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue()) {
+          post.loadedImage = image
+          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        }
       }
     }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
