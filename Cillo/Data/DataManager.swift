@@ -1539,23 +1539,24 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the login was unsuccessful, this will contain the error message.
   /// :param: result If the login was successful, this will be the Auth Token.
-  func loginWithEmail(email: String, andPassword password: String, completionHandler: (error: NSError?, result: String?) -> ()) {
+  func loginWithEmail(email: String, andPassword password: String, completionHandler: (error: NSError?, authToken: String?, user: User?) -> ()) {
     activeRequests++
     request(.POST, Router.Login, parameters: ["email": email, "password": password], encoding: .URL)
       .responseJSON { request, response, data, error in
         self.activeRequests--
         if let error = error {
-          completionHandler(error: error, result: nil)
+          completionHandler(error: error, authToken: nil, user: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Login)
-            completionHandler(error: cilloError, result: nil)
+            completionHandler(error: cilloError, authToken: nil, user: nil)
           } else {
             let authToken = json["auth_token"].stringValue
-            completionHandler(error: nil, result: authToken)
+            let user = User(json: json["user"])
+            completionHandler(error: nil, authToken: authToken, user: user)
           }
         } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Login), result: nil)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Login), authToken: nil, user: nil)
         }
     }
   }
@@ -1652,22 +1653,22 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the registration was unsuccessful, this will contain the error message.
   /// :param: success If the registration was successful, this will be true.
-  func registerUserWithName(name: String, username: String, password: String, andEmail email: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  func registerUserWithName(name: String, username: String, password: String, andEmail email: String, completionHandler: (error: NSError?, authToken: String?, user: User?) -> ()) {
     activeRequests++
     request(.POST, Router.Register, parameters: ["username": username, "name": name, "password": password, "email": email], encoding: .URL)
       .responseJSON { request, response, data, error in
         self.activeRequests--
         if let error = error {
-          completionHandler(error: error, success: false)
+          completionHandler(error: error, authToken: nil, user: nil)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .Register)
-            completionHandler(error: cilloError, success: false)
+            completionHandler(error: cilloError, authToken: nil, user: nil)
           } else {
-            completionHandler(error: nil, success: true)
+            completionHandler(error: nil, authToken: json["auth_token"].stringValue, user: User(json: json["user"]))
           }
         } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Register), success: false)
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .Register), authToken: nil, user: nil)
         }
     }
   }

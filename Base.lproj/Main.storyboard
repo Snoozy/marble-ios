@@ -1005,7 +1005,7 @@
                                                 <action selector="downvotePostPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="IkN-8k-PGr"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-Xh-5mK" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-Xh-5mK" userLabel="Comment">
                                             <rect key="frame" x="482" y="212" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1018,7 +1018,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="3Oc-wH-gmZ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-jK-bJL" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-jK-bJL" userLabel="Comment Count">
                                             <rect key="frame" x="485" y="220" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1049,7 +1049,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="WzC-oQ-fRH"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgW-YJ-92z" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgW-YJ-92z" userLabel="More">
                                             <rect key="frame" x="562" y="209" width="30" height="30"/>
                                             <animations/>
                                             <constraints>
@@ -1407,7 +1407,7 @@
                                                 <action selector="downvotePostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="AMZ-Ul-dSA"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rw3-7r-R5c" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rw3-7r-R5c" userLabel="Comment">
                                             <rect key="frame" x="482" y="149" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1417,7 +1417,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-h4-uQn" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-h4-uQn" userLabel="Comment Count">
                                             <rect key="frame" x="485" y="158" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1427,7 +1427,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-xe-YNM" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-xe-YNM" userLabel="Repost">
                                             <rect key="frame" x="522" y="146" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1448,7 +1448,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="hnM-ct-hN7"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5N-DA-H7B" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5N-DA-H7B" userLabel="More">
                                             <rect key="frame" x="560" y="148" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1918,7 +1918,7 @@
                                                 <action selector="downvotePostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="lEc-kJ-bw5"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-5r-yuY" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-5r-yuY" userLabel="Comment">
                                             <rect key="frame" x="493" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1928,7 +1928,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-dC-G7W" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-dC-G7W" userLabel="Comment Count">
                                             <rect key="frame" x="496" y="217" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1946,7 +1946,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="Pxt-NJ-GHw"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIW-Rr-mpF" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIW-Rr-mpF" userLabel="More">
                                             <rect key="frame" x="560" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1964,7 +1964,7 @@
                                                 <action selector="morePressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="7Jt-Aj-6fJ"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVT-Xn-Kjs" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVT-Xn-Kjs" userLabel="Repost">
                                             <rect key="frame" x="525" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3563,7 +3563,7 @@
                                                 <action selector="downvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="npY-Vx-6z7"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Ei-mCZ" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Ei-mCZ" userLabel="Comment">
                                             <rect key="frame" x="476" y="149" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3576,7 +3576,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="htu-g0-DVe"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-3j-7Rg" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-3j-7Rg" userLabel="Comment Count">
                                             <rect key="frame" x="479" y="158" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -3586,7 +3586,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-Wz-MKz" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-Wz-MKz" userLabel="Repost">
                                             <rect key="frame" x="516" y="145" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3607,7 +3607,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="0ym-2X-UKe"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gq-Hn-TUl" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gq-Hn-TUl" userLabel="More">
                                             <rect key="frame" x="556" y="144" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3941,7 +3941,7 @@
                                                 <action selector="downvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="DCf-qJ-AJv"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEk-Rx-fm4" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEk-Rx-fm4" userLabel="Comment">
                                             <rect key="frame" x="466" y="213" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3954,7 +3954,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="igK-GP-hQA"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-oe-DCf" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-oe-DCf" userLabel="Comment Count">
                                             <rect key="frame" x="469" y="221" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -3964,7 +3964,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiJ-P4-89V" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiJ-P4-89V" userLabel="Repost">
                                             <rect key="frame" x="522" y="213" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3985,7 +3985,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="Fe5-9x-LIy"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOU-Vc-VEK" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOU-Vc-VEK" userLabel="More">
                                             <rect key="frame" x="562" y="208" width="30" height="31"/>
                                             <animations/>
                                             <constraints>
@@ -4499,7 +4499,7 @@
                                                 <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="oEA-9e-e59"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvS-xm-oco" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvS-xm-oco" userLabel="Comment">
                                             <rect key="frame" x="475" y="146" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4512,7 +4512,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="L1r-Tj-3QC"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-sf-uGp" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-sf-uGp" userLabel="Comment Count">
                                             <rect key="frame" x="478" y="155" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -4522,7 +4522,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mj0-gh-KmZ" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mj0-gh-KmZ" userLabel="Repost">
                                             <rect key="frame" x="515" y="145" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4543,7 +4543,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="7oa-27-Noi"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrX-5t-98B" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrX-5t-98B" userLabel="More">
                                             <rect key="frame" x="560" y="138" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4873,7 +4873,7 @@
                                                 <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="fYb-JF-FQC"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-o0-pNn" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-o0-pNn" userLabel="Comment">
                                             <rect key="frame" x="491" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4886,7 +4886,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="H9n-i6-v08"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybf-vZ-2B2" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybf-vZ-2B2" userLabel="Comment Count">
                                             <rect key="frame" x="494" y="217" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -4896,7 +4896,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIL-Cm-aUP" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIL-Cm-aUP" userLabel="Repost">
                                             <rect key="frame" x="522" y="208" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4917,7 +4917,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="D5K-Ye-Ak1"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-O1-n2o" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-O1-n2o" userLabel="More">
                                             <rect key="frame" x="560" y="207" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -5815,6 +5815,7 @@
                         <outlet property="passwordTextField" destination="q7Y-sS-ms2" id="JO7-wS-DIP"/>
                         <outlet property="registerButton" destination="BlS-Im-KuE" id="A0l-Ih-ETs"/>
                         <outlet property="userTextField" destination="Pma-9Y-JOo" id="pVb-kb-rbF"/>
+                        <segue destination="3JV-HM-z2W" kind="unwind" identifier="RegisterToTab" unwindAction="unwindToTab:" id="usr-mE-Hdq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SNI-d3-z2w" userLabel="First Responder" sceneMemberID="firstResponder"/>

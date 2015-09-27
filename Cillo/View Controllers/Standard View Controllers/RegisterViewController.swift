@@ -33,6 +33,12 @@ class RegisterViewController: CustomViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.registerToLogin {
       resignTextFieldResponders()
+    } else if segue.identifier == SegueIdentifiers.registerToTab {
+      if let destination = segue.destinationViewController as? TabViewController {
+        if let user = sender as? User {
+          destination.endUser = user
+        }
+      }
     }
   }
   
@@ -99,17 +105,22 @@ class RegisterViewController: CustomViewController {
   ///
   /// :param: completionHandler The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
-  func register(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { error, success in
+  func register(completionHandler: (user: User?) -> ()) {
+    DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { error, auth, user in
       if let error = error {
         self.handleError(error)
-        completionHandler(success: false)
+        completionHandler(user: nil)
       } else {
-        if success {
+        if let auth = auth {
           let alert = UIAlertView(title: "Registration Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
           alert.show()
+          var success = KeychainWrapper.setAuthToken(auth)
+          if let user = user {
+            success = KeychainWrapper.setUserID(user.userID)
+          }
+          println(success)
         }
-        completionHandler(success: success)
+        completionHandler(user: user)
       }
     }
   }
@@ -141,9 +152,9 @@ class RegisterViewController: CustomViewController {
   /// :param: sender The button that is touched to send this function is registerButton.
   @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
     sender.enabled = false
-    register { success in
-      if success {
-        self.performSegueWithIdentifier(SegueIdentifiers.registerToLogin, sender: sender)
+    register { user in
+      if let user = user {
+        self.performSegueWithIdentifier(SegueIdentifiers.registerToTab, sender: user)
       } else {
         sender.enabled = true
       }

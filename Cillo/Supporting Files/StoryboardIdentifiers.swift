@@ -29,6 +29,9 @@ struct SegueIdentifiers {
   /// Segue from RegisterViewController to LogInViewController.
   static let registerToLogin = "RegisterToLogin"
   
+  /// Segue from RegisterViewController to TabViewController.
+  static let registerToTab = "RegisterToTab"
+  
   // MARK: NewBoardViewController
   
   /// Segue from NewBoardViewController to TabViewController.

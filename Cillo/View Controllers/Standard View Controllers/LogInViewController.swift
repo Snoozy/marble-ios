@@ -33,6 +33,9 @@ class LogInViewController: CustomViewController {
     // Make Root VCs retrieve their data after user logged in.
     if segue.identifier == SegueIdentifiers.loginToTab {
       if let destination = segue.destinationViewController as? TabViewController {
+        if let sender = sender as? User {
+          destination.endUser = sender
+        }
         destination.forceDataRetrievalUponUnwinding()
       }
     }
@@ -86,17 +89,20 @@ class LogInViewController: CustomViewController {
   ///
   /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
-  func login(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, result in
+  func login(completionHandler: (user: User?) -> ()) {
+    DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, auth, user in
       if let error = error {
         self.handleError(error)
-        completionHandler(success: false)
+        completionHandler(user: nil)
       } else {
-        var success = false
-        if let token = result {
-          success = KeychainWrapper.setAuthToken(token)
+        if let auth = auth {
+          var success = KeychainWrapper.setAuthToken(auth)
+          if let user = user {
+            success = KeychainWrapper.setUserID(user.userID)
+          }
+          println(success)
         }
-        completionHandler(success: success)
+        completionHandler(user: user)
       }
     }
   }
@@ -155,17 +161,12 @@ class LogInViewController: CustomViewController {
   /// :param: sender The button that is touched to send this function is loginButton.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
     sender.enabled = false
-    login { loginSuccess in
-      if loginSuccess {
-        self.retrieveEndUser { userSuccess in
-          if userSuccess {
-            let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
-            alert.show()
-            self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: sender)
-          } else {
-            sender.enabled = true
-          }
-        }
+    login { user in
+      if let user = user {
+        let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
+        alert.show()
+        self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: user)
+        sender.enabled = true
       } else {
         sender.enabled = true
       }
