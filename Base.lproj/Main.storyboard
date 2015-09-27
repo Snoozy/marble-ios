@@ -1543,6 +1543,159 @@
                                     <outlet property="upvoteButton" destination="cB0-Nl-BS6" id="uTF-4w-On3"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="141" id="2gs-D9-AmR" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="603" width="600" height="141"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2gs-D9-AmR" id="nNl-zX-PAX">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="140.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00X-bS-pTz" userLabel="Profile Picture">
+                                            <rect key="frame" x="8" y="8" width="24" height="24"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="00X-bS-pTz" secondAttribute="height" multiplier="1:1" id="NmR-Mk-atv"/>
+                                                <constraint firstAttribute="height" constant="24" id="a3r-rh-eak"/>
+                                            </constraints>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="sTR-aR-0zw"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZT-el-ks9" userLabel="Name">
+                                            <rect key="frame" x="40" y="8" width="95" height="24"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="2do-OL-bZ6"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <state key="normal" title="Username">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="aPa-k1-15P"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jub-eH-fEQ" userLabel="Rep And Time">
+                                            <rect key="frame" x="562" y="8" width="30" height="24"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="jYN-AH-sPO"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Dn-Of-mKr" userLabel="Comment Text" customClass="TTTAttributedLabel">
+                                            <rect key="frame" x="40" y="40" width="552" height="52"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTC-1x-g9s" userLabel="Upvote">
+                                            <rect key="frame" x="520" y="100" width="32" height="32"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="QrS-tn-akc"/>
+                                                <constraint firstAttribute="width" secondItem="XTC-1x-g9s" secondAttribute="height" multiplier="1:1" id="eit-Hd-Kig"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="Up Arrow">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="upvoteCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="4w4-GH-WuF"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8pQ-tU-Dl9" userLabel="Downvote">
+                                            <rect key="frame" x="560" y="100" width="32" height="32"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="8pQ-tU-Dl9" secondAttribute="height" multiplier="1:1" id="Wdw-oG-rvD"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="Down Arrow">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="downvoteCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="T6o-RZ-OQS"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAL-c5-ERl" userLabel="Reply">
+                                            <rect key="frame" x="8" y="100" width="32" height="32"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="MAL-c5-ERl" secondAttribute="height" multiplier="1:1" id="mRX-Oe-2wJ"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="Reply">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="replyToCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="yr5-cI-GR5"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5u-O4-WEh" userLabel="More">
+                                            <rect key="frame" x="48" y="100" width="32" height="32"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="E5u-O4-WEh" secondAttribute="height" multiplier="1:1" id="17n-tz-Mkq"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage="More Button">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="morePressedOnComment:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="4A3-I4-hSS"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstItem="E5u-O4-WEh" firstAttribute="top" secondItem="XTC-1x-g9s" secondAttribute="top" id="4Bh-vp-zq5"/>
+                                        <constraint firstAttribute="bottom" secondItem="XTC-1x-g9s" secondAttribute="bottom" constant="8" id="5jt-VL-Ibh"/>
+                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="height" secondItem="XTC-1x-g9s" secondAttribute="height" id="5zd-2L-EUf"/>
+                                        <constraint firstItem="Jub-eH-fEQ" firstAttribute="top" secondItem="00X-bS-pTz" secondAttribute="top" id="8u2-Lj-g1y"/>
+                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="top" secondItem="XTC-1x-g9s" secondAttribute="top" id="Ahr-ah-Vex"/>
+                                        <constraint firstItem="0Dn-Of-mKr" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="leading" constant="32" id="BCj-mN-Pgc"/>
+                                        <constraint firstItem="XTC-1x-g9s" firstAttribute="top" secondItem="8pQ-tU-Dl9" secondAttribute="top" id="CYZ-5s-Led"/>
+                                        <constraint firstItem="8pQ-tU-Dl9" firstAttribute="height" secondItem="XTC-1x-g9s" secondAttribute="height" id="Dpl-sW-RdR"/>
+                                        <constraint firstItem="00X-bS-pTz" firstAttribute="leading" secondItem="nNl-zX-PAX" secondAttribute="leading" constant="8" id="Ee2-el-a9m"/>
+                                        <constraint firstItem="HZT-el-ks9" firstAttribute="top" secondItem="00X-bS-pTz" secondAttribute="top" id="HTd-mu-w4L"/>
+                                        <constraint firstAttribute="trailing" secondItem="Jub-eH-fEQ" secondAttribute="trailing" constant="8" id="IyW-n5-Xd9"/>
+                                        <constraint firstItem="E5u-O4-WEh" firstAttribute="leading" secondItem="MAL-c5-ERl" secondAttribute="trailing" constant="8" id="LBD-s6-T8h"/>
+                                        <constraint firstItem="0Dn-Of-mKr" firstAttribute="trailing" secondItem="Jub-eH-fEQ" secondAttribute="trailing" id="UfB-bI-JGg"/>
+                                        <constraint firstItem="XTC-1x-g9s" firstAttribute="top" secondItem="0Dn-Of-mKr" secondAttribute="bottom" constant="8" id="XvM-7r-2ma"/>
+                                        <constraint firstItem="00X-bS-pTz" firstAttribute="top" secondItem="nNl-zX-PAX" secondAttribute="top" constant="8" id="YkU-Bw-4fW"/>
+                                        <constraint firstItem="HZT-el-ks9" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="trailing" constant="8" id="aZ8-xE-7KA"/>
+                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="leading" id="oAt-0t-zuo"/>
+                                        <constraint firstItem="8pQ-tU-Dl9" firstAttribute="trailing" secondItem="Jub-eH-fEQ" secondAttribute="trailing" id="omH-GG-hnG"/>
+                                        <constraint firstItem="E5u-O4-WEh" firstAttribute="height" secondItem="XTC-1x-g9s" secondAttribute="height" id="pjG-Rh-oIr"/>
+                                        <constraint firstItem="0Dn-Of-mKr" firstAttribute="top" secondItem="HZT-el-ks9" secondAttribute="bottom" constant="8" id="tUE-Fi-bhO"/>
+                                        <constraint firstItem="E5u-O4-WEh" firstAttribute="width" secondItem="E5u-O4-WEh" secondAttribute="height" multiplier="1:1" id="xRg-2a-Ybk"/>
+                                        <constraint firstItem="8pQ-tU-Dl9" firstAttribute="leading" secondItem="XTC-1x-g9s" secondAttribute="trailing" constant="8" id="ykc-Nc-mo0"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="xRg-2a-Ybk"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="commentAttributedLabel" destination="0Dn-Of-mKr" id="jaA-Jl-BCF"/>
+                                    <outlet property="downvoteButton" destination="8pQ-tU-Dl9" id="OfX-OA-aZu"/>
+                                    <outlet property="imageIndentConstraint" destination="Ee2-el-a9m" id="iiG-La-m7H"/>
+                                    <outlet property="moreButton" destination="E5u-O4-WEh" id="kFL-cg-n9t"/>
+                                    <outlet property="nameButton" destination="HZT-el-ks9" id="mCY-7v-MDv"/>
+                                    <outlet property="photoButton" destination="00X-bS-pTz" id="ckw-2D-Uip"/>
+                                    <outlet property="repAndTimeLabel" destination="Jub-eH-fEQ" id="pLo-TK-hkh"/>
+                                    <outlet property="replyButton" destination="MAL-c5-ERl" id="DPi-Tw-5j4"/>
+                                    <outlet property="upvoteButton" destination="XTC-1x-g9s" id="FW5-l1-bo9"/>
+                                    <outlet property="upvoteHeightConstraint" destination="QrS-tn-akc" id="Ju4-N5-zsh"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Repost" rowHeight="250" id="prg-ol-J4w" customClass="RepostCell" customModule="Cillo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="353" width="600" height="250"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -1922,136 +2075,6 @@
                                     <outlet property="titleLabel" destination="gy9-75-5Fy" id="1b6-Fu-0fC"/>
                                     <outlet property="upvoteButton" destination="9mx-68-4O1" id="CT9-oD-E3O"/>
                                     <outlet property="verticalLineView" destination="mfV-QH-f7c" id="inc-dx-hML"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="141" id="2gs-D9-AmR" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="603" width="600" height="141"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2gs-D9-AmR" id="nNl-zX-PAX">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="140.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00X-bS-pTz" userLabel="Profile Picture">
-                                            <rect key="frame" x="8" y="8" width="24" height="24"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="00X-bS-pTz" secondAttribute="height" multiplier="1:1" id="NmR-Mk-atv"/>
-                                                <constraint firstAttribute="height" constant="24" id="a3r-rh-eak"/>
-                                            </constraints>
-                                            <state key="normal">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="sTR-aR-0zw"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZT-el-ks9" userLabel="Name">
-                                            <rect key="frame" x="40" y="8" width="95" height="24"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="24" id="2do-OL-bZ6"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <state key="normal" title="Username">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="triggerUserSegueOnButton:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="aPa-k1-15P"/>
-                                            </connections>
-                                        </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jub-eH-fEQ" userLabel="Rep And Time">
-                                            <rect key="frame" x="562" y="8" width="30" height="24"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="24" id="jYN-AH-sPO"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Dn-Of-mKr" userLabel="Comment Text" customClass="TTTAttributedLabel">
-                                            <rect key="frame" x="40" y="40" width="552" height="52"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTC-1x-g9s" userLabel="Upvote">
-                                            <rect key="frame" x="520" y="100" width="32" height="32"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="QrS-tn-akc"/>
-                                                <constraint firstAttribute="width" secondItem="XTC-1x-g9s" secondAttribute="height" multiplier="1:1" id="eit-Hd-Kig"/>
-                                            </constraints>
-                                            <state key="normal" backgroundImage="Up Arrow">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="upvoteCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="4w4-GH-WuF"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8pQ-tU-Dl9" userLabel="Downvote">
-                                            <rect key="frame" x="560" y="100" width="32" height="32"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="8pQ-tU-Dl9" secondAttribute="height" multiplier="1:1" id="Wdw-oG-rvD"/>
-                                            </constraints>
-                                            <state key="normal" backgroundImage="Down Arrow">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="downvoteCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="T6o-RZ-OQS"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAL-c5-ERl" userLabel="Reply">
-                                            <rect key="frame" x="8" y="100" width="32" height="32"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="MAL-c5-ERl" secondAttribute="height" multiplier="1:1" id="mRX-Oe-2wJ"/>
-                                            </constraints>
-                                            <state key="normal" backgroundImage="Reply">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="replyToCommentPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="yr5-cI-GR5"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <animations/>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="XTC-1x-g9s" secondAttribute="bottom" constant="8" id="5jt-VL-Ibh"/>
-                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="height" secondItem="XTC-1x-g9s" secondAttribute="height" id="5zd-2L-EUf"/>
-                                        <constraint firstItem="Jub-eH-fEQ" firstAttribute="top" secondItem="00X-bS-pTz" secondAttribute="top" id="8u2-Lj-g1y"/>
-                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="top" secondItem="XTC-1x-g9s" secondAttribute="top" id="Ahr-ah-Vex"/>
-                                        <constraint firstItem="0Dn-Of-mKr" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="leading" constant="32" id="BCj-mN-Pgc"/>
-                                        <constraint firstItem="XTC-1x-g9s" firstAttribute="top" secondItem="8pQ-tU-Dl9" secondAttribute="top" id="CYZ-5s-Led"/>
-                                        <constraint firstItem="8pQ-tU-Dl9" firstAttribute="height" secondItem="XTC-1x-g9s" secondAttribute="height" id="Dpl-sW-RdR"/>
-                                        <constraint firstItem="00X-bS-pTz" firstAttribute="leading" secondItem="nNl-zX-PAX" secondAttribute="leading" constant="8" id="Ee2-el-a9m"/>
-                                        <constraint firstItem="HZT-el-ks9" firstAttribute="top" secondItem="00X-bS-pTz" secondAttribute="top" id="HTd-mu-w4L"/>
-                                        <constraint firstAttribute="trailing" secondItem="Jub-eH-fEQ" secondAttribute="trailing" constant="8" id="IyW-n5-Xd9"/>
-                                        <constraint firstItem="0Dn-Of-mKr" firstAttribute="trailing" secondItem="Jub-eH-fEQ" secondAttribute="trailing" id="UfB-bI-JGg"/>
-                                        <constraint firstItem="XTC-1x-g9s" firstAttribute="top" secondItem="0Dn-Of-mKr" secondAttribute="bottom" constant="8" id="XvM-7r-2ma"/>
-                                        <constraint firstItem="00X-bS-pTz" firstAttribute="top" secondItem="nNl-zX-PAX" secondAttribute="top" constant="8" id="YkU-Bw-4fW"/>
-                                        <constraint firstItem="HZT-el-ks9" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="trailing" constant="8" id="aZ8-xE-7KA"/>
-                                        <constraint firstItem="MAL-c5-ERl" firstAttribute="leading" secondItem="00X-bS-pTz" secondAttribute="leading" id="oAt-0t-zuo"/>
-                                        <constraint firstItem="8pQ-tU-Dl9" firstAttribute="trailing" secondItem="Jub-eH-fEQ" secondAttribute="trailing" id="omH-GG-hnG"/>
-                                        <constraint firstItem="0Dn-Of-mKr" firstAttribute="top" secondItem="HZT-el-ks9" secondAttribute="bottom" constant="8" id="tUE-Fi-bhO"/>
-                                        <constraint firstItem="8pQ-tU-Dl9" firstAttribute="leading" secondItem="XTC-1x-g9s" secondAttribute="trailing" constant="8" id="ykc-Nc-mo0"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <animations/>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <connections>
-                                    <outlet property="commentAttributedLabel" destination="0Dn-Of-mKr" id="jaA-Jl-BCF"/>
-                                    <outlet property="downvoteButton" destination="8pQ-tU-Dl9" id="OfX-OA-aZu"/>
-                                    <outlet property="imageIndentConstraint" destination="Ee2-el-a9m" id="iiG-La-m7H"/>
-                                    <outlet property="nameButton" destination="HZT-el-ks9" id="mCY-7v-MDv"/>
-                                    <outlet property="photoButton" destination="00X-bS-pTz" id="ckw-2D-Uip"/>
-                                    <outlet property="repAndTimeLabel" destination="Jub-eH-fEQ" id="pLo-TK-hkh"/>
-                                    <outlet property="replyButton" destination="MAL-c5-ERl" id="DPi-Tw-5j4"/>
-                                    <outlet property="upvoteButton" destination="XTC-1x-g9s" id="FW5-l1-bo9"/>
-                                    <outlet property="upvoteHeightConstraint" destination="QrS-tn-akc" id="Ju4-N5-zsh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -6383,7 +6406,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="162-n2-HAP"/>
         <segue reference="8tG-h2-T9M"/>
-        <segue reference="Ndf-JY-QqC"/>
+        <segue reference="syA-mT-UDy"/>
         <segue reference="Jl6-tW-uib"/>
         <segue reference="jh2-YM-tXJ"/>
     </inferredMetricsTieBreakers>

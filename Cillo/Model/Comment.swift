@@ -13,6 +13,9 @@ class Comment: NSObject {
   
   // MARK: Properties
   
+  /// True if this Comment's user is blocked by the end user.
+  var blocked = false
+  
   /// Comments that replied to this Comment.
   ///
   /// Nil if this Comment does not have any children or the children are unknown.
@@ -91,6 +94,7 @@ class Comment: NSObject {
     self.time = time.compactTimeDisplay
     rep = json["votes"].intValue
     voteValue = json["vote_value"].intValue
+    blocked = json["blocked"].intValue == 1
     self.lengthToPost = lengthToPost
     if lengthToPost != nil && json["children"] != nil {
       let children = json["children"].arrayValue
@@ -116,7 +120,7 @@ class Comment: NSObject {
   /// :returns: Predicted height of commentTextView in a CommentCell.
   func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
     let trueWidth = width - CommentCell.commentAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
-    return text.heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentFonts.commentAttributedLabelFont)
+    return (blocked ? "[user blocked]" : text).heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentFonts.commentAttributedLabelFont)
   }
   
   /// Used to retrieve a Comment tree containing this Comment and all of its children.

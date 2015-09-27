@@ -33,6 +33,9 @@ class CommentCell: UITableViewCell {
   /// Set to .getIndentationSize().
   @IBOutlet weak var imageIndentConstraint: NSLayoutConstraint!
   
+  /// Displays more menu for Comment.
+  @IBOutlet weak var moreButton: UIButton?
+  
   /// Displays user.name property of Comment.
   @IBOutlet weak var nameButton: UIButton!
   
@@ -154,7 +157,7 @@ class CommentCell: UITableViewCell {
     setupCommentOutletFonts()
     setOutletTagsTo(buttonTag)
     
-    var name = comment.user.name
+    var name = comment.blocked ? "[user blocked]" : comment.user.name
     //add dots if CommentCell has reached max indent and cannot be indented more
     if let lengthToPost = comment.lengthToPost {
       if lengthToPost > Comment.longestLengthToPost {
@@ -166,13 +169,14 @@ class CommentCell: UITableViewCell {
     }
     
     nameButton.setTitle(name, forState: .Normal)
-    nameButton.titleLabel?.font = UIFont.boldSystemFontOfSize(15.0)
     
-    photoButton.setBackgroundImageToImageWithURL(comment.user.photoURL, forState: .Normal)
+    let picURL = comment.blocked ? (NSURL(string: "https://static.cillo.co/image/default_small") ?? NSURL()) : comment.user.photoURL
+    photoButton.setBackgroundImageToImageWithURL(picURL, forState: .Normal)
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
-    commentAttributedLabel.setupWithText(comment.text, andFont: CommentCell.CommentFonts.commentAttributedLabelFont)
+    let text = comment.blocked ? "[user blocked]" : comment.text
+    commentAttributedLabel.setupWithText(text, andFont: CommentCell.CommentFonts.commentAttributedLabelFont)
     
     var repText = comment.rep.fiveCharacterDisplay
     if comment.rep > 0 {
@@ -195,7 +199,7 @@ class CommentCell: UITableViewCell {
       repAndTimeLabel.text = repText
     }
     
-    if comment.user.isAnon {
+    if comment.blocked || comment.user.isAnon {
       nameButton.enabled = false
       photoButton.enabled = false
     }
@@ -263,6 +267,7 @@ class CommentCell: UITableViewCell {
     upvoteButton?.tag = tag
     downvoteButton?.tag = tag
     replyButton?.tag = tag
+    moreButton?.tag = tag
   }
 }
 

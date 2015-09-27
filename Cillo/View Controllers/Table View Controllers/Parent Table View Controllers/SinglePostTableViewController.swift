@@ -41,6 +41,9 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Tag of all buttons in the PostCell representing `post`
   let postCellTag = 1000000
   
+  /// Tag of actionsheet for moreButton for `post`
+  let postMoreActionSheetTag = Int.max
+  
   /// Segue Identifier in Storyboard for segue to BoardTableViewController.
   ///
   /// **Note:** Subclasses must override this Constant.
@@ -125,12 +128,14 @@ class SinglePostTableViewController: CustomTableViewController {
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    if selectedPath != indexPath {
-      selectedPath = indexPath
-      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-    } else {
-      selectedPath = nil
-      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+    if !commentTree[indexPath.row].blocked {
+      if selectedPath != indexPath {
+        selectedPath = indexPath
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      } else {
+        selectedPath = nil
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+      }
     }
   }
   
@@ -237,6 +242,60 @@ class SinglePostTableViewController: CustomTableViewController {
     return cell
   }
   
+  func updateUIAfterUserBlockedAtIndex(index: Int) {
+    dispatch_async(dispatch_get_main_queue()) {
+      let id = self.commentTree[index].user.userID
+      var indexPaths = [NSIndexPath]()
+      for (index, comment) in enumerate(self.commentTree) {
+        if comment.user.userID == id {
+          indexPaths.append(NSIndexPath(forRow: index, inSection: 1))
+        }
+      }
+      self.selectedPath = nil
+      self.tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+    }
+  }
+  
+  /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
+  ///
+  /// :param: index The index of the post that triggered this action sheet.
+  func presentMenuActionSheetForIndex(index: Int, iPadReference: UIButton?) {
+    if objc_getClass("UIAlertController") != nil {
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+        self.flagCommentAtIndex(index) { success in
+          if success {
+            UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+          }
+        }
+      }
+      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+        self.presentBlockConfirmationAlertViewForIndex(index)
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      actionSheet.addAction(flagAction)
+      actionSheet.addAction(blockAction)
+      actionSheet.addAction(cancelAction)
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.modalPresentationStyle = .Popover
+        let popPresenter = actionSheet.popoverPresentationController
+        popPresenter?.sourceView = iPadReference
+        popPresenter?.sourceRect = iPadReference.bounds
+      }
+      presentViewController(actionSheet, animated: true, completion: nil)
+    } else {
+      let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
+      actionSheet.cancelButtonIndex = 2
+      actionSheet.tag = index
+      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
+      } else {
+        actionSheet.showInView(view)
+      }
+    }
+  }
+  
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   func presentPostMenuActionSheet(#iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
@@ -266,6 +325,7 @@ class SinglePostTableViewController: CustomTableViewController {
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
+      actionSheet.tag = postMoreActionSheetTag
       if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
         actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
       } else {
@@ -299,6 +359,36 @@ class SinglePostTableViewController: CustomTableViewController {
       presentViewController(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
+      alert.tag = postMoreActionSheetTag
+      alert.show()
+    }
+  }
+  
+  /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
+  ///
+  /// :param: index The index of the comment that triggered this alert.
+  func presentBlockConfirmationAlertViewForIndex(index: Int) {
+    let name = commentTree[index].user.name
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .Alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+        self.blockUserAtIndex(index) { success in
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              UIAlertView(title: "\(name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+              self.updateUIAfterUserBlockedAtIndex(index)
+            }
+          }
+        }
+      }
+      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      }
+      alert.addAction(yesAction)
+      alert.addAction(cancelAction)
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
+      alert.tag = index
       alert.show()
     }
   }
@@ -311,6 +401,22 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: success True if block request was successful. If error was received, false.
   func blockUser(completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.blockUser(post.user) { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
+  
+  /// Sends block user request to Cillo Servers for the post at the specified index.
+  ///
+  /// :param: index The index of the post being upvoted in `posts`.
+  /// :param: completionHandler The completion block for the upvote.
+  /// :param: success True if block request was successful. If error was received, false.
+  func blockUserAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.blockUser(commentTree[index].user) { error, success in
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -342,6 +448,22 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePost(completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.downvotePostWithID(post.postID) { error, success in
+      if let error = error {
+        self.handleError(error)
+        completionHandler(success: false)
+      } else {
+        completionHandler(success: success)
+      }
+    }
+  }
+  
+  /// Sends flag post request to Cillo Servers for the comment at the specified index.
+  ///
+  /// :param: index The index of the comment being flagged in `commentTree`.
+  /// :param: completionHandler The completion block for the upvote.
+  /// :param: success True if flag request was successful. If error was received, false.
+  func flagCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+    DataManager.sharedInstance.flagComment(commentTree[index]) { error, success in
       if let error = error {
         self.handleError(error)
         completionHandler(success: false)
@@ -473,6 +595,15 @@ class SinglePostTableViewController: CustomTableViewController {
     presentPostMenuActionSheet(iPadReference: sender)
   }
   
+  /// Triggers an action sheet with a more actions menu.
+  ///
+  /// **Note:** The position of the Comment to show menu for is known via the tag of the button.
+  ///
+  /// :param: sender The button that is touched to send this function is a moreButton in a CommentCell.
+  @IBAction func morePressedOnComment(sender: UIButton) {
+    presentMenuActionSheetForIndex(sender.tag, iPadReference: sender)
+  }
+  
   /// Reposts a post.
   ///
   /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
@@ -537,17 +668,32 @@ class SinglePostTableViewController: CustomTableViewController {
 extension SinglePostTableViewController: UIActionSheetDelegate {
   
   func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-    switch buttonIndex {
-    case 0:
-      self.flagPost { success in
-        if success {
-          UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+    if actionSheet.tag == postMoreActionSheetTag {
+      switch buttonIndex {
+      case 0:
+        self.flagPost { success in
+          if success {
+            UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+          }
         }
+      case 1:
+        presentPostBlockConfirmationAlertView()
+      default:
+        break
       }
-    case 1:
-      presentPostBlockConfirmationAlertView()
-    default:
-      break
+    } else {
+      switch buttonIndex {
+      case 0:
+        self.flagCommentAtIndex(actionSheet.tag) { success in
+          if success {
+            UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
+          }
+        }
+      case 1:
+        presentBlockConfirmationAlertViewForIndex(actionSheet.tag)
+      default:
+        break
+      }
     }
   }
 }
@@ -557,14 +703,27 @@ extension SinglePostTableViewController: UIActionSheetDelegate {
 extension SinglePostTableViewController: UIAlertViewDelegate {
   
   func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-    if buttonIndex == 1 {
-      blockUser { success in
-        if success {
-          dispatch_async(dispatch_get_main_queue()) {
-            UIAlertView(title: "\(self.post.user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
-            self.navigationController?.popToRootViewControllerAnimated(true)
-            if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
-              topVC.retrieveData()
+    if alertView.tag == postMoreActionSheetTag {
+      if buttonIndex == 1 {
+        blockUser { success in
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              UIAlertView(title: "\(self.post.user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+              self.navigationController?.popToRootViewControllerAnimated(true)
+              if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
+                topVC.retrieveData()
+              }
+            }
+          }
+        }
+      }
+    } else {
+      if buttonIndex == 1 {
+        self.blockUserAtIndex(alertView.tag) { success in
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              UIAlertView(title: "\(self.commentTree[alertView.tag].user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
+              self.updateUIAfterUserBlockedAtIndex(alertView.tag)
             }
           }
         }
