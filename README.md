@@ -14,6 +14,8 @@ Terms on Signup
 
 **Feature TODOs:**
 
+Create comment ui box always at bottom when viewing post.
+
 Refactor follow -> join, followers -> members
 
 Refactor some code in multipleboardstvc
