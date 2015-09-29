@@ -1,5 +1,7 @@
 **Bugs:**
 
+post button does not work after user encounters error, even when error has been resolved
+
 figure out how to make flick to dismiss on images not turn
 
 **Apple Being Retards Stuff:**
