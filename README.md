@@ -4,14 +4,6 @@ post button does not work after user encounters error, even when error has been 
 
 figure out how to make flick to dismiss on images not turn
 
-**Apple Being Retards Stuff:**
-
-Flagging Posts/Comments
-
-Blocking Users
-
-Terms on Signup
-
 **Feature TODOs:**
 
 Create comment ui box always at bottom when viewing post.
