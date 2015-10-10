@@ -38,6 +38,7 @@ class RegisterViewController: CustomViewController {
         if let user = sender as? User {
           destination.endUser = user
         }
+        destination.selectedIndex = 1
       }
     }
   }
@@ -146,6 +147,19 @@ class RegisterViewController: CustomViewController {
   
   
   // MARK: IBActions
+  
+  
+  @IBAction func privacyPressed(sender: UIButton) {
+    if let url = NSURL(string: "https://www.cillo.co/legal/privacy.html") {
+      UIApplication.sharedApplication().openURL(url)
+    }
+  }
+  
+  @IBAction func termsPressed(sender: UIButton) {
+    if let url = NSURL(string: "https://www.cillo.co/legal/tos.html") {
+      UIApplication.sharedApplication().openURL(url)
+    }
+  }
   
   /// Triggers segue to LoginViewController after registering the new user with the server.
   ///

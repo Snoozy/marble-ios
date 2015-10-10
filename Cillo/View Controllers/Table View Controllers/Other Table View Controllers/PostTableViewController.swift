@@ -220,6 +220,7 @@ class PostTableViewController: SinglePostTableViewController {
     replyButton.tag = tag
     let view = UIView(frame: CGRect(x: 0.0, y: tableView.contentOffset.y + tableView.frame.size.height - 46.0, width: tableView.frame.size.width, height: 46.0))
     view.backgroundColor = ColorScheme.defaultScheme.barAboveKeyboardColor()
+    view.alpha = 1.0
     view.addSubview(textField)
     view.addSubview(replyButton)
     newCommentView = (view, textField)

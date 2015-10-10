@@ -1005,7 +1005,7 @@
                                                 <action selector="downvotePostPressed:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="IkN-8k-PGr"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-Xh-5mK" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-Xh-5mK" userLabel="Comment">
                                             <rect key="frame" x="482" y="212" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1018,7 +1018,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="uF0-C9-9Mx" eventType="touchUpInside" id="3Oc-wH-gmZ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-jK-bJL" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-jK-bJL" userLabel="Comment Count">
                                             <rect key="frame" x="485" y="220" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1049,7 +1049,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="WzC-oQ-fRH"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgW-YJ-92z" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgW-YJ-92z" userLabel="More">
                                             <rect key="frame" x="562" y="209" width="30" height="30"/>
                                             <animations/>
                                             <constraints>
@@ -1407,7 +1407,7 @@
                                                 <action selector="downvotePostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="AMZ-Ul-dSA"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rw3-7r-R5c" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rw3-7r-R5c" userLabel="Comment">
                                             <rect key="frame" x="482" y="149" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1417,7 +1417,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-h4-uQn" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpH-h4-uQn" userLabel="Comment Count">
                                             <rect key="frame" x="485" y="158" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1427,7 +1427,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-xe-YNM" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-xe-YNM" userLabel="Repost">
                                             <rect key="frame" x="522" y="146" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1448,7 +1448,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="hnM-ct-hN7"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5N-DA-H7B" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5N-DA-H7B" userLabel="More">
                                             <rect key="frame" x="560" y="148" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1544,7 +1544,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Comment" rowHeight="141" id="2gs-D9-AmR" customClass="CommentCell" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="603" width="600" height="141"/>
+                                <rect key="frame" x="0.0" y="353" width="600" height="141"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2gs-D9-AmR" id="nNl-zX-PAX">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="140.5"/>
@@ -1697,7 +1697,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Repost" rowHeight="250" id="prg-ol-J4w" customClass="RepostCell" customModule="Cillo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="353" width="600" height="250"/>
+                                <rect key="frame" x="0.0" y="494" width="600" height="250"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="prg-ol-J4w" id="DJ1-Su-R1y">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="249.5"/>
@@ -1918,7 +1918,7 @@
                                                 <action selector="downvotePostPressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="lEc-kJ-bw5"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-5r-yuY" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-5r-yuY" userLabel="Comment">
                                             <rect key="frame" x="493" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1928,7 +1928,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-dC-G7W" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-dC-G7W" userLabel="Comment Count">
                                             <rect key="frame" x="496" y="217" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -1946,7 +1946,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="Pxt-NJ-GHw"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIW-Rr-mpF" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIW-Rr-mpF" userLabel="More">
                                             <rect key="frame" x="560" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -1964,7 +1964,7 @@
                                                 <action selector="morePressed:" destination="cWZ-ps-xcO" eventType="touchUpInside" id="7Jt-Aj-6fJ"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVT-Xn-Kjs" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVT-Xn-Kjs" userLabel="Repost">
                                             <rect key="frame" x="525" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3563,7 +3563,7 @@
                                                 <action selector="downvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="npY-Vx-6z7"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Ei-mCZ" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgb-Ei-mCZ" userLabel="Comment">
                                             <rect key="frame" x="476" y="149" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3576,7 +3576,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="htu-g0-DVe"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-3j-7Rg" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-3j-7Rg" userLabel="Comment Count">
                                             <rect key="frame" x="479" y="158" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -3586,7 +3586,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-Wz-MKz" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGx-Wz-MKz" userLabel="Repost">
                                             <rect key="frame" x="516" y="145" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3607,7 +3607,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="0ym-2X-UKe"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gq-Hn-TUl" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gq-Hn-TUl" userLabel="More">
                                             <rect key="frame" x="556" y="144" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3941,7 +3941,7 @@
                                                 <action selector="downvotePostPressed:" destination="99g-h6-cT9" eventType="touchUpInside" id="DCf-qJ-AJv"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEk-Rx-fm4" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iEk-Rx-fm4" userLabel="Comment">
                                             <rect key="frame" x="466" y="213" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3954,7 +3954,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="99g-h6-cT9" eventType="touchUpInside" id="igK-GP-hQA"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-oe-DCf" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-oe-DCf" userLabel="Comment Count">
                                             <rect key="frame" x="469" y="221" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -3964,7 +3964,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiJ-P4-89V" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiJ-P4-89V" userLabel="Repost">
                                             <rect key="frame" x="522" y="213" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -3985,7 +3985,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="Fe5-9x-LIy"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOU-Vc-VEK" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOU-Vc-VEK" userLabel="More">
                                             <rect key="frame" x="562" y="208" width="30" height="31"/>
                                             <animations/>
                                             <constraints>
@@ -4499,7 +4499,7 @@
                                                 <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="oEA-9e-e59"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvS-xm-oco" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvS-xm-oco" userLabel="Comment">
                                             <rect key="frame" x="475" y="146" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4512,7 +4512,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="L1r-Tj-3QC"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-sf-uGp" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-sf-uGp" userLabel="Comment Count">
                                             <rect key="frame" x="478" y="155" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -4522,7 +4522,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mj0-gh-KmZ" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mj0-gh-KmZ" userLabel="Repost">
                                             <rect key="frame" x="515" y="145" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4543,7 +4543,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="7oa-27-Noi"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrX-5t-98B" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrX-5t-98B" userLabel="More">
                                             <rect key="frame" x="560" y="138" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4873,7 +4873,7 @@
                                                 <action selector="downvotePostPressed:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="fYb-JF-FQC"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-o0-pNn" userLabel="Comment">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-o0-pNn" userLabel="Comment">
                                             <rect key="frame" x="491" y="209" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4886,7 +4886,7 @@
                                                 <action selector="triggerPostSegueOnButton:" destination="KG3-Ho-FcM" eventType="touchUpInside" id="H9n-i6-v08"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybf-vZ-2B2" userLabel="Comment Count">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="300" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybf-vZ-2B2" userLabel="Comment Count">
                                             <rect key="frame" x="494" y="217" width="26" height="11"/>
                                             <animations/>
                                             <constraints>
@@ -4896,7 +4896,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIL-Cm-aUP" userLabel="Repost">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIL-Cm-aUP" userLabel="Repost">
                                             <rect key="frame" x="522" y="208" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -4917,7 +4917,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="D5K-Ye-Ak1"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-O1-n2o" userLabel="More">
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-O1-n2o" userLabel="More">
                                             <rect key="frame" x="560" y="207" width="32" height="32"/>
                                             <animations/>
                                             <constraints>
@@ -5779,18 +5779,89 @@
                                     <action selector="triggerRegisterSegueOnButton:" destination="bWu-Qz-3tZ" eventType="touchUpInside" id="SDQ-25-TCG"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EjN-Vw-sBm">
+                                <rect key="frame" x="16" y="320" width="271" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="By registering you agree to the" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9u6-lj-htK">
+                                        <rect key="frame" x="0.0" y="9" width="149" height="21"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="149" id="mO1-Ka-JVG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="prb-Ta-IVy">
+                                        <rect key="frame" x="138" y="5" width="46" height="30"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="e7z-cK-S0w"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <state key="normal" title="Terms">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="termsPressed:" destination="bWu-Qz-3tZ" eventType="touchUpInside" id="2uF-NN-PRf"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="and" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vbk-zu-p8B">
+                                        <rect key="frame" x="178" y="9" width="23" height="21"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="VoA-po-63g"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYE-IB-DGe">
+                                        <rect key="frame" x="198" y="5" width="67" height="30"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="67" id="FFG-sC-9si"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <state key="normal" title="Privacy Policy">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="privacyPressed:" destination="bWu-Qz-3tZ" eventType="touchUpInside" id="Bls-US-xC7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="9u6-lj-htK" secondAttribute="centerY" id="7dH-B4-wa3"/>
+                                    <constraint firstItem="prb-Ta-IVy" firstAttribute="leading" secondItem="EjN-Vw-sBm" secondAttribute="leading" constant="138" id="8RH-le-SXl"/>
+                                    <constraint firstItem="Vbk-zu-p8B" firstAttribute="leading" secondItem="9u6-lj-htK" secondAttribute="trailing" constant="30" id="ARc-nK-cYW"/>
+                                    <constraint firstItem="9u6-lj-htK" firstAttribute="leading" secondItem="EjN-Vw-sBm" secondAttribute="leading" id="OHw-ac-Ket"/>
+                                    <constraint firstAttribute="centerY" secondItem="Vbk-zu-p8B" secondAttribute="centerY" id="TAZ-Tk-FiD"/>
+                                    <constraint firstAttribute="centerY" secondItem="cYE-IB-DGe" secondAttribute="centerY" id="YOv-Ly-yiE"/>
+                                    <constraint firstAttribute="height" constant="40" id="md0-aA-Gq3"/>
+                                    <constraint firstAttribute="trailing" secondItem="cYE-IB-DGe" secondAttribute="trailing" id="qkU-0z-RqS"/>
+                                    <constraint firstItem="cYE-IB-DGe" firstAttribute="leading" secondItem="prb-Ta-IVy" secondAttribute="trailing" constant="14" id="sRK-9y-1HB"/>
+                                    <constraint firstAttribute="centerY" secondItem="prb-Ta-IVy" secondAttribute="centerY" id="uPR-W6-8vf"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BaQ-x8-Uv3" firstAttribute="height" secondItem="yBZ-2z-BBj" secondAttribute="height" id="1at-Bf-Gmc"/>
                             <constraint firstItem="yBZ-2z-BBj" firstAttribute="height" secondItem="Pma-9Y-JOo" secondAttribute="height" id="4Us-dw-hrO"/>
+                            <constraint firstItem="EjN-Vw-sBm" firstAttribute="leading" secondItem="BlS-Im-KuE" secondAttribute="leading" id="5dO-yb-PP9"/>
                             <constraint firstAttribute="trailing" secondItem="Ar7-rB-kbh" secondAttribute="trailing" id="6xa-nx-tdo"/>
                             <constraint firstItem="q7Y-sS-ms2" firstAttribute="top" secondItem="Pma-9Y-JOo" secondAttribute="bottom" constant="8" id="7LB-wF-72i"/>
                             <constraint firstItem="q7Y-sS-ms2" firstAttribute="height" secondItem="yBZ-2z-BBj" secondAttribute="height" id="8Cw-je-dx1"/>
                             <constraint firstItem="q7Y-sS-ms2" firstAttribute="leading" secondItem="BaQ-x8-Uv3" secondAttribute="leading" id="AOr-st-WPy"/>
                             <constraint firstItem="q7Y-sS-ms2" firstAttribute="trailing" secondItem="BaQ-x8-Uv3" secondAttribute="trailing" id="Atw-tB-IVb"/>
+                            <constraint firstItem="EjN-Vw-sBm" firstAttribute="top" secondItem="BlS-Im-KuE" secondAttribute="bottom" constant="8" id="Ecb-SX-S9P"/>
                             <constraint firstItem="yBZ-2z-BBj" firstAttribute="leading" secondItem="uv6-xa-a2u" secondAttribute="leading" constant="8" id="GfY-5b-08e"/>
+                            <constraint firstItem="EjN-Vw-sBm" firstAttribute="leading" secondItem="uv6-xa-a2u" secondAttribute="leadingMargin" id="LIO-M0-sLL"/>
+                            <constraint firstItem="EjN-Vw-sBm" firstAttribute="trailing" secondItem="BlS-Im-KuE" secondAttribute="trailing" id="Q29-Ng-xEP"/>
                             <constraint firstItem="BaQ-x8-Uv3" firstAttribute="top" secondItem="q7Y-sS-ms2" secondAttribute="bottom" constant="8" id="RvB-Wi-ibu"/>
                             <constraint firstItem="yBZ-2z-BBj" firstAttribute="top" secondItem="Ar7-rB-kbh" secondAttribute="bottom" constant="8" id="VLs-XQ-GpF"/>
                             <constraint firstItem="yBZ-2z-BBj" firstAttribute="trailing" secondItem="Pma-9Y-JOo" secondAttribute="trailing" id="VyT-Pf-x12"/>
@@ -5803,10 +5874,18 @@
                             <constraint firstItem="Ar7-rB-kbh" firstAttribute="top" secondItem="uuj-9x-WlQ" secondAttribute="bottom" id="odr-Wx-bBB"/>
                             <constraint firstItem="q7Y-sS-ms2" firstAttribute="leading" secondItem="Pma-9Y-JOo" secondAttribute="leading" id="qFQ-SZ-Vp6"/>
                             <constraint firstItem="BlS-Im-KuE" firstAttribute="trailing" secondItem="Pma-9Y-JOo" secondAttribute="trailing" id="qbT-bw-DS1"/>
+                            <constraint firstAttribute="centerX" secondItem="EjN-Vw-sBm" secondAttribute="centerX" id="v9Y-qi-bWP"/>
                             <constraint firstItem="yBZ-2z-BBj" firstAttribute="leading" secondItem="Pma-9Y-JOo" secondAttribute="leading" id="wz7-Vp-j44"/>
                             <constraint firstItem="Ar7-rB-kbh" firstAttribute="leading" secondItem="uv6-xa-a2u" secondAttribute="leading" id="ydZ-mf-oez"/>
                             <constraint firstItem="Pma-9Y-JOo" firstAttribute="top" secondItem="yBZ-2z-BBj" secondAttribute="bottom" constant="8" id="zIn-cy-WgQ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5dO-yb-PP9"/>
+                                <exclude reference="LIO-M0-sLL"/>
+                                <exclude reference="Q29-Ng-xEP"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="BaQ-x8-Uv3" id="GO0-Dh-tNU"/>
