@@ -61,6 +61,12 @@ class TabViewController: UITabBarController {
   /// Index of the notifications tab in tab bar
   let notificationTabIndex = 2
   
+  /// Index of the discover tab in tab bar
+  let discoverTabIndex = 1
+  
+  /// Index of the home tab in tab bar
+  let homeTabIndex = 0
+  
   /// Interval that `notificationRefresher` will retrieve notifications at in seconds
   let timerInterval = NSTimeInterval(60)
 

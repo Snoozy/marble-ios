@@ -40,7 +40,44 @@ class HomeTableViewController: MultiplePostsTableViewController {
     }
   }
   
+  // MARK: UITableViewDataSource
+  
+  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    if posts.isEmpty && !retrievingPage {
+      return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.checkOutDiscoverCell, forIndexPath: indexPath) as! UITableViewCell
+    } else {
+      return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    }
+  }
+  
+  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if posts.isEmpty && !retrievingPage {
+      return 1
+    } else {
+      return super.tableView(tableView, numberOfRowsInSection: section)
+    }
+  }
+  
   // MARK: UITableViewDelegate
+  
+  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    if posts.isEmpty && !retrievingPage{
+      if let tabBarController = tabBarController as? TabViewController {
+        tabBarController.selectedIndex = tabBarController.discoverTabIndex
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+      }
+    } else {
+      super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+    }
+  }
+  
+  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    if posts.isEmpty && !retrievingPage {
+      return tableView.frame.height
+    } else {
+      return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+    }
+  }
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
@@ -76,6 +113,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     finishedPaging = false
     retrievePosts { posts in
       dispatch_async(dispatch_get_main_queue()) {
+        self.retrievingPage = false
         if let posts = posts {
           if posts.isEmpty {
             self.finishedPaging = true
@@ -85,7 +123,6 @@ class HomeTableViewController: MultiplePostsTableViewController {
           self.tableView.reloadData()
         }
         self.refreshControl?.endRefreshing()
-        self.retrievingPage = false
       }
       
     }

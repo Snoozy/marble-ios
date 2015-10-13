@@ -50,6 +50,13 @@ class PostTableViewController: SinglePostTableViewController {
   
   // MARK: UIViewController
   
+  override func viewWillAppear(animated: Bool) {
+    makeNewCommentViewWithTag(-1)
+    view.addSubview(newCommentView!.0)
+    view.bringSubviewToFront(newCommentView!.0)
+    tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 46, right: 0)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     if KeychainWrapper.hasAuthAndUser() {
@@ -63,9 +70,14 @@ class PostTableViewController: SinglePostTableViewController {
   
   override func scrollViewDidScroll(scrollView: UIScrollView) {
     // keeps newCommentView correctly positioned in scrollView
-    if let newCommentView = newCommentView, keyboardHeight = keyboardHeight {
-      let newY = tableView.contentOffset.y + tableView.frame.size.height - 46.0 - keyboardHeight + tabBarController!.tabBar.frame.height
-      newCommentView.0.frame = CGRect(x: 0.0, y: newY, width: tableView.frame.size.width, height: 46.0)
+    if let newCommentView = newCommentView {
+      if let keyboardHeight = keyboardHeight {
+        let newY = tableView.contentOffset.y + tableView.frame.size.height - 46.0 - keyboardHeight + tabBarController!.tabBar.frame.height
+        newCommentView.0.frame = CGRect(x: 0.0, y: newY, width: tableView.frame.size.width, height: 46.0)
+      } else {
+        let newY = tableView.contentOffset.y + tableView.frame.size.height - 46.0
+        newCommentView.0.frame = CGRect(x: 0.0, y: newY, width: tableView.frame.size.width, height: 46.0)
+      }
     }
   }
   
@@ -149,8 +161,10 @@ class PostTableViewController: SinglePostTableViewController {
   func keyboardWillHide(notif: NSNotification) {
     if let newCommentView = newCommentView {
       setBarButtonToNewComment()
-      newCommentView.0.removeFromSuperview()
-      self.newCommentView = nil
+      let duration = (notif.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+      UIView.animateWithDuration(duration) {
+        newCommentView.0.frame = CGRect(x: 0.0, y: self.tableView.contentOffset.y + self.tableView.frame.size.height - 46.0, width: self.tableView.frame.size.width, height: 46.0)
+      }
       keyboardHeight = nil
     }
   }
@@ -182,6 +196,8 @@ class PostTableViewController: SinglePostTableViewController {
       createComment { success in
         if success {
           dispatch_async(dispatch_get_main_queue()) {
+            self.newCommentView?.0.tag = -1
+            self.newCommentView?.1.tag = -1
             self.newCommentView?.1.resignFirstResponder()
             self.retrieveData()
           }
@@ -191,6 +207,8 @@ class PostTableViewController: SinglePostTableViewController {
       replyToCommentAtIndex(sender.tag) { success in
         if success {
           dispatch_async(dispatch_get_main_queue()) {
+            self.newCommentView?.0.tag = -1
+            self.newCommentView?.1.tag = -1
             self.newCommentView?.1.resignFirstResponder()
             self.retrieveData()
           }
@@ -245,7 +263,15 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: sender The button that is touched to send this function is the new comment bar button item.
   @IBAction func newCommentPressed(sender: UIButton) {
     if let newCommentView = newCommentView {
-      newCommentView.1.resignFirstResponder()
+      if let keyboardHeight = keyboardHeight {
+        newCommentView.0.tag = -1
+        newCommentView.1.tag = -1
+        newCommentView.1.resignFirstResponder()
+      } else {
+        newCommentView.0.tag = -1
+        newCommentView.1.tag = -1
+        newCommentView.1.becomeFirstResponder()
+      }
     } else {
       // tag of -1 signifies a direct reply to the post
       makeNewCommentViewWithTag(-1)
@@ -261,6 +287,7 @@ class PostTableViewController: SinglePostTableViewController {
     if let newCommentView = newCommentView {
       newCommentView.0.tag = sender.tag
       newCommentView.1.tag = sender.tag
+      newCommentView.1.becomeFirstResponder()
     } else {
       makeNewCommentViewWithTag(sender.tag)
       view.addSubview(newCommentView!.0)

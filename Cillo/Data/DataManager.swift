@@ -63,6 +63,10 @@ import UIKit
 /// * ReadNotifications: Request to read the notifications of the end user.
 /// * SendMessage(Int): Request to send a message to a user. Parameter is the id of the user that the end user is sending to.
 /// * ReadInbox: Request to read the new messages in the inbox of the end user.
+/// * FlagPost: Request to flag a post.
+/// * FlagComment: Request to flag a comment.
+/// * BlockUser: Request to block a user.
+/// * SendDeviceToken: Request to send a device token for push notifications.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
   static let baseURLString = "http://api.cillo.co"
@@ -110,6 +114,7 @@ enum Router: URLStringConvertible {
   case FlagPost
   case FlagComment
   case BlockUser
+  case SendDeviceToken
   
   /// URL of the server call.
   var URLString: String {
@@ -209,6 +214,8 @@ enum Router: URLStringConvertible {
         return "/\(vNum)/report/comment\(authString)"
       case .BlockUser:
         return "/\(vNum)/block/user\(authString)"
+      case .SendDeviceToken:
+        return "/\(vNum)/me/ping\(authString)"
       }
     }()
     
@@ -305,6 +312,8 @@ enum Router: URLStringConvertible {
       return "Flag Comment"
     case .BlockUser:
       return "Block User"
+    case .SendDeviceToken:
+      return "End User Send Device Token"
     }
   }
 }
@@ -1723,6 +1732,34 @@ class DataManager: NSObject {
           }
         } else {
           completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadNotifications), success: false)
+        }
+    }
+  }
+  
+  /// Attempts to send the ios device token to the server for push notifications.
+  ///
+  /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
+  ///
+  /// :param: token The device token for this device.
+  /// :param: completionHandler A completion block for the network request.
+  /// :param: error If the request was unsuccessful, this will contain the error message.
+  /// :param: success If the request was successful, this will be true.
+  func sendDeviceToken(token: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
+    activeRequests++
+    request(.POST, Router.SendDeviceToken, parameters: ["device_token": token], encoding: .URL)
+      .responseJSON { request, response, data, error in
+        self.activeRequests--
+        if let error = error {
+          completionHandler(error: error, success: false)
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: .SendDeviceToken)
+            completionHandler(error: cilloError, success: false)
+          } else {
+            completionHandler(error: nil, success: true)
+          }
+        } else {
+          completionHandler(error: NSError.noJSONFromDataError(requestType: .SendDeviceToken), success: false)
         }
     }
   }

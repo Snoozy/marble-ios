@@ -36,7 +36,13 @@ class LogInViewController: CustomViewController {
         if let sender = sender as? User {
           destination.endUser = sender
         }
+        destination.selectedIndex = destination.homeTabIndex
         destination.forceDataRetrievalUponUnwinding()
+      }
+      if UIApplication.sharedApplication().respondsToSelector("registerForRemoteNotifications") {
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+      } else {
+        UIApplication.sharedApplication().registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
       }
     }
   }

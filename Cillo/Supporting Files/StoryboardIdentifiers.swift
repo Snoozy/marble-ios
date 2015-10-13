@@ -224,6 +224,9 @@ struct StoryboardIdentifiers {
   
   // MARK: Single Label Cells
   
+  /// Reuse identifier for "No posts... check out discover" in HomeTableViewController tableView.
+  static let checkOutDiscoverCell = "NoPosts"
+  
   /// Reuse identifier for "No Comments" UITableViewCell in SinglePostTableViewController tableView and SingleUserTableViewController tableView.
   static let noCommentsCell = "NoComments"
   

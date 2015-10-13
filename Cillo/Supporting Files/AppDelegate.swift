@@ -28,7 +28,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     UITabBar.appearance().tintColor = UIColor.cilloBlue()
     UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(17)], forState: .Normal)
+    
+    // notification registration
+    if application.respondsToSelector("registerForRemoteNotifications") {
+      let types: UIUserNotificationType = .Alert | .Badge | .Sound
+      let settings = UIUserNotificationSettings(forTypes: types, categories: nil)
+      application.registerUserNotificationSettings(settings)
+      application.registerForRemoteNotifications()
+    } else {
+      application.registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
+    }
+    
+    // handle launch from notif
+    if let notif = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+      if let tabBarController = window?.rootViewController as? TabViewController {
+        tabBarController.selectedIndex = tabBarController.notificationTabIndex
+      }
+      application.applicationIconBadgeNumber = 0
+    }
+    
     return true
+  }
+  
+  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    if KeychainWrapper.hasAuthAndUser() {
+      let bytes = UnsafePointer<CChar>(deviceToken.bytes)
+      var tokenString = ""
+      
+      for var i = 0; i < deviceToken.length; i++ {
+        tokenString += String(format: "%02.2hhx", arguments: [bytes[i]])
+      }
+      println(tokenString)
+      DataManager.sharedInstance.sendDeviceToken(tokenString) { error, success in
+        // do nothing with response.
+        println(success)
+      }
+    }
+  }
+  
+  func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    println(error)
+  }
+  
+  func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    if application.applicationState == .Active {
+      // do nothing
+    } else {
+      if let tabBarController = window?.rootViewController as? TabViewController {
+        tabBarController.selectedIndex = tabBarController.notificationTabIndex
+      }
+    }
+    application.applicationIconBadgeNumber = 0
+    completionHandler(.NoData)
   }
 }
 

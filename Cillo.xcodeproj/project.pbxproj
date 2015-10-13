@@ -525,6 +525,11 @@
 					95EFD2A319F8D2B400086BAF = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = C27CEAWK74;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					95EFD2B819F8D2B400086BAF = {
 						CreatedOnToolsVersion = 6.1;

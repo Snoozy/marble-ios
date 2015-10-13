@@ -38,7 +38,13 @@ class RegisterViewController: CustomViewController {
         if let user = sender as? User {
           destination.endUser = user
         }
-        destination.selectedIndex = 1
+        destination.selectedIndex = destination.discoverTabIndex
+        destination.forceDataRetrievalUponUnwinding()
+      }
+      if UIApplication.sharedApplication().respondsToSelector("registerForRemoteNotifications") {
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+      } else {
+        UIApplication.sharedApplication().registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
       }
     }
   }

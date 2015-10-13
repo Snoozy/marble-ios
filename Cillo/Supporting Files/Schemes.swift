@@ -71,9 +71,9 @@ struct ColorScheme {
   func barAboveKeyboardColor() -> UIColor {
     switch scheme {
     case .Blue:
-      return UIColor.cilloBlue()
+      return UIColor.cilloBlueWithAlpha(1.0)
     case .Gray:
-      return UIColor.cilloGray()
+      return UIColor.cilloGrayWithAlpha(1.0)
     }
   }
   
