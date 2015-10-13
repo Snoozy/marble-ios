@@ -61,7 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       println(tokenString)
       DataManager.sharedInstance.sendDeviceToken(tokenString) { error, success in
         // do nothing with response.
-        println(success)
       }
     }
   }

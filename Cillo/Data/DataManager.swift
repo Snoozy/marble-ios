@@ -1752,6 +1752,7 @@ class DataManager: NSObject {
         if let error = error {
           completionHandler(error: error, success: false)
         } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          println(json)
           if json["error"] != nil {
             let cilloError = NSError(json: json, requestType: .SendDeviceToken)
             completionHandler(error: cilloError, success: false)
