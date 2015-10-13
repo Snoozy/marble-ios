@@ -192,25 +192,30 @@ class PostTableViewController: SinglePostTableViewController {
   ///
   /// :param: sender The sender of this event is the reply button in `newCommentView`.
   func replyPressed(sender: UIButton) {
-    if sender.tag < 0 { // direct reply to post
-      createComment { success in
-        if success {
-          dispatch_async(dispatch_get_main_queue()) {
-            self.newCommentView?.0.tag = -1
-            self.newCommentView?.1.tag = -1
-            self.newCommentView?.1.resignFirstResponder()
-            self.retrieveData()
+    if let (container,textField) = newCommentView {
+      sender.enabled = false
+      if container.tag < 0 { // direct reply to post
+        createComment { success in
+          sender.enabled = true
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              container.tag = -1
+              textField.tag = -1
+              textField.resignFirstResponder()
+              self.retrieveData()
+            }
           }
         }
-      }
-    } else {
-      replyToCommentAtIndex(sender.tag) { success in
-        if success {
-          dispatch_async(dispatch_get_main_queue()) {
-            self.newCommentView?.0.tag = -1
-            self.newCommentView?.1.tag = -1
-            self.newCommentView?.1.resignFirstResponder()
-            self.retrieveData()
+      } else {
+        replyToCommentAtIndex(container.tag) { success in
+          sender.enabled = true
+          if success {
+            dispatch_async(dispatch_get_main_queue()) {
+              container.tag = -1
+              textField.tag = -1
+              textField.resignFirstResponder()
+              self.retrieveData()
+            }
           }
         }
       }
@@ -223,7 +228,7 @@ class PostTableViewController: SinglePostTableViewController {
   ///
   /// :param: tag The tag that is assigned to the elements of `newCommentView` that will be used to tell the position of the comment being replied to in `commentTree`.
   func makeNewCommentViewWithTag(tag: Int) {
-    let textField = UITextField(frame: CGRect(x: 8.0, y: 8.0, width: tableView.frame.size.width - 72.0, height: 30.0))
+    let textField = CustomTextField(frame: CGRect(x: 8.0, y: 8.0, width: tableView.frame.size.width - 72.0, height: 30.0))
     textField.backgroundColor = UIColor.whiteColor()
     textField.delegate = self
     textField.returnKeyType = .Done
