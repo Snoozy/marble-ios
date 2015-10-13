@@ -167,13 +167,12 @@ class NewRepostViewController: CustomViewController {
   ///
   /// :param: sender The bar button item that says Create.
   @IBAction func repostButtonPressed(sender: UIButton) {
-    sender.enabled = false
     if let board = contentView?.selectBoardButton.titleForState(.Normal) where board != "Select Board" {
+      sender.enabled = false
       repostPost { post in
+        sender.enabled = true
         if let post = post {
           self.performSegueWithIdentifier(SegueIdentifiers.newRepostToTab, sender: post)
-        } else {
-          sender.enabled = true
         }
       }
     } else {

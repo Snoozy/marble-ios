@@ -207,34 +207,30 @@ class NewPostViewController: CustomViewController {
   ///
   /// :param: * Nil if server call passed an error back.
   func createPost(completionHandler: (post: Post?) -> ()) {
-    if let board = selectBoardButton.titleForState(.Normal) where board != "Select Board" {
-      if let image = image {
-        uploadImage(image) { mediaID in
-          if let mediaID = mediaID {
-            DataManager.sharedInstance.createPostByBoardName(board, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
-              if let error = error {
-                self.handleError(error)
-                completionHandler(post: nil)
-              } else {
-                completionHandler(post: result)
-              }
+    if let image = image {
+      uploadImage(image) { mediaID in
+        if let mediaID = mediaID {
+          DataManager.sharedInstance.createPostByBoardName(board, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
+            if let error = error {
+              self.handleError(error)
+              completionHandler(post: nil)
+            } else {
+              completionHandler(post: result)
             }
-          } else {
-            completionHandler(post: nil)
           }
-        }
-      } else {
-        DataManager.sharedInstance.createPostByBoardName(board, text: postTextView.text, title: self.titleTextField.text) { error, result in
-          if let error = error {
-            self.handleError(error)
-            completionHandler(post: nil)
-          } else {
-            completionHandler(post: result)
-          }
+        } else {
+          completionHandler(post: nil)
         }
       }
     } else {
-      UIAlertView(title: "Error", message: "Please select a board.", delegate: nil, cancelButtonTitle: "Ok").show()
+      DataManager.sharedInstance.createPostByBoardName(board, text: postTextView.text, title: self.titleTextField.text) { error, result in
+        if let error = error {
+          self.handleError(error)
+          completionHandler(post: nil)
+        } else {
+          completionHandler(post: result)
+        }
+      }
     }
   }
   
@@ -293,13 +289,16 @@ class NewPostViewController: CustomViewController {
   ///
   /// :param: sender The bar button item that says Create.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
-    sender.enabled = false
-    createPost { post in
-      if let post = post {
-        self.performSegueWithIdentifier(SegueIdentifiers.newPostToTab, sender: post)
-      } else {
+    if let board = selectBoardButton.titleForState(.Normal) where board != "Select Board" {
+      sender.enabled = false
+      createPost { post in
         sender.enabled = true
+        if let post = post {
+          self.performSegueWithIdentifier(SegueIdentifiers.newPostToTab, sender: post)
+        }
       }
+    } else {
+      UIAlertView(title: "Error", message: "Please select a board.", delegate: nil, cancelButtonTitle: "Ok").show()
     }
   }
   
