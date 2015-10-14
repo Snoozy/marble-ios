@@ -90,13 +90,8 @@ class PostTableViewController: SinglePostTableViewController {
   func createComment(completionHandler: (success: Bool) -> ()) {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
-      DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: 1) { error, comment in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(success: false)
-        } else {
-          completionHandler(success: comment != nil)
-        }
+      DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: 1) { result in
+        self.handleSuccessResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -110,13 +105,8 @@ class PostTableViewController: SinglePostTableViewController {
     if let newCommentView = newCommentView {
       let textField = newCommentView.1
       let commentReplyingTo = commentTree[index]
-      DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: commentReplyingTo.lengthToPost! + 1, parentID: commentReplyingTo.commentID) { error, comment in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(success: false)
-        } else {
-          completionHandler(success: comment != nil)
-        }
+      DataManager.sharedInstance.createCommentWithText(textField.text, postID: post.postID, lengthToPost: commentReplyingTo.lengthToPost! + 1, parentID: commentReplyingTo.commentID) { result in
+        self.handleSuccessResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -127,13 +117,8 @@ class PostTableViewController: SinglePostTableViewController {
   /// :param: comments The comment tree for this post.
   /// :param: * Nil if there was an error in the server call.
   func retrieveCommentTree(completionHandler: (commentTree: [Comment]?) -> ()) {
-    DataManager.sharedInstance.getCommentsForPost(post) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(commentTree: nil)
-      } else {
-        completionHandler(commentTree: result!)
-      }
+    DataManager.sharedInstance.getCommentsForPost(post) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   

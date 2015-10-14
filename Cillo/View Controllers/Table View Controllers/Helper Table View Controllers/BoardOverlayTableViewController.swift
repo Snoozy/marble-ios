@@ -100,12 +100,13 @@ class BoardOverlayTableViewController: UITableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
-      DataManager.sharedInstance.getUserBoardsByID(userID) { error, result in
-        if let error = error {
+      DataManager.sharedInstance.getUserBoardsByID(userID) { result in
+        switch result {
+        case .Error(let error):
           self.handleError(error)
           completionHandler(boards: nil)
-        } else {
-          completionHandler(boards: result)
+        case .Value(let boards):
+          completionHandler(boards: boards.unbox)
         }
       }
     }

@@ -126,13 +126,8 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: names The board names returned from the server call.
   func autocompleteBoardsSearch(search: String, completionHandler: (names: [String]?) -> ()) {
-    DataManager.sharedInstance.boardsAutocompleteByName(search) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(names: nil)
-      } else {
-        completionHandler(names: result)
-      }
+    DataManager.sharedInstance.boardsAutocompleteByName(search) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -143,13 +138,8 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
-      DataManager.sharedInstance.getUserBoardsByID(userID) { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(boards: nil)
-        } else {
-          completionHandler(boards: result)
-        }
+      DataManager.sharedInstance.getUserBoardsByID(userID) { result in
+        self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -161,13 +151,8 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: * Nil if there was an error in the server call.
   func retrieveTrendingBoards(completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
-      DataManager.sharedInstance.getEndUserTrendingBoards { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(boards: nil)
-        } else {
-          completionHandler(boards: result)
-        }
+      DataManager.sharedInstance.getEndUserTrendingBoards { result in
+        self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -197,13 +182,8 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block of the server call.
   /// :param: boards The boards returned from the server call matching the search text.
   func searchBoardsForName(name: String, completionHandler: (boards: [Board]?) -> ()) {
-    DataManager.sharedInstance.boardsSearchByName(name) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(boards: nil)
-      } else {
-        completionHandler(boards: result)
-      }
+    DataManager.sharedInstance.boardsSearchByName(name) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
 }

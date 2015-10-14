@@ -195,12 +195,14 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: messages The new messages retrieved by the network call.
   func pollMessages(completionHandler: (empty: Bool, messages: [Message]?) -> ()) {
     if messages.count > 0 {
-      DataManager.sharedInstance.pollConversationByID(conversation.conversationID, withMostRecentMessageID: messages[messages.count - 1].messageID) { error, empty, messages in
-        if let error = error {
+      DataManager.sharedInstance.pollConversationByID(conversation.conversationID, withMostRecentMessageID: messages[messages.count - 1].messageID) { result in
+        switch result {
+        case .Error(let error):
           self.handleError(error)
           completionHandler(empty: false, messages: nil)
-        } else {
-          completionHandler(empty: empty, messages: messages)
+        case .Value(let element):
+          let (empty,newMessages) = element.unbox
+          completionHandler(empty: empty, messages: newMessages)
         }
       }
     } else {
@@ -214,12 +216,14 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: done A boolean flag to tell if there are no more old messages. True if there are no more messages.
   /// :param: messages The older messages retrieved by the network call.
   func pageMessages(completionHandler: (done: Bool, messages: [Message]?) -> ()) {
-    DataManager.sharedInstance.pageConversationByID(conversation.conversationID, withOldestMessageID: messages[0].messageID) { error, done, messages in
-      if let error = error {
+    DataManager.sharedInstance.pageConversationByID(conversation.conversationID, withOldestMessageID: messages[0].messageID) { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(done: false, messages: nil)
-      } else {
-        completionHandler(done: done, messages: messages)
+      case .Value(let element):
+        let (done,olderMessages) = element.unbox
+        completionHandler(done: done, messages: olderMessages)
       }
     }
   }
@@ -229,12 +233,13 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: completionHandler The completion block for this network request
   /// :param: message The new message created by the network call.
   func sendMessage(message: String, completionHandler: (message: Message?) -> ()) {
-    DataManager.sharedInstance.sendMessage(message, toUserWithID: conversation.otherUser.userID) { error, message in
-      if let error = error {
+    DataManager.sharedInstance.sendMessage(message, toUserWithID: conversation.otherUser.userID) { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(message: nil)
-      } else {
-        completionHandler(message: message)
+      case .Value(let message):
+        completionHandler(message: message.unbox)
       }
     }
   }
@@ -244,12 +249,13 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: completionHandler The completion block for this network request
   /// :param: messages The messages retrieved by the network call.
   func getMessages(completionHandler: (messages: [Message]?) -> ()) {
-    DataManager.sharedInstance.getMessagesByConversationID(conversation.conversationID) { error, messages in
-      if let error = error {
+    DataManager.sharedInstance.getMessagesByConversationID(conversation.conversationID) { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(messages: nil)
-      } else {
-        completionHandler(messages: messages)
+      case .Value(let messages):
+        completionHandler(messages: messages.unbox)
       }
     }
   }

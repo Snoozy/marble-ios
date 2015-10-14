@@ -257,13 +257,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if block request was successful. If error was received, false.
   func blockUserAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.blockUser(posts[index].user) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.blockUser(posts[index].user) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -273,13 +268,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, false.
   func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -289,13 +279,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
   func flagPostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.flagPost(posts[index]) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.flagPost(posts[index]) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -305,13 +290,8 @@ class MultiplePostsTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, false.
   func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   

@@ -174,13 +174,8 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
   func followBoardAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.followBoardWithID(boards[index].boardID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.followBoardWithID(boards[index].boardID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -190,13 +185,8 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
   func unfollowBoardAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.unfollowBoardWithID(boards[index].boardID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.unfollowBoardWithID(boards[index].boardID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   

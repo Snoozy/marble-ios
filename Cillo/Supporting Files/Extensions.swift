@@ -8,6 +8,13 @@
 
 import UIKit
 
+/// Class allowing enums to be parameterized on generics.
+final public class Box<T> {
+  /// Value that this contains.
+  public let unbox: T
+  public init(_ value: T) { self.unbox = value }
+}
+
 extension Int {
   
   // MARK: Properties

@@ -119,26 +119,16 @@ class NewBoardViewController: CustomViewController {
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.createBoardWithName(self.nameTextField.text, description: self.descripTextView.text, mediaID: mediaID) { error, result in
-            if let error = error {
-              self.handleError(error)
-              completionHandler(board: nil)
-            } else {
-              completionHandler(board: result)
-            }
+          DataManager.sharedInstance.createBoardWithName(self.nameTextField.text, description: self.descripTextView.text, mediaID: mediaID) { result in
+            self.handleSingleElementResponse(result, completionHandler: completionHandler)
           }
         } else {
           completionHandler(board: nil)
         }
       }
     } else {
-      DataManager.sharedInstance.createBoardWithName(nameTextField.text, description: descripTextView.text) { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(board: nil)
-        } else {
-          completionHandler(board: result)
-        }
+      DataManager.sharedInstance.createBoardWithName(nameTextField.text, description: descripTextView.text) { result in
+        self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -151,14 +141,9 @@ class NewBoardViewController: CustomViewController {
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.uploadImageData(imageData) { error, result in
+    DataManager.sharedInstance.uploadImageData(imageData) { result in
       activityIndicator.removeFromSuperview()
-      if let error = error {
-        self.handleError(error)
-        completionHandler(mediaID: nil)
-      } else {
-        completionHandler(mediaID: result)
-      }
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   

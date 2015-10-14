@@ -118,13 +118,8 @@ class NewRepostViewController: CustomViewController {
   /// :param: * Nil if the server call was unsuccessful.
   func repostPost(completionHandler: (post: Post?) -> ()) {
     if let contentView = contentView {
-      DataManager.sharedInstance.createPostByBoardName(contentView.selectBoardButton.titleForState(.Normal) ?? "", text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(post: nil)
-        } else {
-          completionHandler(post: result)
-        }
+      DataManager.sharedInstance.createPostByBoardName(contentView.selectBoardButton.titleForState(.Normal) ?? "", text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { result in
+        self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     } else {
       completionHandler(post: nil)
@@ -137,13 +132,8 @@ class NewRepostViewController: CustomViewController {
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
   func retrieveEndUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.getEndUserInfo { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(user: nil)
-      } else {
-        completionHandler(user: result)
-      }
+    DataManager.sharedInstance.getEndUserInfo { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   

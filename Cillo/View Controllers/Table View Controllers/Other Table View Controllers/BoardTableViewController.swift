@@ -98,13 +98,8 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    DataManager.sharedInstance.getBoardFeedByID(board.boardID, lastPostID: posts.last?.postID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(posts: nil)
-      } else {
-        completionHandler(posts: result!)
-      }
+    DataManager.sharedInstance.getBoardFeedByID(board.boardID, lastPostID: posts.last?.postID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
 }

@@ -182,12 +182,14 @@ class TabViewController: UITabBarController {
   /// :param: conversations The array of conversations retrieved from the server.
   /// :param: inboxCount The count of unread messages in the end user's inbox retrieved from the server.
   func getConversations(completionHandler: (conversations: [Conversation]?, inboxCount: Int?) -> ()) {
-    DataManager.sharedInstance.getEndUserConversations { error, result, inboxCount in
-      if let error = error {
+    DataManager.sharedInstance.getEndUserConversations { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(conversations: nil, inboxCount: nil)
-      } else {
-        completionHandler(conversations: result, inboxCount: inboxCount)
+      case .Value(let element):
+        let (inboxCount, conversations) = element.unbox
+        completionHandler(conversations: conversations, inboxCount: inboxCount)
       }
     }
   }
@@ -199,12 +201,13 @@ class TabViewController: UITabBarController {
   /// :param: completionHandler The completion block for the network request.
   /// :param: notifications The array of notifications retrieved from the server.
   func getNotifications(completionHandler: (notifications: [Notification]?) -> ()) {
-    DataManager.sharedInstance.getEndUserNotifications { error, result in
-      if let error = error {
+    DataManager.sharedInstance.getEndUserNotifications { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(notifications: nil)
-      } else {
-        completionHandler(notifications: result)
+      case .Value(let notifications):
+        completionHandler(notifications: notifications.unbox)
       }
     }
   }
@@ -215,12 +218,13 @@ class TabViewController: UITabBarController {
   /// :param: user The end user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveEndUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.getEndUserInfo { error, result in
-      if let error = error {
+    DataManager.sharedInstance.getEndUserInfo { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(user: nil)
-      } else {
-        completionHandler(user: result)
+      case .Value(let user):
+        completionHandler(user: user.unbox)
       }
     }
   }

@@ -106,13 +106,8 @@ class SettingsViewController: CustomViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if this request was successful. If error was received, it is false.
   func updatePasswordFrom(old: String, to new: String, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.updatePassword(old, toNewPassword: new) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -128,26 +123,16 @@ class SettingsViewController: CustomViewController {
     if let photo = photoButton.backgroundImageForState(.Normal) where photoChanged {
       uploadImage(photo) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio, newMediaID: mediaID) { error, result in
-            if let error = error {
-              self.handleError(error)
-              completionHandler(user: nil)
-            } else {
-              completionHandler(user: result)
-            }
+          DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio, newMediaID: mediaID) { result in
+            self.handleSingleElementResponse(result, completionHandler: completionHandler)
           }
         } else {
           completionHandler(user: nil)
         }
       }
     } else {
-      DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio) { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(user: nil)
-        } else {
-          completionHandler(user: result)
-        }
+      DataManager.sharedInstance.updateEndUserSettingsTo(newName: newName, newUsername: newUsername, newBio: newBio) { result in
+        self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -160,14 +145,9 @@ class SettingsViewController: CustomViewController {
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.uploadImageData(imageData) { error, result in
+    DataManager.sharedInstance.uploadImageData(imageData) { result in
       activityIndicator.removeFromSuperview()
-      if let error = error {
-        self.handleError(error)
-        completionHandler(mediaID: nil)
-      } else {
-        completionHandler(mediaID: result)
-      }
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
 

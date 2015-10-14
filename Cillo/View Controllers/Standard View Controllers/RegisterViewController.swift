@@ -113,20 +113,15 @@ class RegisterViewController: CustomViewController {
   /// :param: completionHandler The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
   func register(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { error, auth, user in
-      if let error = error {
+    DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(user: nil)
-      } else {
-        if let auth = auth {
-          let alert = UIAlertView(title: "Registration Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
-          alert.show()
-          var success = KeychainWrapper.setAuthToken(auth)
-          if let user = user {
-            success = KeychainWrapper.setUserID(user.userID)
-          }
-          println(success)
-        }
+      case .Value(let element):
+        let (auth,user) = element.unbox
+        var success = KeychainWrapper.setAuthToken(auth)
+        success = KeychainWrapper.setUserID(user.userID)
         completionHandler(user: user)
       }
     }

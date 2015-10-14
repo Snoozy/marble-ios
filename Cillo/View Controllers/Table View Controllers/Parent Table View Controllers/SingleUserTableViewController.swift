@@ -399,13 +399,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -415,13 +410,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   

@@ -49,6 +49,36 @@ class CustomViewController: UIViewController {
     }
   }
   
+  /// Extracts whether a call was successful or not and handles the error if it was not.
+  ///
+  /// :param: result The result of the network call.
+  /// :param: completionHandler A handler containing what to do if the call fails or succeeds.
+  /// :param: success A boolean stating whether the call succeeded.
+  func handleSuccessResponse<T>(result: ValueOrError<T>, completionHandler: (success: Bool) -> ()) {
+    switch result {
+    case .Error(let error):
+      self.handleError(error)
+      completionHandler(success: false)
+    case .Value(_):
+      completionHandler(success: true)
+    }
+  }
+  
+  /// Extracts whether a call was successful or not and handles the error if it was not, handles the value if it was successful.
+  ///
+  /// :param: result The result of the network call.
+  /// :param: completionHandler A handler containing what to do with the extracted element from `result`.
+  /// :param: element The extracted element.
+  func handleSingleElementResponse<T>(result: ValueOrError<T>, completionHandler: (element: T?) -> ()) {
+    switch result {
+    case .Error(let error):
+      self.handleError(error)
+      completionHandler(element: nil)
+    case .Value(let element):
+      completionHandler(element: element.unbox)
+    }
+  }
+  
   // MARK: Error Handling Helper Functions
   
   /// Handles a cillo error with code `NSError.CilloErrorCodes.passwordIncorrect`.

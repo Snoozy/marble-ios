@@ -135,13 +135,8 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   /// :param: post The post that the notification pertains to.
   /// :param: * Nil if there was an error in the server call.
   func getPostForNotification(notification: Notification, completionHandler: (post: Post?) -> ()) {
-    DataManager.sharedInstance.getPostByID(notification.postID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(post: nil)
-      } else {
-        completionHandler(post: result)
-      }
+    DataManager.sharedInstance.getPostByID(notification.postID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   

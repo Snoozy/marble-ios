@@ -162,13 +162,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if there was no error in the server call. Otherwise, false.
   func logout(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.logout { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.logout { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -237,13 +232,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: comments The comments that the end user has made.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
-    DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(comments: nil)
-      } else {
-        completionHandler(comments: result)
-      }
+    DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -253,13 +243,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: posts The posts that the end user has made.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(posts: nil)
-      } else {
-        completionHandler(posts: result)
-      }
+    DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -269,13 +254,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: user The end user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.getEndUserInfo { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(user: nil)
-      } else {
-        completionHandler(user: result)
-      }
+    DataManager.sharedInstance.getEndUserInfo { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -287,14 +267,9 @@ class MeTableViewController: SingleUserTableViewController {
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.uploadImageData(imageData) { error, result in
+    DataManager.sharedInstance.uploadImageData(imageData) { result in
       activityIndicator.removeFromSuperview()
-      if let error = error {
-        self.handleError(error)
-        completionHandler(mediaID: nil)
-      } else {
-        completionHandler(mediaID: result)
-      }
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -305,13 +280,8 @@ class MeTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the repost.
   /// :param: user The User object for the end user after being updated with a new profilePic. Nil if error was received.
   func updateEndUserPhoto(mediaID: Int, completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.updateEndUserSettingsTo(newMediaID: mediaID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(user: nil)
-      } else {
-        completionHandler(user: result)
-      }
+    DataManager.sharedInstance.updateEndUserSettingsTo(newMediaID: mediaID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   

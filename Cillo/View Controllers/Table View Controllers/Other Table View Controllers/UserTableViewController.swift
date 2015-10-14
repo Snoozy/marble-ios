@@ -226,13 +226,8 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if the call was successful.
   func blockUser(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.blockUser(user) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.blockUser(user) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -242,13 +237,8 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
   func flagPostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.flagPost(posts[index]) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.flagPost(posts[index]) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -258,29 +248,24 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
-    DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(comments: nil)
-      } else {
-        completionHandler(comments: result)
-      }
+    DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
   func retrieveConversation(completionHandler: (messages: [Message]?, conversation: Conversation?) -> ()) {
-    DataManager.sharedInstance.getEndUserMessagesWithUser(user) { error, hasConversation, messages in
-      if let error = error {
+    DataManager.sharedInstance.getEndUserMessagesWithUser(user) { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(messages: nil, conversation: nil)
-      } else if !hasConversation {
+      case .Value(let element):
+        let messages = element.unbox
         let conversation = Conversation()
         conversation.otherUser = self.user
-        completionHandler(messages: [], conversation: conversation)
-      } else if let messages = messages {
-        let conversation = Conversation()
-        conversation.conversationID = messages[0].conversationID
-        conversation.otherUser = self.user
+        if !messages.isEmpty {
+          conversation.conversationID = messages[0].conversationID
+        }
         completionHandler(messages: messages, conversation: conversation)
       }
     }
@@ -337,13 +322,8 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
   func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
-    DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(posts: nil)
-      } else {
-        completionHandler(posts: result)
-      }
+    DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   

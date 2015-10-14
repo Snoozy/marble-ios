@@ -14,6 +14,25 @@ import UIKit
 
 // MARK: - Enums
 
+/// Structure that represents the callback of a network call
+///
+/// * Value(T): Request was successful and Value carries the result of that request.
+/// * Error(NSError): Request was unsuccessful and Error carries the error from the request.
+enum ValueOrError<T> {
+  case Value(Box<T>)
+  case Error(NSError)
+  
+  /// Flag representing whether this represents an error with the cillo servers.
+  var isCilloError: Bool {
+    switch self {
+    case .Value(_):
+      return false
+    case .Error(let error):
+      return error.domain == NSError.cilloErrorDomain
+    }
+  }
+}
+
 /// List of possible requests to Cillo servers.
 ///
 /// **Note:** KeychainWrapper must have an Auth Token stored in order for requests to work.
@@ -347,6 +366,27 @@ class DataManager: NSObject {
     }
   }
   
+  // MARK: Helper Functions
+  
+  func responseJSONHandlerForRequest<T>(requestType: Router, completionHandler: ValueOrError<T> -> (), valueHandler: JSON -> T) -> ((NSURLRequest, NSHTTPURLResponse?, AnyObject?, NSError?) -> ()) {
+    return { request, response, data, error in
+      self.activeRequests--
+      if let error = error {
+        completionHandler(.Error(error))
+      } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+        if json["error"] != nil {
+          let cilloError = NSError(json: json, requestType: requestType)
+          completionHandler(.Error(cilloError))
+        } else {
+          let value = valueHandler(json)
+          completionHandler(.Value(Box<T>(value)))
+        }
+      } else {
+        completionHandler(.Error(NSError.noJSONFromDataError(requestType: requestType)))
+      }
+    }
+  }
+  
   // MARK: Networking Functions
   
   /// Attempts to block the specified user.
@@ -354,26 +394,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: user The user that is to be blocked.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func blockUser(user: User, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func blockUser(user: User, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BlockUser, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.BlockUser, parameters: ["user_id": user.userID], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BlockUser)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BlockUser), success: false)
-        }
+    request(.POST, Router.BlockUser, parameters: ["user_id": user.userID], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -382,26 +410,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: comment The comment that is to be flagged.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func flagComment(comment: Comment, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func flagComment(comment: Comment, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.FlagComment, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.FlagComment, parameters: ["comment_id": comment.commentID], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .FlagComment)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .FlagComment), success: false)
-        }
+    request(.POST, Router.FlagComment, parameters: ["comment_id": comment.commentID], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -410,26 +426,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: post The post that is to be flagged.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func flagPost(post: Post, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func flagPost(post: Post, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.FlagPost, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.FlagPost, parameters: ["post_id": post.postID], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .FlagPost)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .FlagPost), success: false)
-        }
+    request(.POST, Router.FlagPost, parameters: ["post_id": post.postID], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -438,35 +442,19 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: user The user that the messages are being retrieved for.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the end user's messages with `user`.
-  func getEndUserMessagesWithUser(user: User, completionHandler: (error: NSError?, hasConversation: Bool, result: [Message]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the array of messages (empty if they don't have a conversation yet) in that conversation, or an error.
+  func getEndUserMessagesWithUser(user: User, completionHandler: ValueOrError<[Message]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.UserMessages(user.userID), completionHandler: completionHandler) { json in
+      let messages = json["messages"].arrayValue
+      var returnArray = [Message]()
+      for message in messages {
+        returnArray.append(Message(json: message))
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.UserMessages(user.userID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, hasConversation: false, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserMessages(user.userID))
-            completionHandler(error: cilloError, hasConversation: false, result: nil)
-          } else {
-            let messages = json["messages"].arrayValue
-            if messages.count == 0 {
-              completionHandler(error: nil, hasConversation: false, result: nil)
-            } else {
-              var returnArray = [Message]()
-              for message in messages {
-                returnArray.append(Message(json: message))
-              }
-              completionHandler(error: nil, hasConversation: true, result: returnArray)
-            }
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserMessages(user.userID)), hasConversation: false, result: nil)
-        }
+    request(.GET, Router.UserMessages(user.userID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
 
@@ -474,34 +462,22 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the end user's conversations.
-  /// :param: inboxCount If the request was successful this will be the end user's inbox count.
-  func getEndUserConversations(completionHandler: (error: NSError?, result: [Conversation]?, inboxCount: Int?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either a tuple of the inboxCount and conversations or an error.
+  func getEndUserConversations(completionHandler: ValueOrError<(Int,[Conversation])> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.Conversations, completionHandler: completionHandler) { json in
+      let conversations = json["conversations"].arrayValue
+      var returnArray = [Conversation]()
+      for conversation in conversations {
+        let item = Conversation(json: conversation)
+        returnArray.append(item)
+      }
+      let count = json["inbox_count"].intValue
+      let returnTuple = (count,returnArray)
+      return returnTuple
+    }
     activeRequests++
-    request(.GET, Router.Conversations, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil, inboxCount: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Conversations)
-            completionHandler(error: cilloError, result: nil, inboxCount: nil)
-          } else {
-            let conversations = json["conversations"].arrayValue
-            var returnArray = [Conversation]()
-            for conversation in conversations {
-              let item = Conversation(json: conversation)
-              returnArray.append(item)
-            }
-            let count = json["inbox_count"].intValue
-            completionHandler(error: nil, result: returnArray, inboxCount: count)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Conversations), result: nil, inboxCount: nil)
-        }
+    request(.GET, Router.Conversations, parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -509,30 +485,20 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the end user's trending boards.
-  func getEndUserTrendingBoards(completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an array of trending boards or an error.
+  func getEndUserTrendingBoards(completionHandler: ValueOrError<[Board]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.TrendingBoards, completionHandler: completionHandler) { json in
+      let boards = json["trending"].arrayValue
+      var returnArray = [Board]()
+      for board in boards {
+        let item = Board(json: board)
+        returnArray.append(item)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.TrendingBoards, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .TrendingBoards)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let boards = json["trending"].arrayValue
-            var returnArray = [Board]()
-            for board in boards {
-              let item = Board(json: board)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        }
+    request(.GET, Router.TrendingBoards, parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -541,32 +507,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: conversationID The id of the conversation that messages are being retrieved for.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the conversation's messages.
-  func getMessagesByConversationID(conversationID: Int, completionHandler: (error: NSError?, result: [Message]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an array of the messages or an error.
+  func getMessagesByConversationID(conversationID: Int, completionHandler: ValueOrError<[Message]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.ConversationMessages(conversationID), completionHandler: completionHandler) { json in
+      let messages = json["messages"].arrayValue
+      var returnArray = [Message]()
+      for message in messages {
+        let item = Message(json: message)
+        returnArray.append(item)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.ConversationMessages(conversationID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .ConversationMessages(conversationID))
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let messages = json["messages"].arrayValue
-            var returnArray = [Message]()
-            for message in messages {
-              let item = Message(json: message)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationMessages(conversationID)), result: nil)
-        }
+    request(.GET, Router.ConversationMessages(conversationID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -576,35 +530,22 @@ class DataManager: NSObject {
   ///
   /// :param: conversationID The id of the conversation that messages are being retrieved for.
   /// :param: messageID The id of the most recent message in the conversation that has been retrieved already.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: empty True if there are no new messages in the conversation.
-  /// :param: result If the request was successful, this will be the conversation's new messages.
-  func pollConversationByID(conversationID: Int, withMostRecentMessageID messageID: Int, completionHandler: (error: NSError?, empty: Bool, result: [Message]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either a tuple of a bool stating whether there are new messages and an array of messages, or an error.
+  func pollConversationByID(conversationID: Int, withMostRecentMessageID messageID: Int, completionHandler: ValueOrError<(Bool,[Message])> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.ConversationPoll(conversationID, messageID), completionHandler: completionHandler) { json in
+      let empty = json["status"].stringValue == "empty"
+      let messages = json["messages"].arrayValue
+      var returnArray = [Message]()
+      for message in messages {
+        let item = Message(json: message)
+        returnArray.append(item)
+      }
+      let returnTuple = (empty,returnArray)
+      return returnTuple
+    }
     activeRequests++
-    request(.GET, Router.ConversationPoll(conversationID, messageID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, empty: false, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .ConversationPoll(conversationID, messageID))
-            completionHandler(error: cilloError, empty: false, result: nil)
-          } else if json["status"].stringValue == "empty" {
-            completionHandler(error: nil, empty: true, result: nil)
-          } else {
-            let messages = json["messages"].arrayValue
-            var returnArray = [Message]()
-            for message in messages {
-              let item = Message(json: message)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, empty: false, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationPoll(conversationID, messageID)), empty: false, result: nil)
-        }
+    request(.GET, Router.ConversationPoll(conversationID, messageID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -614,35 +555,22 @@ class DataManager: NSObject {
   ///
   /// :param: conversationID The id of the conversation that messages are being retrieved for.
   /// :param: messageID The id of the oldest message in the conversation that has been retrieved already.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: done True if there are no older messages in the conversation.
-  /// :param: result If the request was successful, this will be the conversation's next set of older messages.
-  func pageConversationByID(conversationID: Int, withOldestMessageID messageID: Int, completionHandler: (error: NSError?, done: Bool, result: [Message]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either a tuple of a bool stating whether we are done paging and an array of messages, or an error.
+  func pageConversationByID(conversationID: Int, withOldestMessageID messageID: Int, completionHandler: ValueOrError<(Bool,[Message])> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.ConversationPaged(conversationID, messageID), completionHandler: completionHandler) { json in
+      let empty = json["status"].stringValue == "empty"
+      let messages = json["messages"].arrayValue
+      var returnArray = [Message]()
+      for message in messages {
+        let item = Message(json: message)
+        returnArray.append(item)
+      }
+      let returnTuple = (empty,returnArray)
+      return returnTuple
+    }
     activeRequests++
-    request(.GET, Router.ConversationPaged(conversationID, messageID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, done: false, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .ConversationPaged(conversationID, messageID))
-            completionHandler(error: cilloError, done: false, result: nil)
-          } else if json["done"].boolValue {
-            completionHandler(error: nil, done: true, result: nil)
-          } else {
-            let messages = json["messages"].arrayValue
-            var returnArray = [Message]()
-            for message in messages {
-              let item = Message(json: message)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, done: false, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .ConversationPaged(conversationID, messageID)), done: false, result: nil)
-        }
+    request(.GET, Router.ConversationPaged(conversationID, messageID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
 
@@ -652,26 +580,14 @@ class DataManager: NSObject {
   ///
   /// :param: message The text of the message to send.
   /// :param: userID The id of the user that the message is being sent to.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success True if the request was successful.
-  func sendMessage(message: String, toUserWithID userID: Int, completionHandler: (error: NSError?, message: Message?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the created message or an error.
+  func sendMessage(message: String, toUserWithID userID: Int, completionHandler: ValueOrError<Message> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.SendMessage(userID), completionHandler: completionHandler) { json in
+      return Message(json: json["message"])
+    }
     activeRequests++
-    request(.POST, Router.SendMessage(userID), parameters: ["content": message], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, message: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .SendMessage(userID))
-            completionHandler(error: cilloError, message: nil)
-          } else {
-            completionHandler(error: nil, message: Message(json: json["message"]))
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .SendMessage(userID)), message: nil)
-        }
+    request(.POST, Router.SendMessage(userID), parameters: ["content": message], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -680,26 +596,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that is being followed.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func followBoardWithID(boardID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func followBoardWithID(boardID: Int, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardFollow(boardID), completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.BoardFollow(boardID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardFollow(boardID))
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardFollow(boardID)), success: false)
-        }
+    request(.POST, Router.BoardFollow(boardID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -708,26 +612,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that is being followed.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func unfollowBoardWithID(boardID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func unfollowBoardWithID(boardID: Int, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardUnfollow(boardID), completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.BoardUnfollow(boardID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardUnfollow(boardID))
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardUnfollow(boardID)), success: false)
-        }
+    request(.POST, Router.BoardUnfollow(boardID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -736,32 +628,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: name The name of the board that is being searched.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the array of board names.
-  func boardsAutocompleteByName(name: String, completionHandler: (error: NSError?, result: [String]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an array of board names or an error.
+  func boardsAutocompleteByName(name: String, completionHandler: ValueOrError<[String]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardAutocomplete, completionHandler: completionHandler) { json in
+      let boards = json["results"].arrayValue
+      var returnArray = [String]()
+      for board in boards {
+        let name = board["name"].stringValue
+        returnArray.append(name)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.BoardAutocomplete, parameters: ["q": name], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardAutocomplete)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let boards = json["results"].arrayValue
-            var returnArray = [String]()
-            for board in boards {
-              let name = board["name"].stringValue
-              returnArray.append(name)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardAutocomplete), result: nil)
-        }
+    request(.GET, Router.BoardAutocomplete, parameters: ["q": name], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -770,32 +650,20 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: name The name of the board that is being searched.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the array of Boards that were found.
-  func boardsSearchByName(name: String, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an array of boards that were found or an error.
+  func boardsSearchByName(name: String, completionHandler: ValueOrError<[Board]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardSearch, completionHandler: completionHandler) { json in
+      let boards = json["results"].arrayValue
+      var returnArray = [Board]()
+      for board in boards {
+        let item = Board(json: board)
+        returnArray.append(item)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.BoardSearch, parameters: ["q": name], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardSearch)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let boards = json["results"].arrayValue
-            var returnArray = [Board]()
-            for board in boards {
-              let item = Board(json: board)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardSearch), result: nil)
-        }
+    request(.GET, Router.BoardSearch, parameters: ["q": name], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -804,26 +672,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: commentID The id of the comment that is being downvoted.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func downvoteCommentWithID(commentID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func downvoteCommentWithID(commentID: Int, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.CommentDown(commentID), completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .CommentDown(commentID))
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentDown(commentID)), success: false)
-        }
+    request(.POST, Router.CommentDown(commentID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -832,26 +688,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: commentID The id of the comment that is being upvoted.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func upvoteCommentWithID(commentID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func upvoteCommentWithID(commentID: Int, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.CommentUp(commentID), completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .CommentUp(commentID))
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentUp(commentID)), success: false)
-        }
+    request(.POST, Router.CommentUp(commentID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -862,10 +706,11 @@ class DataManager: NSObject {
   /// :param: name The name of the new board.
   /// :param: description The description of the board.
   /// :param: * Optional parameter
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Board.
-  func createBoardWithName(name: String, description: String = "", mediaID: Int = -1, completionHandler: (error: NSError?, result: Board?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the created Board or an error.
+  func createBoardWithName(name: String, description: String = "", mediaID: Int = -1, completionHandler: ValueOrError<Board> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardCreate, completionHandler: completionHandler) { json in
+      return Board(json: json)
+    }
     var parameters: [String: AnyObject] = ["name": name]
     if description != "" {
       parameters["description"] = description
@@ -874,23 +719,8 @@ class DataManager: NSObject {
       parameters["photo"] = mediaID
     }
     activeRequests++
-    request(.POST, Router.BoardCreate, parameters: parameters, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardCreate)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let board = Board(json: json)
-            completionHandler(error: nil, result: board)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardCreate), result: nil)
-        }
-        
+    request(.POST, Router.BoardCreate, parameters: parameters, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -904,31 +734,18 @@ class DataManager: NSObject {
   /// :param: * **Note:** Should be equal to parentComment.lengthToPost + 1.
   /// :param: parentID The id of the comment that this comment is reply to.
   /// :param: * Optional Parameter
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Comment.
-  func createCommentWithText(text: String, postID: Int, lengthToPost: Int, parentID: Int = -1, completionHandler: (error: NSError?, result: Comment?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the created comment or an error.
+  func createCommentWithText(text: String, postID: Int, lengthToPost: Int, parentID: Int = -1, completionHandler: ValueOrError<Comment> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.CommentCreate, completionHandler: completionHandler) { json in
+      return Comment(json: json, lengthToPost: lengthToPost)
+    }
     var parameters: [String: AnyObject] = ["post_id": postID, "data": text]
     if parentID != -1 {
       parameters["parent_id"] = parentID
     }
     activeRequests++
-    request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .CommentCreate)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let comment = Comment(json: json, lengthToPost: lengthToPost)
-            completionHandler(error: nil, result: comment)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .CommentCreate), result: nil)
-        }
+    request(.POST, Router.CommentCreate, parameters: parameters, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -944,10 +761,15 @@ class DataManager: NSObject {
   /// :param: * Optional parameter. Only use if this post should be an image post.
   /// :param: repostID The id of the original post that is being reposted.
   /// :param: * Optional parameter. Only use if this post should be a repost.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Post.
-  func createPostByBoardID(boardID: Int, text: String, title: String = "", mediaID: Int = -1,repostID: Int = -1,  completionHandler: (error: NSError?, result: Post?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the created Post or an error.
+  func createPostByBoardID(boardID: Int, text: String, title: String = "", mediaID: Int = -1, repostID: Int = -1,  completionHandler: ValueOrError<Post> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PostCreate, completionHandler: completionHandler) { json in
+      if json["repost"] != nil {
+        return Repost(json: json)
+      } else {
+        return Post(json: json)
+      }
+    }
     var parameters: [String: AnyObject] = ["board_id": boardID, "data": text]
     if repostID != -1 {
       parameters["repost_id"] = repostID
@@ -959,28 +781,8 @@ class DataManager: NSObject {
       parameters["media"] = mediaID
     }
     activeRequests++
-    request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PostCreate)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let post: Post = {
-              if json["repost"] != nil {
-                return Repost(json: json)
-              } else {
-                return Post(json: json)
-              }
-            }()
-            completionHandler(error: nil, result: post)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
-        }
+    request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -996,10 +798,15 @@ class DataManager: NSObject {
   /// :param: * Optional parameter. Only use if this post should be an image post.
   /// :param: repostID The id of the original post that is being reposted.
   /// :param: * Optional parameter. Only use if this post should be a repost.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the created Post.
-  func createPostByBoardName(boardName: String, text: String, title: String = "", mediaID: Int = -1, repostID: Int = -1, completionHandler: (error: NSError?, result: Post?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the created Post or an error.
+  func createPostByBoardName(boardName: String, text: String, title: String = "", mediaID: Int = -1, repostID: Int = -1, completionHandler: ValueOrError<Post> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PostCreate, completionHandler: completionHandler) { json in
+      if json["repost"] != nil {
+        return Repost(json: json)
+      } else {
+        return Post(json: json)
+      }
+    }
     var parameters: [String: AnyObject] = ["board_name": boardName, "data": text]
     if repostID != -1 {
       parameters["repost_id"] = repostID
@@ -1011,28 +818,8 @@ class DataManager: NSObject {
       parameters["media"] = mediaID
     }
     activeRequests++
-    request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PostCreate)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let post: Post = {
-              if json["repost"] != nil {
-                return Repost(json: json)
-              } else {
-                return Post(json: json)
-              }
-            }()
-            completionHandler(error: nil, result: post)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostCreate), result: nil)
-        }
+    request(.POST, Router.PostCreate, parameters: parameters, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1048,10 +835,11 @@ class DataManager: NSObject {
   /// :param: newUsername The new username of the end user.
   /// :param: newMediaID The media ID of the new profile picture of the end user.
   /// :param: newBio The new bio of the end user.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the user object of the end user with the updated settings.
-  func updateEndUserSettingsTo(newName: String = "", newUsername: String = "", newBio: String = "", newMediaID: Int = -1, completionHandler: (error: NSError?, result: User?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the updated user or an error.
+  func updateEndUserSettingsTo(newName: String = "", newUsername: String = "", newBio: String = "", newMediaID: Int = -1, completionHandler: ValueOrError<User> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.SelfSettings, completionHandler: completionHandler) { json in
+      return User(json: json)
+    }
     var parameters: [String: AnyObject] = [:]
     if newName != "" {
       parameters["name"] = newName
@@ -1066,22 +854,8 @@ class DataManager: NSObject {
       parameters["bio"] = newBio
     }
     activeRequests++
-    request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .SelfSettings)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let user = User(json: json)
-            completionHandler(error: nil, result: user)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .SelfSettings), result: nil)
-        }
+    request(.POST, Router.SelfSettings, parameters: parameters, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1090,27 +864,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: boardID The id of the board that the server is describing.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the Board object for the board with id boardID.
-  func getBoardByID(boardID: Int, completionHandler: (error: NSError?, result: Board?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the board with the given ID or an error.
+  func getBoardByID(boardID: Int, completionHandler: ValueOrError<Board> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardInfo(boardID), completionHandler: completionHandler) { json in
+      return Board(json: json)
+    }
     activeRequests++
-    request(.GET, Router.BoardInfo(boardID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardInfo(boardID))
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let board = Board(json: json)
-            completionHandler(error: nil, result: board)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardInfo(boardID)), result: nil)
-        }
+    request(.GET, Router.BoardInfo(boardID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1121,38 +882,26 @@ class DataManager: NSObject {
   /// :param: boardID The id of the board that the server is retrieving a feed for.
   /// :param: lastPostID The id of the last post retrieved by a previous call board feed call.
   /// :param: * Nil if this is the first board feed call for a particular controller.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the posts to be displayed on the board's feed page.
-  func getBoardFeedByID(boardID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
-    activeRequests++
-    request(.GET, Router.BoardFeed(boardID, lastPostID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .BoardFeed(boardID, lastPostID))
-            completionHandler(error: cilloError, result: nil)
+  /// :param: completionHandler A completion block for the network request containing either the array of posts in this board's feed or an error.
+  func getBoardFeedByID(boardID: Int, lastPostID: Int?, completionHandler: ValueOrError<[Post]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.BoardFeed(boardID, lastPostID), completionHandler: completionHandler) { json in
+      let posts = json["posts"].arrayValue
+      var returnArray: [Post] = []
+      for post in posts {
+        let item: Post = {
+          if post["repost"] != nil {
+            return Repost(json: post)
           } else {
-            let posts = json["posts"].arrayValue
-            var returnArray: [Post] = []
-            for post in posts {
-              let item: Post = {
-                if post["repost"] != nil {
-                  return Repost(json: post)
-                } else {
-                  return Post(json: post)
-                }
-              }()
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
+            return Post(json: post)
           }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .BoardFeed(boardID, lastPostID)), result: nil)
-        }
+          }()
+        returnArray.append(item)
+      }
+      return returnArray
+    }
+    activeRequests++
+    request(.GET, Router.BoardFeed(boardID, lastPostID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1162,38 +911,26 @@ class DataManager: NSObject {
   ///
   /// :param: lastPostID The id of the last post retrieved by a previous call home feed call.
   /// :param: * Nil if this is the first board feed call for a particular controller.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the posts to be displayed on the home page.
-  func getHomeFeed(#lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
-    activeRequests++
-    request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Root(lastPostID))
-            completionHandler(error: cilloError, result: nil)
+  /// :param: completionHandler A completion block for the network request containing either the array of posts in the home feed or an error.
+  func getHomeFeed(#lastPostID: Int?, completionHandler: ValueOrError<[Post]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.Root(lastPostID), completionHandler: completionHandler) { json in
+      let posts = json["posts"].arrayValue
+      var returnArray = [Post]()
+      for post in posts {
+        let item: Post = {
+          if post["repost"] != nil {
+            return Repost(json: post)
           } else {
-            let posts = json["posts"].arrayValue
-            var returnArray = [Post]()
-            for post in posts {
-              let item: Post = {
-                if post["repost"] != nil {
-                  return Repost(json: post)
-                } else {
-                  return Post(json: post)
-                }
-              }()
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
+            return Post(json: post)
           }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Root(lastPostID)), result: nil)
-        }
+          }()
+        returnArray.append(item)
+      }
+      return returnArray
+    }
+    activeRequests++
+    request(.GET, Router.Root(lastPostID), parameters: nil, encoding: .URL) .responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1202,33 +939,18 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: postID The id of the post that the server is describing.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the Post object for the post with id postID.
-  func getPostByID(postID: Int, completionHandler: (error: NSError?, result: Post?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the retrieved Post or an error.
+  func getPostByID(postID: Int, completionHandler: ValueOrError<Post> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PostInfo(postID), completionHandler: completionHandler) { json in
+      if json["repost"] != nil {
+        return Repost(json: json)
+      } else {
+        return Post(json: json)
+      }
+    }
     activeRequests++
-    request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PostInfo(postID))
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let post: Post = {
-              if json["repost"] != nil {
-                return Repost(json: json)
-              } else {
-                return Post(json: json)
-              }
-            }()
-            completionHandler(error: nil, result: post)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostInfo(postID)), result: nil)
-        }
+    request(.GET, Router.PostInfo(postID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1237,38 +959,25 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: post The post that the server is retrieving comments for.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the comment tree for the post.
-  func getCommentsForPost(post: Post, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the comments for the post or an error.
+  func getCommentsForPost(post: Post, completionHandler: ValueOrError<[Comment]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PostComments(post.postID), completionHandler: completionHandler) { json in
+      let comments = json["comments"].arrayValue
+      var rootComments: [Comment] = []
+      for comment in comments {
+        let item = Comment(json: comment, lengthToPost: 1)
+        item.post = post
+        rootComments.append(item)
+      }
+      var returnedTree: [Comment] = []
+      for comment in rootComments {
+        returnedTree += comment.makeCommentTree()
+      }
+      return returnedTree
+    }
     activeRequests++
-    request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PostComments(post.postID))
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let comments = json["comments"].arrayValue
-            var rootComments: [Comment] = []
-            for comment in comments {
-              let item = Comment(json: comment, lengthToPost: 1)
-              item.post = post
-              rootComments.append(item)
-            }
-            var returnedTree: [Comment] = []
-            for comment in rootComments {
-              returnedTree += comment.makeCommentTree()
-            }
-            completionHandler(error: nil, result: returnedTree)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostComments(post.postID)), result: nil)
-        }
-        
+    request(.GET, Router.PostComments(post.postID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1279,24 +988,13 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the User object for the end user.
-  func getEndUserInfo(completionHandler: (error: NSError?, result: User?) -> ()) {
+  func getEndUserInfo(completionHandler: ValueOrError<User> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.SelfInfo, completionHandler: completionHandler) { json in
+      return User(json: json)
+    }
     activeRequests++
-    request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .SelfInfo)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let user = User(json: json)
-            completionHandler(error: nil, result: user)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .SelfInfo), result: nil)
-        }
+    request(.GET, Router.SelfInfo, parameters: nil, encoding: .URL) .responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1307,29 +1005,19 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request.
   /// :param: error If the request was unsuccessful, this will contain the error message.
   /// :param: result If the request was successful, this will be the array of Notification objects for the end user.
-  func getEndUserNotifications(completionHandler: (error: NSError?, result: [Notification]?) -> ()) {
+  func getEndUserNotifications(completionHandler: ValueOrError<[Notification]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.Notifications, completionHandler: completionHandler) { json in
+      let notifications = json["notifications"].arrayValue
+      var returnArray = [Notification]()
+      for notification in notifications {
+        let item = Notification(json: notification)
+        returnArray.append(item)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.Notifications, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Notifications)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let notifications = json["notifications"].arrayValue
-            var returnArray = [Notification]()
-            for notification in notifications {
-              let item = Notification(json: notification)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Notifications), result: nil)
-        }
+    request(.GET, Router.Notifications, parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1340,32 +1028,20 @@ class DataManager: NSObject {
   /// :param: userID The id of the user that the server is retrieving a following list for.
   /// :param: lastBoardID The id of the last board retrieved by a previous user boards call.
   /// :param: * Nil if this is the first user boards call for a particular controller.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the boards that the user follows.
-  func getUserBoardsByID(userID: Int, completionHandler: (error: NSError?, result: [Board]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the user's boards or an error.
+  func getUserBoardsByID(userID: Int, completionHandler: ValueOrError<[Board]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.UserBoards(userID), completionHandler: completionHandler) { json in
+      let boards = json["boards"].arrayValue
+      var returnArray = [Board]()
+      for board in boards {
+        let item = Board(json: board)
+        returnArray.append(item)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.UserBoards(userID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserBoards(userID))
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let boards = json["boards"].arrayValue
-            var returnArray = [Board]()
-            for board in boards {
-              let item = Board(json: board)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserBoards(userID)), result: nil)
-        }
+    request(.GET, Router.UserBoards(userID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1374,27 +1050,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: userID The id of the user that the server is describing.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the User object for the user with id userID.
-  func getUserByID(userID: Int, completionHandler: (error: NSError?, result: User?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the retrieved user or an error.
+  func getUserByID(userID: Int, completionHandler: ValueOrError<User> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.UserInfo, completionHandler: completionHandler) { json in
+      return User(json: json)
+    }
     activeRequests++
-    request(.GET, Router.UserInfo, parameters: ["user_id": userID], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserInfo)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let user = User(json: json)
-            completionHandler(error: nil, result: user)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
-        }
+    request(.GET, Router.UserInfo, parameters: ["user_id": userID], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1403,27 +1066,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: username The unique username of the user that the server is describing.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will be the User object for the user with the given username.
-  func getUserByUsername(username: String, completionHandler: (error: NSError?, result: User?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the retrieved user or an error.
+  func getUserByUsername(username: String, completionHandler: ValueOrError<User> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.UserInfo, completionHandler: completionHandler) { json in
+      return User(json: json)
+    }
     activeRequests++
-    request(.GET, Router.UserInfo, parameters: ["username": username], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserInfo)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let user = User(json: json)
-            completionHandler(error: nil, result: user)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserInfo), result: nil)
-        }
+    request(.GET, Router.UserInfo, parameters: ["username": username], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1434,32 +1084,20 @@ class DataManager: NSObject {
   /// :param: userID The id of the user that the server is retrieving comments for.
   /// :param: lastCommentID The id of the last comment retrieved by a previous user comments call.
   /// :param: * Nil if this is the first user comments call for a particular controller.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the comments that the user has made.
-  func getUserCommentsByID(userID: Int, lastCommentID: Int?, completionHandler: (error: NSError?, result: [Comment]?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the user's comments or an error.
+  func getUserCommentsByID(userID: Int, lastCommentID: Int?, completionHandler: ValueOrError<[Comment]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.UserComments(userID, lastCommentID), completionHandler: completionHandler) { json in
+      let comments = json["comments"].arrayValue
+      var returnArray = [Comment]()
+      for comment in comments {
+        let item = Comment(json: comment, lengthToPost: nil)
+        returnArray.append(item)
+      }
+      return returnArray
+    }
     activeRequests++
-    request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserComments(userID, lastCommentID))
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let comments = json["comments"].arrayValue
-            var returnArray = [Comment]()
-            for comment in comments {
-              let item = Comment(json: comment, lengthToPost: nil)
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserComments(userID, lastCommentID)), result: nil)
-        }
+    request(.GET, Router.UserComments(userID, lastCommentID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1470,38 +1108,26 @@ class DataManager: NSObject {
   /// :param: userID The id of the user that the server is retrieving posts for.
   /// :param: lastPostID The id of the last board retrieved by a previous user posts call.
   /// :param: * Nil if this is the first user posts call for a particular controller.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the posts that the user has made.
-  func getUserPostsByID(userID: Int, lastPostID: Int?, completionHandler: (error: NSError?, result: [Post]?) -> ()) {
-    activeRequests++
-    request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .UserPosts(userID, lastPostID))
-            completionHandler(error: cilloError, result: nil)
+  /// :param: completionHandler A completion block for the network request containing either the user's posts or an error.
+  func getUserPostsByID(userID: Int, lastPostID: Int?, completionHandler: ValueOrError<[Post]> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.UserPosts(userID, lastPostID), completionHandler: completionHandler) { json in
+      let posts = json["posts"].arrayValue
+      var returnArray = [Post]()
+      for post in posts {
+        let item: Post = {
+          if post["repost"] != nil {
+            return Repost(json: post)
           } else {
-            let posts = json["posts"].arrayValue
-            var returnArray = [Post]()
-            for post in posts {
-              let item: Post = {
-                if post["repost"] != nil {
-                  return Repost(json: post)
-                } else {
-                  return Post(json: post)
-                }
-              }()
-              returnArray.append(item)
-            }
-            completionHandler(error: nil, result: returnArray)
+            return Post(json: post)
           }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .UserPosts(userID, lastPostID)), result: nil)
-        }
+          }()
+        returnArray.append(item)
+      }
+      return returnArray
+    }
+    activeRequests++
+    request(.GET, Router.UserPosts(userID, lastPostID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1511,10 +1137,11 @@ class DataManager: NSObject {
   ///
   /// :param: imageData The data containing the image to be uploaded.
   /// :param: * The data can be retrieved via UIImageJPEGRepresentation(_:)
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: result If the request was successful, this will contain the id of the image in Cillo servers.
-  func uploadImageData(imageData: NSData, completionHandler: (error: NSError?, result: Int?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either the media id of the image or an error.
+  func uploadImageData(imageData: NSData, completionHandler: ValueOrError<Int> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.MediaUpload, completionHandler: completionHandler) { json in
+      return json["media_id"].intValue
+    }
     let urlRequest = urlRequestWithComponents(Router.MediaUpload.URLString, parameters: ["hi":"daniel"], imageData: imageData)
     activeRequests++
     upload(urlRequest.0, urlRequest.1)
@@ -1522,20 +1149,7 @@ class DataManager: NSObject {
         println("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
       }
       .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, result: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .MediaUpload)
-            completionHandler(error: cilloError, result: nil)
-          } else {
-            let mediaID = json["media_id"].intValue
-            completionHandler(error: nil, result: mediaID)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .MediaUpload), result: nil)
-        }
+        responseHandler(request,response,data,error)
     }
   }
   
@@ -1545,28 +1159,16 @@ class DataManager: NSObject {
   ///
   /// :param: email The email of the user attempting to login to the server.
   /// :param: password The password of the user attempting to login to the server.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the login was unsuccessful, this will contain the error message.
-  /// :param: result If the login was successful, this will be the Auth Token.
-  func loginWithEmail(email: String, andPassword password: String, completionHandler: (error: NSError?, authToken: String?, user: User?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either a tuple of the authtoken and the retrieved user or an error.
+  func loginWithEmail(email: String, andPassword password: String, completionHandler: ValueOrError<(String,User)> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.Login, completionHandler: completionHandler) { json in
+      let authToken = json["auth_token"].stringValue
+      let user = User(json: json["user"])
+      return (authToken, user)
+    }
     activeRequests++
-    request(.POST, Router.Login, parameters: ["email": email, "password": password], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, authToken: nil, user: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Login)
-            completionHandler(error: cilloError, authToken: nil, user: nil)
-          } else {
-            let authToken = json["auth_token"].stringValue
-            let user = User(json: json["user"])
-            completionHandler(error: nil, authToken: authToken, user: user)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Login), authToken: nil, user: nil)
-        }
+    request(.POST, Router.Login, parameters: ["email": email, "password": password], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1574,26 +1176,14 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the logout was unsuccessful, this will contain the error message.
-  /// :param: success If the logout was successful, this will be true.
-  func logout(completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func logout(completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.Logout, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.Logout, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Logout)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Logout), success: false)
-        }
+    request(.POST, Router.Logout, parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1602,26 +1192,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: postID The id of the post that is being downvoted.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func downvotePostWithID(postID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func downvotePostWithID(postID: Int, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PostDown(postID), completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PostDown(postID))
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostDown(postID)), success: false)
-        }
+    request(.POST, Router.PostDown(postID), parameters: nil, encoding: .URL) .responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1630,26 +1208,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: postID The id of the post that is being upvoted.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func upvotePostWithID(postID: Int, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func upvotePostWithID(postID: Int, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PostUp(postID), completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PostUp(postID))
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PostUp(postID)), success: false)
-        }
+    request(.POST, Router.PostUp(postID), parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1659,26 +1225,16 @@ class DataManager: NSObject {
   /// :param: username The username of the user attempting to register with the server. This must be unique.
   /// :param: password The password of the user attempting to register with the server.
   /// :param: email The email of the user attempting to register with the server. This must be unique.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the registration was unsuccessful, this will contain the error message.
-  /// :param: success If the registration was successful, this will be true.
-  func registerUserWithName(name: String, username: String, password: String, andEmail email: String, completionHandler: (error: NSError?, authToken: String?, user: User?) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either a tuple of the auth token and the retrieved user or an error.
+  func registerUserWithName(name: String, username: String, password: String, andEmail email: String, completionHandler: ValueOrError<(String,User)> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.Register, completionHandler: completionHandler) { json in
+      let authToken = json["auth_token"].stringValue
+      let user = User(json: json["user"])
+      return (authToken,user)
+    }
     activeRequests++
-    request(.POST, Router.Register, parameters: ["username": username, "name": name, "password": password, "email": email], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, authToken: nil, user: nil)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .Register)
-            completionHandler(error: cilloError, authToken: nil, user: nil)
-          } else {
-            completionHandler(error: nil, authToken: json["auth_token"].stringValue, user: User(json: json["user"]))
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .Register), authToken: nil, user: nil)
-        }
+    request(.POST, Router.Register, parameters: ["username": username, "name": name, "password": password, "email": email], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1686,26 +1242,14 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func readEndUserInbox(completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func readEndUserInbox(completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.ReadInbox, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.ReadInbox, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .ReadInbox)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadInbox), success: false)
-        }
+    request(.POST, Router.ReadInbox, parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1713,26 +1257,14 @@ class DataManager: NSObject {
   ///
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func readEndUserNotifications(completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func readEndUserNotifications(completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.ReadNotifications, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.ReadNotifications, parameters: nil, encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .ReadNotifications)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .ReadNotifications), success: false)
-        }
+    request(.POST, Router.ReadNotifications, parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1741,27 +1273,14 @@ class DataManager: NSObject {
   /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
   ///
   /// :param: token The device token for this device.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func sendDeviceToken(token: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func sendDeviceToken(token: String, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.SendDeviceToken, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.SendDeviceToken, parameters: ["device_token": token], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          println(json)
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .SendDeviceToken)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .SendDeviceToken), success: false)
-        }
+    request(.POST, Router.SendDeviceToken, parameters: ["device_token": token], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   
@@ -1771,26 +1290,14 @@ class DataManager: NSObject {
   ///
   /// :param: oldPassword The old password of the end user.
   /// :param: newPassword The password that the end user wants to change to.
-  /// :param: completionHandler A completion block for the network request.
-  /// :param: error If the request was unsuccessful, this will contain the error message.
-  /// :param: success If the request was successful, this will be true.
-  func updatePassword(oldPassword: String, toNewPassword newPassword: String, completionHandler: (error: NSError?, success: Bool) -> ()) {
+  /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
+  func updatePassword(oldPassword: String, toNewPassword newPassword: String, completionHandler: ValueOrError<()> -> ()) {
+    let responseHandler = responseJSONHandlerForRequest(Router.PasswordUpdate, completionHandler: completionHandler) { json in
+      ()
+    }
     activeRequests++
-    request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL)
-      .responseJSON { request, response, data, error in
-        self.activeRequests--
-        if let error = error {
-          completionHandler(error: error, success: false)
-        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-          if json["error"] != nil {
-            let cilloError = NSError(json: json, requestType: .PasswordUpdate)
-            completionHandler(error: cilloError, success: false)
-          } else {
-            completionHandler(error: nil, success: true)
-          }
-        } else {
-          completionHandler(error: NSError.noJSONFromDataError(requestType: .PasswordUpdate), success: false)
-        }
+    request(.POST, Router.PasswordUpdate, parameters: ["current": oldPassword, "new": newPassword], encoding: .URL).responseJSON { request, response, data, error in
+      responseHandler(request,response,data,error)
     }
   }
   

@@ -96,18 +96,15 @@ class LogInViewController: CustomViewController {
   /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
   func login(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { error, auth, user in
-      if let error = error {
+    DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(user: nil)
-      } else {
-        if let auth = auth {
-          var success = KeychainWrapper.setAuthToken(auth)
-          if let user = user {
-            success = KeychainWrapper.setUserID(user.userID)
-          }
-          println(success)
-        }
+      case .Value(let element):
+        let (auth, user) = element.unbox
+        var success = KeychainWrapper.setAuthToken(auth)
+        success = KeychainWrapper.setUserID(user.userID)
         completionHandler(user: user)
       }
     }
@@ -120,15 +117,14 @@ class LogInViewController: CustomViewController {
   /// :param: completionHandler The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
   func retrieveEndUser(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.getEndUserInfo { error, user in
-      if let error = error {
+    DataManager.sharedInstance.getEndUserInfo { result in
+      switch result {
+      case .Error(let error):
         self.handleError(error)
         completionHandler(success: false)
-      } else {
+      case .Value(let element):
         var success = false
-        if let user = user {
-          success = KeychainWrapper.setUserID(user.userID)
-        }
+        success = KeychainWrapper.setUserID(element.unbox.userID)
         completionHandler(success: success)
       }
     }

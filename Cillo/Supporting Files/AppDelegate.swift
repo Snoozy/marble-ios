@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tokenString += String(format: "%02.2hhx", arguments: [bytes[i]])
       }
       println(tokenString)
-      DataManager.sharedInstance.sendDeviceToken(tokenString) { error, success in
+      DataManager.sharedInstance.sendDeviceToken(tokenString) { result in
         // do nothing with response.
       }
     }

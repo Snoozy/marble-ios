@@ -400,13 +400,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if block request was successful. If error was received, false.
   func blockUser(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.blockUser(post.user) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.blockUser(post.user) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -416,13 +411,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if block request was successful. If error was received, false.
   func blockUserAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.blockUser(commentTree[index].user) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.blockUser(commentTree[index].user) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -432,13 +422,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the downvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvoteCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.downvoteCommentWithID(commentTree[index].commentID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.downvoteCommentWithID(commentTree[index].commentID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -447,13 +432,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
   func downvotePost(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.downvotePostWithID(post.postID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.downvotePostWithID(post.postID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -463,13 +443,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
   func flagCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.flagComment(commentTree[index]) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.flagComment(commentTree[index]) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -478,13 +453,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
   func flagPost(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.flagPost(post) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.flagPost(post) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -494,13 +464,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvoteCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.upvoteCommentWithID(commentTree[index].commentID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.upvoteCommentWithID(commentTree[index].commentID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -509,13 +474,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
   func upvotePost(completionHandler: (success: Bool) -> ()) {
-    DataManager.sharedInstance.upvotePostWithID(post.postID) { error, success in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(success: false)
-      } else {
-        completionHandler(success: success)
-      }
+    DataManager.sharedInstance.upvotePostWithID(post.postID) { result in
+      self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
   }
 

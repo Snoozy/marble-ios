@@ -210,26 +210,16 @@ class NewPostViewController: CustomViewController {
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.createPostByBoardName(board, text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { error, result in
-            if let error = error {
-              self.handleError(error)
-              completionHandler(post: nil)
-            } else {
-              completionHandler(post: result)
-            }
+          DataManager.sharedInstance.createPostByBoardName(self.selectBoardButton.titleForState(.Normal) ?? "", text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { result in
+            self.handleSingleElementResponse(result, completionHandler: completionHandler)
           }
         } else {
           completionHandler(post: nil)
         }
       }
     } else {
-      DataManager.sharedInstance.createPostByBoardName(board, text: postTextView.text, title: self.titleTextField.text) { error, result in
-        if let error = error {
-          self.handleError(error)
-          completionHandler(post: nil)
-        } else {
-          completionHandler(post: result)
-        }
+      DataManager.sharedInstance.createPostByBoardName(selectBoardButton.titleForState(.Normal) ?? "", text: postTextView.text, title: titleTextField.text) { result in
+        self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }
   }
@@ -240,13 +230,8 @@ class NewPostViewController: CustomViewController {
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
   func retrieveEndUser(completionHandler: (user: User?) -> ()) {
-    DataManager.sharedInstance.getEndUserInfo { error, result in
-      if let error = error {
-        self.handleError(error)
-        completionHandler(user: nil)
-      } else {
-        completionHandler(user: result)
-      }
+    DataManager.sharedInstance.getEndUserInfo { result in
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
@@ -258,14 +243,9 @@ class NewPostViewController: CustomViewController {
   func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
-    DataManager.sharedInstance.uploadImageData(imageData) { error, result in
+    DataManager.sharedInstance.uploadImageData(imageData) { result in
       activityIndicator.removeFromSuperview()
-      if let error = error {
-        self.handleError(error)
-        completionHandler(mediaID: nil)
-      } else {
-        completionHandler(mediaID: result)
-      }
+      self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
