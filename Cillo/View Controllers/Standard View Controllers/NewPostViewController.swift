@@ -54,9 +54,6 @@ class NewPostViewController: CustomViewController {
   /// Set to postTextViewHeight after viewDidLayoutSubviews().
   @IBOutlet weak var postTextViewHeightConstraint: NSLayoutConstraint!
   
-  /// Field for end user to enter the title of their post.
-  @IBOutlet weak var titleTextField: BottomBorderedTextField!
-  
   /// Button used to display the end user's profile picture.
   @IBOutlet weak var userPhotoButton: UIButton!
   
@@ -116,8 +113,6 @@ class NewPostViewController: CustomViewController {
   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
     if postTextView.isFirstResponder() {
       postTextView.resignFirstResponder()
-    } else if titleTextField.isFirstResponder() {
-      titleTextField.resignFirstResponder()
     }
   }
   
@@ -134,7 +129,6 @@ class NewPostViewController: CustomViewController {
   /// Hides the keyboard of all textfields.
   private func resignTextFieldResponders() {
     postTextView.resignFirstResponder()
-    titleTextField.resignFirstResponder()
   }
   
   /// Sets up the colors of the Outlets according to the default scheme of the app.
@@ -143,7 +137,6 @@ class NewPostViewController: CustomViewController {
     imageButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
     imageButton.backgroundColor = scheme.solidButtonBackgroundColor()
     selectBoardButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
-    titleTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     postTextView.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     boardToImageDividerView.backgroundColor = scheme.thinLineBackgroundColor()
   }
@@ -177,7 +170,6 @@ class NewPostViewController: CustomViewController {
   
   /// Sets any delegates of Outlets that were not set in the storyboard.
   private func setupOutletDelegates() {
-    titleTextField.delegate = self
   }
   
   /// Sets up the scrollView to display a scrollable representaiton of image.
@@ -210,7 +202,7 @@ class NewPostViewController: CustomViewController {
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.createPostByBoardName(self.selectBoardButton.titleForState(.Normal) ?? "", text: self.postTextView.text, title: self.titleTextField.text, mediaID: mediaID) { result in
+          DataManager.sharedInstance.createPostByBoardName(self.selectBoardButton.titleForState(.Normal) ?? "", text: self.postTextView.text, mediaID: mediaID) { result in
             self.handleSingleElementResponse(result, completionHandler: completionHandler)
           }
         } else {
@@ -218,7 +210,7 @@ class NewPostViewController: CustomViewController {
         }
       }
     } else {
-      DataManager.sharedInstance.createPostByBoardName(selectBoardButton.titleForState(.Normal) ?? "", text: postTextView.text, title: titleTextField.text) { result in
+      DataManager.sharedInstance.createPostByBoardName(selectBoardButton.titleForState(.Normal) ?? "", text: postTextView.text) { result in
         self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }

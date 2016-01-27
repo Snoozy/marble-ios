@@ -524,7 +524,7 @@
 				TargetAttributes = {
 					95EFD2A319F8D2B400086BAF = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = C27CEAWK74;
+						DevelopmentTeam = UE4AVLL9FF;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -812,7 +812,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Cillo, LLC. (C27CEAWK74)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -828,7 +828,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Cillo, LLC. (C27CEAWK74)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;

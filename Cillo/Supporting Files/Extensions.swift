@@ -453,7 +453,7 @@ extension UIColor {
   /// :param: alpha The alpha of the returned color.
   /// :returns: The blue color that is the theme of Cillo with a specified alpha.
   class func cilloBlueWithAlpha(alpha: CGFloat) -> UIColor {
-    return UIColor(red: 2/255.0, green: 81/255.0, blue: 138/255.0, alpha: alpha)
+    return UIColor(red: 13/255.0, green: 88/255.0, blue: 245/255.0, alpha: alpha)
   }
   
   /// :returns: The gray color that is the theme for the .Gray color scheme.

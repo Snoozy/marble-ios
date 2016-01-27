@@ -34,7 +34,12 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if KeychainWrapper.hasAuthAndUser() {
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    print("b")
+    if posts.count == 0 && KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
       retrieveData()
     }
@@ -45,6 +50,8 @@ class HomeTableViewController: MultiplePostsTableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     if posts.isEmpty && !retrievingPage {
       return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.checkOutDiscoverCell, forIndexPath: indexPath) as! UITableViewCell
+    } else if posts.isEmpty {
+      return UITableViewCell()
     } else {
       return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
     }
@@ -61,7 +68,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    if posts.isEmpty && !retrievingPage{
+    if posts.isEmpty && !retrievingPage {
       if let tabBarController = tabBarController as? TabViewController {
         tabBarController.selectedIndex = tabBarController.discoverTabIndex
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
@@ -74,6 +81,8 @@ class HomeTableViewController: MultiplePostsTableViewController {
   override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     if posts.isEmpty && !retrievingPage {
       return tableView.frame.height
+    } else if posts.isEmpty {
+      return 0
     } else {
       return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
     }

@@ -762,7 +762,7 @@ class DataManager: NSObject {
   /// :param: repostID The id of the original post that is being reposted.
   /// :param: * Optional parameter. Only use if this post should be a repost.
   /// :param: completionHandler A completion block for the network request containing either the created Post or an error.
-  func createPostByBoardID(boardID: Int, text: String, title: String = "", mediaID: Int = -1, repostID: Int = -1,  completionHandler: ValueOrError<Post> -> ()) {
+  func createPostByBoardID(boardID: Int, text: String, title: String? = nil, mediaID: Int = -1, repostID: Int = -1,  completionHandler: ValueOrError<Post> -> ()) {
     let responseHandler = responseJSONHandlerForRequest(Router.PostCreate, completionHandler: completionHandler) { json in
       if json["repost"] != nil {
         return Repost(json: json)
@@ -774,7 +774,7 @@ class DataManager: NSObject {
     if repostID != -1 {
       parameters["repost_id"] = repostID
     }
-    if title != "" {
+    if title != nil {
       parameters["title"] = title
     }
     if mediaID != -1 {
@@ -799,7 +799,7 @@ class DataManager: NSObject {
   /// :param: repostID The id of the original post that is being reposted.
   /// :param: * Optional parameter. Only use if this post should be a repost.
   /// :param: completionHandler A completion block for the network request containing either the created Post or an error.
-  func createPostByBoardName(boardName: String, text: String, title: String = "", mediaID: Int = -1, repostID: Int = -1, completionHandler: ValueOrError<Post> -> ()) {
+  func createPostByBoardName(boardName: String, text: String, title: String? = nil, mediaID: Int = -1, repostID: Int = -1, completionHandler: ValueOrError<Post> -> ()) {
     let responseHandler = responseJSONHandlerForRequest(Router.PostCreate, completionHandler: completionHandler) { json in
       if json["repost"] != nil {
         return Repost(json: json)
@@ -811,7 +811,7 @@ class DataManager: NSObject {
     if repostID != -1 {
       parameters["repost_id"] = repostID
     }
-    if title != "" {
+    if title != nil {
       parameters["title"] = title
     }
     if mediaID != -1 {

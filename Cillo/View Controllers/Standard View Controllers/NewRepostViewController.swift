@@ -225,9 +225,6 @@ class RepostContentView: UIView {
   /// View used to display the text of the original post.
   var originalPostTextView: UITextView!
   
-  /// Label used to display the title of the original post.
-  var originalTitleLabel: UILabel!
-  
   /// Label used to display the name of the user that posted the original post.
   var originalUsernameLabel: UILabel!
   
@@ -304,20 +301,8 @@ class RepostContentView: UIView {
     originalBoardLabel = UILabel(frame: CGRect(x: onLabel.frame.maxX + 5, y: originalUsernameLabel.frame.maxY + 2, width: 200, height: 16))
     originalBoardLabel.font = UIFont.boldSystemFontOfSize(13)
     originalBoardLabel.text = post.board.name
-    
-    if let title = post.title {
-      originalTitleLabel = UILabel(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.heightOfTitleWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.boldSystemFontOfSize(20))))
-      originalTitleLabel.font = UIFont.boldSystemFontOfSize(20)
-      originalTitleLabel.textAlignment = .Left
-      originalTitleLabel.numberOfLines = 0
-      originalTitleLabel.text = title
       
-      originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalTitleLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
-    } else {
-      originalTitleLabel = UILabel()
-      
-      originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
-    }
+    originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
     
     originalPostTextView.textContainer.lineFragmentPadding = 0
     originalPostTextView.textContainerInset = UIEdgeInsetsZero
@@ -355,7 +340,6 @@ class RepostContentView: UIView {
     addSubview(originalPictureButton)
     addSubview(onLabel)
     addSubview(originalBoardLabel)
-    addSubview(originalTitleLabel)
     addSubview(originalPostTextView)
     addSubview(originalPostImagesButton)
     addSubview(sideLine)

@@ -41,7 +41,7 @@ class RepostCell: PostCell {
   // MARK: Constants
   
   override class var additionalVertSpaceNeeded: CGFloat {
-    return 182
+    return 184
   }
   
   /// Distance to originalPost related elements in the RepostCell.
@@ -54,9 +54,6 @@ class RepostCell: PostCell {
     
     /// Font of the text contained within originalPostAttributedLabel.
     static let originalPostAttributedLabelFont = UIFont.systemFontOfSize(13.0)
-    
-    /// Font of the text contained within titleLabel.
-    static let titleLabelFont = UIFont.boldSystemFontOfSize(20.0)
     
     /// Font of the text contained within originalNameButton.
     static let originalNameButtonFont = UIFont.boldSystemFontOfSize(15.0)
@@ -100,7 +97,7 @@ class RepostCell: PostCell {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: nil, andFont: PostCell.PostFonts.postAttributedLabelFont) + RepostCell.additionalVertSpaceNeeded + post.originalPost.heightOfPostWithWidth(width - RepostCell.originalPostMargins, andMaxContractedHeight: maxHeight, andFont: RepostCell.RepostFonts.originalPostAttributedLabelFont)
     height += post.originalPost.heightOfImagesInPostWithWidth(width - RepostCell.originalPostMargins, andMaxImageHeight: maxImageHeight ?? .max)
     height += dividerHeight
-    return height + post.originalPost.heightOfTitleWithWidth(width - RepostCell.originalPostMargins, andFont: RepostCell.RepostFonts.titleLabelFont)
+    return height
   }
   
   /// Makes this RepostCell's IBOutlets display the correct values of the corresponding Repost.
@@ -157,16 +154,6 @@ class RepostCell: PostCell {
         originalNameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
       }
       
-      titleLabel.numberOfLines = 0
-      titleLabel.textAlignment = .Left
-      if let title = post.originalPost.title {
-        titleLabel.text = title
-        titleHeightConstraint.constant = post.originalPost.heightOfTitleWithWidth(contentView.frame.width - 16 - RepostCell.originalPostMargins, andFont: RepostCell.RepostFonts.titleLabelFont)
-      } else {
-        titleLabel.text = ""
-        titleHeightConstraint.constant = 0.0
-      }
-      
       imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins, andMaxImageHeight: maxImageHeight ?? .max)
       if let loadedImage = post.originalPost.loadedImage {
         imagesButton.imageView?.contentMode = .ScaleAspectFill
@@ -197,7 +184,6 @@ class RepostCell: PostCell {
   }
   
   private func setupRepostOutletFonts() {
-    titleLabel.font = RepostCell.RepostFonts.titleLabelFont
     originalNameButton.titleLabel?.font = RepostCell.RepostFonts.originalNameButtonFont
     originalBoardButton.titleLabel?.font = RepostCell.RepostFonts.originalBoardButtonFont
   }

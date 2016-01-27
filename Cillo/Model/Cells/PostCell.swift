@@ -72,14 +72,6 @@ class PostCell: UITableViewCell {
   /// Displays time property of Post.
   @IBOutlet weak var timeLabel: UILabel!
   
-  /// Controls height of titleLabel.
-  ///
-  /// If title of Post is nil, set constant to 0.
-  @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
-  
-  /// Displays title property of Post.
-  @IBOutlet weak var titleLabel: UILabel!
-  
   /// Upvotes Post.
   @IBOutlet weak var upvoteButton: UIButton!
 
@@ -89,7 +81,7 @@ class PostCell: UITableViewCell {
   ///
   /// **Note:** Height of postAttributedLabel must be calculated based on it's text property.
   class var additionalVertSpaceNeeded: CGFloat {
-    return 114
+    return 116
   }
   
   /// Struct containing all relevent fonts for the elements of a PostCell.
@@ -97,9 +89,6 @@ class PostCell: UITableViewCell {
     
     /// Font of the text contained within postAttributedLabel.
     static let postAttributedLabelFont = UIFont.systemFontOfSize(15.0)
-    
-    /// Font of the text contained within titleLabel.
-    static let titleLabelFont = UIFont.boldSystemFontOfSize(22.0)
     
     /// Font of the text contained within repLabel.
     static let repLabelFont = UIFont.boldSystemFontOfSize(18.0)
@@ -153,7 +142,7 @@ class PostCell: UITableViewCell {
     var height = post.heightOfPostWithWidth(width, andMaxContractedHeight: maxHeight, andFont: PostCell.PostFonts.postAttributedLabelFont) + PostCell.additionalVertSpaceNeeded
     height += post.heightOfImagesInPostWithWidth(width, andMaxImageHeight: maxImageHeight ?? .max)
     height += dividerHeight
-    return height + post.heightOfTitleWithWidth(width, andFont: PostCell.PostFonts.titleLabelFont)
+    return height
   }
   
   /// Makes this PostCell's IBOutlets display the correct values of the corresponding Post.
@@ -240,17 +229,6 @@ class PostCell: UITableViewCell {
         } else {
           seeFullButton.hidden = true
         }
-      }
-      
-      titleLabel.numberOfLines = 0
-      titleLabel.textAlignment = .Left
-      titleLabel.font = PostCell.PostFonts.titleLabelFont
-      if let title = post.title {
-        titleLabel.text = title
-        titleHeightConstraint.constant = post.heightOfTitleWithWidth(contentView.frame.width - 16, andFont: PostCell.PostFonts.titleLabelFont)
-      } else {
-        titleLabel.text = ""
-        titleHeightConstraint.constant = 0.0
       }
       
       imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andMaxImageHeight: maxImageHeight ?? .max)

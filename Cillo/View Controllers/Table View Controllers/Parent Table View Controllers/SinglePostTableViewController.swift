@@ -128,7 +128,7 @@ class SinglePostTableViewController: CustomTableViewController {
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    if !commentTree[indexPath.row].blocked {
+    if indexPath.section != 0 && !commentTree[indexPath.row].blocked {
       if selectedPath != indexPath {
         selectedPath = indexPath
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)

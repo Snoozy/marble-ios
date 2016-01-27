@@ -151,13 +151,13 @@ class RegisterViewController: CustomViewController {
   
   
   @IBAction func privacyPressed(sender: UIButton) {
-    if let url = NSURL(string: "https://www.cillo.co/legal/privacy.html") {
+    if let url = NSURL(string: "https://www.themarble.co/legal/privacy.html") {
       UIApplication.sharedApplication().openURL(url)
     }
   }
   
   @IBAction func termsPressed(sender: UIButton) {
-    if let url = NSURL(string: "https://www.cillo.co/legal/tos.html") {
+    if let url = NSURL(string: "https://www.themarble.co/legal/tos.html") {
       UIApplication.sharedApplication().openURL(url)
     }
   }

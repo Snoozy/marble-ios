@@ -53,11 +53,6 @@ class Post: NSObject {
   /// String is properly formatted via `compactTimeDisplay` property of UInt64.
   var time: String = ""
   
-  /// Title of this Post.
-  ///
-  /// Nil if this Post has no title.
-  var title: String?
-  
   /// User that posted this Post.
   var user = User()
   
@@ -92,9 +87,6 @@ class Post: NSObject {
     user = User(json: json["user"])
     let time = json["time"].int64Value
     self.time = time.compactTimeDisplay
-    if json["title"] != nil {
-      self.title = json["title"].stringValue
-    }
     rep = json["votes"].intValue
     commentCount = json["comment_count"].intValue
     voteValue = json["vote_value"].intValue
@@ -125,7 +117,7 @@ class Post: NSObject {
       var height: CGFloat = width * loadedImage.size.height / loadedImage.size.width
       return height > imageHeight ? imageHeight : height
     } else if isImagePost {
-      return 20
+      return imageHeight
     } else {
       return 0
     }
@@ -155,15 +147,6 @@ class Post: NSObject {
     } else {
       return height
     }
-  }
-  
-  /// Used to find the height of titleLabel in a PostCell displaying this Post.
-  ///
-  /// :param: width The current width of titleLabel.
-  /// :param: font The font of the text in titleLabel.
-  /// :returns: Predicted height of titleLabel in a PostCell.
-  func heightOfTitleWithWidth(width: CGFloat, andFont font: UIFont) -> CGFloat {
-    return title != nil ? (title! as NSString).boundingRectWithSize(CGSize(width: width - 16, height: 200), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: NSStringDrawingContext()).size.height + 4 : 0.0
   }
 
   // MARK: Mutating Helper Functions
