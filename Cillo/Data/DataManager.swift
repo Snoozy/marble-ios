@@ -88,7 +88,7 @@ enum ValueOrError<T> {
 /// * SendDeviceToken: Request to send a device token for push notifications.
 enum Router: URLStringConvertible {
   /// Basic URL of website without any request extensions.
-  static let baseURLString = "http://api.cillo.co"
+  static let baseURLString = "http://api.themarble.co"
   
   //GET
   case Root(Int?)
