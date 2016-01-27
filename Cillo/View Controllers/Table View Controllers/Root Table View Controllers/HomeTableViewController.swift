@@ -38,7 +38,6 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    print("b")
     if posts.count == 0 && KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
       retrieveData()
