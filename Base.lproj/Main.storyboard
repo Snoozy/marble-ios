@@ -6421,10 +6421,10 @@ to find boards you love!</string>
         <image name="Up Arrow" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ErJ-Pf-JZ7"/>
+        <segue reference="rwG-J9-MDJ"/>
+        <segue reference="tpB-Dw-nh7"/>
         <segue reference="X2k-fD-Ni0"/>
         <segue reference="Jl6-tW-uib"/>
         <segue reference="jh2-YM-tXJ"/>
-        <segue reference="lj2-2c-ePA"/>
     </inferredMetricsTieBreakers>
 </document>

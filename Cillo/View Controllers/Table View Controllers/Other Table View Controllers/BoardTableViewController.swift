@@ -44,23 +44,29 @@ class BoardTableViewController: SingleBoardTableViewController {
   // MARK: UITableViewDelegate
   
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
+    if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 25 {
       retrievingPage = true
       retrievePosts { posts in
-        dispatch_async(dispatch_get_main_queue()) {
-          if let posts = posts {
-            if posts.isEmpty {
-              self.finishedPaging = true
-            } else {
-              for post in posts {
-                self.posts.append(post)
-              }
-              self.tableView.reloadData()
+        if let posts = posts {
+          if posts.isEmpty {
+            self.finishedPaging = true
+          } else {
+            var row = self.posts.count
+            var newPaths = [NSIndexPath]()
+            for post in posts {
+              self.posts.append(post)
+              newPaths.append(NSIndexPath(forRow: row, inSection: 1))
+              row++
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+              self.tableView.beginUpdates()
+              self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+              self.tableView.endUpdates()
               self.pageNumber++
             }
           }
-          self.retrievingPage = false
         }
+        self.retrievingPage = false
       }
     }
   }

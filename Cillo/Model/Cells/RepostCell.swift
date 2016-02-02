@@ -157,20 +157,26 @@ class RepostCell: PostCell {
       }
       
       imagesButtonHeightConstraint.constant = post.originalPost.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16 - RepostCell.originalPostMargins, andMaxImageHeight: maxImageHeight ?? .max)
-      if let loadedImage = post.originalPost.loadedImage {
+//      if let loadedImage = post.originalPost.loadedImage {
+//        imagesButton.imageView?.contentMode = .ScaleAspectFill
+//        imagesButton.clipsToBounds = true
+//        imagesButton.contentHorizontalAlignment = .Fill
+//        imagesButton.contentVerticalAlignment = .Fill
+//        imagesButton.setImage(loadedImage, forState: .Normal)
+//        imagesButton.setTitle("", forState: .Normal)
+//      } else if post.originalPost.isImagePost {
+//        imagesButton.contentVerticalAlignment = .Center
+//        imagesButton.contentHorizontalAlignment = .Center
+//        imagesButton.setTitle("Loading Image...", forState: .Normal)
+//        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+//      }
+      if post.isImagePost {
         imagesButton.imageView?.contentMode = .ScaleAspectFill
         imagesButton.clipsToBounds = true
         imagesButton.contentHorizontalAlignment = .Fill
         imagesButton.contentVerticalAlignment = .Fill
-        imagesButton.setImage(loadedImage, forState: .Normal)
-        imagesButton.setTitle("", forState: .Normal)
-      } else if post.originalPost.isImagePost {
-        imagesButton.contentVerticalAlignment = .Center
-        imagesButton.contentHorizontalAlignment = .Center
-        imagesButton.setTitle("Loading Image...", forState: .Normal)
-        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+        imagesButton.setImageToImageWithURL(post.originalPost.imageURLs![0], forState: .Normal)
       }
-      
       verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
     }
   }

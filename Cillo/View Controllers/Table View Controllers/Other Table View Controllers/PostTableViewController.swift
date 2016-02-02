@@ -187,6 +187,7 @@ class PostTableViewController: SinglePostTableViewController {
               container.tag = -1
               textField.tag = -1
               textField.resignFirstResponder()
+              textField.text = ""
               self.retrieveData()
             }
           }
@@ -199,6 +200,7 @@ class PostTableViewController: SinglePostTableViewController {
               container.tag = -1
               textField.tag = -1
               textField.resignFirstResponder()
+              textField.text = ""
               self.retrieveData()
             }
           }
@@ -231,6 +233,7 @@ class PostTableViewController: SinglePostTableViewController {
     view.alpha = 1.0
     view.addSubview(textField)
     view.addSubview(replyButton)
+    view.tag = tag
     newCommentView = (view, textField)
   }
   

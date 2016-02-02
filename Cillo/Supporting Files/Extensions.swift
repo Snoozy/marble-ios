@@ -429,6 +429,7 @@ extension UIButton {
       setImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
         success: { _, _, image in
           self.setImage(image, forState: state)
+          self.setNeedsLayout()
           DataManager.sharedInstance.activeRequests--
         },
         failure: { error in

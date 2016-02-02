@@ -66,43 +66,55 @@ class UserTableViewController: SingleUserTableViewController {
   override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     switch cellsShown {
     case .Posts:
-      if !postsFinishedPaging && !retrievingPage && indexPath.row > posts.count - 10 {
+      if !postsFinishedPaging && !retrievingPage && indexPath.row > posts.count - 25 {
         retrievingPage = true
         retrievePosts { posts in
-          dispatch_async(dispatch_get_main_queue()) {
-            if let posts = posts {
-              if posts.isEmpty {
-                self.postsFinishedPaging = true
-              } else {
-                for post in posts {
-                  self.posts.append(post)
-                }
+          if let posts = posts {
+            if posts.isEmpty {
+              self.postsFinishedPaging = true
+            } else {
+              var row = self.posts.count
+              var newPaths = [NSIndexPath]()
+              for post in posts {
+                self.posts.append(post)
+                newPaths.append(NSIndexPath(forRow: row, inSection: 1))
+                row++
+              }
+              dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.beginUpdates()
+                self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+                self.tableView.endUpdates()
                 self.postsPageNumber++
-                self.tableView.reloadData()
               }
             }
-            self.retrievingPage = false
           }
+          self.retrievingPage = false
         }
       }
     case .Comments:
-      if !commentsFinishedPaging && !retrievingPage && indexPath.row > comments.count - 10 {
+      if !commentsFinishedPaging && !retrievingPage && indexPath.row > comments.count - 25 {
         retrievingPage = true
         retrieveComments { comments in
-          dispatch_async(dispatch_get_main_queue()) {
-            if let comments = comments {
-              if comments.isEmpty {
-                self.commentsFinishedPaging = true
-              } else {
-                for comment in comments {
-                  self.comments.append(comment)
-                }
+          if let comments = comments {
+            if comments.isEmpty {
+              self.commentsFinishedPaging = true
+            } else {
+              var row = self.comments.count
+              var newPaths = [NSIndexPath]()
+              for comment in comments {
+                self.comments.append(comment)
+                newPaths.append(NSIndexPath(forRow: row, inSection: 1))
+                row++
+              }
+              dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.beginUpdates()
+                self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+                self.tableView.endUpdates()
                 self.commentsPageNumber++
-                self.tableView.reloadData()
               }
             }
-            self.retrievingPage = false
           }
+          self.retrievingPage = false
         }
       }
     }

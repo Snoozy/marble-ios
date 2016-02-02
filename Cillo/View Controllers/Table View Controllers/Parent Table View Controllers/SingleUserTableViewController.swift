@@ -312,21 +312,21 @@ class SingleUserTableViewController: CustomTableViewController {
         return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
       }
     }()
-    if let post = post as? Repost where post.originalPost.loadedImage == nil {
-      cell.loadImagesForPost(post) { image in
-        dispatch_async(dispatch_get_main_queue()) {
-          post.originalPost.loadedImage = image
-          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-        }
-      }
-    } else if !(post is Repost) && post.loadedImage == nil {
-      cell.loadImagesForPost(post) { image in
-        dispatch_async(dispatch_get_main_queue()) {
-          post.loadedImage = image
-          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-        }
-      }
-    }
+//    if let post = post as? Repost where post.originalPost.loadedImage == nil {
+//      cell.loadImagesForPost(post) { image in
+//        dispatch_async(dispatch_get_main_queue()) {
+//          post.originalPost.loadedImage = image
+//          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+//        }
+//      }
+//    } else if !(post is Repost) && post.loadedImage == nil {
+//      cell.loadImagesForPost(post) { image in
+//        dispatch_async(dispatch_get_main_queue()) {
+//          post.loadedImage = image
+//          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+//        }
+//      }
+//    }
     cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
@@ -470,16 +470,18 @@ class SingleUserTableViewController: CustomTableViewController {
   ///
   /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
   @IBAction func imageButtonPressed(sender: UIButton) {
-    let loadedImage: UIImage? = {
-      let post = self.posts[sender.tag]
-      if let post = post as? Repost {
-        return post.originalPost.loadedImage
-      } else {
-        return post.loadedImage
-      }
-    }()
-    if let loadedImage = loadedImage {
-      JTSImageViewController.expandImage(loadedImage, toFullScreenFromRoot: self, withSender: sender)
+//    let loadedImage: UIImage? = {
+//      let post = self.posts[sender.tag]
+//      if let post = post as? Repost {
+//        return post.originalPost.loadedImage
+//      } else {
+//        return post.loadedImage
+//      }
+//    }()
+//    if let loadedImage = loadedImage {
+//      JTSImageViewController.expandImage(loadedImage, toFullScreenFromRoot: self, withSender: sender)
+    if let image = sender.imageView?.image {
+      JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }
   }
   

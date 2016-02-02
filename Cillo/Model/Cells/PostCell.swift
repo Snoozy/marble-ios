@@ -109,14 +109,14 @@ class PostCell: UITableViewCell {
   // MARK: UITableViewCell
   
   override func prepareForReuse() {
-    imagesButtonHeightConstraint.constant = 0
-    imagesButton.setImage(nil, forState: .Normal)
-    separatorViewHeightConstraint?.constant = 0
-    imagesButton.setTitle("", forState: .Normal)
+//    imagesButtonHeightConstraint.constant = 0
+//    imagesButton.setImage(nil, forState: .Normal)
+//    separatorViewHeightConstraint?.constant = 0
+//    imagesButton.setTitle("", forState: .Normal)
     nameButton.enabled = true
     photoButton.enabled = true
-    nameButton.setTitleWithoutAnimation("")
-    boardButton.setTitleWithoutAnimation("")
+//    nameButton.setTitleWithoutAnimation("")
+//    boardButton.setTitleWithoutAnimation("")
   }
   
   // MARK: Setup Helper Functions
@@ -232,18 +232,27 @@ class PostCell: UITableViewCell {
       }
       
       imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andMaxImageHeight: maxImageHeight ?? .max)
-      if let loadedImage = post.loadedImage {
+//      if let loadedImage = post.loadedImage {
+//        imagesButton.imageView?.contentMode = .ScaleAspectFill
+//        imagesButton.clipsToBounds = true
+//        imagesButton.contentHorizontalAlignment = .Fill
+//        imagesButton.contentVerticalAlignment = .Fill
+//        imagesButton.setImage(loadedImage, forState: .Normal)
+//        imagesButton.setTitle("", forState: .Normal)
+//      } else if post.isImagePost {
+//        imagesButton.contentVerticalAlignment = .Center
+//        imagesButton.contentHorizontalAlignment = .Center
+//        imagesButton.setTitle("Loading Image...", forState: .Normal)
+//        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+//      }
+      if post.isImagePost {
+        imagesButton.setImage(nil, forState: .Normal)
         imagesButton.imageView?.contentMode = .ScaleAspectFill
         imagesButton.clipsToBounds = true
         imagesButton.contentHorizontalAlignment = .Fill
         imagesButton.contentVerticalAlignment = .Fill
-        imagesButton.setImage(loadedImage, forState: .Normal)
-        imagesButton.setTitle("", forState: .Normal)
-      } else if post.isImagePost {
-        imagesButton.contentVerticalAlignment = .Center
-        imagesButton.contentHorizontalAlignment = .Center
-        imagesButton.setTitle("Loading Image...", forState: .Normal)
-        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+        imagesButton.enabled = true
+        imagesButton.setImageToImageWithURL(post.imageURLs![0], forState: .Normal)
       }
     }
   }
