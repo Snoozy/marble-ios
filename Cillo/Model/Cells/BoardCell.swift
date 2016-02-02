@@ -88,6 +88,7 @@ class BoardCell: UITableViewCell {
   
   override func prepareForReuse() {
     separatorViewHeightConstraint?.constant = 0
+    nameButton.setTitleWithoutAnimation("")
   }
   
   // MARK: Setup Helper Functions
@@ -122,7 +123,7 @@ class BoardCell: UITableViewCell {
     setupBoardOutletFonts()
     setOutletTagsTo(buttonTag)
     
-    nameButton.setTitle(board.name, forState: .Normal)
+    nameButton.setTitleWithoutAnimation(board.name)
     
     photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
     photoButton.clipsToBounds = true

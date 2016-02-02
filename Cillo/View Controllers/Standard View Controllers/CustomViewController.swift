@@ -42,6 +42,8 @@ class CustomViewController: UIViewController {
       handleUsernameTakenError(error)
     case .PasswordIncorrect:
       handlePasswordIncorrectError(error)
+    case .BoardNameInvalid:
+      handleBoardNameInvalidError(error)
     case .NotCilloDomain:
       break
     default:
@@ -95,6 +97,14 @@ class CustomViewController: UIViewController {
   ///
   /// :param: error The error to be handled.
   func handleUsernameTakenError(error: NSError) {
+  }
+  
+  /// Handles a cillo error with code `NSError.CilloErrorCodes.boardNameInvalid`.
+  ///
+  /// **Note:** Default implementation does nothing.
+  ///
+  /// :param: error The error to be handled.
+  func handleBoardNameInvalidError(error: NSError) {
   }
   
   /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.

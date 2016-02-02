@@ -140,6 +140,9 @@ extension NSError {
     /// Error code for a user unauthenticated error.
     case UserUnauthenticated = 10
     
+    /// Error code for a board creation with an invalid name.
+    case BoardNameInvalid = 40
+    
     /// Cillo returned an unrecognized error code.
     case UndefinedError = 2147483647
     
@@ -385,6 +388,11 @@ extension UIButton {
   /// Sets up button to have a border with width `standardBorderWidth` and color `ColorScheme.defaultScheme.solidButtonTextColor()`.
   func setupWithRoundedBorderOfStandardWidthAndColor() {
     setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: ColorScheme.defaultScheme.solidButtonTextColor())
+  }
+  
+  func setTitleWithoutAnimation(title: String) {
+    titleLabel?.text = title
+    setTitle(title, forState: .Normal)
   }
   
   /// Uses asynchronous image loading to set the background image to the image retrieved from the provided url.

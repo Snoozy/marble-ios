@@ -147,6 +147,21 @@ class NewBoardViewController: CustomViewController {
     }
   }
   
+  // MARK: Error Handling Helper Functions
+  
+  override func handleBoardNameInvalidError(error: NSError) {
+    if objc_getClass("UIAlertController") != nil {
+      let alert = UIAlertController(title: "Error", message: "Board Name Unavailable.\n Note: Board Names cannot contain spaces.", preferredStyle: .Alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { _ in
+        })
+      presentViewController(alert, animated: true, completion: nil)
+    } else {
+      let alert = UIAlertView(title: "Error", message: "Board Name Unavailable.\n Note: Board Names cannot contain spaces.", delegate: nil, cancelButtonTitle: "Ok")
+      alert.show()
+    }
+    
+  }
+  
   // MARK: IBActions
   
   /// Expands the image displayed in the button to full screen.

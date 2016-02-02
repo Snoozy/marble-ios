@@ -115,7 +115,8 @@ class PostCell: UITableViewCell {
     imagesButton.setTitle("", forState: .Normal)
     nameButton.enabled = true
     photoButton.enabled = true
-    nameButton.setTitle("", forState: .Normal)
+    nameButton.setTitleWithoutAnimation("")
+    boardButton.setTitleWithoutAnimation("")
   }
   
   // MARK: Setup Helper Functions
@@ -157,10 +158,9 @@ class PostCell: UITableViewCell {
     
     setupPostOutletFonts()
     setOutletTagsTo(buttonTag)
-
-    nameButton.setTitle(post.user.name, forState: .Normal)
     
-    boardButton.setTitle(post.board.name, forState: .Normal)
+    nameButton.setTitleWithoutAnimation(post.user.name)
+    boardButton.setTitleWithoutAnimation(post.board.name)
     
     timeLabel.text = post.time
     timeLabel.textColor = UIColor.lightGrayColor()

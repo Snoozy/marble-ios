@@ -115,6 +115,7 @@ class CommentCell: UITableViewCell {
     for line in lines {
       line.removeFromSuperview()
     }
+    nameButton.setTitleWithoutAnimation("")
   }
   
   // MARK: Setup Helper Functions
@@ -168,7 +169,7 @@ class CommentCell: UITableViewCell {
       }
     }
     
-    nameButton.setTitle(name, forState: .Normal)
+    nameButton.setTitleWithoutAnimation(name)
     
     let picURL = comment.blocked ? (NSURL(string: "https://static.cillo.co/image/default_small") ?? NSURL()) : comment.user.photoURL
     photoButton.setBackgroundImageToImageWithURL(picURL, forState: .Normal)

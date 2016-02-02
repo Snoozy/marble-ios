@@ -76,6 +76,8 @@ class RepostCell: PostCell {
     postAttributedLabelHeightConstraint.constant = 20
     originalNameButton.enabled = true
     originalPhotoButton.enabled = true
+    originalNameButton.setTitleWithoutAnimation("")
+    originalBoardButton.setTitleWithoutAnimation("")
   }
 
   // MARK: Setup Helper Functions
@@ -122,9 +124,9 @@ class RepostCell: PostCell {
     
       postAttributedLabelHeightConstraint.constant = post.heightOfPostWithWidth(contentView.frame.size.width - 16, andMaxContractedHeight: nil, andFont: PostCell.PostFonts.postAttributedLabelFont)
       
-      originalNameButton.setTitle(post.originalPost.user.name, forState: .Normal)
+      originalNameButton.setTitleWithoutAnimation(post.originalPost.user.name)
       
-      originalBoardButton.setTitle(post.originalPost.board.name, forState: .Normal)
+      originalBoardButton.setTitleWithoutAnimation(post.originalPost.board.name)
       
       originalPhotoButton.setBackgroundImageToImageWithURL(post.originalPost.user.photoURL, forState: .Normal)
       originalPhotoButton.clipsToBounds = true
