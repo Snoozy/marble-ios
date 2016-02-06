@@ -106,8 +106,8 @@ class HomeTableViewController: MultiplePostsTableViewController {
               self.tableView.beginUpdates()
               self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
               self.tableView.endUpdates()
-              self.pageNumber++
             }
+            self.pageNumber++
           }
         }
         self.retrievingPage = false

@@ -406,7 +406,9 @@ extension UIButton {
       DataManager.sharedInstance.activeRequests++
       setBackgroundImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
         success: { _, _, image in
-          self.setBackgroundImage(image, forState: state)
+          dispatch_async(dispatch_get_main_queue()) {
+            self.setBackgroundImage(image, forState: state)
+          }
           DataManager.sharedInstance.activeRequests--
         },
         failure: { error in
@@ -423,14 +425,20 @@ extension UIButton {
   ///
   /// :param: url The url of the image to be retrieved
   /// :param: state The state to set the background image for
-  func setImageToImageWithURL(url: NSURL, forState state: UIControlState) {
+  func setImageToImageWithURL(url: NSURL, forState state: UIControlState, withWidth width: CGFloat) {
     if url.absoluteString != nil { // without this check -> permanent activeRequests count increase
       DataManager.sharedInstance.activeRequests++
       setImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
         success: { _, _, image in
-          self.setImage(image, forState: state)
-          self.setNeedsLayout()
-          DataManager.sharedInstance.activeRequests--
+          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let resized = UIImage.resizeImage(image, toWidth: width)
+            dispatch_async(dispatch_get_main_queue()) {
+              UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
+                self.setImage(resized, forState: state)
+                }, completion: nil)
+            }
+            DataManager.sharedInstance.activeRequests--
+          }
         },
         failure: { error in
           println(error)
@@ -513,6 +521,19 @@ extension UIImage {
   /// The factor to compress images by beforing uploading them to the Cillo servers
   class var JPEGCompression: CGFloat {
     return 0.5
+  }
+  
+  class func resizeImage(image: UIImage, toWidth width: CGFloat) -> UIImage {
+    let oldWidth = image.size.width;
+    let scaleFactor = width / oldWidth;
+    
+    let newHeight = image.size.height * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSize(width: width, height: newHeight));
+    image.drawInRect(CGRect(x: 0, y: 0, width: width, height: newHeight))
+    let newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
   }
 }
 

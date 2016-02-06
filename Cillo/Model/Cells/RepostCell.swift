@@ -53,7 +53,7 @@ class RepostCell: PostCell {
   struct RepostFonts {
     
     /// Font of the text contained within originalPostAttributedLabel.
-    static let originalPostAttributedLabelFont = UIFont.systemFontOfSize(13.0)
+    static let originalPostAttributedLabelFont = UIFont.systemFontOfSize(15.0)
     
     /// Font of the text contained within originalNameButton.
     static let originalNameButtonFont = UIFont.boldSystemFontOfSize(15.0)
@@ -175,7 +175,7 @@ class RepostCell: PostCell {
         imagesButton.clipsToBounds = true
         imagesButton.contentHorizontalAlignment = .Fill
         imagesButton.contentVerticalAlignment = .Fill
-        imagesButton.setImageToImageWithURL(post.originalPost.imageURLs![0], forState: .Normal)
+        imagesButton.setImageToImageWithURL(post.originalPost.imageURLs![0], forState: .Normal, withWidth: contentView.frame.size.width - 16 - RepostCell.originalPostMargins)
       }
       verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
     }

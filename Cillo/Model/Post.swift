@@ -13,6 +13,9 @@ class Post: NSObject {
   
   // MARK: Properties
   
+  // TODO: CHECK IF THIS WORKS
+  var textHeight: CGFloat?
+  
   /// Board that this Post was posted in.
   var board = Board()
   
@@ -133,7 +136,10 @@ class Post: NSObject {
   /// :param: font The font of the text in postTextView.
   /// :returns: Predicted height of postTextView in a PostCell.
   func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?, andFont font: UIFont) -> CGFloat {
-    let height = text.heightOfTextWithWidth(width, andFont: font)
+    let height = textHeight ?? text.heightOfTextWithWidth(width, andFont: font)
+    if textHeight == nil {
+      textHeight = height
+    }
     if let maxHeight = maxHeight {
       // seeFull should not be nil if post needs expansion option
       if seeFull == nil && height > maxHeight {

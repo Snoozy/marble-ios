@@ -318,7 +318,7 @@ class RepostContentView: UIView {
       originalPostImagesButton.clipsToBounds = true
       originalPostImagesButton.contentHorizontalAlignment = .Fill
       originalPostImagesButton.contentVerticalAlignment = .Fill
-      originalPostImagesButton.setImageToImageWithURL(imageURLs[0], forState: .Normal)
+      originalPostImagesButton.setImageToImageWithURL(imageURLs[0], forState: .Normal, withWidth: width - originalPostLeadingEdge - 8)
       sideLine = UIView(frame: CGRect(x: vertLeadingEdge, y: originalPostTopEdge, width: vertWidth, height: originalPostImagesButton.frame.maxY - originalPostTopEdge))
     } else {
       originalPostImagesButton = UIButton()

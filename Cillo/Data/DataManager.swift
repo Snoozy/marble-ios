@@ -370,19 +370,21 @@ class DataManager: NSObject {
   
   func responseJSONHandlerForRequest<T>(requestType: Router, completionHandler: ValueOrError<T> -> (), valueHandler: JSON -> T) -> ((NSURLRequest, NSHTTPURLResponse?, AnyObject?, NSError?) -> ()) {
     return { request, response, data, error in
-      self.activeRequests--
-      if let error = error {
-        completionHandler(.Error(error))
-      } else if let data: AnyObject = data, json = JSON(rawValue: data) {
-        if json["error"] != nil {
-          let cilloError = NSError(json: json, requestType: requestType)
-          completionHandler(.Error(cilloError))
+      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        self.activeRequests--
+        if let error = error {
+          completionHandler(.Error(error))
+        } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+          if json["error"] != nil {
+            let cilloError = NSError(json: json, requestType: requestType)
+            completionHandler(.Error(cilloError))
+          } else {
+            let value = valueHandler(json)
+            completionHandler(.Value(Box<T>(value)))
+          }
         } else {
-          let value = valueHandler(json)
-          completionHandler(.Value(Box<T>(value)))
+          completionHandler(.Error(NSError.noJSONFromDataError(requestType: requestType)))
         }
-      } else {
-        completionHandler(.Error(NSError.noJSONFromDataError(requestType: requestType)))
       }
     }
   }

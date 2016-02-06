@@ -94,10 +94,10 @@ class PostCell: UITableViewCell {
     static let repLabelFont = UIFont.boldSystemFontOfSize(18.0)
     
     /// Font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFontOfSize(17.0)
+    static let nameButtonFont = UIFont.boldSystemFontOfSize(16.0)
     
     /// Font of the text contained within boardButton.
-    static let boardButtonFont = UIFont.boldSystemFontOfSize(17.0)
+    static let boardButtonFont = UIFont.boldSystemFontOfSize(16.0)
     
     /// Font of the text contained within timeLabel.
     static let timeLabelFont = UIFont.systemFontOfSize(13.0)
@@ -231,7 +231,7 @@ class PostCell: UITableViewCell {
         }
       }
       
-      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andMaxImageHeight: maxImageHeight ?? .max)
+//      imagesButtonHeightConstraint.constant = post.heightOfImagesInPostWithWidth(contentView.frame.size.width - 16, andMaxImageHeight: maxImageHeight ?? .max)
 //      if let loadedImage = post.loadedImage {
 //        imagesButton.imageView?.contentMode = .ScaleAspectFill
 //        imagesButton.clipsToBounds = true
@@ -245,15 +245,15 @@ class PostCell: UITableViewCell {
 //        imagesButton.setTitle("Loading Image...", forState: .Normal)
 //        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
 //      }
-      if post.isImagePost {
-        imagesButton.setImage(nil, forState: .Normal)
-        imagesButton.imageView?.contentMode = .ScaleAspectFill
-        imagesButton.clipsToBounds = true
-        imagesButton.contentHorizontalAlignment = .Fill
-        imagesButton.contentVerticalAlignment = .Fill
-        imagesButton.enabled = true
-        imagesButton.setImageToImageWithURL(post.imageURLs![0], forState: .Normal)
-      }
+//      if post.isImagePost {
+//        imagesButton.setImage(nil, forState: .Normal)
+//        imagesButton.imageView?.contentMode = .ScaleAspectFill
+//        imagesButton.clipsToBounds = true
+//        imagesButton.contentHorizontalAlignment = .Fill
+//        imagesButton.contentVerticalAlignment = .Fill
+//        imagesButton.enabled = true
+//        imagesButton.setImageToImageWithURL(post.imageURLs![0], forState: .Normal, withWidth: contentView.frame.size.width - 16)
+//      }
     }
   }
   
