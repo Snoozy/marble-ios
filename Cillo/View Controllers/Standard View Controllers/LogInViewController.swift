@@ -95,17 +95,17 @@ class LogInViewController: CustomViewController {
   ///
   /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
-  func login(completionHandler: (user: User?) -> ()) {
+  func login(completionHandler: (auth: String?, user: User?) -> ()) {
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { result in
       switch result {
       case .Error(let error):
         self.handleError(error)
-        completionHandler(user: nil)
+        completionHandler(auth: nil, user: nil)
       case .Value(let element):
         let (auth, user) = element.unbox
         var success = KeychainWrapper.setAuthToken(auth)
-        success = KeychainWrapper.setUserID(user.userID)
-        completionHandler(user: user)
+        success = success && KeychainWrapper.setUserID(user.userID)
+        completionHandler(auth: auth, user: user)
       }
     }
   }
@@ -163,12 +163,12 @@ class LogInViewController: CustomViewController {
   /// :param: sender The button that is touched to send this function is loginButton.
   @IBAction func triggerTabSegueOnButton(sender: UIButton) {
     sender.enabled = false
-    login { user in
-      if let user = user {
-        let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
-        alert.show()
-        self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: user)
+    login { auth, user in
+      if let auth = auth, user = user {
+//        let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
+//        alert.show()
         sender.enabled = true
+        self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: user)
       } else {
         sender.enabled = true
       }

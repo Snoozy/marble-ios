@@ -1164,6 +1164,7 @@ class DataManager: NSObject {
   /// :param: completionHandler A completion block for the network request containing either a tuple of the authtoken and the retrieved user or an error.
   func loginWithEmail(email: String, andPassword password: String, completionHandler: ValueOrError<(String,User)> -> ()) {
     let responseHandler = responseJSONHandlerForRequest(Router.Login, completionHandler: completionHandler) { json in
+      println(json)
       let authToken = json["auth_token"].stringValue
       let user = User(json: json["user"])
       return (authToken, user)
