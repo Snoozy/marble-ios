@@ -1,3 +1,30 @@
-Files done:
+#Vendor#
 Alamofire
 SwiftyJSON
+-SwiftKeyChainWrapper-
+
+#Data#
+DataManager
+
+#Model#
+-Post-
+-Repost-
+-Comment-
+-Board-
+-User-
+-Notification-
+-Message-
+-Conversation-
+
+#Cells#
+-PostCell-
+-RepostCell-
+-CommentCell-
+-BoardCell-
+-SimpleBoardCell-
+-UserCell-
+-NotificationCell-
+-ConversationCell-
+
+#Other#
+-The Rest-
