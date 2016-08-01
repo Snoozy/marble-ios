@@ -1,0 +1,3 @@
+Files done:
+Alamofire
+SwiftyJSON

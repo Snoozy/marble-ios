@@ -43,8 +43,8 @@ class BoardTableViewController: SingleBoardTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 25 {
+  override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if !finishedPaging && !retrievingPage && (indexPath as NSIndexPath).row > posts.count - 25 {
       retrievingPage = true
       retrievePosts { posts in
         if let posts = posts {
@@ -52,17 +52,17 @@ class BoardTableViewController: SingleBoardTableViewController {
             self.finishedPaging = true
           } else {
             var row = self.posts.count
-            var newPaths = [NSIndexPath]()
+            var newPaths = [IndexPath]()
             for post in posts {
               self.posts.append(post)
-              newPaths.append(NSIndexPath(forRow: row, inSection: 1))
-              row++
+              newPaths.append(IndexPath(row: row, section: 1))
+              row += 1
             }
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               self.tableView.beginUpdates()
-              self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+              self.tableView.insertRows(at: newPaths, with: .middle)
               self.tableView.endUpdates()
-              self.pageNumber++
+              self.pageNumber += 1
             }
           }
         }
@@ -82,7 +82,7 @@ class BoardTableViewController: SingleBoardTableViewController {
     posts = []
     pageNumber = 1
     retrievePosts { posts in
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         self.postsRetrieved = true
         if let posts = posts {
           if posts.isEmpty {
@@ -90,7 +90,7 @@ class BoardTableViewController: SingleBoardTableViewController {
           }
           self.posts = posts
           self.tableView.reloadData()
-          self.pageNumber++
+          self.pageNumber += 1
         }
         self.refreshControl?.endRefreshing()
         self.retrievingPage = false
@@ -103,7 +103,7 @@ class BoardTableViewController: SingleBoardTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: posts The posts in the feed for this board.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
+  func retrievePosts(_ completionHandler: (posts: [Post]?) -> ()) {
     DataManager.sharedInstance.getBoardFeedByID(board.boardID, lastPostID: posts.last?.postID) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }

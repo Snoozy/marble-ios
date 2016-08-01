@@ -23,7 +23,7 @@ class Post: NSObject {
   var commentCount: Int = 0
   
   /// All of the URLs for the images that this post is displaying.
-  var imageURLs: [NSURL]?
+  var imageURLs: [URL]?
  
   /// True if the post is an image post.
   var isImagePost: Bool {
@@ -96,7 +96,7 @@ class Post: NSObject {
     if json["media"] != nil {
       imageURLs = []
       for media in json["media"].arrayValue {
-        if let url = NSURL(string: media.stringValue) {
+        if let url = URL(string: media.stringValue) {
           imageURLs!.append(url)
         }
       }
@@ -115,7 +115,7 @@ class Post: NSObject {
   /// :param: width The width of the screen.
   /// :param: imageHeight The max height that the image can be.
   /// :returns: The height of the button that will be displaying the images for this post.
-  func heightOfImagesInPostWithWidth(width: CGFloat, andMaxImageHeight imageHeight: CGFloat) -> CGFloat {
+  func heightOfImagesInPostWithWidth(_ width: CGFloat, andMaxImageHeight imageHeight: CGFloat) -> CGFloat {
 //    if let loadedImage = loadedImage {
 //      var height: CGFloat = width * loadedImage.size.height / loadedImage.size.width
 //      return height > imageHeight ? imageHeight : height
@@ -135,7 +135,7 @@ class Post: NSObject {
   ///  * Usually set to MaxContracted height constant of UITableViewController.
   /// :param: font The font of the text in postTextView.
   /// :returns: Predicted height of postTextView in a PostCell.
-  func heightOfPostWithWidth(width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?, andFont font: UIFont) -> CGFloat {
+  func heightOfPostWithWidth(_ width: CGFloat, andMaxContractedHeight maxHeight: CGFloat?, andFont font: UIFont) -> CGFloat {
     let height = textHeight ?? text.heightOfTextWithWidth(width, andFont: font)
     if textHeight == nil {
       textHeight = height
@@ -162,7 +162,7 @@ class Post: NSObject {
   func downvote() {
     switch voteValue {
     case 0:
-      rep--
+      rep -= 1
     case 1:
       rep -= 2
     default:
@@ -175,7 +175,7 @@ class Post: NSObject {
   func upvote() {
     switch voteValue {
     case 0:
-      rep++
+      rep += 1
     case -1:
       rep += 2
     default:

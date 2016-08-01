@@ -81,7 +81,7 @@ extension Int64 {
   /// :param: time The time of an instance's creation in milliseconds since epoch.
   /// :returns: A readable String representing the time since the instance's creation.
   var compactTimeDisplay: String {
-    let date = NSDate()
+    let date = Date()
     let timeSince1970 = Int64(floor(date.timeIntervalSince1970 * 1000))
     let millisSincePost = timeSince1970 - self
     switch millisSincePost {
@@ -132,22 +132,22 @@ extension NSError {
   enum CilloErrorCodes: Int {
     
     /// Error code for a password incorrect error on a login attempt.
-    case PasswordIncorrect = 20
+    case passwordIncorrect = 20
     
     /// Error code for a username taken error on a registration attempt.
-    case UsernameTaken = 30
+    case usernameTaken = 30
     
     /// Error code for a user unauthenticated error.
-    case UserUnauthenticated = 10
+    case userUnauthenticated = 10
     
     /// Error code for a board creation with an invalid name.
-    case BoardNameInvalid = 40
+    case boardNameInvalid = 40
     
     /// Cillo returned an unrecognized error code.
-    case UndefinedError = 2147483647
+    case undefinedError = 2147483647
     
     /// Error is not in `cilloErrorDomain`
-    case NotCilloDomain = -2147483648
+    case notCilloDomain = -2147483648
   }
 
   // MARK: Initializers
@@ -179,9 +179,9 @@ extension NSError {
   
   func cilloErrorCode() -> CilloErrorCodes {
     if domain == NSError.cilloErrorDomain {
-      return CilloErrorCodes(rawValue: code) ?? .UndefinedError
+      return CilloErrorCodes(rawValue: code) ?? .undefinedError
     } else {
-      return .NotCilloDomain
+      return .notCilloDomain
     }
   }
   
@@ -206,7 +206,7 @@ extension NSMutableAttributedString {
   /// :param: secondHalf The text that is displayed in the second font.
   /// :param: secondFont The font that the second part of the AttributedString is displayed in.
   /// :returns: An AttributedString that has two parts displayed in two different fonts.
-  class func twoFontString(#firstHalf: String, firstFont: UIFont, secondHalf: String, secondFont: UIFont) -> NSMutableAttributedString {
+  class func twoFontString(#firstHalf: String, _ firstFont: UIFont, secondHalf: String, secondFont: UIFont) -> NSMutableAttributedString {
     let first = NSMutableAttributedString(string: firstHalf, attributes: [NSFontAttributeName:firstFont])
     let second = NSMutableAttributedString(string: secondHalf, attributes: [NSFontAttributeName:secondFont])
     first.appendAttributedString(second)
@@ -223,16 +223,16 @@ extension JTSImageViewController {
   /// :param: image The image to be expanded to full screen.
   /// :param: viewController The controller that will be blurred behind the image.
   /// :param: sender The view that was pressed containing the image to expand.
-  class func expandImage<T: UIViewController where T: JTSImageViewControllerOptionsDelegate>(image: UIImage, toFullScreenFromRoot viewController: T, withSender sender: UIView) {
+  class func expandImage<T: UIViewController where T: JTSImageViewControllerOptionsDelegate>(_ image: UIImage, toFullScreenFromRoot viewController: T, withSender sender: UIView) {
     let imageInfo = JTSImageInfo()
     imageInfo.image = image
     imageInfo.referenceRect = sender.frame
     imageInfo.referenceView = sender.superview
     imageInfo.referenceContentMode = sender.contentMode
     imageInfo.referenceCornerRadius = sender.layer.cornerRadius
-    let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: .Image, backgroundStyle: .None)
-    imageViewer.optionsDelegate = viewController
-    imageViewer.showFromViewController(viewController, transition: ._FromOriginalPosition)
+    let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: .image, backgroundStyle: JTSImageViewControllerBackgroundOptions())
+    imageViewer?.optionsDelegate = viewController
+    imageViewer?.showFromViewController(viewController, transition: ._FromOriginalPosition)
   }
 }
 
@@ -288,7 +288,7 @@ extension KeychainWrapper {
   ///
   /// :param: token The auth token to be stored.
   /// :returns: True if the storage was successful.
-  class func setAuthToken(token: String) -> Bool {
+  class func setAuthToken(_ token: String) -> Bool {
     return KeychainWrapper.setString(token, forKey: KeychainWrapper.auth)
   }
   
@@ -296,7 +296,7 @@ extension KeychainWrapper {
   ///
   /// :param: id The id of the end user to be stored.
   /// :returns: True if the storage was successful.
-  class func setUserID(id: Int) -> Bool {
+  class func setUserID(_ id: Int) -> Bool {
     return KeychainWrapper.setObject(id, forKey: KeychainWrapper.user)
   }
   
@@ -317,11 +317,11 @@ extension String {
   /// :param: width The width of the UITextView on the current screen.
   /// :param: font The font currently displayed in the UITextView.
   /// :returns: The height of a UITextView with the specified parameters containing this String.
-  func heightOfTextWithWidth(width: CGFloat, andFont font: UIFont) -> CGFloat {
+  func heightOfTextWithWidth(_ width: CGFloat, andFont font: UIFont) -> CGFloat {
     if self == "" {
       return CGFloat(0.0)
     }
-    let textView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.max))
+    let textView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
     textView.text = self
     textView.textContainer.lineFragmentPadding = 0
     textView.textContainerInset = UIEdgeInsetsZero
@@ -341,9 +341,9 @@ extension TTTAttributedLabel {
   /// Sets up links for the label and makes the label multiline, displaying the text.
   ///
   /// :param: text The attributed text to be displayed by this label.
-  func setupWithAttributedText(text: NSAttributedString) {
+  func setupWithAttributedText(_ text: AttributedString) {
     numberOfLines = 0
-    enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    enabledTextCheckingTypes = TextCheckingResult.CheckingType.link.rawValue
     linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
     attributedText = text
   }
@@ -352,10 +352,10 @@ extension TTTAttributedLabel {
   ///
   /// :param: text The text to be displayed by this label.
   /// :param: font The font for this label to be displayed in.
-  func setupWithText(text: String, andFont font: UIFont) {
+  func setupWithText(_ text: String, andFont font: UIFont) {
     numberOfLines = 0
     self.font = font
-    enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue
+    enabledTextCheckingTypes = TextCheckingResult.CheckingType.link.rawValue
     linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]
     self.text = text
   }
@@ -378,11 +378,11 @@ extension UIButton {
   ///
   /// :param: width The width of the border.
   /// :param: color The color of the border.
-  func setupWithRoundedBorderOfWidth(width: Double, andColor color: UIColor) {
+  func setupWithRoundedBorderOfWidth(_ width: Double, andColor color: UIColor) {
     clipsToBounds = true
     layer.borderWidth = CGFloat(width)
     layer.cornerRadius = 5
-    layer.borderColor = color.CGColor
+    layer.borderColor = color.cgColor
   }
   
   /// Sets up button to have a border with width `standardBorderWidth` and color `ColorScheme.defaultScheme.solidButtonTextColor()`.
@@ -390,9 +390,9 @@ extension UIButton {
     setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: ColorScheme.defaultScheme.solidButtonTextColor())
   }
   
-  func setTitleWithoutAnimation(title: String) {
+  func setTitleWithoutAnimation(_ title: String) {
     titleLabel?.text = title
-    setTitle(title, forState: .Normal)
+    setTitle(title, for: UIControlState())
   }
   
   /// Uses asynchronous image loading to set the background image to the image retrieved from the provided url.
@@ -401,19 +401,19 @@ extension UIButton {
   ///
   /// :param: url The url of the image to be retrieved
   /// :param: state The state to set the background image for
-  func setBackgroundImageToImageWithURL(url: NSURL, forState state: UIControlState) {
+  func setBackgroundImageToImageWithURL(_ url: URL, forState state: UIControlState) {
     if url.absoluteString != nil { // without this check -> permanent activeRequests count increase
-      DataManager.sharedInstance.activeRequests++
-      setBackgroundImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
+      DataManager.sharedInstance.activeRequests += 1
+      setBackgroundImageFor(state, with: Foundation.URLRequest(url: url), placeholderImage: nil,
         success: { _, _, image in
-          dispatch_async(dispatch_get_main_queue()) {
-            self.setBackgroundImage(image, forState: state)
+          DispatchQueue.main.async {
+            self.setBackgroundImage(image, for: state)
           }
-          DataManager.sharedInstance.activeRequests--
+          DataManager.sharedInstance.activeRequests -= 1
         },
         failure: { error in
           println(error)
-          DataManager.sharedInstance.activeRequests--
+          DataManager.sharedInstance.activeRequests -= 1
         }
       )
     }
@@ -425,24 +425,24 @@ extension UIButton {
   ///
   /// :param: url The url of the image to be retrieved
   /// :param: state The state to set the background image for
-  func setImageToImageWithURL(url: NSURL, forState state: UIControlState, withWidth width: CGFloat) {
+  func setImageToImageWithURL(_ url: URL, forState state: UIControlState, withWidth width: CGFloat) {
     if url.absoluteString != nil { // without this check -> permanent activeRequests count increase
-      DataManager.sharedInstance.activeRequests++
-      setImageForState(state, withURLRequest: NSURLRequest(URL: url), placeholderImage: nil,
+      DataManager.sharedInstance.activeRequests += 1
+      setImageFor(state, with: Foundation.URLRequest(url: url), placeholderImage: nil,
         success: { _, _, image in
-          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            let resized = UIImage.resizeImage(image, toWidth: width)
-            dispatch_async(dispatch_get_main_queue()) {
-              UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: {
-                self.setImage(resized, forState: state)
+          DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+            let resized = UIImage.resizeImage(image!, toWidth: width)
+            DispatchQueue.main.async {
+              UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
+                self.setImage(resized, for: state)
                 }, completion: nil)
             }
-            DataManager.sharedInstance.activeRequests--
+            DataManager.sharedInstance.activeRequests -= 1
           }
         },
         failure: { error in
           println(error)
-          DataManager.sharedInstance.activeRequests--
+          DataManager.sharedInstance.activeRequests -= 1
         }
       )
     }
@@ -469,7 +469,7 @@ extension UIColor {
   ///
   /// :param: alpha The alpha of the returned color.
   /// :returns: The blue color that is the theme of Cillo with a specified alpha.
-  class func cilloBlueWithAlpha(alpha: CGFloat) -> UIColor {
+  class func cilloBlueWithAlpha(_ alpha: CGFloat) -> UIColor {
     return UIColor(red: 13/255.0, green: 88/255.0, blue: 245/255.0, alpha: alpha)
   }
   
@@ -482,7 +482,7 @@ extension UIColor {
   ///
   /// :param: alpha The alpha of the returned color.
   /// :returns: The gray color that is the theme of Cillo with a specified alpha.
-  class func cilloGrayWithAlpha(alpha: CGFloat) -> UIColor {
+  class func cilloGrayWithAlpha(_ alpha: CGFloat) -> UIColor {
     return UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: alpha)
   }
   
@@ -523,17 +523,17 @@ extension UIImage {
     return 0.5
   }
   
-  class func resizeImage(image: UIImage, toWidth width: CGFloat) -> UIImage {
+  class func resizeImage(_ image: UIImage, toWidth width: CGFloat) -> UIImage {
     let oldWidth = image.size.width;
     let scaleFactor = width / oldWidth;
     
     let newHeight = image.size.height * scaleFactor;
     
     UIGraphicsBeginImageContext(CGSize(width: width, height: newHeight));
-    image.drawInRect(CGRect(x: 0, y: 0, width: width, height: newHeight))
+    image.draw(in: CGRect(x: 0, y: 0, width: width, height: newHeight))
     let newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return newImage;
+    return newImage!;
   }
 }
 
@@ -541,19 +541,19 @@ extension UIImage {
 
 extension UIImagePickerController {
   
-  class func defaultActionSheetDelegateImplementationForSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate, T: UIActionSheetDelegate>(source: T, withSelectedIndex index: Int) {
+  class func defaultActionSheetDelegateImplementationForSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate, T: UIActionSheetDelegate>(_ source: T, withSelectedIndex index: Int) {
     switch index {
     case 0:
       let pickerController = UIImagePickerController()
       pickerController.delegate = source
-      source.presentViewController(pickerController, animated: true, completion: nil)
+      source.present(pickerController, animated: true, completion: nil)
     case 1:
       let pickerController = UIImagePickerController()
       pickerController.delegate = source
-      if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-        pickerController.sourceType = .Camera
+      if UIImagePickerController.isSourceTypeAvailable(.camera) {
+        pickerController.sourceType = .camera
       }
-      source.presentViewController(pickerController, animated: true, completion: nil)
+      source.present(pickerController, animated: true, completion: nil)
     default:
       break
     }
@@ -562,42 +562,42 @@ extension UIImagePickerController {
   /// Presents an action sheet that allows the user to choose a photo from library or take a photo with the camera.
   ///
   /// :param: source The view controller that will be the source of the modal presentation of the action sheet and the image picker onto it.
-  class func presentActionSheetForPhotoSelectionFromSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate, T: UIActionSheetDelegate>(source: T, withTitle title: String, iPadReference: UIButton?) {
+  class func presentActionSheetForPhotoSelectionFromSource<T: UIViewController where T: UIImagePickerControllerDelegate, T: UINavigationControllerDelegate, T: UIActionSheetDelegate>(_ source: T, withTitle title: String, iPadReference: UIButton?) {
     
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: title, message: nil, preferredStyle: .ActionSheet)
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let actionSheet = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
-      let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .Default) { _ in
+      let pickerAction = UIAlertAction(title: "Choose Photo from Library", style: .default) { _ in
         let pickerController = UIImagePickerController()
         pickerController.delegate = source
-        source.presentViewController(pickerController, animated: true, completion: nil)
+        source.present(pickerController, animated: true, completion: nil)
       }
-      let cameraAction = UIAlertAction(title: "Take Photo", style: .Default) { _ in
+      let cameraAction = UIAlertAction(title: "Take Photo", style: .default) { _ in
         let pickerController = UIImagePickerController()
         pickerController.delegate = source
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-          pickerController.sourceType = .Camera
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+          pickerController.sourceType = .camera
         }
-        source.presentViewController(pickerController, animated: true, completion: nil)
+        source.present(pickerController, animated: true, completion: nil)
       }
       actionSheet.addAction(cancelAction)
       actionSheet.addAction(pickerAction)
       actionSheet.addAction(cameraAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      source.presentViewController(actionSheet, animated: true, completion: nil)
+      source.present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: title, delegate: source, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Choose Photo from Library", "Take Photo", "Cancel")
       actionSheet.cancelButtonIndex = 2
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(iPadReference.bounds, inView: iPadReference, animated: true)
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.show(from: iPadReference.bounds, in: iPadReference, animated: true)
       } else {
-        actionSheet.showInView(source.view)
+        actionSheet.show(in: source.view)
       }
     }
   }
@@ -612,7 +612,7 @@ extension UINavigationBar {
   /// Sets up this navigation bar with the proper colors according the specified scheme.
   ///
   /// :param: scheme The scheme to use when setting up this navigation bar.
-  func setupAttributesForColorScheme(scheme: ColorScheme) {
+  func setupAttributesForColorScheme(_ scheme: ColorScheme) {
     barTintColor = scheme.navigationBarColor()
     tintColor = scheme.barButtonItemColor()
     titleTextAttributes = [NSForegroundColorAttributeName: scheme.navigationBarTitleColor()]
@@ -653,7 +653,7 @@ extension UIViewController {
   ///
   /// :returns: The UIView at the center of view in this UIViewController.
   /// :returns: **Note:** Can remove the UIView from the center of this view by calling returnedView.removeFromSuperView(), where returnedView is the UIView returned by this function.
-  func addActivityIndicatorToCenterWithText(text: String) -> UIView {
+  func addActivityIndicatorToCenterWithText(_ text: String) -> UIView {
     let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: 170, height: 170))
     loadingView.backgroundColor = ColorScheme.defaultScheme.activityIndicatorBackgroundColor()
     loadingView.clipsToBounds = true
@@ -672,16 +672,16 @@ extension UIViewController {
     loadingView.addSubview(activityIndicator)
     
     let loadingLabel = UILabel(frame: CGRect(x: 15, y: 115, width: 140, height: 30))
-    loadingLabel.backgroundColor = UIColor.clearColor()
+    loadingLabel.backgroundColor = UIColor.clear
     loadingLabel.textColor = ColorScheme.defaultScheme.activityIndicatorTextColor()
     loadingLabel.adjustsFontSizeToFitWidth = true
-    loadingLabel.textAlignment = .Center
+    loadingLabel.textAlignment = .center
     loadingLabel.text = text
     loadingView.addSubview(loadingLabel)
     
     activityIndicator.startAnimating()
     view.addSubview(loadingView)
-    view.bringSubviewToFront(loadingView)
+    view.bringSubview(toFront: loadingView)
     return loadingView
   }
 }

@@ -22,7 +22,7 @@ class MessagesViewController: JSQMessagesViewController {
   var messages = [Message]()
   
   /// The timer that checks for new messages every 15 seconds.
-  var messageRefresher = NSTimer()
+  var messageRefresher = Timer()
   
   // MARK: UIViewController
   
@@ -36,7 +36,7 @@ class MessagesViewController: JSQMessagesViewController {
           }
           self.messages = messages
           self.collectionView.reloadData()
-          self.scrollToBottomAnimated(false)
+          self.scrollToBottom(animated: false)
         }
       }
     }
@@ -47,20 +47,20 @@ class MessagesViewController: JSQMessagesViewController {
     inputToolbar.contentView.leftBarButtonItem = nil
     automaticallyScrollsToMostRecentMessage = true
     navigationItem.title = conversation.otherUser.name
-    messageRefresher = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(15), target: self, selector: "loadEarlierMessages:", userInfo: nil, repeats: true)
+    messageRefresher = Timer.scheduledTimer(timeInterval: TimeInterval(15), target: self, selector: #selector(MessagesViewController.loadEarlierMessages(_:)), userInfo: nil, repeats: true)
   }
   
-  override func viewWillDisappear(animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     messageRefresher.invalidate()
   }
 
   // MARK: JSQMessagesViewController
 
-  override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
-    sender.enabled = false
+  override func collectionView(_ collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
+    sender.isEnabled = false
     pageMessages { done, messages in
-      sender.enabled = true
+      sender.isEnabled = true
       if done {
         self.showLoadEarlierMessagesHeader = false
       } else if let messages = messages {
@@ -70,40 +70,40 @@ class MessagesViewController: JSQMessagesViewController {
     }
   }
   
-  override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
+  override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
     return messages[indexPath.item]
   }
   
-  override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
+  override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
     let message = messages[indexPath.item]
     if message.senderId() == senderId {
-      return JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(ColorScheme.defaultScheme.outgoingMessageBubbleColor())
+      return JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: Color Scheme.defaultScheme.outgoingMessageBubbleColor())
     } else {
-      return JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(ColorScheme.defaultScheme.incomingMessageBubbleColor())
+      return JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: Color Scheme.defaultScheme.incomingMessageBubbleColor())
     }
   }
   
-  override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
+  override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
     return nil
   }
   
-  override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return messages.count
   }
   
-  override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
     
-    let message = messages[indexPath.item]
+    let message = messages[(indexPath as NSIndexPath).item]
     
     if message.senderId() == senderId {
-      cell.textView.textColor = UIColor.whiteColor()
+      cell.textView.textColor = UIColor.white
     } else {
-      cell.textView.textColor = UIColor.darkTextColor()
+      cell.textView.textColor = UIColor.darkText
     }
     
     
-    let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
+    let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor!, NSUnderlineStyleAttributeName: 1]
     cell.textView.linkTextAttributes = attributes
     
     //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
@@ -113,7 +113,7 @@ class MessagesViewController: JSQMessagesViewController {
   
   
   // View  usernames above bubbles
-  override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+  override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> AttributedString! {
 //    let message = messages[indexPath.item];
 //    
 //    // Sent by me, skip
@@ -133,7 +133,7 @@ class MessagesViewController: JSQMessagesViewController {
     return nil
   }
   
-  override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+  override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
 //    let message = messages[indexPath.item]
 //    
 //    // Sent by me, skip
@@ -153,7 +153,7 @@ class MessagesViewController: JSQMessagesViewController {
     return CGFloat(0.0)
   }
   
-  override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
+  override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
     
     sendMessage(text) { message in
       if let message = message {
@@ -172,7 +172,7 @@ class MessagesViewController: JSQMessagesViewController {
   /// Polls the Cillo servers to see if there are any new messages.
   ///
   /// :param: sender The timer that calls this function is `messageRefresher`
-  func loadEarlierMessages(sender: NSTimer) {
+  func loadEarlierMessages(_ sender: Timer) {
     if conversation.conversationID != -1 {
       pollMessages { empty, messages in
         if let messages = messages where !empty {
@@ -193,14 +193,14 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: completionHandler The completion block for this network request.
   /// :param: empty A boolean flag to tell if there are new messages. False if there are new messages.
   /// :param: messages The new messages retrieved by the network call.
-  func pollMessages(completionHandler: (empty: Bool, messages: [Message]?) -> ()) {
+  func pollMessages(_ completionHandler: (empty: Bool, messages: [Message]?) -> ()) {
     if messages.count > 0 {
       DataManager.sharedInstance.pollConversationByID(conversation.conversationID, withMostRecentMessageID: messages[messages.count - 1].messageID) { result in
         switch result {
-        case .Error(let error):
+        case .error(let error):
           self.handleError(error)
           completionHandler(empty: false, messages: nil)
-        case .Value(let element):
+        case .value(let element):
           let (empty,newMessages) = element.unbox
           completionHandler(empty: empty, messages: newMessages)
         }
@@ -215,13 +215,13 @@ class MessagesViewController: JSQMessagesViewController {
   /// :param: completionHandler The completion block for this network request.
   /// :param: done A boolean flag to tell if there are no more old messages. True if there are no more messages.
   /// :param: messages The older messages retrieved by the network call.
-  func pageMessages(completionHandler: (done: Bool, messages: [Message]?) -> ()) {
+  func pageMessages(_ completionHandler: (done: Bool, messages: [Message]?) -> ()) {
     DataManager.sharedInstance.pageConversationByID(conversation.conversationID, withOldestMessageID: messages[0].messageID) { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(done: false, messages: nil)
-      case .Value(let element):
+      case .value(let element):
         let (done,olderMessages) = element.unbox
         completionHandler(done: done, messages: olderMessages)
       }
@@ -232,13 +232,13 @@ class MessagesViewController: JSQMessagesViewController {
   ///
   /// :param: completionHandler The completion block for this network request
   /// :param: message The new message created by the network call.
-  func sendMessage(message: String, completionHandler: (message: Message?) -> ()) {
+  func sendMessage(_ message: String, completionHandler: (message: Message?) -> ()) {
     DataManager.sharedInstance.sendMessage(message, toUserWithID: conversation.otherUser.userID) { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(message: nil)
-      case .Value(let message):
+      case .value(let message):
         completionHandler(message: message.unbox)
       }
     }
@@ -248,13 +248,13 @@ class MessagesViewController: JSQMessagesViewController {
   ///
   /// :param: completionHandler The completion block for this network request
   /// :param: messages The messages retrieved by the network call.
-  func getMessages(completionHandler: (messages: [Message]?) -> ()) {
+  func getMessages(_ completionHandler: (messages: [Message]?) -> ()) {
     DataManager.sharedInstance.getMessagesByConversationID(conversation.conversationID) { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(messages: nil)
-      case .Value(let messages):
+      case .value(let messages):
         completionHandler(messages: messages.unbox)
       }
     }
@@ -263,12 +263,12 @@ class MessagesViewController: JSQMessagesViewController {
   /// Handles an error received from a network call within the app.
   ///
   /// :param: error The error to be handled
-  func handleError(error: NSError) {
+  func handleError(_ error: NSError) {
     println(error)
     switch error.cilloErrorCode() {
-    case .UserUnauthenticated:
+    case .userUnauthenticated:
       handleUserUnauthenticatedError(error)
-    case .NotCilloDomain:
+    case .notCilloDomain:
       break
     default:
       error.showAlert()
@@ -282,18 +282,18 @@ class MessagesViewController: JSQMessagesViewController {
   /// **Note:** Default implementation presents a LoginVC.
   ///
   /// :param: error The error to be handled.
-  func handleUserUnauthenticatedError(error: NSError) {
+  func handleUserUnauthenticatedError(_ error: NSError) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: error)
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToLogin, sender: error)
     }
   }
   
   // MARK: IBActions
   
   /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
-  @IBAction func triggerNewPostSegueOnButton(sender: UIBarButtonItem) {
+  @IBAction func triggerNewPostSegueOnButton(_ sender: UIBarButtonItem) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewPost, sender: sender)
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewPost, sender: sender)
     }
   }
 }

@@ -12,14 +12,14 @@ import UIKit
 protocol NotificationsDataSource {
   
   /// Function that is called each time the notifications are retrieved via the `notificationRefresher` property of TabViewController.
-  func notificationsRefreshedTo(notifications: [Notification], withUnreadCount count: Int)
+  func notificationsRefreshedTo(_ notifications: [Notification], withUnreadCount count: Int)
 }
 
 /// Data source that allows the TabViewController to tell another controller that it has updated the end user's conversations.
 protocol ConversationsDataSource {
   
   /// Function that is called each time the notifications are retrieved via the `notificationRefresher` property of TabViewController.
-  func conversationsRefreshedTo(conversations: [Conversation], withUnreadCount count: Int)
+  func conversationsRefreshedTo(_ conversations: [Conversation], withUnreadCount count: Int)
 }
 
 /// Starting UIViewController of Cillo application.
@@ -45,7 +45,7 @@ class TabViewController: UITabBarController {
   var notifications = [Notification]()
   
   /// Timer that is set to refresh the notifications and conversations every minute.
-  var notificationRefresher = NSTimer()
+  var notificationRefresher = Timer()
   
   /// Data source that will display the notifications cached by this TabViewController.
   var notificationsDataSource: NotificationsDataSource?
@@ -68,13 +68,13 @@ class TabViewController: UITabBarController {
   let homeTabIndex = 0
   
   /// Interval that `notificationRefresher` will retrieve notifications at in seconds
-  let timerInterval = NSTimeInterval(60)
+  let timerInterval = TimeInterval(60)
 
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.tabToNewRepost {
-      let destination = segue.destinationViewController as! NewRepostViewController
+      let destination = segue.destination as! NewRepostViewController
       if let sender = sender as? Repost {
           destination.postToRepost = sender.originalPost
       } else if let sender = sender as? Post {
@@ -82,26 +82,26 @@ class TabViewController: UITabBarController {
       }
       destination.endUser = endUser
     } else if segue.identifier == SegueIdentifiers.tabToSettings {
-      let destination = segue.destinationViewController as! SettingsViewController
+      let destination = segue.destination as! SettingsViewController
       if let sender = sender as? User {
         destination.user = sender
       }
     } else if segue.identifier == SegueIdentifiers.tabToNewPost {
-      let destination = segue.destinationViewController as! NewPostViewController
+      let destination = segue.destination as! NewPostViewController
       destination.endUser = endUser
     }
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    delegate = UIApplication.sharedApplication().delegate as? UITabBarControllerDelegate
+    delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     // Modally presents LoginViewController if NSUserDefaults doesn't have an Auth Token stored.
     super.viewDidAppear(animated)
     if !KeychainWrapper.hasAuthAndUser() {
-      performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: self)
+      performSegue(withIdentifier: SegueIdentifiers.tabToLogin, sender: self)
     } else {
       println("Auth token: " + (KeychainWrapper.authToken() ?? "keychain failed to get auth token"))
       println("User ID: \(KeychainWrapper.userID() ?? -1)")
@@ -114,7 +114,7 @@ class TabViewController: UITabBarController {
           }
         }
       }
-      notificationRefresher = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: "refreshNotifications:", userInfo: nil, repeats: true)
+      notificationRefresher = Timer.scheduledTimer(timeInterval: timerInterval, target: self, selector: #selector(TabViewController.refreshNotifications(_:)), userInfo: nil, repeats: true)
       notificationRefresher.fire()
     }
   }
@@ -124,7 +124,7 @@ class TabViewController: UITabBarController {
   /// Refreshes the `notifications` array to an updated array.
   ///
   /// :param: The timer that calls this function every minute to refresh it.
-  func refreshNotifications(sender: NSTimer) {
+  func refreshNotifications(_ sender: Timer) {
     getNotifications { notifications in
       if let notifications = notifications {
         self.notifications = notifications
@@ -149,7 +149,7 @@ class TabViewController: UITabBarController {
   /// Sets the red circle above the messages tab to the specified value to signal that there are unread messages.
   ///
   /// :param: value The value to set the unread messages to.
-  func setMessagesBadgeValueTo(value: Int) {
+  func setMessagesBadgeValueTo(_ value: Int) {
     if let messagesTab = tabBar.items?[messageTabIndex] as? UITabBarItem {
       if value == 0 {
         messagesTab.badgeValue = nil
@@ -162,7 +162,7 @@ class TabViewController: UITabBarController {
   /// Sets the red circle above the notifications tab to the specified value to signal that there are unread notifications.
   ///
   /// :param: value The value to set the notifcations to.
-  func setNotificationsBadgeValueTo(value: Int) {
+  func setNotificationsBadgeValueTo(_ value: Int) {
     if let notificationsTab = tabBar.items?[notificationTabIndex] as? UITabBarItem {
       if value == 0 {
         notificationsTab.badgeValue = nil
@@ -181,13 +181,13 @@ class TabViewController: UITabBarController {
   /// :param: completionHandler The completion block for the network request.
   /// :param: conversations The array of conversations retrieved from the server.
   /// :param: inboxCount The count of unread messages in the end user's inbox retrieved from the server.
-  func getConversations(completionHandler: (conversations: [Conversation]?, inboxCount: Int?) -> ()) {
+  func getConversations(_ completionHandler: (conversations: [Conversation]?, inboxCount: Int?) -> ()) {
     DataManager.sharedInstance.getEndUserConversations { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(conversations: nil, inboxCount: nil)
-      case .Value(let element):
+      case .value(let element):
         let (inboxCount, conversations) = element.unbox
         completionHandler(conversations: conversations, inboxCount: inboxCount)
       }
@@ -200,13 +200,13 @@ class TabViewController: UITabBarController {
   ///
   /// :param: completionHandler The completion block for the network request.
   /// :param: notifications The array of notifications retrieved from the server.
-  func getNotifications(completionHandler: (notifications: [Notification]?) -> ()) {
+  func getNotifications(_ completionHandler: (notifications: [Notification]?) -> ()) {
     DataManager.sharedInstance.getEndUserNotifications { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(notifications: nil)
-      case .Value(let notifications):
+      case .value(let notifications):
         completionHandler(notifications: notifications.unbox)
       }
     }
@@ -217,13 +217,13 @@ class TabViewController: UITabBarController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: user The end user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveEndUser(completionHandler: (user: User?) -> ()) {
+  func retrieveEndUser(_ completionHandler: (user: User?) -> ()) {
     DataManager.sharedInstance.getEndUserInfo { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(user: nil)
-      case .Value(let user):
+      case .value(let user):
         completionHandler(user: user.unbox)
       }
     }
@@ -232,12 +232,12 @@ class TabViewController: UITabBarController {
   /// Handles an error received from a network call within the app.
   ///
   /// :param: error The error to be handled
-  func handleError(error: NSError) {
+  func handleError(_ error: NSError) {
     println(error)
     switch error.cilloErrorCode() {
-    case .UserUnauthenticated:
+    case .userUnauthenticated:
       handleUserUnauthenticatedError(error)
-    case .NotCilloDomain:
+    case .notCilloDomain:
       break
     default:
       error.showAlert()
@@ -249,8 +249,8 @@ class TabViewController: UITabBarController {
   /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
   ///
   /// :param: error The error to be handled.
-  func handleUserUnauthenticatedError(error: NSError) {
-    performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: error)
+  func handleUserUnauthenticatedError(_ error: NSError) {
+    performSegue(withIdentifier: SegueIdentifiers.tabToLogin, sender: error)
   }
   
   // MARK: Navigation Helper Functions
@@ -269,6 +269,6 @@ class TabViewController: UITabBarController {
   // MARK: IBActions
   
   /// Allows any View Controller to unwind back to the main Tab bar.
-  @IBAction func unwindToTab(sender: UIStoryboardSegue) {
+  @IBAction func unwindToTab(_ sender: UIStoryboardSegue) {
   }
 }

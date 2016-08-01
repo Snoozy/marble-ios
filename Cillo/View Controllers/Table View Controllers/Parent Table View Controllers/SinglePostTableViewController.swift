@@ -29,7 +29,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// **Note:** Selected CommentCells are expanded to display additional user interaction options.
   ///
   /// Nil if no CommentCell is selected.
-  var selectedPath: NSIndexPath?
+  var selectedPath: IndexPath?
   
   // MARK: Constants
   
@@ -60,16 +60,16 @@ class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == segueIdentifierThisToBoard {
-      var destination = segue.destinationViewController as! BoardTableViewController
+      let destination = segue.destination as! BoardTableViewController
       if let post = post as? Repost, sender = sender as? UIButton where sender.tag == postCellTag + RepostCell.tagModifier {
             destination.board = post.originalPost.board
       } else {
         destination.board = post.board
       }
     } else if segue.identifier == segueIdentifierThisToUser {
-      var destination = segue.destinationViewController as! UserTableViewController
+      let destination = segue.destination as! UserTableViewController
       if let sender = sender as? UIButton {
         if sender.tag >= postCellTag {
           if let post = post as? Repost where sender.tag == postCellTag + RepostCell.tagModifier {
@@ -89,23 +89,23 @@ class SinglePostTableViewController: CustomTableViewController {
     // removes extraneous dividers
     tableView.tableFooterView = UIView(frame: CGRect.zeroRect)
     // gets rid of small gap in divider
-    if tableView.respondsToSelector("setSeparatorInset:") {
+    if tableView.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
       tableView.separatorInset = UIEdgeInsetsZero
     }
-    if tableView.respondsToSelector("setLayoutMargins:") {
+    if tableView.responds(to: #selector(setter: UIView.layoutMargins)) {
       tableView.layoutMargins = UIEdgeInsetsZero
     }
   }
 
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     // Placing the PostCell in the first section and the comment tree in the second section.
     return 2
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if indexPath.section == 0 {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if (indexPath as NSIndexPath).section == 0 {
       return dequeueAndSetupPostCellForIndexPath(indexPath)
     } else if !commentsRetrieved {
       return dequeueAndSetupRetrievingCommentsCellForIndexPath(indexPath)
@@ -116,7 +116,7 @@ class SinglePostTableViewController: CustomTableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if section == 0 || !commentsRetrieved || commentTree.count == 0 {
       return 1
     } else {
@@ -126,34 +126,34 @@ class SinglePostTableViewController: CustomTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    if indexPath.section != 0 && !commentTree[indexPath.row].blocked {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: false)
+    if (indexPath as NSIndexPath).section != 0 && !commentTree[(indexPath as NSIndexPath).row].blocked {
       if selectedPath != indexPath {
         selectedPath = indexPath
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        tableView.reloadRows(at: [indexPath], with: .none)
       } else {
         selectedPath = nil
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+        tableView.reloadRows(at: [indexPath], with: .none)
       }
     }
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).section == 0 {
       return PostCell.heightOfPostCellForPost(post, withElementWidth: tableViewWidthWithMargins, maxContractedHeight: nil, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: 0)
     } else if !commentsRetrieved || commentTree.count == 0 {
       return heightOfSingleLabelCells
     } else {
-      return CommentCell.heightOfCommentCellForComment(commentTree[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: selectedPath == indexPath, andDividerHeight: 0)
+      return CommentCell.heightOfCommentCellForComment(commentTree[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, selectedState: selectedPath == indexPath, andDividerHeight: 0)
     }
   }
   
-  override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
-    if indexPath.section == 0 || !commentsRetrieved || commentTree.count == 0 {
+  override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
+    if (indexPath as NSIndexPath).section == 0 || !commentsRetrieved || commentTree.count == 0 {
       return 0
     } else {
-      return commentTree[indexPath.row].predictedIndentLevel(selected: indexPath == selectedPath)
+      return commentTree[(indexPath as NSIndexPath).row].predictedIndentLevel(selected: indexPath == selectedPath)
     }
   }
   
@@ -164,22 +164,22 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created CommentCell.
-  func dequeueAndSetupCommentCellForIndexPath(indexPath: NSIndexPath) -> CommentCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.commentCell, forIndexPath: indexPath) as! CommentCell
-    let comment = commentTree[indexPath.row]
+  func dequeueAndSetupCommentCellForIndexPath(_ indexPath: IndexPath) -> CommentCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.commentCell, for: indexPath) as! CommentCell
+    let comment = commentTree[(indexPath as NSIndexPath).row]
     comment.post = post
-    cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: indexPath.row)
+    cell.makeCellFromComment(comment, withSelected: selectedPath == indexPath, andButtonTag: (indexPath as NSIndexPath).row)
     cell.assignDelegatesForCellTo(self)
     
     // Makes separator indented
     // UIEdgeInsetsMake(top, left, bottom, right)
-    if indexPath.row != commentTree.count - 1 {
-      if indexPath.row + 1 == selectedPath?.row {
+    if (indexPath as NSIndexPath).row != commentTree.count - 1 {
+      if (indexPath as NSIndexPath).row + 1 == selectedPath?.row {
         cell.separatorInset = UIEdgeInsetsZero
-      } else if cell.indentationLevel < commentTree[indexPath.row].predictedIndentLevel(selected: false) {
+      } else if cell.indentationLevel < commentTree[(indexPath as NSIndexPath).row].predictedIndentLevel(selected: false) {
         cell.separatorInset = UIEdgeInsetsMake(0, cell.getIndentationSize(), 0, 0)
       } else {
-        cell.separatorInset = UIEdgeInsetsMake(0, commentTree[indexPath.row + 1].predictedIndentSize(selected: false), 0, 0)
+        cell.separatorInset = UIEdgeInsetsMake(0, commentTree[(indexPath as NSIndexPath).row + 1].predictedIndentSize(selected: false), 0, 0)
       }
     }
     return cell
@@ -190,8 +190,8 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NoCommentsCell.
-  func dequeueAndSetupNoCommentsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noCommentsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNoCommentsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.noCommentsCell, for: indexPath) 
     cell.separatorInset = UIEdgeInsets(top: 0, left: cell.frame.size.width, bottom: 0, right: 0)
     return cell
   }
@@ -203,26 +203,26 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created PostCell.
-  func dequeueAndSetupPostCellForIndexPath(indexPath: NSIndexPath) -> PostCell {
+  func dequeueAndSetupPostCellForIndexPath(_ indexPath: IndexPath) -> PostCell {
     let cell: PostCell = {
       if let post = self.post as? Repost {
-        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
+        return self.tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.repostCell, for: indexPath) as! RepostCell
       } else {
-        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
+        return self.tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.postCell, for: indexPath) as! PostCell
       }
     }()
     if let post = post as? Repost where post.originalPost.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           post.originalPost.loadedImage = image
-          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+          self.tableView.reloadRows(at: [indexPath], with: .none)
         }
       }
     } else if !(post is Repost) && post.loadedImage == nil {
       cell.loadImagesForPost(post) { image in
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.post.loadedImage = image
-          self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+          self.tableView.reloadRows(at: [indexPath], with: .none)
         }
       }
     }
@@ -236,62 +236,62 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created RetrieivingCommentsCell.
-  func dequeueAndSetupRetrievingCommentsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.retrievingCommentsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupRetrievingCommentsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.retrievingCommentsCell, for: indexPath) 
     cell.separatorInset = UIEdgeInsets(top: 0, left: cell.frame.size.width, bottom: 0, right: 0)
     return cell
   }
   
-  func updateUIAfterUserBlockedAtIndex(index: Int) {
-    dispatch_async(dispatch_get_main_queue()) {
+  func updateUIAfterUserBlockedAtIndex(_ index: Int) {
+    DispatchQueue.main.async {
       let id = self.commentTree[index].user.userID
-      var indexPaths = [NSIndexPath]()
+      var indexPaths = [IndexPath]()
       for (index, comment) in enumerate(self.commentTree) {
         if comment.user.userID == id {
-          indexPaths.append(NSIndexPath(forRow: index, inSection: 1))
+          indexPaths.append(IndexPath(row: index, section: 1))
         }
       }
       self.selectedPath = nil
-      self.tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+      self.tableView.reloadRows(at: indexPaths, with: .fade)
     }
   }
   
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   ///
   /// :param: index The index of the post that triggered this action sheet.
-  func presentMenuActionSheetForIndex(index: Int, iPadReference: UIButton?) {
+  func presentMenuActionSheetForIndex(_ index: Int, iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
-      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .actionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .default) { _ in
         self.flagCommentAtIndex(index) { success in
           if success {
             UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
           }
         }
       }
-      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+      let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
         self.presentBlockConfirmationAlertViewForIndex(index)
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(flagAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
       actionSheet.tag = index
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.show(from: iPadReference.bounds, in: view, animated: true)
       } else {
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
       }
     }
   }
@@ -299,37 +299,37 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   func presentPostMenuActionSheet(#iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
-      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .actionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .default) { _ in
         self.flagPost { success in
           if success {
             UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
           }
         }
       }
-      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+      let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
         self.presentPostBlockConfirmationAlertView()
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(flagAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
       actionSheet.tag = postMoreActionSheetTag
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
         actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
       } else {
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
       }
     }
   }
@@ -338,13 +338,13 @@ class SinglePostTableViewController: CustomTableViewController {
   func presentPostBlockConfirmationAlertView() {
     let name = post.user.name
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .Alert)
-      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
         self.blockUser { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               UIAlertView(title: "\(name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
-              self.navigationController?.popToRootViewControllerAnimated(true)
+              self.navigationController?.popToRootViewController(animated: true)
               if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
                 topVC.retrieveData()
               }
@@ -352,11 +352,11 @@ class SinglePostTableViewController: CustomTableViewController {
           }
         }
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       alert.addAction(yesAction)
       alert.addAction(cancelAction)
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
       alert.tag = postMoreActionSheetTag
@@ -367,25 +367,25 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
   ///
   /// :param: index The index of the comment that triggered this alert.
-  func presentBlockConfirmationAlertViewForIndex(index: Int) {
+  func presentBlockConfirmationAlertViewForIndex(_ index: Int) {
     let name = commentTree[index].user.name
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .Alert)
-      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
         self.blockUserAtIndex(index) { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               UIAlertView(title: "\(name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
               self.updateUIAfterUserBlockedAtIndex(index)
             }
           }
         }
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       alert.addAction(yesAction)
       alert.addAction(cancelAction)
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
       alert.tag = index
@@ -399,7 +399,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if block request was successful. If error was received, false.
-  func blockUser(completionHandler: (success: Bool) -> ()) {
+  func blockUser(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.blockUser(post.user) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -410,7 +410,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in `posts`.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if block request was successful. If error was received, false.
-  func blockUserAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func blockUserAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.blockUser(commentTree[index].user) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -421,7 +421,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: index The index of the comment being downvoted in the commentTree array.
   /// :param: completionHandler The completion block for the downvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvoteCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func downvoteCommentAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.downvoteCommentWithID(commentTree[index].commentID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -431,7 +431,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvotePost(completionHandler: (success: Bool) -> ()) {
+  func downvotePost(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.downvotePostWithID(post.postID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -442,7 +442,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: index The index of the comment being flagged in `commentTree`.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
-  func flagCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func flagCommentAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.flagComment(commentTree[index]) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -452,7 +452,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
-  func flagPost(completionHandler: (success: Bool) -> ()) {
+  func flagPost(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.flagPost(post) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -463,7 +463,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// :param: index The index of the comment being upvoted in the commentTree array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvoteCommentAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func upvoteCommentAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.upvoteCommentWithID(commentTree[index].commentID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -473,7 +473,7 @@ class SinglePostTableViewController: CustomTableViewController {
   ///
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePost(completionHandler: (success: Bool) -> ()) {
+  func upvotePost(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.upvotePostWithID(post.postID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -484,15 +484,15 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Downvotes a comment.
   ///
   /// :param: sender The button that is touched to send this function is a downvoteButton in a CommentCell.
-  @IBAction func downvoteCommentPressed(sender: UIButton) {
+  @IBAction func downvoteCommentPressed(_ sender: UIButton) {
     let comment = commentTree[sender.tag]
     if comment.voteValue != -1 {
       downvoteCommentAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             comment.downvote()
-            let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-            self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+            let commentIndexPath = IndexPath(row: sender.tag, section: 1)
+            self.tableView.reloadRows(at: [commentIndexPath], with: .none)
           }
           
         }
@@ -503,14 +503,14 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Downvotes a post.
   ///
   /// :param: sender The button that is touched to send this function is a downvoteButton in a PostCell.
-  @IBAction func downvotePostPressed(sender: UIButton) {
+  @IBAction func downvotePostPressed(_ sender: UIButton) {
     if post.voteValue != -1 {
       downvotePost { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.post.downvote()
-            let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+            let postIndexPath = IndexPath(row: 0, section: 0)
+            self.tableView.reloadRows(at: [postIndexPath], with: .none)
           }
         }
       }
@@ -522,9 +522,9 @@ class SinglePostTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post is known via the tag of the button with the RepostCell.tagModifier taken into account.
   ///
   /// :param: sender The button that is touched to send this function is an originalPostButton in a RepostCell.
-  @IBAction func goToOriginalPost(sender: UIButton) {
+  @IBAction func goToOriginalPost(_ sender: UIButton) {
     if let post = post as? Repost {
-      let postViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
+      let postViewController = UIStoryboard.mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdentifiers.post) as! PostTableViewController
       postViewController.post = post.originalPost
       navigationController?.pushViewController(postViewController, animated: true)
     }
@@ -533,7 +533,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
-  @IBAction func imageButtonPressed(sender: UIButton) {
+  @IBAction func imageButtonPressed(_ sender: UIButton) {
     let loadedImage: UIImage? = {
       if let post = self.post as? Repost {
         return post.originalPost.loadedImage
@@ -551,7 +551,7 @@ class SinglePostTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to show menu for is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
-  @IBAction func morePressed(sender: UIButton) {
+  @IBAction func morePressed(_ sender: UIButton) {
     presentPostMenuActionSheet(iPadReference: sender)
   }
   
@@ -560,45 +560,45 @@ class SinglePostTableViewController: CustomTableViewController {
   /// **Note:** The position of the Comment to show menu for is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a moreButton in a CommentCell.
-  @IBAction func morePressedOnComment(sender: UIButton) {
+  @IBAction func morePressedOnComment(_ sender: UIButton) {
     presentMenuActionSheetForIndex(sender.tag, iPadReference: sender)
   }
   
   /// Reposts a post.
   ///
   /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
-  @IBAction func repostPressed(sender: UIButton) {
+  @IBAction func repostPressed(_ sender: UIButton) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewRepost, sender: post)
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewRepost, sender: post)
     }
   }
   
   /// Triggers segue to BoardTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a boardButton in a PostCell or an originalBoardButton in a RepostCell.
-  @IBAction func triggerBoardSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToBoard, sender: sender)
+  @IBAction func triggerBoardSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToBoard, sender: sender)
   }
   
   /// Triggers segue to UserTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a PostCell or a CommentCell.
-  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToUser, sender: sender)
+  @IBAction func triggerUserSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToUser, sender: sender)
   }
   
   /// Upvotes a comment.
   ///
   /// :param: sender The button that is touched to send this function is a upvtoeButton in a CommentCell.
-  @IBAction func upvoteCommentPressed(sender: UIButton) {
+  @IBAction func upvoteCommentPressed(_ sender: UIButton) {
     let comment = commentTree[sender.tag]
     if comment.voteValue != 1 {
       upvoteCommentAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             comment.upvote()
-            let commentIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-            self.tableView.reloadRowsAtIndexPaths([commentIndexPath], withRowAnimation: .None)
+            let commentIndexPath = IndexPath(row: sender.tag, section: 1)
+            self.tableView.reloadRows(at: [commentIndexPath], with: .none)
           }
         }
       }
@@ -608,14 +608,14 @@ class SinglePostTableViewController: CustomTableViewController {
   /// Upvotes a post.
   ///
   /// :param: sender The button that is touched to send this function is a upvoteButton in a PostCell.
-  @IBAction func upvotePostPressed(sender: UIButton) {
+  @IBAction func upvotePostPressed(_ sender: UIButton) {
     if post.voteValue != 1 {
       upvotePost { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.post.upvote()
-            let postIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+            let postIndexPath = IndexPath(row: 0, section: 0)
+            self.tableView.reloadRows(at: [postIndexPath], with: .none)
           }
         }
       }
@@ -627,7 +627,7 @@ class SinglePostTableViewController: CustomTableViewController {
 
 extension SinglePostTableViewController: UIActionSheetDelegate {
   
-  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+  func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
     if actionSheet.tag == postMoreActionSheetTag {
       switch buttonIndex {
       case 0:
@@ -662,14 +662,14 @@ extension SinglePostTableViewController: UIActionSheetDelegate {
 
 extension SinglePostTableViewController: UIAlertViewDelegate {
   
-  func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+  func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
     if alertView.tag == postMoreActionSheetTag {
       if buttonIndex == 1 {
         blockUser { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               UIAlertView(title: "\(self.post.user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
-              self.navigationController?.popToRootViewControllerAnimated(true)
+              self.navigationController?.popToRootViewController(animated: true)
               if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
                 topVC.retrieveData()
               }
@@ -681,7 +681,7 @@ extension SinglePostTableViewController: UIAlertViewDelegate {
       if buttonIndex == 1 {
         self.blockUserAtIndex(alertView.tag) { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               UIAlertView(title: "\(self.commentTree[alertView.tag].user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
               self.updateUIAfterUserBlockedAtIndex(alertView.tag)
             }

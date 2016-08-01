@@ -44,7 +44,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: boards The boards followed by user with userID.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
+  func retrieveBoards(_ completionHandler: (boards: [Board]?) -> ()) {
     DataManager.sharedInstance.getUserBoardsByID(userID) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -57,7 +57,7 @@ class BoardsTableViewController: MultipleBoardsTableViewController {
     retrievingPage = true
     boards = []
     retrieveBoards { boards in
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         if let boards = boards {
           self.boards = boards
           self.tableView.reloadData()

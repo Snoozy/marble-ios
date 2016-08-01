@@ -27,7 +27,7 @@ class SimpleBoardCell: UITableViewCell {
   struct SimpleBoardFonts {
     
     /// Font of the text contained within nameLabel.
-    static let nameLabelFont = UIFont.boldSystemFontOfSize(20.0)
+    static let nameLabelFont = UIFont.boldSystemFont(ofSize: 20.0)
   }
   
   // MARK: Setup Helper Functions
@@ -35,13 +35,13 @@ class SimpleBoardCell: UITableViewCell {
   /// Makes this SimpleBoardCell's IBOutlets display the correct values of the corresponding Board.
   ///
   /// :param: board The corresponding Board to be displayed by this SimpleBoardCell.
-  func makeCellFromBoard(board: Board) {
+  func makeCellFromBoard(_ board: Board) {
     
     nameLabel.font = SimpleBoardFonts.nameLabelFont
     nameLabel.text = board.name
     
-    photoButton.userInteractionEnabled = false
-    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+    photoButton.isUserInteractionEnabled = false
+    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
   }

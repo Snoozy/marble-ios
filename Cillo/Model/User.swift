@@ -31,7 +31,7 @@ class User: NSObject {
   var name = ""
   
   /// Profile picture of this User.
-  var photoURL = NSURL()
+  var photoURL = URL()
   
   /// Total accumulated reputation of this User.
   var rep = 0
@@ -68,7 +68,7 @@ class User: NSObject {
     username = json["username"].stringValue
     userID = json["user_id"].intValue
     rep = json["reputation"].intValue
-    if let url = NSURL(string: json["photo"].stringValue) {
+    if let url = URL(string: json["photo"].stringValue) {
       photoURL = url
     }
     bio = json["bio"].stringValue
@@ -87,7 +87,7 @@ class User: NSObject {
   ///
   /// :param: width The current width of bioTextView.
   /// :returns: Predicted height of bioTextView in a UserCell.
-  func heightOfBioWithWidth(width: CGFloat) -> CGFloat {
+  func heightOfBioWithWidth(_ width: CGFloat) -> CGFloat {
     return bio.heightOfTextWithWidth(width, andFont: UserCell.UserFonts.bioAttributedLabelFont)
   }
 }

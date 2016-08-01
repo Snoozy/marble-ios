@@ -118,7 +118,7 @@ class Comment: NSObject {
   /// :param: width The current width of commentTextView.
   /// :param: selected Describes if CommentCell is selected.
   /// :returns: Predicted height of commentTextView in a CommentCell.
-  func heightOfCommentWithWidth(width: CGFloat, selected: Bool) -> CGFloat {
+  func heightOfCommentWithWidth(_ width: CGFloat, selected: Bool) -> CGFloat {
     let trueWidth = width - CommentCell.commentAttributedLabelDistanceToIndent - predictedIndentSize(selected: selected)
     return (blocked ? "[user blocked]" : text).heightOfTextWithWidth(trueWidth, andFont: CommentCell.CommentFonts.commentAttributedLabelFont)
   }
@@ -167,7 +167,7 @@ class Comment: NSObject {
   func downvote() {
     switch voteValue {
     case 0:
-      rep--
+      rep -= 1
     case 1:
       rep -= 2
     default:
@@ -180,7 +180,7 @@ class Comment: NSObject {
   func upvote() {
     switch voteValue {
     case 0:
-      rep++
+      rep += 1
     case -1:
       rep += 2
     default:

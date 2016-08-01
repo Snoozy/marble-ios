@@ -28,7 +28,7 @@ class Message: NSObject {
   /// Time that this message was sent.
   ///
   /// String is properly formatted via `compactTimeDisplay` property of UInt64.
-  var time = NSDate()
+  var time = Date()
   
   // MARK: Initializers
   
@@ -48,7 +48,7 @@ class Message: NSObject {
     senderID = json["user_id"].intValue
     content = json["content"].stringValue
     let time = json["time"].int64Value
-    self.time = NSDate(timeIntervalSince1970: NSTimeInterval(time))
+    self.time = Date(timeIntervalSince1970: TimeInterval(time))
   }
   
   /// Creates empty Message.
@@ -67,7 +67,7 @@ extension Message: JSQMessageData {
     return ""
   }
   
-  func date() -> NSDate! {
+  func date() -> Date! {
     return time
   }
   

@@ -35,16 +35,16 @@ class NotificationCell: UITableViewCell {
   struct NotificationFonts {
     
     /// Bold font of the text contained within messageAttributedLabel.
-    static let boldMessageAttributedLabelFont = UIFont.boldSystemFontOfSize(15.0)
+    static let boldMessageAttributedLabelFont = UIFont.boldSystemFont(ofSize: 15.0)
     
     /// Italic font of the text contained within messageAttributedLabel.
-    static let italicMessageAttributedLabelFont = UIFont.italicSystemFontOfSize(15.0)
+    static let italicMessageAttributedLabelFont = UIFont.italicSystemFont(ofSize: 15.0)
     
     /// Font of the text contained within messageAttributedLabel.
-    static let messageAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    static let messageAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font of the text contained within timeLabel.
-    static let timeLabelFont = UIFont.systemFontOfSize(12.0)
+    static let timeLabelFont = UIFont.systemFont(ofSize: 12.0)
   }
   
   /// Vertical space needed besides `separatorView`
@@ -57,7 +57,7 @@ class NotificationCell: UITableViewCell {
   /// Assigns all delegates of cell to the given parameter.
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
     messageAttributedLabel.delegate = delegate
   }
   
@@ -67,7 +67,7 @@ class NotificationCell: UITableViewCell {
   /// :param: width The width of the cell in the tableView.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfNotificationCellForNotification(notification: Notification, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfNotificationCellForNotification(_ notification: Notification, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     return NotificationCell.vertSpaceNeeded + dividerHeight
   }
   
@@ -76,10 +76,10 @@ class NotificationCell: UITableViewCell {
   /// :param: notification The corresponding Notification to be displayed by this NotificationCell.
   /// :param: buttonTag The tags of all buttons in this NotificationCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the notification in its model array.
-  func makeCellFromNotification(notification: Notification, withButtonTag buttonTag: Int) {
+  func makeCellFromNotification(_ notification: Notification, withButtonTag buttonTag: Int) {
     let scheme = ColorScheme.defaultScheme
     
-    photoButton.setBackgroundImageToImageWithURL(notification.titleUser.photoURL, forState: .Normal)
+    photoButton.setBackgroundImageToImageWithURL(notification.titleUser.photoURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     

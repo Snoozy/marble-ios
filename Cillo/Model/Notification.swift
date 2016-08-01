@@ -18,16 +18,16 @@ class Notification: NSObject {
   /// * *Reply:* Notification is notifying about a reply.
   /// * *Vote:* Notification is notifying about a vote.
   enum ActionType {
-    case Reply, Vote
+    case reply, vote
     
-    static func actionTypeForString(string: String) -> ActionType {
+    static func actionTypeForString(_ string: String) -> ActionType {
       switch string {
       case "reply":
-        return .Reply
+        return .reply
       case "vote":
-        return .Vote
+        return .vote
       default:
-        return .Reply
+        return .reply
       }
     }
   }
@@ -37,13 +37,13 @@ class Notification: NSObject {
   /// * *Post:* Notification is sent by a Post.
   /// * *Comment:* Notification is sent by a Comment.
   enum EntityType {
-    case Post, Comment
+    case post, comment
   }
   
   // MARK: Properties
   
   /// Action type that this Notification is sending.
-  var actionType = ActionType.Reply
+  var actionType = ActionType.reply
   
   /// ID for comment that this notification pertains to
   ///
@@ -54,13 +54,13 @@ class Notification: NSObject {
   var count = 0
 
   /// Entity type that this Notification is notifying about.
-  var entityType = EntityType.Post
+  var entityType = EntityType.post
   
   /// ID of this notification.
   var notificationID = 0
   
   /// Message encapsulating the properties of this Notification that will be displayed to the end user.
-  var notificationMessage: NSAttributedString {
+  var notificationMessage: AttributedString {
     let otherString: String = {
       if self.count == 0 {
         return ""
@@ -72,25 +72,25 @@ class Notification: NSObject {
     }()
     let actionTypeString: String = {
       switch self.actionType {
-      case .Reply:
+      case .reply:
         return "replied to"
-      case .Vote:
+      case .vote:
         return "upvoted"
       }
     }()
     let entityTypeString: String = {
       switch self.entityType {
-      case .Post:
+      case .post:
         return "post"
-      case .Comment:
+      case .comment:
         return "comment"
       }
     }()
     let boldTitleUserString = NSMutableAttributedString(string: titleUser.name, attributes: [NSFontAttributeName: NotificationCell.NotificationFonts.boldMessageAttributedLabelFont])
     let middleString = NSMutableAttributedString(string: " \(otherString)\(actionTypeString) your \(entityTypeString): ", attributes: [NSFontAttributeName: NotificationCell.NotificationFonts.messageAttributedLabelFont])
     let italicPreviewString = NSMutableAttributedString(string: preview, attributes: [NSFontAttributeName: NotificationCell.NotificationFonts.italicMessageAttributedLabelFont])
-    boldTitleUserString.appendAttributedString(middleString)
-    boldTitleUserString.appendAttributedString(italicPreviewString)
+    boldTitleUserString.append(middleString)
+    boldTitleUserString.append(italicPreviewString)
     return boldTitleUserString
   }
   
@@ -133,10 +133,10 @@ class Notification: NSObject {
     let time = json["time"].int64Value
     self.time = time.compactTimeDisplay
     if json["comment_id"] != nil {
-      entityType = .Comment
+      entityType = .comment
       commentID = json["comment_id"].intValue
     } else {
-      entityType = .Post
+      entityType = .post
     }
     postID = json["post_id"].intValue
     read = json["read"].boolValue

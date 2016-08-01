@@ -59,25 +59,25 @@ class UserCell: UITableViewCell {
   struct UserFonts {
     
     /// Font of the text contained within bioAttributedLabelFont.
-    static let bioAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    static let bioAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font used for the word " BOARDS" in boardsButton.
-    static let boardsButtonFont = UIFont.systemFontOfSize(15.0)
+    static let boardsButtonFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font used for the boardCount value in boardsButton.
-    static let boardsCountFont = UIFont.boldSystemFontOfSize(18.0)
+    static let boardsCountFont = UIFont.boldSystemFont(ofSize: 18.0)
     
     /// Font used for the word " REP" in repLabel.
-    static let repLabelFont = UIFont.systemFontOfSize(15.0)
+    static let repLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font used for the rep value in repLabel.
-    static let repCountFont = UIFont.boldSystemFontOfSize(18.0)
+    static let repCountFont = UIFont.boldSystemFont(ofSize: 18.0)
     
     /// Font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFontOfSize(20.0)
+    static let nameButtonFont = UIFont.boldSystemFont(ofSize: 20.0)
     
     /// Font of the text contained within usernameButton.
-    static let usernameButtonFont = UIFont.systemFontOfSize(16.0)
+    static let usernameButtonFont = UIFont.systemFont(ofSize: 16.0)
   }
 
   // MARK: Setup Helper Functions
@@ -85,7 +85,7 @@ class UserCell: UITableViewCell {
   /// Assigns all delegates of cell to the given parameter.
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
     bioAttributedLabel.delegate = delegate
   }
   
@@ -94,7 +94,7 @@ class UserCell: UITableViewCell {
   /// :param: user The user that this cell is based on.
   /// :param: width The width of the cell in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfUserCellForUser(user: User, withElementWidth width: CGFloat) -> CGFloat {
+  class func heightOfUserCellForUser(_ user: User, withElementWidth width: CGFloat) -> CGFloat {
     return user.heightOfBioWithWidth(width) + UserCell.additionalVertSpaceNeeded
   }
   
@@ -103,15 +103,15 @@ class UserCell: UITableViewCell {
   /// :param: user The corresponding User to be displayed by this UserCell.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the post in its model array.
-  func makeCellFromUser(user: User, withButtonTag buttonTag: Int) {
+  func makeCellFromUser(_ user: User, withButtonTag buttonTag: Int) {
     let scheme = ColorScheme.defaultScheme
     
     setupUserOutletFonts()
     setOutletTagsTo(buttonTag)
     
-    photoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
-    nameButton.setTitle(user.name, forState: .Normal)
-    usernameButton.setTitle(user.usernameDisplay, forState: .Normal)
+    photoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: UIControlState())
+    nameButton.setTitle(user.name, for: UIControlState())
+    usernameButton.setTitle(user.usernameDisplay, for: UIControlState())
     
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
@@ -119,8 +119,8 @@ class UserCell: UITableViewCell {
     bioAttributedLabel.setupWithText(user.bio, andFont: UserCell.UserFonts.bioAttributedLabelFont)
     
     if user.isSelf {
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
-      messageButton?.hidden = true
+      nameButton.setTitleColor(scheme.meTextColor(), for: UIControlState())
+      messageButton?.isHidden = true
     }
     
     // Make only the number in repLabel bold
@@ -131,13 +131,13 @@ class UserCell: UITableViewCell {
     let boardString = user.boardCount == 1 ? " BOARD" : " BOARDS"
     var boardsText = NSMutableAttributedString.twoFontString(firstHalf: user.boardCount.fiveCharacterDisplay, firstFont: UserCell.UserFonts.boardsCountFont, secondHalf: boardString, secondFont: UserCell.UserFonts.boardsButtonFont)
     boardsButton.setAttributedTitle(boardsText, forState: .Normal)
-    boardsButton.tintColor = UIColor.darkTextColor()
+    boardsButton.tintColor = UIColor.darkText
   }
   
   /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
   ///
   /// :param: tag The tag that the outlet's `tag` property is set to.
-  private func setOutletTagsTo(tag: Int) {
+  private func setOutletTagsTo(_ tag: Int) {
     photoButton.tag = tag
     nameButton.tag = tag
     usernameButton.tag = tag

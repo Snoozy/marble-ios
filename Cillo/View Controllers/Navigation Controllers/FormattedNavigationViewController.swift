@@ -22,6 +22,6 @@ class FormattedNavigationViewController: UINavigationController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationBar.setupAttributesForColorScheme(ColorScheme.defaultScheme)
-    navigationBar.translucent = false
+    navigationBar.isTranslucent = false
   }
 }

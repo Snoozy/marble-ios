@@ -54,12 +54,12 @@ class NewBoardViewController: CustomViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.newBoardToTab {
-      var destination = segue.destinationViewController as! TabViewController
+      let destination = segue.destination as! TabViewController
       resignTextFieldResponders()
       if let sender = sender as? Board, navController = destination.selectedViewController as? UINavigationController {
-        let boardViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.board) as! BoardTableViewController
+        let boardViewController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdentifiers.board) as! BoardTableViewController
         boardViewController.board = sender
         navController.pushViewController(boardViewController, animated: true)
       }
@@ -74,10 +74,10 @@ class NewBoardViewController: CustomViewController {
   
   // MARK: UIResponder 
   
-  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    if descripTextView.isFirstResponder() {
+  override func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
+    if descripTextView.isFirstResponder {
       descripTextView.resignFirstResponder()
-    } else if nameTextField.isFirstResponder() {
+    } else if nameTextField.isFirstResponder {
       nameTextField.resignFirstResponder()
     }
   }
@@ -115,7 +115,7 @@ class NewBoardViewController: CustomViewController {
   /// :param: board The new Board that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createBoard(completionHandler: (board: Board?) -> ()) {
+  func createBoard(_ completionHandler: (board: Board?) -> ()) {
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
@@ -138,7 +138,7 @@ class NewBoardViewController: CustomViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
+  func uploadImage(_ image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { result in
@@ -149,12 +149,12 @@ class NewBoardViewController: CustomViewController {
   
   // MARK: Error Handling Helper Functions
   
-  override func handleBoardNameInvalidError(error: NSError) {
+  override func handleBoardNameInvalidError(_ error: NSError) {
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Error", message: "Board Name Unavailable.\n Note: Board Names cannot contain spaces.", preferredStyle: .Alert)
-      alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { _ in
+      let alert = UIAlertController(title: "Error", message: "Board Name Unavailable.\n Note: Board Names cannot contain spaces.", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .cancel) { _ in
         })
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Error", message: "Board Name Unavailable.\n Note: Board Names cannot contain spaces.", delegate: nil, cancelButtonTitle: "Ok")
       alert.show()
@@ -167,8 +167,8 @@ class NewBoardViewController: CustomViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton`.
-  @IBAction func boardPhotoButtonPressed(sender: UIButton) {
-    if let image = sender.backgroundImageForState(.Normal) {
+  @IBAction func boardPhotoButtonPressed(_ sender: UIButton) {
+    if let image = sender.backgroundImage(for: UIControlState()) {
       JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }
   }
@@ -176,20 +176,20 @@ class NewBoardViewController: CustomViewController {
   /// Presents an AlertController with ActionSheet style that allows the user to choose a new profile picture.
   ///
   /// :param: sender The button that is touched to send this function is choosePictureButton
-  @IBAction func imageButtonPressed(sender: UIButton) {
+  @IBAction func imageButtonPressed(_ sender: UIButton) {
     UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Select Board Photo", iPadReference: sender)
   }
   
   /// Creates a board. If the creation is successful, presents a BoardTableViewController and removes self from navigationController's stack.
   ///
   /// :param: sender The button that is touched to send this function is createBoardButton.
-  @IBAction func triggerTabSegueOnButton(sender: UIButton) {
-    sender.enabled = false
+  @IBAction func triggerTabSegueOnButton(_ sender: UIButton) {
+    sender.isEnabled = false
     createBoard { board in
       if let board = board {
-        self.performSegueWithIdentifier(SegueIdentifiers.newBoardToTab, sender: board)
+        self.performSegue(withIdentifier: SegueIdentifiers.newBoardToTab, sender: board)
       } else {
-        sender.enabled = true
+        sender.isEnabled = true
       }
     }
   }
@@ -203,19 +203,19 @@ extension NewBoardViewController: UIImagePickerControllerDelegate {
   ///
   /// :param: picker The UIImagePickerController presented by this NewBoardViewController.
   /// :param: info The dictionary containing the selected image's data.
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       self.image = image
-      photoButton.setBackgroundImage(image, forState: .Normal)
+      photoButton.setBackgroundImage(image, for: UIControlState())
     }
-    dismissViewControllerAnimated(true, completion: nil)
+    dismiss(animated: true, completion: nil)
   }
   
   /// Handles the instance in which the user cancels the selection of an image by a UIImagePickerController presented by this NewBoardViewController.
   ///
   /// :param: picker The UIImagePickerController presented by this NewBoardViewController.
-  func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-    dismissViewControllerAnimated(true, completion: nil)
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true, completion: nil)
   }
 }
 
@@ -229,7 +229,7 @@ extension NewBoardViewController: UINavigationControllerDelegate {
 
 extension NewBoardViewController: UIActionSheetDelegate {
   
-  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+  func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
     UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
   }
 }

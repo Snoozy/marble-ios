@@ -36,7 +36,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
     super.viewDidLoad()
   }
   
-  override func viewWillAppear(animated: Bool) {
+  override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     if posts.count == 0 && KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
@@ -46,17 +46,17 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   // MARK: UITableViewDataSource
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if posts.isEmpty && !retrievingPage {
-      return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.checkOutDiscoverCell, forIndexPath: indexPath) as! UITableViewCell
+      return tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.checkOutDiscoverCell, for: indexPath) 
     } else if posts.isEmpty {
       return UITableViewCell()
     } else {
-      return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+      return super.tableView(tableView, cellForRowAt: indexPath)
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if posts.isEmpty && !retrievingPage {
       return 1
     } else {
@@ -66,29 +66,29 @@ class HomeTableViewController: MultiplePostsTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if posts.isEmpty && !retrievingPage {
       if let tabBarController = tabBarController as? TabViewController {
         tabBarController.selectedIndex = tabBarController.discoverTabIndex
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
       }
     } else {
-      super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+      super.tableView(tableView, didSelectRowAt: indexPath)
     }
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if posts.isEmpty && !retrievingPage {
       return tableView.frame.height
     } else if posts.isEmpty {
       return 0
     } else {
-      return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+      return super.tableView(tableView, heightForRowAt: indexPath)
     }
   }
   
-  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    if !finishedPaging && !retrievingPage && indexPath.row > posts.count - 25 {
+  override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if !finishedPaging && !retrievingPage && (indexPath as NSIndexPath).row > posts.count - 25 {
       retrievingPage = true
       retrievePosts { posts in
         if let posts = posts {
@@ -96,18 +96,18 @@ class HomeTableViewController: MultiplePostsTableViewController {
             self.finishedPaging = true
           } else {
             var row = self.posts.count
-            var newPaths = [NSIndexPath]()
+            var newPaths = [IndexPath]()
             for post in posts {
               self.posts.append(post)
-              newPaths.append(NSIndexPath(forRow: row, inSection: 0))
-              row++
+              newPaths.append(IndexPath(row: row, section: 0))
+              row += 1
             }
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               self.tableView.beginUpdates()
-              self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+              self.tableView.insertRows(at: newPaths, with: .middle)
               self.tableView.endUpdates()
             }
-            self.pageNumber++
+            self.pageNumber += 1
           }
         }
         self.retrievingPage = false
@@ -126,13 +126,13 @@ class HomeTableViewController: MultiplePostsTableViewController {
     pageNumber = 1
     finishedPaging = false
     retrievePosts { posts in
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         self.retrievingPage = false
         if let posts = posts {
           if posts.isEmpty {
             self.finishedPaging = true
           }
-          self.pageNumber++
+          self.pageNumber += 1
           self.posts = posts
           self.tableView.reloadData()
         }
@@ -147,7 +147,7 @@ class HomeTableViewController: MultiplePostsTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: posts The posts in the end user's home feed.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
+  func retrievePosts(_ completionHandler: (posts: [Post]?) -> ()) {
     DataManager.sharedInstance.getHomeFeed(lastPostID: posts.last?.postID) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }

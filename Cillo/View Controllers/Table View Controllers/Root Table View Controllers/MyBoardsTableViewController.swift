@@ -45,21 +45,21 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   // MARK: UITableViewDataSource
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if tableView == self.tableView {
-      if indexPath.row >= boards.count {
+      if (indexPath as NSIndexPath).row >= boards.count {
         return dequeueAndSetupNewBoardCellForIndexPath(indexPath)
       } else {
-        return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        return super.tableView(tableView, cellForRowAt: indexPath)
       }
     } else {
       let cell = UITableViewCell()
-      cell.textLabel?.text = searchResults[indexPath.row]
+      cell.textLabel?.text = searchResults[(indexPath as NSIndexPath).row]
       return cell
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if tableView == self.tableView {
       return super.tableView(tableView, numberOfRowsInSection: section) + 1
     } else {
@@ -69,19 +69,19 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if tableView == self.tableView {
-      if indexPath.row >= boards.count {
+      if (indexPath as NSIndexPath).row >= boards.count {
         if let tabBarController = tabBarController as? TabViewController {
-          tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewBoard, sender: indexPath)
+          tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewBoard, sender: indexPath)
         }
       } else {
-        super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        super.tableView(tableView, didSelectRowAt: indexPath)
       }
     } else {
-      searchBoardsForName(searchResults[indexPath.row]) { boards in
+      searchBoardsForName(searchResults[(indexPath as NSIndexPath).row]) { boards in
         if let boards = boards {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.boards = boards
             self.searched = true
             self.tableView.reloadData()
@@ -92,26 +92,26 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if tableView == self.tableView {
-      if indexPath.row >= boards.count {
+      if (indexPath as NSIndexPath).row >= boards.count {
         return heightOfSingleButtonCells
       } else {
-        return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+        return super.tableView(tableView, heightForRowAt: indexPath)
       }
     } else {
       return 44
     }
   }
   
-  override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return searched ? "Search Results" : "Trending Boards"
   }
   
   // MARK: Setup Helper Functions
   
-  override func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.row == boards.count - 1 {
+  override func separatorHeightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).row == boards.count - 1 {
       return dividerHeight
     } else {
       return super.separatorHeightForIndexPath(indexPath)
@@ -125,7 +125,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: search The search text to be autocompleted.
   /// :param: completionHandler The completion block for the server call.
   /// :param: names The board names returned from the server call.
-  func autocompleteBoardsSearch(search: String, completionHandler: (names: [String]?) -> ()) {
+  func autocompleteBoardsSearch(_ search: String, completionHandler: (names: [String]?) -> ()) {
     DataManager.sharedInstance.boardsAutocompleteByName(search) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -136,7 +136,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: boards The boards that the end user follows.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
+  func retrieveBoards(_ completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
       DataManager.sharedInstance.getUserBoardsByID(userID) { result in
         self.handleSingleElementResponse(result, completionHandler: completionHandler)
@@ -149,7 +149,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: boards The trending boards for the end user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveTrendingBoards(completionHandler: (boards: [Board]?) -> ()) {
+  func retrieveTrendingBoards(_ completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
       DataManager.sharedInstance.getEndUserTrendingBoards { result in
         self.handleSingleElementResponse(result, completionHandler: completionHandler)
@@ -165,7 +165,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
     boards = []
     searched = false
     retrieveTrendingBoards { boards in
-      dispatch_async(dispatch_get_main_queue()) {
+      DispatchQueue.main.async {
         if let boards = boards {
           self.boards = boards
           self.tableView.reloadData()
@@ -181,7 +181,7 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
   /// :param: name The text of the search.
   /// :param: completionHandler The completion block of the server call.
   /// :param: boards The boards returned from the server call matching the search text.
-  func searchBoardsForName(name: String, completionHandler: (boards: [Board]?) -> ()) {
+  func searchBoardsForName(_ name: String, completionHandler: (boards: [Board]?) -> ()) {
     DataManager.sharedInstance.boardsSearchByName(name) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -192,11 +192,11 @@ class MyBoardsTableViewController: MultipleBoardsTableViewController {
 
 extension MyBoardsTableViewController: UISearchControllerDelegate {
   
-  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text != "" {
-      autocompleteBoardsSearch(searchBar.text) { names in
+      autocompleteBoardsSearch(searchBar.text!) { names in
         if let names = names {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.asynchronously(DispatchQueue.main) {
             self.searchResults = names
             self.searchDisplayController?.searchResultsTableView.reloadData()
           }
@@ -205,7 +205,7 @@ extension MyBoardsTableViewController: UISearchControllerDelegate {
     }
   }
   
-  func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     searchResults = []
     searchBar.resignFirstResponder()
   }
@@ -215,11 +215,11 @@ extension MyBoardsTableViewController: UISearchControllerDelegate {
 
 extension MyBoardsTableViewController: UISearchBarDelegate {
   
-  func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     searchResults = []
-    searchBoardsForName(searchBar.text) { boards in
+    searchBoardsForName(searchBar.text!) { boards in
       if let boards = boards {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.asynchronously(DispatchQueue.main) {
           self.boards = boards
           self.searched = true
           self.tableView.reloadData()

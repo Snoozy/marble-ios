@@ -27,7 +27,7 @@ class MyConversationTableViewController: MultipleConversationTableViewController
   
   // MARK: UIViewController
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
@@ -43,7 +43,7 @@ class MyConversationTableViewController: MultipleConversationTableViewController
   ///
   /// :param: completionHandler The completion block for the repost.
   /// :param: success True if the request was successful.
-  func readInbox(completionHandler: (success: Bool) -> ()) {
+  func readInbox(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.readEndUserInbox { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -59,7 +59,7 @@ class MyConversationTableViewController: MultipleConversationTableViewController
       tableView.reloadData()
       readInbox { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             tabBarController.setMessagesBadgeValueTo(0)
           }
         }
@@ -74,7 +74,7 @@ class MyConversationTableViewController: MultipleConversationTableViewController
 
 extension MyConversationTableViewController: ConversationsDataSource {
   
-  func conversationsRefreshedTo(conversations: [Conversation], withUnreadCount count: Int) {
+  func conversationsRefreshedTo(_ conversations: [Conversation], withUnreadCount count: Int) {
     displayedConversations = conversations
     tableView.reloadData()
   }

@@ -24,15 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   // MARK: UIApplicationDelegate
   
-  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     UITabBar.appearance().tintColor = UIColor.cilloBlue()
-    UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(17)], forState: .Normal)
+    UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 17)], for: UIControlState())
     
     // notification registration
-    if application.respondsToSelector("registerForRemoteNotifications") {
+    if application.responds(to: #selector(UIApplication.registerForRemoteNotifications as (UIApplication) -> () -> Void)) {
       let types: UIUserNotificationType = .Alert | .Badge | .Sound
-      let settings = UIUserNotificationSettings(forTypes: types, categories: nil)
+      let settings = UIUserNotificationSettings(types: types, categories: nil)
       application.registerUserNotificationSettings(settings)
       application.registerForRemoteNotifications()
     } else {
@@ -50,12 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
   
-  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     if KeychainWrapper.hasAuthAndUser() {
-      let bytes = UnsafePointer<CChar>(deviceToken.bytes)
+      let bytes = UnsafePointer<CChar>((deviceToken as NSData).bytes)
       var tokenString = ""
       
-      for var i = 0; i < deviceToken.length; i++ {
+      for i in 0 ..< deviceToken.count {
         tokenString += String(format: "%02.2hhx", arguments: [bytes[i]])
       }
       println(tokenString)
@@ -65,12 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
   
-  func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
     println(error)
   }
   
-  func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-    if application.applicationState == .Active {
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    if application.applicationState == .active {
       // do nothing
     } else {
       if let tabBarController = window?.rootViewController as? TabViewController {
@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     application.applicationIconBadgeNumber = 0
-    completionHandler(.NoData)
+    completionHandler(.noData)
   }
 }
 
@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UITabBarControllerDelegate {
   
-  func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
     
     // Tap tab bar to go to top of table view functionality
     var shouldSelectVC = true

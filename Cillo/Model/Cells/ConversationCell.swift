@@ -41,13 +41,13 @@ class ConversationCell: UITableViewCell {
   struct ConversationFonts {
     
     /// Italic font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFontOfSize(15.0)
+    static let nameButtonFont = UIFont.boldSystemFont(ofSize: 15.0)
     
     /// Font of the text contained within previewAttributedLabel.
-    static let previewAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    static let previewAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font of the text contained within timeLabel.
-    static let timeLabelFont = UIFont.systemFontOfSize(12.0)
+    static let timeLabelFont = UIFont.systemFont(ofSize: 12.0)
   }
 
   /// Vertical space needed besides `separatorView`.
@@ -60,7 +60,7 @@ class ConversationCell: UITableViewCell {
   /// Assigns all delegates of cell to the given parameter.
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
     previewAttributedLabel.delegate = delegate
   }
   
@@ -70,7 +70,7 @@ class ConversationCell: UITableViewCell {
   /// :param: width The width of the cell in the tableView.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfConversationCellForConversation(conversation: Conversation, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfConversationCellForConversation(_ conversation: Conversation, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     // TODO: may need to calculate the height of the preview depending on the implementation of the ui
     return ConversationCell.vertSpaceNeeded + dividerHeight
   }
@@ -80,12 +80,12 @@ class ConversationCell: UITableViewCell {
   /// :param: conversation The corresponding Conversation to be displayed by this ConversationCell.
   /// :param: buttonTag The tags of all buttons in this ConversationCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the conversation in its model array.
-  func makeCellFromConversation(conversation: Conversation, withButtonTag buttonTag: Int) {
+  func makeCellFromConversation(_ conversation: Conversation, withButtonTag buttonTag: Int) {
     let scheme = ColorScheme.defaultScheme
     
     setupConversationOutletFonts()
     
-    photoButton.setBackgroundImageToImageWithURL(conversation.otherUser.photoURL, forState: .Normal)
+    photoButton.setBackgroundImageToImageWithURL(conversation.otherUser.photoURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
@@ -100,7 +100,7 @@ class ConversationCell: UITableViewCell {
     if conversation.read {
       dotLabel.text = ""
     }
-    nameButton.setTitle(conversation.otherUser.name, forState: .Normal)
+    nameButton.setTitle(conversation.otherUser.name, for: UIControlState())
     
     separatorView?.backgroundColor = scheme.dividerBackgroundColor()
   }

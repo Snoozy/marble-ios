@@ -29,20 +29,20 @@ class LogInViewController: CustomViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     // Make Root VCs retrieve their data after user logged in.
     if segue.identifier == SegueIdentifiers.loginToTab {
-      if let destination = segue.destinationViewController as? TabViewController {
+      if let destination = segue.destination as? TabViewController {
         if let sender = sender as? User {
           destination.endUser = sender
         }
         destination.selectedIndex = destination.homeTabIndex
         destination.forceDataRetrievalUponUnwinding()
       }
-      if UIApplication.sharedApplication().respondsToSelector("registerForRemoteNotifications") {
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+      if UIApplication.shared.responds(to: #selector(UIApplication.registerForRemoteNotifications as (UIApplication) -> () -> Void)) {
+        UIApplication.shared.registerForRemoteNotifications()
       } else {
-        UIApplication.sharedApplication().registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
+        UIApplication.shared.registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
       }
     }
   }
@@ -56,10 +56,10 @@ class LogInViewController: CustomViewController {
   
   // MARK: UIResponder
   
-  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    if emailTextField.isFirstResponder() {
+  override func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
+    if emailTextField.isFirstResponder {
       emailTextField.resignFirstResponder()
-    } else if passwordTextField.isFirstResponder() {
+    } else if passwordTextField.isFirstResponder {
       passwordTextField.resignFirstResponder()
     }
   }
@@ -69,9 +69,9 @@ class LogInViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    registerButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    registerButton.setTitleColor(scheme.touchableTextColor(), for: UIControlState())
     loginButton.backgroundColor = scheme.solidButtonBackgroundColor()
-    loginButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
+    loginButton.setTitleColor(scheme.solidButtonTextColor(), for: UIControlState())
     emailTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     passwordTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
   }
@@ -95,7 +95,7 @@ class LogInViewController: CustomViewController {
   ///
   /// :param: completionHandler The completion block for the login.
   /// :param: success True if login request was successful. If error was received, it is false.
-  func login(completionHandler: (auth: String?, user: User?) -> ()) {
+  func login(_ completionHandler: (auth: String?, user: User?) -> ()) {
     DataManager.sharedInstance.loginWithEmail(emailTextField.text, andPassword: passwordTextField.text) { result in
       switch result {
       case .Error(let error):
@@ -116,13 +116,13 @@ class LogInViewController: CustomViewController {
   ///
   /// :param: completionHandler The completion block for the request.
   /// :param: success True if describe request was successful. If error was received, it is false.
-  func retrieveEndUser(completionHandler: (success: Bool) -> ()) {
+  func retrieveEndUser(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.getEndUserInfo { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(success: false)
-      case .Value(let element):
+      case .value(let element):
         var success = false
         success = KeychainWrapper.setUserID(element.unbox.userID)
         completionHandler(success: success)
@@ -132,12 +132,12 @@ class LogInViewController: CustomViewController {
   
   // MARK: Error Handling Helper Functions
   
-  override func handlePasswordIncorrectError(error: NSError) {
+  override func handlePasswordIncorrectError(_ error: NSError) {
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Error", message: "Username and password do not match.", preferredStyle: .Alert)
-      alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { _ in
+      let alert = UIAlertController(title: "Error", message: "Username and password do not match.", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .cancel) { _ in
       })
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Error", message: "Username and password do not match.", delegate: nil, cancelButtonTitle: "Ok")
       alert.show()
@@ -145,7 +145,7 @@ class LogInViewController: CustomViewController {
     
   }
   
-  override func handleUserUnauthenticatedError(error: NSError) {
+  override func handleUserUnauthenticatedError(_ error: NSError) {
     error.showAlert()
   }
   
@@ -154,29 +154,29 @@ class LogInViewController: CustomViewController {
   /// Triggers segue to RegisterViewController.
   ///
   /// :param: sender The button that is touched to send this function is registerButton.
-  @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(SegueIdentifiers.loginToRegister, sender: sender)
+  @IBAction func triggerRegisterSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: SegueIdentifiers.loginToRegister, sender: sender)
   }
   
   /// Triggers segue to TabViewController when loginButton is pressed if a login attempt is successful.
   ///
   /// :param: sender The button that is touched to send this function is loginButton.
-  @IBAction func triggerTabSegueOnButton(sender: UIButton) {
-    sender.enabled = false
+  @IBAction func triggerTabSegueOnButton(_ sender: UIButton) {
+    sender.isEnabled = false
     login { auth, user in
       if let auth = auth, user = user {
 //        let alert = UIAlertView(title: "Login Successful", message: "", delegate: nil, cancelButtonTitle: "OK")
 //        alert.show()
-        sender.enabled = true
-        self.performSegueWithIdentifier(SegueIdentifiers.loginToTab, sender: user)
+        sender.isEnabled = true
+        self.performSegue(withIdentifier: SegueIdentifiers.loginToTab, sender: user)
       } else {
-        sender.enabled = true
+        sender.isEnabled = true
       }
     }
   }
   
   /// Allows RegisterViewController to unwind its modal segue.
-  @IBAction func unwindToLogin(sender: UIStoryboardSegue) {
+  @IBAction func unwindToLogin(_ sender: UIStoryboardSegue) {
   }
 }
 

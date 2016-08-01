@@ -82,12 +82,12 @@ class NewPostViewController: CustomViewController {
   // MARK: UIViewController
   
   /// Handles passing of data when navigation between UIViewControllers occur.
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.newPostToTab {
-      var destination = segue.destinationViewController as! TabViewController
+      let destination = segue.destination as! TabViewController
       resignTextFieldResponders()
       if let sender = sender as? Post {
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
+        let postViewController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdentifiers.post) as! PostTableViewController
         if let nav = destination.selectedViewController as? UINavigationController {
           postViewController.post = sender
           nav.pushViewController(postViewController, animated: true)
@@ -96,7 +96,7 @@ class NewPostViewController: CustomViewController {
     }
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setupScrollView()
   }
@@ -110,8 +110,8 @@ class NewPostViewController: CustomViewController {
   
   // MARK: UIResponder
   
-  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    if postTextView.isFirstResponder() {
+  override func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
+    if postTextView.isFirstResponder {
       postTextView.resignFirstResponder()
     }
   }
@@ -134,9 +134,9 @@ class NewPostViewController: CustomViewController {
   /// Sets up the colors of the Outlets according to the default scheme of the app.
   private func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
-    imageButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    imageButton.setTitleColor(scheme.touchableTextColor(), for: UIControlState())
     imageButton.backgroundColor = scheme.solidButtonBackgroundColor()
-    selectBoardButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    selectBoardButton.setTitleColor(scheme.touchableTextColor(), for: UIControlState())
     postTextView.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     boardToImageDividerView.backgroundColor = scheme.thinLineBackgroundColor()
   }
@@ -145,8 +145,8 @@ class NewPostViewController: CustomViewController {
   private func setupOutletAppearances() {
     postTextViewHeightConstraint.constant = postTextViewHeight > 100 ? postTextViewHeight : 100
     if let board = board where board.following {
-      selectBoardButton.setTitle(board.name, forState: .Normal)
-      boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+      selectBoardButton.setTitle(board.name, for: UIControlState())
+      boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: UIControlState())
       boardPhotoButtonWidthConstraint.constant = boardPhotoWidth
     }
     boardPhotoButton.clipsToBounds = true
@@ -154,14 +154,14 @@ class NewPostViewController: CustomViewController {
     if let endUser = endUser {
       userPhotoButton.clipsToBounds = true
       userPhotoButton.layer.cornerRadius = 5.0
-      userPhotoButton.setBackgroundImageToImageWithURL(endUser.photoURL, forState: .Normal)
+      userPhotoButton.setBackgroundImageToImageWithURL(endUser.photoURL, forState: UIControlState())
       usernameLabel.text = endUser.name
     } else {
       retrieveEndUser { user in
         if let user = user {
           self.userPhotoButton.clipsToBounds = true
           self.userPhotoButton.layer.cornerRadius = 5.0
-          self.userPhotoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
+          self.userPhotoButton.setBackgroundImageToImageWithURL(user.photoURL, forState: UIControlState())
           self.usernameLabel.text = user.name
         }
       }
@@ -176,16 +176,16 @@ class NewPostViewController: CustomViewController {
   private func setupScrollView() {
     if let image = image {
       scrollView?.removeFromSuperview()
-      var height = imageButton.frame.width * image.size.height / image.size.width
+      let height = imageButton.frame.width * image.size.height / image.size.width
       scrollView = UIScrollView(frame: CGRect(x: imageButton.frame.minX, y: imageButton.frame.minY, width: imageButton.frame.width, height: UITextView.keyboardHeight))
       view.addSubview(scrollView!)
       scrollView!.contentSize = CGSize(width: imageButton.frame.size.width, height: height)
       let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: scrollView!.contentSize.width, height: scrollView!.contentSize.height))
       scrollView!.addSubview(imageView)
       imageView.image = image
-      imageView.contentMode = .ScaleAspectFill
-      view.bringSubviewToFront(imageButton)
-      imageButton.setTitle("Choose New Image", forState: .Normal)
+      imageView.contentMode = .scaleAspectFill
+      view.bringSubview(toFront: imageButton)
+      imageButton.setTitle("Choose New Image", for: UIControlState())
       imageButton.alpha = 0.5
     }
   }
@@ -198,11 +198,11 @@ class NewPostViewController: CustomViewController {
   /// :param: post The new Post that was created from calling the servers.
   ///
   /// :param: * Nil if server call passed an error back.
-  func createPost(completionHandler: (post: Post?) -> ()) {
+  func createPost(_ completionHandler: (post: Post?) -> ()) {
     if let image = image {
       uploadImage(image) { mediaID in
         if let mediaID = mediaID {
-          DataManager.sharedInstance.createPostByBoardName(self.selectBoardButton.titleForState(.Normal) ?? "", text: self.postTextView.text, mediaID: mediaID) { result in
+          DataManager.sharedInstance.createPostByBoardName(self.selectBoardButton.title(for: UIControlState()) ?? "", text: self.postTextView.text, mediaID: mediaID) { result in
             self.handleSingleElementResponse(result, completionHandler: completionHandler)
           }
         } else {
@@ -210,7 +210,7 @@ class NewPostViewController: CustomViewController {
         }
       }
     } else {
-      DataManager.sharedInstance.createPostByBoardName(selectBoardButton.titleForState(.Normal) ?? "", text: postTextView.text) { result in
+      DataManager.sharedInstance.createPostByBoardName(selectBoardButton.title(for: UIControlState()) ?? "", text: postTextView.text) { result in
         self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     }
@@ -221,7 +221,7 @@ class NewPostViewController: CustomViewController {
   /// :param: completionHandler The completion block for the request.
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
-  func retrieveEndUser(completionHandler: (user: User?) -> ()) {
+  func retrieveEndUser(_ completionHandler: (user: User?) -> ()) {
     DataManager.sharedInstance.getEndUserInfo { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -232,7 +232,7 @@ class NewPostViewController: CustomViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: mediaID The id of the image uploaded to the Cillo servers.
   /// :param: * Nil if there was an error in the server call.
-  func uploadImage(image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
+  func uploadImage(_ image: UIImage, completionHandler: (mediaID: Int?) -> ()) {
     let imageData = UIImageJPEGRepresentation(image, UIImage.JPEGCompression)
     let activityIndicator = addActivityIndicatorToCenterWithText("Uploading Image...")
     DataManager.sharedInstance.uploadImageData(imageData) { result in
@@ -246,27 +246,27 @@ class NewPostViewController: CustomViewController {
   /// Presents an AlertController with ActionSheet style that allows the user to choose an image for their post.
   ///
   /// :param: sender The button that is touched to send this function is imageButton.
-  @IBAction func imageButtonPressed(sender: UIButton) {
+  @IBAction func imageButtonPressed(_ sender: UIButton) {
     UIImagePickerController.presentActionSheetForPhotoSelectionFromSource(self, withTitle: "Select Image", iPadReference: sender)
   }
   
   /// Presents a popup overlay table to select a board to post on when a button is pressed.
   ///
   /// :param: sender The button that is touched to send this function is selecctBoardButton.
-  @IBAction func selectBoardPressed(sender: UIButton) {
+  @IBAction func selectBoardPressed(_ sender: UIButton) {
     presentOverlay()
   }
   
   /// Creates a post. If the creation is successful, presents a PostTableViewController and removes self from navigationController's stack.
   ///
   /// :param: sender The bar button item that says Create.
-  @IBAction func triggerTabSegueOnButton(sender: UIButton) {
-    if let board = selectBoardButton.titleForState(.Normal) where board != "Select Board" {
-      sender.enabled = false
+  @IBAction func triggerTabSegueOnButton(_ sender: UIButton) {
+    if let board = selectBoardButton.title(for: UIControlState()) where board != "Select Board" {
+      sender.isEnabled = false
       createPost { post in
-        sender.enabled = true
+        sender.isEnabled = true
         if let post = post {
-          self.performSegueWithIdentifier(SegueIdentifiers.newPostToTab, sender: post)
+          self.performSegue(withIdentifier: SegueIdentifiers.newPostToTab, sender: post)
         }
       }
     } else {
@@ -277,8 +277,8 @@ class NewPostViewController: CustomViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton`.
-  @IBAction func userPhotoButtonPressed(sender: UIButton) {
-    if let image = sender.backgroundImageForState(.Normal) {
+  @IBAction func userPhotoButtonPressed(_ sender: UIButton) {
+    if let image = sender.backgroundImage(for: UIControlState()) {
       JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }
   }
@@ -293,18 +293,18 @@ extension NewPostViewController: UIImagePickerControllerDelegate {
   ///
   /// :param: picker The UIImagePickerController presented by this NewPostViewController.
   /// :param: info The dictionary containing the selected image's data.
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       self.image = image
     }
-    dismissViewControllerAnimated(true, completion: nil)
+    dismiss(animated: true, completion: nil)
   }
   
   /// Handles the instance in which the user cancels the selection of an image by a UIImagePickerController presented by this NewPostViewController.
   ///
   /// :param: picker The UIImagePickerController presented by this NewPostViewController.
-  func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-    dismissViewControllerAnimated(true, completion: nil)
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true, completion: nil)
   }
 }
 
@@ -318,7 +318,7 @@ extension NewPostViewController: UINavigationControllerDelegate {
 
 extension NewPostViewController: UIActionSheetDelegate {
   
-  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+  func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
     UIImagePickerController.defaultActionSheetDelegateImplementationForSource(self, withSelectedIndex: buttonIndex)
   }
 }
@@ -331,10 +331,10 @@ extension NewPostViewController: SelectBoardOverlayViewDelegate {
   ///
   /// :param: overlay The overlay that the board was selected from.
   /// :param: board THe board that was selected.
-  func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board) {
+  func overlay(_ overlay: SelectBoardOverlayView, selectedBoard board: Board) {
     overlay.animateOut()
-    selectBoardButton.setTitle(board.name, forState: .Normal)
-    boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+    selectBoardButton.setTitle(board.name, for: UIControlState())
+    boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: UIControlState())
     boardPhotoButtonWidthConstraint.constant = boardPhotoWidth
   }
   
@@ -342,7 +342,7 @@ extension NewPostViewController: SelectBoardOverlayViewDelegate {
   /// Called when a popup overlay is dismissed
   ///
   /// :param: overlay The overlay that was dismissed.
-  func overlayDismissed(overlay: SelectBoardOverlayView) {
+  func overlayDismissed(_ overlay: SelectBoardOverlayView) {
     overlay.animateOut()
   }
 }

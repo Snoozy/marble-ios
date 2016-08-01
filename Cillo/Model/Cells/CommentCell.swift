@@ -91,13 +91,13 @@ class CommentCell: UITableViewCell {
   struct CommentFonts {
     
     /// Font of the text contained within commentAttributedLabel.
-    static let commentAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    static let commentAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFontOfSize(15.0)
+    static let nameButtonFont = UIFont.boldSystemFont(ofSize: 15.0)
     
     /// Font of the text contained within repAnTimeLabel.
-    static let repAndTimeLabelFont = UIFont.systemFontOfSize(15.0)
+    static let repAndTimeLabelFont = UIFont.systemFont(ofSize: 15.0)
   }
 
   /// Width of indent per indentationLevel of indented Comments.
@@ -108,8 +108,8 @@ class CommentCell: UITableViewCell {
   // MARK: UITableViewCell
   
   override func prepareForReuse() {
-    nameButton.enabled = true
-    photoButton.enabled = true
+    nameButton.isEnabled = true
+    photoButton.isEnabled = true
     upvoteHeightConstraint?.constant = 0.0
     imageIndentConstraint.constant = 0.0
     for line in lines {
@@ -123,7 +123,7 @@ class CommentCell: UITableViewCell {
   /// Assigns all delegates of cell to the given parameter.
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
     commentAttributedLabel.delegate = delegate
   }
 
@@ -141,7 +141,7 @@ class CommentCell: UITableViewCell {
   /// :param: selected True if this cell is selected in the tableview, meaning it will show its button and have no indent.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfCommentCellForComment(comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfCommentCellForComment(_ comment: Comment, withElementWidth width: CGFloat, selectedState selected: Bool, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     let height = comment.heightOfCommentWithWidth(width, selected: selected) + CommentCell.additionalVertSpaceNeeded + dividerHeight
     return selected ? height : height - CommentCell.buttonHeight
   }
@@ -152,7 +152,7 @@ class CommentCell: UITableViewCell {
   /// :param: selected Descibes if CommentCell is selected.
   /// :param: buttonTag The tags of all buttons in this PostCell corresponding to their index in the array holding them.
   /// :param: * Pass the precise index of the comment in its model array.
-  func makeCellFromComment(comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+  func makeCellFromComment(_ comment: Comment, withSelected selected: Bool, andButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     let scheme = ColorScheme.defaultScheme
     
     setupCommentOutletFonts()
@@ -171,8 +171,8 @@ class CommentCell: UITableViewCell {
     
     nameButton.setTitleWithoutAnimation(name)
     
-    let picURL = comment.blocked ? (NSURL(string: "https://static.cillo.co/image/default_small") ?? NSURL()) : comment.user.photoURL
-    photoButton.setBackgroundImageToImageWithURL(picURL, forState: .Normal)
+    let picURL = comment.blocked ? (URL(string: "https://static.cillo.co/image/default_small") ?? URL()) : comment.user.photoURL
+    photoButton.setBackgroundImageToImageWithURL(picURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
@@ -201,37 +201,37 @@ class CommentCell: UITableViewCell {
     }
     
     if comment.blocked || comment.user.isAnon {
-      nameButton.enabled = false
-      photoButton.enabled = false
+      nameButton.isEnabled = false
+      photoButton.isEnabled = false
     }
     
     if comment.isOP {
-      nameButton.setTitleColor(scheme.opTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.opTextColor(), for: UIControlState())
     } else if comment.user.isSelf {
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.meTextColor(), for: UIControlState())
     } else {
-      nameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
+      nameButton.setTitleColor(UIColor.darkText, for: UIControlState())
     }
     
     if comment.voteValue == 1 {
-      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Selected Up Arrow"), for: UIControlState())
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), for: UIControlState())
       repAndTimeLabel.textColor = UIColor.upvoteGreen()
     } else if comment.voteValue == -1 {
-      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), for: UIControlState())
+      downvoteButton?.setBackgroundImage(UIImage(named: "Selected Down Arrow"), for: UIControlState())
       repAndTimeLabel.textColor = UIColor.downvoteRed()
     } else {
-      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      repAndTimeLabel.textColor = UIColor.lightGrayColor()
+      upvoteButton?.setBackgroundImage(UIImage(named: "Up Arrow"), for: UIControlState())
+      downvoteButton?.setBackgroundImage(UIImage(named: "Down Arrow"), for: UIControlState())
+      repAndTimeLabel.textColor = UIColor.lightGray
     }
     
     // indents cell
     imageIndentConstraint.constant = getIndentationSize()
     
     // gets rid of small gap in divider
-    if respondsToSelector("setLayoutMargins:") {
+    if responds(to: #selector(setter: UIView.layoutMargins)) {
       layoutMargins = UIEdgeInsetsZero
     }
     
@@ -248,7 +248,7 @@ class CommentCell: UITableViewCell {
       separatorViewHeightConstraint!.constant = separatorHeight
     }
     
-    if respondsToSelector("setPreservesSuperviewLayoutMargins:") {
+    if responds(to: #selector(setter: UIView.preservesSuperviewLayoutMargins)) {
       preservesSuperviewLayoutMargins = false
     }
   }
@@ -262,7 +262,7 @@ class CommentCell: UITableViewCell {
   /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
   ///
   /// :param: tag The tag that the outlet's `tag` property is set to.
-  private func setOutletTagsTo(tag: Int) {
+  private func setOutletTagsTo(_ tag: Int) {
     nameButton.tag = tag
     photoButton.tag = tag
     upvoteButton?.tag = tag

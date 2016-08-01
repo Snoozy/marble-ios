@@ -48,10 +48,10 @@ class UserTableViewController: SingleUserTableViewController {
     }
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    super.prepareForSegue(segue, sender: sender)
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    super.prepare(for: segue, sender: sender)
     if segue.identifier == segueIdentifierThisToMessages {
-      let destination = segue.destinationViewController as! MessagesViewController
+      let destination = segue.destination as! MessagesViewController
       if let sender = sender as? [String: AnyObject] {
         if let messages = sender["0"] as? [Message], conversation = sender["1"] as? Conversation {
           destination.messages = messages
@@ -63,10 +63,10 @@ class UserTableViewController: SingleUserTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+  override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     switch cellsShown {
-    case .Posts:
-      if !postsFinishedPaging && !retrievingPage && indexPath.row > posts.count - 25 {
+    case .posts:
+      if !postsFinishedPaging && !retrievingPage && (indexPath as NSIndexPath).row > posts.count - 25 {
         retrievingPage = true
         retrievePosts { posts in
           if let posts = posts {
@@ -74,25 +74,25 @@ class UserTableViewController: SingleUserTableViewController {
               self.postsFinishedPaging = true
             } else {
               var row = self.posts.count
-              var newPaths = [NSIndexPath]()
+              var newPaths = [IndexPath]()
               for post in posts {
                 self.posts.append(post)
-                newPaths.append(NSIndexPath(forRow: row, inSection: 1))
-                row++
+                newPaths.append(IndexPath(row: row, section: 1))
+                row += 1
               }
-              dispatch_async(dispatch_get_main_queue()) {
+              DispatchQueue.main.async {
                 self.tableView.beginUpdates()
-                self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+                self.tableView.insertRows(at: newPaths, with: .middle)
                 self.tableView.endUpdates()
-                self.postsPageNumber++
+                self.postsPageNumber += 1
               }
             }
           }
           self.retrievingPage = false
         }
       }
-    case .Comments:
-      if !commentsFinishedPaging && !retrievingPage && indexPath.row > comments.count - 25 {
+    case .comments:
+      if !commentsFinishedPaging && !retrievingPage && (indexPath as NSIndexPath).row > comments.count - 25 {
         retrievingPage = true
         retrieveComments { comments in
           if let comments = comments {
@@ -100,17 +100,17 @@ class UserTableViewController: SingleUserTableViewController {
               self.commentsFinishedPaging = true
             } else {
               var row = self.comments.count
-              var newPaths = [NSIndexPath]()
+              var newPaths = [IndexPath]()
               for comment in comments {
                 self.comments.append(comment)
-                newPaths.append(NSIndexPath(forRow: row, inSection: 1))
-                row++
+                newPaths.append(IndexPath(row: row, section: 1))
+                row += 1
               }
-              dispatch_async(dispatch_get_main_queue()) {
+              DispatchQueue.main.async {
                 self.tableView.beginUpdates()
-                self.tableView.insertRowsAtIndexPaths(newPaths, withRowAnimation: .Middle)
+                self.tableView.insertRows(at: newPaths, with: .middle)
                 self.tableView.endUpdates()
-                self.commentsPageNumber++
+                self.commentsPageNumber += 1
               }
             }
           }
@@ -125,13 +125,13 @@ class UserTableViewController: SingleUserTableViewController {
   /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
   func presentBlockConfirmationAlertView() {
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(user.name)?", preferredStyle: .Alert)
-      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(user.name)?", preferredStyle: .alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
         self.blockUser { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               UIAlertView(title: "\(self.user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
-              self.navigationController?.popToRootViewControllerAnimated(true)
+              self.navigationController?.popToRootViewController(animated: true)
               if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
                 topVC.retrieveData()
               }
@@ -139,11 +139,11 @@ class UserTableViewController: SingleUserTableViewController {
           }
         }
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       alert.addAction(yesAction)
       alert.addAction(cancelAction)
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(user.name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
       alert.show()
@@ -153,40 +153,40 @@ class UserTableViewController: SingleUserTableViewController {
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   func presentMenuActionSheet() {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
-      let messageAction = UIAlertAction(title: "Message", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .actionSheet)
+      let messageAction = UIAlertAction(title: "Message", style: .default) { _ in
         self.retrieveConversation { messages, conversation in
           if let messages = messages, conversation = conversation {
             let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
-            dispatch_async(dispatch_get_main_queue()) {
-              self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+            DispatchQueue.main.async {
+              self.performSegue(withIdentifier: self.segueIdentifierThisToMessages, sender: dictionaryToPass)
             }
           }
         }
       }
-      let blockAction = UIAlertAction(title: "Block", style: .Default) { _ in
+      let blockAction = UIAlertAction(title: "Block", style: .default) { _ in
         self.presentBlockConfirmationAlertView()
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(messageAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let navigationController = navigationController where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = navigationController.navigationBar
         popPresenter?.sourceRect = navigationController.navigationBar.frame
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Message", "Block")
       actionSheet.cancelButtonIndex = 2
       actionSheet.tag = menuActionSheetTag
-      if let navigationController = navigationController where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(navigationController.navigationBar.frame, inView: view, animated: true)
+      if let navigationController = navigationController where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.show(from: navigationController.navigationBar.frame, in: view, animated: true)
       } else {
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
       }
     }
   }
@@ -194,39 +194,39 @@ class UserTableViewController: SingleUserTableViewController {
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   ///
   /// :param: index The index of the post that triggered this action sheet.
-  func presentMenuActionSheetForIndex(index: Int, iPadReference: UIButton?) {
+  func presentMenuActionSheetForIndex(_ index: Int, iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
-      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .actionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .default) { _ in
         self.flagPostAtIndex(index) { success in
           if success {
             UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
           }
         }
       }
-      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+      let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
         self.presentBlockConfirmationAlertView()
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(flagAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
       actionSheet.tag = index
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.show(from: iPadReference.bounds, in: view, animated: true)
       } else {
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
       }
     }
   }
@@ -237,7 +237,7 @@ class UserTableViewController: SingleUserTableViewController {
   ///
   /// :param: completionHandler The completion block for the server call.
   /// :param: success True if the call was successful.
-  func blockUser(completionHandler: (success: Bool) -> ()) {
+  func blockUser(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.blockUser(user) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -248,7 +248,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: index The index of the post being upvoted in `posts`.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
-  func flagPostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func flagPostAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.flagPost(posts[index]) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -259,19 +259,19 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: comments The comments made by user.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveComments(completionHandler: (comments: [Comment]?) -> ()) {
+  func retrieveComments(_ completionHandler: (comments: [Comment]?) -> ()) {
     DataManager.sharedInstance.getUserCommentsByID(user.userID, lastCommentID: comments.last?.commentID) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
   }
   
-  func retrieveConversation(completionHandler: (messages: [Message]?, conversation: Conversation?) -> ()) {
+  func retrieveConversation(_ completionHandler: (messages: [Message]?, conversation: Conversation?) -> ()) {
     DataManager.sharedInstance.getEndUserMessagesWithUser(user) { result in
       switch result {
-      case .Error(let error):
+      case .error(let error):
         self.handleError(error)
         completionHandler(messages: nil, conversation: nil)
-      case .Value(let element):
+      case .value(let element):
         let messages = element.unbox
         let conversation = Conversation()
         conversation.otherUser = self.user
@@ -293,25 +293,25 @@ class UserTableViewController: SingleUserTableViewController {
     postsPageNumber = 1
     retrievePosts { posts in
       if let posts = posts {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           if posts.isEmpty {
             self.postsFinishedPaging = true
           }
           self.posts = posts
-          self.postsPageNumber++
+          self.postsPageNumber += 1
           self.commentsFinishedPaging = false
           self.comments = []
           self.commentsPageNumber = 1
         }
         self.retrieveComments { comments in
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.dataRetrieved = true
             if let comments = comments {
               if comments.isEmpty {
                 self.commentsFinishedPaging = true
               }
               self.comments = comments
-              self.commentsPageNumber++
+              self.commentsPageNumber += 1
             }
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
@@ -319,7 +319,7 @@ class UserTableViewController: SingleUserTableViewController {
           }
         }
       } else {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
           self.dataRetrieved = true
           self.refreshControl?.endRefreshing()
           self.retrievingPage = false
@@ -333,7 +333,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: posts The posts made by user.
   /// :param: * Nil if there was an error in the server call.
-  func retrievePosts(completionHandler: (posts: [Post]?) -> ()) {
+  func retrievePosts(_ completionHandler: (posts: [Post]?) -> ()) {
     DataManager.sharedInstance.getUserPostsByID(user.userID, lastPostID: posts.last?.postID) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -344,7 +344,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// Presents action sheet to block message user.
   ///
   /// :param: sender The button that is touched to send this function is the right bar button.
-  @IBAction func menuPressed(sender: UIBarButtonItem) {
+  @IBAction func menuPressed(_ sender: UIBarButtonItem) {
     presentMenuActionSheet()
   }
   
@@ -353,7 +353,7 @@ class UserTableViewController: SingleUserTableViewController {
   /// **Note:** The position of the Post to show menu for is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
-  @IBAction func morePressed(sender: UIButton) {
+  @IBAction func morePressed(_ sender: UIButton) {
     presentMenuActionSheetForIndex(sender.tag, iPadReference: sender)
   }
 }
@@ -362,15 +362,15 @@ class UserTableViewController: SingleUserTableViewController {
 
 extension UserTableViewController: UIActionSheetDelegate {
   
-  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+  func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
     if actionSheet.tag ==  menuActionSheetTag {
       switch buttonIndex {
       case 0:
         retrieveConversation { messages, conversation in
           if let messages = messages, conversation = conversation {
             let dictionaryToPass: [String: AnyObject] = ["0": messages, "1": conversation]
-            dispatch_async(dispatch_get_main_queue()) {
-              self.performSegueWithIdentifier(self.segueIdentifierThisToMessages, sender: dictionaryToPass)
+            DispatchQueue.main.async {
+              self.performSegue(withIdentifier: self.segueIdentifierThisToMessages, sender: dictionaryToPass)
             }
           }
         }
@@ -400,12 +400,12 @@ extension UserTableViewController: UIActionSheetDelegate {
 
 extension UserTableViewController: UIAlertViewDelegate {
   
-  func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+  func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
     if buttonIndex == 1 {
       blockUser { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+          DispatchQueue.main.async {
+            self.navigationController?.popToRootViewController(animated: true)
             if let topVC = self.navigationController?.topViewController as? CustomTableViewController {
               topVC.retrieveData()
             }

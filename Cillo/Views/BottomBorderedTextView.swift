@@ -25,20 +25,20 @@ class BottomBorderedTextView: PlaceholderTextView {
   
   // MARK: UIView
   
-  override func drawRect(rect: CGRect) {
-    super.drawRect(rect)
+  override func draw(_ rect: CGRect) {
+    super.draw(rect)
     if bottomBorder == nil {
       bottomBorder = CALayer();
       bottomBorder!.frame = CGRect(x: 0.0, y: contentOffset.y + frame.size.height - bottomBorderWidth, width: frame.size.width, height: bottomBorderWidth);
-      bottomBorder!.backgroundColor = bottomBorderColor.CGColor;
-      layer.addSublayer(bottomBorder)
+      bottomBorder!.backgroundColor = bottomBorderColor.cgColor;
+      layer.addSublayer(bottomBorder!)
       delegate = self
     }
   }
 }
 
 extension BottomBorderedTextView: UITextViewDelegate {
-  func scrollViewDidScroll(scrollView: UIScrollView) {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if let bottomBorder = bottomBorder {
       let newY = scrollView.contentOffset.y + frame.size.height - bottomBorderWidth
       bottomBorder.frame = CGRect(x: 0.0, y: newY, width: frame.size.width, height: bottomBorderWidth)

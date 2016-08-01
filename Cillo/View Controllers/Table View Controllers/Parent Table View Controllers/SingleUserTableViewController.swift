@@ -20,7 +20,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// * Posts: Title of segment with index 0.
   /// * Comments: Title of segment with index 1.
   enum SegIndex {
-    case Posts, Comments
+    case posts, comments
   }
   
   // MARK: Structs
@@ -29,7 +29,7 @@ class SingleUserTableViewController: CustomTableViewController {
   struct SegControlConstants {
     
     /// Font of the segmented control
-    static let font = UIFont.boldSystemFontOfSize(14.0)
+    static let font = UIFont.boldSystemFont(ofSize: 14.0)
     
     /// Height of the segmented control
     static let height: CGFloat = 28.0
@@ -41,7 +41,7 @@ class SingleUserTableViewController: CustomTableViewController {
   // MARK: Properties
   
   /// Corresponds to the selected segmentIndex of the segmented control in the headerview of section 1 of `tableView`.
-  var cellsShown = SegIndex.Posts
+  var cellsShown = SegIndex.posts
   
   /// Comments made by `user`.
   var comments = [Comment]()
@@ -105,71 +105,71 @@ class SingleUserTableViewController: CustomTableViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     var index = 0
     var originalPost = false
     if let sender = sender as? UIButton {
       originalPost = sender.tag >= RepostCell.tagModifier
       index = originalPost ? sender.tag - RepostCell.tagModifier : sender.tag
-    } else if let sender = sender as? NSIndexPath {
-      index = sender.row
+    } else if let sender = sender as? IndexPath {
+      index = (sender as NSIndexPath).row
     }
     if segue.identifier == segueIdentifierThisToPost {
-      var destination = segue.destinationViewController as! PostTableViewController
+      let destination = segue.destination as! PostTableViewController
       switch cellsShown {
-      case .Posts:
+      case .posts:
         var post = posts[index]
-        if let repost = post as? Repost, sender = sender as? UIButton, title = sender.titleForState(.Normal) where title == "Original Post" {
+        if let repost = post as? Repost, sender = sender as? UIButton, title = sender.title(for: UIControlState()) where title == "Original Post" {
           post = repost.originalPost
         }
         destination.post = post
-      case .Comments:
+      case .comments:
         destination.post = comments[index].post
       }
     } else if segue.identifier == segueIdentifierThisToBoard {
-      var destination = segue.destinationViewController as! BoardTableViewController
+      let destination = segue.destination as! BoardTableViewController
       switch cellsShown {
-      case .Posts:
+      case .posts:
         var post = posts[index]
         if let repost = post as? Repost where originalPost {
           post = repost.originalPost
         }
         destination.board = post.board
-      case .Comments:
+      case .comments:
         break
       }
     } else if segue.identifier == segueIdentifierThisToBoards {
-      var destination = segue.destinationViewController as! BoardsTableViewController
+      let destination = segue.destination as! BoardsTableViewController
       destination.userID = user.userID
     }
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.separatorStyle = .None
+    tableView.separatorStyle = .none
   }
   
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     // UserCell is in separate section from Post/CommentCells to get sticky segmentedControl effect
     return 2
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if indexPath.section == 0 {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if (indexPath as NSIndexPath).section == 0 {
       return dequeueAndSetupUserCellForIndexPath(indexPath)
     } else if !dataRetrieved {
       return dequeueAndSetupRetrievingDataCellForIndexPath(indexPath)
     } else {
       switch cellsShown {
-      case .Posts:
+      case .posts:
         if posts.count == 0 {
           return dequeueAndSetupNoPostsCellForIndexPath(indexPath)
         } else {
           return dequeueAndSetupPostCellForIndexPath(indexPath)
         }
-      case .Comments:
+      case .comments:
         if comments.count == 0 {
           return dequeueAndSetupNoCommentsCellForIndexPath(indexPath)
         } else {
@@ -179,19 +179,19 @@ class SingleUserTableViewController: CustomTableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     // UserCell section only has 1 cell
     if section == 0  || !dataRetrieved {
       return 1
     } else {
       switch cellsShown {
-      case .Posts:
+      case .posts:
         if posts.count == 0 {
           return 1
         } else {
           return posts.count
         }
-      case .Comments:
+      case .comments:
         if comments.count == 0 {
           return 1
         } else {
@@ -203,52 +203,52 @@ class SingleUserTableViewController: CustomTableViewController {
 
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    if indexPath.section != 0 && dataRetrieved {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: false)
+    if (indexPath as NSIndexPath).section != 0 && dataRetrieved {
       switch cellsShown {
-      case .Posts where posts.count != 0:
-        performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
-      case .Comments where comments.count != 0:
-        performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
+      case .posts where posts.count != 0:
+        performSegue(withIdentifier: segueIdentifierThisToPost, sender: indexPath)
+      case .comments where comments.count != 0:
+        performSegue(withIdentifier: segueIdentifierThisToPost, sender: indexPath)
       default:
         break
       }
     }
   }
   
-  override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+  override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return section == 0 || !dataRetrieved ? 0 : SegControlConstants.height + SegControlConstants.margins * 2
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).section == 0 {
       return UserCell.heightOfUserCellForUser(user, withElementWidth: tableViewWidthWithMargins)
     } else if !dataRetrieved {
       return heightOfSingleLabelCells
     } else {
       switch cellsShown {
-      case .Posts:
+      case .posts:
         if posts.count == 0 {
           return heightOfSingleLabelCells
         } else {
-          return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
+          return PostCell.heightOfPostCellForPost(posts[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
         }
-      case .Comments:
+      case .comments:
         if comments.count == 0 {
           return heightOfSingleLabelCells
         } else {
-          return CommentCell.heightOfCommentCellForComment(comments[indexPath.row], withElementWidth: tableViewWidthWithMargins, selectedState: false, andDividerHeight: separatorHeightForIndexPath(indexPath))
+          return CommentCell.heightOfCommentCellForComment(comments[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, selectedState: false, andDividerHeight: separatorHeightForIndexPath(indexPath))
         }
       }
     }
   }
   
-  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+  override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     // Segmented Control gets placed in header view to get a sticky segmented control effect.
     if section == 1 && dataRetrieved {
       let view = UIView()
-      view.backgroundColor = UIColor.whiteColor()
+      view.backgroundColor = UIColor.white
       
       view.addSubview(segmentedControlForHeaderView())
       
@@ -268,9 +268,9 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created CommentCell.
-  func dequeueAndSetupCommentCellForIndexPath(indexPath: NSIndexPath) -> CommentCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.commentCell, forIndexPath: indexPath) as! CommentCell
-    cell.makeCellFromComment(comments[indexPath.row], withSelected: false, andButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+  func dequeueAndSetupCommentCellForIndexPath(_ indexPath: IndexPath) -> CommentCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.commentCell, for: indexPath) as! CommentCell
+    cell.makeCellFromComment(comments[(indexPath as NSIndexPath).row], withSelected: false, andButtonTag: (indexPath as NSIndexPath).row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }
@@ -280,8 +280,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NoCommentsCell.
-  func dequeueAndSetupNoCommentsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noCommentsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNoCommentsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.noCommentsCell, for: indexPath) 
     cell.separatorInset = UIEdgeInsets(top: 0, left: cell.frame.size.width, bottom: 0, right: 0)
     return cell
   }
@@ -291,8 +291,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NoPostsCell.
-  func dequeueAndSetupNoPostsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noPostsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNoPostsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.noPostsCell, for: indexPath) 
     return cell
   }
   
@@ -303,13 +303,13 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created PostCell.
-  func dequeueAndSetupPostCellForIndexPath(indexPath: NSIndexPath) -> PostCell {
-    let post = posts[indexPath.row]
+  func dequeueAndSetupPostCellForIndexPath(_ indexPath: IndexPath) -> PostCell {
+    let post = posts[(indexPath as NSIndexPath).row]
     let cell: PostCell = {
       if let post = post as? Repost {
-        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
+        return self.tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.repostCell, for: indexPath) as! RepostCell
       } else {
-        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
+        return self.tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.postCell, for: indexPath) as! PostCell
       }
     }()
 //    if let post = post as? Repost where post.originalPost.loadedImage == nil {
@@ -327,7 +327,7 @@ class SingleUserTableViewController: CustomTableViewController {
 //        }
 //      }
 //    }
-    cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+    cell.makeCellFromPost(post, withButtonTag: (indexPath as NSIndexPath).row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }
@@ -337,8 +337,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created RetrieivingDataCell.
-  func dequeueAndSetupRetrievingDataCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.retrievingDataCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupRetrievingDataCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.retrievingDataCell, for: indexPath) 
     return cell
   }
 
@@ -347,8 +347,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created UserCell.
-  func dequeueAndSetupUserCellForIndexPath(indexPath: NSIndexPath) -> UserCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.userCell, forIndexPath: indexPath) as! UserCell
+  func dequeueAndSetupUserCellForIndexPath(_ indexPath: IndexPath) -> UserCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.userCell, for: indexPath) as! UserCell
     cell.makeCellFromUser(user, withButtonTag: 0)
     cell.assignDelegatesForCellTo(self)
     return cell
@@ -359,12 +359,12 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :returns: The created UISegmentedControl.
   func segmentedControlForHeaderView() -> UISegmentedControl {
     let segControl = UISegmentedControl(items: ["Posts", "Comments"])
-    segControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents: .ValueChanged)
-    segControl.setTitleTextAttributes([NSFontAttributeName:SegControlConstants.font], forState: .Normal)
+    segControl.addTarget(self, action: #selector(SingleUserTableViewController.segmentedControlValueChanged(_:)), for: .valueChanged)
+    segControl.setTitleTextAttributes([NSFontAttributeName:SegControlConstants.font], for: UIControlState())
     switch cellsShown {
-    case .Posts:
+    case .posts:
       segControl.selectedSegmentIndex = 0
-    case .Comments:
+    case .comments:
       segControl.selectedSegmentIndex = 1
     }
     segControl.tintColor = ColorScheme.defaultScheme.segmentedControlSelectedColor()
@@ -379,15 +379,15 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell in the `tableView`.
   ///
   /// :returns: The correct separator height, as specified by the `postDividerHeight` and `commentDividerHeight` constants.
-  func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 {
+  func separatorHeightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).section == 0 {
       return 0.0
     }
     switch cellsShown {
-    case .Posts:
-      return indexPath.row != posts.count - 1 ? postDividerHeight : 0.0
-    case .Comments:
-      return indexPath.row != comments.count - 1 ? commentDividerHeight : 0.0
+    case .posts:
+      return (indexPath as NSIndexPath).row != posts.count - 1 ? postDividerHeight : 0.0
+    case .comments:
+      return (indexPath as NSIndexPath).row != comments.count - 1 ? commentDividerHeight : 0.0
     }
   }
   
@@ -398,7 +398,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in the posts array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func downvotePostAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -409,7 +409,7 @@ class SingleUserTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in the posts array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func upvotePostAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -420,12 +420,12 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Updates cellsShown based on the selectedSegmentIndex of sender.
   ///
   /// :param: sender The UISegmentedControl in section 1 header.
-  func segmentedControlValueChanged(sender: UISegmentedControl) {
+  func segmentedControlValueChanged(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case 0:
-      cellsShown = .Posts
+      cellsShown = .posts
     case 1:
-      cellsShown = .Comments
+      cellsShown = .comments
     default:
       break
     }
@@ -439,15 +439,15 @@ class SingleUserTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to be downvoted is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a downvoteButton in a PostCell.
-  @IBAction func downvotePostPressed(sender: UIButton) {
+  @IBAction func downvotePostPressed(_ sender: UIButton) {
     let post = posts[sender.tag]
     if post.voteValue != -1 {
       downvotePostAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             post.downvote()
-            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+            let postIndexPath = IndexPath(row: sender.tag, section: 1)
+            self.tableView.reloadRows(at: [postIndexPath], with: .none)
           }
           
         }
@@ -460,16 +460,16 @@ class SingleUserTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post is known via the tag of the button with the RepostCell.tagModifier taken into account.
   ///
   /// :param: sender The button that is touched to send this function is an originalPostButton in a RepostCell.
-  @IBAction func goToOriginalPost(sender: UIButton) {
+  @IBAction func goToOriginalPost(_ sender: UIButton) {
     if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
-      performSegueWithIdentifier(segueIdentifierThisToPost, sender: sender)
+      performSegue(withIdentifier: segueIdentifierThisToPost, sender: sender)
     }
   }
   
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
-  @IBAction func imageButtonPressed(sender: UIButton) {
+  @IBAction func imageButtonPressed(_ sender: UIButton) {
 //    let loadedImage: UIImage? = {
 //      let post = self.posts[sender.tag]
 //      if let post = post as? Repost {
@@ -490,52 +490,52 @@ class SingleUserTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to be reposted is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
-  @IBAction func repostPressed(sender: UIButton) {
+  @IBAction func repostPressed(_ sender: UIButton) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewRepost, sender: posts[sender.tag])
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewRepost, sender: posts[sender.tag])
     }
   }
   
   /// Expands `postTextView` in a PostCell to a height greater than `maxContractedHeight`.
   ///
   /// :param: sender The button that is touched to send this function is a `seeFullButton` in a PostCell.
-  @IBAction func seeFullPressed(sender: UIButton) {
+  @IBAction func seeFullPressed(_ sender: UIButton) {
     let post = posts[sender.tag]
     if let post = post as? Repost, seeFull = post.originalPost.seeFull {
       post.originalPost.seeFull! = !seeFull
     } else if let seeFull = post.seeFull {
       post.seeFull! = !seeFull
     }
-    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 1)], withRowAnimation: .None)
+    tableView.reloadRows(at: [IndexPath(row: sender.tag, section: 1)], with: .none)
   }
   
   /// Triggers segue to PostTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a commentButton in a PostCell.
-  @IBAction func triggerPostSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToPost, sender: sender)
+  @IBAction func triggerPostSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToPost, sender: sender)
   }
   
   /// Triggers segue to BoardTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a boardButton in a PostCell or an originalBoardButton in a RepostCell.
-  @IBAction func triggerBoardSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToBoard, sender: sender)
+  @IBAction func triggerBoardSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToBoard, sender: sender)
   }
   
   /// Triggers segue to BoardsTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a boardsButton in a UserCell.
-  @IBAction func triggerBoardsSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToBoards, sender: sender)
+  @IBAction func triggerBoardsSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToBoards, sender: sender)
   }
   
   /// Presents another instance of UserViewController representing the user of an `oringialPost` if a `post` is a Repost.
   ///
   /// :param: sender The button that is touched to send this function is an originalUserButton in a RepostCell.
-  @IBAction func triggerOriginalUserTransitionOnButton(sender: UIButton) {
+  @IBAction func triggerOriginalUserTransitionOnButton(_ sender: UIButton) {
     if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
-      let userViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.user) as! UserTableViewController
+      let userViewController = UIStoryboard.mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdentifiers.user) as! UserTableViewController
       userViewController.user = post.originalPost.user
       navigationController?.pushViewController(userViewController, animated: true)
     }
@@ -546,15 +546,15 @@ class SingleUserTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to be upvoted is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is an upvoteButton in a PostCell.
-  @IBAction func upvotePostPressed(sender: UIButton) {
+  @IBAction func upvotePostPressed(_ sender: UIButton) {
     let post = posts[sender.tag]
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             post.upvote()
-            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+            let postIndexPath = IndexPath(row: sender.tag, section: 1)
+            self.tableView.reloadRows(at: [postIndexPath], with: .none)
           }
           
         }
@@ -565,8 +565,8 @@ class SingleUserTableViewController: CustomTableViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton` in a UserCell, PostCell, CommentCell.
-  @IBAction func userPhotoPressed(sender: UIButton) {
-    if let photo = sender.backgroundImageForState(.Normal) {
+  @IBAction func userPhotoPressed(_ sender: UIButton) {
+    if let photo = sender.backgroundImage(for: UIControlState()) {
       JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)
     }
   }

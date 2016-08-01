@@ -44,14 +44,14 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == segueIdentifierThisToPost {
-      let destination = segue.destinationViewController as! PostTableViewController
+      let destination = segue.destination as! PostTableViewController
       if let sender = sender as? Post {
         destination.post = sender
       }
     } else if segue.identifier == segueIdentifierThisToUser {
-      let destination = segue.destinationViewController as! UserTableViewController
+      let destination = segue.destination as! UserTableViewController
       if let sender = sender as? UIButton {
         destination.user = displayedNotifications[sender.tag].titleUser
       }
@@ -60,16 +60,16 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.separatorStyle = .None
+    tableView.separatorStyle = .none
   }
   
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if displayedNotifications.count != 0 {
       return dequeueAndSetupNotificationCellForIndexPath(indexPath)
     } else {
@@ -77,28 +77,28 @@ class MultipleNotificationTableViewController: CustomTableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return displayedNotifications.count != 0 ? displayedNotifications.count : 1
   }
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
     if displayedNotifications.count != 0 {
-      tableView.userInteractionEnabled = false
-      getPostForNotification(displayedNotifications[indexPath.row]) { post in
-        tableView.userInteractionEnabled = true
+      tableView.isUserInteractionEnabled = false
+      getPostForNotification(displayedNotifications[(indexPath as NSIndexPath).row]) { post in
+        tableView.isUserInteractionEnabled = true
         if let post = post {
-          self.performSegueWithIdentifier(self.segueIdentifierThisToPost, sender: post)
+          self.performSegue(withIdentifier: self.segueIdentifierThisToPost, sender: post)
         }
       }
     }
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if displayedNotifications.count != 0 {
-      return NotificationCell.heightOfNotificationCellForNotification(displayedNotifications[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: notificationDividerHeight)
+      return NotificationCell.heightOfNotificationCellForNotification(displayedNotifications[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: notificationDividerHeight)
     } else {
       return heightOfSingleLabelCells
     }
@@ -111,9 +111,9 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NotificationCell.
-  func dequeueAndSetupNotificationCellForIndexPath(indexPath: NSIndexPath) -> NotificationCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.notificationCell, forIndexPath: indexPath) as! NotificationCell
-    cell.makeCellFromNotification(displayedNotifications[indexPath.row], withButtonTag: indexPath.row)
+  func dequeueAndSetupNotificationCellForIndexPath(_ indexPath: IndexPath) -> NotificationCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.notificationCell, for: indexPath) as! NotificationCell
+    cell.makeCellFromNotification(displayedNotifications[(indexPath as NSIndexPath).row], withButtonTag: (indexPath as NSIndexPath).row)
     cell.assignDelegatesForCellTo(self)
     return cell
   }
@@ -123,8 +123,8 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NoNotificationsCell.
-  func dequeueAndSetupNoNotificationsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-     return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noNotificationsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNoNotificationsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+     return tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.noNotificationsCell, for: indexPath) 
   }
   
   // MARK: Networking Helper Functions
@@ -134,7 +134,7 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: post The post that the notification pertains to.
   /// :param: * Nil if there was an error in the server call.
-  func getPostForNotification(notification: Notification, completionHandler: (post: Post?) -> ()) {
+  func getPostForNotification(_ notification: Notification, completionHandler: (post: Post?) -> ()) {
     DataManager.sharedInstance.getPostByID(notification.postID) { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -145,7 +145,7 @@ class MultipleNotificationTableViewController: CustomTableViewController {
   /// Triggers segue to UserTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a photoButton in a NotificationCell.
-  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToUser, sender: sender)
+  @IBAction func triggerUserSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToUser, sender: sender)
   }
 }

@@ -12,8 +12,8 @@ import UIKit
 
 /// Delegate for the overlay that allows the overlay to pass back a selected board and tell the previous controller when it is dismissed.
 protocol SelectBoardOverlayViewDelegate {
-  func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board)
-  func overlayDismissed(overlay: SelectBoardOverlayView)
+  func overlay(_ overlay: SelectBoardOverlayView, selectedBoard board: Board)
+  func overlayDismissed(_ overlay: SelectBoardOverlayView)
 }
 
 // MARK: - Classes
@@ -37,16 +37,16 @@ class SelectBoardOverlayView: UIView {
   // MARK: Initializers
   
   override init(frame: CGRect) {
-    tableController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(StoryboardIdentifiers.boardOverlay) as! BoardOverlayTableViewController
+    tableController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardIdentifiers.boardOverlay) as! BoardOverlayTableViewController
     tableController.tableView.frame = frame.rectByInsetting(dx: frame.width / 16, dy: frame.height * 0.28)
     tableController.tableView.layer.cornerRadius = 8.0
     super.init(frame: frame)
     tableController.delegate = self
     // ios 7 will just use this backgroundColor because there is no UIVisualEffectView
-    backgroundColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.5)
+    backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
     addSubview(tableController.tableView)
-    bringSubviewToFront(tableController.tableView)
-    let gestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissView:")
+    bringSubview(toFront: tableController.tableView)
+    let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SelectBoardOverlayView.dismissView(_:)))
     gestureRecognizer.delegate = self
     addGestureRecognizer(gestureRecognizer)
   }
@@ -60,10 +60,10 @@ class SelectBoardOverlayView: UIView {
   
   /// Animates the popup table to expand in the center of the screen.
   private func animateInnerFrame() {
-    tableController.tableView.transform = CGAffineTransformMakeScale(0.1, 0.1)
-    UIView.animateWithDuration(0.15, delay: 0, options: .CurveEaseOut,
+    tableController.tableView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+    UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut,
       animations: {
-        self.tableController.tableView.transform = CGAffineTransformIdentity
+        self.tableController.tableView.transform = CGAffineTransform.identity
       },
       completion: nil
     )
@@ -72,16 +72,16 @@ class SelectBoardOverlayView: UIView {
   /// Animates the blurView to fade in.
   private func animateBlur() {
     if objc_getClass("UIVisualEffectView") != nil {
-      blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+      blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
       blurView!.frame = frame
       blurView!.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-      backgroundColor = UIColor.clearColor()
+      backgroundColor = UIColor.clear
       blurView!.alpha = 0.0
-      UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut,
+      UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(),
         animations: {
           self.blurView!.alpha = 1.0
           self.addSubview(self.blurView!)
-          self.bringSubviewToFront(self.tableController.tableView)
+          self.bringSubview(toFront: self.tableController.tableView)
         },
         completion: nil
       )
@@ -91,17 +91,17 @@ class SelectBoardOverlayView: UIView {
   /// Presents the overlay as a subview with a popup animation into the provided view.
   ///
   /// :param: view The view that this overlay will be added as a subview to.
-  func animateInto(view: UIView) {
+  func animateInto(_ view: UIView) {
     animateBlur()
     animateInnerFrame()
     view.addSubview(self)
-    view.bringSubviewToFront(self)
+    view.bringSubview(toFront: self)
   }
   
   /// Fades away the overlay and removes it from its superview.
   func animateOut() {
     alpha = 1.0
-    UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseInOut,
+    UIView.animate(withDuration: 0.15, delay: 0.0, options: UIViewAnimationOptions(),
       animations: {
         self.alpha = 0.0
       },
@@ -114,7 +114,7 @@ class SelectBoardOverlayView: UIView {
   /// Dismisses the view when the `blurView` is touched.
   ///
   /// :param: sender The sender of this function is the tap gesture in the blurView.
-  func dismissView(sender: UITapGestureRecognizer) {
+  func dismissView(_ sender: UITapGestureRecognizer) {
     delegate?.overlayDismissed(self)
   }
 }
@@ -127,22 +127,22 @@ extension SelectBoardOverlayView: BoardOverlayTableViewControllerDelegate {
   ///
   /// :param: table The controller that is passing a board back to this overlay.
   /// :param: board The board that is being passed back.
-  func overlayTableViewController(table: BoardOverlayTableViewController, didSelectBoard board: Board) {
+  func overlayTableViewController(_ table: BoardOverlayTableViewController, didSelectBoard board: Board) {
     delegate?.overlay(self, selectedBoard: board)
   }
   
-  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar) {
+  func overlayTableViewController(_ table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar) {
     let center = (frame.height - UITextView.keyboardHeight + 30) / 2
     let offset = center - tableController.tableView.frame.midY
-    UIView.animateWithDuration(0.1) {
+    UIView.animate(withDuration: 0.1) {
       self.tableController.tableView.frame.offset(dx: 0, dy: offset)
     }
   }
   
-  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar) {
+  func overlayTableViewController(_ table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar) {
     let center = frame.height / 2
     let offset = center - tableController.tableView.frame.midY
-    UIView.animateWithDuration(0.1) {
+    UIView.animate(withDuration: 0.1) {
       self.tableController.tableView.frame.offset(dx: 0, dy: offset)
     }
   }
@@ -153,7 +153,7 @@ extension SelectBoardOverlayView: BoardOverlayTableViewControllerDelegate {
 
 extension SelectBoardOverlayView: UIGestureRecognizerDelegate {
 
-  func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
     return touch.view == blurView || touch.view == self
   }
 }

@@ -32,7 +32,7 @@ class Board: NSObject {
   var name = ""
   
   /// Picture of this Board.
-  var photoURL = NSURL()
+  var photoURL = URL()
   
   // MARK: Initializers
   
@@ -57,7 +57,7 @@ class Board: NSObject {
       descrip = json["description"].stringValue
     }
     following = json["following"].boolValue
-    if let url = NSURL(string: json["photo"].stringValue) {
+    if let url = URL(string: json["photo"].stringValue) {
       photoURL = url
     }
   }
@@ -73,7 +73,7 @@ class Board: NSObject {
   ///
   /// :param: width The current width of descripTextView.
   /// :returns: Predicted height of descripTextView in a BoardCell.
-  func heightOfDescripWithWidth(width: CGFloat) -> CGFloat {
+  func heightOfDescripWithWidth(_ width: CGFloat) -> CGFloat {
     return descrip.heightOfTextWithWidth(width, andFont: BoardCell.BoardFonts.descripAttributedLabelFont)
   }
 }

@@ -88,22 +88,22 @@ class PostCell: UITableViewCell {
   struct PostFonts {
     
     /// Font of the text contained within postAttributedLabel.
-    static let postAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    static let postAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     /// Font of the text contained within repLabel.
-    static let repLabelFont = UIFont.boldSystemFontOfSize(18.0)
+    static let repLabelFont = UIFont.boldSystemFont(ofSize: 18.0)
     
     /// Font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFontOfSize(16.0)
+    static let nameButtonFont = UIFont.boldSystemFont(ofSize: 16.0)
     
     /// Font of the text contained within boardButton.
-    static let boardButtonFont = UIFont.boldSystemFontOfSize(16.0)
+    static let boardButtonFont = UIFont.boldSystemFont(ofSize: 16.0)
     
     /// Font of the text contained within timeLabel.
-    static let timeLabelFont = UIFont.systemFontOfSize(13.0)
+    static let timeLabelFont = UIFont.systemFont(ofSize: 13.0)
     
     /// Font of the text contained within commentLabel.
-    static let commentLabelFont = UIFont.systemFontOfSize(9.0)
+    static let commentLabelFont = UIFont.systemFont(ofSize: 9.0)
   }
   
   // MARK: UITableViewCell
@@ -113,8 +113,8 @@ class PostCell: UITableViewCell {
 //    imagesButton.setImage(nil, forState: .Normal)
 //    separatorViewHeightConstraint?.constant = 0
 //    imagesButton.setTitle("", forState: .Normal)
-    nameButton.enabled = true
-    photoButton.enabled = true
+    nameButton.isEnabled = true
+    photoButton.isEnabled = true
 //    nameButton.setTitleWithoutAnimation("")
 //    boardButton.setTitleWithoutAnimation("")
   }
@@ -124,7 +124,7 @@ class PostCell: UITableViewCell {
   /// Assigns all delegates of cell to the given parameter.
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
     postAttributedLabel.delegate = delegate
   }
   
@@ -136,7 +136,7 @@ class PostCell: UITableViewCell {
   /// :param: maxImageHeight The maximum height of the image in the cell.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfPostCellForPost(post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, maxContractedImageHeight maxImageHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfPostCellForPost(_ post: Post, withElementWidth width: CGFloat, maxContractedHeight maxHeight: CGFloat?, maxContractedImageHeight maxImageHeight: CGFloat?, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     if let post = post as? Repost {
       return RepostCell.heightOfRepostCellForRepost(post, withElementWidth: width, maxContractedHeight: maxHeight, maxContractedImageHeight: maxImageHeight, andDividerHeight: dividerHeight)
     }
@@ -154,7 +154,7 @@ class PostCell: UITableViewCell {
   /// :param: maxImageHeight The maximum height of the image in the cell.
   /// :param: separatorHeight The height of the custom separators at the bottom of this PostCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
-  func makeCellFromPost(post: Post, withButtonTag buttonTag: Int, maxContractedImageHeight maxImageHeight: CGFloat?, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+  func makeCellFromPost(_ post: Post, withButtonTag buttonTag: Int, maxContractedImageHeight maxImageHeight: CGFloat?, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     
     setupPostOutletFonts()
     setOutletTagsTo(buttonTag)
@@ -163,51 +163,51 @@ class PostCell: UITableViewCell {
     boardButton.setTitleWithoutAnimation(post.board.name)
     
     timeLabel.text = post.time
-    timeLabel.textColor = UIColor.lightGrayColor()
+    timeLabel.textColor = UIColor.lightGray
     
-    photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
+    photoButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
     postAttributedLabel.setupWithText(post.text, andFont: PostCell.PostFonts.postAttributedLabelFont)
     
     commentLabel.text = post.commentCount.fiveCharacterDisplay
-    commentLabel.textColor = UIColor.whiteColor()
+    commentLabel.textColor = UIColor.white
     
     repLabel.text = post.rep.fiveCharacterDisplay
     
     // handle anonymous boards
     if post.user.isAnon {
-      nameButton.enabled = false
-      photoButton.enabled = false
+      nameButton.isEnabled = false
+      photoButton.isEnabled = false
     }
     
     let scheme = ColorScheme.defaultScheme
     
     // handle recoloring of the end user's posts.
     if post.user.isSelf {
-      nameButton.setTitleColor(scheme.meTextColor(), forState: .Normal)
+      nameButton.setTitleColor(scheme.meTextColor(), for: UIControlState())
     } else {
-      nameButton.setTitleColor(UIColor.darkTextColor(), forState: .Normal)
+      nameButton.setTitleColor(UIColor.darkText, for: UIControlState())
     }
     
     // handle upvoted and downvoted posts.
     if post.voteValue == 1 {
-      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"), for: UIControlState())
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), for: UIControlState())
       repLabel.textColor = UIColor.upvoteGreen()
     } else if post.voteValue == -1 {
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), forState: .Normal)
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), for: UIControlState())
+      downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), for: UIControlState())
       repLabel.textColor = UIColor.downvoteRed()
     } else {
-      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), forState: .Normal)
-      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), forState: .Normal)
-      repLabel.textColor = UIColor.darkTextColor()
+      upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), for: UIControlState())
+      downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), for: UIControlState())
+      repLabel.textColor = UIColor.darkText
     }
     
     // gets rid of small gap in divider
-    if seeFullButton == nil && respondsToSelector("setLayoutMargins:") {
+    if seeFullButton == nil && responds(to: #selector(setter: UIView.layoutMargins)) {
       layoutMargins = UIEdgeInsetsZero
     }
     
@@ -221,13 +221,13 @@ class PostCell: UITableViewCell {
         // tag acts as way for button to know it's position in data array
         seeFullButton.tag = buttonTag
         
-        seeFullButton.setTitle("More", forState: .Normal)
+        seeFullButton.setTitle("More", for: UIControlState())
         
         // short posts and already expanded posts don't need to be expanded
         if let seeFull = post.seeFull where !seeFull {
-          seeFullButton.hidden = false
+          seeFullButton.isHidden = false
         } else {
-          seeFullButton.hidden = true
+          seeFullButton.isHidden = true
         }
       }
       
@@ -246,13 +246,13 @@ class PostCell: UITableViewCell {
 //        imagesButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
 //      }
       if post.isImagePost {
-        imagesButton.setImage(nil, forState: .Normal)
-        imagesButton.imageView?.contentMode = .ScaleAspectFill
+        imagesButton.setImage(nil, for: UIControlState())
+        imagesButton.imageView?.contentMode = .scaleAspectFill
         imagesButton.clipsToBounds = true
-        imagesButton.contentHorizontalAlignment = .Fill
-        imagesButton.contentVerticalAlignment = .Fill
-        imagesButton.enabled = true
-        imagesButton.setImageToImageWithURL(post.imageURLs![0], forState: .Normal, withWidth: contentView.frame.size.width - 16)
+        imagesButton.contentHorizontalAlignment = .fill
+        imagesButton.contentVerticalAlignment = .fill
+        imagesButton.isEnabled = true
+        imagesButton.setImageToImageWithURL(post.imageURLs![0], forState: UIControlState(), withWidth: contentView.frame.size.width - 16)
       }
     }
   }
@@ -260,7 +260,7 @@ class PostCell: UITableViewCell {
   /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
   ///
   /// :param: tag The tag that the outlet's `tag` property is set to.
-  private func setOutletTagsTo(tag: Int) {
+  private func setOutletTagsTo(_ tag: Int) {
     nameButton.tag = tag
     boardButton.tag = tag
     photoButton.tag = tag
@@ -288,13 +288,13 @@ class PostCell: UITableViewCell {
   /// :param: post The post that contains the correct image url.
   /// :param: completionHandler The completion block for the network request.
   /// :param: image The image that was loaded into the button.
-  func loadImagesForPost(post: Post, completionHandler: (image: UIImage) -> ()) {
+  func loadImagesForPost(_ post: Post, completionHandler: (image: UIImage) -> ()) {
     if let imageURLs = post.imageURLs {
-      DataManager.sharedInstance.activeRequests++
-      imagesButton.setBackgroundImageForState(.Highlighted, withURLRequest: NSURLRequest(URL: imageURLs[0]), placeholderImage: nil,
+      DataManager.sharedInstance.activeRequests += 1
+      imagesButton.setBackgroundImageFor(.highlighted, with: Foundation.URLRequest(url: imageURLs[0] as URL), placeholderImage: nil,
         success: { _, _, image in
-          DataManager.sharedInstance.activeRequests--
-          completionHandler(image: image)
+          DataManager.sharedInstance.activeRequests -= 1
+          completionHandler(image: image!)
         },
         failure: { error in
           DataManager.sharedInstance.activeRequests--

@@ -44,16 +44,16 @@ class MultipleConversationTableViewController: CustomTableViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == segueIdentifierThisToUser {
-      let destination = segue.destinationViewController as! UserTableViewController
+      let destination = segue.destination as! UserTableViewController
       if let sender = sender as? UIButton {
         destination.user = displayedConversations[sender.tag].otherUser
       }
     } else if segue.identifier == segueIdentifierThisToMessages {
-      let destination = segue.destinationViewController as! MessagesViewController
-      if let sender = sender as? NSIndexPath {
-        destination.conversation = displayedConversations[sender.row]
+      let destination = segue.destination as! MessagesViewController
+      if let sender = sender as? IndexPath {
+        destination.conversation = displayedConversations[(sender as NSIndexPath).row]
       } else if let sender = sender as? UIButton {
         destination.conversation = displayedConversations[sender.tag]
       }
@@ -62,16 +62,16 @@ class MultipleConversationTableViewController: CustomTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.separatorStyle = .None
+    tableView.separatorStyle = .none
   }
   
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if displayedConversations.count != 0 {
       return dequeueAndSetupConversationCellForIndexPath(indexPath)
     } else {
@@ -79,24 +79,24 @@ class MultipleConversationTableViewController: CustomTableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return displayedConversations.count != 0 ? displayedConversations.count : 1
   }
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: false)
     if displayedConversations.count != 0 {
-      displayedConversations[indexPath.row].read = true
-      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-      performSegueWithIdentifier(segueIdentifierThisToMessages, sender: indexPath)
+      displayedConversations[(indexPath as NSIndexPath).row].read = true
+      tableView.reloadRows(at: [indexPath], with: .none)
+      performSegue(withIdentifier: segueIdentifierThisToMessages, sender: indexPath)
     }
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if displayedConversations.count != 0 {
-      return ConversationCell.heightOfConversationCellForConversation(displayedConversations[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
+      return ConversationCell.heightOfConversationCellForConversation(displayedConversations[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
     } else {
       return heightOfSingleLabelCells
     }
@@ -109,9 +109,9 @@ class MultipleConversationTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created ConversationCell.
-  func dequeueAndSetupConversationCellForIndexPath(indexPath: NSIndexPath) -> ConversationCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.conversationCell, forIndexPath: indexPath) as! ConversationCell
-    cell.makeCellFromConversation(displayedConversations[indexPath.row], withButtonTag: indexPath.row)
+  func dequeueAndSetupConversationCellForIndexPath(_ indexPath: IndexPath) -> ConversationCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.conversationCell, for: indexPath) as! ConversationCell
+    cell.makeCellFromConversation(displayedConversations[(indexPath as NSIndexPath).row], withButtonTag: (indexPath as NSIndexPath).row)
     cell.assignDelegatesForCellTo(self)
     return cell
   }
@@ -121,8 +121,8 @@ class MultipleConversationTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NoMessagesCell.
-  func dequeueAndSetupNoMessagesCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    return tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noMessagesCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNoMessagesCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    return tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.noMessagesCell, for: indexPath) 
   }
   
   /// Calculates the correct separator height inbetween cells of `tableView`.
@@ -130,8 +130,8 @@ class MultipleConversationTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell in the `tableView`.
   ///
   /// :returns: The correct separator height, as specified by the `dividerHeight` constant.
-  func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
-    return indexPath.row != displayedConversations.count - 1 ? dividerHeight : 0
+  func separatorHeightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    return (indexPath as NSIndexPath).row != displayedConversations.count - 1 ? dividerHeight : 0
   }
 
   // MARK: IBActions
@@ -139,9 +139,9 @@ class MultipleConversationTableViewController: CustomTableViewController {
   /// Triggers segue with identifier segueIdentifierThisToMessage.
   ///
   /// :param: sender The button that is touched to send this function is a nameButton or a photoButton in a ConversationCell.
-  @IBAction func triggerMessagesSegueOnButton(sender: UIButton) {
+  @IBAction func triggerMessagesSegueOnButton(_ sender: UIButton) {
     displayedConversations[sender.tag].read = true
-    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 0)], withRowAnimation: .None)
-    performSegueWithIdentifier(segueIdentifierThisToMessages, sender: sender)
+    tableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .none)
+    performSegue(withIdentifier: segueIdentifierThisToMessages, sender: sender)
   }
 }

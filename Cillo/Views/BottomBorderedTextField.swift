@@ -21,11 +21,11 @@ import UIKit
 
   // MARK: UIView
   
-  override func drawRect(rect: CGRect) {
-    super.drawRect(rect)
-    var bottomBorder = CALayer();
+  override func draw(_ rect: CGRect) {
+    super.draw(rect)
+    let bottomBorder = CALayer();
     bottomBorder.frame = CGRect(x: 0.0, y: self.frame.size.height - bottomBorderWidth, width: self.frame.size.width, height: bottomBorderWidth);
-    bottomBorder.backgroundColor = bottomBorderColor.CGColor;
+    bottomBorder.backgroundColor = bottomBorderColor.cgColor;
     layer.addSublayer(bottomBorder)
   }
 }

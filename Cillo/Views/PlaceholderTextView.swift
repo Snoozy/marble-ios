@@ -28,12 +28,12 @@ import UIKit
   
   required init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: "myTextDidChange", name: UITextViewTextDidChangeNotification, object: self)
+    NotificationCenter.default.addObserver(self, selector: #selector(PlaceholderTextView.myTextDidChange), name: NSNotification.Name.UITextViewTextDidChange, object: self)
   }
   
   override init(frame: CGRect, textContainer: NSTextContainer?) {
     super.init(frame: frame, textContainer: textContainer)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: "myTextDidChange", name: UITextViewTextDidChangeNotification, object: self)
+    NotificationCenter.default.addObserver(self, selector: #selector(PlaceholderTextView.myTextDidChange), name: NSNotification.Name.UITextViewTextDidChange, object: self)
   }
   
   // MARK: UIView
@@ -48,7 +48,7 @@ import UIKit
       placeholderLabel.textColor = placeholderColor
       placeholderLabel.font = font
       placeholderLabel.text = placeholder
-      bringSubviewToFront(placeholderLabel)
+      bringSubview(toFront: placeholderLabel)
     }
   }
   
@@ -59,7 +59,7 @@ import UIKit
   /// Responsible for hiding the placeholder.
   func myTextDidChange() {
     if let placeholderLabel = placeholderLabel {
-      placeholderLabel.hidden = text != ""
+      placeholderLabel.isHidden = text != ""
     }
   }
 }

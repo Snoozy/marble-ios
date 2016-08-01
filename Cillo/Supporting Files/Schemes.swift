@@ -22,7 +22,7 @@ struct ColorScheme {
   
   /// Current scheme used in the live version of the app.
   static var defaultScheme: ColorScheme {
-    return ColorScheme(scheme: .Gray)
+    return ColorScheme(scheme: .gray)
   }
   
   // MARK: Initializers
@@ -39,9 +39,9 @@ struct ColorScheme {
   /// :returns: The background color of activity indicator views.
   func activityIndicatorBackgroundColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlue()
-    case .Gray:
+    case .gray:
       return UIColor.cilloGray()
     }
   }
@@ -49,20 +49,20 @@ struct ColorScheme {
   /// :returns: The style of the activity indicator in activity indiciator views.
   func activityIndicatoryStyle() -> UIActivityIndicatorViewStyle {
     switch scheme {
-    case .Blue:
-      return .WhiteLarge
-    case .Gray:
-      return .WhiteLarge
+    case .blue:
+      return .whiteLarge
+    case .gray:
+      return .whiteLarge
     }
   }
   
   /// :returns: The text color of activity indicator views.
   func activityIndicatorTextColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
-      return UIColor.darkTextColor()
+    case .blue:
+      return UIColor.white
+    case .gray:
+      return UIColor.darkText
     }
   }
 
@@ -70,9 +70,9 @@ struct ColorScheme {
   /// :returns: For example, the new comment bar.
   func barAboveKeyboardColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlueWithAlpha(1.0)
-    case .Gray:
+    case .gray:
       return UIColor.cilloGrayWithAlpha(1.0)
     }
   }
@@ -81,10 +81,10 @@ struct ColorScheme {
   /// :returns: For example, the reply button on the new comment bar.
   func barAboveKeyboardTouchableTextColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
-      return UIColor.darkTextColor()
+    case .blue:
+      return UIColor.white
+    case .gray:
+      return UIColor.darkText
     }
   }
   
@@ -92,9 +92,9 @@ struct ColorScheme {
   /// :returns: **Note:** The bar button color is the `tintColor` property.
   func barButtonItemColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
+    case .blue:
+      return UIColor.white
+    case .gray:
       return UIColor.lighterBlack()
     }
   }
@@ -102,19 +102,19 @@ struct ColorScheme {
   /// :returns: The color to be displayed as the background color of the bottom bordered text fields.
   func bottomBorderedTextFieldBackgroundColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
-      return UIColor.whiteColor()
+    case .blue:
+      return UIColor.white
+    case .gray:
+      return UIColor.white
     }
   }
   
   /// :returns: The color of the custom dividers implemented in most CustomTableViewController classes.
   func dividerBackgroundColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlue()
-    case .Gray:
+    case .gray:
       return UIColor.cilloGray()
     }
   }
@@ -122,20 +122,20 @@ struct ColorScheme {
   /// :returns: The color to be displayed as the background color of the incoming message bubbles in chat.
   func incomingMessageBubbleColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.jsq_messageBubbleLightGrayColor()
-    case .Gray:
-      return UIColor.jsq_messageBubbleLightGrayColor()
+    case .blue:
+      return UIColor.jsq_messageBubbleLightGray()
+    case .gray:
+      return UIColor.jsq_messageBubbleLightGray()
     }
   }
   
   /// :returns: The color of the name in any cell that represents a user that is the end user.
   func meTextColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlue()
-    case .Gray:
-      return UIColor.darkTextColor()
+    case .gray:
+      return UIColor.darkText
     }
   }
   
@@ -143,9 +143,9 @@ struct ColorScheme {
   /// :returns: **Note:** The background is the `barTint` property.
   func navigationBarColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlue()
-    case .Gray:
+    case .gray:
       return UIColor.cilloGray()
     }
   }
@@ -154,9 +154,9 @@ struct ColorScheme {
   /// :returns: **Note:** The title color is set through the `titleTextAttributes` `NSForegroundColorAttributeName` key.
   func navigationBarTitleColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
+    case .blue:
+      return UIColor.white
+    case .gray:
       return UIColor.lighterBlack()
     }
   }
@@ -164,9 +164,9 @@ struct ColorScheme {
   /// :returns: The color of the name in a comment cell that represents a comment posted by the original poster of the post.
   func opTextColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.orangeColor()
-    case .Gray:
+    case .blue:
+      return UIColor.orange
+    case .gray:
       return UIColor.cilloBlue()
     }
   }
@@ -174,49 +174,49 @@ struct ColorScheme {
   /// :returns: The color to be displayed as the background color of the outgoing message bubbles in chat.
   func outgoingMessageBubbleColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.jsq_messageBubbleBlueColor()
-    case .Gray:
-      return UIColor.jsq_messageBubbleBlueColor()
+    case .blue:
+      return UIColor.jsq_messageBubbleBlue()
+    case .gray:
+      return UIColor.jsq_messageBubbleBlue()
     }
   }
   
   /// :returns: The color of the selected segement of all segmented controls.
   func segmentedControlSelectedColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.grayColor()
-    case .Gray:
-      return UIColor.grayColor()
+    case .blue:
+      return UIColor.gray
+    case .gray:
+      return UIColor.gray
     }
   }
   
   /// :returns: The color of the unselected segement of all segmented controls.
   func segmentedControlUnselectedColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
-      return UIColor.whiteColor()
+    case .blue:
+      return UIColor.white
+    case .gray:
+      return UIColor.white
     }
   }
   
   /// :returns: The color to be displayed as the background color of all buttons with a background.
   func solidButtonBackgroundColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlue()
-    case .Gray:
-      return UIColor.whiteColor()
+    case .gray:
+      return UIColor.white
     }
   }
   
   /// :returns: The color to be displayed as the text color of all buttons with a background.
   func solidButtonTextColor() -> UIColor {
     switch scheme {
-    case .Blue:
-      return UIColor.whiteColor()
-    case .Gray:
+    case .blue:
+      return UIColor.white
+    case .gray:
       return UIColor.lighterBlack()
     }
   }
@@ -224,19 +224,19 @@ struct ColorScheme {
   /// :returns: The status bar style for the application.
   func statusBarStyle() -> UIStatusBarStyle {
     switch scheme {
-    case .Blue:
-      return .LightContent
-    case .Gray:
-      return .Default
+    case .blue:
+      return .lightContent
+    case .gray:
+      return .default
     }
   }
   
   /// :returns: The color to be displayed as the background color of text fields and text views.
   func textFieldBackgroundColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlueWithAlpha(0.1)
-    case .Gray:
+    case .gray:
       return UIColor.cilloGrayWithAlpha(0.4)
     }
   }
@@ -244,9 +244,9 @@ struct ColorScheme {
   /// :returns: The color of all thin lines that are used as divider accents in the application.
   func thinLineBackgroundColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.defaultTableViewDividerColor()
-    case .Gray:
+    case .gray:
       return UIColor.defaultTableViewDividerColor()
     }
   }
@@ -254,10 +254,10 @@ struct ColorScheme {
   /// :returns: The color to be displayed as the text color of all button with white backgrounds.
   func touchableTextColor() -> UIColor {
     switch scheme {
-    case .Blue:
+    case .blue:
       return UIColor.cilloBlue()
-    case .Gray:
-      return UIColor.grayColor()
+    case .gray:
+      return UIColor.gray
     }
   }
 }
@@ -268,8 +268,8 @@ struct ColorScheme {
 /// * Blue: A scheme based around cilloBlue color.
 /// * Gray: A scheme based around cilloGray color.
 enum ColorSchemeOptions {
-  case Blue
-  case Gray
+  case blue
+  case gray
 }
 
 // MARK: - DividerScheme
@@ -286,7 +286,7 @@ struct DividerScheme {
 
   /// Current scheme used in the live version of the app
   static var defaultScheme: DividerScheme {
-    return DividerScheme(scheme: .Thin)
+    return DividerScheme(scheme: .thin)
   }
   
   // MARK: Initializers
@@ -303,9 +303,9 @@ struct DividerScheme {
   /// :returns: The divider height for any MultipleBoardsTableViewController.
   func multipleBoardsDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 10.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -313,9 +313,9 @@ struct DividerScheme {
   /// :returns: The divider height between ConversationCells for any MultipleConversationTableViewController.
   func multipleConversationDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 10.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -323,9 +323,9 @@ struct DividerScheme {
   /// :returns: The divider height for any MultipleNotificationsTableViewController.
   func multipleNotificationsDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 5.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -333,9 +333,9 @@ struct DividerScheme {
   /// :returns: The divider height for any MultiplePostsTableViewController.
   func multiplePostsDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 10.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -343,9 +343,9 @@ struct DividerScheme {
   /// :returns: The divider height for any SingleBoardTableViewController.
   func singleBoardDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 10.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -353,9 +353,9 @@ struct DividerScheme {
   /// :returns: The divider height between CommentCells for any SingleUserTableViewController.
   func singleUserCommentDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 5.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -363,9 +363,9 @@ struct DividerScheme {
   /// :returns: The divider height between PostCells for any SingleUserTableViewController.
   func singleUserPostDividerHeight() -> CGFloat {
     switch scheme {
-    case .Thick:
+    case .thick:
       return 10.0
-    case .Thin:
+    case .thin:
       return 1.0
     }
   }
@@ -377,6 +377,6 @@ struct DividerScheme {
 /// * Thick: A scheme with mostly 5px dividers.
 /// * Thin: A scheme with 1px dividers.
 enum DividerSchemeOptions {
-  case Thin
-  case Thick
+  case thin
+  case thick
 }

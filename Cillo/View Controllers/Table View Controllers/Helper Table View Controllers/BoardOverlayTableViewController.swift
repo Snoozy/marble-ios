@@ -12,9 +12,9 @@ import UIKit
 
 /// Delegate for an overlay table that allows the controller to pass back a selected board.
 protocol BoardOverlayTableViewControllerDelegate {
-  func overlayTableViewController(table: BoardOverlayTableViewController, didSelectBoard board: Board)
-  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar)
-  func overlayTableViewController(table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar)
+  func overlayTableViewController(_ table: BoardOverlayTableViewController, didSelectBoard board: Board)
+  func overlayTableViewController(_ table: BoardOverlayTableViewController, searchBarBecameFirstResponder searchBar: UISearchBar)
+  func overlayTableViewController(_ table: BoardOverlayTableViewController, searchBarResignedFirstResponder searchBar: UISearchBar)
 }
 
 // MARK: - Classes
@@ -27,7 +27,7 @@ class BoardOverlayTableViewController: UITableViewController {
   /// Boards displayed by popup table.
   var boards = [Board]() {
     didSet {
-      boards.sort { first, second in
+      boards.sorted { first, second in
         first.name < second.name
       }
     }
@@ -48,7 +48,7 @@ class BoardOverlayTableViewController: UITableViewController {
     let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
     tableView.tableHeaderView = searchBar
     searchBar.delegate = self
-    searchBar.searchBarStyle = .Minimal
+    searchBar.searchBarStyle = .minimal
     searchBar.placeholder = "Search"
     retrieveBoards { boards in
       if let boards = boards {
@@ -60,22 +60,22 @@ class BoardOverlayTableViewController: UITableViewController {
   
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     return dequeueAndSetupSimpleBoardCellForIndexPath(indexPath)
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return (searchResults ?? boards).count
   }
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    delegate?.overlayTableViewController(self, didSelectBoard: (searchResults ?? boards)[indexPath.row])
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    delegate?.overlayTableViewController(self, didSelectBoard: (searchResults ?? boards)[(indexPath as NSIndexPath).row])
   }
   
   // MARK: Setup Helper Functions
@@ -85,9 +85,9 @@ class BoardOverlayTableViewController: UITableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created SimpleBoardCell.
-  func dequeueAndSetupSimpleBoardCellForIndexPath(indexPath: NSIndexPath) -> SimpleBoardCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.simpleBoardCell) as! SimpleBoardCell
-    cell.makeCellFromBoard((searchResults ?? boards)[indexPath.row])
+  func dequeueAndSetupSimpleBoardCellForIndexPath(_ indexPath: IndexPath) -> SimpleBoardCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.simpleBoardCell) as! SimpleBoardCell
+    cell.makeCellFromBoard((searchResults ?? boards)[(indexPath as NSIndexPath).row])
     return cell
   }
   
@@ -98,14 +98,14 @@ class BoardOverlayTableViewController: UITableViewController {
   /// :param: completionHandler The completion block for the server call.
   /// :param: boards The boards that the end user follows.
   /// :param: * Nil if there was an error in the server call.
-  func retrieveBoards(completionHandler: (boards: [Board]?) -> ()) {
+  func retrieveBoards(_ completionHandler: (boards: [Board]?) -> ()) {
     if let userID = KeychainWrapper.userID() {
       DataManager.sharedInstance.getUserBoardsByID(userID) { result in
         switch result {
-        case .Error(let error):
+        case .error(let error):
           self.handleError(error)
           completionHandler(boards: nil)
-        case .Value(let boards):
+        case .value(let boards):
           completionHandler(boards: boards.unbox)
         }
       }
@@ -115,10 +115,10 @@ class BoardOverlayTableViewController: UITableViewController {
   /// Handles an error received from a network call within the app.
   ///
   /// :param: error The error to be handled
-  func handleError(error: NSError) {
+  func handleError(_ error: NSError) {
     println(error)
     switch error.cilloErrorCode() {
-    case .NotCilloDomain:
+    case .notCilloDomain:
       break
     default:
       error.showAlert()
@@ -130,31 +130,31 @@ class BoardOverlayTableViewController: UITableViewController {
 
 extension BoardOverlayTableViewController: UISearchBarDelegate {
   
-  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     searchResults = boards.filter { element in
       element.name.rangeOfString(searchBar.text, options: .CaseInsensitiveSearch) != nil
     }
     tableView.reloadData()
   }
   
-  func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     searchResults = nil
     searchBar.text = ""
     searchBar.resignFirstResponder()
     tableView.reloadData()
   }
   
-  func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     searchBar.resignFirstResponder()
   }
   
-  func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+  func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
     searchBar.showsCancelButton = true
     delegate?.overlayTableViewController(self, searchBarBecameFirstResponder: searchBar)
     return true
   }
   
-  func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool {
+  func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
     if searchResults == nil {
       searchBar.showsCancelButton = false
     }

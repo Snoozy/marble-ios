@@ -25,7 +25,7 @@ class CustomViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     imitationNavigationBar.setupAttributesForColorScheme(ColorScheme.defaultScheme)
-    imitationNavigationBar.translucent = false
+    imitationNavigationBar.isTranslucent = false
   }
   
   // MARK: Networking Helper Functions
@@ -33,18 +33,18 @@ class CustomViewController: UIViewController {
   /// Handles an error received from a network call within the app.
   ///
   /// :param: error The error to be handled
-  func handleError(error: NSError) {
+  func handleError(_ error: NSError) {
     println(error)
     switch error.cilloErrorCode() {
-    case .UserUnauthenticated:
+    case .userUnauthenticated:
       handleUserUnauthenticatedError(error)
-    case .UsernameTaken:
+    case .usernameTaken:
       handleUsernameTakenError(error)
-    case .PasswordIncorrect:
+    case .passwordIncorrect:
       handlePasswordIncorrectError(error)
-    case .BoardNameInvalid:
+    case .boardNameInvalid:
       handleBoardNameInvalidError(error)
-    case .NotCilloDomain:
+    case .notCilloDomain:
       break
     default:
         error.showAlert()
@@ -56,12 +56,12 @@ class CustomViewController: UIViewController {
   /// :param: result The result of the network call.
   /// :param: completionHandler A handler containing what to do if the call fails or succeeds.
   /// :param: success A boolean stating whether the call succeeded.
-  func handleSuccessResponse<T>(result: ValueOrError<T>, completionHandler: (success: Bool) -> ()) {
+  func handleSuccessResponse<T>(_ result: ValueOrError<T>, completionHandler: (success: Bool) -> ()) {
     switch result {
-    case .Error(let error):
+    case .error(let error):
       self.handleError(error)
       completionHandler(success: false)
-    case .Value(_):
+    case .value(_):
       completionHandler(success: true)
     }
   }
@@ -71,12 +71,12 @@ class CustomViewController: UIViewController {
   /// :param: result The result of the network call.
   /// :param: completionHandler A handler containing what to do with the extracted element from `result`.
   /// :param: element The extracted element.
-  func handleSingleElementResponse<T>(result: ValueOrError<T>, completionHandler: (element: T?) -> ()) {
+  func handleSingleElementResponse<T>(_ result: ValueOrError<T>, completionHandler: (element: T?) -> ()) {
     switch result {
-    case .Error(let error):
+    case .error(let error):
       self.handleError(error)
       completionHandler(element: nil)
-    case .Value(let element):
+    case .value(let element):
       completionHandler(element: element.unbox)
     }
   }
@@ -88,7 +88,7 @@ class CustomViewController: UIViewController {
   /// **Note:** Default implementation does nothing.
   ///
   /// :param: error The error to be handled.
-  func handlePasswordIncorrectError(error: NSError) {
+  func handlePasswordIncorrectError(_ error: NSError) {
   }
   
   /// Handles a cillo error with code `NSError.CilloErrorCodes.usernameTaken`.
@@ -96,7 +96,7 @@ class CustomViewController: UIViewController {
   /// **Note:** Default implementation does nothing.
   ///
   /// :param: error The error to be handled.
-  func handleUsernameTakenError(error: NSError) {
+  func handleUsernameTakenError(_ error: NSError) {
   }
   
   /// Handles a cillo error with code `NSError.CilloErrorCodes.boardNameInvalid`.
@@ -104,7 +104,7 @@ class CustomViewController: UIViewController {
   /// **Note:** Default implementation does nothing.
   ///
   /// :param: error The error to be handled.
-  func handleBoardNameInvalidError(error: NSError) {
+  func handleBoardNameInvalidError(_ error: NSError) {
   }
   
   /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
@@ -112,9 +112,9 @@ class CustomViewController: UIViewController {
   /// **Note:** Default implementation presents a LoginVC.
   ///
   /// :param: error The error to be handled.
-  func handleUserUnauthenticatedError(error: NSError) {
-    let loginViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.login) as! LogInViewController
-    presentViewController(loginViewController, animated: true, completion: nil)
+  func handleUserUnauthenticatedError(_ error: NSError) {
+    let loginViewController = UIStoryboard.mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdentifiers.login) as! LogInViewController
+    present(loginViewController, animated: true, completion: nil)
   }
 }
 
@@ -122,8 +122,8 @@ class CustomViewController: UIViewController {
 
 extension CustomViewController: UIBarPositioningDelegate {
   
-  func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-    return .TopAttached
+  func position(for bar: UIBarPositioning) -> UIBarPosition {
+    return .topAttached
   }
 }
 
@@ -131,7 +131,7 @@ extension CustomViewController: UIBarPositioningDelegate {
 
 extension CustomViewController: UITextFieldDelegate {
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
     return true
   }
@@ -142,7 +142,7 @@ extension CustomViewController: UITextFieldDelegate {
 extension CustomTableViewController: JTSImageViewControllerOptionsDelegate {
   
   /// Makes the screen black behind the image
-  func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
+  func alphaForBackgroundDimmingOverlay(inImageViewer imageViewer: JTSImageViewController!) -> CGFloat {
     return 1.0
   }
 }

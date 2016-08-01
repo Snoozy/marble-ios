@@ -29,7 +29,7 @@ class NewRepostViewController: CustomViewController {
   
   // MARK: UIViewController
   
-  override func viewWillAppear(animated: Bool) {
+  override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     if contentView == nil {
       contentView = RepostContentView(post: postToRepost, width: view.frame.width)
@@ -40,11 +40,11 @@ class NewRepostViewController: CustomViewController {
     }
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.newRepostToTab {
-      var destination = segue.destinationViewController as! TabViewController
+      let destination = segue.destination as! TabViewController
       if let sender = sender as? Post, navController = destination.selectedViewController as? UINavigationController {
-        let postViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.post) as! PostTableViewController
+        let postViewController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdentifiers.post) as! PostTableViewController
         postViewController.post = sender
         navController.pushViewController(postViewController, animated: true)
       }
@@ -70,22 +70,22 @@ class NewRepostViewController: CustomViewController {
   
   /// Sets the buttons to have image expanding events on touch
   private func setupButtonSelectors() {
-    contentView?.pictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
-    contentView?.originalPictureButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
-    contentView?.originalPostImagesButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
-    contentView?.boardPhotoButton.addTarget(self, action: "photoButtonPressed:", forControlEvents: .TouchUpInside)
-    contentView?.selectBoardButton.addTarget(self, action: "presentOverlay", forControlEvents: .TouchUpInside)
+    contentView?.pictureButton.addTarget(self, action: #selector(NewRepostViewController.photoButtonPressed(_:)), for: .touchUpInside)
+    contentView?.originalPictureButton.addTarget(self, action: #selector(NewRepostViewController.photoButtonPressed(_:)), for: .touchUpInside)
+    contentView?.originalPostImagesButton.addTarget(self, action: #selector(NewRepostViewController.photoButtonPressed(_:)), for: .touchUpInside)
+    contentView?.boardPhotoButton.addTarget(self, action: #selector(NewRepostViewController.photoButtonPressed(_:)), for: .touchUpInside)
+    contentView?.selectBoardButton.addTarget(self, action: #selector(NewRepostViewController.presentOverlay), for: .touchUpInside)
   }
   
   /// Sets the user related fields of the contentView.
   private func setupUserInfoInContentView() {
     if let endUser = endUser {
-      contentView?.pictureButton.setBackgroundImageToImageWithURL(endUser.photoURL, forState: .Normal)
+      contentView?.pictureButton.setBackgroundImageToImageWithURL(endUser.photoURL, forState: UIControlState())
       contentView?.usernameLabel.text = endUser.name
     } else {
       retrieveEndUser { (user) in
         if let user = user {
-          self.contentView?.pictureButton.setBackgroundImageToImageWithURL(user.photoURL, forState: .Normal)
+          self.contentView?.pictureButton.setBackgroundImageToImageWithURL(user.photoURL, forState: UIControlState())
           self.contentView?.usernameLabel.text = user.name
         }
       }
@@ -116,9 +116,9 @@ class NewRepostViewController: CustomViewController {
   /// :param: completionHandler The completion block for this server call.
   /// :param: post The repost after the server call.
   /// :param: * Nil if the server call was unsuccessful.
-  func repostPost(completionHandler: (post: Post?) -> ()) {
+  func repostPost(_ completionHandler: (post: Post?) -> ()) {
     if let contentView = contentView {
-      DataManager.sharedInstance.createPostByBoardName(contentView.selectBoardButton.titleForState(.Normal) ?? "", text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { result in
+      DataManager.sharedInstance.createPostByBoardName(contentView.selectBoardButton.title(for: UIControlState()) ?? "", text: contentView.saySomethingTextView.text, repostID: postToRepost.postID) { result in
         self.handleSingleElementResponse(result, completionHandler: completionHandler)
       }
     } else {
@@ -131,7 +131,7 @@ class NewRepostViewController: CustomViewController {
   /// :param: completionHandler The completion block for the request.
   /// :param: user The end user's info.
   /// :param: * Nil if an error occurred in the server call.
-  func retrieveEndUser(completionHandler: (user: User?) -> ()) {
+  func retrieveEndUser(_ completionHandler: (user: User?) -> ()) {
     DataManager.sharedInstance.getEndUserInfo { result in
       self.handleSingleElementResponse(result, completionHandler: completionHandler)
     }
@@ -142,10 +142,10 @@ class NewRepostViewController: CustomViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton`.
-  func photoButtonPressed(sender: UIButton) {
-    if let image = sender.backgroundImageForState(.Normal) {
+  func photoButtonPressed(_ sender: UIButton) {
+    if let image = sender.backgroundImage(for: UIControlState()) {
       JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
-    } else if let image = sender.imageForState(.Normal) {
+    } else if let image = sender.image(for: UIControlState()) {
       JTSImageViewController.expandImage(image, toFullScreenFromRoot: self, withSender: sender)
     }
   }
@@ -156,13 +156,13 @@ class NewRepostViewController: CustomViewController {
   /// Reposts the post represented on the screen, and if successful, unwinds to the Tab Bar.
   ///
   /// :param: sender The bar button item that says Create.
-  @IBAction func repostButtonPressed(sender: UIButton) {
-    if let board = contentView?.selectBoardButton.titleForState(.Normal) where board != "Select Board" {
-      sender.enabled = false
+  @IBAction func repostButtonPressed(_ sender: UIButton) {
+    if let board = contentView?.selectBoardButton.title(for: UIControlState()) where board != "Select Board" {
+      sender.isEnabled = false
       repostPost { post in
-        sender.enabled = true
+        sender.isEnabled = true
         if let post = post {
-          self.performSegueWithIdentifier(SegueIdentifiers.newRepostToTab, sender: post)
+          self.performSegue(withIdentifier: SegueIdentifiers.newRepostToTab, sender: post)
         }
       }
     } else {
@@ -179,15 +179,15 @@ extension NewRepostViewController: SelectBoardOverlayViewDelegate {
   ///
   /// :param: overlay The overlay that the board was selected from.
   /// :param: board THe board that was selected.
-  func overlay(overlay: SelectBoardOverlayView, selectedBoard board: Board) {
+  func overlay(_ overlay: SelectBoardOverlayView, selectedBoard board: Board) {
     overlay.animateOut()
     if let boardPhotoButton = contentView?.boardPhotoButton, selectBoardButton = contentView?.selectBoardButton {
       if boardPhotoButton.frame.width < 1 {
         boardPhotoButton.frame = CGRect(x: boardPhotoButton.frame.minX, y: boardPhotoButton.frame.minY, width: boardPhotoButton.frame.height, height: boardPhotoButton.frame.height)
         selectBoardButton.frame = CGRect(x: selectBoardButton.frame.minX + boardPhotoButton.frame.height, y: selectBoardButton.frame.minY, width: selectBoardButton.frame.width - boardPhotoButton.frame.height, height: selectBoardButton.frame.height)
       }
-      selectBoardButton.setTitle(board.name, forState: .Normal)
-      boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+      selectBoardButton.setTitle(board.name, for: UIControlState())
+      boardPhotoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: UIControlState())
     }
   }
   
@@ -195,7 +195,7 @@ extension NewRepostViewController: SelectBoardOverlayViewDelegate {
   /// Called when a popup overlay is dismissed
   ///
   /// :param: overlay The overlay that was dismissed.
-  func overlayDismissed(overlay: SelectBoardOverlayView) {
+  func overlayDismissed(_ overlay: SelectBoardOverlayView) {
     overlay.animateOut()
   }
 }
@@ -248,7 +248,8 @@ class RepostContentView: UIView {
   ///
   /// :param: post The original post that is supposed to be reposted.
   /// :param: width The width of the screen.
-  init(var post: Post, width: CGFloat) {
+  init(post: Post, width: CGFloat) {
+    var post = post
     if let repost = (post as? Repost)?.originalPost {
       post = repost
     }
@@ -259,23 +260,23 @@ class RepostContentView: UIView {
     pictureButton.layer.cornerRadius = 5.0
     
     usernameLabel = UILabel(frame: CGRect(x: pictureButton.frame.maxX + 8, y: 17, width: width - pictureButton.frame.width - 24, height: 21))
-    usernameLabel.font = UIFont.boldSystemFontOfSize(17)
+    usernameLabel.font = UIFont.boldSystemFont(ofSize: 17)
     
     saySomethingTextView = BottomBorderedTextView(frame: CGRect(x: 8, y: pictureButton.frame.maxY + 8, width: width - 16, height: 60))
     saySomethingTextView.placeholder = "Say something about this post..."
-    saySomethingTextView.font = UIFont.systemFontOfSize(14)
+    saySomethingTextView.font = UIFont.systemFont(ofSize: 14)
     saySomethingTextView.backgroundColor = textEntryBackground
-    saySomethingTextView.spellCheckingType = .No
-    saySomethingTextView.autocorrectionType = .No
+    saySomethingTextView.spellCheckingType = .no
+    saySomethingTextView.autocorrectionType = .no
     
     boardPhotoButton = UIButton(frame: CGRect(x: 8, y: saySomethingTextView.frame.maxY + 4, width: 0, height: 40))
     boardPhotoButton.clipsToBounds = true
     boardPhotoButton.layer.cornerRadius = 5.0
     
     selectBoardButton = UIButton(frame: CGRect(x: boardPhotoButton.frame.maxX + 8, y: saySomethingTextView.frame.maxY + 9, width: width - 16 - boardPhotoButton.frame.width, height: 30))
-    selectBoardButton.contentHorizontalAlignment = .Left
-    selectBoardButton.titleLabel?.font = UIFont.systemFontOfSize(15)
-    selectBoardButton.setTitle("Select Board", forState: .Normal)
+    selectBoardButton.contentHorizontalAlignment = .left
+    selectBoardButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+    selectBoardButton.setTitle("Select Board", for: UIControlState())
     
     let horizontalBoardDivider = UIView(frame: CGRect(x: 8, y: boardPhotoButton.frame.maxY + 4, width: width - 16, height: 1))
     horizontalBoardDivider.backgroundColor = ColorScheme.defaultScheme.thinLineBackgroundColor()
@@ -286,39 +287,39 @@ class RepostContentView: UIView {
     let originalPostTopEdge = boardPhotoButton.frame.maxY + 9
     
     originalPictureButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTopEdge, width: 35, height: 35))
-    originalPictureButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: .Normal)
+    originalPictureButton.setBackgroundImageToImageWithURL(post.user.photoURL, forState: UIControlState())
     originalPictureButton.clipsToBounds = true
     originalPictureButton.layer.cornerRadius = 5.0
     
     originalUsernameLabel = UILabel(frame: CGRect(x: originalPictureButton.frame.maxX + 8, y: originalPostTopEdge, width: 200, height: 18))
-    originalUsernameLabel.font = UIFont.boldSystemFontOfSize(15)
+    originalUsernameLabel.font = UIFont.boldSystemFont(ofSize: 15)
     originalUsernameLabel.text = post.user.name
     
     let onLabel = UILabel(frame: CGRect(x: originalPictureButton.frame.maxX + 8, y: originalUsernameLabel.frame.maxY + 2, width: 16, height: 16))
-    onLabel.font = UIFont.systemFontOfSize(13)
+    onLabel.font = UIFont.systemFont(ofSize: 13)
     onLabel.text = "on"
     
     originalBoardLabel = UILabel(frame: CGRect(x: onLabel.frame.maxX + 5, y: originalUsernameLabel.frame.maxY + 2, width: 200, height: 16))
-    originalBoardLabel.font = UIFont.boldSystemFontOfSize(13)
+    originalBoardLabel.font = UIFont.boldSystemFont(ofSize: 13)
     originalBoardLabel.text = post.board.name
       
-    originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFontOfSize(15))))
+    originalPostTextView = UITextView(frame: CGRect(x: originalPostLeadingEdge, y: originalBoardLabel.frame.maxY + 8, width: width - originalPostLeadingEdge - 8, height: post.text.heightOfTextWithWidth(width - originalPostLeadingEdge - 8, andFont: UIFont.systemFont(ofSize: 15))))
     
     originalPostTextView.textContainer.lineFragmentPadding = 0
     originalPostTextView.textContainerInset = UIEdgeInsetsZero
-    originalPostTextView.editable = false
-    originalPostTextView.userInteractionEnabled = false
-    originalPostTextView.font = UIFont.systemFontOfSize(15)
+    originalPostTextView.isEditable = false
+    originalPostTextView.isUserInteractionEnabled = false
+    originalPostTextView.font = UIFont.systemFont(ofSize: 15)
     originalPostTextView.text = post.text
     
     var sideLine: UIView
     if let imageURLs = post.imageURLs {
       originalPostImagesButton = UIButton(frame: CGRect(x: originalPostLeadingEdge, y: originalPostTextView.frame.maxY, width: width - originalPostLeadingEdge - 8, height: post.heightOfImagesInPostWithWidth(width - originalPostLeadingEdge - 8, andMaxImageHeight: 300)))
-      originalPostImagesButton.imageView?.contentMode = .ScaleAspectFill
+      originalPostImagesButton.imageView?.contentMode = .scaleAspectFill
       originalPostImagesButton.clipsToBounds = true
-      originalPostImagesButton.contentHorizontalAlignment = .Fill
-      originalPostImagesButton.contentVerticalAlignment = .Fill
-      originalPostImagesButton.setImageToImageWithURL(imageURLs[0], forState: .Normal, withWidth: width - originalPostLeadingEdge - 8)
+      originalPostImagesButton.contentHorizontalAlignment = .fill
+      originalPostImagesButton.contentVerticalAlignment = .fill
+      originalPostImagesButton.setImageToImageWithURL(imageURLs[0], forState: UIControlState(), withWidth: width - originalPostLeadingEdge - 8)
       sideLine = UIView(frame: CGRect(x: vertLeadingEdge, y: originalPostTopEdge, width: vertWidth, height: originalPostImagesButton.frame.maxY - originalPostTopEdge))
     } else {
       originalPostImagesButton = UIButton()
@@ -347,8 +348,8 @@ class RepostContentView: UIView {
   
   // MARK: UIResponder
   
-  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    if saySomethingTextView.isFirstResponder() {
+  override func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
+    if saySomethingTextView.isFirstResponder {
       saySomethingTextView.resignFirstResponder()
     }
   }
@@ -359,7 +360,7 @@ class RepostContentView: UIView {
   func setupColorScheme() {
     let scheme = ColorScheme.defaultScheme
     saySomethingTextView.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
-    selectBoardButton.setTitleColor(scheme.touchableTextColor(), forState: .Normal)
+    selectBoardButton.setTitleColor(scheme.touchableTextColor(), for: UIControlState())
   }
 }
 

@@ -14,7 +14,7 @@ class WebViewController: UIViewController {
   // MARK: Properties
   
   /// The url that will be displayed by this WebViewController.
-  var urlToLoad: NSURL = NSURL()
+  var urlToLoad: URL = URL()
   
   // MARK: UIViewController
   
@@ -22,6 +22,6 @@ class WebViewController: UIViewController {
     super.viewDidLoad()
     let webView = UIWebView(frame: view.bounds)
     view.addSubview(webView)
-    webView.loadRequest(NSURLRequest(URL: urlToLoad))
+    webView.loadRequest(Foundation.URLRequest(url: urlToLoad))
   }
 }

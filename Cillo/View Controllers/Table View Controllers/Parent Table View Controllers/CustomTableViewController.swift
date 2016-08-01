@@ -41,7 +41,7 @@ class CustomTableViewController: UITableViewController {
     super.viewDidLoad()
     // Establishes a UIRefreshControl that responds to the retrieveData() function.
     refreshControl = UIRefreshControl()
-    refreshControl!.addTarget(self, action: "retrieveData", forControlEvents: .ValueChanged)
+    refreshControl!.addTarget(self, action: #selector(CustomTableViewController.retrieveData), for: .valueChanged)
     tableView.addSubview(refreshControl!)
   }
   
@@ -50,12 +50,12 @@ class CustomTableViewController: UITableViewController {
   /// Handles an error received from a network call within the app.
   ///
   /// :param: error The error to be handled
-  func handleError(error: NSError) {
+  func handleError(_ error: NSError) {
     println(error)
     switch error.cilloErrorCode() {
-    case .UserUnauthenticated:
+    case .userUnauthenticated:
       handleUserUnauthenticatedError(error)
-    case .NotCilloDomain:
+    case .notCilloDomain:
       break
     default:
       error.showAlert()
@@ -67,12 +67,12 @@ class CustomTableViewController: UITableViewController {
   /// :param: result The result of the network call.
   /// :param: completionHandler A handler containing what to do if the call fails or succeeds.
   /// :param: success A boolean stating whether the call succeeded.
-  func handleSuccessResponse<T>(result: ValueOrError<T>, completionHandler: (success: Bool) -> ()) {
+  func handleSuccessResponse<T>(_ result: ValueOrError<T>, completionHandler: (success: Bool) -> ()) {
     switch result {
-    case .Error(let error):
+    case .error(let error):
       self.handleError(error)
       completionHandler(success: false)
-    case .Value(_):
+    case .value(_):
       completionHandler(success: true)
     }
   }
@@ -82,12 +82,12 @@ class CustomTableViewController: UITableViewController {
   /// :param: result The result of the network call.
   /// :param: completionHandler A handler containing what to do with the extracted element from `result`.
   /// :param: element The extracted element.
-  func handleSingleElementResponse<T>(result: ValueOrError<T>, completionHandler: (element: T?) -> ()) {
+  func handleSingleElementResponse<T>(_ result: ValueOrError<T>, completionHandler: (element: T?) -> ()) {
     switch result {
-    case .Error(let error):
+    case .error(let error):
       self.handleError(error)
       completionHandler(element: nil)
-    case .Value(let element):
+    case .value(let element):
       completionHandler(element: element.unbox)
     }
   }
@@ -106,18 +106,18 @@ class CustomTableViewController: UITableViewController {
   /// Handles a cillo error with code `NSError.CilloErrorCodes.userUnauthenticated`.
   ///
   /// :param: error The error to be handled.
-  func handleUserUnauthenticatedError(error: NSError) {
+  func handleUserUnauthenticatedError(_ error: NSError) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToLogin, sender: error)
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToLogin, sender: error)
     }
   }
   
   // MARK: IBActions
   
   /// Triggers segue to NewPostViewController when button is pressed on navigationBar.
-  @IBAction func triggerNewPostSegueOnButton(sender: UIBarButtonItem) {
+  @IBAction func triggerNewPostSegueOnButton(_ sender: UIBarButtonItem) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewPost, sender: sender)
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewPost, sender: sender)
     }
   }
 }
@@ -127,7 +127,7 @@ class CustomTableViewController: UITableViewController {
 extension CustomTableViewController: TTTAttributedLabelDelegate {
 
   /// Opens all links in WebViewControllers.
-  func attributedLabel(label: TTTAttributedLabel, didSelectLinkWithURL url: NSURL) {
+  func attributedLabel(_ label: TTTAttributedLabel, didSelectLinkWith url: URL) {
     let webViewController = WebViewController()
     webViewController.urlToLoad = url
     navigationController?.pushViewController(webViewController, animated: true)
@@ -139,7 +139,7 @@ extension CustomTableViewController: TTTAttributedLabelDelegate {
 extension CustomViewController: JTSImageViewControllerOptionsDelegate {
   
   /// Makes the screen black behind the image
-  func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
+  func alphaForBackgroundDimmingOverlay(inImageViewer imageViewer: JTSImageViewController!) -> CGFloat {
     return 1.0
   }
 }

@@ -39,11 +39,11 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == segueIdentifierThisToBoard {
-      var destination = segue.destinationViewController as! BoardTableViewController
-      if let sender = sender as? NSIndexPath {
-        destination.board = boards[sender.row]
+      let destination = segue.destination as! BoardTableViewController
+      if let sender = sender as? IndexPath {
+        destination.board = boards[(sender as NSIndexPath).row]
       } else if let sender = sender as? UIButton {
         destination.board = boards[sender.tag]
       }
@@ -52,32 +52,32 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.separatorStyle = .None
+    tableView.separatorStyle = .none
   }
   
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     return dequeueAndSetupBoardCellForIndexPath(indexPath)
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return boards.count
   }
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    self.performSegueWithIdentifier(segueIdentifierThisToBoard, sender: indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    self.performSegue(withIdentifier: segueIdentifierThisToBoard, sender: indexPath)
+    tableView.deselectRow(at: indexPath, animated: false)
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return BoardCell.heightOfBoardCellForBoard(boards[indexPath.row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return BoardCell.heightOfBoardCellForBoard(boards[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
   }
 
   // MARK: Setup Helper Functions
@@ -87,9 +87,9 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created BoardCell.
-  func dequeueAndSetupBoardCellForIndexPath(indexPath: NSIndexPath) -> BoardCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.boardCell, forIndexPath: indexPath) as! BoardCell
-    cell.makeCellFromBoard(boards[indexPath.row], withButtonTag: indexPath.row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+  func dequeueAndSetupBoardCellForIndexPath(_ indexPath: IndexPath) -> BoardCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.boardCell, for: indexPath) as! BoardCell
+    cell.makeCellFromBoard(boards[(indexPath as NSIndexPath).row], withButtonTag: (indexPath as NSIndexPath).row, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }
@@ -99,8 +99,8 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NewBoardCell.
-  func dequeueAndSetupNewBoardCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.newBoardCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNewBoardCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.newBoardCell, for: indexPath) 
     for view in cell.contentView.subviews {
       if let button = view as? UIButton {
         button.tintColor = ColorScheme.defaultScheme.touchableTextColor()
@@ -113,40 +113,40 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   ///
   /// :param: board The board that is being unfollowed.
   /// :param: index The index of the board being unfollowed in the `boards` array.
-  func presentUnfollowConfirmationActionSheetForBoard(board: Board, atIndex index: Int, iPadReference: UIButton?) {
+  func presentUnfollowConfirmationActionSheetForBoard(_ board: Board, atIndex index: Int, iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
-      let unfollowAction = UIAlertAction(title: "Leave", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .actionSheet)
+      let unfollowAction = UIAlertAction(title: "Leave", style: .default) { _ in
         self.unfollowBoardAtIndex(index) { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               board.following = false
-              let boardIndexPath = NSIndexPath(forRow: index, inSection: 0)
-              self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+              let boardIndexPath = IndexPath(row: index, section: 0)
+              self.tableView.reloadRows(at: [boardIndexPath], with: .none)
             }
           }
         }
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(unfollowAction)
       actionSheet.addAction(cancelAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: board.name, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Leave", "Cancel")
       actionSheet.cancelButtonIndex = 1
       actionSheet.tag = index
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(iPadReference.bounds, inView: iPadReference, animated: true)
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.show(from: iPadReference.bounds, in: iPadReference, animated: true)
       } else {
         if let tabBar = tabBarController?.tabBar {
-          actionSheet.showFromTabBar(tabBar)
+          actionSheet.show(from: tabBar)
         }
       }
     }
@@ -158,8 +158,8 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell in the `tableView`.
   ///
   /// :returns: The correct separator height, as specified by the `dividerHeight` constant.
-  func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.row < boards.count - 1 {
+  func separatorHeightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).row < boards.count - 1 {
       return dividerHeight
     } else {
       return 0
@@ -173,7 +173,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: index The index of the board being followed in the boards array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
-  func followBoardAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func followBoardAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.followBoardWithID(boards[index].boardID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -184,7 +184,7 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// :param: index The index of the board being unfollowed in the boards array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
-  func unfollowBoardAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func unfollowBoardAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.unfollowBoardWithID(boards[index].boardID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -195,8 +195,8 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton` in a BoardCell.
-  @IBAction func boardPhotoPressed(sender: UIButton) {
-    if let photo = sender.backgroundImageForState(.Normal) {
+  @IBAction func boardPhotoPressed(_ sender: UIButton) {
+    if let photo = sender.backgroundImage(for: UIControlState()) {
       JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)
     }
   }
@@ -204,15 +204,15 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Either follows the board at index sender.tag or presents an ActionSheet to unfollow the board.
   ///
   /// :param: sender The button that is touched to send this function is a followButton in a BoardCell.
-  @IBAction func followOrUnfollowBoard(sender: UIButton) {
+  @IBAction func followOrUnfollowBoard(_ sender: UIButton) {
     let board = boards[sender.tag]
     if !board.following {
       followBoardAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             board.following = true
-            let boardIndexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            let boardIndexPath = IndexPath(row: sender.tag, section: 0)
+            self.tableView.reloadRows(at: [boardIndexPath], with: .none)
           }
           
         }
@@ -225,30 +225,30 @@ class MultipleBoardsTableViewController: CustomTableViewController {
   /// Triggers segue to BoardTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a BoardCell.
-  @IBAction func triggerBoardSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToBoard, sender: sender)
+  @IBAction func triggerBoardSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToBoard, sender: sender)
   }
   
   /// Triggers segue to NewBoardViewController.
   ///
   /// :param: sender The button that is touched to send this function is the button in the NewBoardCell.
-  @IBAction func triggerNewBoardSegueOnButton(sender: UIButton) {
+  @IBAction func triggerNewBoardSegueOnButton(_ sender: UIButton) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewBoard, sender: sender)
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewBoard, sender: sender)
     }
   }
 }
 
 extension MultipleBoardsTableViewController: UIActionSheetDelegate {
   
-  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+  func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
     if buttonIndex == 0 {
       unfollowBoardAtIndex(actionSheet.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.boards[actionSheet.tag].following = false
-            let boardIndexPath = NSIndexPath(forRow: actionSheet.tag, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            let boardIndexPath = IndexPath(row: actionSheet.tag, section: 0)
+            self.tableView.reloadRows(at: [boardIndexPath], with: .none)
           }
           
         }

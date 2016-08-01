@@ -66,49 +66,49 @@ class SingleBoardTableViewController: CustomTableViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     var index = 0
     var originalPost = false
     if let sender = sender as? UIButton {
       originalPost = sender.tag >= RepostCell.tagModifier
       index = originalPost ? sender.tag - RepostCell.tagModifier : sender.tag
-    } else if let sender = sender as? NSIndexPath {
-      index = sender.row
+    } else if let sender = sender as? IndexPath {
+      index = (sender as NSIndexPath).row
     }
     var post = posts[index]
     if segue.identifier == segueIdentifierThisToPost {
-      var destination = segue.destinationViewController as! PostTableViewController
+      let destination = segue.destination as! PostTableViewController
       // "Original Post" button sends the end user to the originalPost, not the post
-      if let repost = post as? Repost, sender = sender as? UIButton, title = sender.titleForState(.Normal) where title == "Original Post" {
+      if let repost = post as? Repost, sender = sender as? UIButton, title = sender.title(for: UIControlState()) where title == "Original Post" {
         post = repost.originalPost
       }
       destination.post = post
     } else if segue.identifier == segueIdentifierThisToUser {
-      var destination = segue.destinationViewController as! UserTableViewController
+      let destination = segue.destination as! UserTableViewController
       if let repost = post as? Repost where originalPost {
         post = repost.originalPost
       }
       destination.user = post.user
     } else if segue.identifier == segueIdentifierThisToNewPost {
-      var destination = segue.destinationViewController as! NewPostViewController
+      let destination = segue.destination as! NewPostViewController
       destination.board = board
     }
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.separatorStyle = .None
+    tableView.separatorStyle = .none
   }
   
   // MARK: UITableViewDataSource
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     // Placing the BoardCell in the first section and the PostCells in the second section.
     return 2
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    if indexPath.section == 0 {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if (indexPath as NSIndexPath).section == 0 {
       return dequeueAndSetupBoardCellForIndexPath(indexPath)
     } else if !postsRetrieved {
       return dequeueAndSetupRetrievingPostsCellForIndexPath(indexPath)
@@ -119,7 +119,7 @@ class SingleBoardTableViewController: CustomTableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if section == 0 || !postsRetrieved || posts.count == 0 {
       return 1
     } else {
@@ -129,20 +129,20 @@ class SingleBoardTableViewController: CustomTableViewController {
   
   // MARK: UITableViewDelegate
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    if indexPath.section != 0 && postsRetrieved && posts.count != 0 {
-      performSegueWithIdentifier(segueIdentifierThisToPost, sender: indexPath)
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: false)
+    if (indexPath as NSIndexPath).section != 0 && postsRetrieved && posts.count != 0 {
+      performSegue(withIdentifier: segueIdentifierThisToPost, sender: indexPath)
     }
   }
   
-  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).section == 0 {
       return BoardCell.heightOfBoardCellForBoard(board, withElementWidth: tableViewWidthWithMargins, andDividerHeight: separatorHeightForIndexPath(indexPath))
     } else if !postsRetrieved || posts.count == 0 {
       return heightOfSingleLabelCells
     } else {
-      return PostCell.heightOfPostCellForPost(posts[indexPath.row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
+      return PostCell.heightOfPostCellForPost(posts[(indexPath as NSIndexPath).row], withElementWidth: tableViewWidthWithMargins, maxContractedHeight: maxContractedHeight, maxContractedImageHeight: maxContractedImageHeight, andDividerHeight: separatorHeightForIndexPath(indexPath))
     }
   }
   
@@ -153,8 +153,8 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created BoardCell.
-  func dequeueAndSetupBoardCellForIndexPath(indexPath: NSIndexPath) -> BoardCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.boardCell, forIndexPath: indexPath) as! BoardCell
+  func dequeueAndSetupBoardCellForIndexPath(_ indexPath: IndexPath) -> BoardCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.boardCell, for: indexPath) as! BoardCell
     cell.makeCellFromBoard(board, withButtonTag: 0, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
@@ -165,8 +165,8 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created NoPostsCell.
-  func dequeueAndSetupNoPostsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.noPostsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupNoPostsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.noPostsCell, for: indexPath) 
     return cell
   }
   
@@ -177,13 +177,13 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created PostCell.
-  func dequeueAndSetupPostCellForIndexPath(indexPath: NSIndexPath) -> PostCell {
-    let post = posts[indexPath.row]
+  func dequeueAndSetupPostCellForIndexPath(_ indexPath: IndexPath) -> PostCell {
+    let post = posts[(indexPath as NSIndexPath).row]
     let cell: PostCell = {
       if let post = post as? Repost {
-        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.repostCell, forIndexPath: indexPath) as! RepostCell
+        return self.tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.repostCell, for: indexPath) as! RepostCell
       } else {
-        return self.tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.postCell, forIndexPath: indexPath) as! PostCell
+        return self.tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.postCell, for: indexPath) as! PostCell
       }
     }()
 //    if let post = post as? Repost where post.originalPost.loadedImage == nil {
@@ -201,7 +201,7 @@ class SingleBoardTableViewController: CustomTableViewController {
 //        }
 //      }
 //    }
-    cell.makeCellFromPost(post, withButtonTag: indexPath.row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
+    cell.makeCellFromPost(post, withButtonTag: (indexPath as NSIndexPath).row, maxContractedImageHeight: maxContractedImageHeight, andSeparatorHeight: separatorHeightForIndexPath(indexPath))
     cell.assignDelegatesForCellTo(self)
     return cell
   }
@@ -211,25 +211,25 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell to be created in the table view.
   ///
   /// :returns: The created RetrieivingCommentsCell.
-  func dequeueAndSetupRetrievingPostsCellForIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.retrievingPostsCell, forIndexPath: indexPath) as! UITableViewCell
+  func dequeueAndSetupRetrievingPostsCellForIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardIdentifiers.retrievingPostsCell, for: indexPath) 
     return cell
   }
   
-  func updateUIAfterUserBlockedAtIndex(index: Int) {
-    dispatch_async(dispatch_get_main_queue()) {
+  func updateUIAfterUserBlockedAtIndex(_ index: Int) {
+    DispatchQueue.main.async {
       let id = self.posts[index].user.userID
-      var indexPaths = [NSIndexPath]()
+      var indexPaths = [IndexPath]()
       for (index,post) in enumerate(self.posts) {
         if post.user.userID == id {
-          indexPaths.append(NSIndexPath(forRow: index, inSection: 1))
+          indexPaths.append(IndexPath(row: index, section: 1))
         }
       }
       self.posts = self.posts.filter { element in
         element.user.userID != id
       }
       self.tableView.beginUpdates()
-      self.tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+      self.tableView.deleteRows(at: indexPaths, with: .fade)
       self.tableView.endUpdates()
     }
   }
@@ -237,25 +237,25 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Presents an AlertController with style `.AlertView` that asks the user for confirmation of logging out.
   ///
   /// :param: index The index of the post that triggered this alert.
-  func presentBlockConfirmationAlertViewForIndex(index: Int) {
+  func presentBlockConfirmationAlertViewForIndex(_ index: Int) {
     let name = posts[index].user.name
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .Alert)
-      let yesAction = UIAlertAction(title: "Yes", style: .Default) { _ in
+      let alert = UIAlertController(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", preferredStyle: .alert)
+      let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
         self.blockUserAtIndex(index) { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               UIAlertView(title: "\(name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
               self.updateUIAfterUserBlockedAtIndex(index)
             }
           }
         }
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       alert.addAction(yesAction)
       alert.addAction(cancelAction)
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Block Confirmation", message: "Are you sure you want to block \(name)?", delegate: self, cancelButtonTitle: nil, otherButtonTitles: "Yes", "Cancel")
       alert.tag = index
@@ -266,39 +266,39 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Presents an AlertController with style `.ActionSheet` that prompts the user with various possible additional actions.
   ///
   /// :param: index The index of the post that triggered this action sheet.
-  func presentMenuActionSheetForIndex(index: Int, iPadReference: UIButton?) {
+  func presentMenuActionSheetForIndex(_ index: Int, iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .ActionSheet)
-      let flagAction = UIAlertAction(title: "Flag", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: "More", message: nil, preferredStyle: .actionSheet)
+      let flagAction = UIAlertAction(title: "Flag", style: .default) { _ in
         self.flagPostAtIndex(index) { success in
           if success {
             UIAlertView(title: "Post flagged", message: "Thanks for helping make Cillo a better place!", delegate: nil, cancelButtonTitle: "Ok").show()
           }
         }
       }
-      let blockAction = UIAlertAction(title: "Block User", style: .Default) { _ in
+      let blockAction = UIAlertAction(title: "Block User", style: .default) { _ in
         self.presentBlockConfirmationAlertViewForIndex(index)
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(flagAction)
       actionSheet.addAction(blockAction)
       actionSheet.addAction(cancelAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: "More", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Flag", "Block User")
       actionSheet.cancelButtonIndex = 2
       actionSheet.tag = index
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.showFromRect(iPadReference.bounds, inView: view, animated: true)
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.show(from: iPadReference.bounds, in: view, animated: true)
       } else {
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
       }
     }
   }
@@ -306,38 +306,38 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Presents an AlertController with style `.ActionSheet` that asks the user for confirmation of unfollowing a board.
   func presentUnfollowConfirmationActionSheet(#iPadReference: UIButton?) {
     if objc_getClass("UIAlertController") != nil {
-      let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .ActionSheet)
-      let unfollowAction = UIAlertAction(title: "Leave", style: .Default) { _ in
+      let actionSheet = UIAlertController(title: board.name, message: nil, preferredStyle: .actionSheet)
+      let unfollowAction = UIAlertAction(title: "Leave", style: .default) { _ in
         self.unfollowBoard { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               self.board.following = false
-              let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-              self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+              let boardIndexPath = IndexPath(row: 0, section: 0)
+              self.tableView.reloadRows(at: [boardIndexPath], with: .none)
             }
           }
         }
       }
-      let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
       }
       actionSheet.addAction(unfollowAction)
       actionSheet.addAction(cancelAction)
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-        actionSheet.modalPresentationStyle = .Popover
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
+        actionSheet.modalPresentationStyle = .popover
         let popPresenter = actionSheet.popoverPresentationController
         popPresenter?.sourceView = iPadReference
         popPresenter?.sourceRect = iPadReference.bounds
       }
-      presentViewController(actionSheet, animated: true, completion: nil)
+      present(actionSheet, animated: true, completion: nil)
     } else {
       let actionSheet = UIActionSheet(title: board.name, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: "Leave", "Cancel")
       actionSheet.cancelButtonIndex = 1
       actionSheet.tag = unfollowActionSheetTag
-      if let iPadReference = iPadReference where UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+      if let iPadReference = iPadReference where UIDevice.current.userInterfaceIdiom == .pad {
         actionSheet.showFromRect(iPadReference.bounds, inView: iPadReference, animated: true)
       } else {
         if let tabBar = tabBarController?.tabBar {
-          actionSheet.showFromTabBar(tabBar)
+          actionSheet.show(from: tabBar)
         }
       }
     }
@@ -348,11 +348,11 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: indexPath The index path of the cell in the `tableView`.
   ///
   /// :returns: The correct separator height, as specified by the `dividerHeight` constant.
-  func separatorHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat {
-    if indexPath.section == 0 {
+  func separatorHeightForIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    if (indexPath as NSIndexPath).section == 0 {
       return dividerHeight
     }
-    return indexPath.row != posts.count - 1 ? dividerHeight : 0
+    return (indexPath as NSIndexPath).row != posts.count - 1 ? dividerHeight : 0
   }
   
   // MARK: Networking Helper Functions
@@ -362,7 +362,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in `posts`.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if block request was successful. If error was received, false.
-  func blockUserAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func blockUserAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.blockUser(posts[index].user) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -373,7 +373,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in the posts array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if downvote request was successful. If error was received, it is false.
-  func downvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func downvotePostAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.downvotePostWithID(posts[index].postID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -383,7 +383,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   ///
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was successful. If error was received, it is false.
-  func followBoard(completionHandler: (success: Bool) -> ()) {
+  func followBoard(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.followBoardWithID(board.boardID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -394,7 +394,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in `posts`.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if flag request was successful. If error was received, false.
-  func flagPostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func flagPostAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.flagPost(posts[index]) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -405,7 +405,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// :param: index The index of the post being upvoted in the posts array.
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if upvote request was successful. If error was received, it is false.
-  func upvotePostAtIndex(index: Int, completionHandler: (success: Bool) -> ()) {
+  func upvotePostAtIndex(_ index: Int, completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.upvotePostWithID(posts[index].postID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -415,7 +415,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   ///
   /// :param: completionHandler The completion block for the upvote.
   /// :param: success True if follow request was unsuccessful. If error was received, it is false.
-  func unfollowBoard(completionHandler: (success: Bool) -> ()) {
+  func unfollowBoard(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.unfollowBoardWithID(board.boardID) { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -426,8 +426,8 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is a `photoButton` in a BoardCell.
-  @IBAction func boardPhotoPressed(sender: UIButton) {
-    if let photo = sender.backgroundImageForState(.Normal) {
+  @IBAction func boardPhotoPressed(_ sender: UIButton) {
+    if let photo = sender.backgroundImage(for: UIControlState()) {
       JTSImageViewController.expandImage(photo, toFullScreenFromRoot: self, withSender: sender)
     }
   }
@@ -437,15 +437,15 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to be downvoted is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a downvoteButton in a PostCell.
-  @IBAction func downvotePostPressed(sender: UIButton) {
+  @IBAction func downvotePostPressed(_ sender: UIButton) {
     let post = posts[sender.tag]
     if post.voteValue != -1 {
       downvotePostAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             post.downvote()
-            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+            let postIndexPath = IndexPath(row: sender.tag, section: 1)
+            self.tableView.reloadRows(at: [postIndexPath], with: .none)
           }
         }
       }
@@ -455,14 +455,14 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// Either follows board or presents an ActionSheet to unfollow board.
   ///
   /// :param: sender The button that is touched to send this function is a followButton in a BoardCell.
-  @IBAction func followOrUnfollowBoard(sender: UIButton) {
+  @IBAction func followOrUnfollowBoard(_ sender: UIButton) {
     if !board.following {
       followBoard { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             self.board.following = true
-            let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+            let boardIndexPath = IndexPath(row: 0, section: 0)
+            self.tableView.reloadRows(at: [boardIndexPath], with: .none)
           }
         }
       }
@@ -476,16 +476,16 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post is known via the tag of the button with the RepostCell.tagModifier taken into account.
   ///
   /// :param: sender The button that is touched to send this function is an originalPostButton in a RepostCell.
-  @IBAction func goToOriginalPost(sender: UIButton) {
+  @IBAction func goToOriginalPost(_ sender: UIButton) {
     if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
-      performSegueWithIdentifier(segueIdentifierThisToPost, sender: sender)
+      performSegue(withIdentifier: segueIdentifierThisToPost, sender: sender)
     }
   }
   
   /// Expands the image displayed in the button to full screen.
   ///
   /// :param: sender The button that is touched to send this function is an imagesButton in a PostCell.
-  @IBAction func imageButtonPressed(sender: UIButton) {
+  @IBAction func imageButtonPressed(_ sender: UIButton) {
 //    let loadedImage: UIImage? = {
 //      let post = self.posts[sender.tag]
 //      if let post = post as? Repost {
@@ -506,7 +506,7 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to show menu for is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a moreButton in a PostCell.
-  @IBAction func morePressed(sender: UIButton) {
+  @IBAction func morePressed(_ sender: UIButton) {
     presentMenuActionSheetForIndex(sender.tag, iPadReference: sender)
   }
   
@@ -515,45 +515,45 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to be reposted is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is a repostButton in a PostCell.
-  @IBAction func repostPressed(sender: UIButton) {
+  @IBAction func repostPressed(_ sender: UIButton) {
     if let tabBarController = tabBarController as? TabViewController {
-      tabBarController.performSegueWithIdentifier(SegueIdentifiers.tabToNewRepost, sender: posts[sender.tag])
+      tabBarController.performSegue(withIdentifier: SegueIdentifiers.tabToNewRepost, sender: posts[sender.tag])
     }
   }
   
   /// Expands `postTextView` in a PostCell to a height greater than `maxContractedHeight`.
   ///
   /// :param: sender The button that is touched to send this function is a `seeFullButton` in a PostCell.
-  @IBAction func seeFullPressed(sender: UIButton) {
+  @IBAction func seeFullPressed(_ sender: UIButton) {
     let post = posts[sender.tag]
     if let post = post as? Repost, seeFull = post.originalPost.seeFull {
       post.originalPost.seeFull! = !seeFull
     } else if let seeFull = post.seeFull {
       post.seeFull! = !seeFull
     }
-    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: sender.tag, inSection: 0)], withRowAnimation: .None)
+    tableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .none)
   }
 
   /// Triggers segue to PostTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a commentButton in a PostCell.
-  @IBAction func triggerPostSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToPost, sender: sender)
+  @IBAction func triggerPostSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToPost, sender: sender)
   }
   
   /// Triggers segue to UserTableViewController.
   ///
   /// :param: sender The button that is touched to send this function is a nameButton or a pictureButton in a PostCell.
-  @IBAction func triggerUserSegueOnButton(sender: UIButton) {
-    performSegueWithIdentifier(segueIdentifierThisToUser, sender: sender)
+  @IBAction func triggerUserSegueOnButton(_ sender: UIButton) {
+    performSegue(withIdentifier: segueIdentifierThisToUser, sender: sender)
   }
   
   /// Presents another instance of this ViewController representing the board of an `oringialPost` if a `post` is a Repost.
   ///
   /// :param: sender The button that is touched to send this function is an originalGroupButton in a RepostCell.
-  @IBAction func triggerOriginalBoardTransitionOnButton(sender: UIButton) {
+  @IBAction func triggerOriginalBoardTransitionOnButton(_ sender: UIButton) {
     if let post = posts[sender.tag - RepostCell.tagModifier] as? Repost {
-      let boardViewController = UIStoryboard.mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdentifiers.board) as! BoardTableViewController
+      let boardViewController = UIStoryboard.mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdentifiers.board) as! BoardTableViewController
       boardViewController.board = post.originalPost.board
       navigationController?.pushViewController(boardViewController, animated: true)
     }
@@ -564,15 +564,15 @@ class SingleBoardTableViewController: CustomTableViewController {
   /// **Note:** The position of the Post to be upvoted is known via the tag of the button.
   ///
   /// :param: sender The button that is touched to send this function is an upvoteButton in a PostCell.
-  @IBAction func upvotePostPressed(sender: UIButton) {
+  @IBAction func upvotePostPressed(_ sender: UIButton) {
     let post = posts[sender.tag]
     if post.voteValue != 1 {
       upvotePostAtIndex(sender.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             post.upvote()
-            let postIndexPath = NSIndexPath(forRow: sender.tag, inSection: 1)
-            self.tableView.reloadRowsAtIndexPaths([postIndexPath], withRowAnimation: .None)
+            let postIndexPath = IndexPath(row: sender.tag, section: 1)
+            self.tableView.reloadRows(at: [postIndexPath], with: .none)
           }
         }
       }
@@ -585,15 +585,15 @@ class SingleBoardTableViewController: CustomTableViewController {
 
 extension SingleBoardTableViewController: UIActionSheetDelegate {
   
-  func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+  func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
     if actionSheet.tag == unfollowActionSheetTag {
       if buttonIndex == 0 {
         unfollowBoard { success in
           if success {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
               self.board.following = false
-              let boardIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-              self.tableView.reloadRowsAtIndexPaths([boardIndexPath], withRowAnimation: .None)
+              let boardIndexPath = IndexPath(row: 0, section: 0)
+              self.tableView.reloadRows(at: [boardIndexPath], with: .none)
             }
           }
         }
@@ -619,11 +619,11 @@ extension SingleBoardTableViewController: UIActionSheetDelegate {
 
 extension SingleBoardTableViewController: UIAlertViewDelegate {
   
-  func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+  func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
     if buttonIndex == 1 {
       blockUserAtIndex(alertView.tag) { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             UIAlertView(title: "\(self.posts[alertView.tag].user.name) Blocked", message: nil, delegate: nil, cancelButtonTitle: "Ok").show()
             self.updateUIAfterUserBlockedAtIndex(alertView.tag)
           }

@@ -32,7 +32,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   
   // MARK: UIViewController
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if KeychainWrapper.hasAuthAndUser() {
       refreshControl?.beginRefreshing()
@@ -45,7 +45,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   
   // MARK: UIScrollViewDelegate
   
-  override func scrollViewDidScroll(scrollView: UIScrollView) {
+  override func scrollViewDidScroll(_ scrollView: UIScrollView) {
     // keeps newNotificationsView correctly positioned in scrollView
     if let newNotificationsButton = newNotificationsButton {
       let newY = tableView.contentOffset.y
@@ -56,7 +56,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   // MARK: Button Selectors
   
   /// Button event for `newNotificationsButton` that refreshes the notifications in the table when the button is pressed.
-  func refreshNotifications(sender: UIButton) {
+  func refreshNotifications(_ sender: UIButton) {
     refreshControl?.beginRefreshing()
     retrieveData()
   }
@@ -64,14 +64,14 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   // MARK: Setup Helper Functions
   
   /// Formats `newNotificationsButton` UI correctly.
-  func makeNewNotificationsButtonWithUnreadCount(count: Int) {
+  func makeNewNotificationsButtonWithUnreadCount(_ count: Int) {
     let scheme = ColorScheme.defaultScheme
     newNotificationsButton = UIButton(frame: CGRect(x: 0.0, y: tableView.contentOffset.y, width: tableView.frame.size.width, height: 46.0))
     newNotificationsButton!.backgroundColor = scheme.barAboveKeyboardColor()
-    newNotificationsButton!.addTarget(self, action: "refreshNotifications:", forControlEvents: .TouchUpInside)
-    newNotificationsButton!.setTitle("You have \(count) new notifications", forState: .Normal)
-    newNotificationsButton!.setTitleColor(scheme.barAboveKeyboardTouchableTextColor(), forState: .Normal)
-    newNotificationsButton!.titleLabel?.font = UIFont.systemFontOfSize(14)
+    newNotificationsButton!.addTarget(self, action: #selector(MyNotificationsTableViewController.refreshNotifications(_:)), for: .touchUpInside)
+    newNotificationsButton!.setTitle("You have \(count) new notifications", for: UIControlState())
+    newNotificationsButton!.setTitleColor(scheme.barAboveKeyboardTouchableTextColor(), for: UIControlState())
+    newNotificationsButton!.titleLabel?.font = UIFont.systemFont(ofSize: 14)
   }
   
   // MARK: Networking Helper Functions
@@ -80,7 +80,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
   ///
   /// :param: completionHandler The completion block for the repost.
   /// :param: success True if the request was successful.
-  func readNotifications(completionHandler: (success: Bool) -> ()) {
+  func readNotifications(_ completionHandler: (success: Bool) -> ()) {
     DataManager.sharedInstance.readEndUserNotifications { result in
       self.handleSuccessResponse(result, completionHandler: completionHandler)
     }
@@ -98,7 +98,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
       tableView.reloadData()
       readNotifications { success in
         if success {
-          dispatch_async(dispatch_get_main_queue()) {
+          DispatchQueue.main.async {
             tabBarController.setNotificationsBadgeValueTo(0)
           }
         }
@@ -113,7 +113,7 @@ class MyNotificationsTableViewController: MultipleNotificationTableViewControlle
 
 extension MyNotificationsTableViewController: NotificationsDataSource {
   
-  func notificationsRefreshedTo(notifications: [Notification], withUnreadCount count: Int) {
+  func notificationsRefreshedTo(_ notifications: [Notification], withUnreadCount count: Int) {
     if let newNotificationsButton = newNotificationsButton {
       newNotificationsButton.removeFromSuperview()
       self.newNotificationsButton = nil
@@ -121,7 +121,7 @@ extension MyNotificationsTableViewController: NotificationsDataSource {
     if count != 0 {
       makeNewNotificationsButtonWithUnreadCount(count)
       view.addSubview(newNotificationsButton!)
-      view.bringSubviewToFront(newNotificationsButton!)
+      view.bringSubview(toFront: newNotificationsButton!)
     }
   }
 }

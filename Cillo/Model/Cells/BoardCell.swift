@@ -59,29 +59,29 @@ class BoardCell: UITableViewCell {
   struct BoardFonts {
     
     /// Font of the text contained within descripAttributedLabelFont.
-    static let descripAttributedLabelFont = UIFont.systemFontOfSize(15.0)
+    static let descripAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
     static let followButtonFont: UIFont = {
       if let font = UIFont(name: "HelveticaNeue-Medium", size: 14) {
         return font
       } else {
-        return UIFont.boldSystemFontOfSize(14.0)
+        return UIFont.boldSystemFont(ofSize: 14.0)
       }
     }()
     
     /// Font used for the word " MEMBERS" in followersLabel.
-    static let followerLabelFont = UIFont.systemFontOfSize(12.0)
+    static let followerLabelFont = UIFont.systemFont(ofSize: 12.0)
     
     /// Font used for the followerCount value in followersLabel.
-    static let followerCountFont = UIFont.boldSystemFontOfSize(14.0)
+    static let followerCountFont = UIFont.boldSystemFont(ofSize: 14.0)
     
     /// Font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFontOfSize(20.0)
+    static let nameButtonFont = UIFont.boldSystemFont(ofSize: 20.0)
   }
   
   /// Color of the border of `followButton`. Also is the color of the background when the button is filled (signifying that the user is following already).
   class var followButtonColor: UIColor {
-    return UIColor.grayColor()
+    return UIColor.gray
   }
 
   // MARK: UITableViewCell
@@ -96,7 +96,7 @@ class BoardCell: UITableViewCell {
   /// Assigns all delegates of cell to the given parameter.
   ///
   /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(delegate: T) {
+  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
     descripAttributedLabel.delegate = delegate
   }
   
@@ -106,7 +106,7 @@ class BoardCell: UITableViewCell {
   /// :param: width The width of the cell in the tableView.
   /// :param: dividerHeight The height of the `separatorView` in the tableView.
   /// :returns: The height that the cell should be in the tableView.
-  class func heightOfBoardCellForBoard(board: Board, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
+  class func heightOfBoardCellForBoard(_ board: Board, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
     return board.heightOfDescripWithWidth(width) + BoardCell.additionalVertSpaceNeeded + dividerHeight
   }
   
@@ -117,7 +117,7 @@ class BoardCell: UITableViewCell {
   /// :param: * Pass the precise index of the board in its model array.
   /// :param: separatorHeight The height of the custom separators at the bottom of this BoardCell.
   /// :param: * The default value is 0.0, meaning the separators will not show by default.
-  func makeCellFromBoard(board: Board, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
+  func makeCellFromBoard(_ board: Board, withButtonTag buttonTag: Int, andSeparatorHeight separatorHeight: CGFloat = 0.0) {
     let scheme = ColorScheme.defaultScheme
     
     setupBoardOutletFonts()
@@ -125,7 +125,7 @@ class BoardCell: UITableViewCell {
     
     nameButton.setTitleWithoutAnimation(board.name)
     
-    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: .Normal)
+    photoButton.setBackgroundImageToImageWithURL(board.photoURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
     
@@ -133,12 +133,12 @@ class BoardCell: UITableViewCell {
 
     followButton.setupWithRoundedBorderOfWidth(UIButton.standardBorderWidth, andColor: BoardCell.followButtonColor)
     if !board.following {
-      followButton.setTitle("Join", forState: .Normal)
-      followButton.setTitleColor(UIColor.lighterBlack(), forState: .Normal)
-      followButton.backgroundColor = UIColor.whiteColor()
+      followButton.setTitle("Join", for: UIControlState())
+      followButton.setTitleColor(UIColor.lighterBlack(), for: UIControlState())
+      followButton.backgroundColor = UIColor.white
     } else {
-      followButton.setTitle("Joined", forState: .Normal)
-      followButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+      followButton.setTitle("Joined", for: UIControlState())
+      followButton.setTitleColor(UIColor.white, for: UIControlState())
       followButton.backgroundColor = BoardCell.followButtonColor
     }
     
@@ -156,7 +156,7 @@ class BoardCell: UITableViewCell {
   /// Sets the tag of all relevent outlets to the specified tag. This tag represents the row of this cell in the `tableView`.
   ///
   /// :param: tag The tag that the outlet's `tag` property is set to.
-  private func setOutletTagsTo(tag: Int) {
+  private func setOutletTagsTo(_ tag: Int) {
     photoButton.tag = tag
     nameButton.tag = tag
     followButton.tag = tag

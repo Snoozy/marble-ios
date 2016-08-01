@@ -30,21 +30,21 @@ class RegisterViewController: CustomViewController {
   
   // MARK: UIViewController
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == SegueIdentifiers.registerToLogin {
       resignTextFieldResponders()
     } else if segue.identifier == SegueIdentifiers.registerToTab {
-      if let destination = segue.destinationViewController as? TabViewController {
+      if let destination = segue.destination as? TabViewController {
         if let user = sender as? User {
           destination.endUser = user
         }
         destination.selectedIndex = destination.discoverTabIndex
         destination.forceDataRetrievalUponUnwinding()
       }
-      if UIApplication.sharedApplication().respondsToSelector("registerForRemoteNotifications") {
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+      if UIApplication.shared.responds(to: #selector(UIApplication.registerForRemoteNotifications as (UIApplication) -> () -> Void)) {
+        UIApplication.shared.registerForRemoteNotifications()
       } else {
-        UIApplication.sharedApplication().registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
+        UIApplication.shared.registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
       }
     }
   }
@@ -58,14 +58,14 @@ class RegisterViewController: CustomViewController {
   
   // MARK: UIResponder
   
-  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    if nameTextField.isFirstResponder() {
+  override func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
+    if nameTextField.isFirstResponder {
       nameTextField.resignFirstResponder()
-    } else if emailTextField.isFirstResponder() {
+    } else if emailTextField.isFirstResponder {
       emailTextField.resignFirstResponder()
-    } else if passwordTextField.isFirstResponder() {
+    } else if passwordTextField.isFirstResponder {
       passwordTextField.resignFirstResponder()
-    } else if userTextField.isFirstResponder() {
+    } else if userTextField.isFirstResponder {
       userTextField.resignFirstResponder()
     }
   }
@@ -88,7 +88,7 @@ class RegisterViewController: CustomViewController {
     nameTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     passwordTextField.backgroundColor = scheme.bottomBorderedTextFieldBackgroundColor()
     registerButton.backgroundColor = scheme.solidButtonBackgroundColor()
-    registerButton.setTitleColor(scheme.solidButtonTextColor(), forState: .Normal)
+    registerButton.setTitleColor(scheme.solidButtonTextColor(), for: UIControlState())
   }
   
   /// Sets up the appearance of Outlets that were not set in the storyboard.
@@ -112,7 +112,7 @@ class RegisterViewController: CustomViewController {
   ///
   /// :param: completionHandler The completion block for the registration.
   /// :param: success True if register request was successful. If error was received, it is false.
-  func register(completionHandler: (user: User?) -> ()) {
+  func register(_ completionHandler: (user: User?) -> ()) {
     DataManager.sharedInstance.registerUserWithName(nameTextField.text, username: userTextField.text, password: passwordTextField.text, andEmail: emailTextField.text) { result in
       switch result {
       case .Error(let error):
@@ -130,19 +130,19 @@ class RegisterViewController: CustomViewController {
   
   // MARK: Error Handling Helper Functions
   
-  override func handleUsernameTakenError(error: NSError) {
+  override func handleUsernameTakenError(_ error: NSError) {
     if objc_getClass("UIAlertController") != nil {
-      let alert = UIAlertController(title: "Error", message: "Username already taken.", preferredStyle: .Alert)
-      alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { _ in
+      let alert = UIAlertController(title: "Error", message: "Username already taken.", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .cancel) { _ in
         })
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     } else {
       let alert = UIAlertView(title: "Error", message: "Username already taken.", delegate: nil, cancelButtonTitle: "Ok")
       alert.show()
     }
   }
   
-  override func handleUserUnauthenticatedError(error: NSError) {
+  override func handleUserUnauthenticatedError(_ error: NSError) {
     error.showAlert()
   }
   
@@ -150,28 +150,28 @@ class RegisterViewController: CustomViewController {
   // MARK: IBActions
   
   
-  @IBAction func privacyPressed(sender: UIButton) {
-    if let url = NSURL(string: "https://www.themarble.co/legal/privacy.html") {
-      UIApplication.sharedApplication().openURL(url)
+  @IBAction func privacyPressed(_ sender: UIButton) {
+    if let url = URL(string: "https://www.themarble.co/legal/privacy.html") {
+      UIApplication.shared.openURL(url)
     }
   }
   
-  @IBAction func termsPressed(sender: UIButton) {
-    if let url = NSURL(string: "https://www.themarble.co/legal/tos.html") {
-      UIApplication.sharedApplication().openURL(url)
+  @IBAction func termsPressed(_ sender: UIButton) {
+    if let url = URL(string: "https://www.themarble.co/legal/tos.html") {
+      UIApplication.shared.openURL(url)
     }
   }
   
   /// Triggers segue to LoginViewController after registering the new user with the server.
   ///
   /// :param: sender The button that is touched to send this function is registerButton.
-  @IBAction func triggerRegisterSegueOnButton(sender: UIButton) {
-    sender.enabled = false
+  @IBAction func triggerRegisterSegueOnButton(_ sender: UIButton) {
+    sender.isEnabled = false
     register { user in
       if let user = user {
-        self.performSegueWithIdentifier(SegueIdentifiers.registerToTab, sender: user)
+        self.performSegue(withIdentifier: SegueIdentifiers.registerToTab, sender: user)
       } else {
-        sender.enabled = true
+        sender.isEnabled = true
       }
     }
   }
