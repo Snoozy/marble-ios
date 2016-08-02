@@ -91,7 +91,3 @@ class User: NSObject {
     return bio.heightOfTextWithWidth(width, andFont: UserCell.UserFonts.bioAttributedLabelFont)
   }
 }
-
-func == (lhs: User, rhs: User) {
-  lhs.bio == rhs.bio && lhs.boardCount == rhs.boardCount && lhs.name == rhs.name && lhs.username == rhs.username && lhs.rep == rhs.rep && lhs.photoURL == rhs.photoURL
-}

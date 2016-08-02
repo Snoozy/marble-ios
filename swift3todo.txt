@@ -7,14 +7,14 @@ SwiftyJSON
 DataManager
 
 #Model#
--Post-
--Repost-
--Comment-
--Board-
--User-
--Notification-
--Message-
--Conversation-
+Post
+Repost
+Comment
+Board
+User
+-Notification
+Message
+Conversation
 
 #Cells#
 -PostCell-
