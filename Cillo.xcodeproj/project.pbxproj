@@ -55,6 +55,12 @@
 		95C86D981B053ECD00D37B7E /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C86D971B053ECD00D37B7E /* CustomViewController.swift */; };
 		95CF1CE01B473BEA0086A930 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CF1CDF1B473BEA0086A930 /* MessagesViewController.swift */; };
 		95D37C371AE86873008B362D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D37C361AE86873008B362D /* SettingsViewController.swift */; };
+		95DC80231D5151C2005863A2 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC80221D5151C2005863A2 /* Identifiable.swift */; };
+		95DC80261D5152A3005863A2 /* HeightCalculatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC80251D5152A3005863A2 /* HeightCalculatable.swift */; };
+		95DC80281D51550B005863A2 /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC80271D51550B005863A2 /* ImageLoadable.swift */; };
+		95DC802A1D5159BD005863A2 /* TextHeightCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC80291D5159BD005863A2 /* TextHeightCalculator.swift */; };
+		95DC802D1D51630E005863A2 /* IdentifiableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC802C1D51630E005863A2 /* IdentifiableObject.swift */; };
+		95DC802F1D5169C5005863A2 /* Votable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC802E1D5169C5005863A2 /* Votable.swift */; };
 		95DD9F661B484BBF00FA2714 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DD9F611B484BBF00FA2714 /* ParameterEncoding.swift */; };
 		95DD9F671B484BBF00FA2714 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DD9F621B484BBF00FA2714 /* Request.swift */; };
 		95DD9F681B484BBF00FA2714 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DD9F631B484BBF00FA2714 /* ResponseSerialization.swift */; };
@@ -154,6 +160,12 @@
 		95C86D971B053ECD00D37B7E /* CustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomViewController.swift; path = "View Controllers/Standard View Controllers/CustomViewController.swift"; sourceTree = "<group>"; };
 		95CF1CDF1B473BEA0086A930 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesViewController.swift; path = "View Controllers/Standard View Controllers/MessagesViewController.swift"; sourceTree = "<group>"; };
 		95D37C361AE86873008B362D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/Standard View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
+		95DC80221D5151C2005863A2 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Identifiable.swift; path = Model/Protocols/Identifiable.swift; sourceTree = "<group>"; };
+		95DC80251D5152A3005863A2 /* HeightCalculatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeightCalculatable.swift; path = Model/Protocols/HeightCalculatable.swift; sourceTree = "<group>"; };
+		95DC80271D51550B005863A2 /* ImageLoadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageLoadable.swift; path = Model/Protocols/ImageLoadable.swift; sourceTree = "<group>"; };
+		95DC80291D5159BD005863A2 /* TextHeightCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextHeightCalculator.swift; path = "Supporting Classes/TextHeightCalculator.swift"; sourceTree = "<group>"; };
+		95DC802C1D51630E005863A2 /* IdentifiableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdentifiableObject.swift; path = Model/IdentifiableObject.swift; sourceTree = "<group>"; };
+		95DC802E1D5169C5005863A2 /* Votable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Votable.swift; path = Model/Protocols/Votable.swift; sourceTree = "<group>"; };
 		95DD9F611B484BBF00FA2714 /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Data/Vendor/ParameterEncoding.swift; sourceTree = "<group>"; };
 		95DD9F621B484BBF00FA2714 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Data/Vendor/Request.swift; sourceTree = "<group>"; };
 		95DD9F631B484BBF00FA2714 /* ResponseSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Data/Vendor/ResponseSerialization.swift; sourceTree = "<group>"; };
@@ -238,6 +250,7 @@
 		95352D6F1A155C0E00874B0F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				95DC80241D515260005863A2 /* Protocols */,
 				95468AF219F99D7A00F158DE /* Post.swift */,
 				9509DFFF1A55F60B00F5083B /* Repost.swift */,
 				9530E0821A075073001DB24E /* Comment.swift */,
@@ -246,6 +259,7 @@
 				9501BDC01B2E911E00308AC4 /* Notification.swift */,
 				95A14A3F1B3A008700C40936 /* Message.swift */,
 				95A14A411B3A01F300C40936 /* Conversation.swift */,
+				95DC802C1D51630E005863A2 /* IdentifiableObject.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -380,6 +394,25 @@
 			name = TBCs;
 			sourceTree = "<group>";
 		};
+		95DC80241D515260005863A2 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				95DC80221D5151C2005863A2 /* Identifiable.swift */,
+				95DC80251D5152A3005863A2 /* HeightCalculatable.swift */,
+				95DC80271D51550B005863A2 /* ImageLoadable.swift */,
+				95DC802E1D5169C5005863A2 /* Votable.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		95DC802B1D5159C3005863A2 /* Supporting Classes */ = {
+			isa = PBXGroup;
+			children = (
+				95DC80291D5159BD005863A2 /* TextHeightCalculator.swift */,
+			);
+			name = "Supporting Classes";
+			sourceTree = "<group>";
+		};
 		95DD9F5F1B484B0300FA2714 /* Alamofire */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,6 +466,7 @@
 				9587A73A1A43F256003CDE64 /* VCs */,
 				95352D6E1A155BF200874B0F /* Cells */,
 				95352D6F1A155C0E00874B0F /* Model */,
+				95DC802B1D5159C3005863A2 /* Supporting Classes */,
 				95EFD2A719F8D2B400086BAF /* Supporting Files */,
 			);
 			path = Cillo;
@@ -636,6 +670,7 @@
 				95C86D941B052EEB00D37B7E /* Schemes.swift in Sources */,
 				95DD9F6A1B484BBF00FA2714 /* Validation.swift in Sources */,
 				9509E0001A55F60B00F5083B /* Repost.swift in Sources */,
+				95DC80231D5151C2005863A2 /* Identifiable.swift in Sources */,
 				9581B7B61B9963B800D75703 /* BoardOverlayTableViewController.swift in Sources */,
 				95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */,
 				95ECD1431B2FCC5B0041CA5F /* MyNotificationsTableViewController.swift in Sources */,
@@ -647,12 +682,16 @@
 				95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */,
 				95FDCDE11B1FDFDC00DA0D09 /* PlaceholderTextView.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
+				95DC80261D5152A3005863A2 /* HeightCalculatable.swift in Sources */,
 				954382991A5A7FAA0036C237 /* BoardTableViewController.swift in Sources */,
 				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
+				95DC802F1D5169C5005863A2 /* Votable.swift in Sources */,
 				954A5DE61A4D00E50011DB1C /* RepostCell.swift in Sources */,
 				95DD9F691B484BBF00FA2714 /* Upload.swift in Sources */,
+				95DC80281D51550B005863A2 /* ImageLoadable.swift in Sources */,
 				95A14A421B3A01F300C40936 /* Conversation.swift in Sources */,
+				95DC802A1D5159BD005863A2 /* TextHeightCalculator.swift in Sources */,
 				957F34031B471DBA00E28FD9 /* MyConversationTableViewController.swift in Sources */,
 				9530E0831A075073001DB24E /* Comment.swift in Sources */,
 				95DD9F661B484BBF00FA2714 /* ParameterEncoding.swift in Sources */,
@@ -673,6 +712,7 @@
 				95EAA84E1AD19C7600DCE1E8 /* NewRepostViewController.swift in Sources */,
 				9598667A1A5F90E4003181BC /* RegisterViewController.swift in Sources */,
 				95A1C9351A0BE95600914DB0 /* User.swift in Sources */,
+				95DC802D1D51630E005863A2 /* IdentifiableObject.swift in Sources */,
 				95DD9F721B484C8100FA2714 /* KeychainWrapper.swift in Sources */,
 				9530E0851A0754B3001DB24E /* CommentCell.swift in Sources */,
 				9501BDC11B2E911E00308AC4 /* Notification.swift in Sources */,

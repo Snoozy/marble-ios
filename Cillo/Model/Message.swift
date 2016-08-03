@@ -9,15 +9,12 @@
 import UIKit
 
 /// Defines all properties of a Message on Cillo
-class Message: NSObject {
+class Message: IdentifiableObject {
     
-    // MARK: Properties
-    
-    /// ID of this Message.
-    var messageID = 0
+    // MARK: - Properties
     
     /// ID of Conversation that this message belongs to.
-    var conversationID = 0
+    var conversationId = 0
     
     /// ID of the User that sent this message.
     var senderID = 0
@@ -43,8 +40,8 @@ class Message: NSObject {
     ///
     /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
     init(json: JSON) {
-        messageID = json["message_id"].intValue
-        conversationID = json["conversation_id"].intValue
+        id = json["message_id"].intValue
+        conversationId = json["conversation_id"].intValue
         senderID = json["user_id"].intValue
         content = json["content"].stringValue
         let time = json["time"].int64Value
@@ -76,7 +73,7 @@ extension Message: JSQMessageData {
     }
     
     func messageHash() -> UInt {
-        return UInt(messageID)
+        return UInt(id)
     }
     
     func text() -> String! {

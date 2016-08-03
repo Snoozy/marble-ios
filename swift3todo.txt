@@ -1,30 +1,28 @@
+Directories so far: Vendor, Model, Data
+
+###Done:###
 #Vendor#
 Alamofire
 SwiftyJSON
--SwiftKeyChainWrapper-
-
-#Data#
-DataManager
 
 #Model#
 Post
 Repost
-Comment
 Board
 User
--Notification
+Notification
 Message
 Conversation
 
-#Cells#
--PostCell-
--RepostCell-
--CommentCell-
--BoardCell-
--SimpleBoardCell-
--UserCell-
--NotificationCell-
--ConversationCell-
+New files (Model/Protocols/*, Model/IdentifiableObject, SupportingClasses/TextHeightCalculator)
 
-#Other#
--The Rest-
+###Working On:###
+#Data#
+DataManager - Still need to do Uploads
+
+#Model#
+Comment - Still need to work out text calculation (with indenting and such)
+
+###Not Done:###
+#Vendor#
+SwiftKeychainWrapper

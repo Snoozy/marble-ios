@@ -9,9 +9,9 @@
 import UIKit
 
 /// Defines all properties of a Notification on Cillo.
-class Notification: NSObject {
+class Notification: IdentifiableObject {
     
-    // MARK: Enums
+    // MARK: - Enums
     
     /// Describes the potential actions that a Notificaiton can describe.
     ///
@@ -40,7 +40,7 @@ class Notification: NSObject {
         case post, comment
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     /// Action type that this Notification is sending.
     var actionType = ActionType.reply
@@ -48,7 +48,7 @@ class Notification: NSObject {
     /// ID for comment that this notification pertains to
     ///
     /// Only present when `entityType` is `.Comment`.
-    var commentID: Int?
+    var commentId: Int?
     
     /// Number of notifications in addition to the notification pertaining to `titleUser`.
     var count = 0
@@ -56,11 +56,8 @@ class Notification: NSObject {
     /// Entity type that this Notification is notifying about.
     var entityType = EntityType.post
     
-    /// ID of this notification.
-    var notificationID = 0
-    
     /// Message encapsulating the properties of this Notification that will be displayed to the end user.
-    var notificationMessage: AttributedString {
+    var notificationMessage: NSAttributedString {
         let otherString: String = {
             if self.count == 0 {
                 return ""
@@ -98,7 +95,7 @@ class Notification: NSObject {
     var read = false
     
     /// ID of the post that this Notification pertains to.
-    var postID = 0
+    var postId = 0
     
     /// Text preview of the entity that this Notification corresponds to.
     var preview = ""
@@ -111,7 +108,7 @@ class Notification: NSObject {
     /// The displayed user for this Notification.
     var titleUser = User()
     
-    // MARK: Initializers
+    // MARK: - Initializers
     
     /// Creates Notification based on a swiftyJSON retrieved from a call to the Cillo servers.
     ///
@@ -127,18 +124,18 @@ class Notification: NSObject {
     ///
     /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
     init(json: JSON) {
-        notificationID = json["notification_id"].intValue
+        id = json["notification_id"].intValue
         count = json["count"].intValue
         titleUser = User(json: json["title_user"])
         let time = json["time"].int64Value
         self.time = time.compactTimeDisplay
         if json["comment_id"] != nil {
             entityType = .comment
-            commentID = json["comment_id"].intValue
+            commentId = json["comment_id"].intValue
         } else {
             entityType = .post
         }
-        postID = json["post_id"].intValue
+        postId = json["post_id"].intValue
         read = json["read"].boolValue
         preview = json["preview"].stringValue
         let actionType = json["action_type"].stringValue

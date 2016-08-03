@@ -173,7 +173,7 @@ extension NSError {
   /// Creates an error for an instance where no data is given from alamofire.
   ///
   /// :param: requestType The request that this error occurred in.
-  class func noJSONFromDataError(#requestType: Router) -> NSError {
+  class func noJSONFromDataError(requestType: Router) -> NSError {
     return NSError(domain: "NoJSONErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Problem making JSON from data retrieved by Alamofire", RequestTypeKey: requestType.requestDescription])
   }
   

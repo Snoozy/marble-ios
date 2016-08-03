@@ -9,12 +9,15 @@
 import UIKit
 
 /// Defines all properties of a Post on Cillo.
-class Post: NSObject {
+class Post: IdentifiableObject, Votable {
     
-    // MARK: Properties
+    // MARK: - Votable
     
-    /// Cached height of a post so it does not need to be recalculated.
-    var textHeight: CGFloat?
+    var rep: Int = 0
+    
+    var voteValue: Int = 0
+    
+    // MARK: - Properties
     
     /// Board that this Post was posted in.
     var board = Board()
@@ -30,21 +33,6 @@ class Post: NSObject {
         return imageURLs != nil
     }
     
-    /// ID of this Post.
-    var postId = 0
-    
-    /// Reputation of this Post.
-    ///
-    /// Formula: Upvotes - Downvotes
-    var rep: Int = 0
-    
-    /// Expansion status of Post.
-    ///
-    /// * True - Post is fully expanded. All text is shown.
-    /// * False - Post is contracted. Only text that fits in MaxContractedHeight of UITableViewController is shown.
-    /// * Nil - Post is expanded by default.
-    var expanded: Bool?
-    
     /// Content of this Post.
     var text: String = ""
     
@@ -55,15 +43,9 @@ class Post: NSObject {
     
     /// User that posted this Post.
     var user = User()
+
     
-    /// The voting status of the end user on this Post.
-    ///
-    /// * -1: This Post has been downvoted by the User.
-    /// * 0: This Post has not been upvoted or downvoted by the User.
-    /// * 1: This Post has been upvoted by the User.
-    var voteValue: Int = 0
-    
-    // MARK: Initializers
+    // MARK: - Initializers
     
     /// Creates Post based on a swiftyJSON retrieved from a call to the Cillo servers.
     ///
@@ -81,7 +63,7 @@ class Post: NSObject {
     ///
     /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
     init(json: JSON) {
-        postID = json["post_id"].intValue
+        id = json["post_id"].intValue
         text = json["content"].stringValue
         board = Board(json: json["board"])
         user = User(json: json["user"])
@@ -104,81 +86,26 @@ class Post: NSObject {
     override init() {
         super.init()
     }
+}
+
+// MARK: - HeightCalculatable
+
+extension Post: HeightCalculatable {
     
-    // MARK: Setup Helper Functions
-    
-    /// Calculates the height of the images corresponding to the imagesURL array.
-    ///
-    /// :param: width The width of the screen.
-    /// :param: imageHeight The max height that the image can be.
-    /// :returns: The height of the button that will be displaying the images for this post.
-    func heightOfImagesInPostWithWidth(_ width: CGFloat,
-                                       andMaxImageHeight imageHeight: CGFloat) -> CGFloat {
-        if isImagePost {
-            return imageHeight
-        } else {
-            return 0
-        }
+    var textToCalculate: String {
+        return text
     }
+}
+
+// MARK: - ImageLoadable
+
+extension Post: ImageLoadable {
     
-    /// Used to find the height of postTextView in a PostCell displaying this Post.
-    ///
-    /// :param: width The current width of postTextView.
-    /// :param: maxHeight The maximum height of the postTextView before it is expanded.
-    /// :param: * Nil if post is unexpandable (seeFull is nil).
-    ///  * Usually set to MaxContracted height constant of UITableViewController.
-    /// :param: font The font of the text in postTextView.
-    /// :returns: Predicted height of postTextView in a PostCell.
-    func heightOfPostWithWidth(_ width: CGFloat,
-                               maxContractedHeight maxHeight: CGFloat?,
-                               andFont font: UIFont) -> CGFloat {
-        let height = textHeight ?? text.heightOfTextWithWidth(width, andFont: font)
-        if textHeight == nil {
-            textHeight = height
+    var imageURLsToLoad: [URL] {
+        var returnArray = imageURLs ?? []
+        if let photoURL = user.photoURL {
+            returnArray.append(photoURL)
         }
-        
-        guard let maxHeight = maxHeight else {
-            return height
-        }
-        
-        // expanded should not be nil if post needs expansion option
-        if expanded == nil && height > maxHeight {
-            expanded = false
-        }
-        
-        // only use maxHeight if expanded is false
-        if let expanded = expanded, !expanded {
-            return maxHeight
-        } else {
-            return height
-        }
-    }
-    
-    // MARK: Mutating Helper Functions
-    
-    /// Updates the post model to be downvoted.
-    func downvote() {
-        switch voteValue {
-        case 0:
-            rep -= 1
-        case 1:
-            rep -= 2
-        default:
-            break
-        }
-        voteValue = -1
-    }
-    
-    /// Updates the post model to be upvoted
-    func upvote() {
-        switch voteValue {
-        case 0:
-            rep += 1
-        case -1:
-            rep += 2
-        default:
-            break
-        }
-        voteValue = 1
+        return returnArray
     }
 }

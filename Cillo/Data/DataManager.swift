@@ -136,7 +136,7 @@ enum Router: URLStringConvertible {
     case sendDeviceToken
     
     /// URL of the server call.
-    var URLString: String {
+    var urlString: String {
         let auth = KeychainWrapper.authToken()
         var authString: String = ""
         if let auth = auth {
@@ -150,27 +150,27 @@ enum Router: URLStringConvertible {
             case .root(let pgNum):
                 let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
                 return "/\(vNum)/me/feed\(authString)\(page)"
-            case .boardFeed(let boardID, let pgNum):
+            case .boardFeed(let boardId, let pgNum):
                 let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
-                return "/\(vNum)/boards/\(boardID)/feed\(authString)\(page)"
-            case .boardInfo(let boardID):
-                return "/\(vNum)/boards/\(boardID)/describe\(authString)"
-            case .postInfo(let postID):
-                return "/\(vNum)/posts/\(postID)/describe\(authString)"
-            case .postComments(let postID):
-                return "/\(vNum)/posts/\(postID)/comments\(authString)"
+                return "/\(vNum)/boards/\(boardId)/feed\(authString)\(page)"
+            case .boardInfo(let boardId):
+                return "/\(vNum)/boards/\(boardId)/describe\(authString)"
+            case .postInfo(let postId):
+                return "/\(vNum)/posts/\(postId)/describe\(authString)"
+            case .postComments(let postId):
+                return "/\(vNum)/posts/\(postId)/comments\(authString)"
             case .selfInfo:
                 return "/\(vNum)/me/describe\(authString)"
             case .userInfo:
                 return "/\(vNum)/users/describe\(authString)"
-            case .userBoards(let userID):
-                return "/\(vNum)/users/\(userID)/boards\(authString)"
-            case .userPosts(let userID, let pgNum):
+            case .userBoards(let userId):
+                return "/\(vNum)/users/\(userId)/boards\(authString)"
+            case .userPosts(let userId, let pgNum):
                 let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
-                return "/\(vNum)/users/\(userID)/posts\(authString)\(page)"
-            case .userComments(let userID, let pgNum):
+                return "/\(vNum)/users/\(userId)/posts\(authString)\(page)"
+            case .userComments(let userId, let pgNum):
                 let page = pgNum != nil ? "\(pageString)\(pgNum!)" : ""
-                return "/\(vNum)/users/\(userID)/comments\(authString)\(page)"
+                return "/\(vNum)/users/\(userId)/comments\(authString)\(page)"
             case .boardSearch:
                 return "/\(vNum)/boards/search\(authString)"
             case .boardAutocomplete:
@@ -179,14 +179,14 @@ enum Router: URLStringConvertible {
                 return "/\(vNum)/me/notifications\(authString)"
             case .conversations:
                 return "/\(vNum)/me/conversations\(authString)"
-            case .conversationMessages(let conversationID):
-                return "/\(vNum)/conversations/\(conversationID)/messages\(authString)"
-            case .conversationPaged(let conversationID, let beforeMessageID):
-                return "/\(vNum)/conversations/\(conversationID)/paged\(authString)&before=\(beforeMessageID)"
-            case .conversationPoll(let conversationID, let afterMessageID):
-                return "/\(vNum)/conversations/\(conversationID)/poll\(authString)&after=\(afterMessageID)"
-            case .userMessages(let userID):
-                return "/\(vNum)/user/\(userID)/messages\(authString)"
+            case .conversationMessages(let conversationId):
+                return "/\(vNum)/conversations/\(conversationId)/messages\(authString)"
+            case .conversationPaged(let conversationId, let beforeMessageId):
+                return "/\(vNum)/conversations/\(conversationId)/paged\(authString)&before=\(beforeMessageId)"
+            case .conversationPoll(let conversationId, let afterMessageId):
+                return "/\(vNum)/conversations/\(conversationId)/poll\(authString)&after=\(afterMessageId)"
+            case .userMessages(let userId):
+                return "/\(vNum)/user/\(userId)/messages\(authString)"
             case .trendingBoards:
                 return "/\(vNum)/me/boards/trending\(authString)"
                 
@@ -205,26 +205,26 @@ enum Router: URLStringConvertible {
                 return "/\(vNum)/comments/create\(authString)"
             case .mediaUpload:
                 return "/\(vNum)/media/upload\(authString)"
-            case .commentUp(let commentID):
-                return "/\(vNum)/comments/\(commentID)/upvote\(authString)"
-            case .commentDown(let commentID):
-                return "/\(vNum)/comments/\(commentID)/downvote\(authString)"
-            case .postUp(let postID):
-                return "/\(vNum)/posts/\(postID)/upvote\(authString)"
-            case .postDown(let postID):
-                return "/\(vNum)/posts/\(postID)/downvote\(authString)"
-            case .boardFollow(let boardID):
-                return "/\(vNum)/boards/\(boardID)/follow\(authString)"
-            case .boardUnfollow(let boardID):
-                return "/\(vNum)/boards/\(boardID)/unfollow\(authString)"
+            case .commentUp(let commentId):
+                return "/\(vNum)/comments/\(commentId)/upvote\(authString)"
+            case .commentDown(let commentId):
+                return "/\(vNum)/comments/\(commentId)/downvote\(authString)"
+            case .postUp(let postId):
+                return "/\(vNum)/posts/\(postId)/upvote\(authString)"
+            case .postDown(let postId):
+                return "/\(vNum)/posts/\(postId)/downvote\(authString)"
+            case .boardFollow(let boardId):
+                return "/\(vNum)/boards/\(boardId)/follow\(authString)"
+            case .boardUnfollow(let boardId):
+                return "/\(vNum)/boards/\(boardId)/unfollow\(authString)"
             case .selfSettings:
                 return "/\(vNum)/me/settings\(authString)"
             case .passwordUpdate:
                 return "/\(vNum)/me/settings/password\(authString)"
             case .readNotifications:
                 return "/\(vNum)/me/notifications/read\(authString)"
-            case .sendMessage(let userID):
-                return "/\(vNum)/user/\(userID)/message\(authString)"
+            case .sendMessage(let userId):
+                return "/\(vNum)/user/\(userId)/message\(authString)"
             case .readInbox:
                 return "/\(vNum)/me/inbox/read\(authString)"
             case .flagPost:
@@ -248,27 +248,27 @@ enum Router: URLStringConvertible {
         case .root(let pgNum):
             let page = pgNum ?? 1
             return "Home Feed Page \(page)"
-        case .boardFeed(let boardID, let pgNum):
+        case .boardFeed(let boardId, let pgNum):
             let page = pgNum ?? 1
-            return "Board \(boardID) Feed Page \(page)"
-        case .boardInfo(let boardID):
-            return "Board \(boardID) Info"
-        case .postInfo(let postID):
-            return "Post \(postID) Info"
-        case .postComments(let postID):
-            return "Post \(postID) Comments"
+            return "Board \(boardId) Feed Page \(page)"
+        case .boardInfo(let boardId):
+            return "Board \(boardId) Info"
+        case .postInfo(let postId):
+            return "Post \(postId) Info"
+        case .postComments(let postId):
+            return "Post \(postId) Comments"
         case .selfInfo:
             return "End User Info"
         case .userInfo:
             return "User Info"
-        case .userBoards(let userID):
-            return "User \(userID) Boards"
-        case .userPosts(let userID, let pgNum):
+        case .userBoards(let userId):
+            return "User \(userId) Boards"
+        case .userPosts(let userId, let pgNum):
             let page = pgNum ?? 1
-            return "User \(userID) Posts Page \(page)"
-        case .userComments(let userID, let pgNum):
+            return "User \(userId) Posts Page \(page)"
+        case .userComments(let userId, let pgNum):
             let page = pgNum ?? 1
-            return "User \(userID) Comments Page \(page)"
+            return "User \(userId) Comments Page \(page)"
         case .boardSearch:
             return "Board Search"
         case .boardAutocomplete:
@@ -277,14 +277,14 @@ enum Router: URLStringConvertible {
             return "End User Notifications"
         case .conversations:
             return "End User Conversations"
-        case .conversationMessages(let conversationID):
-            return "Conversation \(conversationID) Messages"
-        case .conversationPaged(let conversationID, let beforeMessageID):
-            return "Conversation \(conversationID) Paged Before \(beforeMessageID)"
-        case .conversationPoll(let conversationID, let afterMessageID):
-            return "Conversation \(conversationID) Polled After \(afterMessageID)"
-        case .userMessages(let userID):
-            return "End User Messages with User \(userID)"
+        case .conversationMessages(let conversationId):
+            return "Conversation \(conversationId) Messages"
+        case .conversationPaged(let conversationId, let beforeMessageId):
+            return "Conversation \(conversationId) Paged Before \(beforeMessageId)"
+        case .conversationPoll(let conversationId, let afterMessageId):
+            return "Conversation \(conversationId) Polled After \(afterMessageId)"
+        case .userMessages(let userId):
+            return "End User Messages with User \(userId)"
         case .trendingBoards:
             return "End User Trending Boards"
             
@@ -303,26 +303,26 @@ enum Router: URLStringConvertible {
             return "Comment Creation"
         case .mediaUpload:
             return "Media Upload"
-        case .commentUp(let commentID):
-            return "Comment \(commentID) Upvote"
-        case .commentDown(let commentID):
-            return "Comment \(commentID) Downvote"
-        case .postUp(let postID):
-            return "Post \(postID) Upvote"
-        case .postDown(let postID):
-            return "Post \(postID) Downvote"
-        case .boardFollow(let boardID):
-            return "Board \(boardID) Follow"
-        case .boardUnfollow(let boardID):
-            return "Board \(boardID) Unfollow"
+        case .commentUp(let commentId):
+            return "Comment \(commentId) Upvote"
+        case .commentDown(let commentId):
+            return "Comment \(commentId) Downvote"
+        case .postUp(let postId):
+            return "Post \(postId) Upvote"
+        case .postDown(let postId):
+            return "Post \(postId) Downvote"
+        case .boardFollow(let boardId):
+            return "Board \(boardId) Follow"
+        case .boardUnfollow(let boardId):
+            return "Board \(boardId) Unfollow"
         case .selfSettings:
             return "Update End User Settings"
         case .passwordUpdate:
             return "Update End User Password"
         case .readNotifications:
             return "Read End User Notifications"
-        case .sendMessage(let userID):
-            return "End User Send Message to User \(userID)"
+        case .sendMessage(let userId):
+            return "End User Send Message to User \(userId)"
         case .readInbox:
             return "Read End User Inbox"
         case .flagPost:
@@ -359,7 +359,7 @@ class DataManager: NSObject {
     var activeRequests = 0 {
         didSet {
             DispatchQueue.main.async {
-                if activeRequests > 0 {
+                if self.activeRequests > 0 {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 } else {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -370,9 +370,9 @@ class DataManager: NSObject {
     
     // MARK: - Helper Functions
   
-    func responseJSONHandlerForRequest<T>(_ requestType: Router,
-                                          completionHandler: (ValueOrError<T>) -> (),
-                                          valueHandler: (JSON) -> T)
+    private func responseJSONHandlerForRequest<T>(_ requestType: Router,
+                                                  completionHandler: (ValueOrError<T>) -> (),
+                                                  valueHandler: (JSON) -> T)
         -> ((Foundation.URLRequest, HTTPURLResponse?, AnyObject?, NSError?) -> ()) {
         return { request, response, data, error in
             DispatchQueue.main.async {
@@ -381,7 +381,7 @@ class DataManager: NSObject {
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
                 if let error = error {
                     completionHandler(.error(error))
-                } else if let data: AnyObject = data, json = JSON(rawValue: data) {
+                } else if let data: AnyObject = data, let json = JSON(rawValue: data) {
                     if json["error"] != nil {
                         let cilloError = NSError(json: json, requestType: requestType)
                         completionHandler(.error(cilloError))
@@ -403,9 +403,9 @@ class DataManager: NSObject {
     /// :param: * These are not important for cillo image uploads so anything can be written in this dictionary.
     /// :param: imageData The data of the image to be converted to Alamofire compatible image data.
     /// :returns: The tuple that is needed for the upload function.
-    func urlRequestWithComponents(_ urlString: String,
-                                  parameters: [String: String],
-                                  imageData: Data) -> (URLRequestConvertible, Data) {
+    private func urlRequestWithComponents(_ urlString: String,
+                                          parameters: [String: String],
+                                          imageData: Data) -> (URLRequestConvertible, Data) {
         
         // create url request to send
         var mutableURLRequest = NSMutableURLRequest(url: URL(string: urlString)!)
@@ -448,7 +448,7 @@ class DataManager: NSObject {
                         completionHandler: (ValueOrError<(String,User)>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.login,
                                                             completionHandler: completionHandler) { json in
-            println(json)
+            print(json)
             let authToken = json["auth_token"].stringValue
             let user = User(json: json["user"])
             return (authToken, user)
@@ -458,9 +458,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.login,
-                parameters: ["email": email, "password": password],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["email": email, "password": password])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -479,9 +479,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.logout,
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -511,9 +511,9 @@ class DataManager: NSObject {
                 parameters: ["username": username,
                              "name": name,
                              "password": password,
-                             "email": email],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                             "email": email])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -533,9 +533,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.sendDeviceToken,
-                parameters: ["device_token": token],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["device_token": token])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -551,16 +551,16 @@ class DataManager: NSObject {
                         completionHandler: (ValueOrError<()>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.passwordUpdate,
                                                             completionHandler: completionHandler) { json in
-                                                                ()
+            ()
         }
         DispatchQueue.main.async {
             self.activeRequests += 1
         }
         request(.POST,
                 Router.passwordUpdate,
-                parameters: ["current": oldPassword, "new": newPassword],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["current": oldPassword, "new": newPassword])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -570,10 +570,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: postID The id of the post that the server is describing.
+    /// :param: postId The id of the post that the server is describing.
     /// :param: completionHandler A completion block for the network request containing either the retrieved Post or an error.
-    func postByID(_ postID: Int, completionHandler: (ValueOrError<Post>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.postInfo(id: postID),
+    func postById(_ postId: Int, completionHandler: (ValueOrError<Post>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.postInfo(id: postId),
                                                             completionHandler: completionHandler) { json in
             if json["repost"] != nil {
                 return Repost(json: json)
@@ -585,10 +585,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.postInfo(id: postID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.postInfo(id: postId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -599,7 +599,7 @@ class DataManager: NSObject {
     /// :param: post The post that the server is retrieving comments for.
     /// :param: completionHandler A completion block for the network request containing either the comments for the post or an error.
     func commentsForPost(_ post: Post, completionHandler: (ValueOrError<[Comment]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.postComments(id: post.postID),
+        let responseHandler = responseJSONHandlerForRequest(Router.postComments(id: post.id),
                                                             completionHandler: completionHandler) { json in
             let comments = json["comments"].arrayValue
             var rootComments: [Comment] = []
@@ -618,10 +618,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.postComments(id: post.postID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.postComments(id: post.id),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -643,9 +643,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.flagPost,
-                parameters: ["post_id": post.postID],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request, response, data, error)
+                parameters: ["post_id": post.id])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -653,20 +653,20 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: boardID The id of the board that the new post is being posted in.
+    /// :param: boardId The id of the board that the new post is being posted in.
     /// :param: text The content of the post.
     /// :param: title The title of the post.
     /// :param: * Optional parameter
-    /// :param: mediaID The id of the image for this post.
+    /// :param: mediaId The id of the image for this post.
     /// :param: * Optional parameter. Only use if this post should be an image post.
-    /// :param: repostID The id of the original post that is being reposted.
+    /// :param: repostId The id of the original post that is being reposted.
     /// :param: * Optional parameter. Only use if this post should be a repost.
     /// :param: completionHandler A completion block for the network request containing either the created Post or an error.
-    func createPostByBoardID(_ boardID: Int,
+    func createPostByBoardId(_ boardId: Int,
                              text: String,
                              title: String? = nil,
-                             mediaID: Int = -1,
-                             repostID: Int = -1,
+                             mediaId: Int = -1,
+                             repostId: Int = -1,
                              completionHandler: (ValueOrError<Post>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.postCreate,
                                                             completionHandler: completionHandler) { json in
@@ -676,24 +676,24 @@ class DataManager: NSObject {
                 return Post(json: json)
             }
         }
-        var parameters: [String: AnyObject] = ["board_id": boardID, "data": text]
-        if repostID != -1 {
-            parameters["repost_id"] = repostID
+        var parameters: [String: AnyObject] = ["board_id": boardId, "data": text]
+        if repostId != -1 {
+            parameters["repost_id"] = repostId
         }
         if title != nil {
             parameters["title"] = title
         }
-        if mediaID != -1 {
-            parameters["media"] = mediaID
+        if mediaId != -1 {
+            parameters["media"] = mediaId
         }
         DispatchQueue.main.async {
             self.activeRequests += 1
         }
         request(.POST,
                 Router.postCreate,
-                parameters: parameters,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: parameters)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -705,16 +705,16 @@ class DataManager: NSObject {
     /// :param: text The content of the post.
     /// :param: title The title of the post.
     /// :param: * Optional parameter
-    /// :param: mediaID The id of the image for this post.
+    /// :param: mediaId The id of the image for this post.
     /// :param: * Optional parameter. Only use if this post should be an image post.
-    /// :param: repostID The id of the original post that is being reposted.
+    /// :param: repostId The id of the original post that is being reposted.
     /// :param: * Optional parameter. Only use if this post should be a repost.
     /// :param: completionHandler A completion block for the network request containing either the created Post or an error.
     func createPostByBoardName(_ boardName: String,
                                text: String,
                                title: String? = nil,
-                               mediaID: Int = -1,
-                               repostID: Int = -1,
+                               mediaId: Int = -1,
+                               repostId: Int = -1,
                                completionHandler: (ValueOrError<Post>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.postCreate,
                                                             completionHandler: completionHandler) { json in
@@ -725,23 +725,23 @@ class DataManager: NSObject {
             }
         }
         var parameters: [String: AnyObject] = ["board_name": boardName, "data": text]
-        if repostID != -1 {
-            parameters["repost_id"] = repostID
+        if repostId != -1 {
+            parameters["repost_id"] = repostId
         }
         if title != nil {
             parameters["title"] = title
         }
-        if mediaID != -1 {
-            parameters["media"] = mediaID
+        if mediaId != -1 {
+            parameters["media"] = mediaId
         }
         DispatchQueue.main.async {
             self.activeRequests += 1
         }
         request(.POST,
                 Router.postCreate,
-                parameters: parameters,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: parameters)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -749,10 +749,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: postID The id of the post that is being downvoted.
+    /// :param: postId The id of the post that is being downvoted.
     /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
-    func downvotePostWithID(_ postID: Int, completionHandler: (ValueOrError<()>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.postDown(id: postID),
+    func downvotePostWithId(_ postId: Int, completionHandler: (ValueOrError<()>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.postDown(id: postId),
                                                             completionHandler: completionHandler) { json in
             ()
         }
@@ -760,10 +760,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.postDown(id: postID),
-                parameters: nil,
-                encoding: .URL) .responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.postDown(id: postId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -771,10 +771,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: postID The id of the post that is being upvoted.
+    /// :param: postId The id of the post that is being upvoted.
     /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
-    func upvotePostWithID(_ postID: Int, completionHandler: (ValueOrError<()>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.postUp(id: postID),
+    func upvotePostWithId(_ postId: Int, completionHandler: (ValueOrError<()>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.postUp(id: postId),
                                                             completionHandler: completionHandler) { json in
             ()
         }
@@ -782,10 +782,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.postUp(id: postID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.postUp(id: postId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -807,9 +807,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.flagComment,
-                parameters: ["comment_id": comment.commentID],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request, response, data, error)
+                parameters: ["comment_id": comment.id])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -817,10 +817,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: commentID The id of the comment that is being downvoted.
+    /// :param: commentId The id of the comment that is being downvoted.
     /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
-    func downvoteCommentWithID(_ commentID: Int, completionHandler: (ValueOrError<()>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.commentDown(id: commentID),
+    func downvoteCommentWithId(_ commentId: Int, completionHandler: (ValueOrError<()>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.commentDown(id: commentId),
                                                             completionHandler: completionHandler) { json in
             ()
         }
@@ -828,10 +828,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.commentDown(id: commentID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.commentDown(id: commentId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -839,10 +839,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: commentID The id of the comment that is being upvoted.
+    /// :param: commentId The id of the comment that is being upvoted.
     /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
-    func upvoteCommentWithID(_ commentID: Int, completionHandler: (ValueOrError<()>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.commentUp(id: commentID),
+    func upvoteCommentWithId(_ commentId: Int, completionHandler: (ValueOrError<()>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.commentUp(id: commentId),
                                                             completionHandler: completionHandler) { json in
             ()
         }
@@ -850,10 +850,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.commentUp(id: commentID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.commentUp(id: commentId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -862,33 +862,33 @@ class DataManager: NSObject {
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
     /// :param: text The content of the comment.
-    /// :param: postID The id of the post that this comment is associated with.
+    /// :param: postId The id of the post that this comment is associated with.
     /// :param: lengthToPost The level of this comment in the comment tree.
     /// :param: * **Note:** Should be equal to parentComment.lengthToPost + 1.
-    /// :param: parentID The id of the comment that this comment is reply to.
+    /// :param: parentId The id of the comment that this comment is reply to.
     /// :param: * Optional Parameter
     /// :param: completionHandler A completion block for the network request containing either the created comment or an error.
     func createCommentWithText(_ text: String,
-                               postID: Int,
+                               postId: Int,
                                lengthToPost: Int,
-                               parentID: Int = -1,
+                               parentId: Int = -1,
                                completionHandler: (ValueOrError<Comment>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.commentCreate,
                                                             completionHandler: completionHandler) { json in
             return Comment(json: json, lengthToPost: lengthToPost)
         }
-        var parameters: [String: AnyObject] = ["post_id": postID, "data": text]
-        if parentID != -1 {
-            parameters["parent_id"] = parentID
+        var parameters: [String: AnyObject] = ["post_id": postId, "data": text]
+        if parentId != -1 {
+            parameters["parent_id"] = parentId
         }
         DispatchQueue.main.async {
             self.activeRequests += 1
         }
         request(.POST,
                 Router.commentCreate,
-                parameters: parameters,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: parameters)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -915,9 +915,9 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.trendingBoards,
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -944,9 +944,9 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.boardAutocomplete,
-                parameters: ["q": name],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["q": name])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -972,9 +972,9 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.boardSearch,
-                parameters: ["q": name],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["q": name])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -982,10 +982,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: boardID The id of the board that the server is describing.
-    /// :param: completionHandler A completion block for the network request containing either the board with the given ID or an error.
-    func boardByID(_ boardID: Int, completionHandler: (ValueOrError<Board>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.boardInfo(id: boardID),
+    /// :param: boardId The id of the board that the server is describing.
+    /// :param: completionHandler A completion block for the network request containing either the board with the given Id or an error.
+    func boardById(_ boardId: Int, completionHandler: (ValueOrError<Board>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.boardInfo(id: boardId),
                                                             completionHandler: completionHandler) { json in
             return Board(json: json)
         }
@@ -993,10 +993,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.boardInfo(id: boardID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.boardInfo(id: boardId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1006,10 +1006,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: boardID The id of the board that is being followed.
+    /// :param: boardId The id of the board that is being followed.
     /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
-    func followBoardWithID(_ boardID: Int, completionHandler: (ValueOrError<()>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.boardFollow(id: boardID),
+    func followBoardWithId(_ boardId: Int, completionHandler: (ValueOrError<()>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.boardFollow(id: boardId),
                                                             completionHandler: completionHandler) { json in
             ()
         }
@@ -1017,9 +1017,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.boardFollow(id: boardID),
-                parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.boardFollow(id: boardId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1027,10 +1028,10 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: boardID The id of the board that is being followed.
+    /// :param: boardId The id of the board that is being followed.
     /// :param: completionHandler A completion block for the network request containing either an empty value or an error.
-    func unfollowBoardWithID(_ boardID: Int, completionHandler: (ValueOrError<()>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.boardUnfollow(id: boardID),
+    func unfollowBoardWithId(_ boardId: Int, completionHandler: (ValueOrError<()>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.boardUnfollow(id: boardId),
                                                             completionHandler: completionHandler) { json in
             ()
         }
@@ -1038,10 +1039,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.boardUnfollow(id: boardID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.boardUnfollow(id: boardId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1055,7 +1056,7 @@ class DataManager: NSObject {
     /// :param: completionHandler A completion block for the network request containing either the created Board or an error.
     func createBoardWithName(_ name: String,
                              description: String = "",
-                             mediaID: Int = -1,
+                             mediaId: Int = -1,
                              completionHandler: (ValueOrError<Board>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.boardCreate,
                                                             completionHandler: completionHandler) { json in
@@ -1065,17 +1066,17 @@ class DataManager: NSObject {
         if description != "" {
             parameters["description"] = description
         }
-        if mediaID != -1 {
-            parameters["photo"] = mediaID
+        if mediaId != -1 {
+            parameters["photo"] = mediaId
         }
         DispatchQueue.main.async {
             self.activeRequests += 1
         }
         request(.POST,
                 Router.boardCreate,
-                parameters: parameters,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: parameters)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1083,15 +1084,15 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: boardID The id of the board that the server is retrieving a feed for.
-    /// :param: lastPostID The id of the last post retrieved by a previous call board feed call.
+    /// :param: boardId The id of the board that the server is retrieving a feed for.
+    /// :param: lastPostId The id of the last post retrieved by a previous call board feed call.
     /// :param: * Nil if this is the first board feed call for a particular controller.
     /// :param: completionHandler A completion block for the network request containing either the array of posts in this board's feed or an error.
-    func boardFeedByID(_ boardID: Int,
-                       lastPostID: Int?,
+    func boardFeedById(_ boardId: Int,
+                       lastPostId: Int?,
                        completionHandler: (ValueOrError<[Post]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.boardFeed(id: boardID,
-                                                                             page: lastPostID),
+        let responseHandler = responseJSONHandlerForRequest(Router.boardFeed(id: boardId,
+                                                                             page: lastPostId),
                                                             completionHandler: completionHandler) { json in
             let posts = json["posts"].arrayValue
             var returnArray: [Post] = []
@@ -1111,10 +1112,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.BoardFeed(id: boardID, page: lastPostID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.boardFeed(id: boardId, page: lastPostId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1124,11 +1125,11 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: lastPostID The id of the last post retrieved by a previous call home feed call.
+    /// :param: lastPostId The id of the last post retrieved by a previous call home feed call.
     /// :param: * Nil if this is the first board feed call for a particular controller.
     /// :param: completionHandler A completion block for the network request containing either the array of posts in the home feed or an error.
-    func homeFeed(#lastPostID: Int?, _ completionHandler: (ValueOrError<[Post]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.root(page: lastPostID),
+    func homeFeed(lastPostId: Int?, _ completionHandler: (ValueOrError<[Post]>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.root(page: lastPostId),
                                                             completionHandler: completionHandler) { json in
             let posts = json["posts"].arrayValue
             var returnArray = [Post]()
@@ -1148,10 +1149,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.root(page: lastPostID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.root(page: lastPostId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1171,10 +1172,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.SelfInfo,
-                parameters: nil,
-                encoding: .URL) .responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.selfInfo,
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1182,12 +1183,12 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: userID The id of the user that the server is retrieving a following list for.
-    /// :param: lastBoardID The id of the last board retrieved by a previous user boards call.
+    /// :param: userId The id of the user that the server is retrieving a following list for.
+    /// :param: lastBoardId The id of the last board retrieved by a previous user boards call.
     /// :param: * Nil if this is the first user boards call for a particular controller.
     /// :param: completionHandler A completion block for the network request containing either the user's boards or an error.
-    func userBoardsByID(_ userID: Int, completionHandler: (ValueOrError<[Board]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.userBoards(id: userID),
+    func userBoardsById(_ userId: Int, completionHandler: (ValueOrError<[Board]>) -> ()) {
+        let responseHandler = responseJSONHandlerForRequest(Router.userBoards(id: userId),
                                                             completionHandler: completionHandler) { json in
             let boards = json["boards"].arrayValue
             var returnArray = [Board]()
@@ -1201,10 +1202,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.userBoards(userID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.userBoards(id: userId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1212,9 +1213,9 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: userID The id of the user that the server is describing.
+    /// :param: userId The id of the user that the server is describing.
     /// :param: completionHandler A completion block for the network request containing either the retrieved user or an error.
-    func userByID(_ userID: Int, completionHandler: (ValueOrError<User>) -> ()) {
+    func userById(_ userId: Int, completionHandler: (ValueOrError<User>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.userInfo,
                                                             completionHandler: completionHandler) { json in
             return User(json: json)
@@ -1224,9 +1225,9 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.userInfo,
-                parameters: ["user_id": userID],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["user_id": userId])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1234,15 +1235,15 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: userID The id of the user that the server is retrieving comments for.
-    /// :param: lastCommentID The id of the last comment retrieved by a previous user comments call.
+    /// :param: userId The id of the user that the server is retrieving comments for.
+    /// :param: lastCommentId The id of the last comment retrieved by a previous user comments call.
     /// :param: * Nil if this is the first user comments call for a particular controller.
     /// :param: completionHandler A completion block for the network request containing either the user's comments or an error.
-    func userCommentsByID(_ userID: Int,
-                             lastCommentID: Int?,
+    func userCommentsById(_ userId: Int,
+                             lastCommentId: Int?,
                              completionHandler: (ValueOrError<[Comment]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.userComments(id: userID,
-                                                                                page: lastCommentID),
+        let responseHandler = responseJSONHandlerForRequest(Router.userComments(id: userId,
+                                                                                page: lastCommentId),
                                                             completionHandler: completionHandler) { json in
             let comments = json["comments"].arrayValue
             var returnArray = [Comment]()
@@ -1256,9 +1257,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.userComments(id: userID, page: lastCommentID),
-                parameters: nil, encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.userComments(id: userId, page: lastCommentId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                    responseHandler(request, response, data, error)
         }
     }
     
@@ -1266,15 +1268,15 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: userID The id of the user that the server is retrieving posts for.
-    /// :param: lastPostID The id of the last board retrieved by a previous user posts call.
+    /// :param: userId The id of the user that the server is retrieving posts for.
+    /// :param: lastPostId The id of the last board retrieved by a previous user posts call.
     /// :param: * Nil if this is the first user posts call for a particular controller.
     /// :param: completionHandler A completion block for the network request containing either the user's posts or an error.
-    func userPostsByID(_ userID: Int,
-                       lastPostID: Int?,
+    func userPostsById(_ userId: Int,
+                       lastPostId: Int?,
                        completionHandler: (ValueOrError<[Post]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.userPosts(id: userID,
-                                                                             page: lastPostID),
+        let responseHandler = responseJSONHandlerForRequest(Router.userPosts(id: userId,
+                                                                             page: lastPostId),
                                                             completionHandler: completionHandler) { json in
             let posts = json["posts"].arrayValue
             var returnArray = [Post]()
@@ -1294,10 +1296,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.userPosts(id: userID, page: lastPostID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.userPosts(id: userId, page: lastPostId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1319,9 +1321,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.blockUser,
-                parameters: ["user_id": user.userID],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request, response, data, error)
+                parameters: ["user_id": user.id])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1335,13 +1337,13 @@ class DataManager: NSObject {
     ///
     /// :param: newName The new name of the end user.
     /// :param: newUsername The new username of the end user.
-    /// :param: newMediaID The media ID of the new profile picture of the end user.
+    /// :param: newMediaId The media Id of the new profile picture of the end user.
     /// :param: newBio The new bio of the end user.
     /// :param: completionHandler A completion block for the network request containing either the updated user or an error.
     func updateUserSettingsTo(_ newName: String = "",
                               newUsername: String = "",
                               newBio: String = "",
-                              newMediaID: Int = -1,
+                              newMediaId: Int = -1,
                               completionHandler: (ValueOrError<User>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.selfSettings,
                                                             completionHandler: completionHandler) { json in
@@ -1354,8 +1356,8 @@ class DataManager: NSObject {
         if newUsername != "" {
             parameters["username"] = newUsername
         }
-        if newMediaID != -1 {
-            parameters["photo"] = newMediaID
+        if newMediaId != -1 {
+            parameters["photo"] = newMediaId
         }
         if newBio != "" {
             parameters["bio"] = newBio
@@ -1365,9 +1367,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.selfSettings,
-                parameters: parameters,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: parameters)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1387,9 +1389,9 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.userInfo,
-                parameters: ["username": username],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: ["username": username])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1402,7 +1404,7 @@ class DataManager: NSObject {
     /// :param: user The user that the messages are being retrieved for.
     /// :param: completionHandler A completion block for the network request containing either the array of messages (empty if they don't have a conversation yet) in that conversation, or an error.
     func messagesWithUser(_ user: User, completionHandler: (ValueOrError<[Message]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.userMessages(id: user.userID),
+        let responseHandler = responseJSONHandlerForRequest(Router.userMessages(id: user.id),
                                                             completionHandler: completionHandler) { json in
             let messages = json["messages"].arrayValue
             var returnArray = [Message]()
@@ -1415,10 +1417,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.userMessages(id: user.userID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request, response, data, error)
+                Router.userMessages(id: user.id),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1445,9 +1447,9 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.conversations,
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1455,11 +1457,11 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: conversationID The id of the conversation that messages are being retrieved for.
+    /// :param: conversationId The id of the conversation that messages are being retrieved for.
     /// :param: completionHandler A completion block for the network request containing either an array of the messages or an error.
-    func messagesByConversationID(_ conversationID: Int,
+    func messagesByConversationId(_ conversationId: Int,
                                   completionHandler: (ValueOrError<[Message]>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.conversationMessages(id: conversationID),
+        let responseHandler = responseJSONHandlerForRequest(Router.conversationMessages(id: conversationId),
                                                             completionHandler: completionHandler) { json in
             let messages = json["messages"].arrayValue
             var returnArray = [Message]()
@@ -1473,10 +1475,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.conversationMessages(id: conversationID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.conversationMessages(id: conversationId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1484,14 +1486,14 @@ class DataManager: NSObject {
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: conversationID The id of the conversation that messages are being retrieved for.
-    /// :param: messageID The id of the most recent message in the conversation that has been retrieved already.
+    /// :param: conversationId The id of the conversation that messages are being retrieved for.
+    /// :param: messageId The id of the most recent message in the conversation that has been retrieved already.
     /// :param: completionHandler A completion block for the network request containing either a tuple of a bool stating whether there are new messages and an array of messages, or an error.
-    func pollConversationByID(_ conversationID: Int,
-                              withMostRecentMessageID messageID: Int,
+    func pollConversationById(_ conversationId: Int,
+                              withMostRecentMessageId messageId: Int,
                               completionHandler: (ValueOrError<(Bool,[Message])>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.conversationPoll(id: conversationID,
-                                                                                    newestMessageId: messageID),
+        let responseHandler = responseJSONHandlerForRequest(Router.conversationPoll(id: conversationId,
+                                                                                    newestMessageId: messageId),
                                                             completionHandler: completionHandler) { json in
             let empty = json["status"].stringValue == "empty"
             let messages = json["messages"].arrayValue
@@ -1507,25 +1509,25 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.conversationPoll(conversationID, messageID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.conversationPoll(id: conversationId, newestMessageId: messageId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
-    /// Attempts to retrieve the old messages for a specific conversation with the provided id that were not given by `getMessagesByConversationID:completionHandler:`.
+    /// Attempts to retrieve the old messages for a specific conversation with the provided id that were not given by `getMessagesByConversationId:completionHandler:`.
     ///
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
-    /// :param: conversationID The id of the conversation that messages are being retrieved for.
-    /// :param: messageID The id of the oldest message in the conversation that has been retrieved already.
+    /// :param: conversationId The id of the conversation that messages are being retrieved for.
+    /// :param: messageId The id of the oldest message in the conversation that has been retrieved already.
     /// :param: completionHandler A completion block for the network request containing either a tuple of a bool stating whether we are done paging and an array of messages, or an error.
-    func pageConversationByID(_ conversationID: Int,
-                              withOldestMessageID messageID: Int,
+    func pageConversationById(_ conversationId: Int,
+                              withOldestMessageId messageId: Int,
                               completionHandler: (ValueOrError<(Bool,[Message])>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.conversationPaged(id: conversationID,
-                                                                                     oldestMessageId: messageID),
+        let responseHandler = responseJSONHandlerForRequest(Router.conversationPaged(id: conversationId,
+                                                                                     oldestMessageId: messageId),
                                                             completionHandler: completionHandler) { json in
             let empty = json["status"].stringValue == "empty"
             let messages = json["messages"].arrayValue
@@ -1541,10 +1543,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.GET,
-                Router.conversationPaged(id: conversationID, oldestMessageId: messageID),
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.conversationPaged(id: conversationId, oldestMessageId: messageId),
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1555,12 +1557,12 @@ class DataManager: NSObject {
     /// **Warning:** KeychainWrapper's .auth key must have an auth token stored.
     ///
     /// :param: message The text of the message to send.
-    /// :param: userID The id of the user that the message is being sent to.
+    /// :param: userId The id of the user that the message is being sent to.
     /// :param: completionHandler A completion block for the network request containing either the created message or an error.
     func sendMessage(_ message: String,
-                     toUserWithID userID: Int,
+                     toUserWithId userId: Int,
                      completionHandler: (ValueOrError<Message>) -> ()) {
-        let responseHandler = responseJSONHandlerForRequest(Router.sendMessage(id: userID),
+        let responseHandler = responseJSONHandlerForRequest(Router.sendMessage(toId: userId),
                                                             completionHandler: completionHandler) { json in
             return Message(json: json["message"])
         }
@@ -1568,10 +1570,10 @@ class DataManager: NSObject {
             self.activeRequests += 1
         }
         request(.POST,
-                Router.sendMessage(id: userID),
-                parameters: ["content": message],
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                Router.sendMessage(toId: userId),
+                parameters: ["content": message])
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1590,9 +1592,9 @@ class DataManager: NSObject {
         }
         request(.POST,
                 Router.readInbox,
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1621,9 +1623,8 @@ class DataManager: NSObject {
         }
         request(.GET,
                 Router.notifications,
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: nil).responseJSON { request, response, data, error in
+                    responseHandler(request, response, data, error)
         }
     }
     
@@ -1637,16 +1638,16 @@ class DataManager: NSObject {
     func readNotifications(_ completionHandler: (ValueOrError<()>) -> ()) {
         let responseHandler = responseJSONHandlerForRequest(Router.readNotifications,
                                                             completionHandler: completionHandler) { json in
-                                                                ()
+            ()
         }
         DispatchQueue.main.async {
             self.activeRequests += 1
         }
         request(.POST,
                 Router.readNotifications,
-                parameters: nil,
-                encoding: .URL).responseJSON { request, response, data, error in
-                    responseHandler(request,response,data,error)
+                parameters: nil)
+            .responseJSON { request, response, data, error in
+                responseHandler(request, response, data, error)
         }
     }
     
@@ -1672,97 +1673,11 @@ class DataManager: NSObject {
         }
         upload(urlRequest.0, urlRequest.1)
             .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                println("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
+                print("bytes written: \(totalBytesWritten), bytes expected: \(totalBytesExpectedToWrite)")
             }
             .responseJSON { request, response, data, error in
-                responseHandler(request,response,data,error)
+                responseHandler(request, response, data, error)
         }
     }
-    
-
-  
-
-  
-
-  
-
-
-
-  
-
-  
-
-  
-
-    
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-    
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-    
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
     
 }

@@ -9,9 +9,15 @@
 import UIKit
 
 /// Defines all properties of a Comment on Cillo.
-class Comment: NSObject {
+class Comment: IdentifiableObject, Votable {
     
-    // MARK: Properties
+    // MARK: - Votable
+    
+    var rep = 0
+    
+    var voteValue = 0
+    
+    // MARK: - Properties
     
     /// True if this Comment's user is blocked by the end user.
     var blocked = false
@@ -21,9 +27,6 @@ class Comment: NSObject {
     /// Nil if this Comment does not have any children or the children are unknown.
     var children: [Comment]?
     
-    /// ID of this Comment.
-    var commentID = 0
-    
     /// Level of this Comment in Comment tree.
     ///
     /// Note: A direct reply to a Post has a lengthToPost of 1.
@@ -31,16 +34,11 @@ class Comment: NSObject {
     
     /// True if this Comment's user is the same as the user of the main Post.
     var isOP: Bool {
-        return post.user.userID == user.userID
+        return post.user.id == user.id
     }
     
     /// Post that this Comment replied to.
     var post = Post()
-    
-    /// Reputation of this Comment.
-    ///
-    /// Formula: Upvotes - Downvotes
-    var rep = 0
     
     /// Content of this Comment.
     var text = ""
@@ -52,13 +50,6 @@ class Comment: NSObject {
     
     /// User that posted this Comment.
     var user = User()
-    
-    /// The voting status of the end user on this Comment.
-    ///
-    /// * -1: This Comment has been downvoted by the User.
-    /// * 0: This Comment has not been upvoted or downvoted by the User.
-    /// * 1: This Comment has been upvoted by the User.
-    var voteValue = 0
     
     // MARK: Constants
     
@@ -84,7 +75,7 @@ class Comment: NSObject {
     ///
     /// Nil if not building a Comment tree with this Comment.
     init(json: JSON, lengthToPost: Int?) {
-        commentID = json["comment_id"].intValue
+        id = json["comment_id"].intValue
         post = Post(json: json["post"])
         user = User(json: json["user"])
         text = json["content"].stringValue
@@ -158,32 +149,26 @@ class Comment: NSObject {
     func predictedIndentSize(selected: Bool) -> CGFloat {
         return CGFloat(predictedIndentLevel(selected: selected)) * CommentCell.indentSize
     }
+}
+
+// MARK: - HeightCalculatable
+
+extension Comment: HeightCalculatable {
     
-    // MARK: Mutating Helper Functions
-    
-    /// Updates the comment model to be downvoted.
-    func downvote() {
-        switch voteValue {
-        case 0:
-            rep -= 1
-        case 1:
-            rep -= 2
-        default:
-            break
-        }
-        voteValue = -1
+    var textToCalculate: String {
+        return blocked ? "[user blocked]" : text
     }
+}
+
+// MARK: - ImageLoadable
+
+extension Comment: ImageLoadable {
     
-    /// Updates the comment model to be upvoted.
-    func upvote() {
-        switch voteValue {
-        case 0:
-            rep += 1
-        case -1:
-            rep += 2
-        default:
-            break
+    var imageURLsToLoad: [URL] {
+        var returnArray = [URL]()
+        if let photoURL = user.photoURL {
+            returnArray.append(photoURL)
         }
-        voteValue = 1
+        return returnArray
     }
 }

@@ -9,12 +9,9 @@
 import UIKit
 
 /// Defines all properties of a Conversation on Cillo
-class Conversation: NSObject {
+class Conversation: IdentifiableObject {
     
-    // MARK: Properties
-    
-    /// ID of this Conversation.
-    var conversationID = -1
+    // MARK: - Properties
     
     /// Time that this conversation was created.
     ///
@@ -53,7 +50,7 @@ class Conversation: NSObject {
     ///
     /// :param: json The swiftyJSON retrieved from a call to the Cillo servers.
     init(json: JSON) {
-        conversationID = json["conversation_id"].intValue
+        id = json["conversation_id"].intValue
         otherUser = User(json: json["user"])
         let creationTime = json["create_time"].int64Value
         self.creationTime = creationTime.compactTimeDisplay

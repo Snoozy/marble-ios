@@ -9,15 +9,12 @@
 import UIKit
 
 /// Defines all properties of a Board on Cillo.
-class Board: NSObject {
+class Board: IdentifiableObject {
     
-    // MARK: Properties
-    
-    /// ID of this Board.
-    var boardID = 0
+    // MARK: - Properties
     
     /// ID of User that created this Board.
-    var creatorID = 0
+    var creatorId = 0
     
     /// Description of this Board's function.
     var descrip = ""
@@ -32,9 +29,9 @@ class Board: NSObject {
     var name = ""
     
     /// Picture of this Board.
-    var photoURL = URL()
+    var photoURL: URL?
     
-    // MARK: Initializers
+    // MARK: - Initializers
     
     /// Creates Board based on a swiftyJSON retrieved from a call to the Cillo servers.
     ///
@@ -51,8 +48,8 @@ class Board: NSObject {
     init(json: JSON) {
         name = json["name"].stringValue
         followerCount = json["followers"].intValue
-        boardID = json["board_id"].intValue
-        creatorID = json["creator_id"].intValue
+        id = json["board_id"].intValue
+        creatorId = json["creator_id"].intValue
         if json["description"].string != nil {
             descrip = json["description"].stringValue
         }
@@ -66,14 +63,22 @@ class Board: NSObject {
     override init() {
         super.init()
     }
+}
+
+// MARK: - HeightCalculatable
+
+extension Board: HeightCalculatable {
     
-    // MARK: Setup Helper Functions
+    var textToCalculate: String {
+        return descrip
+    }
+}
+
+// MARK: - ImageLoadable
+
+extension Board: ImageLoadable {
     
-    /// Used to find the height of descripTextView in a Board displaying this Board.
-    ///
-    /// :param: width The current width of descripTextView.
-    /// :returns: Predicted height of descripTextView in a BoardCell.
-    func heightOfDescripWithWidth(_ width: CGFloat) -> CGFloat {
-        return descrip.heightOfTextWithWidth(width, andFont: BoardCell.BoardFonts.descripAttributedLabelFont)
+    var imageURLsToLoad: [URL] {
+        return photoURL != nil ? [photoURL!] : []
     }
 }
