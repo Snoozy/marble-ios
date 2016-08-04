@@ -25,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // MARK: UIApplicationDelegate
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    
+    NetworkActivityIndicatorManager.sharedManager.isEnabled = true
+    
     // Override point for customization after application launch.
     UITabBar.appearance().tintColor = UIColor.cilloBlue()
     UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: 17)], for: UIControlState())

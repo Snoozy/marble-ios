@@ -159,16 +159,3 @@ extension Comment: HeightCalculatable {
         return blocked ? "[user blocked]" : text
     }
 }
-
-// MARK: - ImageLoadable
-
-extension Comment: ImageLoadable {
-    
-    var imageURLsToLoad: [URL] {
-        var returnArray = [URL]()
-        if let photoURL = user.photoURL {
-            returnArray.append(photoURL)
-        }
-        return returnArray
-    }
-}

@@ -96,16 +96,3 @@ extension Post: HeightCalculatable {
         return text
     }
 }
-
-// MARK: - ImageLoadable
-
-extension Post: ImageLoadable {
-    
-    var imageURLsToLoad: [URL] {
-        var returnArray = imageURLs ?? []
-        if let photoURL = user.photoURL {
-            returnArray.append(photoURL)
-        }
-        return returnArray
-    }
-}

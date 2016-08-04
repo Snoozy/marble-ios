@@ -87,12 +87,3 @@ extension User: HeightCalculatable {
         return bio
     }
 }
-
-// MARK: - ImageLoadable
-
-extension User: ImageLoadable {
-    
-    var imageURLsToLoad: [URL] {
-        return photoURL != nil ? [photoURL!] : []
-    }
-}

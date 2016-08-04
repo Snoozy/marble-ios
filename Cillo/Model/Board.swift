@@ -73,12 +73,3 @@ extension Board: HeightCalculatable {
         return descrip
     }
 }
-
-// MARK: - ImageLoadable
-
-extension Board: ImageLoadable {
-    
-    var imageURLsToLoad: [URL] {
-        return photoURL != nil ? [photoURL!] : []
-    }
-}
