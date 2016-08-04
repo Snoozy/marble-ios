@@ -87,12 +87,3 @@ class Post: IdentifiableObject, Votable {
         super.init()
     }
 }
-
-// MARK: - HeightCalculatable
-
-extension Post: HeightCalculatable {
-    
-    var textToCalculate: String {
-        return text
-    }
-}

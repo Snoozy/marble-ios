@@ -78,12 +78,3 @@ class User: IdentifiableObject {
         super.init()
     }
 }
-
-// MARK: - HeightCalculatable
-
-extension User: HeightCalculatable {
-    
-    var textToCalculate: String {
-        return bio
-    }
-}

@@ -351,8 +351,7 @@ extension TTTAttributedLabel {
   /// Sets up links for the label and makes the label multiline, displaying the text.
   ///
   /// :param: text The text to be displayed by this label.
-  /// :param: font The font for this label to be displayed in.
-  func setupWithText(_ text: String, andFont font: UIFont) {
+  func setupFor(text: String) {
     numberOfLines = 0
     self.font = font
     enabledTextCheckingTypes = TextCheckingResult.CheckingType.link.rawValue

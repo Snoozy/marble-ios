@@ -64,12 +64,3 @@ class Board: IdentifiableObject {
         super.init()
     }
 }
-
-// MARK: - HeightCalculatable
-
-extension Board: HeightCalculatable {
-    
-    var textToCalculate: String {
-        return descrip
-    }
-}

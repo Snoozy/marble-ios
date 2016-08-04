@@ -150,12 +150,3 @@ class Comment: IdentifiableObject, Votable {
         return CGFloat(predictedIndentLevel(selected: selected)) * CommentCell.indentSize
     }
 }
-
-// MARK: - HeightCalculatable
-
-extension Comment: HeightCalculatable {
-    
-    var textToCalculate: String {
-        return blocked ? "[user blocked]" : text
-    }
-}
