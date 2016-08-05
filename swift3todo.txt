@@ -14,10 +14,17 @@ Notification
 Message
 Conversation
 
+#Cells#
+PostCell
+RepostCell
+
 New files (Model/Protocols/*, 
 		   Model/IdentifiableObject, 
 		   SupportingClasses/*,
-		   Data/Router)
+		   Data/Router,
+		   Model/Cells/*
+		   Model/Cells/Protocols/*
+		   Base.projl/*)
 
 ###Working On:###
 #Data#
@@ -26,15 +33,12 @@ DataManager - Still need to do Uploads
 #Model#
 Comment - Still need to work out text calculation (with indenting and such), possibly refactor for new comment model on web
 
-#Cells#
-PostCell - Still need to work out how height calculation will work and how to represent xib
-
 ###Not Done:###
 #Vendor#
 SwiftKeychainWrapper
 
 #Cells#
-RepostCell
+ImageRepostCellXib
 CommentCell
 BoardCell
 SimpleBoardCell

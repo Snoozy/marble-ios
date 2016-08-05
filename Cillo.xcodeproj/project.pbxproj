@@ -16,6 +16,8 @@
 		953474561D53FDC800223643 /* ImagePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953474551D53FDC800223643 /* ImagePostCell.swift */; };
 		953474591D53FF2E00223643 /* ImagePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 953474571D53FF2E00223643 /* ImagePostCell.xib */; };
 		9534745B1D5400F900223643 /* ImagePostDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534745A1D5400F900223643 /* ImagePostDisplayable.swift */; };
+		9534745F1D5403E800223643 /* RepostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9534745D1D5403E800223643 /* RepostCell.xib */; };
+		953474611D540F7F00223643 /* ImageRepostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953474601D540F7F00223643 /* ImageRepostCell.swift */; };
 		954382961A5A7F8A0036C237 /* SingleBoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */; };
 		954382991A5A7FAA0036C237 /* BoardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954382981A5A7FAA0036C237 /* BoardTableViewController.swift */; };
 		95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */; };
@@ -141,6 +143,8 @@
 		953474551D53FDC800223643 /* ImagePostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePostCell.swift; path = Model/Cells/ImagePostCell.swift; sourceTree = "<group>"; };
 		953474581D53FF2E00223643 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ImagePostCell.xib; sourceTree = SOURCE_ROOT; };
 		9534745A1D5400F900223643 /* ImagePostDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePostDisplayable.swift; path = Model/Cells/Protocols/ImagePostDisplayable.swift; sourceTree = "<group>"; };
+		9534745E1D5403E800223643 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RepostCell.xib; sourceTree = SOURCE_ROOT; };
+		953474601D540F7F00223643 /* ImageRepostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageRepostCell.swift; path = Model/Cells/ImageRepostCell.swift; sourceTree = "<group>"; };
 		954382951A5A7F8A0036C237 /* SingleBoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleBoardTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SingleBoardTableViewController.swift"; sourceTree = "<group>"; };
 		954382981A5A7FAA0036C237 /* BoardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/BoardTableViewController.swift"; sourceTree = "<group>"; };
 		95468AEE19F99B4D00F158DE /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeTableViewController.swift; path = "View Controllers/Table View Controllers/Root Table View Controllers/HomeTableViewController.swift"; sourceTree = "<group>"; };
@@ -290,6 +294,7 @@
 				95468AF019F99B8A00F158DE /* PostCell.swift */,
 				953474551D53FDC800223643 /* ImagePostCell.swift */,
 				954A5DE51A4D00E50011DB1C /* RepostCell.swift */,
+				953474601D540F7F00223643 /* ImageRepostCell.swift */,
 				9530E0841A0754B3001DB24E /* CommentCell.swift */,
 				959E0F0C1A2538C7008B4D19 /* BoardCell.swift */,
 				9581B7B81B99677100D75703 /* SimpleBoardCell.swift */,
@@ -596,6 +601,7 @@
 			children = (
 				95F0E01F1D52B45C000D111C /* PostCell.xib */,
 				953474571D53FF2E00223643 /* ImagePostCell.xib */,
+				9534745D1D5403E800223643 /* RepostCell.xib */,
 			);
 			name = Xibs;
 			sourceTree = "<group>";
@@ -693,6 +699,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */,
+				9534745F1D5403E800223643 /* RepostCell.xib in Resources */,
 				95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */,
 				95F0E0211D52B45C000D111C /* PostCell.xib in Resources */,
 				953474591D53FF2E00223643 /* ImagePostCell.xib in Resources */,
@@ -788,6 +795,7 @@
 				95FDCDE11B1FDFDC00DA0D09 /* PlaceholderTextView.swift in Sources */,
 				954D99AA1A04865D002490C4 /* PostTableViewController.swift in Sources */,
 				954382991A5A7FAA0036C237 /* BoardTableViewController.swift in Sources */,
+				953474611D540F7F00223643 /* ImageRepostCell.swift in Sources */,
 				95A057611A4640F2000F7142 /* TabViewController.swift in Sources */,
 				95468AEF19F99B4D00F158DE /* HomeTableViewController.swift in Sources */,
 				95F0E00C1D52AA8C000D111C /* UIButton+AlamofireImage.swift in Sources */,
@@ -866,6 +874,14 @@
 				953474581D53FF2E00223643 /* Base */,
 			);
 			name = ImagePostCell.xib;
+			sourceTree = "<group>";
+		};
+		9534745D1D5403E800223643 /* RepostCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9534745E1D5403E800223643 /* Base */,
+			);
+			name = RepostCell.xib;
 			sourceTree = "<group>";
 		};
 		95EFD2AD19F8D2B400086BAF /* Main.storyboard */ = {
@@ -989,7 +1005,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = bridge.h;
@@ -1006,7 +1022,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Cillo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = bridge.h;
