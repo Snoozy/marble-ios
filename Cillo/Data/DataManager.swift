@@ -27,7 +27,7 @@ enum ValueOrError<T> {
         case .value(_):
             return false
         case .error(let error):
-            return error.domain == NSError.cilloErrorDomain
+            return error is CilloError
         }
     }
 }
@@ -59,14 +59,14 @@ class DataManager: NSObject {
                 } else if let data: AnyObject = response.result.value,
                           let json = JSON(rawValue: data) {
                     if json["error"] != nil {
-                        let cilloError = NSError(json: json, requestType: requestType)
+                        let cilloError = CilloError(json: json, requestType: requestType)
                         completionHandler(.error(cilloError))
                     } else {
                         let value = valueHandler(json)
                         completionHandler(.value(value))
                     }
                 } else {
-                    completionHandler(.error(NSError.noJSONFromDataError(requestType: requestType)))
+                    completionHandler(.error(CilloError()))
                 }
             }
         }

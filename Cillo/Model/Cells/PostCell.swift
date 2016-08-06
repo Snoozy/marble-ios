@@ -128,11 +128,11 @@ class PostCell: UITableViewCell {
         if post.voteValue == 1 {
             upvoteButton.setBackgroundImage(UIImage(named: "Selected Up Arrow"),for: UIControlState())
             downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), for: UIControlState())
-            repLabel.textColor = UIColor.upvoteGreen()
+            repLabel.textColor = UIColor.upvoteGreen
         } else if post.voteValue == -1 {
             upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), for: UIControlState())
             downvoteButton.setBackgroundImage(UIImage(named: "Selected Down Arrow"), for: UIControlState())
-            repLabel.textColor = UIColor.downvoteRed()
+            repLabel.textColor = UIColor.downvoteRed
         } else {
             upvoteButton.setBackgroundImage(UIImage(named: "Up Arrow"), for: UIControlState())
             downvoteButton.setBackgroundImage(UIImage(named: "Down Arrow"), for: UIControlState())

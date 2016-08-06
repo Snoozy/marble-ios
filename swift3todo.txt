@@ -38,6 +38,9 @@ DataManager - Still need to do Uploads
 #Model#
 Comment - Still need to work out text calculation (with indenting and such), possibly refactor for new comment model on web
 
+#Extensions#
+Extensions - factored out all extensions into separate files but need to see what is useful through other code
+
 ###Not Done:###
 #Vendor#
 SwiftKeychainWrapper

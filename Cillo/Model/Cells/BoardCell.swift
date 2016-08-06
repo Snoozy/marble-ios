@@ -46,7 +46,7 @@ class BoardCell: UITableViewCell {
     private let followerCountFont = UIFont.boldSystemFont(ofSize: 14.0)
     
     /// Color of the border of `followButton`. Also is the color of the background when the button is filled (signifying that the user is following already).
-    private let followButtonColor: UIColor = UIColor.gray
+    private let followButtonColor = UIColor.gray
     
     // MARK: - UITableViewCell
     
@@ -87,7 +87,7 @@ class BoardCell: UITableViewCell {
                                                    andColor: followButtonColor)
         if !board.following {
             followButton.setTitle("Join", for: UIControlState())
-            followButton.setTitleColor(UIColor.lighterBlack(), for: UIControlState())
+            followButton.setTitleColor(UIColor.lighterBlack, for: UIControlState())
             followButton.backgroundColor = UIColor.white
         } else {
             followButton.setTitle("Joined", for: UIControlState())
