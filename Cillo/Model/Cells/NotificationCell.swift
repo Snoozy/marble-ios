@@ -12,85 +12,88 @@ import UIKit
 ///
 /// Used to format Notifications in UITableViews.
 class NotificationCell: UITableViewCell {
-  
-  // MARK: IBOutlets
-  
-  /// Displays `notification.notificationMessage`
-  @IBOutlet weak var messageAttributedLabel: TTTAttributedLabel!
-  
-  /// Displays `notification.titleUser.photoURL` asynchronously
-  @IBOutlet weak var photoButton: UIButton!
-  
-  /// Displays the time since this notification occured.
-  @IBOutlet weak var timeLabel: UILabel!
-  
-  /// Custom border between cells.
-  ///
-  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants to use default UITableView separators.
-  @IBOutlet weak var separatorView: UIView?
-  
-  // MARK: Constants
-  
-  /// Struct containing all relevent fonts for the elements of a NotificationCell.
-  struct NotificationFonts {
+    
+    // MARK: - IBOutlets
+    
+    /// Displays `notification.notificationMessage`
+    @IBOutlet weak var messageAttributedLabel: TTTAttributedLabel!
+    
+    /// Displays `notification.titleUser.photoURL` asynchronously
+    @IBOutlet weak var photoButton: UIButton!
+    
+    /// Displays the time since this notification occured.
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    // MARK: - Constants
     
     /// Bold font of the text contained within messageAttributedLabel.
-    static let boldMessageAttributedLabelFont = UIFont.boldSystemFont(ofSize: 15.0)
+    private let boldMessageAttributedLabelFont = UIFont.boldSystemFont(ofSize: 15.0)
     
     /// Italic font of the text contained within messageAttributedLabel.
-    static let italicMessageAttributedLabelFont = UIFont.italicSystemFont(ofSize: 15.0)
+    private let italicMessageAttributedLabelFont = UIFont.italicSystemFont(ofSize: 15.0)
     
     /// Font of the text contained within messageAttributedLabel.
-    static let messageAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
+    private let messageAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
     
-    /// Font of the text contained within timeLabel.
-    static let timeLabelFont = UIFont.systemFont(ofSize: 12.0)
-  }
-  
-  /// Vertical space needed besides `separatorView`
-  class var vertSpaceNeeded: CGFloat {
-    return 70.0
-  }
-  
-  // MARK: Setup Helper Functions
-  
-  /// Assigns all delegates of cell to the given parameter.
-  ///
-  /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
-  func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
-    messageAttributedLabel.delegate = delegate
-  }
-  
-  /// Calculates the height of the cell given the properties of `notification`.
-  ///
-  /// :param: post The post that this cell is based on.
-  /// :param: width The width of the cell in the tableView.
-  /// :param: dividerHeight The height of the `separatorView` in the tableView.
-  /// :returns: The height that the cell should be in the tableView.
-  class func heightOfNotificationCellForNotification(_ notification: Notification, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    return NotificationCell.vertSpaceNeeded + dividerHeight
-  }
-  
-  /// Makes this NotificationCell's IBOutlets display the correct values of the corresponding Notification.
-  ///
-  /// :param: notification The corresponding Notification to be displayed by this NotificationCell.
-  /// :param: buttonTag The tags of all buttons in this NotificationCell corresponding to their index in the array holding them.
-  /// :param: * Pass the precise index of the notification in its model array.
-  func makeCellFromNotification(_ notification: Notification, withButtonTag buttonTag: Int) {
-    let scheme = ColorScheme.defaultScheme
+    // MARK: - Setup Helper Functions
     
-    photoButton.setBackgroundImageToImageWithURL(notification.titleUser.photoURL, forState: UIControlState())
-    photoButton.clipsToBounds = true
-    photoButton.layer.cornerRadius = 5.0
+    /// Assigns all delegates of cell to the given parameter.
+    ///
+    /// :param: delegate The delegate that will be assigned to elements of the cell pertaining to the required protocols specified in the function header.
+    func assignDelegatesForCellTo<T: UIViewController where T: TTTAttributedLabelDelegate>(_ delegate: T) {
+        messageAttributedLabel.delegate = delegate
+    }
     
-    messageAttributedLabel.setupWithAttributedText(notification.notificationMessage)
-
-    timeLabel.text = "\(notification.time) ago"
-    timeLabel.font = NotificationCell.NotificationFonts.timeLabelFont
-    timeLabel.textColor = scheme.touchableTextColor()
+    /// Makes this NotificationCell's IBOutlets display the correct values of the corresponding Notification.
+    ///
+    /// :param: notification The corresponding Notification to be displayed by this NotificationCell.
+    func makeFrom(notification: Notification) {
+        let scheme = ColorScheme.defaultScheme
+        
+        photoButton.setBackgroundImageToImageWithURL(notification.titleUser.photoURL, forState: UIControlState())
+        photoButton.clipsToBounds = true
+        photoButton.layer.cornerRadius = 5.0
+        
+        messageAttributedLabel.setupFor(attributedText: messageFor(notification: notification))
+        
+        timeLabel.text = "\(notification.time) ago"
+        timeLabel.textColor = scheme.touchableTextColor()
+    }
     
-    photoButton.tag = buttonTag
-
-    separatorView?.backgroundColor = scheme.dividerBackgroundColor()
-  }
+    private func messageFor(notification: Notification) -> AttributedString {
+        let otherString: String = {
+            if notification.count == 0 {
+                return ""
+            } else if notification.count == 1 {
+                return "and 1 other "
+            } else {
+                return "and \(self.count) others "
+            }
+        }()
+        let actionTypeString: String = {
+            switch notification.actionType {
+            case .reply:
+                return "replied to"
+            case .vote:
+                return "upvoted"
+            }
+        }()
+        let entityTypeString: String = {
+            switch notification.entityType {
+            case .post:
+                return "post"
+            case .comment:
+                return "comment"
+            }
+        }()
+        var boldTitleUserString = NSMutableAttributedString(string: notification.titleUser.name,
+                                                            attributes: [NSFontAttributeName: boldMessageAttributedLabelFont])
+        let middleString = NSMutableAttributedString(string: " \(otherString)\(actionTypeString) your \(entityTypeString): ",
+                                                     attributes: [NSFontAttributeName: messageAttributedLabelFont])
+        let italicPreviewString = NSMutableAttributedString(string: preview,
+                                                            attributes: [NSFontAttributeName: italicMessageAttributedLabelFont])
+        boldTitleUserString.append(middleString)
+        boldTitleUserString.append(italicPreviewString)
+        return boldTitleUserString
+    }
 }

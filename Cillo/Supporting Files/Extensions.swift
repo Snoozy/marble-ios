@@ -341,7 +341,7 @@ extension TTTAttributedLabel {
   /// Sets up links for the label and makes the label multiline, displaying the text.
   ///
   /// :param: text The attributed text to be displayed by this label.
-  func setupWithAttributedText(_ text: AttributedString) {
+  func setupFor(attributedText: AttributedString) {
     numberOfLines = 0
     enabledTextCheckingTypes = TextCheckingResult.CheckingType.link.rawValue
     linkAttributes = [kCTForegroundColorAttributeName : UIColor.cilloBlue()]

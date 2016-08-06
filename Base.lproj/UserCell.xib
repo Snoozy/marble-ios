@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11185.3" systemVersion="15F24b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11151.4"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="User" rowHeight="206" id="yLR-Ve-jGQ" userLabel="User" customClass="UserCell" customModule="Cillo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="206"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yLR-Ve-jGQ" id="BGD-iu-OCg">
+                <frame key="frameInset" width="375" height="205"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEl-jZ-93c" userLabel="Profile Picture">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="69" id="H2Y-hI-odG"/>
+                            <constraint firstAttribute="width" constant="69" id="naQ-yD-kgw"/>
+                        </constraints>
+                        <state key="normal">
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <state key="highlighted" backgroundImage="Me"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="deV-Cg-K7v" userLabel="Name">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="lG8-oW-5k2"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                        <state key="normal" title="Username">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MBW-jU-BeH" userLabel="Bio Text" customClass="TTTAttributedLabel">
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10k REP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZj-R2-xUV" userLabel="Rep">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="AEy-UU-2Ik"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qk5-nd-UAj" userLabel="Boards">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="LTq-bb-8MF"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <state key="normal" title="# BOARDS">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1vk-ZT-ypA" userLabel="Username">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="tJG-xK-fzv"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="Username">
+                            <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="MBW-jU-BeH" firstAttribute="leading" secondItem="BGD-iu-OCg" secondAttribute="leading" constant="8" id="3jS-Ei-c2T"/>
+                    <constraint firstItem="MEl-jZ-93c" firstAttribute="leading" secondItem="BGD-iu-OCg" secondAttribute="leading" constant="8" id="5Q9-MW-sam"/>
+                    <constraint firstItem="PZj-R2-xUV" firstAttribute="top" secondItem="MBW-jU-BeH" secondAttribute="bottom" constant="12" id="7ZG-Zr-mc6"/>
+                    <constraint firstAttribute="bottom" secondItem="PZj-R2-xUV" secondAttribute="bottom" constant="8" id="LNT-KV-q7A"/>
+                    <constraint firstItem="MEl-jZ-93c" firstAttribute="top" secondItem="BGD-iu-OCg" secondAttribute="top" constant="8" id="Muu-l2-spe"/>
+                    <constraint firstItem="1vk-ZT-ypA" firstAttribute="leading" secondItem="MEl-jZ-93c" secondAttribute="trailing" constant="8" id="NR8-Y3-VgA"/>
+                    <constraint firstItem="PZj-R2-xUV" firstAttribute="leading" secondItem="BGD-iu-OCg" secondAttribute="leading" constant="8" id="Tfr-a8-ttb"/>
+                    <constraint firstAttribute="trailing" secondItem="qk5-nd-UAj" secondAttribute="trailing" constant="8" id="V0y-EC-Yr8"/>
+                    <constraint firstItem="qk5-nd-UAj" firstAttribute="top" secondItem="MBW-jU-BeH" secondAttribute="bottom" constant="8" id="aog-Zb-Yx7"/>
+                    <constraint firstItem="deV-Cg-K7v" firstAttribute="leading" secondItem="MEl-jZ-93c" secondAttribute="trailing" constant="8" id="gWH-kO-99b"/>
+                    <constraint firstItem="MBW-jU-BeH" firstAttribute="top" secondItem="MEl-jZ-93c" secondAttribute="bottom" constant="8" id="hxX-3l-JQg"/>
+                    <constraint firstAttribute="trailing" secondItem="MBW-jU-BeH" secondAttribute="trailing" constant="8" id="ob4-wo-6Pd"/>
+                    <constraint firstItem="1vk-ZT-ypA" firstAttribute="top" secondItem="deV-Cg-K7v" secondAttribute="bottom" constant="3" id="r4i-2E-w82"/>
+                    <constraint firstItem="deV-Cg-K7v" firstAttribute="top" secondItem="BGD-iu-OCg" secondAttribute="top" constant="8" id="yYv-EL-Zes"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bioAttributedLabel" destination="MBW-jU-BeH" id="Inf-AL-21P"/>
+                <outlet property="boardsButton" destination="qk5-nd-UAj" id="jq2-IT-U2k"/>
+                <outlet property="nameButton" destination="deV-Cg-K7v" id="SMA-Ed-xLR"/>
+                <outlet property="photoButton" destination="MEl-jZ-93c" id="FON-3T-dA2"/>
+                <outlet property="repLabel" destination="PZj-R2-xUV" id="dPc-7V-dPC"/>
+                <outlet property="usernameButton" destination="1vk-ZT-ypA" id="0Lc-zY-ICy"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Me" width="25" height="25"/>
+    </resources>
+</document>

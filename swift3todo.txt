@@ -1,4 +1,4 @@
-Directories so far: Vendor, Model, Data
+Directories so far: Vendor, Model, Data, Cells
 
 ###Done:###
 #Vendor#
@@ -17,6 +17,11 @@ Conversation
 #Cells#
 PostCell
 RepostCell
+BoardCell
+SimpleBoardCell
+UserCell
+NotificationCell
+ConversationCell
 
 New files (Model/Protocols/*, 
 		   Model/IdentifiableObject, 
@@ -38,10 +43,4 @@ Comment - Still need to work out text calculation (with indenting and such), pos
 SwiftKeychainWrapper
 
 #Cells#
-ImageRepostCellXib
 CommentCell
-BoardCell
-SimpleBoardCell
-UserCell
-NotificationCell
-ConversationCell

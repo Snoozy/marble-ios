@@ -28,7 +28,7 @@ extension ImagePostDisplayable {
                 ImageLoadingManager.sharedInstance.downloadImageFrom(url: url) { image in
                     DispatchQueue.main.async {
                         UIView.animate(withDuration: 0.3) {
-                            imagesButton.setImage(image, for: UIControlState())
+                            self.imagesButton.setImage(image, for: UIControlState())
                         }
                     }
                 }

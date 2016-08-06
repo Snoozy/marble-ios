@@ -51,39 +51,42 @@ class RepostCell: PostCell {
     override func makeFrom(post: Post, expanded: Bool) {
         super.makeFrom(post: post, expanded: expanded)
         
+        guard let repost = post as? Repost else {
+            print("Post with Id", post.id, "tried to make a RepostCell", separator: " ")
+        }
+        
         let scheme = ColorScheme.defaultScheme
         
-        if let post = post as? Repost {
-            
-            // handle recoloring of the end user's posts.
-            if post.originalPost.user.isSelf {
-                originalNameButton.setTitleColor(scheme.meTextColor(), for: UIControlState())
-            } else {
-                originalNameButton.setTitleColor(UIColor.darkText, for: UIControlState())
-            }
-            originalNameButton.setTitleWithoutAnimation(post.originalPost.user.name)
-            
-            originalBoardButton.setTitleWithoutAnimation(post.originalPost.board.name)
-            
-            originalPhotoButton.imageView?.contentMode = .scaleAspectFill
-            originalPhotoButton.clipsToBounds = true
-            originalPhotoButton.layer.cornerRadius = 5.0
-            ImageLoadingManager.sharedInstance.downloadImageFrom(url: post.user.photoURL) { image in
+        // handle recoloring of the end user's posts.
+        if repost.originalPost.user.isSelf {
+            originalNameButton.setTitleColor(scheme.meTextColor(), for: UIControlState())
+        } else {
+            originalNameButton.setTitleColor(UIColor.darkText, for: UIControlState())
+        }
+        originalNameButton.setTitleWithoutAnimation(repost.originalPost.user.name)
+        
+        originalBoardButton.setTitleWithoutAnimation(repost.originalPost.board.name)
+        
+        originalPhotoButton.imageView?.contentMode = .scaleAspectFill
+        originalPhotoButton.clipsToBounds = true
+        originalPhotoButton.layer.cornerRadius = 5.0
+        if let url = repost.user.photoURL {
+            ImageLoadingManager.sharedInstance.downloadImageFrom(url: url) { image in
                 DispatchQueue.main.async {
-                    originalPhotoButton.setImage(image, for: UIControlState())
+                    self.originalPhotoButton.setImage(image, for: UIControlState())
                 }
             }
-            
-            originalPostAttributedLabel.setupFor(post.originalPost.text)
-            
-            goToOriginalPostButton.setTitleColor(scheme.touchableTextColor(), for: UIControlState())
-            
-            if post.originalPost.user.isAnon {
-                originalNameButton.isEnabled = false
-                originalPhotoButton.isEnabled = false
-            }
-            
-            verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
         }
+        
+        originalPostAttributedLabel.setupFor(repost.originalPost.text)
+        
+        goToOriginalPostButton.setTitleColor(scheme.touchableTextColor(), for: UIControlState())
+        
+        if repost.originalPost.user.isAnon {
+            originalNameButton.isEnabled = false
+            originalPhotoButton.isEnabled = false
+        }
+        
+        verticalLineView.backgroundColor = scheme.thinLineBackgroundColor()
     }
 }

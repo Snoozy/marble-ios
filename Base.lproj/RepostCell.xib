@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="323"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YDu-1N-psk" id="urE-dg-PQM">
-                <frame key="frameInset" width="375" height="322"/>
+                <frame key="frameInset" width="375" height="322.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiW-73-dOT" userLabel="Profile Picture">

@@ -52,6 +52,12 @@
 		95B2B6391A5B22E500EAE822 /* UserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */; };
 		95B2B63C1A5B3A7100EAE822 /* BoardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */; };
 		95B5A6A71B9A1265000BF626 /* BottomBorderedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B5A6A61B9A1265000BF626 /* BottomBorderedTextView.swift */; };
+		95BC01D61D564FEF0099EBDE /* ImageRepostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BC01D41D564FEF0099EBDE /* ImageRepostCell.xib */; };
+		95BC01D91D5651300099EBDE /* BoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BC01D71D5651300099EBDE /* BoardCell.xib */; };
+		95BC01DC1D56565A0099EBDE /* SimpleBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BC01DA1D56565A0099EBDE /* SimpleBoardCell.xib */; };
+		95BC01DF1D5657D50099EBDE /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BC01DD1D5657D50099EBDE /* UserCell.xib */; };
+		95BC01E21D565A960099EBDE /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BC01E01D565A960099EBDE /* NotificationCell.xib */; };
+		95BC01E51D565D7C0099EBDE /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BC01E31D565D7C0099EBDE /* ConversationCell.xib */; };
 		95BCC5C21A58E092008A6948 /* SinglePostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */; };
 		95BEF9F91A71C954008AFDB9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9F81A71C954008AFDB9 /* WebViewController.swift */; };
 		95BEF9FE1A734CD8008AFDB9 /* CustomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */; };
@@ -180,6 +186,12 @@
 		95B2B6381A5B22E500EAE822 /* UserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/UserTableViewController.swift"; sourceTree = "<group>"; };
 		95B2B63B1A5B3A7100EAE822 /* BoardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardsTableViewController.swift; path = "View Controllers/Table View Controllers/Other Table View Controllers/BoardsTableViewController.swift"; sourceTree = "<group>"; };
 		95B5A6A61B9A1265000BF626 /* BottomBorderedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomBorderedTextView.swift; path = Views/BottomBorderedTextView.swift; sourceTree = "<group>"; };
+		95BC01D51D564FEF0099EBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ImageRepostCell.xib; sourceTree = SOURCE_ROOT; };
+		95BC01D81D5651300099EBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BoardCell.xib; sourceTree = SOURCE_ROOT; };
+		95BC01DB1D56565A0099EBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SimpleBoardCell.xib; sourceTree = SOURCE_ROOT; };
+		95BC01DE1D5657D50099EBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UserCell.xib; sourceTree = SOURCE_ROOT; };
+		95BC01E11D565A960099EBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NotificationCell.xib; sourceTree = SOURCE_ROOT; };
+		95BC01E41D565D7C0099EBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConversationCell.xib; sourceTree = SOURCE_ROOT; };
 		95BCC5C11A58E092008A6948 /* SinglePostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SinglePostTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/SinglePostTableViewController.swift"; sourceTree = "<group>"; };
 		95BEF9F81A71C954008AFDB9 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewController.swift; path = "View Controllers/Standard View Controllers/WebViewController.swift"; sourceTree = "<group>"; };
 		95BEF9FD1A734CD8008AFDB9 /* CustomTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewController.swift; path = "View Controllers/Table View Controllers/Parent Table View Controllers/CustomTableViewController.swift"; sourceTree = "<group>"; };
@@ -602,6 +614,12 @@
 				95F0E01F1D52B45C000D111C /* PostCell.xib */,
 				953474571D53FF2E00223643 /* ImagePostCell.xib */,
 				9534745D1D5403E800223643 /* RepostCell.xib */,
+				95BC01D41D564FEF0099EBDE /* ImageRepostCell.xib */,
+				95BC01D71D5651300099EBDE /* BoardCell.xib */,
+				95BC01DA1D56565A0099EBDE /* SimpleBoardCell.xib */,
+				95BC01DD1D5657D50099EBDE /* UserCell.xib */,
+				95BC01E01D565A960099EBDE /* NotificationCell.xib */,
+				95BC01E31D565D7C0099EBDE /* ConversationCell.xib */,
 			);
 			name = Xibs;
 			sourceTree = "<group>";
@@ -699,12 +717,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				95EFD2AF19F8D2B400086BAF /* Main.storyboard in Resources */,
+				95BC01DF1D5657D50099EBDE /* UserCell.xib in Resources */,
 				9534745F1D5403E800223643 /* RepostCell.xib in Resources */,
 				95A4BD891A5CBDFF00CFD4DA /* Default-568h@2x.png in Resources */,
 				95F0E0211D52B45C000D111C /* PostCell.xib in Resources */,
+				95BC01D61D564FEF0099EBDE /* ImageRepostCell.xib in Resources */,
 				953474591D53FF2E00223643 /* ImagePostCell.xib in Resources */,
 				95EFD2B419F8D2B400086BAF /* LaunchScreen.xib in Resources */,
+				95BC01E21D565A960099EBDE /* NotificationCell.xib in Resources */,
 				95EFD2B119F8D2B400086BAF /* Images.xcassets in Resources */,
+				95BC01DC1D56565A0099EBDE /* SimpleBoardCell.xib in Resources */,
+				95BC01E51D565D7C0099EBDE /* ConversationCell.xib in Resources */,
+				95BC01D91D5651300099EBDE /* BoardCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,6 +906,54 @@
 				9534745E1D5403E800223643 /* Base */,
 			);
 			name = RepostCell.xib;
+			sourceTree = "<group>";
+		};
+		95BC01D41D564FEF0099EBDE /* ImageRepostCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BC01D51D564FEF0099EBDE /* Base */,
+			);
+			name = ImageRepostCell.xib;
+			sourceTree = "<group>";
+		};
+		95BC01D71D5651300099EBDE /* BoardCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BC01D81D5651300099EBDE /* Base */,
+			);
+			name = BoardCell.xib;
+			sourceTree = "<group>";
+		};
+		95BC01DA1D56565A0099EBDE /* SimpleBoardCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BC01DB1D56565A0099EBDE /* Base */,
+			);
+			name = SimpleBoardCell.xib;
+			sourceTree = "<group>";
+		};
+		95BC01DD1D5657D50099EBDE /* UserCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BC01DE1D5657D50099EBDE /* Base */,
+			);
+			name = UserCell.xib;
+			sourceTree = "<group>";
+		};
+		95BC01E01D565A960099EBDE /* NotificationCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BC01E11D565A960099EBDE /* Base */,
+			);
+			name = NotificationCell.xib;
+			sourceTree = "<group>";
+		};
+		95BC01E31D565D7C0099EBDE /* ConversationCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BC01E41D565D7C0099EBDE /* Base */,
+			);
+			name = ConversationCell.xib;
 			sourceTree = "<group>";
 		};
 		95EFD2AD19F8D2B400086BAF /* Main.storyboard */ = {

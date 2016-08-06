@@ -103,9 +103,11 @@ class PostCell: UITableViewCell {
         photoButton.imageView?.contentMode = .scaleAspectFill
         photoButton.clipsToBounds = true
         photoButton.layer.cornerRadius = 5.0
-        ImageLoadingManager.sharedInstance.downloadImageFrom(url: post.user.photoURL) { image in
-            DispatchQueue.main.async {
-                photoButton.setImage(image, for: UIControlState())
+        if let url = post.user.photoURL {
+            ImageLoadingManager.sharedInstance.downloadImageFrom(url: url) { image in
+                DispatchQueue.main.async {
+                    self.photoButton.setImage(image, for: UIControlState())
+                }
             }
         }
         

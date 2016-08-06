@@ -13,7 +13,7 @@ import UIKit
 /// Used to format Conversations in UITableViews.
 class ConversationCell: UITableViewCell {
   
-  // MARK: IBOutlets
+  // MARK: - IBOutlets
   
   /// Displays a dot if the conversation is unread.
   @IBOutlet weak var dotLabel: UILabel!
@@ -30,32 +30,7 @@ class ConversationCell: UITableViewCell {
   /// Displays `conversation.updateTime`.
   @IBOutlet weak var timeLabel: UILabel!
   
-  /// Custom border between cells.
-  ///
-  /// This IBOutlet may not be assigned in the storyboard, meaning the UITableViewController managing this cell wants to use default UITableView separators.
-  @IBOutlet weak var separatorView: UIView?
-  
-  // MARK: Constants
-  
-  /// Struct containing all relevent fonts for the elements of a ConversationCell.
-  struct ConversationFonts {
-    
-    /// Italic font of the text contained within nameButton.
-    static let nameButtonFont = UIFont.boldSystemFont(ofSize: 15.0)
-    
-    /// Font of the text contained within previewAttributedLabel.
-    static let previewAttributedLabelFont = UIFont.systemFont(ofSize: 15.0)
-    
-    /// Font of the text contained within timeLabel.
-    static let timeLabelFont = UIFont.systemFont(ofSize: 12.0)
-  }
-
-  /// Vertical space needed besides `separatorView`.
-  class var vertSpaceNeeded: CGFloat {
-    return 70.0
-  }
-  
-  // MARK: Setup Helper Functions
+  // MARK: - Setup Helper Functions
   
   /// Assigns all delegates of cell to the given parameter.
   ///
@@ -64,50 +39,31 @@ class ConversationCell: UITableViewCell {
     previewAttributedLabel.delegate = delegate
   }
   
-  /// Calculates the height of the cell given the properties of `notification`.
-  ///
-  /// :param: post The post that this cell is based on.
-  /// :param: width The width of the cell in the tableView.
-  /// :param: dividerHeight The height of the `separatorView` in the tableView.
-  /// :returns: The height that the cell should be in the tableView.
-  class func heightOfConversationCellForConversation(_ conversation: Conversation, withElementWidth width: CGFloat, andDividerHeight dividerHeight: CGFloat) -> CGFloat {
-    // TODO: may need to calculate the height of the preview depending on the implementation of the ui
-    return ConversationCell.vertSpaceNeeded + dividerHeight
-  }
-  
   /// Makes this ConversationCell's IBOutlets display the correct values of the corresponding Conversation.
   ///
   /// :param: conversation The corresponding Conversation to be displayed by this ConversationCell.
-  /// :param: buttonTag The tags of all buttons in this ConversationCell corresponding to their index in the array holding them.
-  /// :param: * Pass the precise index of the conversation in its model array.
-  func makeCellFromConversation(_ conversation: Conversation, withButtonTag buttonTag: Int) {
+  func makeFrom(conversation: Conversation) {
     let scheme = ColorScheme.defaultScheme
     
-    setupConversationOutletFonts()
-    
-    photoButton.setBackgroundImageToImageWithURL(conversation.otherUser.photoURL, forState: UIControlState())
     photoButton.clipsToBounds = true
     photoButton.layer.cornerRadius = 5.0
+    if let url = conversation.otherUser.photoURL {
+        ImageLoadingManager.sharedInstance.downloadImageFrom(url: url) { image in
+            DispatchQueue.main.async {
+                self.photoButton.setImage(image, for: UIControlState())
+            }
+        }
+    }
     
-    previewAttributedLabel.setupWithText(conversation.preview, andFont: ConversationCell.ConversationFonts.previewAttributedLabelFont)
+    previewAttributedLabel.setupFor(conversation.preview)
     
     timeLabel.text = "\(conversation.updateTime) ago"
     timeLabel.textColor = scheme.touchableTextColor()
     
-    nameButton.tag = buttonTag
-    photoButton.tag = buttonTag
-    
     if conversation.read {
       dotLabel.text = ""
     }
-    nameButton.setTitle(conversation.otherUser.name, for: UIControlState())
+    nameButton.setTitleWithoutAnimation(conversation.otherUser.name)
+  }
     
-    separatorView?.backgroundColor = scheme.dividerBackgroundColor()
-  }
-  
-  /// Sets fonts of all IBOutlets to the fonts specified in the `ConversationCell.ConversationFonts` struct.
-  private func setupConversationOutletFonts() {
-    nameButton.titleLabel?.font = ConversationCell.ConversationFonts.nameButtonFont
-    timeLabel.font = ConversationCell.ConversationFonts.timeLabelFont
-  }
 }
